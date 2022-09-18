@@ -1,12 +1,13 @@
 ---
 // import Tag from './Tag.astro';
-const { slug, title, description, date } = Astro.props;
+const { slug, title, description, date, top } = Astro.props;
 ---
 
 <li class="post-item">
+  { top && <span class="top-tag">top</span> }
   <a href={`/post/${slug}/`} class="title">{title}</a>
   <time datetime={date}>
-    {new Date(date).toLocaleDateString('en-us', {
+    {date && new Date(date).toLocaleDateString('en-us', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
