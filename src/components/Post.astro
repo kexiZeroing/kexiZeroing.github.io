@@ -3,7 +3,7 @@
 const { slug, title, description, date } = Astro.props;
 ---
 
-<li>
+<li class="post-item">
   <a href={`/post/${slug}/`} class="title">{title}</a>
   <time datetime={date}>
     {new Date(date).toLocaleDateString('en-us', {

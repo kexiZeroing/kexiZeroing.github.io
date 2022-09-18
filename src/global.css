@@ -8,6 +8,7 @@
   --black: #000;
   --gray: #8b8b8b;
   --highlight: #e5ffc3;
+  --quote: #e1f4ff;
   --red: #e4002b;
   --green: #24d05a;
   --pink: #eb4888;
@@ -23,12 +24,25 @@ body {
   font-family: 'Roboto Mono', monospace;
   margin: auto;
   padding: 20px;
-  max-width: 65ch;
+  max-width: 65vw;
+  box-sizing: border-box;
   background-color: #fff;
   word-wrap: break-word;
   overflow-wrap: break-word;
   line-height: 1.8;
   color: var(--black);
+
+  background-image: linear-gradient(#eeece9 1.1px, transparent 1.1px), linear-gradient(to right,#eeece9 1.1px, #fdfdfc 1.1px);
+  background-size: 22px 22px;
+
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+main {
+  flex: 1;
+  padding-bottom: 60px;
 }
 h1,
 h2,
@@ -82,7 +96,7 @@ pre > code {
   all: unset;
 }
 blockquote {
-  border: 1px solid var(--gray);
+  background: var(--quote);
   color: var(--black);
   padding: 2px 0px 2px 20px;
   margin: 0px;
@@ -90,18 +104,19 @@ blockquote {
 }
 
 h1 {
-  font-weight: 400;
+  font-weight: bold;
   margin: 0;
 }
 
 h2 {
-  color: var(--gray);
-  font-weight: 300;
-  margin: 0 0 0.5em 0;
+  font-weight: 400;
+  margin: 1em 0 0.5em 0;
 }
 
-h3 {
-  text-align: center;
+ul li time {
+  flex: 0 0 130px;
+  font-style: italic;
+  color: var(--gray);
 }
 
 .header-section {
@@ -110,13 +125,10 @@ h3 {
   justify-content: center;
   flex-wrap: wrap;
 }
-
-.header-frame {
-  max-width: 350px;
+.header-subtitle {
+  color: var(--gray);
 }
 
-ul li time {
-  flex: 0 0 130px;
-  font-style: italic;
-  color: var(--gray);
+.post-item {
+  margin: 1em 0;
 }
