@@ -128,3 +128,10 @@ The **user's `.npmrc`** should contain credentials for all of the registries tha
 If you are developing on Windows, you only need to provide registries like `@foo:registry=https://pkgs.dev.azure.com/xxx/` in the user `.npmrc` file and run `vsts-npm-auth -config .npmrc` command on a periodic basis. Vsts will automatically create PAT tokens in Azure DevOps for each registry and inject credentials into your `.npmrc` file.
 
 If you are developing on Linux or Mac, vsts-npm-auth is not supported and we need to set up credentials manually. First generate a personal access token with packaging read & write scopes, and then Base64 encode the PAT. Now use the encoded PAT values as password in the user `.npmrc` file (also need the organization, feed, username, and email).
+
+## Debug iOS Safari from your Mac
+1. On your iPhone, go to Settings > Safari > Advanced and toggle on `Web Inspector`.
+2. On your Mac, open Safari and go to Safari > Preferences > Advanced then check `Show Develop menu in menu bar`.
+3. Connect your iPhone to your Mac with the USB cable.
+4. On your iPhone, open the web site that you want to debug.
+5. On your Mac, in Safari, the name of the iOS device will appear as a submenu in the `Develop menu`. This will open a Web Inspector window on your Mac.
