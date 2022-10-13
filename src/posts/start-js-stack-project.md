@@ -309,6 +309,8 @@ There are two points in time that you can integrate dynamic content into a Jamsa
 - **Build time** - During the build process, a Jamstack site can call out to any number of external API services to fetch data to pre-generate static pages. You can think of it like a content cache that applies to all your site’s users.
 - **Run time** - This should typically be content that is user specific, needs to update frequently, or is in response to a specific user action. For example, an ecommerce site may have product details populated at build time, but things like the current inventory, shipping options/prices based upon the user’s location, or the user’s shopping cart would all be populated at run time in the browser. As you may notice, in this example, the content on a single page (product details) may be a combination of both pre-rendered (build time) content (i.e. the product name, photo and description) and run time content (i.e. the product inventory and shipping options based on location).
 
+> What type of website are you building? https://whattheframework.netlify.app
+
 ## CMS and headless CMS
 A content management system is software used to manage web content (e.g. WordPress). They have graphical user interfaces that allow content creators to enter and style their content by choosing from existing templates or downloading plugins for greater customization. The content is stored in a database and is displayed to the user based on a template. Because CMS tools are meant to be user-friendly, non-technical personnel can use them to manage a website without touching any code.
 

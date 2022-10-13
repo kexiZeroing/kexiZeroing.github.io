@@ -99,6 +99,7 @@ pre {
 }
 pre > code {
   all: unset;
+  font-size: 14px;
 }
 blockquote {
   background: var(--quote);
