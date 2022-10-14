@@ -5,6 +5,7 @@ slug: today-i-learned
 description: ""
 added: ""
 top: true
+order: 1
 ---
 
 1. **major.minor.patch** version (also known as **breaking.feature.fix**): `^` instructs npm to install the newest version of the package with the same major version; Use `~` to have both the major and minor version match.

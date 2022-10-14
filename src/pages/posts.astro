@@ -10,7 +10,10 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 // Use Astro.glob() to fetch all posts, and then sort them by date.
 const posts = await Astro.glob('../posts/*.{md,mdx}')
 
-const topPosts = posts.filter(p => p.frontmatter.top)
+const topPosts = posts
+	.filter(p => p.frontmatter.top)
+	.sort((a, b) => a.frontmatter.order - b.frontmatter.order)
+	
 const restPosts = posts
 	.filter(p => !p.frontmatter.top)
 	.sort((a, b) => new Date(b.frontmatter.added).valueOf() - new Date(a.frontmatter.added).valueOf())

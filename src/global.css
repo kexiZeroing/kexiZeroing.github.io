@@ -109,6 +109,11 @@ blockquote {
   margin: 0px;
   font-style: italic;
 }
+button {
+  appearance: none;
+  background-color: transparent;
+  padding: 0;
+}
 
 h1 {
   font-weight: bold;
@@ -126,6 +131,9 @@ ul li time {
   color: var(--gray);
 }
 
+.show {
+  display: block;
+}
 .header-section {
   display: flex;
   align-items: center;

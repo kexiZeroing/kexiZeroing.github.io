@@ -5,19 +5,72 @@ import Footer from '../components/Footer.astro';
 import ColorScript from '../components/ColorScript.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 import { Content as About } from './about.md';
+import { Content as AboutLong } from './about-long.md';
 ---
 
 <!DOCTYPE html>
 <html lang="en-us">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				padding: 0 16px;
+			}
+			.bio {
+				display: none;
+			}
+			button {
+				width: 100px;
+				height: 24px;
+				border: 2px solid var(--gray);
+				border-radius: 15px;
+				box-sizing: border-box;
+				color: var(--gray);
+				font-size: 1rem;
+				cursor: pointer;
+				margin-right: 10px;
+			}
+			button:hover {
+				background: var(--highlight);
+			}
+			button.active {
+				border: 2px solid var(--green);
+				color: var(--green);
+			}
+		</style>
 	</head>
 	<body>
 		<Header title={SITE_TITLE} />
 		<main>
-			<About />
+			<div class="toggler">
+				<button class="active" data-toggle="short">Short</button>
+				<button data-toggle="long">Long</button>
+			</div>
+			<div id="short" class="bio show"><About /></div>
+			<div id="long" class="bio"><AboutLong /></div>
 		</main>
 		<Footer />
 		<ColorScript />
+		
+		<script is:inline>
+			const shortAbout = document.querySelector('#short');
+			const longAbout = document.querySelector('#long');
+			const shortAboutToggle = document.querySelector('[data-toggle=short]');
+			const longAboutToggle = document.querySelector('[data-toggle=long]');
+
+			document.querySelector('.toggler').addEventListener('click', (ev) => {
+				if (ev.target.dataset.toggle === 'short') {
+					shortAbout.classList.add('show');
+					longAbout.classList.remove('show');
+					shortAboutToggle.classList.add('active');
+					longAboutToggle.classList.remove('active');
+				} else if (ev.target.dataset.toggle === 'long') {
+					shortAbout.classList.remove('show');
+					longAbout.classList.add('show');
+					shortAboutToggle.classList.remove('active');
+					longAboutToggle.classList.add('active');
+				}
+			})
+		</script>
 	</body>
 </html>
