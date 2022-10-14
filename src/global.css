@@ -21,10 +21,7 @@
   background-color: var(--highlight);
   color: var(--black);
 }
-html {
-  background-color: #52ACFF;
-  background-image: linear-gradient(180deg, #52ACFF 25%, #FFE32C 100%);
-}
+
 body {
   font-family: var(--font-family-main);
   margin: auto;
@@ -131,6 +128,12 @@ ul li time {
   color: var(--gray);
 }
 
+@media only screen and (min-width:600px)  {
+  html {
+    background-color: #52ACFF;
+    background-image: linear-gradient(180deg, #52ACFF 25%, #FFE32C 100%);
+  }
+}
 
 .header-section {
   display: flex;
