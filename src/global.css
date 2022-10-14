@@ -131,9 +131,7 @@ ul li time {
   color: var(--gray);
 }
 
-.show {
-  display: block;
-}
+
 .header-section {
   display: flex;
   align-items: center;
