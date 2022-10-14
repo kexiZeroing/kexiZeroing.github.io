@@ -6,20 +6,13 @@
   }
 
   function setRandomLinkColor() {
-    Array.from(document.getElementsByTagName('a')).forEach((e) => {
+    Array.from(document.querySelectorAll('a:not(.header-link)')).forEach((e) => {
       e.style.color = getRandomColor();
-    });
-  }
-
-  function setColorHoverListener() {
-    Array.from(document.querySelectorAll('a, button')).forEach((e) => {
-      e.addEventListener('mouseover', setRandomLinkColor);
     });
   }
 
   (function () {
     setRandomLinkColor();
-    setColorHoverListener();
 
     setInterval(() => {
       setRandomLinkColor();
