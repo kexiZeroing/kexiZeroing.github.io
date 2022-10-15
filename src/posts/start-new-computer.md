@@ -75,13 +75,11 @@ added: "Feb 13 2022"
 
 8. Install Chrome extension [DevTools Theme: New Moon](https://github.com/taniarascia/new-moon-chrome-devtools), then set devtool's theme to "Dark" and go to Experiments and select "Allow custom UI themes".
 
-9.  Add VS code extentions: `Prettier`, `GitLens`, `New Moon Theme`, `Live Server`, `Import Cost`. 
+9. Add VS code extentions like `Prettier`, `GitLens`, `New Moon Theme`, `Live Server`, `Import Cost`. 
    - Prettier usage: https://prettier.io/docs/en/install.html
-   - `Import Cost` will display inline in the editor the size of the imported packages (imports and requires). 
-  
-  Add `Emoji Snippets`, `Markdown Emoji` for emoji support :tada: and check https://github.com/ikatyang/emoji-cheat-sheet for emoji shortcode to use.
-   - `Emoji Snippets` (typing `:smile`) helps to insert emoji in HTML, JS, CSS, React and more. You can also add `"editor.quickSuggestions": true` in user settings.
-   - `Markdown Emoji` (typing `:smile:`) supports to built-in Markdown preview.
+   - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost) will display inline in the editor the size of the imported packages.
+   - [Preview.js](https://previewjs.com): Preview UI components in your IDE instantly. It leverages the power of Vite to support React and Vue.js. (needs NodeJS 14.18.0+ to run)
+   - Add `Emoji Snippets` and `Markdown Emoji` for emoji support :tada: and check https://github.com/ikatyang/emoji-cheat-sheet for emoji shortcode to use.
 
 10. Check out dotfiles https://github.com/mathiasbynens/dotfiles
 

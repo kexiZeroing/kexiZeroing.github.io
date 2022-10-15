@@ -31,8 +31,9 @@ const restPosts = posts
 			ul li {
 				display: flex;
 			}
-			ul li a:visited {
-				color: #8e32dc;
+			hr {
+  			border-top: 1px dashed var(--gray);
+				margin: 2em 0;
 			}
 		</style>
 	</head>
@@ -46,6 +47,7 @@ const restPosts = posts
           	<Post {url} {description} {date} {slug} {title} {top} />
           ))}
         </ul>
+				<hr />
 				<ul>
           {restPosts.map(
           ({url, frontmatter: { description, slug, title, added: date, top }}) => (

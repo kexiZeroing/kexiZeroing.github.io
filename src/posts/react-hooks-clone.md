@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "React hooks clone"
 slug: react-hooks-clone
 description: ""
-added: "Oct 12 2021"
+added: "Sep 12 2020"
 ---
 
 ```js

@@ -149,7 +149,7 @@ ul li time {
   margin: 1.2em 0;
 }
 .post-item:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   transform-origin: left;
 }
 .top-tag {
