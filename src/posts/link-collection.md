@@ -12,8 +12,6 @@ order: 2
 
 baseCS: https://github.com/vaidehijoshi/basecs-series
 
-Tania Rascia's blog: https://www.taniarascia.com/blog
-
 Web Security: https://web.stanford.edu/class/cs253
 
 How DNS works: https://howdns.works
@@ -35,8 +33,6 @@ The Missing Semester of Your CS Education: https://missing.csail.mit.edu
 High Performance Browser Networking: https://hpbn.co
 
 HTTP Semantics: https://www.rfc-editor.org/rfc/rfc9110.html
-
-Visualising data structures and algorithms: https://visualgo.net
 
 Modern JavaScript-based web development: https://fullstackopen.com/en
 
@@ -76,19 +72,9 @@ All Online Tools in One Box: https://10015.io/
 
 Frontend build config generator: https://createapp.dev/
 
-Code sandbox online IDE: https://codesandbox.io/
-
-Stackblitz - Run Node.js natively in your browser: https://blog.stackblitz.com/posts/introducing-webcontainers/
-
 Web Page Test: https://www.webpagetest.org/
 
-PageSpeed Insights: https://pagespeed.web.dev/
-
-Performance Insights: https://www.builder.io/c/performance-insights
-
 Chrome DevTools tips: https://umaar.com/dev-tips/
-
-Can I DevTools: https://www.canidev.tools/
 
 HTML Tips & Tricks: https://www.htmhell.dev/tips/
 
@@ -111,8 +97,6 @@ Manage node_modules in the system: https://github.com/voidcosmos/npkill
 Interactive website with live coding: https://www.strml.net/
 
 Neal.Fun: https://neal.fun/
-
-Annual portfolio refresh (resize your browser): https://lynnandtonic.com/archive/
 
 HTTP Cats: https://http.cat/
 
@@ -151,8 +135,6 @@ A cache that deletes the least-recently-used items: https://github.com/isaacs/no
 PDF Reader in JavaScript: https://github.com/mozilla/pdf.js
 
 PPTist: https://github.com/pipipi-pikachu/PPTist
-
-Pure Javascript OCR for more than 100 Languages: https://tesseract.projectnaptha.com/
 
 Awesome Diagramming: https://github.com/shubhamgrg04/awesome-diagramming
 
@@ -218,11 +200,7 @@ Box-shadow: https://neumorphism.io
 
 CSS Grid generator: https://cssgrid-generator.netlify.app
 
-Icon Explorer: https://icones.js.org
-
 Beautiful hand-crafted SVG icons: https://heroicons.com
-
-A lightweight image and video gallery plugin: https://www.lightgalleryjs.com
 
 Split an element by words, characters, children and more: https://splitting.js.org
 
