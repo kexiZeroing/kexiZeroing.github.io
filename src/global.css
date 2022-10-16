@@ -8,18 +8,40 @@
   --black: #000;
   --gray: #8b8b8b;
   --highlight: #e5ffc3;
-  --quote: #e1f4ff;
+  --quote: #bfe7ff;
   --red: #e4002b;
   --green: #24d05a;
   --pink: #eb4888;
   --blue: #10a2f5;
   --yellow: #e9bc3f;
   --font-family-main: 'Roboto Mono', monospace;
+  --background-color: #fff;
+  --heading-color: #000;
+  --text-color: #000;
+  --code-bg: #ececec;
+  --quote-code-bg: #f2f2f2;
+}
+
+html.theme-dark {
+  --background-color: rgb(47, 55, 65);
+  --heading-color: #eee;
+  --text-color: #ddd;
+  --code-bg: #727272;
+  --quote-code-bg: #e0e0e0;
 }
 
 ::selection {
   background-color: var(--highlight);
   color: var(--black);
+}
+
+#sun-svg,
+.theme-dark #moon-svg {
+  display: none;
+}
+#moon-svg,
+.theme-dark #sun-svg {
+  display: block;
 }
 
 body {
@@ -28,11 +50,11 @@ body {
   padding: 20px;
   max-width: 67vw;
   box-sizing: border-box;
-  background: var(--white);
+  background: var(--background-color);
   word-wrap: break-word;
   overflow-wrap: break-word;
   line-height: 1.8;
-  color: var(--black);
+  color: var(--text-color);
 
   background-image: linear-gradient(#eee 1.1px, transparent 1.1px), linear-gradient(to right,#eee 1.1px, #fdfdfc 1.1px);
   background-size: 22px 22px;
@@ -42,6 +64,10 @@ body {
   flex-direction: column;
   justify-content: flex-start;
 }
+.theme-dark body{
+  background-image: none;
+}
+
 main {
   flex: 1;
   padding-bottom: 60px;
@@ -54,22 +80,8 @@ h5,
 h6,
 strong,
 b {
-  color: var(--black);
+  color: var(--heading-color);
 }
-a {
-  color: var(--pink);
-}
-
-nav {
-  text-align: center;
-}
-nav a {
-  margin: 25px 0;
-}
-nav a:not(:last-child) {
-  padding: 0 12px 0 0;
-}
-
 textarea {
   width: 100%;
   font-size: 16px;
@@ -89,7 +101,7 @@ img {
 }
 code {
   padding: 2px 5px;
-  background-color: #f2f2f2;
+  background-color: var(--code-bg);
   font-size: 14px;
 }
 pre {
@@ -106,8 +118,12 @@ blockquote {
   margin: 0px;
   font-style: italic;
 }
+blockquote code {
+  background-color: var(--quote-code-bg);
+}
 button {
   appearance: none;
+  border: none;
   background-color: transparent;
   padding: 0;
 }

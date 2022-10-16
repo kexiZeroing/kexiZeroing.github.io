@@ -1,5 +1,6 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
+import ThemeToggle from './ThemeToggle.astro';
 import { SITE_TITLE } from "../config";
 ---
 
@@ -16,9 +17,10 @@ import { SITE_TITLE } from "../config";
 	<nav>
 		<HeaderLink class="header-link" href="/">Home</HeaderLink>
 		<HeaderLink class="header-link" href="/posts">Posts</HeaderLink>
-		<HeaderLink class="header-link" href="https://github.com/kexiZeroing/FE-Learning-notes" target="_blank">FE-Learning-notes</HeaderLink>
+		<HeaderLink class="header-link" href="https://github.com/kexiZeroing" target="_blank">Github</HeaderLink>
 		<HeaderLink class="header-link" href="https://twitter.com/kdang2020" target="_blank">Twitter</HeaderLink>
 		<HeaderLink class="header-link" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzAxMzE0NDY4MA==&action=getalbum&album_id=2135671686573129731&scene=173&from_msgid=2247484452&from_itemidx=1&count=3&nolastread=1#wechat_redirect" target="_blank">Newsletter</HeaderLink>
+		<ThemeToggle />
 	</nav>
 </header>
 <style>
@@ -27,6 +29,13 @@ import { SITE_TITLE } from "../config";
 	}
 	h2 {
 		margin: 0.5em 0;
+	}
+	nav {
+		margin: 1.5em 0 1em;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 20px;
 	}
 
 	@media only screen and (max-width:600px)  {
