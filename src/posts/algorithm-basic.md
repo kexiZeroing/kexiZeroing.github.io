@@ -5,7 +5,7 @@ slug: algorithm-basic
 description: ""
 added: ""
 top: true
-order: 3
+order: 4
 ---
 
 ### TOC

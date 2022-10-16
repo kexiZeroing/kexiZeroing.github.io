@@ -62,6 +62,8 @@ What happens when we type google.com in a browser: https://github.com/vasanthk/h
 
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
+Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials/beginners-typescript
+
 ---
 
 ## Tools and Cool websites
