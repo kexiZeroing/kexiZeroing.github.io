@@ -14,6 +14,7 @@
   --pink: #eb4888;
   --blue: #10a2f5;
   --yellow: #e9bc3f;
+  --orange: #f08217;
   --font-family-main: 'Roboto Mono', monospace;
   --background-color: #fff;
   --heading-color: #000;
@@ -156,30 +157,4 @@ ul li time {
     max-width: 67vw;
     padding: 20px;
   }
-}
-
-.header-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-.header-subtitle {
-  color: var(--gray);
-}
-
-.post-item {
-  margin: 1.2em 0;
-}
-.post-item:hover {
-  transform: scale(1.05);
-  transform-origin: left;
-}
-.top-tag {
-  border: 1px solid #f08217;
-  color: #f08217;
-  font-size: 13px;
-  padding: 1px 4px;
-  border-radius: 4px;
-  font-style: italic;
 }

@@ -16,3 +16,20 @@ const { slug, title, description, date, top } = Astro.props;
   <br />
   {description && <span class="excerpt">{description}</span>}
 </li>
+<style>
+  .post-item {
+    margin: 1.2em 0;
+  }
+  .post-item:hover {
+    transform: scale(1.05);
+    transform-origin: left;
+  }
+  .top-tag {
+    border: 1px solid var(--orange);
+    color: var(--orange);
+    font-size: 13px;
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-style: italic;
+  }
+</style>

@@ -31,22 +31,28 @@ import { SITE_TITLE } from "../config";
 	h2 {
 		margin: 0.5em 0;
 	}
+	.header-section {
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		flex-wrap: wrap;
+	}
+	.header-subtitle {
+		color: var(--gray);
+	}
 	nav {
 		margin: 1.5em 0 1em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		flex-wrap: wrap;
-		gap: 20px;
 	}
-
+	a.header-link {
+		margin: 10px 14px;
+	}
 	@media only screen and (max-width:600px)  {
 		.header-section {
 			display: none;
-		}
-		.header-link {
-			display: block;
-			text-align: left;
 		}
 	}
 </style>
