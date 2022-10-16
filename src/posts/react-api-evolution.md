@@ -6,7 +6,10 @@ description: ""
 added: "Sep 20 2020"
 ---
 
-You can read a similar article [here](https://frantic.im/react-api-evolution).
+Read similar articles to learn more about React:
+- https://frantic.im/react-api-evolution
+- https://pomb.us/build-your-own-react
+- https://github.com/7kms/react-illustration-series
 
 ```js
 // before ES6 class
