@@ -47,8 +47,7 @@ html.theme-dark {
 body {
   font-family: var(--font-family-main);
   margin: auto;
-  padding: 20px;
-  max-width: 67vw;
+  padding: 20px 10px;
   box-sizing: border-box;
   background: var(--background-color);
   word-wrap: break-word;
@@ -152,6 +151,10 @@ ul li time {
   html.theme-dark {
     background-color: #130F40;
     background-image: linear-gradient(180deg, #000 25%, #130F40 100%);
+  }
+  body {
+    max-width: 67vw;
+    padding: 20px;
   }
 }
 
