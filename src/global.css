@@ -149,6 +149,10 @@ ul li time {
     background-color: #52ACFF;
     background-image: linear-gradient(180deg, #52ACFF 25%, #FFE32C 100%);
   }
+  html.theme-dark {
+    background-color: #130F40;
+    background-image: linear-gradient(180deg, #000 25%, #130F40 100%);
+  }
 }
 
 .header-section {
