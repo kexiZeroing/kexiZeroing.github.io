@@ -6,7 +6,7 @@ description: ""
 added: "Sep 11 2022"
 ---
 
-### Linting, Formatting, and Unit tests
+## Linting, Formatting, and Unit tests
 Linting and formatting are essential to keep your codebase consistent and clean. Each team member should follow the same rules and conventions when it comes to writing code.
 
 - [ESlint](https://eslint.org) for linting, it comes with a set of rules to write proper Javascript, and these rules can be customized to your own team's fit.
@@ -16,7 +16,7 @@ You can execute this step as a [pre-commit hook](https://githooks.com) as it wil
 
 Unit tests are fast to run, fast to fail. They should not take an extensive amount of time to run and should reveal errors or bugs in a matter of a few seconds or even a few minutes depending on the scale of your project. In a React project, for example, these tests can cover Components, Reducers / State / Actions, Utility functions.
 
-### Integration and end-to-end testing
+## Integration and end-to-end testing
 While unit tests help to test parts of your project in isolation, integration tests help to test whether an entire set of units work together as expected. They also allow you to test full user flows and all the different paths they can take.
 
 - Navigation: Does clicking on the user setting menu item load the expected view?
@@ -25,7 +25,7 @@ While unit tests help to test parts of your project in isolation, integration te
 
 End-to-End tests are the set of tests that are the closest to what the user should experience when using your product. In most frameworks like Selenium or Cypress, an e2e test suite is nothing more than a scripted user flow that the computer will go through. Most of these tests will be executed directly within a browser.
 
-### Automation
+## Automation
 The objective for your team should be to automate as much as possible, from running the tests to previewing the deployments, to deploying to production. The only manual step left in your CI/CD pipeline should be the code review.
 
 We know how to run these tests locally but we want to ensure that these tests can be run automatically every time a change occurs on the codebase. I am in favor of running these tests on every pull request. Each change has to be tested before it's merged to the main branch without any exception. As my main tool for automation, I've been using [Github CI, Actions and Workflows](https://docs.github.com/en/actions) for both work-related and personal projects. Example of Github Workflow that runs automated tests on every PR:

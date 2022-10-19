@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "Pixel, resolution and fps"
 slug: pixel-resolution-fps
 description: ""
-added: "Oct 17 2021"
+added: "Oct 15 2021"
 ---
 
 ## Concept of pixel and resolution

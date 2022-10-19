@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "Bitwise operations"
 slug: bitwise-operations
 description: ""
-added: "Oct 16 2021"
+added: "Sep 5 2020"
 ---
 
 ### Two's complement

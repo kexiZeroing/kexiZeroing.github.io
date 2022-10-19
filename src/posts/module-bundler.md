@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "Module bundler clone"
 slug: module-bundler
 description: ""
-added: "Oct 13 2021"
+added: "Oct 9 2021"
 ---
 
 ```js
