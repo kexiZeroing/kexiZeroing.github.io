@@ -55,7 +55,7 @@ pnpm was released in 2017. It is a drop-in replacement for npm, so if you have a
 
 Traditionally, npm installed dependencies in a flat `node_modules` folder. On the other hand, pnpm manages `node_modules` by using hard linking and symbolic linking to a global on-disk content-addressable store. It results in a nested `node_modules` folder that stores packages in a global store on your home folder (`~/.pnpm-store/`). Every version of a dependency is physically stored in that folder only once, constituting a single source of truth.
 
-> A hard link creates another file with a link to the same underlying inode. A symbolic link is a link to another name in the file system.
+<img alt="pnpm" src="https://tva1.sinaimg.cn/large/008vxvgGly1h7aw9ablr4j30vm0u0q5z.jpg" width="700" />
 
 ### npm install and npm ci
 - `npm install` reads `package.json` to create a list of dependencies and uses `package-lock.json` to inform which versions of these dependencies to install. If a dependency is not in `package-lock.json` it will be added by `npm install`.
