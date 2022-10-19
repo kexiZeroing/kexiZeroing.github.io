@@ -36,7 +36,7 @@ added: "Oct 19 2021"
 - alias 配置别名，把导入路径映射成一个新的导入路径，比如 `"@": path.join(__dirname, 'src')`
 - modules 数组，tell webpack what directories should be searched when resolving modules, 默认值 `['node_modules']`，即从 node_modules 目录下寻找。
 
-### webpack in development
+#### webpack in development
 - `webpack-dev-server` doesn't write any output files after compiling. Instead, it keeps bundle files in memory and serves them as if they were real files mounted at the server's root path. `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.
 - Want to access `webpack-dev-server` from the mobile in local network: run `webpack-dev-server` with `--host 0.0.0.0`, which lets the server listen for requests from the network (all IP addresses on the local machine), not just localhost. But Chrome won't access `http://0.0.0.0:8089` (Safari can open). It's not the IP, it just means it is listening on all the network interfaces, so you can use any IP the host has.
 
@@ -54,10 +54,39 @@ module.exports = {
 }
 ```
 
-#### Code split vendors
-Your dependencies usually do not change as often as your production code. With code splitting, you can split your dependencies into a separate bundle. This bundle can be cached by your user’s browser for longer periods than your production code bundle.
+#### TypeScript and Webpack
+Webpack is extensible with "loaders" that can be added to handle particular file formats.
 
-With the [SplitChunksPlugin](https://webpack.js.org/plugins/split-chunks-plugin) we can split up a chunk into smaller chunks. *(A chunk is code which will break apart from main bundle and form it’s own file known as chunk file.)* This plugin is pretty smart and out-of-the-box it will split chunks where the plugin thinks it makes sense. Everything under `optimization.splitChunks` is the configuration for `SplitChunksPlugin`.
+1. Install `typescript` and [ts-loader](https://github.com/TypeStrong/ts-loader) as devDependencies.
+2. The default behavior of `ts-loader` is to act as a drop-in replacement for the `tsc` command, so it respects the options in `tsconfig.json`.
+3. If you want to further optimize the code produced by TSC, use `babel-loader` with `ts-loader`. We need to compile a `.ts` file using `ts-loader` first and then using `babel-loader`.
+4. `ts-loader` does not write any file to disk. It compiles TypeScript files and passes the resulting JavaScript to webpack, which happens in memory.
+
+But TypeScript still isn't happy. It doesn't know anything about Webpack, and obviously doesn't understand `.vue` files - they aren't actually Typescript modules. What should TypeScript do with something that isn’t a JS or TS module? Throwing an error! Could not find module.
+
+So it will throw an error when you try to import `Foo.vue`. The solution is `shims-vue.d.ts` in `src` directory. The filename does not seem to be important, as long as it ends with `.d.ts`. TypeScript looks for `.d.ts` files in the same places it looks for your regular `.ts` files. It basically means, "every time you import a module with the name `*.vue`, then treat it as if it had these contents, and the type of `Foo` will be Vue.".
+
+```ts
+// shims-vue.d.ts
+declare module "*.vue" {
+  import Vue from 'vue';
+  export default Vue;
+}
+```
+
+If that doesn't help, make sure the module you are trying to import is tracked by TypeScript. It should be covered in your `include` array setting and not be present in the `exclude` array in your `tsconfig.json` file.
+
+```json
+{
+  "compilerOptions": {
+    // ...
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "src/**/*.spec.ts"]
+}
+```
+
+> Above was created in the days before Vue shipped with TypeScript out of the box. Now the best path to get started is through the official CLI.
 
 ### 本地 build 与上线 build
 1. 公共组件库 C 需要先 build，再 `npm link` 映射到全局的 node_modules，然后被其他项目 `npm link C` 引用。

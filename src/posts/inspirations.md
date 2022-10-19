@@ -21,6 +21,7 @@ order: 3
 - @shadeed9 css articles https://ishadeed.com/articles
 - @taniarascia blog https://www.taniarascia.com/blog
 - @JoshWComeau blog https://www.joshwcomeau.com
+- @flaviocopes all kinds of handbooks https://thevalleyofcode.com
 - @lizandmollie powerful visuals about feelings
 
 ## Business and Engineering alignment by Kent C. Dodds
