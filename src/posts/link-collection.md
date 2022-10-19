@@ -182,13 +182,13 @@ Stackoverflow Design: https://stackoverflow.design
 
 Minimal CSS Framework for semantic HTML: https://picocss.com
 
+A dark-first collection of UI patterns and components: https://ui.draculatheme.com
+
 Modern & Interactive Open-source Charts: https://apexcharts.com
 
 The react library to build dashboards fast: https://github.com/tremorlabs/tremor
 
 SVG spinners: https://github.com/n3r4zzurr0/svg-spinners
-
-Epic Spinners: https://github.com/epicmaxco/epic-spinners
 
 CSS animations on demand: https://animista.net
 
@@ -229,8 +229,6 @@ A curated list about React Hooks: https://github.com/glauberfc/awesome-react-hoo
 useHooks Code Examples: https://usehooks.com
 
 How styled-components works: https://medium.com/styled-components/how-styled-components-works-618a69970421
-
-Webpack 5 boilerplate: https://github.com/taniarascia/webpack-boilerplate
 
 Start developing websites like it's 2025: https://react2025.com
 

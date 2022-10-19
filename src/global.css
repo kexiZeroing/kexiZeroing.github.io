@@ -15,7 +15,8 @@
   --blue: #10a2f5;
   --yellow: #e9bc3f;
   --orange: #f08217;
-  --font-family-main: 'Roboto Mono', monospace;
+  --font-family-index: 'Roboto Mono', monospace;
+  --font-family-post: Segoe UI,system-ui,-apple-system,sans-serif;
   --background-color: #fff;
   --heading-color: #000;
   --text-color: #000;
@@ -46,7 +47,7 @@ html.theme-dark {
 }
 
 body {
-  font-family: var(--font-family-main);
+  font-family: var(--font-family-index);
   margin: auto;
   padding: 20px 10px;
   box-sizing: border-box;
@@ -81,6 +82,9 @@ h6,
 strong,
 b {
   color: var(--heading-color);
+}
+article {
+  font-family: var(--font-family-post);
 }
 textarea {
   width: 100%;
@@ -127,21 +131,12 @@ button {
   background-color: transparent;
   padding: 0;
 }
-
 h1 {
   font-weight: bold;
   margin: 0;
 }
-
 h2 {
-  font-weight: 400;
   margin: 1em 0 0.5em 0;
-}
-
-ul li time {
-  flex: 0 0 130px;
-  font-style: italic;
-  color: var(--gray);
 }
 
 @media only screen and (min-width:600px)  {

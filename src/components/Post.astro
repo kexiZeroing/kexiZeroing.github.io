@@ -24,12 +24,18 @@ const { slug, title, description, date, top } = Astro.props;
     transform: scale(1.05);
     transform-origin: left;
   }
-  .top-tag {
+  .post-item .top-tag {
     border: 1px solid var(--orange);
     color: var(--orange);
     font-size: 13px;
     padding: 1px 4px;
     border-radius: 4px;
     font-style: italic;
+  }
+  .post-item time {
+    padding-left: 8px;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--gray);
   }
 </style>
