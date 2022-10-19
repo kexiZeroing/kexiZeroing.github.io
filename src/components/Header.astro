@@ -1,7 +1,7 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
 import ThemeToggle from './ThemeToggle.astro';
-import { SITE_TITLE } from "../config";
+import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 ---
 
 <header>
@@ -13,6 +13,9 @@ import { SITE_TITLE } from "../config";
 		<div>
 			<img src="https://tva1.sinaimg.cn/large/008vxvgGly1h72jul7ihpj3076076aac.jpg" alt="一切都在成长中" width="129">
 		</div>
+	</div>
+	<div class="short-header-section">
+		<h1>{SITE_TITLE_MOBILE}</h1>
 	</div>
 	<nav>
 		<HeaderLink class="header-link" href="/">Home</HeaderLink>
@@ -37,8 +40,15 @@ import { SITE_TITLE } from "../config";
 		justify-content: space-around;
 		flex-wrap: wrap;
 	}
-	.header-subtitle {
+	.header-section .header-subtitle {
 		color: var(--gray);
+	}
+	.short-header-section {
+		padding-left: 16px;
+		margin-bottom: -1.5em;
+		font-size: 0.7em;
+		font-style: italic;
+		display: none;
 	}
 	nav {
 		margin: 1.5em 0 1em;
@@ -49,10 +59,14 @@ import { SITE_TITLE } from "../config";
 	}
 	a.header-link {
 		margin: 10px 14px;
+		line-height: 1.1;
 	}
 	@media only screen and (max-width:600px)  {
 		.header-section {
 			display: none;
+		}
+		.short-header-section {
+			display: block;
 		}
 	}
 </style>
