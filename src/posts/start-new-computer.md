@@ -35,8 +35,10 @@ added: "Feb 13 2022"
    - Global Node modules will be installed at `~/.nvm/versions/node/v12.13.0/bin/` if you use nvm.
    <img alt="global node_modules" src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2zj27plslj218q04ydgm.jpg" width="700" />
 
-   > package manager proxy settings: https://github.com/comwrg/package-manager-proxy-settings
    > package manager mirrors: https://github.com/eryajf/Thanks-Mirror
+   > - Taobao: http://registry.npmmirror.com
+   > - HUAWEI: https://repo.huaweicloud.com/repository/npm/
+   > - Tencent: http://mirrors.cloud.tencent.com/npm/
 
 6. Set global configuration with Git `touch ~/.gitconfig`, and check with `git config --list`.
     ```

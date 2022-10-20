@@ -21,6 +21,21 @@ added: "Oct 19 2021"
 - production 情况下，`minify` 选项是默认存在的（会使用 `html-minifier-terser` 插件去掉空格、注释等），如果想定制化选项，可以自己传 minify 对象，它不会和默认选项合并在一起。
 - webpack 设置请求代理 proxy，默认情况下假设前端是 `localhost:3000`，后端是 `localhost:8082`，那么后端通过 `request.getHeader("Host")` 获取的依旧是 `localhost:3000`。如果设置了 `changeOrigin: true`，那么后端才会看到的是 `localhost:8082`, 代理服务器会根据请求的 target 地址修改 Host（这个在浏览器里看请求头是看不到改变的）。如果某个接口 404，一般就是这个路径没有配置代理。
 
+### Vue 项目
+Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版本页面](https://www.npmjs.com/package/vue?activeTab=versions) 可以看到当前已使用 3.2.x 作为默认 latest 版本。如果还要用 Vue 2 ，需要手动指定 `legacy` 版本才能安装到 Vue 2。更多关于 Vue 的发布更新可以看 https://blog.vuejs.org
+
+- [create-vite](https://github.com/vitejs/vite/tree/main/packages/create-vite) 是 Vite 官方推荐的一个脚手架工具，可以创建基于 Vite 的不同技术栈基础模板。`npm create vite` 可创建一个基于 Vite 的基础空项目。
+- [create-vue](https://github.com/vuejs/create-vue) 是 Vue 官方推出的一个脚手架，可以创建基于 Vite 的 Vue 基础模板。`npm init vue@3` 然后根据命令行的提示操作。
+- [create-preset](https://github.com/awesome-starter/create-preset) 是 Awesome Starter 的 CLI 脚手架，提供快速创建预设项目的能力。`npm create preset` 选择 vue 技术栈进入，选择 vue3-ts-vite 创建一个基于 Vite + Vue 3 + TypeScript 的项目启动模板。
+- 如果不习惯 Vite ，依然可以使用 [Vue CLI](https://cli.vuejs.org) 作为开发脚手架，它使用的构建工具还是基于 Webpack。使用 create 命令 `vue create hello-vue3` 根据提示创建项目。*(Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use create-vue to scaffold Vite-based projects.)*
+- [Volar](https://blog.vuejs.org/posts/volar-1.0.html) 是 Vue 官方推荐的 VSCode 扩展，用以代替 Vue 2 时代的 Vetur 插件。
+
+```js
+// Check the version of vue.js at runtime
+import { version } from 'vue'
+console.log(version)
+```
+
 ### 一些 webpack 的配置
 - Webpack 5 Crash Course: https://www.youtube.com/watch?v=IZGNcSuwBZs
 - Webpack 5 boilerplate: https://github.com/taniarascia/webpack-boilerplate
