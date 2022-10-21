@@ -180,6 +180,8 @@ GUI Challenges: https://github.com/argyleink/gui-challenges
 
 Stackoverflow Design: https://stackoverflow.design
 
+Accessible color combinations: https://randoma11y.com
+
 Minimal CSS Framework for semantic HTML: https://picocss.com
 
 A dark-first collection of UI patterns and components: https://ui.draculatheme.com
@@ -212,8 +214,6 @@ A polyfill of scroll-driven animations: https://github.com/flackr/scroll-timelin
 
 The Beginner's Guide to React: https://egghead.io/courses/the-beginner-s-guide-to-react or https://www.youtube.com/watch?v=7_x4AuqHxlg
 
-React getting started tutorial: https://daveceddia.com/react-getting-started-tutorial
-
 Getting Closure on React Hooks by Shawn Wang: https://www.youtube.com/watch?v=KJP1E-Y-xyo
 
 Why React Re-Renders: https://www.joshwcomeau.com/react/why-react-re-renders
@@ -221,6 +221,8 @@ Why React Re-Renders: https://www.joshwcomeau.com/react/why-react-re-renders
 Understanding useMemo and useCallback: https://www.joshwcomeau.com/react/usememo-and-usecallback
 
 useEffect Mistakes Every Junior React Developer Makes: https://www.youtube.com/watch?v=QQYeipc_cik
+
+Guide to React Rendering Behavior: https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior
 
 Build your own React: https://pomb.us/build-your-own-react
 

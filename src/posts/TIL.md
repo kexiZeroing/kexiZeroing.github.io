@@ -16,7 +16,7 @@ order: 1
    - `path.join('/foo', 'bar', 'baz/asdf', 'quux', '..')` returns: `/foo/bar/baz/asdf`
 4. Quickly browse the history of a file in the repo: Go to a file in GitHub (or GitLab, or Bitbucket), replace `github.com` with `github.githistory.xyz` (i.e. https://github.githistory.xyz/kexiZeroing/FE-Learning-notes/blob/master/README.md)
 5. One second to read GitHub code with VS Code online. Just add 1s after github (`github1s.com`) in browser address bar for any repository you want to read. Another one, open a GitHub repo, press `.`, then VS Code opens up in your browser. You can also change `github.com` to `github.dev` in the URL in order to achieve the same effect.
-6. Type `Cmd + K` to open the GitHub command palette to quickly navigate, search projects and try other commands.
+6. Type `Cmd + K` to open the GitHub command palette to quickly navigate, search projects and try other commands. There is a related React component [cmdk](https://github.com/pacocoursey/cmdk).
 7. Link to a specific line number (or lines range) on GitHub: click the line number, and then copy the link from the address bar. To select a range, click the number, and then Shift click the later number. But when that file is updated, you'll have a URL that points to the wrong lines. We can have the permanent link for that particular commit by pressing the `y` key, and the URL will change to have the actual SHA hash for that particular commit, rather than the current version of the file.
 8. [emgithub](https://github.com/yusanshi/emgithub) is a service to embed a file from Github repository just like Github Gist. Paste URL of the file you would like to embed or simply add "em" before "github.com".
 9. `Cmd + Shift + .` toggles hidden files in Mac.
