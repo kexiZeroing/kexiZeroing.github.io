@@ -6,6 +6,11 @@ description: ""
 added: "June 19 2022"
 ---
 
+## helpful links
+- https://github.com/k88hudson/git-flight-rules
+- https://github.com/git-guides
+- https://dev.to/g_abud/advanced-git-reference-1o9j
+
 ## git reset
 You’ve made some commits locally (not yet pushed), but everything is terrible, you want to undo last commits like they never happened.
 
@@ -27,9 +32,16 @@ The `--no-ff` flag prevents `git merge` from executing a "fast-forward" if it de
 - `--ff-only`, resolve the merge as a fast-forward when possible. When not possible, refuse to merge and exit with a non-zero status. *(Unix systems have a convention that an exit status of 0 denotes success, and any non-zero exit status denotes failure)*
 
 ## git pull --rebase vs. --merge
-- If you pull remote changes with the flag `--rebase`, then your local changes are reapplied on top of the remote changes.
+- When you decide to push your work your push is rejected, because there's been parallel work on the same branch. At this point do a `git pull --rebase` to avoid the extra merge commits. You actually commit on top of the remote branch.
 
 - If you pull remote changes with the flag `--merge`, which is also the default, then your local changes are merged with the remote changes. This results in a merge commit that points to the latest local commit and the latest remote commit.
+
+Note that `git fetch` is the command that tells your local git to retrieve the latest meta-data info from the original yet doesn't do any file transferring. `git pull` on the other hand does that AND brings those changes from the remote repository.
+
+## git pull/push without parameter
+- `git pull`: In order to determine what remote branches to fetch when the command is run without any refspec parameters on the command line, values of the configuration variable `remote.<origin>.fetch` are consulted. *A refspec maps a branch in the local repository to a branch in a remote repository.* For example, `refs/heads/*:refs/remotes/origin/*` specifies that all remote branches are tracked using remote-tracking branches in `refs/remotes/origin/` hierarchy under the same name.
+
+- `git push`: When neither the command-line nor the configuration specify what to push, the default behavior is used, which corresponds to the `simple` value for `push.default` (since Git 2.0): the current branch is pushed to the corresponding upstream branch, but as a safety measure, the push is aborted if the upstream branch does not have the same name as the local one.
 
 ## git remote
 A remote URL is the place where your code is stored. You can only push to two types of URL addresses: HTTPS URL like `https://github.com/user/repo.git` or SSH URL like `git@github.com:user/repo.git`. Git associates a remote URL with a name, and your default remote is usually called `origin`.
@@ -86,7 +98,7 @@ For example, I want to change the git user (rewrite history) after push the code
 2. `git log` shows commit logs and find out **the commit id that ahead of your commit which you want to change**.
 3. `git rebase -i <after-this-commit>`
 4. Change the word 'pick' to 'edit' (there is a commit list you can change), save and exit; rebase is stopped at the next commit (you just changed) and you can amend this commit.
-5. `git commit --amend --reset-author --no-edit` and `git rebase --continue` to confirm and continue your rebase. (there is also a `git rebase --abort` command)
+5. `git commit --amend --reset-author --no-edit` and `git rebase --continue` to confirm and continue your rebase.
 6. `git push --force-with-lease` to overwrite the remote history. (`--force-with-lease` is safer than `--force`: If the remote branch has the same value as the remote branch on your local machine, you will overwrite remote. If it doesn't have the same value, it indicates a change that someone else made to the remote branch while you were working on your code and thus will not overwrite any code.)
 
 Another example, I want to squash my last 3 commits together into one commit: `git reset --soft HEAD~3 && git commit`. The soft reset just re-points HEAD to the last commit that you do not want to squash. Neither the index nor the working tree are touched, leaving the index in the desired state for your new commit.
@@ -109,15 +121,27 @@ Such problems generally occur when you execute two git commands simultaneously; 
 `git clone [repo] --depth=1` When you don't need the entire history of a repository, you can speed up the download by specifying the number of revisions you need.
 
 ## degit - straightforward project scaffolding
-[degit](https://github.com/Rich-Harris/degit) makes copies of git repositories. When you run `degit some-user/some-repo`, it will find the latest commit and download the associated tar file if it doesn't exist locally. This is much quicker than using git clone, because you're not downloading the entire git history.
+[degit](https://github.com/Rich-Harris/degit) makes copies of git repositories. When you run `degit some-user/some-repo`, it will find the latest commit and download the associated tar file if it doesn't exist locally. This is much quicker than using `git clone`, because you're not downloading the entire git history.
+
+## gitignore
+- https://gitignore.io/
+- https://github.com/github/gitignore
+
+After committing several times, you realize that you need to create `.gitignore` and exclude some files. You have to `git rm --cached` to remove the files that you don't want in the repo, then add and commit it.
+
+## skip git commit hooks
+The pre-commit hook can be used to run tests, lint, type check, etc. The hooks are located in the `.git/hooks/` directory. Use the `--no-verify` option to bypass git commit hooks, e.g. `git commit -m "commit message" --no-verify`.
 
 ## update your GitHub fork
-Take contributing to Angular as an example. You have a fork of the Angular repository. You want to update your GitHub fork to the new `main` branch naming:
-1. git checkout master
-2. git fetch upstream main
-3. git rebase upstream/main
+You cannot push code to repositories that you don’t own. So instead, you make your own copy of the repository by “forking” it. You are then free to make any changes you wish to your repository.
 
-> `git fetch` is the command that tells your local git to retrieve the latest meta-data info from the original yet doesn't do any file transferring. `git pull` on the other hand does that AND brings those changes from the remote repository.
+One of the challenges with forking a repository is keeping your copy up-to-date with the original repository, or the upstream repository. We're going to add the original repository as a git remote, so we can easily fetch and pull from it. Say you want to update your GitHub fork to the new `main` branch naming:
+1. git remote add upstream git@github.com:original-repo-url
+2. git checkout master
+3. git fetch upstream main
+4. git rebase upstream/main
+
+If there are merge conflicts, we need to fix it, then `git add .` and run `git rebase --continue`. Now git will apply the rest of our commits. It's notable that if you had trouble with the merge conflict, you can run `git rebase --abort` to abort the rebase and get back to where you were before you started the rebase.
 
 ## GitHub protocol comparison
 - plain Git, aka `git://github.com/`, does not add security beyond what Git itself provides. The server is not verified and you cannot push over it. Now Github permanently disabled the [unencrypted Git protocol](https://github.blog/changelog/2022-03-15-removed-unencrypted-git-protocol-and-certain-ssh-keys/).

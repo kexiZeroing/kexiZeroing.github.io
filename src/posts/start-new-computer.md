@@ -99,12 +99,15 @@ From macOS Catalina the default shell is `zsh`. `zsh` has a list of configuratio
 **macOS Terminal considers every new shell to be a login shell and an interactive shell**. So, in Terminal a new `zsh` will potentially run all configuration files. For simplicity’s sake, you should use just one file and the common choice is `.zshrc`. Most tools you download to configure `zsh`, such as `Oh My Zsh`, will override or re-configure your `.zshrc`.
 
 ## Git for the first time
-The first thing you should do when you install Git is to set your user name and email address. This is important because every Git commit uses this information. Use `git config --list` ( `git config --global --list` ) command to list all the settings.
+The first thing you should do when you install Git is to set your user name and email address. This is important because every Git commit uses this information. Use `git config --list` (`git config --global --list`) command to list all the settings.
 ```shell
 # settings in a global ~/.gitconfig file located in your home directory
 git config --global user.name "Your name here"
 git config --global user.email "your_email@example.com"
 git config --global color.ui true
+
+# remove a git config
+git config --global --unset user.name
 ```
 
 ### Cloning with HTTPS or SSH
@@ -117,11 +120,12 @@ SSH URLs provide access to a Git repository via SSH, a secure protocol. To use t
 3. Copy the key `cat id_rsa.pub | pbcopy`
 4. Go to Github Settings -> select SSH and GPG keys -> New SSH Key. Give the SSH key a description so we can know which device it belongs too (i.e., MacBook Pro 2020).
 5. Type `ssh-add -K ~/.ssh/id_rsa` to store the passphrase (`-K` for adding in your keychain). Note that **the addition of keys to the agent is transient** and they last only as long as the agent is running. If you kill it or restart your computer they're lost until you re-add them again.
+6. Optional, type `ssh -T git@github.com` to test the connection.
 
 <img alt="https ssh" src="https://ftp.bmp.ovh/imgs/2020/10/830c711c7263ab75.png" width="700">
 
 ### PAT in Azure DevOps
-> A personal access token (PAT) is used as an alternate password to authenticate into Azure DevOps. Treat and use a PAT like your password.
+A personal access token (PAT) is used as an alternate password to authenticate into Azure DevOps. Treat and use a PAT like your password. PATs are given permissions from a broad set of read and write scopes. They have access to all of the repositories and organizations that the user could access. Once you have a token, you can enter it instead of your password when performing Git operations over HTTPS. *If you are not prompted for your username and password, your credentials may be cached on your computer. You can update your credentials in the Keychain to replace your old password with the token.*
 
 The **user's `.npmrc`** should contain credentials for all of the registries that you need to connect to. The NPM client will look at your **project's `.npmrc`**, discover the registry, and fetch matching credentials from user's `.npmrc`. This enables you to share project's `.npmrc` with the whole team while keeping your credentials secure.
 
