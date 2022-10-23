@@ -129,3 +129,8 @@ Take contributing to Angular as an example. You have a fork of the Angular repos
 - SSH, aka `git@github.com:` or `ssh://git@github.com/`, uses public-key authentication. You have to generate a keypair, then add it to your GitHub account. Authentication is needed for all connections, so you always need a GitHub account – even to pull or clone.
 
 > You can tell git to use https instead of `git://` with the command `git config --global url."https://".insteadOf git://`, and the change goes to your git config file `~/.gitconfig`.
+
+## Git Extras
+[git-extras](https://github.com/tj/git-extras) is a collection of Git utilities, which hosts more than 60 of "extras" with features that extend the basic functionality of Git. Install it with Homebrew `brew install git-extras`.
+
+To get an overview of all extras, it is worth running `git extras --help` after installation. Alternatively there is a [Commands.md](https://github.com/tj/git-extras/blob/master/Commands.md) in the repository which lists and explains all extras.

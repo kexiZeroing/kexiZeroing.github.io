@@ -289,6 +289,8 @@ Open Activity Monitor, you’ll see a column named “Kind”. If the app says �
 > If you have a M1 Mac, be sure you’re running node 16 or higher, otherwise you’re running via Rosetta.
 
 ## 常⽤命令和作用
+Linux Commands Xmind: https://xmind.app/m/K3SKii
+
 | 常⽤命令 |  作用 |
 |  ----   | ---- |
 | shutdown -h now | 即刻关机 (graceful shutdown)

@@ -1,7 +1,7 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Link collection"
-slug: link-collection
+title: "Curated link collection"
+slug: curated-link-collection
 description: ""
 added: ""
 top: true
@@ -42,8 +42,6 @@ Bash Commands and Tips: https://dev.to/awwsmm/101-bash-commands-and-tips-for-beg
 
 Git Concepts I Wish I Knew Years Ago: https://dev.to/g_abud/advanced-git-reference-1o9j
 
-Flight rules for Git: https://github.com/k88hudson/git-flight-rules
-
 Docker Guide: https://www.robertcooper.me/docker-guide
 
 Tail Call Optimization: https://www.youtube.com/watch?v=-PX0BV9hGZY
@@ -61,6 +59,8 @@ What happens when we type google.com in a browser: https://github.com/vasanthk/h
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials/beginners-typescript
 
 The Web’s Next Transition: https://www.epicweb.dev/the-webs-next-transition
+
+Web Almanac: https://almanac.httparchive.org/en/2022/table-of-contents
 
 ---
 
@@ -160,7 +160,9 @@ The blueprint HTML and CSS for website headers: https://headers-css.vercel.app
 
 Box alignment in Grid and Flexbox: https://ishadeed.com/article/learn-box-alignment
 
-Flexbox: https://github.com/samanthaming/Flexbox30
+CSS Flexbox: https://github.com/samanthaming/Flexbox30
+
+CSS Grid: https://www.youtube.com/playlist?list=PLu8EoSxDXHP5CIFvt9-ze3IngcdAc2xKG
 
 Scroll Snap: https://oh-snap.netlify.app
 
@@ -182,8 +184,6 @@ Stackoverflow Design: https://stackoverflow.design
 
 Accessible color combinations: https://randoma11y.com
 
-Minimal CSS Framework for semantic HTML: https://picocss.com
-
 A dark-first collection of UI patterns and components: https://ui.draculatheme.com
 
 Modern & Interactive Open-source Charts: https://apexcharts.com
@@ -199,8 +199,6 @@ Buttons Generator: https://markodenic.com/tools/buttons-generator
 Box-shadow: https://neumorphism.io
 
 1-Line Layouts: https://1linelayouts.glitch.me
-
-CSS Grid generator: https://cssgrid-generator.netlify.app
 
 Beautiful hand-crafted SVG icons: https://heroicons.com
 
@@ -244,8 +242,20 @@ Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/n
 
 ---
 
-## Vue
+## Support lifecycles of various products
 
-Using Vue's new Composition API: https://aschmelyun.com/blog/why-you-should-be-using-vue-new-composition-api
+Google Chrome: https://chromiumdash.appspot.com/schedule
 
-Collection of Vue Composition Utilities: https://vueuse.org/functions.html
+Node.js: https://github.com/nodejs/release
+
+Angular: https://angular.io/guide/releases
+
+React: https://reactjs.org/versions/
+
+Vue 3: https://vuejs.org/about/releases.html
+
+Vue 2: https://github.com/vuejs/vue/blob/main/CHANGELOG.md
+
+Electron: https://releases.electronjs.org/releases/stable
+
+End-of-life dates of various products: https://endoflife.date

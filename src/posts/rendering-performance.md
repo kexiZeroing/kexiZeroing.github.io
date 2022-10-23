@@ -63,6 +63,16 @@ Another one, `<link rel="prefetch">` is a low priority resource hint that allows
 
 For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. Defer scripts are guaranteed to execute in the order that they appear in the document. Typically you want to use `async` where possible, then `defer` then no attribute. 
 
+Chrome 107 comes with a new `renderBlockingStatus` field on ResourceTiming entries. Use it to find and monitor all the render blocking resources in a page.
+
+```js
+// get all resources
+window.performance.getEntriesByType('resource')
+  // filter out the blocking ones and log their names
+  .filter(({renderBlockingStatus}) => renderBlockingStatus === 'blocking')
+  .forEach(({name}) => console.log(name))
+```
+
 ### Best practices for fonts
 
 > Read more from https://web.dev/font-best-practices

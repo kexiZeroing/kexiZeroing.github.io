@@ -62,6 +62,8 @@ Traditionally, npm installed dependencies in a flat `node_modules` folder. On th
 
 - `npm ci` (named after **C**ontinuous **I**ntegration) installs dependencies directly from `package-lock.json` and uses `package.json` only to validate that there are no mismatched versions. If any dependencies are missing or have incompatible versions, it will throw an error. It will delete any existing `node_modules` folder to ensure a clean state. It never writes to `package.json` or `package-lock.json`. It does however expect a `package-lock.json` file in your project — if you do not have this file, `npm ci` will not work and you have to use `npm install` instead. (If you are on npm v5 or lower, you can only use `npm install` to install or update dependencies.)
 
+- `npm audit` automatically runs when you install a package with `npm install`. It checks direct dependencies and devDependencies, but does not check peerDependencies. Read more about [npm audit: Broken by Design](https://overreacted.io/npm-audit-broken-by-design) by Dan Abramov.
+
 ### dependencies, devDependencies and peerDependencies
 **Dependencies** are required at runtime, like a library that provides functions that you call from your code. If you are deploying your application, dependencies has to be installed, or your app will not work. They are installed transitively (if A depends on B depends on C, npm install on A will install B and C). *Example: lodash,and your project calls some lodash functions*.
 
@@ -96,6 +98,50 @@ Delete `package-lock.json` and `node_modules` and force the next npm install to 
 
 ### publish npm packages
 Learn how to create a new npm package and publish the code to npm by the demo [Building a business card CLI tool](https://whitep4nth3r.com/blog/build-a-business-card-cli-tool). Once your package is published to npm, you can run `npx {your-command}` to execute your script whenever you like.
+
+### npm scripts
+Npm scripts are a set of built-in and custom scripts defined in the `package.json` file. Their goal is to provide a simple way to execute repetitive tasks.
+
+- npm makes all your dependencies' binaries available in the scripts. So you can access them directly as if they were referenced in your PATH.
+    ```json
+    // Instead of doing this:
+    "scripts": {
+        "lint": "./node_modules/.bin/eslint ."
+    }
+
+    // You can do this:
+    "scripts": {
+        "lint": "eslint ."
+    }
+    ```
+- `npm run` is an alias for `npm run-script`, meaning you could also use `npm run-script lint`.
+- Built-in scripts can be executed using aliases, making the complete command shorter and easier to remember. For example, `npm run-script test`, `npm run test`, `npm test`, and `npm t` are same to run the test script. `npm run-script start`, `npm run start`, and `npm start` are also same.
+- Run `npm run` if you forget what npm scripts are available. This produces a list of scripts, and displays the code that each script runs.
+- To run multiple scripts sequentially, we use `&&`. For example, `npm run lint && npm test`.
+- When a script finishes with a non-zero exit code, it means an error occurred while running the script, and the execution is terminated.
+- Use `npm run <script> --silent` to reduce logs and to prevent the script from throwing an error. This can be helpful when you want to run a script that you know may fail, but you don't want it to throw an error. Maybe in a CI pipeline, you want your whole pipeline to keep running even when the test command fails. If we don't want to get an error when the script doesn't exists, we can use `npm run <script> --if-present`.
+- We can create "pre" and "post" scripts for any of our scripts, and NPM will automatically run them in order.
+    ```json
+    {
+        "name": "npm-lifecycle-example",
+        "scripts": {
+            "prefoo": "echo prefoo",
+            "foo": "echo foo",
+            "postfoo": "echo postfoo"
+        }
+    }
+    ```
+- You can run `npm config ls -l` to get a list of the configuration parameters, and you can use `$npm_config_` prefix (like `$npm_config_editor`) to access them in the scripts. Any key-value pairs we add to our script will be translated into an environment variable with the `npm_config` prefix.
+    ```json
+    "scripts": {
+        "hello": "echo \"Hello $npm_config_firstname\""
+    }
+
+    // Output: "Hello Paula"
+    npm run hello --firstname=Paula
+    ```
+- Passing arguments to other NPM scripts, we can leverage the `--` separator. e.g. `"pass-flags-to-other-script": "npm run my-script -- --watch"` will pass the `--watch` flag to the `my-script` command.
+- One convention that you may have seen is using a prefix and a colon to group scripts, for example `build:dev` and `build:prod`. This can be helpful to create groups of scripts that are easier to identify by their prefixes.
 
 ### browserslist
 The [browserslist](https://github.com/browserslist/browserslist) configuration (either in `package.json` or `.browserslistrc`) uses `caniuse` data (https://caniuse.com/usage-table) for queries to control the outputted JS/CSS so that the emitted code will be compatible with the browsers specified. It will be installed with webpack and used by many popular tools like autoprefixer, babel-preset-env. You can find these tools require `browserslist` in the `package-lock.json` file.
@@ -177,17 +223,6 @@ source-map-explorer -h
 
 <img alt="source-map-explorer" src="https://tva1.sinaimg.cn/large/008i3skNly1gx2pz85jf1j31lf0u07aa.jpg" width="800" />
 
-
-### web app manifest
-An installed PWA can escape a user’s browser tab and show up everywhere other apps do: in app switchers, in task bars, in app launchers. They can have their own stand-alone window. To users, they feel just like any other app installed on their system. 
-
-While installation criteria varies slightly browser to browser, in general, they agree that these three items must be included for an PWA to be considered installable:
-- Served over HTTPS
-- Include a Web App Manifest that includes `Name`, `Icons`, `Start URL`, `Display Mode`
-- Registers a Service Worker
-
-The Web App Manifest is the key to describing your PWA to the browser. Read https://web.dev/add-manifest
-
 ## Set up Prettier and ESLint
 1. Install `Prettier` and `ESLint` plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
 2. We can edit some default settings for prettier in settings (`cmd + ,`, then type prettier)
@@ -247,55 +282,6 @@ Install husky `npm i -D husky` and have a "husky" section in the `package.json` 
 }
 ```
 
-## NPM Scripts
-NPM Scripts are a set of built-in and custom scripts defined in the `package.json` file. Their goal is to provide a simple way to execute repetitive tasks.
-
-- NPM makes all your dependencies' binaries available in the scripts. So you can access them directly as if they were referenced in your PATH.
-    ```json
-    // Instead of doing this:
-    "scripts": {
-        "lint": "./node_modules/.bin/eslint ."
-    }
-
-    // You can do this:
-    "scripts": {
-        "lint": "eslint ."
-    }
-    ```
-- `npm run` is an alias for `npm run-script`, meaning you could also use `npm run-script lint`.
-- Built-in scripts can be executed using aliases, making the complete command shorter and easier to remember. For example, `npm run-script test`, `npm run test`, `npm test`, and `npm t` are same to run the test script. `npm run-script start`, `npm run start`, and `npm start` are also same.
-- Run `npm run` if you forget what npm scripts are available. This produces a list of scripts, and displays the code that each script runs.
-- To run multiple scripts sequentially, we use `&&`. For example, `npm run lint && npm test`.
-- When a script finishes with a non-zero exit code, it means an error occurred while running the script, and the execution is terminated.
-- Use `npm run <script> --silent` to reduce logs and to prevent the script from throwing an error. This can be helpful when you want to run a script that you know may fail, but you don't want it to throw an error. Maybe in a CI pipeline, you want your whole pipeline to keep running even when the test command fails. If we don't want to get an error when the script doesn't exists, we can use `npm run <script> --if-present`.
-- We can create "pre" and "post" scripts for any of our scripts, and NPM will automatically run them in order.
-    ```json
-    {
-        "name": "npm-lifecycle-example",
-        "scripts": {
-            "prefoo": "echo prefoo",
-            "foo": "echo foo",
-            "postfoo": "echo postfoo"
-        }
-    }
-
-    // run `npm run foo`
-    // prefoo
-    // foo
-    // postfoo
-    ```
-- You can run `npm config ls -l` to get a list of the configuration parameters, and you can use `$npm_config_` prefix (like `$npm_config_editor`) to access them in the scripts. Any key-value pairs we add to our script will be translated into an environment variable with the `npm_config` prefix.
-    ```json
-    "scripts": {
-        "hello": "echo \"Hello $npm_config_firstname\""
-    }
-
-    // Output: "Hello Paula"
-    npm run hello --firstname=Paula
-    ```
-- Passing arguments to other NPM scripts, we can leverage the `--` separator. e.g. `"pass-flags-to-other-script": "npm run my-script -- --watch"` will pass the `--watch` flag to the `my-script` command.
-- One convention that you may have seen is using a prefix and a colon to group scripts, for example `build:dev` and `build:prod`. This can be helpful to create groups of scripts that are easier to identify by their prefixes.
-
 ## Jamstack
 Jamstack is a web architecture and stands for **J**avascript, **A**PIs, and **M**arkup stack. In this architecture, the frontend and the backend are completely separate. All interactions with the backend and third parties are done using APIs. Markup that incorporates Javascript, is pre-built into static assets, served to a client from a CDN, and relies on reusable APIs for its functionalities. **「a Jamstack site is a set of pre-generated static assets served from a CDN」**
 
@@ -310,11 +296,6 @@ There are two points in time that you can integrate dynamic content into a Jamsa
 - **Run time** - This should typically be content that is user specific, needs to update frequently, or is in response to a specific user action. For example, an ecommerce site may have product details populated at build time, but things like the current inventory, shipping options/prices based upon the user’s location, or the user’s shopping cart would all be populated at run time in the browser. As you may notice, in this example, the content on a single page (product details) may be a combination of both pre-rendered (build time) content (i.e. the product name, photo and description) and run time content (i.e. the product inventory and shipping options based on location).
 
 > What type of website are you building? https://whattheframework.netlify.app
-
-## CMS and headless CMS
-A content management system is software used to manage web content (e.g. WordPress). They have graphical user interfaces that allow content creators to enter and style their content by choosing from existing templates or downloading plugins for greater customization. The content is stored in a database and is displayed to the user based on a template. Because CMS tools are meant to be user-friendly, non-technical personnel can use them to manage a website without touching any code.
-
-A headless content management system, such as Contentful, doesn’t have the presentation layer. The CMS manages the content but not its presentation. The UI can then be handled in any way, such as with a JavaScript framework, or even displayed in a mobile app. The data is retrieved from the CMS through an API and can be returned using some structured language like GraphQL, this data is then used to build the UI.
 
 ## Serverless
 Your code needs to be hosted on a server. Depending on the size of your code and the amount of users you expect to use your product, you might need many servers. Companies used to have their own facilities and warehouses that held their servers and many still do. But for many, this is not ideal. Servers can be difficult to maintain. Maintaining servers and the buildings that house them can become expensive too. That's where AWS and other cloud providers come in.
@@ -332,6 +313,8 @@ To solve the latency problem, very smart folks came up with the idea of deployin
 
 - Move things closer to users (like a CDN)
 - Do work on servers (like cloud servers/functions)
+
+> Cloud = a server, somewhere; Edge = a server, close to you
 
 ## Web Hosting and Domain registration
 Domain registrants (GoDaddy, Hover, Google Domains, Amazon Route 53...) are for registering domain names. If you want `itiscool.com`, you’re going to have to buy it, and domain registrants are companies that help you do that. Just because you own a domain doesn’t mean it will do anything. It’s likely that you will see a “coming soon” page after buying a domain name.

@@ -28,7 +28,7 @@ Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版�
 - [create-vue](https://github.com/vuejs/create-vue) 是 Vue 官方推出的一个脚手架，可以创建基于 Vite 的 Vue 基础模板。`npm init vue@3` 然后根据命令行的提示操作。
 - [create-preset](https://github.com/awesome-starter/create-preset) 是 Awesome Starter 的 CLI 脚手架，提供快速创建预设项目的能力。`npm create preset` 选择 vue 技术栈进入，选择 vue3-ts-vite 创建一个基于 Vite + Vue 3 + TypeScript 的项目启动模板。
 - 如果不习惯 Vite ，依然可以使用 [Vue CLI](https://cli.vuejs.org) 作为开发脚手架，它使用的构建工具还是基于 Webpack。使用 create 命令 `vue create hello-vue3` 根据提示创建项目。*(Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use create-vue to scaffold Vite-based projects.)*
-- [Volar](https://blog.vuejs.org/posts/volar-1.0.html) 是 Vue 官方推荐的 VSCode 扩展，用以代替 Vue 2 时代的 Vetur 插件。
+- [Volar](https://blog.vuejs.org/posts/volar-1.0.html) 是 Vue 官方推荐的 VSCode 扩展 *(the official IDE/TS tooling support for Vue)*，用以代替 Vue 2 时代的 Vetur 插件。
 
 ```js
 // Check the version of vue.js at runtime
@@ -185,6 +185,11 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 - 通过[服务端接口](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html)或在小程序管理后台的「工具」入口可以获取打开小程序任意页面的 URL Scheme。适用于从短信、邮件、微信外网页等场景打开小程序。
 
 > 微信小程序相关的仓库，比如 WeUI 组件库、微信小程序示例、computed / watch 扩展等: https://github.com/wechat-miniprogram
+
+国产 APP 各自套壳 Chromium 内核版本，最大的问题就是更新不及时，而且大多被改造过，比如 `video` 标签。
+- 腾讯系：核心产品为 X5 浏览器，集成在各个腾讯系 APP 里，内核版本主要为 Chromium 77 和 Chromium 89
+- 微信系：微信之前的浏览器为 X5 浏览器，后为了和小程序的浏览器内核同构，大概 2020-05 从 X5 迁移到 XWeb，内核版本主要为 Chromium 78 和 Chromium 86
+- 字节系：核心产品比如抖音，今日头条，内核版本主要为 Chromium 75 和 Chromium 88
 
 ### HTTP 请求相关
 首先明确一个认识，很多同学以为 GET 的请求数据在 URL 中，而 POST 不是，所以以为 POST 更安全。不是这样的，整个请求的 HTTP URL PATH 会全部封装在 HTTP 的协议头中。只要是 HTTPS，就是安全的。所谓的 POST 更安全，只能说明该同学并不理解 HTTP 协议。使用规范的方式，可以大大减少跨团队的沟能成本。最差的情况下，也是需要做到“读写分离”的，就是说，至少要有两个动词，GET 表示是读操作，POST 表示是写操作。
