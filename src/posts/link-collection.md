@@ -96,6 +96,8 @@ Manage node_modules in the system: https://github.com/voidcosmos/npkill
 
 Interactive website with live coding: https://www.strml.net/
 
+Driving game run in a browser: https://slowroads.io/
+
 Neal.Fun: https://neal.fun/
 
 HTTP Cats: https://http.cat/
@@ -127,10 +129,6 @@ Lightweight fuzzy-search library: https://fusejs.io/
 Floating Point Math: https://0.30000000000000004.com/
 
 Text to Handwriting: https://github.com/saurabhdaware/text-to-handwriting
-
-Generate fake but realistic data: https://fakerjs.dev/
-
-A cache that deletes the least-recently-used items: https://github.com/isaacs/node-lru-cache
 
 PDF Reader in JavaScript: https://github.com/mozilla/pdf.js
 
