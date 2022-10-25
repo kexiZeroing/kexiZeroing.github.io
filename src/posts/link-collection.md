@@ -40,7 +40,7 @@ Complete roadmap for web development: https://andreasbm.github.io/web-skills
 
 Bash Commands and Tips: https://dev.to/awwsmm/101-bash-commands-and-tips-for-beginners-to-experts-30je
 
-Git Concepts I Wish I Knew Years Ago: https://dev.to/g_abud/advanced-git-reference-1o9j
+Learn Node.js: https://nodejs.dev/en/learn
 
 Docker Guide: https://www.robertcooper.me/docker-guide
 
@@ -48,11 +48,11 @@ Tail Call Optimization: https://www.youtube.com/watch?v=-PX0BV9hGZY
 
 Modern Web App Design Patterns: https://www.patterns.dev
 
-Become a DevOps engineer: https://www.youtube.com/channel/UCdngmbVKX1Tgre699-XLlUA 
-
-30 Days of PWA: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/kickoff
+Become a DevOps engineer: https://www.youtube.com/channel/UCdngmbVKX1Tgre699-XLlUA
 
 What happens when we type google.com in a browser: https://github.com/vasanthk/how-web-works
+
+30 Days of PWA: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/kickoff
 
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 

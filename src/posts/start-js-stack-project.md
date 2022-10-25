@@ -49,11 +49,16 @@ There’s an [awesome-npx](https://github.com/junosuarez/awesome-npx) repo with 
 > - Generic CLI tool to automate versioning and package publishing related tasks: https://github.com/release-it/release-it
 
 ### npm and pnpm
-The very first package manager ever released was npm, back in January 2010. In 2020, GitHub acquired npm, so in principle, npm is now under the stewardship of Microsoft.
+The very first package manager ever released was npm, back in January 2010. In 2020, GitHub acquired npm, so in principle, npm is now under the stewardship of Microsoft. *(npm should never be capitalized unless it is being displayed in a location that is customarily all-capitals.)*
 
-pnpm was released in 2017. It is a drop-in replacement for npm, so if you have an npm project, you can use pnpm right away. The main problem the creators of pnpm had with npm was the redundant storage of dependencies that were used across projects.
+npm handles the dependencies by splitting the installation process into three phases. Each phase needs to end for the next one to begin.
+1. **Resolving**, when the package manager is checking all the project’s dependencies (and their sub-dependencies) listed in the `package.json` file, finds a version that satisfies the version specifier (for instance, `^1.0.0` would install any future minor/patch versions) and creates the file `package-lock.json`.
+2. **Fetch**, when the package manager takes the list of resolved dependencies and fetches all the packages from the package registry.
+3. **Linking**, when the package manager writes all the dependencies into the project’s `node_modules` folder.
 
-Traditionally, npm installed dependencies in a flat `node_modules` folder. On the other hand, pnpm manages `node_modules` by using hard linking and symbolic linking to a global on-disk content-addressable store. It results in a nested `node_modules` folder that stores packages in a global store on your home folder (`~/.pnpm-store/`). Every version of a dependency is physically stored in that folder only once, constituting a single source of truth.
+pnpm was released in 2017. It is a drop-in replacement for npm, so if you have an npm project, you can use pnpm right away. The main problem the creators of pnpm had with npm was the redundant storage of dependencies that were used across projects. 1) The way npm manages the disc space is not efficient. 2) pnpm doesn’t have the blocking stages of installation - the processes run for each of the packages independently.
+
+Traditionally, npm installed dependencies in a flat `node_modules` folder. On the other hand, pnpm manages `node_modules` by using hard linking and symbolic linking to a global on-disk content-addressable store. It results in a nested `node_modules` folder that stores packages in a global store on your home folder (`~/.pnpm-store/`). Every version of a dependency is physically stored in that folder only once, constituting a single source of truth. pnpm identifies the files by a hash id (also called "content integrity" or "checksum") and not by the filename, which means that two same files will have identical hash id and pnpm will determine that there’s no reason for duplication.
 
 <img alt="pnpm" src="https://tva1.sinaimg.cn/large/008vxvgGly1h7aw9ablr4j30vm0u0q5z.jpg" width="700" />
 
