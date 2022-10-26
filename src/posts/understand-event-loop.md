@@ -16,7 +16,7 @@ Along the main thread there are many other threads spawned by the browser to do 
 - **Garbage Collector Thread:** removes unconnected JavaScript objects to free up memory using a mark-and-sweep algorithm. 
 - **Rasterizer Thread:** rasterize your graphic into frames.
 
-<img alt="event-loop" src="https://tva1.sinaimg.cn/large/008vxvgGly1h7ivwcb19zj317a0u0jvw.jpg" width="700">
+<img alt="event-loop" src="https://tva1.sinaimg.cn/large/008vxvgGly1h7ivwcb19zj317a0u0jvw.jpg" width="700" style="display:block; margin:auto">
 
 
 - Stack  
