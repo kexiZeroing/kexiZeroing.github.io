@@ -102,3 +102,16 @@ img {
 - In order for the `postion: sticky` element to function correctly, it needs to have at least one of it's `top`, `right`, `left`, or `bottom` placement properties set. Also look for any `overflow` property set on any parents of the element. You can't use `overflow: hidden`, `overflow: auto`, or `overflow: scroll` on the parent of a `position: sticky` element.
 
 - Position `fixed` doesn’t work with `transform` CSS property. It happens because transform creates a new coordinate system and your `position: fixed` element becomes fixed to that transformed element.
+
+- Hints for inactive CSS properties will come in Chrome 108 update. It help identify CSS styles that are entirely valid but have no visible effects.
+
+  <img alt="devtool_css_hints" src="https://tva1.sinaimg.cn/large/008vxvgGly1h7igjzobb8j30vg0m8add.jpg" width="600" />
+
+- At-rules are CSS statements that instruct CSS how to behave.
+  - [@import](https://developer.mozilla.org/en-US/docs/Web/CSS/@import) — Tells the CSS engine to include an external style sheet.
+  - [@charset](https://developer.mozilla.org/en-US/docs/Web/CSS/@charset) — Defines the character set used by the style sheet.
+  - [@media](https://developer.mozilla.org/en-US/docs/Web/CSS/@media) — A conditional group rule that will apply its content if the device meets the criteria of the condition defined using a media query.
+  - [@supports](https://developer.mozilla.org/en-US/docs/Web/CSS/@supports) - Lets you specify CSS declarations that depend on a browser's support for CSS features. Using this at-rule is commonly called a feature query.
+  - [@font-face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) — Specifies a custom font with which to display text; the font can be loaded from either a remote server or a locally-installed font on the user's own computer.
+  - [@keyframes](https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes) — Describes the aspect of intermediate steps in a CSS animation sequence.
+  - [@layer](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer) – Declares a cascade layer and defines the order of precedence in case of multiple cascade layers.

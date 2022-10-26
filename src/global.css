@@ -152,4 +152,7 @@ h2 {
     max-width: 67vw;
     padding: 20px;
   }
+  #rotation-circle {
+    right: 10%;
+  }
 }
