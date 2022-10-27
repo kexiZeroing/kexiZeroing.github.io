@@ -172,6 +172,8 @@ Build faithful recreations of old UIs: https://jdan.github.io/98.css, https://bo
 
 How to create high-performance CSS animations: https://web.dev/animations-guide
 
+CSS clip-path defining the visible region: https://ishadeed.com/article/clip-path
+
 ---
 
 ## FE dev resources

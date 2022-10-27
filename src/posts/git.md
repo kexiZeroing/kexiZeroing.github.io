@@ -129,6 +129,11 @@ Such problems generally occur when you execute two git commands simultaneously; 
 
 After committing several times, you realize that you need to create `.gitignore` and exclude some files. You have to `git rm --cached` to remove the files that you don't want in the repo, then add and commit it.
 
+## git tag
+- To create a tag on your current branch, run `git tag <tagname>`. If you want to include a description with your annotated tag, run `git tag -a v1.1.0 -m "xyz feature is released in this tag"`.
+- `git tag` lists all tags.
+- Use `git push origin v1.1.0` to push a particular tag, or `git push --tags` if you want to push all tags.
+
 ## skip git commit hooks
 The pre-commit hook can be used to run tests, lint, type check, etc. The hooks are located in the `.git/hooks/` directory. Use the `--no-verify` option to bypass git commit hooks, e.g. `git commit -m "commit message" --no-verify`.
 
