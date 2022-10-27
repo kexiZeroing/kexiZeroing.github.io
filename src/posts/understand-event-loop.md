@@ -19,25 +19,25 @@ Along the main thread there are many other threads spawned by the browser to do 
 <img alt="event-loop" src="https://tva1.sinaimg.cn/large/008vxvgGly1h7ivwcb19zj317a0u0jvw.jpg" width="700" style="display:block; margin:auto">
 
 
-- Stack  
+- **Stack**  
 A single call stack in which it keeps track of what function we’re currently executing and what function is to be executed after that. When we execute an infinite loop, everything on the screen just freezes, this is because the main thread is blocked doing the infinite loop and render tasks never get a chance to come in.
 
-- Heap  
+- **Heap**  
 Objects are allocated in a heap which is just a name to denote a large (mostly unstructured) region of memory.
 
-- Web APIs  
+- **Web APIs**  
 A number of powerful functions and interfaces exposed to us by the browser. These web APIs enhance JS and give it the ability to do all the powerful things like Network requests, DOM manipulation, Bluetooth, Location, setTimeout... In case of *callbacks* they will add your callback to the Callback queue, instead, in case of a *then (promise’s method)*, your code will be added to the Job queue.
 
-- Task Queue  
+- **Task Queue**  
 Also known as Callback Queue, which is a list of messages to be processed. Each message has an associated callback function which gets called in order to handle the message.
 
-- Micro-Task Queue  
+- **Micro-Task Queue**  
 Also known as Job Queue, which is reserved for promise’s thens. It is a prioritized queue, which means "execute this code later (= asynchronously), but as soon as possible (= before the next Event Loop tick)". After executing every task, the event loop will go to microtask queue and check if something is there and if it is then it will execute all of them.
 
-- Render Queue  
+- **Render Queue**  
 Takes care of tasks to be done before every screen update or repaints. This process is sometimes referred also as critical rendering path. Browsers generally are set to repaint around 60 times every second (60FPS), but it can happen at this speed only when the main thread is idle or the call stack is empty.
 
-- Event Loop  
+- **Event Loop**  
 The Event Loop is a constantly running process and it has one simple job — to monitor the Call Stack and the Queues. If the Call Stack is empty, it will take the first event from the queue and push it to the Call Stack. *Node.js and Chrome do not use the same event loop implementation. Chrome/Chromium uses `libevent`, while node.js uses `libuv`.*
 
 **The difference between the task queue and the microtask queue is simple but very important:**

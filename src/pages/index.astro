@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ColorScript from '../components/ColorScript.astro';
+import SmallRotation from '../components/SmallRotation.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 import { Content as About } from './about.md';
 import { Content as AboutLong } from './about-long.md';
@@ -54,6 +55,7 @@ import { Content as AboutLong } from './about-long.md';
 			<div id="long" class="bio"><AboutLong /></div>
 		</main>
 		<Footer />
+		<SmallRotation />
 		<ColorScript />
 		
 		<script is:inline>
