@@ -156,7 +156,10 @@ The [browserslist](https://github.com/browserslist/browserslist) configuration (
 - If you want to change the default set of browsers, we recommend combining `last 2 versions`, `not dead` with a usage number like `> 0.2%`.
 - `last 1 version or > 1%` is equal to `last 1 version, > 1%`. Each line in `.browserslistrc` file is combined with `or` combiner.
 - Run `npx browserslist` in project directory to see what browsers was selected by your queries.
-- `PostCSS` is a tool for transforming CSS with JavaScript plugins. It provides features via its extensive plugin ecosystem to help improve the CSS writing experience. [Autoprefixer](https://github.com/postcss/autoprefixer) is one of the many PostCSS plugins. There is also a preset `postcss-preset-env`, which is similar to `@babel/preset-env`.
+- `PostCSS` is a tool for transforming CSS with JavaScript plugins. It provides features via its extensive plugin ecosystem to help improve the CSS writing experience. Plugins for just about [anything](https://www.postcss.parts). For example:
+  - [Autoprefixer](https://github.com/postcss/autoprefixer) is one of the many popular PostCSS plugins.
+  - [postcss-preset-env](https://www.npmjs.com/package/postcss-preset-env) lets you convert modern CSS into something most browsers can understand, which is similar to `@babel/preset-env`.
+  - [cssnano](https://cssnano.co) is a compression tool written on top of the PostCSS ecosystem to compact CSS appropriately.
 
 ### jsconfig.json
 JavaScript experience is improved when you have a `jsconfig.json` file in your workspace that defines the project context. **`jsconfig.json` is a descendant of `tsconfig.json`**. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
