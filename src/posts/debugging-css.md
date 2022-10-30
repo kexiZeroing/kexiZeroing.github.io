@@ -30,27 +30,27 @@ added: "Oct 10 2021"
 
 - Unlike border, `outline` is drawn outside the element's border and may overlap other content. Also, the outline is not a part of the element's dimensions; the element's total width and height is not affected by the width of the outline. You can override it with a custom one, but don’t remove that outline under any circumstances, because it will affect the accessibility of the website.
 
-```css
-/* debug your CSS layouts with one line */
-* {
-  outline: 1px solid #f00 !important;
-}
-```
+  ```css
+  /* debug your CSS layouts with one line */
+  * {
+    outline: 1px solid #f00 !important;
+  }
+  ```
 
 - Find element that is causing the showing of horizontal scrollbar.
 
-```js
-let all = document.getElementsByTagName("*"),
-    rect,
-    docWidth = document.documentElement.offsetWidth;
-for (let i = 0; i < all.length; i++) {
-  rect = all[i].getBoundingClientRect();
-  if (rect.right > docWidth || rect.left < 0){
-    console.log(all[i]);
-    all[i].style.outline = '1px solid red';
+  ```js
+  let all = document.getElementsByTagName("*"),
+      rect,
+      docWidth = document.documentElement.offsetWidth;
+  for (let i = 0; i < all.length; i++) {
+    rect = all[i].getBoundingClientRect();
+    if (rect.right > docWidth || rect.left < 0){
+      console.log(all[i]);
+      all[i].style.outline = '1px solid red';
+    }
   }
-}
-```
+  ```
 
 - A long word or link can easily cause horizontal overflow (scrolling). The solution is to use `overflow-wrap: break-word`. It’s worth mentioning that the property has been renamed from `word-wrap` to `overflow-wrap`.
 
@@ -62,48 +62,66 @@ for (let i = 0; i < all.length; i++) {
 
 - How we compare a design against implementation? We can take the original design as an image and place it above the page in the browser. Thanks to CSS backgrounds and pseudo-elements, this is possible. Please make sure that the browser width is equal to the design width and no other element in the same stacking context has a higher `z-index` than the pseudo-element. Also, you will notice that nothing is hoverable or clickable, that’s because the pseudo-element is covering the page. We can allow interactivity by setting `pointer-events: none` (the specified HTML element is never the target of pointer events).
 
-```css
-body {
-  position: relative;
-}
+  ```css
+  body {
+    position: relative;
+  }
 
-body:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 100;
-  width: 100%;
-  height: 100%;
-  background-image: url('example.png');
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  opacity: 0.5;
-  pointer-events: none;
-}
-```
+  body:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-image: url('example.png');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  ```
 
 - You can add infinite borders using `box-shadow` if you want to apply multiple borders on one div. `box-shadow` is described by X and Y offsets relative to the element, blur and spread radius, and color. You can set multiple effects separated by commas.
 
-```css
-img {
-  margin: 40px;
-  width: 90px;
-  border-radius: 50%;
-  /* box-shadow: x-offset y-offset blur spread color */
-  box-shadow:
-    0 0 0 10px #817dd1,
-    0 0 0 20px #5c58aa,
-    0 0 0 30px #3d3a84,
-    0 0 0 40px #211f56;
-}
-```
+  ```css
+  img {
+    margin: 40px;
+    width: 90px;
+    border-radius: 50%;
+    /* box-shadow: x-offset y-offset blur spread color */
+    box-shadow:
+      0 0 0 10px #817dd1,
+      0 0 0 20px #5c58aa,
+      0 0 0 30px #3d3a84,
+      0 0 0 40px #211f56;
+  }
+  ```
+
+- A shaded blur behind a logo is simple but beautiful affect.
+  ```css
+  .img-bg {
+    position: absolute;
+    background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
+    border-radius: 50%;
+    filter: blur(72px);
+    z-index: -1;
+    animation: pulse 4s cubic-bezier(0, 0, 0, 0.5) infinite;
+  }
+
+  @keyframes pulse {
+    50% {
+      transform: scale(1.5);
+    }
+  }
+  ```
 
 - In order for the `postion: sticky` element to function correctly, it needs to have at least one of it's `top`, `right`, `left`, or `bottom` placement properties set. Also look for any `overflow` property set on any parents of the element. You can't use `overflow: hidden`, `overflow: auto`, or `overflow: scroll` on the parent of a `position: sticky` element.
 
 - Position `fixed` doesn’t work with `transform` CSS property. It happens because transform creates a new coordinate system and your `position: fixed` element becomes fixed to that transformed element.
 
-- Hints for inactive CSS properties will come in Chrome 108 update. It help identify CSS styles that are entirely valid but have no visible effects.
+- Hints for inactive CSS properties come in Chrome 108 update. It helps identify CSS styles that are entirely valid but have no visible effects.
 
   <img alt="devtool_css_hints" src="https://tva1.sinaimg.cn/large/008vxvgGly1h7igjzobb8j30vg0m8add.jpg" width="600" />
 

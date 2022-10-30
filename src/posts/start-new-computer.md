@@ -91,6 +91,7 @@ Some references:
 - https://github.com/nicolashery/mac-dev-setup
 - https://github.com/kentcdodds/dotfiles
 - https://github.com/stefanjudis/dotfiles
+- https://github.com/wesbos/dotfiles
 - https://github.com/antfu/use
 
 ## Moving to zsh

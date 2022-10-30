@@ -246,6 +246,10 @@ Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/n
 
 Google Chrome: https://chromiumdash.appspot.com/schedule
 
+New in Chrome: https://developer.chrome.com/tags/new-in-chrome
+
+New in DevTools: https://developer.chrome.com/tags/new-in-devtools
+
 Node.js: https://github.com/nodejs/release
 
 Angular: https://angular.io/guide/releases
