@@ -45,15 +45,15 @@ const restPosts = posts
 			<content>
 				<ul>
           {topPosts.map(
-          ({url, frontmatter: { description, slug, title, added: date, top }}) => (
-          	<Post {url} {description} {date} {slug} {title} {top} />
+          ({url, frontmatter: { description, slug, title, tags, added: date, top }}) => (
+          	<Post {url} {description} {date} {slug} {title} {tags} {top} />
           ))}
         </ul>
 				<hr />
 				<ul>
           {restPosts.map(
-          ({url, frontmatter: { description, slug, title, added: date, top }}) => (
-          	<Post {url} {description} {date} {slug} {title} {top} />
+          ({url, frontmatter: { description, slug, title, tags, added: date, top }}) => (
+          	<Post {url} {description} {date} {slug} {title} {tags} {top} />
           ))}
         </ul>
 			</content>

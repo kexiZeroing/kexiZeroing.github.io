@@ -4,6 +4,7 @@ title: "Module bundler clone"
 slug: module-bundler
 description: ""
 added: "Oct 9 2021"
+tags: [code]
 ---
 
 ```js

@@ -4,6 +4,7 @@ title: "Using images in web"
 slug: using-images-in-web
 description: ""
 added: "Oct 12 2021"
+tags: [web]
 ---
 
 ## Image file types

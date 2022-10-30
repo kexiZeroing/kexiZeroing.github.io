@@ -4,6 +4,7 @@ title: "State management clone"
 slug: state-management-clone
 description: ""
 added: "Sep 8 2020"
+tags: [code]
 ---
 
 ```js

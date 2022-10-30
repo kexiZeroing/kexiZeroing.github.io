@@ -4,6 +4,7 @@ title: "Simple guide to CI/CD for FE projects"
 slug: simple-guide-to-cicd-for-fe-projects
 description: ""
 added: "Sep 11 2022"
+tags: [web]
 ---
 
 ## Linting, Formatting, and Unit tests

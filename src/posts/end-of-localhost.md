@@ -4,6 +4,7 @@ title: "The end of localhost"
 slug: the-end-of-localhost
 description: ""
 added: "Jul 10 2022"
+tags: [system]
 ---
 
 > This file is created in Gitpod instead of local. Try a workspace at https://gitpod.io/workspaces

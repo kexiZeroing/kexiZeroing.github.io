@@ -4,6 +4,7 @@ title: "Git knowledge that not clear to me"
 slug: git-knowledge-not-clear
 description: ""
 added: "June 19 2022"
+tags: [system]
 ---
 
 ## helpful links

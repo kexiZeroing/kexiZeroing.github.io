@@ -1,6 +1,6 @@
 ---
 // import Tag from './Tag.astro';
-const { slug, title, description, date, top } = Astro.props;
+const { slug, title, tags, description, date, top } = Astro.props;
 ---
 
 <li class="post-item">
@@ -13,8 +13,16 @@ const { slug, title, description, date, top } = Astro.props;
       day: 'numeric',
     })}
   </time>
-  <br />
-  {description && <span class="excerpt">{description}</span>}
+  <!-- <br />
+  {description && <span class="excerpt">{description}</span>} -->
+  <span>
+		{ tags && tags.map((tag) => (
+        <a class="tag-link" href={`/tag/${tag}`}>
+          #{tag}
+        </a>
+		  ))
+		}
+	</span>
 </li>
 <style>
   .post-item {
@@ -31,6 +39,9 @@ const { slug, title, description, date, top } = Astro.props;
     padding: 1px 4px;
     border-radius: 4px;
     font-style: italic;
+  }
+  .post-item .tag-link {
+    color: var(--purple);
   }
   .post-item time {
     padding-left: 8px;

@@ -4,6 +4,7 @@ title: "Mac terminal"
 slug: mac-terminal
 description: ""
 added: "March 14 2022"
+tags: [system]
 ---
 
 ## Terminal Primer

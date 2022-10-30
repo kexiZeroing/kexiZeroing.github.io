@@ -4,6 +4,7 @@ title: "Notes on work projects (in Chinese)"
 slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
+tags: [web]
 ---
 
 ### 项目是怎么跑起来的

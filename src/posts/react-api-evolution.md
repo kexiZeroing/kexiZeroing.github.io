@@ -4,6 +4,7 @@ title: "React API evolution"
 slug: react-api-evolution
 description: ""
 added: "Sep 20 2020"
+tags: [code]
 ---
 
 Read similar articles to learn more about React:

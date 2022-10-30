@@ -4,6 +4,7 @@ title: "Bitwise operations"
 slug: bitwise-operations
 description: ""
 added: "Sep 5 2020"
+tags: [other]
 ---
 
 ### Two's complement

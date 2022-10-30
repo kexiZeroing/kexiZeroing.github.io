@@ -4,6 +4,7 @@ title: "Start a Javascript stack project"
 slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
+tags: [web]
 ---
 
 ## Start a modern front-end project

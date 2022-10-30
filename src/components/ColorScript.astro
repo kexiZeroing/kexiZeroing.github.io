@@ -6,7 +6,7 @@
   }
 
   function setRandomLinkColor() {
-    Array.from(document.querySelectorAll('a:not(.header-link)')).forEach((e) => {
+    Array.from(document.querySelectorAll('a:not(.header-link):not(.tag-link)')).forEach((e) => {
       e.style.color = getRandomColor();
     });
   }

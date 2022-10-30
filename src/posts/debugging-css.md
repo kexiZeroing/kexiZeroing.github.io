@@ -4,6 +4,7 @@ title: "Debugging CSS"
 slug: debugging-css
 description: ""
 added: "Oct 10 2021"
+tags: [css]
 ---
 
 - Vertical padding and margin doesn’t work for inline elements. You would have to change the element’s `display` property to `inline-block` or `block`.

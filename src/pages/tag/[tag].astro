@@ -1,0 +1,77 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Post from "../../components/Post.astro";
+import ColorScript from "../../components/ColorScript.astro";
+import SmallRotation from '../../components/SmallRotation.astro';
+
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../config";
+
+// Credit to @rachsmithcodes for this function
+export async function getStaticPaths() {
+	let posts = await Astro.glob(`../../posts/*.md`);
+	const tags = posts.reduce((allTags, post) => {
+		const postTags = post.frontmatter.tags;
+		if (postTags) {
+			postTags.forEach((tag) => {
+				if (!allTags[tag]) {
+					allTags[tag] = [];
+				}
+				allTags[tag].push(post);
+			});
+		}
+		return allTags;
+	}, {});
+
+	return Object.keys(tags).map((t) => {
+		return {
+			params: { tag: t },
+			props: { tag: tags[t] },
+		};
+	});
+}
+
+const { tag } = Astro.props;
+const { tag: currentTag } = Astro.params;
+---
+
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			ul {
+				list-style-type: none;
+				padding-left: 1em;
+			}
+			ul li {
+				display: flex;
+			}
+			.tag-name {
+				font-style: italic;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<content>
+				<h3>Posts tagged with "<span class="tag-name">{currentTag}</span>"</h3>
+				<ul>
+					{
+						tag.map(
+							({
+								url,
+								frontmatter: { description, slug, title, tags, added: date },
+							}) => <Post {url} {description} {date} {slug} {title} {tags} />
+						)
+					}
+				</ul>
+			</content>
+		</main>
+		<Footer />
+		<ColorScript />
+		<SmallRotation />
+	</body>
+</html>

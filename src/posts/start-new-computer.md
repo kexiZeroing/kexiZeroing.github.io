@@ -4,6 +4,7 @@ title: "Setup a new mac"
 slug: setup-new-mac
 description: ""
 added: "Feb 13 2022"
+tags: [system]
 ---
 
 ## Setting up development environment
