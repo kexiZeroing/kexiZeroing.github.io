@@ -291,6 +291,25 @@ Install husky `npm i -D husky` and have a "husky" section in the `package.json` 
 }
 ```
 
+## When and How to use https for local dev
+Most of the time, `http://localhost` does what you need. Browsers treat `http://localhost` in a special way: although it's HTTP, it mostly behaves like an HTTPS site. That's why some APIs that won't work on a deployed HTTP site, will work on `http://localhost`. What this means is that you need to use HTTPS locally only in special cases, like custom hostname, secure cookies across browsers, or using third-party libraries that require HTTPS.
+
+To use HTTPS with your local development site and access `https://localhost`, you need a TLS certificate. But browsers won't consider just any certificate valid: your **certificate needs to be signed by an entity that is trusted by your browser, called a trusted certificate authority (CA)**.
+
+What you need to do is to create a certificate and sign it with a CA that is trusted locally by your device and browser. [mkcert](https://github.com/FiloSottile/mkcert) is a tool that helps you do this in a few commands.
+
+1. Install mkcert `brew install mkcert`
+2. Add mkcert to your local root CAs `mkcert -install`
+3. Generate a certificate for your site, signed by mkcert `mkcert localhost`
+4. Configure your dev server to use HTTPS and the certificate you've created `{PATH/TO/CERTIFICATE-FILENAME}.pem`
+
+> Start your server: `http-server -S -C {PATH/TO/CERTIFICATE-FILENAME}.pem -K {PATH/TO/CERTIFICATE-KEY-FILENAME}.pem`. `-S` runs your server with HTTPS, while `-C` sets the certificate and `-K` sets the key.
+
+Here's how it works:
+- If you open your locally running site in your browser using HTTPS, your browser will check the certificate of your local development server.
+- Upon seeing that the certificate has been signed by the mkcert-generated certificate authority, the browser checks whether it's registered as a trusted certificate authority.
+- mkcert is listed as a trusted authority, so your browser trusts the certificate and creates an HTTPS connection.
+
 ## Jamstack
 Jamstack is a web architecture and stands for **J**avascript, **A**PIs, and **M**arkup stack. In this architecture, the frontend and the backend are completely separate. All interactions with the backend and third parties are done using APIs. Markup that incorporates Javascript, is pre-built into static assets, served to a client from a CDN, and relies on reusable APIs for its functionalities. **「a Jamstack site is a set of pre-generated static assets served from a CDN」**
 
