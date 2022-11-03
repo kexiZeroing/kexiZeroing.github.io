@@ -63,7 +63,7 @@ server {
 ### Nginx and API gateway
 API gateway is an API management tool that sits between a client and a collection of backend services. It acts as a reverse proxy to accept all API calls, takes request and redirects them to the right service.
 
-It is easier to think about them if you realize they aren't mutually exclusive. Think of an API gateway as a specific type reverse proxy implementation. API Gateway can be configured dynamically via API and potentially via UI, while traditional reverse proxy (like Nginx or Apache) is configured via config file and has to be restarted when configuration changes.
+It is easier to think about them if you realize they aren't mutually exclusive. Think of an API gateway as a specific type reverse proxy implementation. API gateway can be configured dynamically via API and potentially via UI, while traditional reverse proxy (like Nginx or Apache) is configured via config file and has to be restarted when configuration changes.
 
 > It is not uncommon to see both used in conjunction where the API gateway is treated as an application tier that sits behind a reverse proxy for load balancing and health checking. As you take a basic reverse proxy setup and start adding on more pieces like authentication, rate limiting, dynamic config updates, and service discovery, people are more likely to call that an API gateway.
 
