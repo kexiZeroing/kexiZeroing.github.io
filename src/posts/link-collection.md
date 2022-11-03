@@ -50,6 +50,8 @@ Modern Web App Design Patterns: https://www.patterns.dev
 
 Become a DevOps engineer: https://www.youtube.com/channel/UCdngmbVKX1Tgre699-XLlUA
 
+DevOps Roadmap 2022: https://github.com/milanm/DevOps-Roadmap
+
 What happens when we type google.com in a browser: https://github.com/vasanthk/how-web-works
 
 30 Days of PWA: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/kickoff
@@ -59,8 +61,6 @@ What happens when we type google.com in a browser: https://github.com/vasanthk/h
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials/beginners-typescript
 
 The Web’s Next Transition: https://www.epicweb.dev/the-webs-next-transition
-
-Web Almanac: https://almanac.httparchive.org/en/2022/table-of-contents
 
 ---
 
