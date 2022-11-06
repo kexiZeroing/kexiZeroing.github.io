@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "Understand the event loop"
 slug: understand-the-event-loop
 description: ""
-added: "Oct 26 2022"
+added: "Aug 26 2020"
 tags: [js]
 ---
 
