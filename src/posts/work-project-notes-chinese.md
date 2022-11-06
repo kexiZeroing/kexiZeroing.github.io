@@ -23,6 +23,22 @@ tags: [web]
 - webpack 设置请求代理 proxy，默认情况下假设前端是 `localhost:3000`，后端是 `localhost:8082`，那么后端通过 `request.getHeader("Host")` 获取的依旧是 `localhost:3000`。如果设置了 `changeOrigin: true`，那么后端才会看到的是 `localhost:8082`, 代理服务器会根据请求的 target 地址修改 Host（这个在浏览器里看请求头是看不到改变的）。如果某个接口 404，一般就是这个路径没有配置代理。
 
 ### Vue 项目
+Vue npm 包有不同的 Vue.js 构建版本，可以在 `node_modules/vue/dist` 中看到它们，大致包括完整版、编译器（编译template）、运行时版本、UMD 版本（通过 `<script>` 标签直接用在浏览器中）、CommonJS 版本（用于很老的打包工具）、ES Module 版本（有两个，分别用于现代打包工具和浏览器 `<script type="module">` 引入）。总的来说，Runtime + Compiler 版本是包含编译代码的，可以把编译过程放在运行时做，如果需要在客户端编译模板 (比如传入一个字符串给 template 选项)，就需要加上编译器的完整版。Runtime 版本不包含编译代码，需要借助 webpack 的 `vue-loader` 事先把 `*.vue` 文件内的模板编译成 `render` 函数，在最终打好的包里实际上是不需要编译器的，只用运行时版本即可。
+
+```js
+// 需要编译器
+new Vue({
+  template: '<div>{{ hi }}</div>'
+})
+
+// 不需要编译器
+new Vue({
+  render (h) {
+    return h('div', this.hi)
+  }
+})
+```
+
 Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版本页面](https://www.npmjs.com/package/vue?activeTab=versions) 可以看到当前已使用 3.2.x 作为默认 latest 版本。如果还要用 Vue 2 ，需要手动指定 `legacy` 版本才能安装到 Vue 2。更多关于 Vue 的发布更新可以看 https://blog.vuejs.org
 
 - [create-vite](https://github.com/vitejs/vite/tree/main/packages/create-vite) 是 Vite 官方推荐的一个脚手架工具，可以创建基于 Vite 的不同技术栈基础模板。`npm create vite` 可创建一个基于 Vite 的基础空项目。
@@ -51,6 +67,27 @@ console.log(version)
 - mainFiles 设置解析目录时要使用的文件名，默认值 `['index']`
 - alias 配置别名，把导入路径映射成一个新的导入路径，比如 `"@": path.join(__dirname, 'src')`
 - modules 数组，tell webpack what directories should be searched when resolving modules, 默认值 `['node_modules']`，即从 node_modules 目录下寻找。
+
+#### load images
+Webpack goes through all the `import` and `require` files in your project, and for all those files which have a `.png|.jpg|.gif` extension, it uses as an input to the webpack `file-loader`. For each of these files, the file loader emits the file in the output directory and resolves the correct URL to be referenced. Note that this config only works for webpack 4, and Webpack 5 has deprecated the `file-loader`. If you are using webpack 5 you should change `file-loader` to `asset/resource`.
+
+By default, `file-loader` renames each file it process to a filename with random characters. Then it puts the file in the root of the output folder. We can change both the file name of the processed files and the output folder. We do that in an `options` section.
+```js
+module: {
+  rules: [
+    {
+      test: /\.png$/,
+      loader: 'file-loader',
+      options: {
+        name: '[name].[ext]', // keeps the original file names
+        outputPath: 'images'  // outputs all processed files in a subfolder called images
+      }
+    }
+  ]
+}
+```
+
+Webpack 4 also has the concept `url-loader`. It first base64 encodes the file and then inlines it. It will become part of the bundle. That means it will not output a separate file like `file-loader` does. If you are using webpack 5, then `url-loader` is deprecated and instead, you should use `asset/inline`.
 
 #### webpack in development
 - `webpack-dev-server` doesn't write any output files after compiling. Instead, it keeps bundle files in memory and serves them as if they were real files mounted at the server's root path. `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.
