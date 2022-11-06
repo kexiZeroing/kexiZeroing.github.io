@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "PDF custom rendering"
 slug: pdf-custom-rendering
 description: ""
-added: "Nov 6 2020"
+added: "Nov 6 2022"
 tags: [code]
 ---
 
