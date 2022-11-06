@@ -297,6 +297,7 @@ Linux Commands Xmind: https://xmind.app/m/K3SKii
 | shutdown -h now | 即刻关机 (graceful shutdown)
 | reboot  | 重启
 | arch | 体系结构名称 i386, i486, i586, arm, mips, sparc, x86_64
+| sysctl -n machdep.cpu.brand_string | 查看 cpu 信息
 | uname -s | 操作系统名称 kernel name
 | hostname | 计算机名
 | whoami | 当前用户名

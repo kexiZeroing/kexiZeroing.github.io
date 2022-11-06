@@ -8,9 +8,10 @@ tags: [system]
 ---
 
 ## helpful links
-- https://github.com/k88hudson/git-flight-rules
 - https://github.com/git-guides
+- https://github.com/k88hudson/git-flight-rules
 - https://dev.to/g_abud/advanced-git-reference-1o9j
+- https://gitexplorer.com
 
 ## git reset
 You’ve made some commits locally (not yet pushed), but everything is terrible, you want to undo last commits like they never happened.

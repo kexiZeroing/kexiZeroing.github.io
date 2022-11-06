@@ -17,6 +17,8 @@ This experimental web app is [Clips](https://clips.formidable.dev) and it suppor
 - choosing from different background/layout options, including audio-visualization background
 - recording the video in your browser
 
+> Also check an electron app [Kap](https://github.com/wulkano/Kap), which is an open-source screen recorder built with web technology.
+
 ### Capturing the screen
 To allow the user to capture their screen, we can use the `MediaDevices.getDisplayMedia()` method available to us on the `navigator` global in modern browsers.
 
