@@ -8,24 +8,34 @@ tags: [system]
 ---
 
 ## Setting up development environment
-1. Install the Homebrew package manager, and you can install almost any app from the command line. Make sure everything is up to date `brew update`. (M1 installation at `/opt/homebrew/`, Intel at `/usr/local/Cellar/`)
+1. The first step is to get around the firewall, ensure that you can download [clashX](https://github.com/yichengchen/clashX/releases) and acquire the subscription link from ss.
 
-2. Check `git --version` and may need to install Command Line Developer Tools.
+2. Install the [Homebrew](https://brew.sh) package manager, and you can install almost any app from the command line. Make sure everything is up to date `brew update`. (M1 installation at `/opt/homebrew/`, Intel at `/usr/local/Cellar/`)
 
-3. Install VS Code, Chrome, iTerm2, Docker through Homebrew, then you can use `brew list` and `brew info google-chrome` to check.
+  > If it complains `curl: fail to connect raw.githubusercontent.com port 443`. It's about DNS cache poisoning, we may set DNS Server to `8.8.8.8` or update the `/etc/hosts` file.
+
+3. Check `git --version` and may need to install Command Line Developer Tools.
+
+4. Install VS Code, Chrome, iTerm2, Docker through Homebrew, then you can use `brew list` and `brew info google-chrome` to check.
   ```shell
   # refer to https://formulae.brew.sh
   brew install git yarn make
   brew install --cask visual-studio-code google-chrome iterm2 docker
   ```
+  
+  > `cask` is no longer a `brew` command. When you want to install a Cask, you just do `brew install` or `brew install --cask` instead of `brew cask install`.
 
-4. Catalina comes with `zsh` as the default shell. Install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) anc check the `.zshrc` file. You can use this prompt theme https://github.com/spaceship-prompt/spaceship-prompt (`robbyrussell` is the default one)
-   > 'unable to access error': Something is blocking the connection to github. It is likely some kind of firewall, either on your machine or in your network. If it works with a browser on same machine then the browser is probably using a proxy and you need to configure git to use this proxy too.
-   > - check if your git uses proxy: `git config --global http.proxy`
-   > - set proxy address: `git config --global http.proxy 127.0.0.1:7890`
-   > - reset the proxy: `git config --global --unset http.proxy`
+5. Catalina comes with `zsh` as the default shell. Install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) anc check the `.zshrc` file.
+  - You can use this prompt theme https://github.com/spaceship-prompt/spaceship-prompt (`robbyrussell` is the default one)
+  - show the current shell `echo $SHELL`; list all shells `cat /etc/shells`; change the current shell `chsh -s /bin/zsh`
+  
+  > 'unable to access error': Something is blocking the connection to github. It is likely some kind of firewall, either on your machine or in your network. If it works with a browser on same machine then the browser is probably using a proxy and you need to configure git to use this proxy too.
+  > - check if your git uses proxy: `git config --global http.proxy`
+  > - set proxy address: `git config --global http.proxy 127.0.0.1:7890`
+  > - reset the proxy: `git config --global --unset http.proxy`
 
-5. Use `nvm` (Node Version Manager) to install Node.js, then install a version of node `nvm install xx.xx`, `nvm use xx.xx` and run `nvm ls`. Use `node -v && npm -v` to check the version. (`echo $PATH` or `which node`)
+6. Use `nvm` (Node Version Manager) to install Node.js, then install a version of node `nvm install xx.xx`, `nvm use xx.xx` and run `nvm ls`. Use `node -v && npm -v` to check the version. (`echo $PATH` or `which node`)
+   -  nvm install script clones the nvm repository to `~/.nvm`, and attempts to add the source lines to the correct profile file like `~/.zshrc` or `~/.bashrc`.
    - `nvm ls-remote` to browse available versions
    - set default node version: `nvm alias default x.y.z` (`nvm alias default node` to make the "latest" default)
    - check npm config: `npm config ls`
@@ -41,7 +51,7 @@ tags: [system]
    > - HUAWEI: https://repo.huaweicloud.com/repository/npm/
    > - Tencent: http://mirrors.cloud.tencent.com/npm/
 
-6. Set global configuration with Git `touch ~/.gitconfig`, and check with `git config --list`.
+7. Set global configuration with Git `touch ~/.gitconfig`, and check with `git config --list`.
     ```
     [user]
       name   = Firstname Lastname
@@ -59,7 +69,7 @@ tags: [system]
     ```
     *(%h = commit hash, %x09 = tab, %an = author name, %ad = author date, %s = subject)*   
 
-7. Some commands for Finder
+8. Some commands for Finder
     ```shell
     # Show Library folder
     chflags nohidden ~/Library
@@ -73,18 +83,18 @@ tags: [system]
     # Show status bar
     defaults write com.apple.finder ShowStatusBar -bool true
     ```
-    
-    A curated list of shell commands specific to macOS: https://github.com/herrbischoff/awesome-macos-command-line
 
-8. Install Chrome extension [DevTools Theme: New Moon](https://github.com/taniarascia/new-moon-chrome-devtools), then set devtool's theme to "Dark" and go to Experiments and select "Allow custom UI themes".
+    A curated list of shell commands specific to macOS: https://git.herrbischoff.com/awesome-macos-command-line/about
 
-9. Add VS code extentions like `Prettier`, `GitLens`, `New Moon Theme`, `Live Server`, `Import Cost`. 
+9. Install Chrome extension [DevTools Theme: New Moon](https://github.com/taniarascia/new-moon-chrome-devtools), then set devtool's theme to "Dark" and go to Experiments and select "Allow custom UI themes".
+
+10. Add VS code extentions like `Prettier`, `GitLens`, `New Moon Theme`, `Live Server`, `Import Cost`. 
    - Prettier usage: https://prettier.io/docs/en/install.html
    - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost) will display inline in the editor the size of the imported packages.
    - [Preview.js](https://previewjs.com): Preview UI components in your IDE instantly. It leverages the power of Vite to support React and Vue.js. (needs NodeJS 14.18.0+ to run)
    - Add `Emoji Snippets` and `Markdown Emoji` for emoji support :tada: and check https://github.com/ikatyang/emoji-cheat-sheet for emoji shortcode to use.
 
-10. Check out dotfiles https://github.com/mathiasbynens/dotfiles
+11. Check out dotfiles https://github.com/mathiasbynens/dotfiles
 
 Some references:
 - https://dev.to/swyx/my-new-mac-setup-4ibi
@@ -118,7 +128,7 @@ When you `git clone` using HTTPS URLs on the command line, Git will ask for your
 SSH URLs provide access to a Git repository via SSH, a secure protocol. To use these URLs, you must generate an SSH keypair on your computer and add the public key to your GitHub account.
 
 1. Enter the directory `cd ~/.ssh`
-2. Generate the personalised SSH key `ssh-keygen`
+2. Generate the personalised SSH key `ssh-keygen` *(multiple SSH keys: `ssh-keygen -t rsa -b 4096 -C email@another.com -f $HOME/.ssh/another/id_rsa`)*
 3. Copy the key `cat id_rsa.pub | pbcopy`
 4. Go to Github Settings -> select SSH and GPG keys -> New SSH Key. Give the SSH key a description so we can know which device it belongs too (i.e., MacBook Pro 2020).
 5. Type `ssh-add -K ~/.ssh/id_rsa` to store the passphrase (`-K` for adding in your keychain). Note that **the addition of keys to the agent is transient** and they last only as long as the agent is running. If you kill it or restart your computer they're lost until you re-add them again.
