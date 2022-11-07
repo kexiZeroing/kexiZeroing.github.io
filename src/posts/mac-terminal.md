@@ -323,7 +323,7 @@ Linux Commands Xmind: https://xmind.app/m/K3SKii
 | tar -xvf xxx.tar | 解压 tar 包
 | python3 -m http.server 8080 | 快速启动 http 服务
 | netstat -P tcp | 显示特定传输协议的状态
-| cd - | 切换回上一个目录
-| vi /etc/hosts | 管理 IP 地址和主机名之间的映射
+| cat /etc/hosts | 管理 IP 地址和主机名之间的映射
+| cat /etc/resolv.conf | DNS 客户机配置文件
 
 `/etc` is a symlink to `/private/etc`. They both have the same contents. The same is true for `/tmp` and `/var`.

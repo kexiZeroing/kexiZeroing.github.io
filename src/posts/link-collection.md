@@ -176,8 +176,6 @@ CSS clip-path defining the visible region: https://ishadeed.com/article/clip-pat
 
 GUI Challenges: https://github.com/argyleink/gui-challenges
 
-Stackoverflow Design: https://stackoverflow.design
-
 Accessible color combinations: https://randoma11y.com
 
 A dark-first collection of UI patterns and components: https://ui.draculatheme.com
@@ -193,8 +191,6 @@ CSS animations on demand: https://animista.net
 Buttons Generator: https://markodenic.com/tools/buttons-generator
 
 Box-shadow: https://neumorphism.io
-
-1-Line Layouts: https://1linelayouts.glitch.me
 
 Beautiful hand-crafted SVG icons: https://heroicons.com
 
