@@ -8,31 +8,31 @@ tags: [system]
 ---
 
 ## Setting up development environment
-1. The first step is to get around the firewall, ensure that you can download [clashX](https://github.com/yichengchen/clashX/releases) and acquire the subscription link from ss.
+1. The first step is getting around the firewall. You may download [clashX](https://github.com/yichengchen/clashX/releases) and acquire subscription links from ss.
 
-2. Install the [Homebrew](https://brew.sh) package manager, and you can install almost any app from the command line. Make sure everything is up to date `brew update`. (M1 installation at `/opt/homebrew/`, Intel at `/usr/local/Cellar/`)
+2. Install [Homebrew](https://brew.sh) package manager, and you can install almost any app from the command line. Make sure everything is up to date `brew update`. (M1 installation at `/opt/homebrew/`, Intel at `/usr/local/Cellar/`)
 
-  > If it complains `curl: fail to connect raw.githubusercontent.com port 443`. It's about DNS cache poisoning, we may set DNS Server to `8.8.8.8` or update the `/etc/hosts` file.
+    > If it complains `curl: fail to connect raw.githubusercontent.com port 443`. It's about DNS cache poisoning, we may set DNS Server to `8.8.8.8` or update the `/etc/hosts` file.
 
 3. Check `git --version` and may need to install Command Line Developer Tools.
 
 4. Install VS Code, Chrome, iTerm2, Docker through Homebrew, then you can use `brew list` and `brew info google-chrome` to check.
-  ```shell
-  # refer to https://formulae.brew.sh
-  brew install git yarn make
-  brew install --cask visual-studio-code google-chrome iterm2 docker
-  ```
+    ```shell
+    # refer to https://formulae.brew.sh
+    brew install git yarn make
+    brew install --cask visual-studio-code google-chrome iterm2 docker
+    ```
   
-  > `cask` is no longer a `brew` command. When you want to install a Cask, you just do `brew install` or `brew install --cask` instead of `brew cask install`.
+    > `cask` is no longer a `brew` command. When you want to install a Cask, you just do `brew install` or `brew install --cask` instead of `brew cask install`.
 
 5. Catalina comes with `zsh` as the default shell. Install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) anc check the `.zshrc` file.
-  - You can use this prompt theme https://github.com/spaceship-prompt/spaceship-prompt (`robbyrussell` is the default one)
+  - `robbyrussell` is the default theme, and you can change to use [spaceship prompt](https://github.com/spaceship-prompt/spaceship-prompt) theme.
   - show the current shell `echo $SHELL`; list all shells `cat /etc/shells`; change the current shell `chsh -s /bin/zsh`
   
-  > 'unable to access error': Something is blocking the connection to github. It is likely some kind of firewall, either on your machine or in your network. If it works with a browser on same machine then the browser is probably using a proxy and you need to configure git to use this proxy too.
-  > - check if your git uses proxy: `git config --global http.proxy`
-  > - set proxy address: `git config --global http.proxy 127.0.0.1:7890`
-  > - reset the proxy: `git config --global --unset http.proxy`
+    > 'unable to access error': Something is blocking the connection to github. It is likely some kind of firewall, either on your machine or in your network. If it works with a browser on same machine then the browser is probably using a proxy and you need to configure git to use this proxy too.
+    > - check if your git uses proxy: `git config --global http.proxy`
+    > - set proxy address: `git config --global http.proxy 127.0.0.1:7890`
+    > - reset the proxy: `git config --global --unset http.proxy`
 
 6. Use `nvm` (Node Version Manager) to install Node.js, then install a version of node `nvm install xx.xx`, `nvm use xx.xx` and run `nvm ls`. Use `node -v && npm -v` to check the version. (`echo $PATH` or `which node`)
    -  nvm install script clones the nvm repository to `~/.nvm`, and attempts to add the source lines to the correct profile file like `~/.zshrc` or `~/.bashrc`.
@@ -46,10 +46,10 @@ tags: [system]
    - Global Node modules will be installed at `~/.nvm/versions/node/v12.13.0/bin/` if you use nvm.
    <img alt="global node_modules" src="https://tva1.sinaimg.cn/large/e6c9d24ely1h2zj27plslj218q04ydgm.jpg" width="700" />
 
-   > package manager mirrors: https://github.com/eryajf/Thanks-Mirror
-   > - Taobao: http://registry.npmmirror.com
-   > - HUAWEI: https://repo.huaweicloud.com/repository/npm/
-   > - Tencent: http://mirrors.cloud.tencent.com/npm/
+    > package manager mirrors: https://github.com/eryajf/Thanks-Mirror
+    > - Taobao: http://registry.npmmirror.com
+    > - HUAWEI: https://repo.huaweicloud.com/repository/npm/
+    > - Tencent: http://mirrors.cloud.tencent.com/npm/
 
 7. Set global configuration with Git `touch ~/.gitconfig`, and check with `git config --list`.
     ```
