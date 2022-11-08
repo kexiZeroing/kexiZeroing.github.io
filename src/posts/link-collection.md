@@ -170,6 +170,8 @@ How to create high-performance CSS animations: https://web.dev/animations-guide
 
 CSS clip-path defining the visible region: https://ishadeed.com/article/clip-path
 
+Intro to CSS 3D transforms: https://3dtransforms.desandro.com
+
 ---
 
 ## FE dev resources
