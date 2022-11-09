@@ -225,7 +225,7 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 > 微信小程序相关的仓库，比如 WeUI 组件库、微信小程序示例、computed / watch 扩展等: https://github.com/wechat-miniprogram
 
 国产 APP 各自套壳 Chromium 内核版本，最大的问题就是更新不及时，而且大多被改造过，比如 `video` 标签。
-- 腾讯系：核心产品为 X5 浏览器，集成在各个腾讯系 APP 里，内核版本主要为 Chromium 77 和 Chromium 89
+- 腾讯系：核心产品为 [X5 浏览器](https://x5.tencent.com/docs/index.html)，集成在各个腾讯系 APP 里，内核版本主要为 Chromium 77 和 Chromium 89
 - 微信系：微信之前的浏览器为 X5 浏览器，后为了和小程序的浏览器内核同构，大概 2020-05 从 X5 迁移到 XWeb，内核版本主要为 Chromium 78 和 Chromium 86
 - 字节系：核心产品比如抖音，今日头条，内核版本主要为 Chromium 75 和 Chromium 88
 

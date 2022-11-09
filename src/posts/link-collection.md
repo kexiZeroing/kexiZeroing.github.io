@@ -190,6 +190,8 @@ SVG spinners: https://github.com/n3r4zzurr0/svg-spinners
 
 CSS animations on demand: https://animista.net
 
+Composable CSS animation toolkit: https://animxyz.com
+
 Buttons Generator: https://markodenic.com/tools/buttons-generator
 
 Box-shadow: https://neumorphism.io
