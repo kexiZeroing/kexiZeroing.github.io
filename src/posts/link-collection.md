@@ -118,15 +118,9 @@ The Timeline of The Web: https://thehistoryoftheweb.com/timeline/
 
 Visual history of your favorite technology: https://www.versionmuseum.com/
 
-Guide users through a tour of your app: https://shepherdjs.dev/
-
-Lightweight fuzzy-search library: https://fusejs.io/
-
 Floating Point Math: https://0.30000000000000004.com/
 
 Text to Handwriting: https://github.com/saurabhdaware/text-to-handwriting
-
-PDF Reader in JavaScript: https://github.com/mozilla/pdf.js
 
 PPTist: https://github.com/pipipi-pikachu/PPTist
 
@@ -198,9 +192,13 @@ Box-shadow: https://neumorphism.io
 
 Beautiful hand-crafted SVG icons: https://heroicons.com
 
+Guide users through a tour of your app: https://shepherdjs.dev
+
 Split an element by words, characters, children and more: https://splitting.js.org
 
-A polyfill of scroll-driven animations: https://github.com/flackr/scroll-timeline
+Lightweight fuzzy-search library: https://fusejs.io
+
+Create full screen pages fast and simple: https://github.com/alvarotrigo/fullPage.js
 
 ---
 
