@@ -14,15 +14,13 @@ Create `index.js` and `index.html` files within a folder. Assuming that you have
 
 Then let’s bring a web application bundler. We want `parcel` in our project, so install it as a development dependency by running `yarn add parcel-bundler --dev` or `npm install parcel-bundler --save-dev`. Once parcel has been added to our project, we can simply run `parcel index.html` and parcel will serve the file on its built-in development server on port 1234. We can add a `start` script to our `package.json` and simply run `yarn start` or `npm start`.
 
-> WebPack, Rollup, and Parcel are all bundlers available in the JavaScript community but not fast enough because they are built with JavaScript. There is a new bundler [esbuild](https://esbuild.github.io/) written in Go that works faster than other bundlers.
+Let’s move on and add Sass support to our project. To do so using parcel, we run `yarn add sass --dev`. We can create a file called `index.scss`. To make it works, we need to reference it. Go to the `index.js` file and import it using a relative path like `import './index.scss'`.
 
-Let’s move on and add Sass support to our project. To do so using parcel, we run `yarn add node-sass --dev`. We can create a file called `index.scss`. To make it works, we need to reference it. Go to the `index.js` file and import it using a relative path like `import './index.scss'`.
+> LibSass and Node Sass are deprecated. If you’re a user of Node Sass, migrating to Dart Sass is straightforward: just replace `node-sass` in your `package.json` file with `sass`. Both packages expose the same JavaScript API.
 
 > Sass has two syntaxes. The older syntax is known as SASS (with `.sass` extention). Instead of brackets and semicolons, it uses the indentation of lines to specify blocks. The most commonly used is SCSS (with `.scss` extention). SCSS is a superset of CSS syntax, so every valid CSS is a valid SCSS as well. 
 
-We need modern javascript and babel help us with that. We run `yarn add @babel/core @babel/cli @babel/preset-env --dev` and create a `.babelrc` file on the root of the project referencing the preset we are using.
-
-> From version 7 of Babel, they moved `babel-preset-env` into the main Babel repo, and they changed the name from `babel-preset-env` to [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env).
+We need modern javascript and Babel help us with that. We run `yarn add @babel/core @babel/cli @babel/preset-env --dev` and create a `.babelrc` file on the root of the project referencing the preset we are using. Note that babel doesn't do anything out-of-the-box; It’s the Babel plugins that does the work. And from version 7 of Babel, they moved `babel-preset-env` into the main Babel repo, and changed the name from `babel-preset-env` to [@babel/preset-env](https://blog.jakoblind.no/babel-preset-env).
 
 At last, we need a `parcel build index.js` as a `build` script in `package.json` file which will be used for production, and parcel will create a `dist` directory with all assets minified.
 
@@ -48,6 +46,7 @@ There’s an [awesome-npx](https://github.com/junosuarez/awesome-npx) repo with 
 > - [npm-graph](https://npmgraph.js.org) is a tool for exploring NPM modules and dependencies.
 > - Interactive CLI that bumps version number (with `--commit` `--tag` `--push` by default): https://github.com/antfu/bumpp
 > - Generic CLI tool to automate versioning and package publishing related tasks: https://github.com/release-it/release-it
+> - Compare package download counts over time: https://npmtrends.com
 
 ### npm and pnpm
 The very first package manager ever released was npm, back in January 2010. In 2020, GitHub acquired npm, so in principle, npm is now under the stewardship of Microsoft. *(npm should never be capitalized unless it is being displayed in a location that is customarily all-capitals.)*
@@ -149,30 +148,18 @@ Npm scripts are a set of built-in and custom scripts defined in the `package.jso
 - Passing arguments to other NPM scripts, we can leverage the `--` separator. e.g. `"pass-flags-to-other-script": "npm run my-script -- --watch"` will pass the `--watch` flag to the `my-script` command.
 - One convention that you may have seen is using a prefix and a colon to group scripts, for example `build:dev` and `build:prod`. This can be helpful to create groups of scripts that are easier to identify by their prefixes.
 
-### browserslist
+### browserslist and postcss
 The [browserslist](https://github.com/browserslist/browserslist) configuration (either in `package.json` or `.browserslistrc`) uses `caniuse` data (https://caniuse.com/usage-table) for queries to control the outputted JS/CSS so that the emitted code will be compatible with the browsers specified. It will be installed with webpack and used by many popular tools like autoprefixer, babel-preset-env. You can find these tools require `browserslist` in the `package-lock.json` file.
 
 - There is a `defaults` query (`> 0.5%, last 2 versions, Firefox ESR, not dead`), which gives a reasonable configuration for most users.
 - If you want to change the default set of browsers, we recommend combining `last 2 versions`, `not dead` with a usage number like `> 0.2%`.
 - `last 1 version or > 1%` is equal to `last 1 version, > 1%`. Each line in `.browserslistrc` file is combined with `or` combiner.
 - Run `npx browserslist` in project directory to see what browsers was selected by your queries.
-- `PostCSS` is a tool for transforming CSS with JavaScript plugins. It provides features via its extensive plugin ecosystem to help improve the CSS writing experience. Plugins for just about [anything](https://www.postcss.parts). For example:
-  - [Autoprefixer](https://github.com/postcss/autoprefixer) is one of the many popular PostCSS plugins.
-  - [postcss-preset-env](https://www.npmjs.com/package/postcss-preset-env) lets you convert modern CSS into something most browsers can understand, which is similar to `@babel/preset-env`.
-  - [cssnano](https://cssnano.co) is a compression tool written on top of the PostCSS ecosystem to compact CSS appropriately.
 
-### jsconfig.json
-JavaScript experience is improved when you have a `jsconfig.json` file in your workspace that defines the project context. **`jsconfig.json` is a descendant of `tsconfig.json`**. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
-
-The `exclude` attribute tells the language service what files are not part of your source code (e.g. `node_modules`, `dist`). Alternatively, you can explicitly set the files in your project using the `include` attribute (e.g. `src/**/*`).
-
-Below are `compilerOptions` to configure the JavaScript language support. Do not be confused by `compilerOptions`, since no actual compilation is required for JavaScript. This attribute exists because `jsconfig.json` is a descendant of `tsconfig.json`. See an example at https://github.com/Microsoft/TypeScript-Babel-Starter/blob/master/tsconfig.json
-
-- `target`: This setting changes which JS features are downleveled and which are left intact. Modern browsers support all ES6 features, so `ES6` is a good choice. The values are "es3", "es5", "es6", "es2015", "es2016", "es2017", "es2018", "es2019", "es2020", "esnext".
-- `module`: Specifies the module system when generating module code. The values are "amd", "commonJS", "es2015", "es6", "esnext", "none", "system", "umd".
-- `baseUrl`: Lets you set a base directory to resolve non-absolute module names. With `"baseUrl": "."`, it will look for files starting at the same folder as the `jsconfig.json`.
-- `paths`: A series of entries which re-map imports to lookup locations relative to the `baseUrl`, e.g. `"@models/*": ["app/models/*"]`.
-- `checkJs`: Enable type checking on JavaScript files. This is the equivalent of including `// @ts-check` at the top of all JavaScript files which are included in your project. (Set `allowJs: true` in `tsconfig.json` to tell TypeScript to allow a reference to regular JavaScript files.)
+`PostCSS` is a tool for transforming CSS with JavaScript plugins. It provides features via its extensive plugin ecosystem to help improve the CSS writing experience. Plugins for just about [anything](https://www.postcss.parts). For example:
+- [Autoprefixer](https://github.com/postcss/autoprefixer) is one of the many popular PostCSS plugins.
+- [postcss-preset-env](https://www.npmjs.com/package/postcss-preset-env) lets you convert modern CSS into something most browsers can understand, which is similar to `@babel/preset-env`.
+- [cssnano](https://cssnano.co) is a compression tool written on top of the PostCSS ecosystem to compact CSS appropriately.
 
 ### module and require in Node.js 
 **Node.js treats each JavaScript file as a separate module and encloses the entire code within a function wrapper**: `(function(exports, require, module, __filename, __dirname) {})`. The five parameters — `exports`, `require`, `module`, `__filename`, `__dirname` are available inside each module. Even if you define a global variable in a module using `let` or `const` keywords, the variables are scoped locally to the module rather than being scoped globally.
@@ -343,19 +330,3 @@ To solve the latency problem, very smart folks came up with the idea of deployin
 - Do work on servers (like cloud servers/functions)
 
 > Cloud = a server, somewhere; Edge = a server, close to you
-
-## Web Hosting and Domain registration
-Domain registrants (GoDaddy, Hover, Google Domains, Amazon Route 53...) are for registering domain names. If you want `itiscool.com`, you’re going to have to buy it, and domain registrants are companies that help you do that. Just because you own a domain doesn’t mean it will do anything. It’s likely that you will see a “coming soon” page after buying a domain name.
-
-To host a website at your new domain, you’ll need to configure the DNS of your new domain to point at a server connected to the internet. Web hosting services give you that server. You’ll need to know a little bit about the website you intend to host when making that choice. Will it be a WordPress site? Or a Python/Go/Node site? That means your host will need to support those technologies.
-
-- WP Engine is a web host that focuses specifically on WordPress.
-- Media Temple has WordPress-specific hosting, but has a wider range of services from very small and budget friendly to huge and white-glove.
-- Netlify does static site hosting, which is great for things like static site generators and JAMstack sites.
-- Digital Ocean has their own way of talking about hosting. They call their servers Droplets, which are kind of like virtual machines with extra features.
-- Heroku calls themselves a “Cloud Application Platform.” It is great for hosting apps with a ready-to-use backend for server languages like Node, Ruby, Java, and Python.
-- Amazon Web Services (AWS) is a whole suite of products with specialized hosting focuses. Microsoft Azure and Google Cloud are similar.
-
-Should you bundle your domain registrar and web host into one if a company offers both? It’s mighty handy. The host will also do things like configuring the DNS for you to be all set up for their hosting and you probably don’t even have to think about it. But say the day comes where you just don’t like that host anymore. You want to move hosts. The problem is that they aren’t just your host, but your domain registrant, too. You’re going to leave both of them.
-
-What about assets hosting? Your web host can host assets and that’s fine for the small sites. One major reason people go with an asset host (probably more commonly referred to as a CDN) is for a speed boost. Asset hosts are also servers, just like your web host’s web server. Not only do those assets get delivered to people looking at your site super fast, but your web server is relieved of that burden.

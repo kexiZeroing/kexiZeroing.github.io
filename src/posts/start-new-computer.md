@@ -16,7 +16,7 @@ tags: [system]
 
 3. Check `git --version` and may need to install Command Line Developer Tools.
 
-4. Install VS Code, Chrome, iTerm2, Docker through Homebrew, then you can use `brew list` and `brew info google-chrome` to check.
+4. Install VSCode, Chrome, iTerm2, Docker through Homebrew, then you can use `brew list` and `brew info google-chrome` to check.
     ```shell
     # refer to https://formulae.brew.sh
     brew install git yarn make
@@ -88,10 +88,11 @@ tags: [system]
 
 9. Install Chrome extension [DevTools Theme: New Moon](https://github.com/taniarascia/new-moon-chrome-devtools), then set devtool's theme to "Dark" and go to Experiments and select "Allow custom UI themes".
 
-10. Add VS code extentions like `Prettier`, `GitLens`, `New Moon Theme`, `Live Server`, `Import Cost`. 
+10. Add VSCode extentions like `Prettier`, `GitLens`, `New Moon Theme`, `Live Server`, `Import Cost`. 
    - Prettier usage: https://prettier.io/docs/en/install.html
    - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost) will display inline in the editor the size of the imported packages.
    - [Preview.js](https://previewjs.com): Preview UI components in your IDE instantly. It leverages the power of Vite to support React and Vue.js. (needs NodeJS 14.18.0+ to run)
+   - [Markdown PDF](https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf) converts Markdown files to pdf, html, png or jpeg files in VSCode.
    - Add `Emoji Snippets` and `Markdown Emoji` for emoji support :tada: and check https://github.com/ikatyang/emoji-cheat-sheet for emoji shortcode to use.
 
 11. Check out dotfiles https://github.com/mathiasbynens/dotfiles

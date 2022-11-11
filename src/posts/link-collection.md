@@ -200,6 +200,8 @@ Lightweight fuzzy-search library: https://fusejs.io
 
 Create full screen pages fast and simple: https://github.com/alvarotrigo/fullPage.js
 
+Lightweight and flexible carousel: https://github.com/glidejs/glide
+
 ---
 
 ## React ecosystem
