@@ -42,7 +42,7 @@ There’s an [awesome-npx](https://github.com/junosuarez/awesome-npx) repo with 
 
 > - `npm ls` (aliases: list, la, ll) list dependencies that have been installed to `node_modules`.
 > - [depcheck](https://github.com/depcheck/depcheck) check your npm module for unused dependencies. `npx depcheck` (needs node.js >= 10)
-> - [npm-check-updates](https://github.com/raineorshine/npm-check-updates) find the latest versions of your package dependencies, ignoring specified versions.
+> `npm outdated`, a built-in npm command, will check the registry to see if any installed packages are currently outdated. By default, only the direct dependencies of the root project are shown.
 > - [npm-graph](https://npmgraph.js.org) is a tool for exploring NPM modules and dependencies.
 > - Interactive CLI that bumps version number (with `--commit` `--tag` `--push` by default): https://github.com/antfu/bumpp
 > - Generic CLI tool to automate versioning and package publishing related tasks: https://github.com/release-it/release-it
