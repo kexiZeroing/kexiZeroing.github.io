@@ -98,6 +98,10 @@ link.addEventListener('click', function() {
 link.addEventListener('click', () => {
   // this === window
 })
+
+// Default parameters with destructuring
+const colorize = ({ color = 'yellow' }) => {...} 
+const colorize = ({ color = 'yellow' } = {}) => {...}
 ```
 
 ## Closure
@@ -105,7 +109,7 @@ Lexical scoping describes how a parser resolves variable names when functions ar
 
 **A closure is the combination of a function and the lexical environment within which that function was declared.** This environment consists of any local variables that were in-scope at the time the closure was created. Closures are useful because they let you associate data (the lexical environment) with a function that operates on that data.
 
-```javascript
+```js
 function makeAdder(x) {
   return function(y) {
     return x + y;
@@ -122,7 +126,7 @@ console.log(add10(2)); // 12
 
 It is possible to emulate private methods using closures. Private methods provide a way to manage global namespace. Using closures in this way is known as the **module pattern**. The shared lexical environment is created in the body of an anonymous function, which is executed as soon as it has been defined. The lexical environment contains private items, and neither of these private items can be accessed directly from outside. Instead, they must be accessed by the public functions that are returned from the anonymous wrapper. Using closures in this way provides a number of benefits that are normally associated with object-oriented programming -- in particular, data hiding and encapsulation.
 
-```javascript
+```js
 const counter = (function() {
   let privateCounter = 0;
 
@@ -160,7 +164,7 @@ The try statement consists of a try block, which contains one or more statements
 - **The finally block always run, even if there is an exception or a return**. This is the perfect place to put code that needs to run regardless of what happens.
 - In ES2019, catch can now be used without a binding (omit the parameter). This is useful if you don’t have a need for the exception object in the code that handles the exception.
 
-```javascript
+```js
 (function() {
   try {
     console.log("I'm picking up my ball and going home.")  // run 
@@ -189,7 +193,7 @@ The try statement consists of a try block, which contains one or more statements
 ## Data types
 number, string, boolean, undefined, null, object, symbol, bigInt
 
-```javascript
+```js
 typeof 37 === 'number'
 typeof 42n === 'bigint'
 typeof true === 'boolean'
@@ -238,7 +242,7 @@ Historically, accessing the global object has required different syntax in diffe
 - As a constructor (with the `new` keyword), its `this` is bound to the new object being constructed.
 - As a DOM event handler, `this` is set to the element on which the listener is placed, `this === e.currentTarget` is alwasy true.
 
-```javascript
+```js
 window.age = 10;
 function Person() {
   this.age = 42;
@@ -263,7 +267,7 @@ var p = new Person();
 ### Function.prototype.call() / apply()
 While the syntax of `call()` function is almost identical to that of `apply()`, the fundamental difference is that `call()` accepts an argument list, while `apply()` accepts a single array of arguments (or an array-like object). They provide a new value of `this` to the function. With call or apply, you can write a method once and then inherit it in another object, without having to rewrite the method for the new object. If the first argument is not passed, the value of `this` is bound to the global object (the value of `this` will be undefined in strict mode).
 
-```javascript
+```js
 const numbers = [5, 6, 2, 3, 7];
 Math.max.apply(null, numbers);
 Math.min.apply(null, numbers);
@@ -305,7 +309,7 @@ The `bind()` method creates a new function that, when called, has its `this` key
 
 **When a bound function is called, it calls internal method `[[Call]]` on `[[BoundTargetFunction]]` with `Call(boundThis, ...args)`**. Where, boundThis is `[[BoundThis]]`, args is `[[BoundArguments]]` followed by the arguments passed by the new function call.
 
-```javascript
+```js
 // polyfill
 var slice = Array.prototype.slice;
 Function.prototype.bind = function() {
@@ -322,7 +326,7 @@ Function.prototype.bind = function() {
 };
 ```
 
-```javascript
+```js
 var x = 9;
 var module = {
   x: 81,
@@ -781,7 +785,7 @@ console.log(valC); // "default for C"
 
 The **optional chaining operator (?.)** functions similarly to the `.` chaining operator, except that instead of causing an error if a reference is nullish (`null` or `undefined`), the expression short-circuits with a return value of undefined. When used with function calls, it returns undefined if the given function does not exist.
 
-```javascript
+```js
 let customerCity = customer.details?.address?.city;
 let duration = vacations.trip?.getTime?.();
 let nestedProp = obj?.['prop' + 'Name'];
@@ -867,8 +871,9 @@ JSON.stringify({ x: 5, y: 6, toJSON(){ return this.x + this.y; } });
 // '11'
 
 // The replacer array indicate the names of the properties that should be included in the result
+const foo = {foundation: 'Mozilla', model: 'box', week: 45, month: 7};
 JSON.stringify(foo, ['week', 'month']);  
-// '{"week":45, "month":7}'
+// '{"week": 45, "month": 7}'
 
 // The last `space` argument may be used to control spacing in the final string
 // 1. If it is a number, successive levels will each be indented by this # of space characters.
@@ -1236,3 +1241,259 @@ const eventAwesome = new CustomEvent('awesome', {
 form.addEventListener('awesome', e => console.log(e.detail.text()));
 textarea.addEventListener('input', e => e.target.dispatchEvent(eventAwesome));
 ```
+
+## Promise
+A `Promise` is a proxy for a value not necessarily known when the promise is created. The Promise object represents the eventual completion or failure of an asynchronous operation and its success value or failure reason. Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.
+
+A Promise is in one of these states: `pending`, `fulfilled`, `rejected`. A promise is said to be `settled` if it is either fulfilled or rejected, but not pending. A pending promise can either be fulfilled with a value or rejected with an error. When either of these options happens, the associated handlers queued up by a promise's `then` method are called. Note that **promises are guaranteed to be asynchronous**, so an action for an already "settled" promise will occur only after the stack has cleared and a clock-tick has passed.
+
+```js
+let p = function() {
+  return new Promise(function(resolve, reject) {
+    setTimeout(() => resolve('foo'), 300);
+  });
+}
+
+p().then(function(value) {
+  console.log(value);  // "foo"
+});
+
+const promiseA = new Promise((resolve, reject) => {
+  resolve(777);
+});
+// At this point, "promiseA" is already settled
+promiseA.then(val => console.log("asynchronous logging has val:", val));
+console.log("immediate logging");
+```
+
+The methods `promise.then()`, `promise.catch()`, and `promise.finally()` are used to associate further asynchronous action with a promise that becomes settled. **These methods also return a newly generated promise object, which can be used for chaining.**
+
+`Promise.resolve()` returns a Promise object that is resolved with a given value. `Promise.reject()` method returns a Promise object that is rejected with a given reason.
+
+```js
+Promise.resolve('foo')
+  // 1. Receive "foo", concatenate "bar" to it, and resolve that to the next then
+  .then(function(string) {
+    return new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        string += 'bar';
+        resolve(string);
+      }, 1);
+    });
+  })
+  // 2. receive "foobar", register a callback function to work on that string,
+  // but after returning the unworked string to the next then
+  .then(function(string) {
+    setTimeout(function() {
+      string += 'baz';
+      console.log(string);
+    }, 1);
+    return string;
+  })
+  // 3. print messages will be run before the string is actually processed
+  .then(function(string) {
+    console.log(string);
+  });
+
+// logs, in order:
+// foobar
+// foobarbaz
+
+Promise.resolve()
+  .then(() => {
+    // makes .then() return a rejected promise
+    throw new Error('Oh no!');
+  })
+  .then(() => {
+    console.log('Not get called.');
+  }, error => {
+    console.error('onRejected function called: ' + error.message);
+  });
+
+Promise.resolve()
+  .then(() => {
+    throw new Error('Oh no!');
+  })
+  .catch(error => {
+    console.error('onRejected function called: ' + error.message);
+  })
+  .then(() => {
+    console.log("I am always called even if the prior then's promise rejects");
+  });
+```
+
+### Promise static methods
+`Promise.all()` method returns a single Promise that resolved when all of the promises passed as an iterable (such as an Array) have resolved or when the iterable contains no promises. It rejects immediately upon any of the input promises rejecting, and will reject with this first rejection message.
+
+```js
+var p1 = Promise.resolve(3);
+var p2 = 1337;
+var p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("foo");
+  }, 100);
+}); 
+
+Promise.all([p1, p2, p3]).then(values => { 
+  console.log(values);  // [3, 1337, "foo"] 
+});
+
+function loadImg(src){
+  return new Promise((resolve,reject) => {
+    let img = document.createElement('img');
+    img.src = src;
+    img.onload = () => resolve(img);
+    img.onerror = (err) => eject(err);
+  })
+}
+
+function showImgs(imgs){
+  imgs.forEach(function(img){
+    document.body.appendChild(img)
+  })
+}
+
+Promise.all([
+  loadImg('1.jpg'),
+  loadImg('2.jpg'),
+  loadImg('3.jpg')
+]).then(showImgs);
+```
+
+`Promise.race()` method returns a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects, with the value or reason from that promise.
+
+```js
+var p1 = new Promise(function(resolve, reject) { 
+    setTimeout(() => resolve('one'), 500); 
+});
+var p2 = new Promise(function(resolve, reject) { 
+    setTimeout(() => resolve('two'), 100); 
+});
+
+Promise.race([p1, p2]).then(function(value) {
+  console.log(value); // "two"
+});
+
+var p3 = new Promise(function(resolve, reject) { 
+    setTimeout(() => resolve('three'), 500); 
+});
+var p4 = new Promise(function(resolve, reject) { 
+    setTimeout(() => reject(new Error('four')), 100);
+});
+
+Promise.race([p3, p4]).then(function(value) {
+  // not called
+}, function(error) {
+  console.log(error.message); // "four"
+});
+```
+
+`Promise.allSettled()` method (in ES2020) returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.
+
+```js
+Promise.allSettled([
+  Promise.resolve(33),
+  new Promise(resolve => setTimeout(() => resolve(66), 0)),
+  99,
+  Promise.reject(new Error('an error'))
+])
+.then(values => console.log(values));
+
+// [
+//   {status: "fulfilled", value: 33},
+//   {status: "fulfilled", value: 66},
+//   {status: "fulfilled", value: 99},
+//   {status: "rejected",  reason: Error: an error}
+// ]
+```
+
+`Promise.any()` method (in ES2021) runs promises in parallel and resolves to the value of the first successfully resolved promise. Even if some promises get rejected, these rejections are ignored. However, if all promises in the input array are rejected or if the input array is empty, then `Promise.any()` rejects with an aggregate error containing all the rejection reasons of the input promises.
+
+```js
+const pErr = new Promise((resolve, reject) => {
+  reject("Always fails");
+});
+
+const pSlow = new Promise((resolve, reject) => {
+  setTimeout(resolve, 500, "Done eventually");
+});
+
+const pFast = new Promise((resolve, reject) => {
+  setTimeout(resolve, 100, "Done quick");
+});
+
+Promise.any([pErr, pSlow, pFast]).then((value) => {
+  console.log(value);  // Done quick
+});
+```
+
+## async and await
+Async functions can contain zero or more `await` expressions. Await expressions suspend progress through an async function, yielding control and subsequently resuming progress only when an awaited promise-based asynchronous operation is either fulfilled or rejected. **The resolved value of the promise is treated as the return value of the await expression**. 
+
+- Async functions always return a promise. If the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise.
+- You can use await with any function which returns a promise. The function you're awaiting doesn't need to be async necessarily.
+- The `await` keyword is only valid inside async functions.
+- Use of `async / await` enables the use of ordinary `try / catch` blocks around asynchronous code.
+
+```js
+function resolveAfter2Seconds() {
+  return new Promise(resolve => {
+    setTimeout(function() {
+      resolve("slow")
+    }, 2000)
+  })
+}
+
+function resolveAfter1Second() {
+  return new Promise(resolve => {
+    setTimeout(function() {
+      resolve("fast")
+    }, 1000)
+  })
+}
+
+async function sequentialStart() {
+  // 1. Execution gets here almost instantly
+  console.log('==SEQUENTIAL START==')
+
+  const slow = await resolveAfter2Seconds()
+  console.log(slow) // 2. runs 2 seconds after 1
+
+  const fast = await resolveAfter1Second()
+  console.log(fast) // 3. runs 3 seconds after 1
+}
+
+async function concurrentStart() {
+  console.log('==CONCURRENT START with await==')
+
+  const slow = resolveAfter2Seconds() // starts timer immediately
+  const fast = resolveAfter1Second() // starts timer immediately
+
+  // 1. Execution gets here almost instantly
+  console.log(await slow) // 2. runs 2 seconds after 1
+  console.log(await fast) // 3. runs 2 seconds after 1, immediately after 2, since fast is already resolved
+}
+
+function concurrentPromise() {
+  console.log('==CONCURRENT START with Promise.all==')
+  
+  return Promise.all([resolveAfter2Seconds(), resolveAfter1Second()])
+    .then((messages) => {
+      console.log(messages[0])  
+      console.log(messages[1])
+    })
+}
+
+async function parallel() {
+  console.log('==PARALLEL with await Promise.all==')
+  
+  // Start 2 "jobs" in parallel and wait for both of them to complete
+  // after 1 second, logs "fast", then after 1 more second, "slow"
+  await Promise.all([
+    (async() => console.log(await resolveAfter2Seconds()))(),
+    (async() => console.log(await resolveAfter1Second()))()
+  ])
+}
+```
+
+> Concurrency is when two or more tasks can start, run, and complete in overlapping time periods. It doesn't necessarily mean they'll ever be running at the same instant. For example, multitasking on a single-core machine. Parallelism is when tasks literally run at the same time, e.g., on a multicore processor.
