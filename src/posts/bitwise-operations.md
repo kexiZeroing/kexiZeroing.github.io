@@ -8,6 +8,8 @@ tags: [other]
 ---
 
 ### Two's complement
+Let's look at 4-bit integers. Tiny, but useful for illustration purposes. Since there are four bits in such an integer, it can assume one of 16 values. What are those values? The answer depends on whether this integer is a `signed int` or an `unsigned int`. Signed integers can represent both positive and negative numbers, while unsigned integers are only non-negative.
+
 ```
 0000    0
 0001    1
