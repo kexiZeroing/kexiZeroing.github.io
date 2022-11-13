@@ -850,6 +850,56 @@ var url = "http://example.net/?param1=" + p1 + "&param2=99";
 // http://example.net/?param1=http%3A%2F%2Fexample.org%2F%Ffa%3D12%26b%3D55&param2=99
 ```
 
+## JSON stringify and parse 
+- If the value has a `toJSON()` method, it's responsible to define what data will be serialized.
+- `Boolean`, `Number`, and `String` objects are converted to the corresponding primitive values.
+- The default conversion from an object to string is `"[object Object]"`, which uses `toString()` method in the object. 
+- `undefined`, `Functions`, and `Symbols` are not valid JSON values. If any such values are encountered during conversion they are either omitted (when found in an object) or changed to `null` (when found in an array).
+- All `Symbol`-keyed properties will be completely ignored.
+
+```js
+JSON.stringify({ x: 5 });             // '{"x":5}'
+JSON.stringify(true);                 // 'true'
+JSON.stringify([1, 'false', false]);  // '[1,"false",false]'
+JSON.stringify(null);                 // 'null'
+
+JSON.stringify({ x: 5, y: 6, toJSON(){ return this.x + this.y; } });
+// '11'
+
+// The replacer array indicate the names of the properties that should be included in the result
+JSON.stringify(foo, ['week', 'month']);  
+// '{"week":45, "month":7}'
+
+// The last `space` argument may be used to control spacing in the final string
+// 1. If it is a number, successive levels will each be indented by this # of space characters.
+// 2. If it is a string, will be indented by this string.
+JSON.stringify({ uno: 1, dos: 2 }, null, '\t');
+// '{
+//     "uno": 1,
+//     "dos": 2
+// }'
+```
+
+`JSON.parse(text[, reviver])` parses a JSON string, constructing the JavaScript value or object described by the string. An optional reviver function can be provided to perform a transformation on the resulting object before it is returned. **`JSON.parse()` does not allow trailing commas and single quotes.**
+
+```js
+JSON.parse('{}');              // {}
+JSON.parse('true');            // true
+JSON.parse('[1, 5, "false"]'); // [1, 5, "false"]
+JSON.parse('null');            // null
+
+JSON.parse('{"p": 5}', (key, value) =>
+  typeof value === 'number' ? value * 2 : value
+);
+// { p: 10 }
+
+JSON.parse('{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}}', (key, value) => {
+  console.log(key); // log the current property name, the last is ""
+  return value; 
+});
+// 1 2 4 6 5 3 ""
+```
+
 ## Symbol
 Symbol is a primitive data type and the `Symbol()` function returns a value of type symbol. It resembles a built-in object class, but is incomplete as a constructor because it does not support the syntax `new Symbol()`. 
 
@@ -1030,4 +1080,159 @@ const calc = calculator(10);
 calc.next();    // {value: 5, done: false}
 calc.next(7);   // {value: 14, done: false}
 calc.next(100); // {value: 14000, done: true}
+```
+
+## Map and Set
+The Map object holds key-value pairs and **remembers the original insertion order of the keys**. Any value (both objects and primitive values) may be used as either a key or a value.
+
+Object is similar to Map, and Objects have been used as Maps historically; however, there are important differences that make using a Map preferable in certain cases:
+- The keys of an Object are String and Symbol, whereas they can be any value for a Map, including functions, objects, and any primitive.
+- The keys in Map are ordered while keys added to object are not. Thus, when iterating over it, a Map object returns keys in order of insertion.
+- You can get the size of a Map easily with the `size` property, while the number of properties in an Object must be determined manually.
+
+```js
+var myMap = new Map();
+myMap.set(0, 'zero');
+myMap.set(1, 'one');
+
+myMap.size;
+
+var myMap2 = new Map([
+  ['key1', 'value1'],
+  ['key2', 'value2']
+]);
+
+myMap.get('key1');  
+myMap.has('key1');
+myMap.delete('key1');
+
+// Iterating with for..of
+for (let key of myMap.keys()) console.log(key);
+for (let value of myMap.values()) console.log(value);
+for (let [key, value] of myMap.entries()) console.log(key + ' = ' + value);
+
+myMap.forEach(function(value, key, map) {
+  console.log(`map.get('${key}') = ${value}`);
+});
+
+myMap.clear();
+
+// Relation with Array 
+// Use the Array.from to transform a map into a 2D key-value Array
+Array.from(myMap);
+// or
+[...myMap];
+
+// Or use the keys or values iterators and convert them to an array
+Array.from(myMap.keys());
+
+// Maps can be merged
+var first = new Map([
+  [1, 'one'],
+  [2, 'two'],
+  [3, 'three'],
+]);
+
+var second = new Map([
+  [1, 'uno'],
+  [2, 'dos']
+]);
+
+// Merge two maps. The last repeated key wins.
+var merged = new Map([...first, ...second]);
+```
+
+The Set object lets you store unique values of any type, whether primitive values or object references.
+
+```js
+var mySet = new Set();
+var mySet = new Set(['value1', 'value2', 'value3']);
+
+// You can't add multiple elements to a set in one add()
+mySet.add(1);
+mySet.add(2); 
+
+mySet.has(1); // true
+mySet.has(3); // false
+mySet.delete(1);
+
+mySet.size;
+
+// There are no keys in Set, so key and value are the same here
+for (let item of mySet.keys()) console.log(item);
+for (let item of mySet.values()) console.log(item);
+for (let [key, value] of mySet.entries()) console.log(key);
+
+mySet.forEach(function(value, key, set) {
+  console.log(value);
+});
+
+mySet.clear();
+
+// converting between Set and Array
+mySet2 = new Set([1, 2, 3, 4]);
+Array.from(mySet2)
+// or
+[...mySet2];
+
+// intersection
+var intersection = new Set([...set1].filter(x => set2.has(x)));
+```
+
+### WeakMap
+Every key of a WeakMap is an object. Primitive data types as keys are not allowed. WeakMap allows garbage collector to do its task but not Map. There is no such thing as a list of WeakMap keys, they are just references to another objects. After removing the key from the memory we can still access it inside the map. At the same time removing the key of WeakMap removes it from weakmap as well by reference. 
+
+In WeakMaps, references to key objects are held "weakly", which means that they do not prevent garbage collection when there would be no other reference to the object. Because of references being weak, you cannot iterate over its keys or values, cannot clear all items (no clear method), cannot check its size (no size property). *A use case that would otherwise cause a memory leak enabled by WeakMap is keeping data about host objects like DOM nodes in the browser.*
+
+```js
+// Weakmap
+var k1 = {a: 1};
+var k2 = {b: 2};
+
+var map = new Map();
+var wm = new WeakMap();
+
+map.set(k1, 'k1');
+wm.set(k2, 'k2');
+
+k1 = null;
+map.forEach(function (val, key) {
+  console.log(key, val); // {a: 1} "k1"
+});
+
+k2 = null;
+wm.get(k2); // undefined
+```
+
+## Custom Event
+The Event interface represents an event which takes place in the DOM. An event can be triggered by the user action or generated by APIs to represent the progress of an asynchronous task. It can also be triggered programmatically, such as by calling the `HTMLElement.click()` method of an element, or by defining the event, then sending it to a specified target using `EventTarget.dispatchEvent()`.
+
+Unlike "native" events, which are fired by the DOM and invoke event handlers **asynchronously** via the event loop, **`dispatchEvent()` invokes event handlers synchronously**. All applicable event handlers will execute and return before the code continues on after the call to `dispatchEvent()`.
+
+Events can be created with the `Event` constructor. This constructor is supported in most modern browsers. To add more data to the event object, the `CustomEvent` interface exists and the `detail` property can be used to pass custom data.
+
+```js
+const event1 = new Event('build');
+$0.addEventListener('build', function(e) {}, false);
+$0.dispatchEvent(event1);
+
+// Adding custom data
+const event2 = new CustomEvent('build', { detail: $0.dataset.time });
+function eventHandler(e) {
+  console.log('The time is: ' + e.detail);
+}
+$0.addEventListener('build', eventHandler, false);
+$0.dispatchEvent(event2);
+
+// Event bubbling
+const form = document.querySelector('form');
+const textarea = document.querySelector('textarea');
+
+const eventAwesome = new CustomEvent('awesome', {
+  bubbles: true,
+  detail: { text: () => textarea.value }
+});
+
+form.addEventListener('awesome', e => console.log(e.detail.text()));
+textarea.addEventListener('input', e => e.target.dispatchEvent(eventAwesome));
 ```
