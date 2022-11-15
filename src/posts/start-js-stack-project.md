@@ -48,6 +48,15 @@ There’s an [awesome-npx](https://github.com/junosuarez/awesome-npx) repo with 
 > - Generic CLI tool to automate versioning and package publishing related tasks: https://github.com/release-it/release-it
 > - Compare package download counts over time: https://npmtrends.com
 
+### npm install produces different lockfiles on different computes
+1. Ensure matching node/npm versions as a team: `node -v` and `npm -v`
+2. Remove your node modules: `rm -rf node_modules/`
+3. Clean your npm cache: `npm cache clean --force`
+4. Revert the changes in your `package-lock.json` file (and this file only).
+5. Install dependencies again: `npm i`
+
+Listed dependencies in `package-lock.json` file have mixed (sha1/sha512) integrity checksum. npm changed the integrity checksum from sha1 to sha512. Only packages published with npm@5 or later will include a sha512 integrity hash.
+
 ### npm and pnpm
 The very first package manager ever released was npm, back in January 2010. In 2020, GitHub acquired npm, so in principle, npm is now under the stewardship of Microsoft. *(npm should never be capitalized unless it is being displayed in a location that is customarily all-capitals.)*
 
@@ -76,7 +85,7 @@ Traditionally, npm installed dependencies in a flat `node_modules` folder. On th
 
 **peerDependencies** are dependencies that your project hooks into, or modifies, in the parent project, usually a plugin for some other library. It is just intended to be a check, making sure that the project that will depend on your project has a dependency on the project you hook into. So if you make a plugin C that adds functionality to library B, then someone making a project A will need to have a dependency on B if they have a dependency on C. They are not installed, they are only checked for. *Example: your project adds functionality to grunt and can only be used on projects that use grunt*.
 
-The `npm install` command will install both *devDependencies* and *dependencies*. With the `--production` flag (or when the `NODE_ENV` environment variable is set to production), npm will not install modules listed in *devDependencies*.
+The `npm install` command will install both *devDependencies* and *dependencies*. With the `--production` flag or when the `NODE_ENV` environment variable is set to production `NODE_ENV=production npm install`, npm will not install modules listed in devDependencies.
 
 ### URLs as dependencies
 See details at https://docs.npmjs.com/cli/v8/configuring-npm/package-json#urls-as-dependencies
