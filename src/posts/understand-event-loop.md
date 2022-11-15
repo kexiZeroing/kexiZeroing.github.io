@@ -9,6 +9,8 @@ tags: [js]
 
 Chrome has a multi-process architecture and each process is heavily multi-threaded. The **renderer process** is responsible for everything that happens inside of a tab. In a renderer process, the **main thread** handles most of the code you send to the user. Sometimes parts of your JavaScript is handled by worker threads if you use a web worker. Compositor and raster threads are also run inside of a renderer processes to render a page efficiently and smoothly.
 
+> To open the Chrome Task Manager, click on the three dots icon in the top right corner, then select 'More tools' and you can see 'Task Manager’. With this tool, you can monitor all running processes (CPU, memory, and network usage of each open tab and extension) and stop processes that are not responding. 
+
 Along the main thread there are many other threads spawned by the browser to do useful stuff:
 
 - **Parser Thread:** parses your code in machine-understandable trees.
@@ -42,7 +44,6 @@ Takes care of tasks to be done before every screen update or repaints. This proc
 The Event Loop is a constantly running process and it has one simple job — to monitor the Call Stack and the Queues. If the Call Stack is empty, it will take the first event from the queue and push it to the Call Stack. *Node.js and Chrome do not use the same event loop implementation. Chrome/Chromium uses `libevent`, while node.js uses `libuv`.*
 
 **The difference between the task queue and the microtask queue is simple but very important:**
-
 - When executing tasks from the task queue, the runtime executes each task that is in the queue at the moment a new iteration of the event loop begins. Tasks added to the queue after the iteration begins will not run until the next iteration.
 - Each time a task exits, and the execution context stack is empty, each microtask in the microtask queue is executed, one after another. The difference is that execution of microtasks continues until the queue is empty—even if new ones are scheduled in the interim. In other words, microtasks can enqueue new microtasks and those new microtasks will execute before the next task begins to run, and before the end of the current event loop iteration.
 
