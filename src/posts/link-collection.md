@@ -126,6 +126,8 @@ PPTist: https://github.com/pipipi-pikachu/PPTist
 
 Awesome Diagramming: https://github.com/shubhamgrg04/awesome-diagramming
 
+Web based macOS and Windows XP desktop recreation: https://macos-web.app, https://winxp.vercel.app
+
 ---
 
 ## CSS related

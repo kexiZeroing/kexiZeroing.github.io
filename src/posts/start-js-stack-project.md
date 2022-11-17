@@ -273,6 +273,18 @@ source-map-explorer -h
     ```
 8. Add `eslint src` as a lint script which can be run as `npm run lint`, and it shows eslint errors in the Problems tab. Run `npm run lint -- --fix` to fix errors (if not format on save).
 
+### Configure ESLint in an existing project
+If you joined a project that uses ESLint to manage its code style, you wanted to match the team’s formatting. You can configure VSCode to use the `eslintrc.json` file in the project’s root dir instead of Prettier.
+
+After the ESLint plugin installed, go to Settings and open the raw JSON settings file (click top-right icon). Add these 4 new lines inside the top-level settings object. The first one turns on ESLint for formatting, and the next 3 make it do the formatting when you hit save. *(You might need to undo this if you switch back to a project that doesn’t use ESLint.)*
+
+```json
+"eslint.format.enable": true,
+"editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+}
+```
+
 ### What is Husky
 While working on an enterprise development team, it is important that all code linting and unit tests are passing before committing code, especially if you are using some form of continuous integration. **Husky** is a very popular npm package that allows custom scripts to be ran against your repository to prevent bad `git commit` and `git push`, which makes commits of fixing lint errors doesn't happen.
 

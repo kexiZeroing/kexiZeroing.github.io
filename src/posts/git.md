@@ -91,6 +91,20 @@ I always see this error when I create a new Github repository with a README.md o
 ## change the most recent commit message after push
 `git commit --amend` brings up the editor with the last commit message and lets you edit the message. You can use `-m` if you want to wipe out the old message and use a new one: `git commit --amend -m "new commit message"`. And then when you push, do `git push --force-with-lease <repository> <branch>`.
 
+## find the branches that have been marged
+Got a lot of old git branches hanging around? Here’s a little script that will find the branches that have been marged.
+
+```sh
+#!/bin/bash
+
+# Customize the MAIN variable to match
+MAIN=main
+
+echo "These branches have been merged into $MAIN and will be deleted:"
+echo
+git branch --merged $MAIN | grep -v "^\* $MAIN"
+```
+
 ## rewrite history: squash commit, fixup and autosquash
 - https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 - https://fle.github.io/git-tip-keep-your-branch-clean-with-fixup-and-autosquash.html
