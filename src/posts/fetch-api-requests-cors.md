@@ -172,6 +172,9 @@ As far as security, **POST method is not more secure than GET as it also gets se
 
 JSONP doesn't support other methods than GET and also doesn't support custom headers. It basically use a script tag (the domain limitation is ignored) and pass a special parameter that tells the server a little bit about your page. Then the server is able to wrap up its response in a way that your page can handle.
 
+### HEAD and GET
+HEAD requests are just like GET requests, except the body of the response is empty. For example, if a URL might produce a large download, a HEAD request could read its `Content-Length` header to check the file size without actually downloading it. This kind of request can be used when you want to determine if the content has changed at all - a change in the last modified time or content length usually signifies this. HEAD is also the easiest way to determine if a site is up or down.
+
 ## Headers
 The Headers interface allows you to create your own headers object via the `Headers()` constructor. A Headers object has an associated header list, and you can add to this using methods like `append()`. For security reasons, **some headers can only be controlled by the user agent**. These headers cannot be modified programmatically, like `Accept-Charset`, `Accept-Encoding`, `Access-Control-Request-Headers`, `Access-Control-Request-Method`, `Cookie`, `Date`, `Host`, `Origin`. All of the Headers methods throw a `TypeError` if a header name is used that is not a valid HTTP Header name.
 
