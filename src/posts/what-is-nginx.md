@@ -40,7 +40,8 @@ Nginx can also be configured to act as a load balancer that can handle a large n
 - **IP hash**: selects an upstream server by generating a hash value based on the client’s IP address as a key. This allows the request from clients to be forwarded to the same upstream server provided it is available and the clients IP address has not changed. Add `ip_hash` directive at the first line within the upstream module.
 - **weighted method**: the upstream server with the highest weight is selected most often. This scheme is useful in the situation where the upstream server’s resources are not equal and favors the one with better available resources. Add `weight` directive after the URL parameter in the upstream section.
 
-```nginx.conf
+```nginx
+# nginx.conf
 # backend_servers is the upstream module name
 upstream backend_servers {
   # may specify load balancing method here
