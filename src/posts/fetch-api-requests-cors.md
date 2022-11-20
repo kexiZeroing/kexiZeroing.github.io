@@ -164,6 +164,8 @@ The difference between `PUT` and `POST` is that `PUT` is idempotent *(If you PUT
 ### POST and GET
 GET data is appended to the URL as a query string, so there is a hard limit to the amount of data you can transfer. *GET is idempotent*. POST data is included in the body of the HTTP request and isn't visible in the URL. As such, there's no limit to the amount of data you can transfer over POST.
 
+Responses to the POST method aren’t kept by most caches; if you send information in the path or query via GET, caches can store that information for the future.
+
 As far as security, **POST method is not more secure than GET as it also gets sent unencrypted over network**. HTTPS encrypts the data in transit and the remote server will decrypt it upon receipt; it protects against any 3rd parties in the middle being able to read or manipulate the data. A packet sniffer will show that the HTTP message sent over SSL is encrypted on the wire.
 
 > Should data in an HTTPS request appear as encrypted in Chrome developer tools? The browser is obviously going to know what data it is sending, and the Chrome developer tools wouldn't be very helpful if they just showed the encrypted data. These tools are located in the network stack before the data gets encrypted and sent to the server.
