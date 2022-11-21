@@ -1242,6 +1242,15 @@ form.addEventListener('awesome', e => console.log(e.detail.text()));
 textarea.addEventListener('input', e => e.target.dispatchEvent(eventAwesome));
 ```
 
+## Cross-site scripting
+Cross-site scripting (XSS) is a security bug that can affect websites. This bug can allow an attacker to add their own malicious JavaScript code onto the HTML pages displayed to the users. The vulnerabilities most often happen when user input is sent to the server, and the server responds back to the user by displaying a page that includes the user input without validation. XSS also can occur entirely in the client-side without data being sent back and forth between the client and server.
+
+A common technique for preventing XSS vulnerabilities is "escaping". The purpose of character and string escaping is to make sure that every part of a string is interpreted as a string primitive, not as a control character or code. Escape certain characters (like `<`, `>`, `&`, and `"`) with HTML entity to prevent them being executed.
+
+A good test string is `>'>"><img src=x onerror=alert(0)>`. If your application doesn't correctly escape this string, you will see an alert and will know that something went wrong. [The Big List of Naughty Strings](https://github.com/minimaxir/big-list-of-naughty-strings) is a list of strings which have a high probability of causing issues when used as user-input data.
+
+> We do not recommend that you manually escape user-supplied data. Instead, we strongly recommend that you use a templating system or web development framework that provides context-aware auto-escaping. If this is impossible for your website, use existing libraries (e.g., [DOMPurify](https://github.com/cure53/DOMPurify)) that are known to work, and apply them consistently to all user-supplied data.
+
 ## Promise
 A `Promise` is a proxy for a value not necessarily known when the promise is created. The Promise object represents the eventual completion or failure of an asynchronous operation and its success value or failure reason. Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.
 

@@ -12,7 +12,7 @@ Pixel is the unit of measurement for digital images. **Resolution** is the numbe
 
 The Retina screen doubled the PPI while keeping the same screen size, meaning the number of pixels that fit into the same space had quadrupled (twice the number of pixels across and twice the number of pixels down). But all the old graphics had to be drawn at the same size on the higher density phone. If the phone had drawn all the graphics at a 1:1 scale like it did originally, everything would have been drawn at a quarter the size in the new screen. To prevent this, Apple started **using points as a way of separating the drawing of the graphics from the density of the screen they were on**. Points (abstract unit) are equal to different pixels based on PPI. On a standard-resolution screen, 1 point (1pt) is equivalent of 1 pixel (1px). High-resolution screens or Retina displays have a higher pixel density and as a result, 1 point is equal to 2 pixels across and 2 pixels down, or 4 total pixels.
 
-> There is a distinction between the physical pixels in a screen and the software pixels we write in CSS. Every time a user changes their screen's resolution or zooms in, they're changing how software pixels map onto hardware pixels.
+> There is a distinction between the physical pixels in a screen and the software pixels we write in CSS. With high-resolution screens, something that is `1px` in our CSS will likely take up multiple physical hardware pixels, and we don’t really have any way in pure CSS to specify a literal device pixel. Every time a user changes their screen's resolution or zooms in, they're changing how software pixels map onto hardware pixels.
 
 A standard resolution image has a scale factor of 1.0 and is referred to as an @1x image. High resolution images have a scale factor of 2.0 or 3.0 and are referred to as @2x and @3x images. Suppose you have a standard resolution @1x image that’s 100px by 100px, then the @2x version of this image would be 200px by 200px. The @3x version would be 300px by 300px. *(iPhone X, iPhone 8 Plus, iPhone 7 Plus, and iPhone 6s Plus = @3x; Retina displays and all other high-resolution iOS devices = @2x)*
 
@@ -106,3 +106,11 @@ By placing the things that will be animated or transitioned onto a new layer, th
 1. Hardware-accelerated layer compositing is enabled in the browser.
 2. Only compositing CSS properties (`opacity`, `transform: translate / scale / rotate`, etc) are acceleratable.
 3. The element has been given its own compositing layer. (it may be forced by using a "go faster" hack like `transform: translate3d`)
+
+## Best practice for font units
+- `1px` is equal to whatever the browser is treating as a single pixel (even if it’s not literally a pixel on the hardware screen).
+- `1rem` is always equal to the browser’s font size — or, more accurately the font size of the `html` element. `1em` is the font size of the current element, and `font-size: 1em` is equivalent to `font-size: 100%`.
+
+When you zoom, everything gets scaled up (or down), and in that scenario, the choice of `px` or `em`/`rem` as your CSS unit doesn’t generally matter. It essentially applies a multiple to every unit, including pixels. But zoom isn’t the only way users make websites more usable for themselves, changing the default font size in the [browser settings](https://support.google.com/chrome/answer/96810) will redefine the default font size that all relative units will be based on (`rem`, `em`, `%`). 
+
+On the web, the default font size is `16px`. Some users never change that default, but many do. Remember, `px` values do not scale up or down when the user changes their font size, but `em` and `rem` values do adjust in proportion to font size. So asking yourself: “Should this value scale up as the user increases their browser's default font size?” If the value should increase with the default font size, use `rem`. Otherwise, use `px`.
