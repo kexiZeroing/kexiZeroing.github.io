@@ -7,6 +7,7 @@ added: "Nov 23 2022"
 tags: [web]
 ---
 
+## Node-Sass installation
 Node-sass is a library that allows binding for Node.js to LibSass, the C version of Sass's stylesheet preprocessor. It compiles `.scss` files to CSS with speed and automatically through connected middleware.
 
 > LibSass is written in C++, it’s easy to embed LibSass within other programming languages and provide a native-feeling API. Calling out to LibSass via the C++ API is very fast, which means LibSass is substantially faster in JavaScript than Dart Sass-compiled-to-JS.
@@ -21,4 +22,7 @@ node-sass 的 install 和 postinstall 会分别执行 `scripts/install.js` 和 `
 
 > `node-gyp` is a tool which compiles Node.js Addons. Node.js Addons are native Node.js Modules, written in C or C++, which therefore need to be compiled on your machine. After they are compiled, their functionality can be accessed via `require()`, just as any other Node.js Module. `node-gyp` expects Python ≥v3.6, not Python v2.x. (If you’re not a Python developer, you might not realize that Python v.3 isn’t backward-compatible with its previous major version.)
 
+## Migrate from Node-Sass to Sass
 Note that [LibSass is Deprecated](https://sass-lang.com/blog/libsass-is-deprecated). It’s time to officially declare that LibSass and the packages built on top of it, including Node Sass, are deprecated. We no longer recommend LibSass for new Sass projects. Use Dart Sass instead. If you’re a user of Node Sass, migrating to Dart Sass is straightforward: **just replace `node-sass` in your `package.json` file with `sass`. Both packages expose the same JavaScript API**.
+
+Run Node with the `--trace-warnings` flag. Check the stacktrace for hints of packages you're using. For example, `NODE_OPTIONS="--trace-warnings" npm run build`. Once you identify a package, check if the error has been fixed upstream, and after updating, you may no longer see the error or warnings.
