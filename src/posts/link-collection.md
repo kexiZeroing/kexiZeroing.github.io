@@ -20,8 +20,6 @@ How HTTPS works: https://howhttps.works
 
 Inside look at modern web browser (4 parts): https://developers.google.com/web/updates/2018/09/inside-browser-part1
 
-Build excellent websites: https://web.dev
-
 CS 61B: Data Structures: https://inst.eecs.berkeley.edu/~cs61b/sp20/index.html
 
 Intro to Computer Systems: http://www.cs.cmu.edu/~213/schedule.html
@@ -40,6 +38,8 @@ Bash Commands and Tips: https://dev.to/awwsmm/101-bash-commands-and-tips-for-beg
 
 Learn Node.js: https://nodejs.dev/en/learn
 
+Node.js Best Practices: https://github.com/goldbergyoni/nodebestpractices
+
 PM2 as a daemon process manager: https://pm2.keymetrics.io/docs/usage/quick-start
 
 Docker Guide: https://www.robertcooper.me/docker-guide
@@ -57,8 +57,6 @@ What happens when we type google.com in a browser: https://github.com/vasanthk/h
 DevOps Roadmap 2022: https://github.com/milanm/DevOps-Roadmap
 
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials/beginners-typescript
-
-Epic Web Dev Articles: https://www.epicweb.dev/articles
 
 ---
 

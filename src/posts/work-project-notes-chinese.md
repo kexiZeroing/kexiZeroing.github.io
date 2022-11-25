@@ -12,7 +12,7 @@ tags: [web]
 - 项目里面有很多子项目（`pages/*`），借助 webpack 打包成多个不同的子项目产出，总体结构借鉴 http://vuejs-templates.github.io/webpack
 - 在 webpack 配置的 entry 里可以看到这些子项目入口（列举出所有的入口 js 文件，或者通过遍历 `src/pages` 得到所有入口），entry 的 base 路径可以由 context 字段指定。
 - 对于每一个 page，都有对应的 `HtmlWebpackPlugin` 指定它的模板，并注入它需要的 chunks （对应每一个 entry 打包出的 js），本地直接通过 `localhost/xx.html` 访问，线上通过配置 nginx 路由映射访问 `try_files $uri /static/xx.html`
-- 指定 `chunks` 是因为项目是多 entry 会生成多个编译后的 js 文件，chunks 决定使用哪些 js 文件，如果没有指定默认会全部引用。`inject` 值为 true，表明 chunks js 会被注入到 html 文件的 body 底部（默认是在 head 中以 script defer 标签的形式引入）。对于 css, 使用 `mini-css-extract-plugin` 插件产出的 css 文件会在 head 中以 link 标签引入。
+- 指定 `chunks` 是因为项目是多 entry 会生成多个编译后的 js 文件，chunks 决定使用哪些 js 文件，如果没有指定默认会全部引用。`inject` 值为 true，表明 chunks js 会被注入到 html 文件的 body 底部（默认是在 head 中以 script defer 标签的形式引入）。对于 css, 使用 `mini-css-extract-plugin` 从 bundle 中分离出单独的 css 文件并在 head 中以 link 标签引入。
 - 每一个 page 里的 js 文件（入口文件）会创建该子项目的 Vue 实例，指定对应的 component, router, store, 同时会把 `jQuery`, `request`, `API`, `i18n` 这些对象挂载在 window 对象上，子组件中不需要单独引用。
 - 每一个 page 有对应的 `router` 文件，这是子项目的路由，而且每个路由加载的 component 都是异步获取，在访问该路由时按需加载。
 - webpack 打包时（`dist/`）会 emit 出所有 `HtmlWebpackPlugin` 生成的 html 文件（这也是浏览器访问的入口），相对每个 entry 打包出的 js 文件（filename, `js/[name].[chunkhash].js`），所有异步加载的组件 js（chunkFilename, `js/[id].[chunkhash].js'`）

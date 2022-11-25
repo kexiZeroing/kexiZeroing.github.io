@@ -16,10 +16,6 @@ Then let’s bring a web application bundler. We want `parcel` in our project, s
 
 Let’s move on and add Sass support to our project. To do so using parcel, we run `yarn add sass --dev`. We can create a file called `index.scss`. To make it works, we need to reference it. Go to the `index.js` file and import it using a relative path like `import './index.scss'`.
 
-> LibSass and Node Sass are deprecated. If you’re a user of Node Sass, migrating to Dart Sass is straightforward: just replace `node-sass` in your `package.json` file with `sass`. Both packages expose the same JavaScript API.
-
-> Sass has two syntaxes. The older syntax is known as SASS (with `.sass` extention). Instead of brackets and semicolons, it uses the indentation of lines to specify blocks. The most commonly used is SCSS (with `.scss` extention). SCSS is a superset of CSS syntax, so every valid CSS is a valid SCSS as well. 
-
 We need modern javascript and Babel help us with that. We run `yarn add @babel/core @babel/cli @babel/preset-env --dev` and create a `.babelrc` file on the root of the project referencing the preset we are using. Note that babel doesn't do anything out-of-the-box; It’s the Babel plugins that does the work. And from version 7 of Babel, they moved `babel-preset-env` into the main Babel repo, and changed the name from `babel-preset-env` to [@babel/preset-env](https://blog.jakoblind.no/babel-preset-env).
 
 At last, we need a `parcel build index.js` as a `build` script in `package.json` file which will be used for production, and parcel will create a `dist` directory with all assets minified.

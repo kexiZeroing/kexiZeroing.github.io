@@ -26,3 +26,55 @@ node-sass 的 install 和 postinstall 会分别执行 `scripts/install.js` 和 `
 Note that [LibSass is Deprecated](https://sass-lang.com/blog/libsass-is-deprecated). It’s time to officially declare that LibSass and the packages built on top of it, including Node Sass, are deprecated. We no longer recommend LibSass for new Sass projects. Use Dart Sass instead. If you’re a user of Node Sass, migrating to Dart Sass is straightforward: **just replace `node-sass` in your `package.json` file with `sass`. Both packages expose the same JavaScript API**.
 
 Run Node with the `--trace-warnings` flag. Check the stacktrace for hints of packages you're using. For example, `NODE_OPTIONS="--trace-warnings" npm run build`. Once you identify a package, check if the error has been fixed upstream, and after updating, you may no longer see the error or warnings.
+
+## Webpack and sass-loader
+Sass is a popular choice for styling websites and it has two syntaxes. The older syntax is known as SASS (with `.sass` extention). Instead of brackets and semicolons, it uses the indentation of lines to specify blocks. The most commonly used is SCSS (with `.scss` extention). SCSS is a superset of CSS syntax, so every valid CSS is a valid SCSS as well.
+
+`sass-loader` is a loader for Webpack for compiling SCSS/Sass files. It requires you to install either Dart Sass or Node Sass, which allows you to choose which Sass implementation to use. By default the loader resolve the implementation based on your dependencies. Just add required implementation to `package.json` (`sass` or `node-sass` package) and install dependencies. From `sass-loader` 9.x, it firstly uses `sass` and you don't need any configuration. 
+
+```js
+// sass-loader source code
+function getDefaultSassImplementation() {
+  let sassImplPkg = "sass";
+
+  try {
+    require.resolve("sass");
+  } catch (error) {
+    try {
+      require.resolve("node-sass");
+
+      sassImplPkg = "node-sass";
+    } catch (ignoreError) {
+      sassImplPkg = "sass";
+    }
+  }
+
+  return require(sassImplPkg);
+}
+```
+
+> `require.resolve` uses the internal `require()` machinery to look up the location of a module, but rather than loading the module, just returns the resolved filename.
+
+Beware the situation when `node-sass` and `sass` were installed. In order to avoid this situation you can use the `implementation` option. It either accepts `sass` (Dart Sass) or `node-sass` as a module.
+
+```json
+// In sass-loader source code, 
+// `options.implementation` from webpack config has the higher priority
+// than the above function `getDefaultSassImplementation()`
+{
+  test: /\.s[ac]ss$/i,
+  use: [
+    "style-loader",
+    "css-loader",
+    {
+      loader: "sass-loader",
+      options: {
+        // Prefer `dart-sass`
+        implementation: require("sass"),
+      },
+    },
+  ],
+}
+```
+
+By the way, chain the `sass-loader` with the `css-loader` and the `style-loader` to immediately apply all styles to the DOM or the `mini-css-extract-plugin` to extract it into a separate file.
