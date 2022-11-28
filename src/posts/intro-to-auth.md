@@ -102,6 +102,10 @@ ID tokens are JSON web tokens meant for use by the application only. For example
 
 Access tokens are used to inform an API that the bearer of the token has been authorized to access the API and perform a predetermined set of actions (specified by the scopes granted). For example, Google sends an access token to the app after the user logs in and provides consent for the app to read or write to their Google Calendar. Whenever the app wants to write to Google Calendar, it sends a request to the Google Calendar API, including the access token in the HTTP Authorization header. Access tokens must never be used for authentication; they cannot tell if the user has authenticated.
 
+<img alt="id-access-token" src="https://tva1.sinaimg.cn/large/008vxvgGly1h8kxztv16ij30u01skaju.jpg" width="600">
+
+*(above picture comes from https://auth0.com/blog/id-token-access-token-what-is-the-difference)*
+
 ### How to securely store JWTs
 A JWT needs to be stored in a safe place inside the user’s browser. If you store it inside local storage, it’s accessible by any script inside your page. This is as bad as it sounds; an XSS attack could give an external attacker access to the token.
 
