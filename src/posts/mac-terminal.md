@@ -78,11 +78,12 @@ One thing you can change is wether tab-completion is case-sensitive or not. Sinc
 
 For the normal `man` page, this special display mode is actually controlled by the command `less`. You can use `/word<return>` to search in document, `n` to find next occurrence of search term, `N` to find previous occurrence of search term. (e.g. `man ascii` quick access to ascii table, `man man` lists the sections of the manual pages)
 
-> - `cat` show the contents of file. use for relatively small files
-> - `head` show the first part of the file
-> - `tail` show the last part of the file
-> - `tail -f` show the text appended to the file as the file grows
-> - `less` show contents of file one screen at a time
+> - `cat` show the contents of file, which is used for relatively small files.
+> - `head` show the first part of the file. `head -n 3 <filename>` prints first three lines.
+> - `tail` show the last part of the file.
+> - `tail -f` show the text appended to the file as the file grows.
+> - `less` show contents of file one screen at a time. (`more` is an old utility, just use `less` and forget about `more`)
+> - `file` helps determine the type of a file. The command doesn't take the file extension into account, and instead runs a series of tests to discover the type of file data.
 
 ## grep
 Searches for pattern in files and prints each line that matches the input pattern `grep -<options> <pattern> <filenames>`
