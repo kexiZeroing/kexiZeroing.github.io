@@ -9,6 +9,8 @@ tags: [css]
 
 - Vertical padding and margin doesn’t work for inline elements. You would have to change the element’s `display` property to `inline-block` or `block`.
 
+- Sometimes when we include an image in our markup, a bit of mysterious space is added underneath. The problem is that images by default are considered inline elements, and setting `line-height: 0` on the parent can solve it. Another way is to set the image `display: block`, which tells flow layout: Hey, this image isn't a word in a sentence. It's a block element, and block elements never have any of this inline magic space. The third way to solve this is not using flow layout, but set parent `display: flex`.
+
 - `input`, `video`, `img`, `iframe`, `embed` are replaced elements whose width and height are predefined, without CSS. `iframe` has the default width `300px` and height `150px`.
 
 - When an element has a `position` value of `absolute`, it becomes a block-level element by default. This means that adding `inline-block` or `block` as the display type won’t affect it at all.
@@ -17,7 +19,7 @@ tags: [css]
 
 - Say you have two elements, the one above with `margin-bottom`, and the one below with `margin-top`. The greater of the two values will be used as the margin between the elements, and the other will be ignored by the browser.
 
-- `margin: auto` is a popular way to center an element, and it’s important to mention that it only works with block-level elements.
+- `margin: auto` is a popular way to center an element, and it’s important to mention that auto margins (e.g. `margin-right: auto`) will take up the extra space and apply it to the element's margin. 
 
 - You can’t set a percentage-based height for an element unless the height of its parent is explicitly defined. You can use `body { height: 100vh }` to make the `body` element take up the full height of the viewport.
 
@@ -60,6 +62,8 @@ tags: [css]
 - Flexbox doesn’t wrap by default, thus may cause horizontal scrolling. Always make sure to add `flex-wrap: wrap`. By default, flexbox stretch its child items to make them equal in height if the direction is set to `row`, and it makes them equal in width if the direction is set to `column`.
 
 - Each flex item has a `flex-basis` property, which acts as the sizing property for that item. When the value is `flex-basis: auto`, the basis is the content’s size. With `.item { flex-grow: 1; flex-basis: 0%; }`, each child item will take up the same space as its siblings.
+
+- `flex-basis` is more of a suggestion than a hard constraint. At a certain point, there isn't enough space for all of the elements to sit at their assigned size, and so they have to compromise, in order to avoid an overflow. The default value for `flex-grow` is 0. The default value for `flex-shrink` is 1.
 
 - How we compare a design against implementation? We can take the original design as an image and place it above the page in the browser. Thanks to CSS backgrounds and pseudo-elements, this is possible. Please make sure that the browser width is equal to the design width and no other element in the same stacking context has a higher `z-index` than the pseudo-element. Also, you will notice that nothing is hoverable or clickable, that’s because the pseudo-element is covering the page. We can allow interactivity by setting `pointer-events: none` (the specified HTML element is never the target of pointer events).
 
