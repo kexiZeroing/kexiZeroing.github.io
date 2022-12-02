@@ -132,26 +132,14 @@ tags: [css]
 
 - Center one and right/left align other element: Grid layout may be the cleanest and most efficient method. There is no need for absolute positioning or flexbox with fake elements.
 
+  <img alt="header_center_grid" src="https://tva1.sinaimg.cn/large/008vxvgGly1h8pu4q80utj30zq0u0gnm.jpg" width="600" />
+
+  *(above picture comes from @shadeed9)*
+
   ```css
-  ul {
+  header {
     display: grid;
-    grid-template-columns: 1fr repeat(3, auto) 1fr;
-    grid-column-gap: 5px;
-    justify-items: center;
+    grid-template-columns: 1fr auto 1fr;
+    grid-column-gap: 10px;
   }
-  li:nth-child(1) { margin-right: auto; }
-  li:nth-child(2) { grid-column-start: 2; }
-
-  /* for demo only */
-  ul { padding: 0; margin: 0; list-style: none; }
-  li { padding: 5px; background: #ccc; }
-  ```
-
-  ```html
-  <ul>
-    <li>A</li>
-    <li>B</li>
-    <li>C</li>
-    <li>D</li>
-  </ul>
   ```
