@@ -7,7 +7,7 @@ added: "Oct 10 2021"
 tags: [css]
 ---
 
-- Vertical padding and margin doesn’t work for inline elements. You would have to change the element’s `display` property to `inline-block` or `block`.
+- A fundamental concept for CSS layout is inline vs. block elements. Inline means elements only take up the space they need, and do not affect flow. Applying `margin` or `padding` to an inline element will only work in the "inline" direction (left/right) not the "block" direction (top/bottom).
 
 - Sometimes when we include an image in our markup, a bit of mysterious space is added underneath. The problem is that images by default are considered inline elements, and setting `line-height: 0` on the parent can solve it. Another way is to set the image `display: block`, which tells flow layout: Hey, this image isn't a word in a sentence. It's a block element, and block elements never have any of this inline magic space. The third way to solve this is not using flow layout, but set parent `display: flex`.
 

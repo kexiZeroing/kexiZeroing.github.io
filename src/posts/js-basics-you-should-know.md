@@ -7,6 +7,8 @@ added: "Aug 3 2020"
 tags: [js]
 ---
 
+> You can read this post together with [JavaScript Questions](https://github.com/lydiahallie/javascript-questions) created by @lydiahallie to test how well you know JavaScript.
+
 ## let and const
 `let` allows you to declare variables that are limited to a scope of a block statement, unlike the `var` keyword, which defines a variable globally, or locally to an entire function regardless of block scope. The `let` **does not create properties of the window object** when declared globally.
 

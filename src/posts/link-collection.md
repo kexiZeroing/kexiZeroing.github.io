@@ -116,15 +116,15 @@ The Timeline of The Web: https://thehistoryoftheweb.com/timeline/
 
 Visual history of your favorite technology: https://www.versionmuseum.com/
 
-Floating Point Math: https://0.30000000000000004.com/
+Floating Point Math: https://0.30000000000000004.com/  (\`https://${0.1 + 0.2}.com\`)
 
 Text to Handwriting: https://github.com/saurabhdaware/text-to-handwriting
 
 PPTist: https://github.com/pipipi-pikachu/PPTist
 
-Awesome Diagramming: https://github.com/shubhamgrg04/awesome-diagramming
-
 Web based macOS and Windows XP desktop recreation: https://macos-web.app, https://winxp.vercel.app
+
+Everything I googled in a week as a senior software engineer: https://localghost.dev/blog/everything-i-googled-in-a-week-as-a-senior-software-engineer
 
 ---
 
@@ -165,6 +165,8 @@ How to create high-performance CSS animations: https://web.dev/animations-guide
 CSS clip-path defining the visible region: https://ishadeed.com/article/clip-path
 
 Intro to CSS 3D transforms: https://3dtransforms.desandro.com
+
+Color Formats in CSS: https://www.joshwcomeau.com/css/color-formats
 
 ---
 
