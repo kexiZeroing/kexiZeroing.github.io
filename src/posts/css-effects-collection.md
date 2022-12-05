@@ -3,9 +3,8 @@ layout: "../layouts/BlogPost.astro"
 title: "CSS effects collection"
 slug: css-effects-collection
 description: ""
-added: ""
-top: true
-order: 6
+added: "Dec 5 2022"
+tags: [css]
 ---
 
 ### Rainbow Artword

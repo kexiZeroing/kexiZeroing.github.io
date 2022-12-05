@@ -10,10 +10,6 @@ tags: [js]
 ## ES Modules
 While Node.js has been using the CommonJS standard for years and there are a number of JavaScript libraries and frameworks that enable module usage, the browser never had a module system. A module system must be first standardized by ECMAScript and then implemented by the browser. The good news is that modern browsers have started to support module functionality natively, and the use of native JavaScript modules is dependent on the *import* and *export* statements. **The import and export statements cannot be used in embedded scripts unless such script has a `type="module"`**.
 
-> [Getting Started with Node.js ESM](https://formidable.com/blog/2021/node-esm-and-exports): In May, 2020, Node.js v12.17.0 made ESM support available to all Node.js applications without experimental flags.
-> - The `package.json` file contains a field `"type": "module"`. This will make Node.js interpret all files in the package as ESM files.
-> - An imported file name ends with `.mjs`. When migrating your `js` files to `mjs`, change the basic exports (`module.exports`) to the ESM `export` statement and all the `require` to the respective `import` statements.
-
 ### Exporting module features
 The first thing you need to do to get access to module features is export them. This is done using the `export` statement. The easiest way to use it is to place it in front of any items you want exported out of the module. A more convenient way of exporting all the items is to use a single `export` statement at the end of your module file, followed by a comma-separated list of the features you want to export wrapped in curly braces. You can **export functions, var, let, const, and classes**. They need to be top-level items; you can't use export inside a function.
 
@@ -126,7 +122,7 @@ import('./modules/square.js').then((Module) => {
 })
 ```
 
-## Import maps
+### Import maps
 In common module systems, such as CommonJS, or a module bundler like webpack, the import specifier was mapped to a specific file, and users only needed to apply the bare module specifier (usually the package name) in the import statement, and concerns around module resolution were taken care of automatically.
 
 Now many web developers are using JavaScript's native module syntax, but combining it with bare import specifiers, making their code unable to run on the web without per-application, ahead-of-time modification. We'd like to solve that, and bring these benefits to the web.
@@ -143,4 +139,30 @@ Today, `import moment from "moment"` throws, as such bare specifiers are reserve
   }
 }
 </script>
+```
+
+## Getting started with Node.js ESM
+In May, 2020, Node.js v12.17.0 made ESM support available to all Node.js applications without experimental flags. Read more at https://formidable.com/blog/2021/node-esm-and-exports
+
+The `package.json` file contains a field `"type": "module"` (defaults to CommonJS when not set). This will make Node.js interpret all files in the package as ESM files. When migrating to `mjs`, change the `module.exports` to the ESM `export` statement and all the `require` to the respective `import` statements.
+
+Available from TypeScript 4.7+, `NodeNext` integrates with Node’s native ECMAScript Module support. The emitted JavaScript uses either CommonJS or ES2020 output depending on the file extension and the value of the `type` setting in the nearest `package.json`. Read more at https://www.typescriptlang.org/tsconfig#module
+
+```json
+// npm init -y
+// package.json
+"type": "module",
+"scripts": {
+  "build": "tsc",
+  "start": "node dist/index.js"  // npm run build && npm start
+},
+
+// npm install -D typescript @types/node
+// npx tsc --init
+// tsconfig.json
+"compilerOptions": {
+  "module": "NodeNext",  // what module-related code will tsc emit
+  "target": "ES2020",
+  "outDir": "./dist",
+},
 ```
