@@ -77,6 +77,12 @@ This is where the `img` tag's `sizes` and `srcset` attributes come to into play.
   <source srcset="photo.webp" type="image/webp">
   <img src="photo.jpg" alt="Description" width="360" height="240">
 </picture>
+
+<!-- Only play the GIF if the user doesn't have reduced motion turned on -->
+<picture>
+  <source srcset="underconstruction.gif" media="(prefers-reduced-motion: no-preference)">
+  <img src="underconstruction.png" alt="Under construction" />
+</picture>
 ```
 
 **`srcset`** defines the set of images we will allow the browser to choose between. We write an image filename, a space, and the image's intrinsic width in pixels (`480w`) — note that this uses the `w` unit not `px`.
