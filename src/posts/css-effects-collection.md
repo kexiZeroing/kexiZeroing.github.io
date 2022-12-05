@@ -8,7 +8,7 @@ tags: [css]
 ---
 
 ### Rainbow Artword
-<img alt="Rainbow Artword" src="https://tva1.sinaimg.cn/large/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" height="80">
+<img alt="Rainbow Artword" src="https://tva1.sinaimg.cn/large/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
 
 ```html
 <style>
