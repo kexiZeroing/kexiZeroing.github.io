@@ -8,6 +8,8 @@ tags: [css]
 ---
 
 ### Rainbow Artword
+<img alt="Rainbow Artword" src="https://tva1.sinaimg.cn/large/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" height="80">
+
 ```html
 <style>
   .wordart {
@@ -25,7 +27,7 @@ tags: [css]
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    font-size: 90px;
+    font-size: 60px;
     font-weight: bold;
     transform: skewY(-8deg) scaleY(1.3) scaleX(0.8);
     filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
@@ -39,6 +41,8 @@ tags: [css]
 - `drop-shadow` is similar to the `box-shadow` property. The `box-shadow` property creates a rectangular shadow behind an element's entire box, while the `drop-shadow` creates a shadow that conforms to the shape (alpha channel) of the image itself.
 
 ### Hover Text Effects
+<img alt="Hover Text Effects" src="https://tva1.sinaimg.cn/large/008vxvgGly1h8t04ox2d3j30e2048jrb.jpg" width="200">
+
 https://codepen.io/jh3y/pen/abGPKGO
 
 ```html
