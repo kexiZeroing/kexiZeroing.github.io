@@ -1,7 +1,7 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Algorithm Basic"
-slug: algorithm-basic
+title: "Algorithm Basics"
+slug: algorithm-basics
 description: ""
 added: ""
 top: true
