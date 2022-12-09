@@ -305,10 +305,12 @@ webpackConfig.plugins.push(
 https://github.com/miracle90/monitor  
 https://github.com/LianjiaTech/fee
 
-### 一些快遗忘的 DOM 知识
+### 日常开发 Tips and Tricks
 - The `input` event is fired every time the value of the element changes. This is unlike the `change` event, which only fires when the value is committed, such as by pressing the enter key or selecting a value from a list of options.
 
 - The order in which the events are fired: `mousedown` --> `mouseup` --> `click`. When you add a `blur` event, it is actually fired before the `mouseup` event and after the `mousedown` event of the button. Refer to https://codepen.io/mudassir0909/full/qBjvzL
+
+- Vue parent component will wait for its children to mount before it mounts its own template to the DOM. The order should be: parent created -> child created -> child mounted -> parent mouted.
   
 ### 桌面端 Electron 的本地构建过程
 Electron是一个集成项目，允许开发者使用前端技术开发桌面端应用。其中 **Chromium 基础能力**可以让应用渲染 HTML 页面，执行页面的 JS 脚本，让应用可以在 Cookie 或 LocalStorage 中存取数据。Electron 还继承了 Chromium 的多进程架构，分一个主进程和多个渲染进程，主进程负责管理所有的渲染进程。**Node.js 基础能力**可以让开发者读写本地磁盘的文件，通过 socket 访问网络，创建和控制子进程等。**Electron 内置模块**可以支持创建操作系统的托盘图标，访问操作系统的剪切板，获取屏幕信息，发送系统通知，收集崩溃报告等。
@@ -329,95 +331,3 @@ Advantages over `localStorage`:
 - `localStorage` is not very fault tolerant, so if your app encounters an error and quits unexpectedly, you could lose the data.
 - `localStorage` only supports persisting strings. This module supports any JSON supported type.
 - The API of this module is much nicer. You can set and get nested properties. You can set default initial config.
-
-### 经典面试题
-1. 假设现在有 20 个异步请求需要发送，但由于某些原因，我们必须将同一时刻的并发请求数量控制在 3 个以内。实现一个并发请求函数，要求最大并发数 maxNum，每当有一个请求返回，就留下一个空位，可以增加新的请求。当所有请求完成后，结果按照 urls 里面的顺序依次输出。
-
-```js
-const concurrencyRequest = (urls, maxNum) => {
-  return new Promise((resolve) => {
-    if (urls.length === 0) {
-      resolve([]);
-      return;
-    }
-    const results = [];
-    let index = 0; // 下一个请求的下标
-    let count = 0; // 当前请求完成的数量
-
-    async function request() {
-      if (index === urls.length) return;
-      const i = index; // 保存序号，使得 result 和 url 对应
-      const url = urls[index];
-      index++;
-
-      try {
-        const resp = await fetch(url);
-        results[i] = resp;
-      } catch (err) {
-        results[i] = err;
-      } finally {
-        count++;
-        // 判断是否所有的请求都已完成
-        if (count === urls.length) {
-          resolve(results);
-        }
-        request();
-      }
-    }
-
-    const times = Math.min(maxNum, urls.length);
-    for(let i = 0; i < times; i++) {
-      request();
-    }
-  })
-}
-
-// test
-const urls = [];
-for (let i = 1; i <= 20; i++) {
-  urls.push(`https://jsonplaceholder.typicode.com/todos/${i}`);
-}
-concurrencyRequest(urls, 3).then(res => {
-  console.log(res);
-})
-```
-
-2. Implement calling click event listener only once without using `{once: true}`.
-```js
-function clickOnce(el, cb) {
-  const cb2 = () => {
-    cb();
-    el.removeEventListener('click', cb2, false);
-  }
-  el.addEventListener('click', cb2, false);
-}
-
-clickOnce($0, () => console.log('click'));
-```
-
-3. Use setTimeout to invoke a function multiple times in the fixed interval.
-```js
-function repeat(func, times, ms, immediate) {
-  let count = 0;
-
-  function inner(...args) {
-    count++;  
-    if (count === 1 && immediate) {
-      func.call(null, ...args);
-    }
-    if (count >= times) {
-      return;
-    }
-    setTimeout(() => {
-      inner.call(null, ...args);
-      func.call(null, ...args);
-    }, ms);
-  }
-  
-  return inner;
-}
-
-// test
-const repeatFunc = repeat(console.log, 4, 3000, true);
-repeatFunc("hello"); 
-```
