@@ -1508,3 +1508,17 @@ async function parallel() {
 ```
 
 > Concurrency is when two or more tasks can start, run, and complete in overlapping time periods. It doesn't necessarily mean they'll ever be running at the same instant. For example, multitasking on a single-core machine. Parallelism is when tasks literally run at the same time, e.g., on a multicore processor.
+
+```js
+// async error handling
+async function asyncWrap(promise) {
+  try {
+    const data = await promise;
+    return [data, null];
+  } catch (err) {
+    return [null, err];
+  }
+}
+
+const [data, err] = await asyncWrap(getData());
+```

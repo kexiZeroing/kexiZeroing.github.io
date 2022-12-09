@@ -130,6 +130,8 @@ Everything I googled in a week as a senior software engineer: https://localghost
 
 ## CSS related
 
+Super Useful CSS Resources: https://dev.to/lissy93/super-useful-css-resources-1ba3
+
 Defensive CSS - writing CSS that is protected: https://ishadeed.com/article/defensive-css
 
 Understanding Layout Modes: https://www.joshwcomeau.com/css/understanding-layout-algorithms
