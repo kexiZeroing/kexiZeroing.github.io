@@ -1,7 +1,7 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Understand npm"
-slug: understand-npm
+title: "Understand npm concepts"
+slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [js]
