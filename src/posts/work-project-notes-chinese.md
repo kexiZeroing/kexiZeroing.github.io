@@ -65,6 +65,12 @@ console.log(version)
 - `output.filename` 的输出文件名是 `[name].[chunkhash].js`，`[name]` 根据 entry 的配置推断为 index，所以输出为 `index.[chunkhash].js`。`output.chunkFilename` 默认使用 `[id].js`, 会把 `[name]` 替换为 chunk 文件的 id 号。
 - `chunkhash` 根据不同的入口文件构建对应的 chunk，生成对应的哈希值，来源于同一个 chunk，则 hash 值就一样。
 
+> 生成 chunks
+> 1. webpack 先将 entry 中对应的 module 都生成一个新的 chunk
+> 2. 遍历 module 的依赖列表，将依赖的 module 也加入到 chunk 中
+> 3. 如果一个依赖 module 是动态引入的模块，那么就会根据这个 module 创建一个 新的 chunk，继续遍历依赖
+> 4. 重复上面的过程，直至得到所有的 chunks
+
 #### resolve
 - extensions 数组，在 import 不带文件后缀时，webpack 会自动带上后缀去尝试访问文件是否存在，默认值 `['.js', '.json', '.wasm']`
 - mainFiles 设置解析目录时要使用的文件名，默认值 `['index']`
@@ -91,6 +97,8 @@ module: {
 ```
 
 Webpack 4 also has the concept `url-loader`. It first base64 encodes the file and then inlines it. It will become part of the bundle. That means it will not output a separate file like `file-loader` does. If you are using webpack 5, then `url-loader` is deprecated and instead, you should use `asset/inline`.
+
+> Loaders are transformations that are applied to the source code of a module. When you provide a list of loaders, they are applied from right to left, like `use: ['third-loader', 'second-loader', 'first-loader']`. This makes more sense once you look at a loader as a function that passes its result to the next loader in the chain `third(second(first(source)))`.
 
 #### webpack in development
 - `webpack-dev-server` doesn't write any output files after compiling. Instead, it keeps bundle files in memory and serves them as if they were real files mounted at the server's root path. `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.
@@ -260,14 +268,27 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 
 2. 自己对 axios 封装
 - 通过 `axios.defaults.headers['xyz'] = 'abc'` 这样的方式添加需要的请求头
-- 统一对 query 参数做处理
-- 加 csrf token，加业务 header
+- 统一对 query 参数做处理，拼在 url 后面
+- 加 csrf token，加业务需要的 header
 - 根据不同的错误码做页面跳转
 
   ```js
+  const handleResponse = (res) => {
+    if(res.headers && res.headers['set-auth']) {
+      window.Authorization = res.headers['set-auth'];
+    }
+    
+    // 之后根据状态码做不同处理...
+  }
+
   export default {
     get(url, params) {
-      // 统一加请求头，处理 queryString 等
+      // 统一加请求头
+      axios.defaults.headers['X-Client'] = 'web';
+      if (window.Authorization) {
+        axios.defaults.headers['Authorization'] = 'Bearer ' + window.Authorization;
+      }
+
       return axios
         .get(url)
         .then(function(response) {

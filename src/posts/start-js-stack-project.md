@@ -21,6 +21,7 @@ At last, we need a `parcel build index.js` as a `build` script in `package.json`
 ### Release helper
 - Interactive CLI that bumps version number (with `--commit` `--tag` `--push` by default): https://github.com/antfu/bumpp
 - Generic CLI tool to automate versioning and package publishing related tasks: https://github.com/release-it/release-it
+- Generate changelogs and release notes from a project's commit messages and metadata: https://github.com/conventional-changelog/conventional-changelog
 
 ### browserslist and postcss
 The [browserslist](https://github.com/browserslist/browserslist) configuration (either in `package.json` or `.browserslistrc`) uses `caniuse` data (https://caniuse.com/usage-table) for queries to control the outputted JS/CSS so that the emitted code will be compatible with the browsers specified. It will be installed with webpack and used by many popular tools like autoprefixer, babel-preset-env. You can find these tools require `browserslist` in the `package-lock.json` file.
