@@ -9,6 +9,9 @@ tags: [js]
 
 [Advent Of Vue](https://www.getrevue.co/profile/AdventOfVue) is a series of Vue coding challenges.
 
+### Event Website
+Build with Astro: https://github.com/Advent-Of-Vue/event-website
+
 ### Code Structure
 https://stackblitz.com/edit/vue3-vite-starter
 
