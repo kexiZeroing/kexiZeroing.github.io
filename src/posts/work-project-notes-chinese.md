@@ -340,6 +340,22 @@ https://github.com/LianjiaTech/fee
 - The order in which the events are fired: `mousedown` --> `mouseup` --> `click`. When you add a `blur` event, it is actually fired before the `mouseup` event and after the `mousedown` event of the button. Refer to https://codepen.io/mudassir0909/full/qBjvzL
 
 - Vue parent component will wait for its children to mount before it mounts its own template to the DOM. The order should be: parent created -> child created -> child mounted -> parent mouted.
+
+- Sometimes I need to detect whether a click happens inside or outside of a particular element.
+```js
+window.addEventListener('mousedown', e => {
+  // Get the element that was clicked
+  const clickedEl = e.target;
+
+  // `el` is the element you're detecting clicks outside of
+  // https://developer.mozilla.org/en-US/docs/Web/API/Node/contains
+  if (el.contains(clickedEl)) {
+    // Clicked inside of `el`
+  } else {
+    // Clicked outside of `el`
+  }
+});
+```
   
 ### 桌面端 Electron 的本地构建过程
 Electron是一个集成项目，允许开发者使用前端技术开发桌面端应用。其中 **Chromium 基础能力**可以让应用渲染 HTML 页面，执行页面的 JS 脚本，让应用可以在 Cookie 或 LocalStorage 中存取数据。Electron 还继承了 Chromium 的多进程架构，分一个主进程和多个渲染进程，主进程负责管理所有的渲染进程。**Node.js 基础能力**可以让开发者读写本地磁盘的文件，通过 socket 访问网络，创建和控制子进程等。**Electron 内置模块**可以支持创建操作系统的托盘图标，访问操作系统的剪切板，获取屏幕信息，发送系统通知，收集崩溃报告等。
