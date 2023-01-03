@@ -217,3 +217,5 @@ To solve the latency problem, very smart folks came up with the idea of deployin
 - Do work on servers (like cloud servers/functions)
 
 > Cloud = a server, somewhere; Edge = a server, close to you
+
+With [Netlify Edge Functions](https://edge-functions-examples.netlify.app), you can transform HTTP Requests and Responses, stream server rendered content, and even run full server side rendered applications. And this all happens at the Edge — directly from the worldwide location closest to each user. You can write edge functions using JavaScript or TypeScript, but instead of using Node.js under the hood, they are powered by Deno.

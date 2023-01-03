@@ -126,6 +126,8 @@ Web based macOS and Windows XP desktop recreation: https://macos-web.app, https:
 
 Everything I googled in a week as a senior software engineer: https://localghost.dev/blog/everything-i-googled-in-a-week-as-a-senior-software-engineer
 
+GitHub Contributions Chart Generator: https://github-contributions.vercel.app
+
 ---
 
 ## CSS related
