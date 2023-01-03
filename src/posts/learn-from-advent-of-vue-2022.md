@@ -1,6 +1,6 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Learn from Advent Of Vue 2022"
+title: "Learn from Advent of Vue 2022"
 slug: learn-from-advent-of-vue-2022
 description: ""
 added: "Dec 27 2022"
@@ -8,9 +8,6 @@ tags: [js]
 ---
 
 [Advent Of Vue](https://www.getrevue.co/profile/AdventOfVue) is a series of Vue coding challenges.
-
-### Event Website
-Build with Astro: https://github.com/Advent-Of-Vue/event-website
 
 ### Code Structure
 https://stackblitz.com/edit/vue3-vite-starter
@@ -180,6 +177,33 @@ watch(selectedItem, (newItem, prevItem) => {
   )
   itemsToCompare.value.push(newItem)
 })
+```
+
+**How the Vue Composition API Replaces Vue Mixins?**  
+Normally, a Vue component is defined by a JavaScript object with various properties representing the functionality we need — things like `data`, `methods`, `computed`, and so on. When we want to share the same properties between components, we can extract the common properties into a separate module. Now we can add this mixin to any consuming component by assigning it to the `mixin` config property. At runtime, Vue will merge the properties of the component with any added mixins.
+
+Mixins have drawbacks: 
+1. Naming collisions. What happens if they both share a property with the same name?
+2. Implicit dependencies. A component can use a data property defined in the mixin but a mixin can also use a data property it assumes is defined in the component. This can cause problems. What happens if we want to refactor a component later and change the name of a variable that the mixin needs?
+
+The key idea of the Composition API is that, rather than defining a component’s functionality as object properties, we define them as JavaScript variables that get returned from a new `setup` function. The clear advantage of the Composition API is that it’s easy to extract logic. It allows Vue to lean on the safeguards built into native JavaScript in order to share code, like passing variables to the composition function, and the module system.
+
+```js
+// useCounter.js
+// https://css-tricks.com/how-the-vue-composition-api-replaces-vue-mixins/
+import { ref, computed } from "vue";
+export default function () {
+  const count = ref(0);
+  const double = computed(() => count.value * 2)
+  function increment() {
+    count.value++;
+  }
+  return {
+    count,
+    double,
+    increment
+  }
+}
 ```
 
 ### Drag and Drop
