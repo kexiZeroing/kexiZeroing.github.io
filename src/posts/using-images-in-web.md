@@ -95,29 +95,9 @@ Read more about best practices for web images:
 - https://github.com/nucliweb/image-element
 - https://ausi.github.io/respimagelint/docs.html
 
-## v-lazy-image
-[v-lazy-image](https://github.com/alexjoverm/v-lazy-image) is a Vue.js component that imitates the `<img>` tag API and applies lazy loading (when it enters the viewport using the Intersection Observer API).
-
-As simple as using the `src-placeholder` property to define an image that is shown until the `src` image is loaded. Make sure the placeholder image is a tiny version of the original one. When the `src` image is loaded, a `v-lazy-image-loaded` class is added, so you can use it to perform animations.
-
-```vue
-<template>
-  <v-lazy-image
-    src="https://cdn-images-1.medium.com/max/1600/1*xjGrvQSXvj72W4zD6IWzfg.jpeg"
-    src-placeholder="https://cdn-images-1.medium.com/max/80/1*xjGrvQSXvj72W4zD6IWzfg.jpeg"
-  />
-</template>
-
-<style scoped>
-.v-lazy-image {
-  filter: blur(10px);
-  transition: filter 0.7s;
-}
-.v-lazy-image-loaded {
-  filter: blur(0);
-}
-</style>
-```
+## Vue lazy-load images
+- [Vue-Lazyload](https://github.com/hilongjw/vue-lazyload)
+- [v-lazy-image](https://github.com/alexjoverm/v-lazy-image)
 
 ## Use CSS filter functions
 The `blur()` function applies a Gaussian blur to the input image. The value of `radius` defines how many pixels on the screen blend into each other, so a larger value will create more blur. The initial value for interpolation is 0. The parameter is specified as a CSS length, but does not accept percentage values. e.g. `filter: blur(5px)`

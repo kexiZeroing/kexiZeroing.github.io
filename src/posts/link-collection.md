@@ -174,6 +174,8 @@ Color Formats in CSS: https://www.joshwcomeau.com/css/color-formats
 
 Optimizing Web Fonts: https://www.lydiahallie.io/blog/optimizing-webfonts-in-nextjs-13
 
+CSS Style Queries: https://ishadeed.com/article/css-container-style-queries
+
 ---
 
 ## FE dev resources
