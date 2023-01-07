@@ -22,10 +22,8 @@ order: 3
 - @shadeed9 css articles https://ishadeed.com/articles
 - @taniarascia blog https://www.taniarascia.com/blog
 - @JoshWComeau blog https://www.joshwcomeau.com
+- @lydiahallie technology through writing and visualizations
 - @flaviocopes all kinds of handbooks https://thevalleyofcode.com
-- @lizandmollie powerful visuals about feelings
-
-  <img alt="@lizandmollie" src="https://tva1.sinaimg.cn/large/008vxvgGly1h7f39i71dqj30p00p03zc.jpg" width="500" />
 
 ## Business and Engineering alignment by Kent C. Dodds
 Your job isn't to turn user stories into code. The company has a mission. Everyone at the company is hired to push that mission forward. You're not a software engineer hired to code. You're a human hired to push their mission forward. It just so happens that you are a human with coding skills and during the hiring process, they recognized that those coding skills could help them in their mission.

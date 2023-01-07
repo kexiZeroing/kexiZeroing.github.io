@@ -125,6 +125,10 @@ function fetchVideo() {
 }
 ```
 
+### Build on Fetch
+- [wretch](https://github.com/elbywan/wretch) is a tiny wrapper built around fetch.
+- Axios is great, but a bit large on kb compared to wretch. [Redaxios](https://github.com/developit/redaxios) is a great small alternative to axios.
+
 ## POST Requests
 The HTTP POST method sends data to the server. The type of the body of the request is indicated by the `Content-Type` header.
 

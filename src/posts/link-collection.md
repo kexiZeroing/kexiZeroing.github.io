@@ -58,6 +58,8 @@ DevOps Roadmap 2022: https://github.com/milanm/DevOps-Roadmap
 
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials/beginners-typescript
 
+Whiteboard the web - Learn the web in 1 minute: https://wtw.dev
+
 ---
 
 ## Tools and Cool websites
