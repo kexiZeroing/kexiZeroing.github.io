@@ -58,3 +58,69 @@ Bandwidth means, once things get going, how fast you can download. But "once thi
 That's where latency comes in. Latency is the time it takes to make a round trip to the server. Really good web designers know how to minimize the number of round trips, or at least do more round trips at the same time - which makes their pages load faster on everyone's connection. But every web page, whether optimized or not, automatically benefits pretty much proportionally to your network latency. Cut latency in half, and most pages will load about twice as fast.
 
 Packet loss is the third component, and it's often forgotten. If you run the 'ping' program, which most people don't do and which is hard or impossible to do from many modern Internet devices (phones, tablets, etc), it will show you how many packets are dropped, and how many got through. And it's not that useful anyway, since real web pages don't see "packet loss." On the web (and any TCP-based protocol), packet loss translates into packet retransmissions, which means latency in some cases is 2, 3, or more times higher than usual.
+
+### JS 网络测速
+The `Navigator.connection` read-only property returns a [NetworkInformation](https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation) object containing information about the system's connection, such as the current bandwidth of the user's device or whether the connection is metered. *(experimental technology)* 
+
+- `navigator.connection.type`: The type of connection a device is using to communicate with the network. 
+- `navigator.connection.effectiveType`: Effective connection type meaning one of 'slow-2g', '2g', '3g', or '4g'.
+- `navigator.connection.saveData`: Data-saver enabled/disabled
+
+If you have large assets that are critical for initial rendering, you can use different variations of the same resource depending on the user's connection. For example, you can display an image instead of a video for any connection speeds lower than 4G:
+
+```js
+if (navigator.connection && navigator.connection.effectiveType) {
+  if (navigator.connection.effectiveType === '4g') {
+    // Load video
+  } else {
+    // Load image
+  }
+}
+```
+
+`ping` 表示给目标 IP 地址发送一个 ICMP 报文，再要求对方返回一个大小相同的数据包来确定两台网络机器是否能正常通信以及有多少时延。JS 无法真正原生地测量 ping 值，但可以通过请求一个尽量小的资源来模拟发送报文，记录发起请求到收到返回值的时间差。请求的内容可以是网站的 `favicon.ico`，一个空文件或者一个空接口。然后多次测量 ping 值就可以得出网络波动情况。
+
+```js
+const Dashboard = React.memo(() => {
+  const [ping, setPing] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
+  const [pingList, setPingList] = useState<number[]>([]);
+  const [jitter, setJitter] = useState<number>(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const img = new Image();
+      const startTime = new Date().getTime();
+      // 此处选择加载 github 的 favicon
+      img.src = `https://github.com/favicon.ico?d=${startTime}`;
+      img.onload = () => {
+        const endTime = new Date().getTime();
+        const delta = endTime - startTime;
+        
+        if ((count + 1) % 5 === 0) {
+          // 抖动: 取五次测量结果的最大最小值求差，可以看出网络的波动情况，差值越小代表网络越稳定
+          const maxPing = Math.max(delta, ...pingList);
+          const minPing = Math.min(delta, ...pingList);
+          setJitter(maxPing - minPing);
+          setPingList([]);
+        } else {
+          setPingList(lastList => [...lastList, delta]);
+        }
+        setCount(count + 1);
+        setPing(delta);
+      };
+      img.onerror = err => {
+        console.log('error', err);
+      };
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [count, pingList]);
+
+  return (
+    <div>
+      <h1>PING: {ping}ms</h1>
+      <h1>抖动: {jitter}ms</h1>
+    </div>
+  );
+});
+```
