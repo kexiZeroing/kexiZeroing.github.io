@@ -206,6 +206,8 @@ export default function () {
 }
 ```
 
+[VueUse](https://github.com/vueuse/vueuse) is a collection of essential Vue composition utilities for Vue 2 and 3.
+
 ### Drag and Drop
 Adding the proper event listeners and implementing the `startDrag` and `onDrop` methods. If you'd like some more explanations, here's a tutorial: https://learnvue.co/tutorials/vue-drag-and-drop
 
