@@ -74,6 +74,8 @@ window.performance.getEntriesByType('resource')
   .forEach(({name}) => console.log(name))
 ```
 
+Continue to read https://web.dev/top-cwv-2023, a collection of the best practices that the Chrome DevRel team believes are the most effective ways to improve Core Web Vitals performance in 2023.
+
 ### Best practices for fonts
 
 > Read more from https://web.dev/font-best-practices

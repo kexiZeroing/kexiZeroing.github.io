@@ -84,3 +84,52 @@ https://codepen.io/jh3y/pen/abGPKGO
 - [Splitting.js](https://splitting.js.org) is designed to split an element in a variety of ways, such as words, characters, child nodes, and more.
 - The `inset` CSS property is a shorthand that corresponds to the `top`, `right`, `bottom` and `left` properties.
 - `:has(+ .char:hover)` means target any character that is directly followed by a character that is hovered. It is available in Chrome 105.
+
+### Pure CSS Todo List
+Invert your thinking with `:has()`. https://codepen.io/jh3y/pen/bGjWLPG
+
+```html
+<style>
+  @import url(https://unpkg.com/open-props/open-props.min.css);
+
+  ul:has(input:not(:checked)) {
+    background: var(--surface-1);
+    border-color: var(--red-2);
+  }
+  li {
+    display: flex;
+    gap: var(--size-2);
+  }
+
+  ul {
+    box-shadow: var(--shadow-5);
+    padding: var(--size-4);
+    border-radius: var(--radius-3);
+    border: 2px solid green;
+    list-style-type: none;
+    display: grid;
+    gap: var(--size-2);
+    background: var(--green-0);
+    transition: all 0.2s ease;
+  }
+
+  input {
+    accent-color: var(--green-8);
+  }
+  :checked + label {
+    font-style: italic;
+    text-decoration: line-through;
+  }
+</style>
+
+<ul>
+  <li class="item">
+    <input type="checkbox" id="milk">
+    <label for="milk">Get Milk</label>
+  </li>
+  <li class="item">
+    <input type="checkbox" id="trash">
+    <label for="trash">Take Out Trash</label>
+  </li>
+</ul>
+```
