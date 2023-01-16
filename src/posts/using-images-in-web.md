@@ -94,18 +94,53 @@ The browser will look at its device width and work out which media condition in 
 Read more about best practices for web images:
 - https://github.com/nucliweb/image-element
 - https://ausi.github.io/respimagelint/docs.html
+- https://web.dev/browser-level-image-lazy-loading
 
 ## Vue lazy-load images
 - [Vue-Lazyload](https://github.com/hilongjw/vue-lazyload)
 - [v-lazy-image](https://github.com/alexjoverm/v-lazy-image)
 
-## Use CSS filter functions
-The `blur()` function applies a Gaussian blur to the input image. The value of `radius` defines how many pixels on the screen blend into each other, so a larger value will create more blur. The initial value for interpolation is 0. The parameter is specified as a CSS length, but does not accept percentage values. e.g. `filter: blur(5px)`
+## Compress images using canvas
 
-The `brightness()` function applies a linear multiplier to the input image, making it appear more or less bright. A value of `0%` will create an image that is completely black. A value of `100%` leaves the input unchanged. Other values are linear multipliers on the effect. Values of an amount over `100%` are allowed, providing brighter results. The initial value for interpolation is 1. e.g. `filter: brightness(2)`
+```js
+/**
+ * 压缩图片
+ * @param img 被压缩的img对象
+ * @param type 压缩后转换的文件类型
+ * @param mx 触发压缩的图片最大宽度限制
+ * @param mh 触发压缩的图片最大高度限制
+ * @param quality 图片质量
+ */
+ function compressImg(img, type, mx, mh, quality = 1) {
+  return new Promise((resolve, reject) => {
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+    const { width: originWidth, height: originHeight } = img
+    // 最大尺寸限制
+    const maxWidth = mx
+    const maxHeight = mh
+    // 目标尺寸
+    let targetWidth = originWidth
+    let targetHeight = originHeight
+    if (originWidth > maxWidth || originHeight > maxHeight) {
+      if (originWidth / originHeight > 1) {
+        // 宽图片
+        targetWidth = maxWidth
+        targetHeight = Math.round(maxWidth * (originHeight / originWidth))
+      } else {
+        // 高图片
+        targetHeight = maxHeight
+        targetWidth = Math.round(maxHeight * (originWidth / originHeight))
+      }
+    }
+    canvas.width = targetWidth
+    canvas.height = targetHeight
+    context?.clearRect(0, 0, targetWidth, targetHeight)
 
-The `contrast()` function adjusts the contrast of the input image. A value of `0%` will create an image that is completely gray. A value of `100%` leaves the input unchanged. Values of an amount over `100%` are allowed, providing results with more contrast. The initial value for interpolation is 1. e.g. `filter: contrast(200%)`
-
-The `grayscale()` function converts the input image to grayscale. The value of `amount` defines the proportion of the conversion. A value of `100%` is completely grayscale. A value of `0%` leaves the input unchanged. Values between `0%` and `100%` are linear multipliers on the effect. The initial value for interpolation is 0. e.g. `filter: grayscale(100%)`
-
-The `hue-rotate()` function applies a hue rotation on the input image. The value of `angle` defines the number of degrees around the color circle the input samples will be adjusted. A value of `0deg` leaves the input unchanged. The initial value for interpolation is 0. Though there is no maximum value; the effect of values above `360deg` wraps around. e.g. `filter: hue-rotate(90deg)`
+    context?.drawImage(img, 0, 0, targetWidth, targetHeight)
+    canvas.toBlob(function(blob) {
+      resolve(blob)
+    }, type || 'image/png', quality) 
+  })
+}
+```

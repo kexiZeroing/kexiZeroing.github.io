@@ -44,7 +44,7 @@ Shadowsocks 的出现是一个拐点，它把代理服务器拆分成 server 端
 
 - VPS (virtual private server)，可以把它简单地理解为一台在远端的强劲电脑。当你租用了它以后，可以给它安装操作系统、软件，并通过一些工具连接和远程操控它。比如 Vultr、搬瓦工都是 VPS 服务器提供商。
 - Shadowsocks 是一个 project，是一种传输协议（ShadowsocksR, V2Ray, Trojan 也都是协议），分为 client 端和 server 端，实现了两端之间的加密数据传输，它不是一个具体的软件或工具。
-- 相比服务器端的安装需要配置和部署等，客户端的安装就简单许多，大多数用户只需要这一步。比如 ClashX，Trojan-QT5，TrojanX 均为 Mac 客户端，不同客户端主要是界面区别，选择一个使用即可。具体文档参考：https://github.com/Shadowsocks-Wiki/shadowsocks
+- 相比服务器端的安装需要配置和部署等，客户端的安装就简单许多，大多数用户只需要这一步。比如 ClashX，Trojan-QT5，TrojanX 均为 Mac 客户端，不同客户端主要是界面区别，选择一个使用即可。可以在订阅服务网站的帮助中心找到『Trojan 服务客户端设置教程索引』或者参考文档：https://github.com/Shadowsocks-Wiki/shadowsocks
 - 浏览器、邮件、文件传输都是在应用层；Shadowsocks、V2Ray 等 Socks5 类型的代理都是在会话层，所以可以代理应用层的数据；游戏数据是直接通过传输层协议 TCP 和 UDP 进行通讯的，不经过会话层，所以正常情况下 Socks5 是不能代理游戏通讯数据的（即使开了全局代理）；PING、TRACE 这些 ICMP 指令都是在网络层，也不通过 Socks5 代理转发；而主流的 VPN 协议都是在数据链路层，近乎所有的流量都可以被 VPN 代理。
 
 ### 带宽 时延 丢包
