@@ -97,11 +97,14 @@ Read more about best practices for web images:
 - https://web.dev/browser-level-image-lazy-loading
 
 ## Vue lazy-load images
+Lazy-load images and videos. It makes sense to only load the resources that your users need at that moment. Postpone loading images and videos that are off-screen at first, and lazy load them later.
 - [Vue-Lazyload](https://github.com/hilongjw/vue-lazyload)
 - [v-lazy-image](https://github.com/alexjoverm/v-lazy-image)
+- [vue-content-loader](https://github.com/egoist/vue-content-loader)
 
-## Compress images using canvas
+## Compress images
 
+**HTMLCanvasElement `toBlob` method**  
 ```js
 /**
  * 压缩图片
@@ -138,9 +141,13 @@ Read more about best practices for web images:
     context?.clearRect(0, 0, targetWidth, targetHeight)
 
     context?.drawImage(img, 0, 0, targetWidth, targetHeight)
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
     canvas.toBlob(function(blob) {
       resolve(blob)
     }, type || 'image/png', quality) 
   })
 }
 ```
+
+**Automate compression workflow**  
+The [Tinify API](https://tinypng.com/developers/reference/nodejs) allows you to compress and optimize WebP, JPEG and PNG images. It is designed as a REST service.

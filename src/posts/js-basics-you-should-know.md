@@ -227,6 +227,9 @@ Object.prototype.toString.call(new Map())     // '[object Map]'
 - `Number.MAX_SAFE_INTEGER` is the largest integer which can be used safely in calculations, for example, `Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2` is true. Any integer larger than `Number.MAX_SAFE_INTEGER` cannot always be represented in memory accurately and will be a double-precision floating point approximation of the value.
 - With the introduction of `BigInt`, you can operate with numbers beyond the `Number.MAX_SAFE_INTEGER`. A `BigInt` is created by appending `n` to the end of an integer or by calling the constructor.
 
+> **The corrupted JSON data:**  
+> Javascript only has floating point numbers – it doesn’t have an integer type. The biggest integer you can represent in a 64-bit floating point number is `2^53`. People mentioned issues when they were trying to send a large integer in JSON and it got corrupted. This mostly makes sense to me because JSON has “Javascript” in the name, so it seems reasonable to decode the values the way Javascript would. This particular issue doesn’t happen in Python, because Python has integers. Read more about [Examples of floating point problems](https://jvns.ca/blog/2023/01/13/examples-of-floating-point-problems/).
+
 ### Why `[] + {}` is `"[object Object]"`
 Firstly convert both operands to primitive values, and try `valueOf()` followed by `toString()`. If either of them is a string, do `String(a) + String(b)`, otherwise do `Number(a) + Number(b)`.
 
@@ -1569,3 +1572,6 @@ function expect(actual) {
 ```
 
 Instead of building our own framework, [Jest](https://jestjs.io) is a JavaScript testing framework built on top of Jasmine and maintained by Meta. It works out of the box for most JavaScript projects.
+
+## Javascript obfuscation techniques
+https://www.trickster.dev/post/javascript-obfuscation-techniques-by-example

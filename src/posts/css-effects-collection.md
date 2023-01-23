@@ -85,51 +85,104 @@ https://codepen.io/jh3y/pen/abGPKGO
 - The `inset` CSS property is a shorthand that corresponds to the `top`, `right`, `bottom` and `left` properties.
 - `:has(+ .char:hover)` means target any character that is directly followed by a character that is hovered. It is available in Chrome 105.
 
-### Pure CSS Todo List
-Invert your thinking with `:has()`. https://codepen.io/jh3y/pen/bGjWLPG
+### Flip Hover Effects
+https://codepen.io/rikanutyy/pen/PEJBxX
 
 ```html
 <style>
-  @import url(https://unpkg.com/open-props/open-props.min.css);
-
-  ul:has(input:not(:checked)) {
-    background: var(--surface-1);
-    border-color: var(--red-2);
-  }
-  li {
-    display: flex;
-    gap: var(--size-2);
-  }
-
-  ul {
-    box-shadow: var(--shadow-5);
-    padding: var(--size-4);
-    border-radius: var(--radius-3);
-    border: 2px solid green;
-    list-style-type: none;
-    display: grid;
-    gap: var(--size-2);
-    background: var(--green-0);
-    transition: all 0.2s ease;
+  .card {
+    color: #013243;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 400px;
+    background: #e0e1dc;
+    transform-style: preserve-3d;
+    transform: translate(-50%,-50%) perspective(2000px);
+    box-shadow: inset 300px 0 50px rgba(0,0,0,.5), 20px 0 60px rgba(0,0,0,.5);
+    transition: 1s;
   }
 
-  input {
-    accent-color: var(--green-8);
+  .card:hover {
+    transform: translate(-50%,-50%) perspective(2000px) rotate(15deg) scale(1.2);
+    box-shadow: inset 20px 0 50px rgba(0,0,0,.5), 0 10px 100px rgba(0,0,0,.5);
   }
-  :checked + label {
-    font-style: italic;
-    text-decoration: line-through;
+
+  .card:before {
+    content:'';
+    position: absolute;
+    top: -5px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #BAC1BA;
+    transform-origin: bottom;
+    transform: skewX(-45deg);
+  }
+
+  .card:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -5px;
+    width: 5px;
+    height: 100%;
+    background: #92A29C;
+    transform-origin: left;
+    transform: skewY(-45deg);
+  }
+
+  .card .imgBox {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-origin: left;
+    transition: .7s;
+  }
+
+  .card .bark {
+    position: absolute;
+    background: #e0e1dc;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: .7s;
+  }
+
+  .card .imgBox img {
+    min-width: 250px;
+    max-height: 400px;
+  }
+
+  .card:hover .imgBox {
+    transform: rotateY(-135deg);
+  }
+
+  .card:hover .bark {
+    opacity: 1;
+    transition: .6s;
+    box-shadow: 300px 200px 100px rgba(0, 0, 0, .4) inset;
+  }
+
+  .card .details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    padding: 0 0 0 20px;
+    z-index: -1;
+    margin-top: 70px;
   }
 </style>
 
-<ul>
-  <li class="item">
-    <input type="checkbox" id="milk">
-    <label for="milk">Get Milk</label>
-  </li>
-  <li class="item">
-    <input type="checkbox" id="trash">
-    <label for="trash">Take Out Trash</label>
-  </li>
-</ul>
+<div class="card">
+  <div class="imgBox">
+    <div class="bark"></div>
+    <img src="https://placekitten.com/300/400">
+  </div>
+  <div class="details">
+    <h4>HAPPY BIRTHDAY</h4>
+  </div>
+</div>
 ```

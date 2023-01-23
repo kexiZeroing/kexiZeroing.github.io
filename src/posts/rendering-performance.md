@@ -43,8 +43,6 @@ Before a browser can render any content, it needs to parse HTML markup into a DO
 
 If you know that a particular resource should be prioritized, use `<link rel="preload">` to fetch it sooner. By preloading a certain resource, you are telling the browser that you would like to fetch it sooner than the browser would discover it because you are certain that it is important for the current page. (**Preloading is best suited for resources typically discovered late by the browser**). The browser caches preloaded resources so they are available immediately when needed. It doesn't execute the scripts or apply the stylesheets. Supplying the `as` attribute helps the browser set the priority of the prefetched resource according to its type and determine whether the resource already exists in the cache.
 
-Another one, `<link rel="prefetch">` is a low priority resource hint that allows the browser to fetch resources in the background (idle time) that might be needed later, and store them in the browser's cache. It is helpful when you know you’ll need that resource on a subsequent page, and you want to cache it ahead of time.
-
 ```html
 <link rel="preload" as="script" href="script.js">
 <link rel="preload" as="style" href="style.css">
@@ -60,12 +58,15 @@ Another one, `<link rel="prefetch">` is a low priority resource hint that allows
 />
 ```
 
+Another one, `<link rel="prefetch">` is a low priority resource hint that allows the browser to fetch resources in the background (idle time) that might be needed later, and store them in the browser's cache. It is helpful when you know you’ll need that resource on a subsequent page, and you want to cache it ahead of time.
+
+There’re six `<link rel>` tags that instruct the browser to preload something: [Preload, prefetch and other <link> tags](https://3perf.com/blog/link-rels/)
+
 > Resource hints like `preconnect` and `dns-prefetch` are executed as the browser sees fit. The `preload`, on the other hand, is mandatory for the browser. Modern browsers are already pretty good at prioritizing resources, that's why it's important to use `preload` sparingly and only preload the most critical resources.
 
 For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. Defer scripts are guaranteed to execute in the order that they appear in the document. Typically you want to use `async` where possible, then `defer` then no attribute. 
 
 Chrome 107 comes with a new `renderBlockingStatus` field on ResourceTiming entries. Use it to find and monitor all the render blocking resources in a page.
-
 ```js
 // get all resources
 window.performance.getEntriesByType('resource')
@@ -74,11 +75,9 @@ window.performance.getEntriesByType('resource')
   .forEach(({name}) => console.log(name))
 ```
 
-Continue to read https://web.dev/top-cwv-2023, a collection of the best practices that the Chrome DevRel team believes are the most effective ways to improve Core Web Vitals performance in 2023.
-
 ### Best practices for fonts
 
-> Read more from https://web.dev/font-best-practices
+> Refer to https://web.dev/font-best-practices
 
 Before diving into best practices for font loading it's important to understand how `@font-face` works and how this impacts font loading. The `@font-face` declaration is an essential part of working with any web font. At a minimum, it declares the name that will be used to refer to the font and indicates the location of the corresponding font file.
 
@@ -120,3 +119,7 @@ Font files typically include a large number of glyphs for all the various charac
 The fastest font to deliver is a font that isn't requested in the first place. A **system font** is the default font used by the user interface of a user's device. System fonts typically vary by operating system and version. Because the font is already installed, the font does not need to be downloaded. To use the system font in your CSS, list `system-ui` as the font-family.
 
 When faced with a web font that has not yet loaded, the browser is faced with a dilemma: should it hold off on rendering text until the web font has arrived? Or should it render the text in a fallback font until the web font arrives? Different browsers handle this scenario differently. By default, Chromium-based and Firefox browsers will block text rendering for up to 3 seconds if the associated web font has not loaded; Safari will block text rendering indefinitely. This behavior can be configured by using the [font-display](https://developer.mozilla.org/docs/Web/CSS/@font-face/font-display) attribute, which informs the browser how it should proceed with text rendering when the associated web font has not loaded.
+
+### More to read
+- Web Performance 101: https://3perf.com/talks/web-perf-101/
+- A collection of the best practices that the Chrome DevRel team believes are the most effective ways to improve Core Web Vitals performance in 2023: https://web.dev/top-cwv-2023

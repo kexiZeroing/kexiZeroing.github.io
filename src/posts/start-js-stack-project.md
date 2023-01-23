@@ -29,6 +29,7 @@ The [browserslist](https://github.com/browserslist/browserslist) configuration (
 - There is a `defaults` query (`> 0.5%, last 2 versions, Firefox ESR, not dead`), which gives a reasonable configuration for most users.
 - If you want to change the default set of browsers, we recommend combining `last 2 versions`, `not dead` with a usage number like `> 0.2%`.
 - `last 1 version or > 1%` is equal to `last 1 version, > 1%`. Each line in `.browserslistrc` file is combined with `or` combiner.
+- Display target browsers from a browserslist config: https://browsersl.ist/#q=defaults
 - Run `npx browserslist` in project directory to see what browsers was selected by your queries.
 
 `PostCSS` is a tool for transforming CSS with JavaScript plugins. It provides features via its extensive plugin ecosystem to help improve the CSS writing experience. Plugins for just about [anything](https://www.postcss.parts). For example:

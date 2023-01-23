@@ -54,7 +54,7 @@ What happens when we type google.com in a browser: https://github.com/vasanthk/h
 
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
-DevOps Roadmap 2022: https://github.com/milanm/DevOps-Roadmap
+Simplest possible examples of HTML, CSS and JavaScript: https://simpl.info
 
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials/beginners-typescript
 
@@ -93,6 +93,8 @@ Manage node_modules in the system: https://github.com/voidcosmos/npkill
 Interactive website with live coding: https://www.strml.net/
 
 Driving game run in a browser: https://slowroads.io/
+
+Summer Afternoon: https://summer-afternoon.vlucendo.com/
 
 Neal.Fun: https://neal.fun/
 
@@ -152,6 +154,8 @@ Understanding Z-Index: https://ishadeed.com/article/understanding-z-index
 
 The blueprint HTML and CSS for website headers: https://headers-css.vercel.app
 
+Basic styles for HTML Elements without classes: https://boltcss.com
+
 Box alignment in Grid and Flexbox: https://ishadeed.com/article/learn-box-alignment
 
 CSS Flexbox: https://github.com/samanthaming/Flexbox30
@@ -159,8 +163,6 @@ CSS Flexbox: https://github.com/samanthaming/Flexbox30
 CSS Grid: https://www.youtube.com/playlist?list=PLu8EoSxDXHP5CIFvt9-ze3IngcdAc2xKG
 
 Scroll Snap: https://oh-snap.netlify.app
-
-What was that media query code again: https://mediaquery.style
 
 Incomplete List of Mistakes in the Design of CSS: https://wiki.csswg.org/ideas/mistakes
 
@@ -213,6 +215,8 @@ Lightweight fuzzy-search library: https://fusejs.io
 Create full screen pages fast and simple: https://github.com/alvarotrigo/fullPage.js
 
 Lightweight and flexible carousel: https://github.com/glidejs/glide
+
+A collection of free Tailwind CSS components: https://www.hyperui.dev
 
 ---
 
