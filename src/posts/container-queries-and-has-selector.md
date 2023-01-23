@@ -50,7 +50,6 @@ Use the `container-type` property a value of `size`, `inline-size`, or `normal`.
 
 > There is also the possiblity to use style queries in addition, Style Queries let us query a CSS property or CSS variable for a container. Style queries are still experimental and currently are implemented only in Chrome Canary. A good reminder that mentioning "container queries" isn't enough now, we need to specify either size or style. Read more at: https://ishadeed.com/article/css-container-style-queries
 
-
 ## The `:has()` parent selector
 The CSS `:has()` pseudo-class enables developers to check if a parent element contains children with specific parameters. For example, `p:has(span)` indicates a paragraph selector, which has a `span` inside of it. You can use this to style the parent paragraph itself, or style anything within it.
 
@@ -67,3 +66,10 @@ Let’s expand on the example with the rocket card. What if you had a card witho
 ```
 
 Learn more about the new CSS pseudo-classes explained - `:is()` `:where()` `:has()` at https://www.youtube.com/watch?v=3ncFpP8GP4g
+
+- In CSS when using a selector list, if any of the selectors are invalid then the whole list is deemed invalid. When using `:is()` or `:where()` instead of the whole list of selectors being deemed invalid if one fails to parse, the incorrect or unsupported selector will be ignored and the others used.
+- The difference between `:where()` and `:is()` is that `:where()` always has 0 specificity, whereas `:is()` takes on the specificity of the most specific selector in its arguments.
+
+> A side note: Selectors matching happens from right to left. For example:
+> - The selector `.a .b .c` contains 3 units: `.a`, `.b`, and `.c`. When trying to find matching elements, the browser will first select all `.c` elements and will then check if they have a `.b` parent. If that’s the case, it will then check if that `.b` is a child of a `.a` element.
+> - The selector `.a :is(.b .c)` contains 2 units: `.a`, and `:is(.b .c)`. The first evaluated unit `:is(.b .c)`, which matches the `.c` elements that have a `.b` ancestor. If that’s true, the browser will then continue and check if that matched element – the `.c` – also has a `.a` ancestor.
