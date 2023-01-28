@@ -128,7 +128,7 @@ PPTist: https://github.com/pipipi-pikachu/PPTist
 
 Web based macOS and Windows XP desktop recreation: https://macos-web.app, https://winxp.vercel.app
 
-Everything I googled in a week as a senior software engineer: https://localghost.dev/blog/everything-i-googled-in-a-week-as-a-senior-software-engineer
+Windows 11 in React: https://github.com/blueedgetechno/win11React
 
 GitHub Contributions Chart Generator: https://github-contributions.vercel.app
 
@@ -207,6 +207,8 @@ Box-shadow: https://neumorphism.io
 Beautiful hand-crafted SVG icons: https://heroicons.com
 
 Guide users through a tour of your app: https://shepherdjs.dev
+
+Drive user's focus across the page: https://kamranahmed.info/driver.js
 
 Split an element by words, characters, children and more: https://splitting.js.org
 
