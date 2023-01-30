@@ -54,6 +54,8 @@ What happens when we type google.com in a browser: https://github.com/vasanthk/h
 
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
+DevOps Exercises: https://github.com/bregman-arie/devops-exercises
+
 Simplest possible examples of HTML, CSS and JavaScript: https://simpl.info
 
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials/beginners-typescript

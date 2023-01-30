@@ -141,6 +141,11 @@ Such problems generally occur when you execute two git commands simultaneously; 
 ## degit - straightforward project scaffolding
 [degit](https://github.com/Rich-Harris/degit) makes copies of git repositories. When you run `degit some-user/some-repo`, it will find the latest commit and download the associated tar file if it doesn't exist locally. This is much quicker than using `git clone`, because you're not downloading the entire git history.
 
+## GitHub fork and use templates
+When you say you are Forking a repository you are basically creating a copy of the repository (with entire commit history) under your GitHub ID. The point to note here is that any changes made to the original repository will be reflected back to your forked repositories (you need to fetch and rebase). If you make any changes to your forked repository you will have to explicitly create a pull request to the original repository.
+
+Templates are intended to use a repository as-is, and to use it as a boilerplate to build a website. It's not meant to be up-to-date with the main repository. To create a template repository, you must create a repository, then on the settings page, check the button for **Template repository**. Now when we go back to the repository page, we’ll get a big green button that says **Use this template**. A template repository often includes keyword: 'starter-kit', 'starter template', 'boilerplate'. For example, [vitesse](https://github.com/antfu/vitesse) is a Vite + Vue starter template.
+
 ## gitignore
 - https://gitignore.io/
 - https://github.com/github/gitignore

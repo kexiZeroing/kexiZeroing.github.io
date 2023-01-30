@@ -106,13 +106,15 @@ Webpack 4 also has the concept `url-loader`. It first base64 encodes the file an
 - Want to access `webpack-dev-server` from the mobile in local network: run `webpack-dev-server` with `--host 0.0.0.0`, which lets the server listen for requests from the network (all IP addresses on the local machine), not just localhost. But Chrome won't access `http://0.0.0.0:8089` (Safari can open). It's not the IP, it just means it is listening on all the network interfaces, so you can use any IP the host has.
 
 #### HMR (Hot Module Replacement) 
-With `hot` flag, it sets `webpack-dev-server` in hot mode. If we don’t use this it does a full refresh of the page instead of hot module replacement. It also automatically adds the plugin HotModuleReplacementPlugin, which adds the “HMR runtime” into your bundle.
+With `hot` flag, it sets `webpack-dev-server` in hot mode. If we don’t use this it does a full refresh of the page instead of hot module replacement. It also automatically adds the plugin `HotModuleReplacementPlugin`, which adds the “HMR runtime” into your bundle.
 
 `webpack-dev-server` (WDS) also inserts some code in the bundle that we call “WDS client”, because it must tell the client when a file has changed and new code can be loaded. WDS server does this by opening a websocket connection to the WDS client on page load. When the WDS client receives the websocket messages, it tells the HMR runtime to download the new manifest of the new module and the actual code for that module that has changed. Read more at https://blog.jakoblind.no/webpack-hmr
 
 #### webpack-bundle-analyzer
-It will create an interactive treemap visualization of the contents of all your bundles when you build the application. When you see what’s in your bundle, you can optimize it to make it smaller.
+It will create an interactive treemap visualization of the contents of all your bundles when you build the application. There are two ways to configure webpack bundle analyzer in a webpack project. Either as a plugin or using the command-line interface. 
+
 ```js
+// Configure the webpack bundle analyzer plugin
 // npm install --save-dev webpack-bundle-analyzer
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
