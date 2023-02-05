@@ -19,7 +19,8 @@ tags: [web]
 - `copy-webpack-plugin` 用来把那些已经在项目目录中的文件（比如 `public/` 或 `static/`）拷贝到打包后的产出中，这些文件不需要 build，不需要 webpack 的处理。另外可以使用 `ignore: ["**/file.*", "**/ignored-directory/**"]` 这样的语法忽略一些文件不进行拷贝。
 - 图片、音乐、字体等资源的打包处理使用 `url-loader` 结合 `limit` 的设置，如果资源比较大会默认使用 `file-loader` 生成 `img/[name].[hash:7].[ext]` 这样的文件；如果资源小，会自动转成 base64。*（DEPREACTED for v5: please consider migrating to asset modules）*
 - `performance` 属性用来设置当打包资源和入口文件超过一定的大小给出的提示，可以分别设置它们的上限和哪些文件被检查。
-- 对于代码压缩，使用 `terser-webpack-plugin` 来压缩 JS，webpack 5 自带，但如果需要自定义配置，那么仍需要安装该插件，在 webpack 配置文件里设置 `optimization` 来引用这个插件。`HtmlWebpackPlugin` 里设置 `minify` 可以压缩 HTML，production 模式下是默认的（会使用 `html-minifier-terser` 插件去掉空格、注释等），自己传入一个 minify 对象，可以定制化压缩参数。
+- 对于代码压缩，使用 `terser-webpack-plugin` 来压缩 JS，webpack 5 自带，但如果需要自定义配置，那么仍需要安装该插件，在 webpack 配置文件里设置 `optimization` 来引用这个插件。`HtmlWebpackPlugin` 里设置 `minify` 可以压缩 HTML，production 模式下是默认是 true（会使用 `html-minifier-terser` 插件去掉空格、注释等），自己传入一个 minify 对象，可以定制化[压缩设置](https://github.com/terser/html-minifier-terser#options-quick-reference)。
+- 对于 js 的压缩使用了 `uglifyjs-webpack-plugin`，里面传入 `compress` 定制化[压缩设置](https://github.com/mishoo/UglifyJS#compress-options)。比如有的项目没有 console 输出，可能就是因为这里设置了 `drop_console`。
 - 使用 `friendly-errors-webpack-plugin` 简化命令行的输出，可以只显示构建成功、警告、错误的提示，从而优化命令⾏的构建日志。
 - webpack 设置请求代理 proxy，默认情况下假设前端是 `localhost:3000`，后端是 `localhost:8082`，那么后端通过 `request.getHeader("Host")` 获取的依旧是 `localhost:3000`。如果设置了 `changeOrigin: true`，那么后端才会看到的是 `localhost:8082`, 代理服务器会根据请求的 target 地址修改 Host（这个在浏览器里看请求头是看不到改变的）。如果某个接口 404，一般就是这个路径没有配置代理。
 
@@ -237,6 +238,8 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 8. 公众号的 `secret` 和获取到的 `access_token` 安全级别都非常高，必须只保存在服务器，不允许传给客户端。后续刷新 `access_token` 以及通过 `access_token` 获取用户信息等步骤，也必须从服务器发起。
 
 > 微信公众平台接口测试帐号申请: https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
+
+某个公众号的关注页面地址为 https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI0NDA2OTc2Nw==#wechat_redirect 其中 biz 字符串是微信公众号标识，在浏览器打开该公众号下的任意一篇文章，查看网页源代码，搜索 `var biz` 这样的关键字即可得到。
 
 ### 唤起微信小程序
 微信外网页通过小程序链接 URL Scheme，微信内通过微信开放标签，且微信内不会直接拉起小程序，需要手动点击按钮跳转。这是官方提供的一个例子 https://postpay-2g5hm2oxbbb721a4-1258211818.tcloudbaseapp.com/jump-mp.html 可以用手机浏览器查看效果，直接跳转小程序。

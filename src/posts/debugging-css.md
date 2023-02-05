@@ -143,3 +143,18 @@ tags: [css]
     grid-column-gap: 10px;
   }
   ```
+
+- Increase clickable area of a button
+  ```css
+  .small-element { 
+    position: relative;
+  }
+  .small-element::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    bottom: -10px;
+    left: -10px;
+    right: -10px;
+  }
+  ```

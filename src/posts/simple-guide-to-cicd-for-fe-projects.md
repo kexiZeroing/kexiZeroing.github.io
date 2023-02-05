@@ -71,6 +71,8 @@ jobs:
           yarn jest
 ```
 
+> Tutorial and tips for GitHub Actions workflows: https://gist.github.com/br3ndonland/f9c753eb27381f97336aa21b8d932be6
+
 Another thing I tend to run on every PR is **preview deployments**. You can get a standalone deployment each PR that is accessible through a unique endpoint. Each deployment is a version of your frontend project with a specific change. This can not only help your team to speed up reviews, but it also lets your design and product team validate some new features easily.
 
 The last thing we want to automate is the release process. You do not want to have to run 20 scripts, manually, in a specific order, to get your application from your main branch to production. For this, I tend to favor having a release branch and the automated scripts run every time the main branch is merged on the release branch. Example of Release Github Workflow:

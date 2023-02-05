@@ -134,6 +134,8 @@ Windows 11 in React: https://github.com/blueedgetechno/win11React
 
 GitHub Contributions Chart Generator: https://github-contributions.vercel.app
 
+Discover the apps everyone is docking about: https://www.dockhunt.com
+
 ---
 
 ## CSS related
@@ -222,6 +224,8 @@ Lightweight and flexible carousel: https://github.com/glidejs/glide
 
 A collection of free Tailwind CSS components: https://www.hyperui.dev
 
+Easy visualizer for JavaScript KeyCodes: https://keycode.info
+
 ---
 
 ## React ecosystem
@@ -255,6 +259,17 @@ Introducing Remix: https://www.youtube.com/watch?v=wsJaUjd1rUo
 Up and Running with Remix: https://egghead.io/courses/up-and-running-with-remix-b82b6bb6
 
 Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/next-vs-remix
+
+---
+
+## Vue ecosystem
+Projects - Anthony Fu: https://antfu.me/projects
+
+Collection of essential Vue Composition Utilities: https://vueuse.org
+
+Opinionated Vite + Vue Starter Template: https://github.com/antfu/vitesse
+
+Declarative ThreeJS using Vue Components: https://tresjs.org
 
 ---
 
