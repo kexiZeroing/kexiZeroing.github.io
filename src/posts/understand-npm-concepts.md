@@ -53,6 +53,8 @@ verify();
 
 The `npm install` command will install both *devDependencies* and *dependencies*. With the `--production` flag or when the `NODE_ENV` environment variable is set to production `NODE_ENV=production npm install`, npm will not install modules listed in devDependencies.
 
+In npm versions 3 through 6, `peerDependencies` were not automatically installed, and would raise a warning if an invalid version of the peer dependency was found in the tree. **As of npm v7, `peerDependencies` are installed by default.** If your dependency contains some `peerDependencies` that conflict with the root project's dependency, run `npm install --legacy-peer-deps` to tell npm to ignore peer deps and proceed with the installation anyway.
+
 ### URLs as dependencies
 See details at https://docs.npmjs.com/cli/v8/configuring-npm/package-json#urls-as-dependencies
 1. Git URLs as dependencies
@@ -75,6 +77,8 @@ npm will cache the packages in the directory `~/.npm/_npx`. The whole point of n
 `npm init <initializer>` can be used to set up a npm package. `initializer` in this case is an npm package named `create-<initializer>`, which will be installed by `npm exec`. The init command is transformed to a corresponding `npm exec` operation like `npm init foo` -> `npm exec create-foo`. Another example is `npm init react-app myapp`, which is same as `npx create-react-app myapp`. If the initializer is omitted (by just calling `npm init`), init will fall back to legacy init behavior. It will ask you a bunch of questions, and then write a `package.json` for you. You can also use `-y/--yes` to skip the questionnaire altogether.
 
 npm 7 introduced the new `npm exec` command which, like npx, provided an easy way to run npm scripts on the fly. If the package is not present in the local project dependencies, `npm exec` installs the required package and its dependencies to a folder in the npm cache. With the introduction of `npm exec`, npx had been rewritten to use `npm exec` under the hood in a backwards compatible way.
+
+> `npm create` is an alias for `npm init`. Check more about `npm init --help`.
 
 ### npm logs and cache
 You can find the `npm-debug.log` file in your `.npm` directory. To find your `.npm` directory, use `npm config get cache`. **(It is located in ~/.npm so shared accross nodejs versions that nvm installed.)** The default location of the logs directory is a directory named `_logs` inside the npm cache. 

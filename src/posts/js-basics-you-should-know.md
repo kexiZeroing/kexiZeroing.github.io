@@ -1247,6 +1247,11 @@ form.addEventListener('awesome', e => console.log(e.detail.text()));
 textarea.addEventListener('input', e => e.target.dispatchEvent(eventAwesome));
 ```
 
+> The most common approaches available to remove event listeners:
+> - Use `removeEventListener()` if the callback function is assigned to a variable and within easy reach of where the listener was added.
+> - Use the `once` option in `addEventListener()` if you need to fire a callback only once.
+> - Use `AbortController()` if you have a series of listeners you’d like to imperatively remove at once, or if you just like the syntax.
+
 ## Cross-site scripting
 Cross-site scripting (XSS) is a security bug that can affect websites. This bug can allow an attacker to add their own malicious JavaScript code onto the HTML pages displayed to the users. The vulnerabilities most often happen when user input is sent to the server, and the server responds back to the user by displaying a page that includes the user input without validation. XSS also can occur entirely in the client-side without data being sent back and forth between the client and server.
 

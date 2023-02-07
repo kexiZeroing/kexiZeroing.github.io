@@ -18,6 +18,8 @@ We need modern javascript and Babel help us with that. We run `yarn add @babel/c
 
 At last, we need a `parcel build index.js` as a `build` script in `package.json` file which will be used for production, and parcel will create a `dist` directory with all assets minified.
 
+> Alternatively, start your app development process with the pre-built solutions: https://vercel.com/templates
+
 ### Release helper
 - Interactive CLI that bumps version number (with `--commit` `--tag` `--push` by default): https://github.com/antfu/bumpp
 - Generic CLI tool to automate versioning and package publishing related tasks: https://github.com/release-it/release-it

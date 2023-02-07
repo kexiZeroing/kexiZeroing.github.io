@@ -68,6 +68,8 @@ Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 
 Chrome urls: [chrome://chrome-urls](chrome://chrome-urls/)
 
+Console Utilities API reference: https://developer.chrome.com/docs/devtools/console/utilities/
+
 All Online Tools in One Box: https://10015.io/
 
 Frontend build config generator: https://createapp.dev/
@@ -265,9 +267,11 @@ Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/n
 ## Vue ecosystem
 Projects - Anthony Fu: https://antfu.me/projects
 
-Collection of essential Vue Composition Utilities: https://vueuse.org
-
 Opinionated Vite + Vue Starter Template: https://github.com/antfu/vitesse
+
+A curated list of awesome things related to Vite.js: https://github.com/vitejs/awesome-vite
+
+Collection of essential Vue Composition Utilities: https://vueuse.org
 
 Declarative ThreeJS using Vue Components: https://tresjs.org
 
