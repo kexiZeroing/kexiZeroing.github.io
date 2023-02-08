@@ -23,7 +23,8 @@ tags: [system]
     brew install --cask visual-studio-code google-chrome iterm2 docker
     ```
   
-    > `cask` is no longer a `brew` command. When you want to install a Cask, you just do `brew install` or `brew install --cask` instead of `brew cask install`.
+    > - `cask` is no longer a `brew` command. When you want to install a Cask, just do `brew install` or `brew install --cask` instead of `brew cask install`
+    > - install an package behind a proxy: `ALL_PROXY=127.0.0.1:7890 brew install <package>`
 
 5. Catalina comes with `zsh` as the default shell. Install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) anc check the `.zshrc` file.
   - `robbyrussell` is the default theme, and you can change to use [spaceship prompt](https://github.com/spaceship-prompt/spaceship-prompt) theme.
