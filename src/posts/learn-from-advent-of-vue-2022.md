@@ -250,6 +250,8 @@ app.mount('#app')
 ### Renderless Components
 Renderless components can be an alternative to composables when finding ways to design reusable logic in your Vue apps. As you might guess, they don't render anything. Instead, they handle all the logic inside a script section and then expose properties through a scoped slot.
 
+> Many components are contentless components. They provide a container, and you have to supply the content. Think of a button, a menu, or a card component. Slots allow you to pass in whatever markup and components you want, and they also are relatively open-ended, giving you lots of flexibility.
+
 ```vue
 <!-- NorthPoleDistance.vue -->
 <script setup lang="ts">

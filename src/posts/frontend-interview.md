@@ -8,8 +8,12 @@ top: true
 order: 5
 ---
 
-- 更全面的准备可以参考 https://febook.hzfe.org/awesome-interview
-- 算法题可以看 https://github.com/course-dasheng/fe-algorithm
+更全面的准备可以参考:
+- https://febook.hzfe.org/awesome-interview
+- https://github.com/Sunny-117/js-challenges
+- https://github.com/course-dasheng/fe-algorithm
+
+---
 
 1. 假设现在有 20 个异步请求需要发送，但由于某些原因，我们必须将同一时刻的并发请求数量控制在 3 个以内。实现一个并发请求函数，要求最大并发数 maxNum，每当有一个请求返回，就留下一个空位，可以增加新的请求。当所有请求完成后，结果按照 urls 里面的顺序依次输出。
 

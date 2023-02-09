@@ -49,6 +49,9 @@ Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版�
 - 如果不习惯 Vite ，依然可以使用 [Vue CLI](https://cli.vuejs.org) 作为开发脚手架，它使用的构建工具还是基于 Webpack。使用 create 命令 `vue create hello-vue3` 根据提示创建项目。*(Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use create-vue to scaffold Vite-based projects.)*
 - [Volar](https://blog.vuejs.org/posts/volar-1.0.html) 是 Vue 官方推荐的 VSCode 扩展 *(the official IDE/TS tooling support for Vue)*，用以代替 Vue 2 时代的 Vetur 插件。
 
+> 解决报错 Module build failed (from ./node_modules/vue-loader/dist/index.js): TypeError: Cannot read properties of undefined (reading 'styles')  
+> ** vue-loader 16+ isn't compatible with vue 2.x. So you need to use vue-loader 15.x.
+
 ```js
 // Check the version of vue.js at runtime
 import { version } from 'vue'
