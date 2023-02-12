@@ -26,6 +26,8 @@ Intro to Computer Systems: http://www.cs.cmu.edu/~213/schedule.html
 
 The Missing Semester of Your CS Education: https://missing.csail.mit.edu
 
+Software Architecture Guide: https://martinfowler.com/architecture
+
 High Performance Browser Networking: https://hpbn.co
 
 HTTP Semantics: https://www.rfc-editor.org/rfc/rfc9110.html
@@ -55,8 +57,6 @@ What happens when we type google.com in a browser: https://github.com/vasanthk/h
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
 DevOps Exercises: https://github.com/bregman-arie/devops-exercises
-
-Simplest possible examples of HTML, CSS and JavaScript: https://simpl.info
 
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials/beginners-typescript
 
@@ -225,6 +225,8 @@ Create full screen pages fast and simple: https://github.com/alvarotrigo/fullPag
 Lightweight and flexible carousel: https://github.com/glidejs/glide
 
 A collection of free Tailwind CSS components: https://www.hyperui.dev
+
+daisyUI components - Use Tailwind CSS but write fewer class names: https://daisyui.com
 
 Easy visualizer for JavaScript KeyCodes: https://keycode.info
 
