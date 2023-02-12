@@ -107,8 +107,19 @@ npm stores cache data in an opaque directory in `.npm`, named `_cacache`. `npm c
 
 ### npm link
 1. Run `npm link` from your `MyModule` directory: this will create a global package `{prefix}/node/{version}/lib/node_modules/<package>` symlinked to the `MyModule` directory.
-2. Run `npm link MyModule` from your `MyApp` directory: this will create a `MyModule` folder in `node_modules` symlinked to the globally-installed package and thus to the real location of `MyModule`.
+2. Run `npm link MyModule` from your `MyApp` directory: this will create a `MyModule` folder in `node_modules` symlinked to the globally-installed package and thus to the real location of `MyModule`. *Note that `<package-name>` is taken from `package.json`, not from the directory name.*
 3. Now any changes to `MyModule` will be reflected in `MyApp/node_modules/MyModule/`. Use `npm ls -g --depth=0 --link` to list all the globally linked modules.
+4. Run `npm unlink --no-save <package>` on your project’s directory to remove the local symlink, and run `npm unlink` on the module’s directory to remove the global symlink.
+
+You may also shortcut the two steps in one. For example, to do the above use-case in a shorter way:
+```shell
+cd MyApp
+npm link ../MyModule  # here you are referring to the directory name
+
+# The second line is the equivalent of doing:
+(cd ../MyModule; npm link)
+npm link MyModule
+```
 
 ### publish npm packages
 Learn how to create a new npm package and publish the code to npm by the demo [Building a business card CLI tool](https://whitep4nth3r.com/blog/build-a-business-card-cli-tool). Once your package is published to npm, you can run `npx {your-command}` to execute your script whenever you like.
