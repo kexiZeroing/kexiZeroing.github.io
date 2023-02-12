@@ -104,31 +104,9 @@ tags: [css]
   }
   ```
 
-- A shaded blur behind a logo is simple but beautiful affect.
-  ```css
-  .img-bg {
-    position: absolute;
-    background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
-    border-radius: 50%;
-    filter: blur(72px);
-    z-index: -1;
-    animation: pulse 4s cubic-bezier(0, 0, 0, 0.5) infinite;
-  }
-
-  @keyframes pulse {
-    50% {
-      transform: scale(1.5);
-    }
-  }
-  ```
-
 - In order for the `postion: sticky` element to function correctly, it needs to have at least one of it's `top`, `right`, `left`, or `bottom` placement properties set. Also look for any `overflow` property set on any parents of the element. You can't use `overflow: hidden`, `overflow: auto`, or `overflow: scroll` on the parent of a `position: sticky` element.
 
 - Position `fixed` doesn’t work with `transform` CSS property. It happens because transform creates a new coordinate system and your `position: fixed` element becomes fixed to that transformed element.
-
-- Hints for inactive CSS properties come in Chrome 108 update. It helps identify CSS styles that are entirely valid but have no visible effects.
-
-  <img alt="devtool_css_hints" src="https://tva1.sinaimg.cn/large/008vxvgGly1h7igjzobb8j30vg0m8add.jpg" width="600" />
 
 - Center one and right/left align other element: Grid layout may be the cleanest and most efficient method. There is no need for absolute positioning or flexbox with fake elements.
 
@@ -144,7 +122,18 @@ tags: [css]
   }
   ```
 
-- Increase clickable area of a button
+- Have you ever wondered why padding is inconsistent above and below text elements? Each font has a different `line-height` and that comes with a different spacing above and below the text. To fix that, we can add a fake element next to the button’s TextNode, and when a pseudo-element is placed next to it, we can use `vertical-align: middle` to center both. This is a much better solution than setting the different top and bottom spacing values.
+
+  ```css
+  .button:before {
+    content: "";
+    display: inline-block;
+    height: 16px;
+    vertical-align: middle;
+  }
+  ```
+
+- Increase the clickable area of a button:
   ```css
   .small-element { 
     position: relative;

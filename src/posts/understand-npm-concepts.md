@@ -14,6 +14,15 @@ tags: [js]
 2. If you manually edit your `package.json` to have different ranges and run `npm i` and those ranges aren't compatible with your `package-lock.json`, then the latter will be updated with version that are compatible with your `package.json`.
 3. Listed dependencies in `package-lock.json` file have mixed (sha1/sha512) integrity checksum. npm changed the integrity checksum from sha1 to sha512. Only packages published with npm@5 or later will include a sha512 integrity hash.
 
+> Two fields are mandatory in `package.json`:
+> - `name`, can be scoped
+> - `version`, has to be a valid SemVer number
+> 
+> Package code entry points:
+> - `main`, default entry point (CJS or ESM)
+> - `module`, ESM-specific entry point
+> - `exports`, modern entry points, more flexible
+
 ### npm install and npm ci
 `npm install` reads `package.json` to create a list of dependencies and uses `package-lock.json` to inform which versions of these dependencies to install. If a dependency is not in `package-lock.json` it will be added by `npm install`.
 
@@ -63,6 +72,17 @@ See details at https://docs.npmjs.com/cli/v8/configuring-npm/package-json#urls-a
     - git+https://[username]:[password]@github.com/myaccount/myprivate.git
 2. GitHub URLs: refer to GitHub urls as `"foo": "user/foo-project"`
 3. Local Paths: You can provide a path to a local directory that contains a package `"bar": "file:../foo/bar"`
+
+You can configure npm to resolve your dependencies across multiple registries.
+```shell
+# .npmrc
+
+# Fetch `@lihbr` packages from GitHub registry
+@lihbr:registry=https://npm.pkg.github.com
+
+# Fetch `@my-company` packages from My Company registry
+@my-company:registry=https://npm.pkg.my-company.com
+```
 
 ### npm and npx
 One might install a package locally on a certain project using `npm install some-package`, then we want to execute that package from the command line. Only globally installed packages can be executed by typing their name only. To fix this, you must type the local path `./node_modules/.bin/some-package`.

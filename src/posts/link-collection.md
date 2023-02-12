@@ -242,6 +242,8 @@ Understanding useMemo and useCallback: https://www.joshwcomeau.com/react/usememo
 
 useEffect Mistakes Every Junior React Developer Makes: https://www.youtube.com/watch?v=QQYeipc_cik
 
+When useEffect runs: https://dev.to/cassidoo/when-useeffect-runs-3pf3
+
 Guide to React Rendering Behavior: https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior
 
 Build your own React: https://pomb.us/build-your-own-react

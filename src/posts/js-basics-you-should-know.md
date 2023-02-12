@@ -1190,7 +1190,9 @@ var intersection = new Set([...set1].filter(x => set2.has(x)));
 ```
 
 ### WeakMap
-Every key of a WeakMap is an object. Primitive data types as keys are not allowed. WeakMap allows garbage collector to do its task but not Map. There is no such thing as a list of WeakMap keys, they are just references to another objects. After removing the key from the memory we can still access it inside the map. At the same time removing the key of WeakMap removes it from weakmap as well by reference. 
+Every key of a WeakMap is an object. Primitive data types as keys are not allowed. WeakMap allows garbage collector to do its task but not Map. There is no such thing as a list of WeakMap keys, they are just references to another objects. After removing the key from the memory we can still access it inside the map. At the same time removing the key of WeakMap removes it from weakmap as well by reference.
+
+> Normally, the garbage collector would collect this object and remove it from memory. However, because our map is holding a reference, it'll never be garbage collected, causing a memory leak. Here’s where we can use the WeakMap type. 
 
 In WeakMaps, references to key objects are held "weakly", which means that they do not prevent garbage collection when there would be no other reference to the object. Because of references being weak, you cannot iterate over its keys or values, cannot clear all items (no clear method), cannot check its size (no size property). *A use case that would otherwise cause a memory leak enabled by WeakMap is keeping data about host objects like DOM nodes in the browser.*
 
