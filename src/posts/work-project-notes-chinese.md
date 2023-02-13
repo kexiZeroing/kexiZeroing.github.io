@@ -49,9 +49,6 @@ Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版�
 - 如果不习惯 Vite ，依然可以使用 [Vue CLI](https://cli.vuejs.org) 作为开发脚手架，它使用的构建工具还是基于 Webpack。使用 create 命令 `vue create hello-vue3` 根据提示创建项目。*(Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use create-vue to scaffold Vite-based projects.)*
 - [Volar](https://blog.vuejs.org/posts/volar-1.0.html) 是 Vue 官方推荐的 VSCode 扩展 *(the official IDE/TS tooling support for Vue)*，用以代替 Vue 2 时代的 Vetur 插件。
 
-> 解决报错 Module build failed (from ./node_modules/vue-loader/dist/index.js): TypeError: Cannot read properties of undefined (reading 'styles')  
-> ** vue-loader 16+ isn't compatible with vue 2.x. So you need to use vue-loader 15.x.
-
 ```js
 // Check the version of vue.js at runtime
 import { version } from 'vue'
@@ -64,9 +61,10 @@ console.log(version)
 - Create App: https://createapp.dev/webpack
 - 玩转 webpack: https://github.com/cpselvis/geektime-webpack-course
 
-#### filename 和 chunkFilename
+#### filename and chunkFilename
 - `filename` 是对应于 entry 里面的输入文件，经过打包后输出文件的名称。`chunkFilename` 指未被列在 entry 中，却又需要被打包出来的 chunk 文件的名称（non-initial chunk files），一般是要懒加载的代码。
-- `output.filename` 的输出文件名是 `[name].[chunkhash].js`，`[name]` 根据 entry 的配置推断为 index，所以输出为 `index.[chunkhash].js`。`output.chunkFilename` 默认使用 `[id].js`, 会把 `[name]` 替换为 chunk 文件的 id 号。
+- `output.filename` 的输出文件名是 `js/[name].[chunkhash].js`，`[name]` 根据 entry 的配置推断为 index，所以输出为 `index.[chunkhash].js`。`output.chunkFilename` 默认使用 `[id].js`, 会把 `[name]` 替换为 chunk 文件的 id 号。
+- By prepending `js/` to the filename in `output.filename`, webpack will write bundled files to a js sub-directory in the `output.path`. This allows you to organize files of a particular type in appropriately named sub-directories.
 - `chunkFileName` 不能灵活自定义，可以通过 `/* webpackChunkName: "foo" */` 这样的 [Magic Comments](https://webpack.js.org/api/module-methods/#magic-comments)，给 import 语句添加注释来命名 chunk。
 - `chunkhash` 根据不同的入口文件构建对应的 chunk，生成对应的哈希值，来源于同一个 chunk，则 hash 值就一样。
 
@@ -76,11 +74,20 @@ console.log(version)
 > 3. 如果一个依赖 module 是动态引入的模块，那么就会根据这个 module 创建一个 新的 chunk，继续遍历依赖
 > 4. 重复上面的过程，直至得到所有的 chunks
 
+#### path and publicPath
+- `output.path` represents the absolute path for webpack file output in the file system. In other words, `path` is the physical location on disk where webpack will write the bundled files.
+- `output.publicPath` represents the path from which bundled files should be accessed by the browser. You can load assets from a custom directory (`/assets/`) or a CDN (`https://cdn.example.com/assets/`). The value of the option is prefixed to every URL created by the runtime or loaders.
+
 #### resolve
 - extensions 数组，在 import 不带文件后缀时，webpack 会自动带上后缀去尝试访问文件是否存在，默认值 `['.js', '.json', '.wasm']`
 - mainFiles 设置解析目录时要使用的文件名，默认值 `['index']`
 - alias 配置别名，把导入路径映射成一个新的导入路径，比如 `"@": path.join(__dirname, 'src')`
 - modules 数组，tell webpack what directories should be searched when resolving modules, 默认值 `['node_modules']`，即从 node_modules 目录下寻找。
+
+#### css-loader and style-loader
+- `css-loader` takes a CSS file and returns the CSS with `@import` and `url(...)` resolved. It doesn't actually do anything with the returned CSS.
+- `style-loader` takes those styles and creates a `<style>` tag in the page's `<head>` element containing those styles.
+- We often chain the `sass-loader` with the `css-loader` and the `style-loader` to immediately apply all styles to the DOM or the `mini-css-extract-plugin` to extract it into a separate file.
 
 #### load images
 Webpack goes through all the `import` and `require` files in your project, and for all those files which have a `.png|.jpg|.gif` extension, it uses as an input to the webpack `file-loader`. For each of these files, the file loader emits the file in the output directory and resolves the correct URL to be referenced. Note that this config only works for webpack 4, and Webpack 5 has deprecated the `file-loader`. If you are using webpack 5 you should change `file-loader` to `asset/resource`.
@@ -187,29 +194,28 @@ If that doesn't help, make sure the module you are trying to import is tracked b
 
 ```py
 # urls.py
-from xxx import v_views as foo
-
-# django syntax
 urlpatterns = [
   url(r'^v/index', foo.index),
   url(r'^web', foo.web),
 ]
 
-# view.py
-response = render_to_response('bar/baz.html', context)
+# views.py
+# def index(request):
+return render_to_response('foo/vue_index.html', context)
 
-# Import FE scripts in templates/bar/baz.html
-# <script src="/static/qux.js?_dt={{timestamp}}"></script>
-```
+# def web(request):
+return render_to_response('foo/login.html', context)
 
-```js
-// qux.js
+# import scripts in above template html
+<script>
 var isInIframe = window.frames.length !== parent.frames.length;
 var ua = window.navigator.userAgent;
       
 if (!isInIframe && !ua.toLowerCase().match(/micromessenger|android|iphone/i)) {
   window.location.href = '/web/?next=' + window.location.pathname;
 } 
+</script>
+<script src="https://cdn.example.com/assets/login.js"></script>
 ```
 
 ### 登录逻辑

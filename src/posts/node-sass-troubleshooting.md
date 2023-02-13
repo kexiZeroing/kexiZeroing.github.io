@@ -76,5 +76,3 @@ Beware the situation when `node-sass` and `sass` were installed. In order to avo
   ],
 }
 ```
-
-By the way, chain the `sass-loader` with the `css-loader` and the `style-loader` to immediately apply all styles to the DOM or the `mini-css-extract-plugin` to extract it into a separate file.
