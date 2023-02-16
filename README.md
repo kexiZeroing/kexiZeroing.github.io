@@ -29,3 +29,6 @@ If your project is stored in GitHub, you can use the Netlify website UI to deplo
    - Publish directory: `dist`
 
 Any future changes to your source repository will trigger preview and production deploys based on your deployment configuration.
+
+## Astroship - Astro Starter Template
+[Astroship](https://github.com/surjithctly/astroship) is a starter template for startups, marketing websites, landing pages & blog. Built with Astro & TailwindCSS.

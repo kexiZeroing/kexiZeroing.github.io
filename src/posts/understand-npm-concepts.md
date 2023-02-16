@@ -84,6 +84,9 @@ You can configure npm to resolve your dependencies across multiple registries.
 @my-company:registry=https://npm.pkg.my-company.com
 ```
 
+### fix broken node modules instantly
+[patch-package](https://github.com/ds300/patch-package) lets app authors instantly make and keep fixes to npm dependencies.
+
 ### npm and npx
 One might install a package locally on a certain project using `npm install some-package`, then we want to execute that package from the command line. Only globally installed packages can be executed by typing their name only. To fix this, you must type the local path `./node_modules/.bin/some-package`.
 

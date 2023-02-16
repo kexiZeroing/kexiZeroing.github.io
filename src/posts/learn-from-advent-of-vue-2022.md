@@ -7,10 +7,8 @@ added: "Dec 27 2022"
 tags: [js]
 ---
 
-[Advent Of Vue](https://www.getrevue.co/profile/AdventOfVue) is a series of Vue coding challenges.
-
 ### Code Structure
-https://stackblitz.com/edit/vue3-vite-starter
+[Advent Of Vue](https://www.getrevue.co/profile/AdventOfVue) is a series of Vue coding challenges. The template of code starter is here https://stackblitz.com/edit/vue3-vite-starter
 
 ```html
 <!-- index.html -->
@@ -99,6 +97,21 @@ defineProps({
   transform: translateY(0px) translateX(-50%);
 }
 </style>
+```
+
+By the way, destructuring a value from a reactive object will break reactivity, since the reactivity comes from the object itself and not the property you’re grabbing. Using `toRefs` lets us destructure our props when using `script setup` without losing reactivity:
+
+```js
+const { prop1, prop2 } = toRefs(defineProps({
+  prop1: {
+    type: String,
+    required: true,
+  },
+  prop2: {
+    type: String,
+    default: 'World',
+  },
+}));
 ```
 
 ### Recursive Tree
@@ -209,6 +222,25 @@ export default function () {
 [VueUse](https://github.com/vueuse/vueuse) is a collection of essential Vue composition utilities for Vue 2 and 3.
 
 > It looks like most devs prefer the Composition API, but many are stuck with the Options API in order to support legacy projects. Many are slowly refactoring a codebase from Options API towards using Composition API. Some are using a hybrid approach — Options API with a `setup` section so they can leverage VueUse and other composables for reusability.
+
+### Writable Computed Refs
+
+```js
+const firstName = ref('');
+const lastName = ref('');
+
+const fullName = computed({
+  get: () => `${firstName.value} ${lastName.value}`,
+  set: (val) => {
+    const split = val.split(' '); // ['Michael', 'Thiessen']
+    firstName.value = split[0];   // 'Michael'
+    lastName.value = split[1];    // 'Thiessen'
+  }
+});
+
+fullName.value = 'Michael Thiessen';
+console.log(lastName.value);      // 'Thiessen'
+```
 
 ### Drag and Drop
 Adding the proper event listeners and implementing the `startDrag` and `onDrop` methods. If you'd like some more explanations, here's a tutorial: https://learnvue.co/tutorials/vue-drag-and-drop

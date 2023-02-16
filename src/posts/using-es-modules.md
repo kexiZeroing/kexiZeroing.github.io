@@ -146,6 +146,8 @@ In May, 2020, Node.js v12.17.0 made ESM support available to all Node.js applica
 
 The `package.json` file contains a field `"type": "module"` (defaults to CommonJS when not set). This will make Node.js interpret all files in the package as ESM files. When migrating to `mjs`, change the `module.exports` to the ESM `export` statement and all the `require` to the respective `import` statements.
 
+> CJS is the default; you have to opt-in to ESM mode. You can opt-in to ESM mode by renaming your script from `.js` to `.mjs`. Alternately, you can set `"type": "module"` in package.json, and then you can opt-out of ESM by renaming scripts from `.js` to `.cjs`.
+
 Available from TypeScript 4.7+, `NodeNext` integrates with Node’s native ECMAScript Module support. The emitted JavaScript uses either CommonJS or ES2020 output depending on the file extension and the value of the `type` setting in the nearest `package.json`. Read more at https://www.typescriptlang.org/tsconfig#module
 
 ```json
@@ -166,3 +168,25 @@ Available from TypeScript 4.7+, `NodeNext` integrates with Node’s native ECMAS
   "outDir": "./dist",
 },
 ```
+
+### ESM and CJS are completely different
+Since the dawn of Node, Node modules were written as CommonJS modules. We use `require()` to import them. When implementing a module for other people to use, we can define `exports`, either "named exports" by setting `module.exports.foo = 'bar'` or a "default export" by setting `module.exports = 'baz'`.
+
+ESM changes a bunch of stuff in JavaScript. Switching the default from CJS to ESM would be a big break in backwards compatibility. Three guidelines for library authors to follow if they need to support CJS and ESM:
+
+1. Provide a CJS version of your library. This ensures that your library can work in older versions of Node. *ESM scripts can import CJS scripts, but only by using the "default import” syntax `import _ from 'lodash'`, not the "named import" syntax `import {shuffle} from 'lodash'`.*
+   
+2. Provide a thin ESM wrapper for your CJS named exports. It’s easy to write an ESM wrapper for CJS libraries, but it’s not possible to write a CJS wrapper for ESM libraries.
+   ```js
+   // esm/wrapper.js
+   import cjsModule from '../index.js';
+   export const foo = cjsModule.foo; 
+   ```
+
+3. Add an `exports` map to your `package.json`. Be aware that adding an `exports` map is always a "semver major" breaking change. By default, your users can reach into your package and `require()` any script they want, even files that you intended to be internal. The `exports` map ensures that users can only require/import the entry points that you deliberately expose.
+   ```json
+   "exports": {
+      "require": "./index.js",
+      "import": "./esm/wrapper.js"
+   }
+   ```

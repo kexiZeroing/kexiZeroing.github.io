@@ -98,9 +98,9 @@ source-map-explorer -h
 <img alt="source-map-explorer" src="https://tva1.sinaimg.cn/large/008i3skNly1gx2pz85jf1j31lf0u07aa.jpg" width="800" />
 
 ## Set up Prettier and ESLint
-1. Install `Prettier` and `ESLint` plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
+1. Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
 2. We can edit some default settings for prettier in settings (`cmd + ,`, then type prettier)
-3. Install eslint and prettier npm packages `npm i -D eslint prettier`.
+3. Install eslint and prettier npm packages `npm i -D eslint prettier`. *(ESLint only as an npm package does not provide any editor integration, only the CLI executable.)*
 4. Run `eslint --init` to create a `eslintrc.json` (or `.js`, `.yml`) config file after install eslint globally `npm i -g eslint` (otherwise need to run `./node_modules/eslint/bin/eslint.js --init`), pick the following options:
     - To check syntax, find problems, and enforce code style
     - JavaScript modules (import/export)
