@@ -95,7 +95,7 @@ source-map-explorer bundle.min.js --json result.json
 source-map-explorer -h
 ```
 
-<img alt="source-map-explorer" src="https://tva1.sinaimg.cn/large/008i3skNly1gx2pz85jf1j31lf0u07aa.jpg" width="800" />
+<img alt="source-map-explorer" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008i3skNly1gx2pz85jf1j31lf0u07aa.jpg" width="800" />
 
 ## Set up Prettier and ESLint
 1. Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.

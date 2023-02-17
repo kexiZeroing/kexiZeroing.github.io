@@ -1,6 +1,9 @@
 # Welcome to My Blog
 https://kexizeroing.github.io
 
+- Site powered by Astro
+- Blog pictures uploaded by [PicGo](https://github.com/Molunerfinn/PicGo)
+
 ## 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:

@@ -136,7 +136,7 @@ pnpm was released in 2017. It is a drop-in replacement for npm, so if you have a
 
 Traditionally, npm installed dependencies in a flat `node_modules` folder. On the other hand, pnpm manages `node_modules` by using hard linking and symbolic linking to a global on-disk content-addressable store. It results in a nested `node_modules` folder that stores packages in a global store on your home folder (`~/.pnpm-store/`). Every version of a dependency is physically stored in that folder only once, constituting a single source of truth. pnpm identifies the files by a hash id (also called "content integrity" or "checksum") and not by the filename, which means that two same files will have identical hash id and pnpm will determine that there’s no reason for duplication.
 
-<img alt="pnpm" src="https://tva1.sinaimg.cn/large/008vxvgGly1h7aw9ablr4j30vm0u0q5z.jpg" width="700" />
+<img alt="pnpm" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h7aw9ablr4j30vm0u0q5z.jpg" width="700" />
 
 ### npm scripts
 npm scripts are a set of built-in and custom scripts defined in the `package.json` file. Their goal is to provide a simple way to execute repetitive tasks.
