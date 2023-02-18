@@ -230,6 +230,8 @@ daisyUI components - Use Tailwind CSS but write fewer class names: https://daisy
 
 Easy visualizer for JavaScript KeyCodes: https://keycode.info
 
+GreenSock Animation Platform: https://github.com/greensock/GSAP
+
 ---
 
 ## React ecosystem
@@ -276,6 +278,8 @@ Opinionated Vite + Vue Starter Template: https://github.com/antfu/vitesse
 A curated list of awesome things related to Vite.js: https://github.com/vitejs/awesome-vite
 
 Collection of essential Vue Composition Utilities: https://vueuse.org
+
+VitePress - Vite & Vue Powered Static Site Generator: https://vitepress.vuejs.org
 
 Declarative ThreeJS using Vue Components: https://tresjs.org
 

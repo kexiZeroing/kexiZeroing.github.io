@@ -8,6 +8,8 @@ top: true
 order: 4
 ---
 
+Data Structures and Algorithms in JavaScript: https://github.com/kyleshevlin/intro-to-data-structures-and-algorithms
+
 ### TOC
 - [TOC](#toc)
 - [Binary Search](#binary-search)
