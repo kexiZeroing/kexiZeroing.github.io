@@ -281,6 +281,8 @@ Collection of essential Vue Composition Utilities: https://vueuse.org
 
 VitePress - Vite & Vue Powered Static Site Generator: https://vitepress.vuejs.org
 
+Vuetify - Vue Component Framework: https://vuetifyjs.com
+
 Declarative ThreeJS using Vue Components: https://tresjs.org
 
 ---

@@ -9,7 +9,7 @@ tags: [web]
 
 Developers started simply using the app as an HTTP server. You can serve your node.js application without using any other web servers. Other web development frameworks in Go, Java and Swift also do this. When you serve a node.js app, note that you are the author of your own web server. Any potential bug in your app is a directly exploitable bug on the internet. Some people are not comfortable with this. Adding a layer of Apache or Nginx in front of your app (proxies the requests to a node.js server) means that you have a battle-tested, security-hardened piece of software on the live internet as an interface to your app.
 
-NGINX is open source software for web serving, reverse proxying, caching, load balancing, media streaming, and more. It started out as a web server designed for maximum performance and stability.
+Nginx (pronounced "engine-x") is open source software for web serving, reverse proxying, caching, load balancing, media streaming, and more. It started out as a web server designed for maximum performance and stability.
 
 ### Nginx as a reverse proxy
 Many modern web applications written in Node.js or Angular can run with their own standalone server but they lack a number of advanced features like load balancing, security, and acceleration that most of these applications demands. Nginx with its advanced features can act as a reverse proxy while serving the request for a Node.js application. The servers that Nginx proxies requests to are known as **upstream servers**.

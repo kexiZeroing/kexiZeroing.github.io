@@ -97,6 +97,16 @@ source-map-explorer -h
 
 <img alt="source-map-explorer" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008i3skNly1gx2pz85jf1j31lf0u07aa.jpg" width="800" />
 
+### What is core-js
+`core-js` is the most popular and the most universal polyfill of the JavaScript standard library, which provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.
+
+`babel` and `core-js` are tightly integrated: `babel` gives the possibility of optimizing the `core-js` import as much as possible.
+  - Using the option `useBuiltIns: usage` with `corejs: 3`, `@babel/preset-env` adds at the top of each file imports of polyfills only for features used in the current and not supported by target environments.
+  - Babel 7.4 supports injecting proposals polyfills. By default, `@babel/preset-env` does not inject them, but you can opt-in using the `proposals` flag: `corejs: { version: 3, proposals: true }`.
+  - core-js@3: https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md
+
+`core-js` is used by most of the popular websites. We can check it using `window['__core-js_shared__'].versions`, see details at https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md
+
 ## Set up Prettier and ESLint
 1. Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
 2. We can edit some default settings for prettier in settings (`cmd + ,`, then type prettier)
