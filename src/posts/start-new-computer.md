@@ -21,6 +21,11 @@ tags: [system]
     # refer to https://formulae.brew.sh
     brew install git yarn make
     brew install --cask visual-studio-code google-chrome iterm2 docker
+    
+    # replace with other mirror address (default is using GitHub)
+    cd `brew --repo`
+    git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
+    brew update
     ```
   
     > - `cask` is no longer a `brew` command. When you want to install a Cask, just do `brew install` or `brew install --cask` instead of `brew cask install`

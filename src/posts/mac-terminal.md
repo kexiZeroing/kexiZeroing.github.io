@@ -288,7 +288,10 @@ Rosetta 2 is available only for Mac computers with Apple silicon. You're asked t
 **How can you check if a Mac app runs on Rosetta or M1?**
 Open Activity Monitor, you’ll see a column named “Kind”. If the app says “Intel” under that, you should download the native version if available.
 
-> If you have a M1 Mac, be sure you’re running node 16 or higher, otherwise you’re running via Rosetta.
+> Macs with M1 chip:  
+> Experimental support for the M1 architecture was added in node.js v15.3 and full support was added in v16.0.
+> - If you have a M1 Mac, be sure you’re running node 16 or higher, otherwise you’re running via Rosetta (run `process.arch`).
+> - If you try to install older versions of node as usual, you will probably experience either compilation errors when installing node or out-of-memory errors while running your code.
 
 ## 常⽤命令和作用
 Linux Commands Xmind: https://xmind.app/m/K3SKii
@@ -297,7 +300,7 @@ Linux Commands Xmind: https://xmind.app/m/K3SKii
 |  ----   | ---- |
 | shutdown -h now | 即刻关机 (graceful shutdown)
 | reboot  | 重启
-| arch | 体系结构名称 i386, i486, i586, arm, mips, sparc, x86_64
+| arch | 体系结构名称 i386, i486, i586, arm, mips, x86_64(x64 is the abbreviation for x86_64)
 | sysctl -n machdep.cpu.brand_string | 查看 cpu 信息
 | uname -s | 操作系统名称 kernel name
 | hostname | 计算机名
