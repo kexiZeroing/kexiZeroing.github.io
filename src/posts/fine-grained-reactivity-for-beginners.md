@@ -3,8 +3,8 @@ layout: "../layouts/BlogPost.astro"
 title: "Fine-grained reactivity for beginners"
 slug: fine-grained-reactivity-for-beginners
 description: ""
-added: "Feb 20 2022"
-tags: [js]
+added: "Feb 20 2023"
+tags: [web]
 ---
 
 In a reactive programming context, dependency tracking is a technique used to automatically update computations that depend on some input data when that data changes. In order for dependency tracking to work, the reactive framework needs to know which computations depend on which data. This is typically done by wrapping the data in reactive objects or variables that the framework can monitor for changes. When a piece of data changes, the framework can then notify any computations that depend on that data and trigger a re-evaluation of those computations.

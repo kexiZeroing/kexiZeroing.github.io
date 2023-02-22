@@ -4,7 +4,7 @@ title: "Understand npm concepts"
 slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
-tags: [js]
+tags: [web]
 ---
 
 ### package.json and package-lock.json
