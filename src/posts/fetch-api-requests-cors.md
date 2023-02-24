@@ -283,3 +283,8 @@ By default, in cross-site XMLHttpRequest or Fetch invocations, browsers will not
 - The server must respond with the `Access-Control-Allow-Credentials: true` header to allow Cookies to be included on cross-origin requests.
 - The client must set the `XMLHttpRequest.withCredentials` flag to true in order to make the invocation with Cookies.
 - Note that cookies set in CORS responses are subject to normal third-party cookie policies.
+
+### `integrity` and `crossorigin` in CDN links
+It is important to ensure that the CDN’s servers deliver only the code the author expects them to deliver. Integrity attribute is to allow the browser to check the file source to ensure that the code is never loaded if the source has been manipulated.
+
+When the request doesn't match Same Origin Policy the `crossorigin` attribute MUST be present for the integrity of the file to be checked. With an `integrity` set on an external origin and a missing `crossorigin` the browser will choose to 'fail-open' which means it will load the resource as if the integrity attribute was not set. `crossorigin="anonymous"` means don't send credentials.
