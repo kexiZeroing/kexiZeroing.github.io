@@ -283,6 +283,8 @@ VitePress - Vite & Vue Powered Static Site Generator: https://vitepress.vuejs.or
 
 Vuetify - Vue Component Framework: https://vuetifyjs.com
 
+Vue Composables putting your components in motion: https://github.com/vueuse/motion
+
 Declarative ThreeJS using Vue Components: https://tresjs.org
 
 ---

@@ -40,3 +40,6 @@ const CountingComponent = () => {
 
 render(() => <CountingComponent />, document.getElementById("app"));
 ```
+
+### Angular Reactivity with Signals
+https://github.com/angular/angular/discussions/49090
