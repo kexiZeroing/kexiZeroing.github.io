@@ -16,6 +16,19 @@ The `.value` syntax is used in Vue 3 to access the value of a ref property becau
 
 When you create a reactive object with `reactive()`, you can access its properties directly using dot notation, without needing to use `.value`. This is because reactive objects use JavaScript's built-in getters and setters to intercept property access and modification, allowing Vue to track dependencies and trigger reactivity as needed.
 
+### Vue `shallowRef()`
+Adding deep reactivity to a large object can cost you a lot of performance, you can optimize the reactivity in your app by using `shallowRef`. Here reactivity is only triggered when the `value` of the `ref` itself is changed, but modifying any of the nested properties won’t trigger anything.
+
+```js
+const state = shallowRef({ count: 1 })
+
+// does NOT trigger change
+state.value.count = 2
+
+// does trigger change
+state.value = { count: 2 }
+```
+
 ### Shortcomings of `useState()`
 React `useState()` returns a state, the value. This means that `useState()` has no idea how the state value is used inside the component. The implication is that once you notify React of state change through a call to `setState()`, React has no idea which part of the page has changed and therefore must re-render the whole component.
 

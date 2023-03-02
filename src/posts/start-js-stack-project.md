@@ -36,8 +36,20 @@ The [browserslist](https://github.com/browserslist/browserslist) configuration (
 
 `PostCSS` is a tool for transforming CSS with JavaScript plugins. It provides features via its extensive plugin ecosystem to help improve the CSS writing experience. Plugins for just about [anything](https://www.postcss.parts). For example:
 - [Autoprefixer](https://github.com/postcss/autoprefixer) is one of the many popular PostCSS plugins.
+- [postcss-import](https://github.com/postcss/postcss-import) to transform `@import` rules by inlining content. (`postcss-import` is different than the import rule in native CSS. You should avoid the import rule in native CSS, since it can prevent stylesheets from being downloaded concurrently which affects the loading speed and performance.)
 - [postcss-preset-env](https://www.npmjs.com/package/postcss-preset-env) lets you convert modern CSS into something most browsers can understand, which is similar to `@babel/preset-env`.
 - [cssnano](https://cssnano.co) is a compression tool written on top of the PostCSS ecosystem to compact CSS appropriately.
+
+```js
+// postcss.config.js
+module.exports = {
+  plugins: [
+    require('postcss-import'),
+    require('postcss-preset-env')({ stage: 1 }),
+    require('cssnano'),
+  ]
+}
+```
 
 ### module and require in Node.js 
 **Node.js treats each JavaScript file as a separate module and encloses the entire code within a function wrapper**: `(function(exports, require, module, __filename, __dirname) {})`. The five parameters — `exports`, `require`, `module`, `__filename`, `__dirname` are available inside each module. Even if you define a global variable in a module using `let` or `const` keywords, the variables are scoped locally to the module rather than being scoped globally.
