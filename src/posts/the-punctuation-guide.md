@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "The punctuation guide"
 slug: the-punctuation-guide
 description: ""
-added: "Oct 24 2021"
+added: "Oct 24 2020"
 tags: [other]
 ---
 

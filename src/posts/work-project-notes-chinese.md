@@ -394,3 +394,5 @@ Advantages over `localStorage`:
 - `localStorage` is not very fault tolerant, so if your app encounters an error and quits unexpectedly, you could lose the data.
 - `localStorage` only supports persisting strings. This module supports any JSON supported type.
 - The API of this module is much nicer. You can set and get nested properties. You can set default initial config.
+
+[vuex-electron](https://github.com/vue-electron/vuex-electron) uses `electron-store` to share your Vuex Store between all processes (including main).
