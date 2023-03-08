@@ -114,3 +114,35 @@ By placing the things that will be animated or transitioned onto a new layer, th
 When you zoom, everything gets scaled up (or down), and in that scenario, the choice of `px` or `em`/`rem` as your CSS unit doesn’t generally matter. It essentially applies a multiple to every unit, including pixels. But zoom isn’t the only way users make websites more usable for themselves, changing the default font size in the [browser settings](https://support.google.com/chrome/answer/96810) will redefine the default font size that all relative units will be based on (`rem`, `em`, `%`). 
 
 On the web, the default font size is `16px`. Some users never change that default, but many do. Remember, `px` values do not scale up or down when the user changes their font size, but `em` and `rem` values do adjust in proportion to font size. So asking yourself: “Should this value scale up as the user increases their browser's default font size?” If the value should increase with the default font size, use `rem`. Otherwise, use `px`.
+
+### Fluid typography
+https://www.smashingmagazine.com/2022/01/modern-fluid-typography-css-clamp
+
+```css
+/* Fixed minimum value below the minimum breakpoint */
+.fluid {
+  font-size: 36px;
+}
+
+/* Fluid value from 600 to 1400px viewport width */
+@media screen and (min-width: 600px) {
+  .fluid {
+    font-size: calc(36px + 16 * ((100vw - 600px) / (1400 - 600)));
+  }
+}
+
+/* Fixed maximum value above the maximum breakpoint */
+@media screen and (min-width: 1400px) {
+  .fluid {
+    font-size: 52px;
+  }
+}
+
+/* 
+ * Same effect as the code in above Fluid Typography but in one line,
+ * and without the use of media queries.
+*/
+.fluid {
+  font-size: clamp(2.25rem, 2vw + 1.5rem, 3.25rem);
+}
+```
