@@ -118,6 +118,8 @@ On the web, the default font size is `16px`. Some users never change that defaul
 ### Fluid typography
 https://www.smashingmagazine.com/2022/01/modern-fluid-typography-css-clamp
 
+<img alt="fluid-typography" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hbsmskxulnj31030u0ta0.jpg" width="500"> 
+
 ```css
 /* Fixed minimum value below the minimum breakpoint */
 .fluid {

@@ -140,6 +140,8 @@ Discover the apps everyone is docking about: https://www.dockhunt.com
 
 Preview glTF models in WebGL using three.js: https://github.com/donmccurdy/three-gltf-viewer
 
+Shiny Button: https://shiny-button.vercel.app
+
 ---
 
 ## CSS related
@@ -164,6 +166,8 @@ The blueprint HTML and CSS for website headers: https://headers-css.vercel.app
 
 Basic styles for HTML Elements without classes: https://boltcss.com
 
+Some simple ways to make content look good: https://set.studio/some-simple-ways-to-make-content-look-good
+
 Box alignment in Grid and Flexbox: https://ishadeed.com/article/learn-box-alignment
 
 CSS Flexbox: https://github.com/samanthaming/Flexbox30
@@ -171,6 +175,8 @@ CSS Flexbox: https://github.com/samanthaming/Flexbox30
 CSS Grid: https://www.youtube.com/playlist?list=PLu8EoSxDXHP5CIFvt9-ze3IngcdAc2xKG
 
 Scroll Snap: https://oh-snap.netlify.app
+
+Simple CSS scrollbar editor: https://scrollbar.app
 
 Incomplete List of Mistakes in the Design of CSS: https://wiki.csswg.org/ideas/mistakes
 
@@ -232,7 +238,7 @@ daisyUI components - Use Tailwind CSS but write fewer class names: https://daisy
 
 Easy visualizer for JavaScript KeyCodes: https://keycode.info
 
-GreenSock Animation Platform: https://github.com/greensock/GSAP
+A library that helps you create floating elements such as tooltips: https://floating-ui.com
 
 ---
 
@@ -312,3 +318,23 @@ Vue 2: https://github.com/vuejs/vue/blob/main/CHANGELOG.md
 Electron: https://releases.electronjs.org/releases/stable
 
 End-of-life dates of various products: https://endoflife.date
+
+---
+
+## ChatGPT related
+
+Awesome ChatGPT Prompts: https://prompts.chat
+
+Chat with any PDF: https://www.chatpdf.com
+
+Generating dream rooms: https://www.roomgpt.io
+
+Turn your rough sketch into a refined image: https://scribblediffusion.com 
+
+Paint by Text: https://paintbytext.chat
+
+Transcribe and translate your audio files: https://writeout.ai
+
+AI cracks your math problem: https://www.aicracks.com
+
+Natural Language to SQL: https://censusgpt.com
