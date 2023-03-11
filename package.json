@@ -1,6 +1,8 @@
 {
-  "name": "@example/basics",
-  "version": "0.0.1",
+  "name": "astro-blog",
+  "version": "1.0.0",
+  "author": "kexiZeroing",
+  "description": "Personal blog built with Astro",
   "private": true,
   "scripts": {
     "dev": "astro dev",
@@ -10,7 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^0.11.1",
-    "astro": "^1.2.1"
+    "@astrojs/mdx": "^0.18.0",
+    "astro": "^2.1.2"
   }
 }
