@@ -62,6 +62,8 @@ Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials/beginn
 
 Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 
+A year-end celebration of fundamental web technologies: https://12daysofweb.dev
+
 ---
 
 ## Tools and Cool websites
@@ -278,7 +280,7 @@ Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/n
 
 ---
 
-## Vue ecosystem
+## Vue and Vite ecosystem
 Projects - Anthony Fu: https://antfu.me/projects
 
 Opinionated Vite + Vue Starter Template: https://github.com/antfu/vitesse
@@ -294,6 +296,8 @@ Vuetify - Vue Component Framework: https://vuetifyjs.com
 Vue Composables putting your components in motion: https://github.com/vueuse/motion
 
 Declarative ThreeJS using Vue Components: https://tresjs.org
+
+Unified plugin system for build tools: https://github.com/unjs/unplugin
 
 ---
 
@@ -338,3 +342,5 @@ Transcribe and translate your audio files: https://writeout.ai
 AI cracks your math problem: https://www.aicracks.com
 
 Natural Language to SQL: https://censusgpt.com
+
+A simple chatbot starter kit for OpenAI's chat model: https://github.com/mckaywrigley/chatbot-ui
