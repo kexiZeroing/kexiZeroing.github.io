@@ -240,6 +240,8 @@ daisyUI components - Use Tailwind CSS but write fewer class names: https://daisy
 
 Easy visualizer for JavaScript KeyCodes: https://keycode.info
 
+GSAP ScrollTrigger Demos: https://greensock.com/st-demos
+
 A library that helps you create floating elements such as tooltips: https://floating-ui.com
 
 ---
