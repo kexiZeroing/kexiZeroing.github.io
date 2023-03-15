@@ -52,7 +52,7 @@ Modern Web App Design Patterns: https://www.patterns.dev
 
 What happens when we type google.com in a browser: https://github.com/vasanthk/how-web-works
 
-30 Days of PWA: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/kickoff
+Machine Learning for Beginners: https://github.com/microsoft/ML-For-Beginners
 
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 

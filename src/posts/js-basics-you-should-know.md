@@ -786,6 +786,20 @@ const valC = emptyText || "default for C";
 console.log(valA); // "default for A"
 console.log(valB); // ""
 console.log(valC); // "default for C"
+
+// Nullish coalescing assignment (??=)
+let x1 = undefined;
+let x2 = 'a';
+const getNewValue = () => 'b';
+
+// Assigns the new value to x1, because undefined is nullish.
+x1 ??= 'b';
+console.log(x1) // "b"
+
+// Does not assign a new value to x2, because a string is not nullish.
+// Also note: getNewValue() is never executed.
+x2 ??= getNewValue();
+console.log(x2) // "a"
 ```
 
 The **optional chaining operator (?.)** functions similarly to the `.` chaining operator, except that instead of causing an error if a reference is nullish (`null` or `undefined`), the expression short-circuits with a return value of undefined. When used with function calls, it returns undefined if the given function does not exist.
