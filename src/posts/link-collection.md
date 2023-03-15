@@ -98,6 +98,8 @@ Manage node_modules in the system: https://github.com/voidcosmos/npkill
 
 Interactive website with live coding: https://www.strml.net/
 
+A randomly generated endless city: https://demos.littleworkshop.fr/infinitown
+
 Driving game run in a browser: https://slowroads.io/
 
 Summer Afternoon: https://summer-afternoon.vlucendo.com/

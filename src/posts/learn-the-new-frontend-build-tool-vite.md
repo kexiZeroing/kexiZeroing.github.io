@@ -28,6 +28,10 @@ Vite doesn't set out to be a new bundler. Rather, it's a pre-configured build en
 
 Vite only support ES Modules, and parsing the native ES Modules means it will read the `export` and `import` lines from your code. It will convert those lines into HTTP requests back to the server, where it will again read the `export` and `import` lines and make new requests. Vite also leverages HTTP headers to speed up full page reloads: source code module requests are made conditional via `304 Not Modified`, and dependency module requests are strongly cached via `Cache-Control` header.
 
+<img alt="webpack" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hc08w7udwkj31a20jmabm.jpg" width="600">
+
+<img alt="vite" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hc08w9irx0j313w0hwmyf.jpg" width="600">
+
 > Webpack
 > - supported modules: ES Modules, CommonJS and AMD Modules
 > - dev-server: bundled modules served via webpack-dev-server using Express.js web server
@@ -76,4 +80,9 @@ More about Vite config: https://vitejs.dev/config
 ## Using Plugins
 Vite can be extended using [plugins](https://vitejs.dev/plugins), which are based on Rollup's well-designed plugin interface with a few extra Vite-specific options. To use a plugin, it needs to be added to the `devDependencies` of the project and included in the plugins array in the `vite.config.js` config file. 
 
-Vite aims to provide out-of-the-box support for common web development patterns. A lot of the cases where a plugin would be needed in a Rollup project (https://github.com/rollup/plugins) are already covered in Vite.
+Vite aims to provide out-of-the-box support for common web development patterns. A lot of the cases where a plugin would be needed in a Rollup project (https://github.com/rollup/plugins) are already covered in Vite. You can also check out [awesome-vite plugins](https://github.com/vitejs/awesome-vite#plugins) from the community.
+
+## Env Variables
+Vite exposes env variables on the special `import.meta.env` object. Some built-in variables are available in all cases like `import.meta.env.MODE`.
+
+Vite uses dotenv (`.env`) to load additional environment variables, and the loaded env variables are also exposed to your client source code via `import.meta.env`. To prevent accidentally leaking env variables to the client, only variables prefixed with `VITE_` are exposed to your Vite-processed code.
