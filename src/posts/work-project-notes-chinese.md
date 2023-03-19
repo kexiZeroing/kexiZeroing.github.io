@@ -384,6 +384,8 @@ Electron是一个集成项目，允许开发者使用前端技术开发桌面端
 4. 利用 webpack 编译的 hooks 在构建完成后会打印日志，`logStats()` 函数接收进程名 (Main or Renderer) 和具体输出的内容。
 5. 在主进程和渲染进程都构建完成后，即主进程有一个打包后的 `main.js` 且渲染进程本地服务可以访问，这个时候启动 electron，即通常项目的 npm 脚本会执行 `electron .`，这里是通过 Node API，使用 `child_process.spawn()` 的方式启动 electron 并传入需要的参数，然后对 electron 进程的 stdout 和 stderr 监听，打印对应的日志。
 
+> In the case of an electron app, the `electron` package is bundled as part of the built output. There is no need for your user to get `electron` from npm to use your built app. Therefore it matches well the definition of a `devDependency`. *(When you publish your package, if the consumer project needs other packages to use yours, then these must be listed as `dependencies`.)* For example, VS Code properly lists `electron` as a devDependency only: https://github.com/microsoft/vscode/blob/main/package.json
+
 ### 桌面端状态持久化存储
 Electron doesn't have a built-in way to persist user preferences and other data. [electron-store](https://github.com/sindresorhus/electron-store) handles that for you, so you can focus on building your app. The data is saved in a JSON file in `app.getPath('userData')`.
 - `appData`, which by default points to `~/Library/Application Support` on macOS.

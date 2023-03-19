@@ -30,6 +30,8 @@ tags: [web]
 
 `npm audit` automatically runs when you install a package with `npm install`. It checks direct dependencies and devDependencies, but does not check peerDependencies. Read more about [npm audit: Broken by Design](https://overreacted.io/npm-audit-broken-by-design) by Dan Abramov.
 
+> Having trouble with npm? Visit https://status.npmjs.org to check what's wrong with npm right now. 
+
 ### npm ls
 `npm ls` (aliases: list, la, ll) list dependencies that have been installed to `node_modules`. It throws an error for discrepancies between `package.json` and its lock.
 

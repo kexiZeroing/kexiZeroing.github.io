@@ -77,7 +77,11 @@ window.performance.getEntriesByType('resource')
 
 ### Best practices for fonts
 
-> Refer to https://web.dev/font-best-practices
+- https://web.dev/font-best-practices
+- https://www.lydiahallie.io/blog/optimizing-webfonts-in-nextjs-13
+- https://github.com/system-fonts/modern-font-stacks
+
+A font stack is a list of fonts in the CSS font-family declaration. The fonts are listed in order of preference that you would like them to appear in case of a problem, such as a font not loading. A font stack usually ends with a generic font classification (`serif` or `sans-serif`).
 
 Before diving into best practices for font loading it's important to understand how `@font-face` works and how this impacts font loading. The `@font-face` declaration is an essential part of working with any web font. At a minimum, it declares the name that will be used to refer to the font and indicates the location of the corresponding font file.
 

@@ -226,6 +226,8 @@ There are two points in time that you can integrate dynamic content into a Jamsa
 - **Run time** - This should typically be content that is user specific, needs to update frequently, or is in response to a specific user action. For example, an ecommerce site may have product details populated at build time, but things like the current inventory, shipping options/prices based upon the user’s location, or the user’s shopping cart would all be populated at run time in the browser. As you may notice, in this example, the content on a single page (product details) may be a combination of both pre-rendered (build time) content (i.e. the product name, photo and description) and run time content (i.e. the product inventory and shipping options based on location).
 
 > What type of website are you building? https://whattheframework.netlify.app
+> 
+> One thing people liked about SPAs is that you could run your website, mobile app, public API, and other clients from the same backend infrastructure. With the pendulum swinging back toward server rendering, you’ll need a web server again.
 
 ## Serverless
 Your code needs to be hosted on a server. Depending on the size of your code and the amount of users you expect to use your product, you might need many servers. Companies used to have their own facilities and warehouses that held their servers and many still do. But for many, this is not ideal. Servers can be difficult to maintain. Maintaining servers and the buildings that house them can become expensive too. That's where AWS and other cloud providers come in.

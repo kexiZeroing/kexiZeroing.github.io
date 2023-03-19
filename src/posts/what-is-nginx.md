@@ -80,7 +80,7 @@ Typically the types of functions the gateway may provide may include:
 API Gateway and Load Balancer are two different things. Load Balancer works at protocol or socket level (eg. tcp, http, or port 3306 etc). Its job is to balance the incoming traffic by distributing it to the destinations with various logics. It doesn't offer features such as authorization checks, authentication of requests etc.
 
 ### Nginx command line
-> NGINX has only a few command-line parameters, and the configuration is done entirely via the configuration file (`/usr/local/etc/nginx/nginx.conf`).
+NGINX has only a few command-line parameters, and the configuration is done entirely via the configuration file (`/usr/local/etc/nginx/nginx.conf`).
 
 |  |  |
 |  ---  | --- |
@@ -92,3 +92,5 @@ API Gateway and Load Balancer are two different things. Load Balancer works at p
 | nginx -t          | don’t run, just test the configuration file 
 | nginx -v          | print version
 | nginx -V          | print NGINX version, compiler version and configure parameters
+
+The tool you'll ever need to configure your NGINX server: https://do.co/nginxconfig

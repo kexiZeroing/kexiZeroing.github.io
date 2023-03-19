@@ -194,8 +194,6 @@ Intro to CSS 3D transforms: https://3dtransforms.desandro.com
 
 Color Formats in CSS: https://www.joshwcomeau.com/css/color-formats
 
-Optimizing Web Fonts: https://www.lydiahallie.io/blog/optimizing-webfonts-in-nextjs-13
-
 CSS Style Queries: https://ishadeed.com/article/css-container-style-queries
 
 ---
@@ -245,6 +243,8 @@ Easy visualizer for JavaScript KeyCodes: https://keycode.info
 GSAP ScrollTrigger Demos: https://greensock.com/st-demos
 
 A library that helps you create floating elements such as tooltips: https://floating-ui.com
+
+Recommend npm packages based on your requirements and framework: https://npmpicker.vercel.app
 
 ---
 
@@ -345,6 +345,10 @@ Transcribe and translate your audio files: https://writeout.ai
 
 AI cracks your math problem: https://www.aicracks.com
 
-Natural Language to SQL: https://censusgpt.com
+SQL to Natural Language and Natural Language to SQL: https://www.sqltranslate.app
 
-A simple chatbot starter kit for OpenAI's chat model: https://github.com/mckaywrigley/chatbot-ui
+Node.js client for the official ChatGPT API: https://github.com/transitive-bullshit/chatgpt-api
+
+Experimental AI assistant trained on the Astro docs: https://houston.astro.build
+
+A CLI that writes git commit messages for you with AI: https://github.com/Nutlope/aicommits
