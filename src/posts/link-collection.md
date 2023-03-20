@@ -352,3 +352,5 @@ Node.js client for the official ChatGPT API: https://github.com/transitive-bulls
 Experimental AI assistant trained on the Astro docs: https://houston.astro.build
 
 A CLI that writes git commit messages for you with AI: https://github.com/Nutlope/aicommits
+
+A ChatGPT clone for running locally in your browser: https://github.com/mckaywrigley/chatbot-ui
