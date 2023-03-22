@@ -347,10 +347,12 @@ AI cracks your math problem: https://www.aicracks.com
 
 SQL to Natural Language and Natural Language to SQL: https://www.sqltranslate.app
 
+A CLI that writes git commit messages for you with AI: https://github.com/Nutlope/aicommits
+
 Node.js client for the official ChatGPT API: https://github.com/transitive-bullshit/chatgpt-api
 
-Experimental AI assistant trained on the Astro docs: https://houston.astro.build
+OpenAI API Reference: https://platform.openai.com/docs/api-reference
 
-A CLI that writes git commit messages for you with AI: https://github.com/Nutlope/aicommits
+Experimental AI assistant trained on the Astro docs: https://houston.astro.build
 
 A ChatGPT clone for running locally in your browser: https://github.com/mckaywrigley/chatbot-ui
