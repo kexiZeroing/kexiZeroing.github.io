@@ -62,7 +62,7 @@ Vite only support ES Modules, and parsing the native ES Modules means it will re
 ### Static Assets
 - Importing a static asset will return the resolved public URL when it is served. For example, imgUrl will be `/img.png` during development, and become `/assets/img.2d8efhg.png` in the production build. `url()` references in CSS are handled the same way.
 - Common image, media, and font filetypes are detected as assets automatically.
-- If you have assets that are must retain the exact same file name (without hashing) or you simply don't want to have to import an asset first just to get its URL, then you can place the asset in a special `public` directory under your project root. Assets in this directory will be served at root path `/` during dev, and copied to the root of the dist directory as-is.
+- If you have assets that are must retain the exact same file name (without hashing) or you simply don't want to have to import an asset first just to get its URL, then you can place the asset in a special `public` directory under your project root. **Assets in this directory will be served at root path `/` during dev, and copied to the root of the dist directory as-is**.
 
 ## Configuring Vite
 When running vite from the command line, Vite will automatically try to resolve a config file named `vite.config.js` inside project root.
@@ -86,3 +86,17 @@ Vite aims to provide out-of-the-box support for common web development patterns.
 Vite exposes env variables on the special `import.meta.env` object. Some built-in variables are available in all cases like `import.meta.env.MODE`.
 
 Vite uses dotenv (`.env`) to load additional environment variables, and the loaded env variables are also exposed to your client source code via `import.meta.env`. To prevent accidentally leaking env variables to the client, only variables prefixed with `VITE_` are exposed to your Vite-processed code.
+
+## Dynamic Image URL
+`import.meta.url` is a native ESM feature that exposes the current module's URL. Combining it with the native [URL constructor](https://developer.mozilla.org/en-US/docs/Web/API/URL), we can obtain the full, resolved URL of a static asset using relative path from a JavaScript module.
+
+```vue
+<script setup>
+// https://stackoverflow.com/questions/66419471/vue-3-vite-dynamic-image-src
+const imageUrl = new URL(`./dir/${name}.png`, import.meta.url).href
+</script>
+
+<template>
+  <img :src="imageUrl" alt="img" />
+</template>
+```

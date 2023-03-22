@@ -41,6 +41,18 @@ new Vue({
 })
 ```
 
+```js
+// https://github.com/logue/vite-vue2-ts-starter/blob/master/src/router.ts
+{
+  path: '/about',
+  name: 'About',
+  // route level code-splitting
+  // this generates a separate chunk (About.[hash].js) for this route
+  // which is lazy-loaded when the route is visited.
+  component: () => import('@/views/AboutView.vue'),
+}
+```
+
 Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版本页面](https://www.npmjs.com/package/vue?activeTab=versions) 可以看到当前已使用 3.2.x 作为默认 latest 版本。如果还要用 Vue 2 ，需要手动指定 `legacy` 版本才能安装到 Vue 2。更多关于 Vue 的发布更新可以看 https://blog.vuejs.org
 
 - [create-vite](https://github.com/vitejs/vite/tree/main/packages/create-vite) 是 Vite 官方推荐的一个脚手架工具，可以创建基于 Vite 的不同技术栈基础模板。`npm create vite` 可创建一个基于 Vite 的基础空项目。

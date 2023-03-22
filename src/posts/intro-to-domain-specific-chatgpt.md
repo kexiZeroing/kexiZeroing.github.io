@@ -15,6 +15,7 @@ tags: [other]
 - https://weibo.com/1727858283/MxxgolOyb
 - https://github.com/mckaywrigley/paul-graham-gpt
 - https://www.youtube.com/watch?v=RM-v7zoYQo0
-- https://supabase.com/blog/openai-embeddings-postgres-vector
 - https://github.com/gannonh/gpt3.5-turbo-pgvector
+- https://github.com/mayooear/gpt4-pdf-chatbot-langchain
+- https://supabase.com/blog/openai-embeddings-postgres-vector
 - https://platform.openai.com/docs/guides/embeddings/what-are-embeddings
