@@ -360,5 +360,3 @@ Refactor, understand, and write code effortlessly with Cursor: https://github.co
 Experimental AI assistant trained on the Astro docs: https://houston.astro.build
 
 Build an AI chatbot trained on your data: https://www.chatbase.co
-
-Generating color name captured from real-world: https://github.com/sonnylazuardi/colorGPT
