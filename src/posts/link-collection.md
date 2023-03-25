@@ -24,6 +24,8 @@ CS 61B: Data Structures: https://inst.eecs.berkeley.edu/~cs61b/sp20/index.html
 
 Intro to Computer Systems: http://www.cs.cmu.edu/~213/schedule.html
 
+An Overview of Networks: https://intronetworks.cs.luc.edu/current2/html/intro.html
+
 The Missing Semester of Your CS Education: https://missing.csail.mit.edu
 
 Software Architecture Guide: https://martinfowler.com/architecture
@@ -351,8 +353,12 @@ A CLI that writes git commit messages for you with AI: https://github.com/Nutlop
 
 Node.js client for the official ChatGPT API: https://github.com/transitive-bullshit/chatgpt-api
 
-OpenAI API Reference: https://platform.openai.com/docs/api-reference
+A ChatGPT clone for running locally in your browser: https://github.com/mckaywrigley/chatbot-ui
+
+Refactor, understand, and write code effortlessly with Cursor: https://github.com/getcursor/cursor
 
 Experimental AI assistant trained on the Astro docs: https://houston.astro.build
 
-A ChatGPT clone for running locally in your browser: https://github.com/mckaywrigley/chatbot-ui
+Build an AI chatbot trained on your data: https://www.chatbase.co
+
+Generating color name captured from real-world: https://github.com/sonnylazuardi/colorGPT

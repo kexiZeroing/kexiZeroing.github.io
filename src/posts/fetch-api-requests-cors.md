@@ -182,6 +182,8 @@ HEAD requests are just like GET requests, except the body of the response is emp
 ## Headers
 The Headers interface allows you to create your own headers object via the `Headers()` constructor. A Headers object has an associated header list, and you can add to this using methods like `append()`. For security reasons, **some headers can only be controlled by the user agent**. These headers cannot be modified programmatically, like `Accept-Charset`, `Accept-Encoding`, `Access-Control-Request-Headers`, `Access-Control-Request-Method`, `Cookie`, `Date`, `Host`, `Origin`. All of the Headers methods throw a `TypeError` if a header name is used that is not a valid HTTP Header name.
 
+> An HTTP header consists of its **case-insensitive** name followed by a colon (:), then by its value.
+
 ```javascript
 const content = 'Hello World';
 

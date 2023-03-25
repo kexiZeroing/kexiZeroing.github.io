@@ -47,6 +47,8 @@ The `Path` attribute indicates a URL path that must exist in the requested URL i
 
 The `SameSite` attribute lets servers require that a cookie shouldn't be sent with cross-origin requests. It takes three possible values: `Strict`, `Lax`, and `None`. With `Strict`, the cookie is sent only to the same site as the one that originated it. In user terms, the cookie will only be sent if the site for the cookie matches the site currently shown in the browser's URL bar. `Lax` is similar, with an exception for when the user navigates to a URL from an external site, such as by following a link. **This is the default behavior if the `SameSite` attribute is not specified.** `None` has no restrictions on cross-site requests, but requires that the `Secure` attribute must be used: `SameSite=None; Secure`.
 
+> Electron SameSite cookies issue: https://github.com/electron/electron/issues/21509
+
 ### Cross-Site Request Forgery (CSRF) attacks
 These attacks are possible because web browsers send authentication tokens automatically with every request to the server. It takes advantage of the user's previously authenticated session. An example of a CSRF attack:
 
