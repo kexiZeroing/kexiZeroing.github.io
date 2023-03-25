@@ -7,7 +7,7 @@ added: "Mar 25 2023"
 tags: [other]
 ---
 
-### What are Vector Embeddings?
+## What are Vector Embeddings?
 Vector embeddings are one of the most fascinating and useful concepts in machine learning. They are central to many NLP, recommendation, and search algorithms. ML algorithms, like most software algorithms, need numbers to work with. Sometimes we have a dataset with columns of numeric values or values that can be translated into them. Other times we come across something more abstract like an entire document of text. We create vector embeddings, which are just lists of numbers, for data like this to perform various operations with them. A whole paragraph of text or any other object can be reduced to a vector. 
 
 There is something special about vectors that makes them so useful. This representation makes it possible to translate semantic similarity as perceived by humans to proximity in a vector space. In other words, when we represent real-world objects and concepts such as images, audio recordings, news articles, and user profiles as vector embeddings, the semantic similarity of these objects and concepts can be quantified by how close they are to each other as points in vector spaces.
@@ -16,7 +16,7 @@ There is something special about vectors that makes them so useful. This represe
 
 We train models to translate objects to vectors. A deep neural network is a common tool for training such models. The resulting embeddings are usually high dimensional (up to two thousand dimensions) and dense (all values are non-zero). For text data, models such as Word2Vec, GloVe, and BERT transform words, sentences, or paragraphs into vector embeddings. Images can be embedded using models such as convolutional neural networks (CNNs).
 
-### OpenAI’s text embeddings API
+## OpenAI’s text embeddings API
 An embedding is a vector (list) of floating point numbers. The distance between two vectors measures their relatedness. Small distances suggest high relatedness and large distances suggest low relatedness.
 
 To get an embedding, send your text string to the embeddings API endpoint along with a choice of embedding model ID (e.g., `text-embedding-ada-002`). The response will contain an embedding, which you can extract, save, and use.
@@ -38,7 +38,7 @@ const response = await openai.createEmbedding({
 
 > In data analysis, cosine similarity is a measure of similarity between two non-zero vectors defined in an inner product space. Cosine similarity is the cosine of the angle between the vectors; that is, it is the dot product of the vectors divided by the product of their lengths.
 
-### Storing OpenAI embeddings in Postgres with pgvector
+## Storing OpenAI embeddings in Postgres with pgvector
 [pgvector](https://github.com/pgvector/pgvector) is an open-source vector similarity search for Postgres. Once we have generated embeddings on multiple texts, it is trivial to calculate how similar they are using vector math operations like cosine distance. A perfect use case for this is search. Your process might look something like this:
 
 1. Pre-process your knowledge base and generate embeddings for each page.
@@ -129,7 +129,7 @@ const completionResponse = await openai.createCompletion({
 })
 ```
 
-### Domain-specific ChatGTP Starter App
+## Domain-specific ChatGTP Starter App
 [This starter app](https://github.com/gannonh/gpt3.5-turbo-pgvector) uses embeddings to generate a vector representation of a document, and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which is then used to generate a response. The response is then streamed to the user.
 
 Creating and storing the embeddings: See [pages/embeddings.tsx](https://github.com/gannonh/gpt3.5-turbo-pgvector/blob/master/pages/embeddings.tsx) and [pages/api/generate-embeddings.ts](https://github.com/gannonh/gpt3.5-turbo-pgvector/blob/master/pages/api/generate-embeddings.ts)
@@ -191,9 +191,9 @@ async function getDocuments(urls: string[]) {
 
 There is an [example website](https://astro-labs.app/docs) base on this starter app. [paul-graham-gpt](https://github.com/mckaywrigley/paul-graham-gpt) is a similar one.
 
-<img alt="astro-labs.app" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hcc9xd8ly9j30yu0q6tb9.jpg" width="500" />
+<img alt="astro-labs.app" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hcc9xd8ly9j30yu0q6tb9.jpg" width="550" />
 
-### GPT and LangChain Chatbot for PDF docs
+## GPT and LangChain Chatbot for PDF docs
 [gpt4-pdf-chatbot-langchain](https://github.com/mayooear/gpt4-pdf-chatbot-langchain) uses LangChain and Pinecone to build a chatGPT chatbot for large PDF docs.
 
 [LangChain](https://hwchase17.github.io/langchainjs/docs/overview) is a framework that makes it easier to build scalable LLM apps and chatbots. For example, An [LLMChain](https://hwchase17.github.io/langchainjs/docs/modules/chains/llm_chain) is the simplest type of chain, and is used widely in other chains, so understanding it is important. We can construct an LLMChain which takes user input, formats it with a [PromptTemplate](https://hwchase17.github.io/langchainjs/docs/modules/prompts/prompt_template), and then passes the formatted response to an LLM.
@@ -218,7 +218,7 @@ console.log({ res });
 
 Convert your PDF to embeddings:
 
-<img alt="pdf-to-embeddings" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hccg4ncf7vj32140fu0x9.jpg" width="700" />
+<img alt="pdf-to-embeddings" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hccg4ncf7vj32140fu0x9.jpg" width="800" />
 
 ```js
 // https://github.com/mayooear/gpt4-pdf-chatbot-langchain/blob/main/scripts/ingest-data.ts
