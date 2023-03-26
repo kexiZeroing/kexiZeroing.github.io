@@ -96,3 +96,5 @@ Change URL without refreshing the page:
   </script>
 </body>
 ```
+
+While SPAs have been able to bring you this feature via the History API (or in limited cases, by adjusting the site's #hash part), it's a clunky API developed long-before SPAs were the norm, and the web is crying out for a completely new approach. [The Navigation API](https://developer.chrome.com/docs/web-platform/navigation-api), launched in Chrome 102, is a proposed API that completely overhauls this space, rather than trying to simply patch History API's rough edges.

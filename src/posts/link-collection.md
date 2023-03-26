@@ -353,7 +353,7 @@ A CLI that writes git commit messages for you with AI: https://github.com/Nutlop
 
 Node.js client for the official ChatGPT API: https://github.com/transitive-bullshit/chatgpt-api
 
-A ChatGPT clone for running locally in your browser: https://github.com/mckaywrigley/chatbot-ui
+An open-source ChatGPT UI: https://github.com/mckaywrigley/chatbot-ui
 
 Refactor, understand, and write code effortlessly with Cursor: https://github.com/getcursor/cursor
 
