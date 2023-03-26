@@ -224,7 +224,7 @@ You can create a new Response object using the `Response()` constructor, but you
 - **Response.statusText**: The status message corresponding to the status code. (e.g., OK for 200).
 - **Response.url**: The URL of the response. It will be the final URL obtained after any redirects.
 
-The body of Response allows you to declare what its content type is and how it should be handled (`.json()`, `.blob()`, `.arrayBuffer()`, `.formData()`, `.text()`). For exmaple, The `json()` method of the Response interface takes a Response stream and reads it to completion. It returns a promise which resolves with the result of parsing the body text as JSON.
+The body of Response allows you to declare what its content type is and how it should be handled (`.json()`, `.blob()`, `.arrayBuffer()`, `.formData()`, `.text()`). For example, The `json()` method of the Response interface takes a Response stream and reads it to completion. It returns a promise which resolves with the result of parsing the body text as JSON.
 
 > `Response.body` is a `ReadableStream` of the body contents. [In this example](https://mdn.github.io/dom-examples/streams/simple-pump/) we fetch an image, expose the response's stream using `response.body`, create a reader using `ReadableStream.getReader()`, then enqueue that stream's chunks into a second, custom readable stream — effectively creating an identical copy of the image.
 

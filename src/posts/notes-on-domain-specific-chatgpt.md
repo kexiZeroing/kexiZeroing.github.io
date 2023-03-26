@@ -201,6 +201,8 @@ Do you want to stream the response to your application in real-time — as it's 
 3. A server listens for server-side events from the OpenAI API connection. For each event received, we can forward that message to our client. This creates a nested SSE event system where we proxy the OpenAI SSE back to our client. This also keeps our API secret because all the communication to OpenAI happens on our server.
 4. After the client receives the entire response, OpenAI will send a special message to let us know to close the connection. The `[Done]` message will signal that we can close the SSE connection to OpenAI, and our client can close the connection to our server.
 
+> A simple server-sent events example: https://kexizeroing.github.io/post/simple-server-sent-events-example/
+
 ```html
 <script>
 var source = new EventSource("/completion");
