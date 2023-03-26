@@ -226,6 +226,58 @@ You can create a new Response object using the `Response()` constructor, but you
 
 The body of Response allows you to declare what its content type is and how it should be handled (`.json()`, `.blob()`, `.arrayBuffer()`, `.formData()`, `.text()`). For exmaple, The `json()` method of the Response interface takes a Response stream and reads it to completion. It returns a promise which resolves with the result of parsing the body text as JSON.
 
+> `Response.body` is a `ReadableStream` of the body contents. [In this example](https://mdn.github.io/dom-examples/streams/simple-pump/) we fetch an image, expose the response's stream using `response.body`, create a reader using `ReadableStream.getReader()`, then enqueue that stream's chunks into a second, custom readable stream — effectively creating an identical copy of the image.
+
+```js
+// An example to fetch image with progress indicator
+// https://github.com/AnthumChris/fetch-progress-indicators
+
+const elProgress = document.getElementById('progress');
+
+fetch('https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg')
+.then(response => {
+  // to access headers, server must send CORS header "Access-Control-Expose-Headers: content-encoding, content-length x-file-size"
+  // server must send custom x-file-size header if gzip or other content-encoding is used
+  const contentEncoding = response.headers.get('content-encoding');
+  const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
+  if (contentLength === null) {
+    throw Error('Response size header unavailable');
+  }
+
+  const total = parseInt(contentLength, 10);
+  let loaded = 0;
+
+  return new Response(
+    new ReadableStream({
+      // This method is called immediately when the object is constructed
+      start(controller) {
+        const reader = response.body.getReader();
+
+        read();
+        function read() {
+          reader.read().then(({done, value}) => {
+            if (done) {
+              controller.close();
+              return; 
+            }
+            loaded += value.byteLength;
+            elProgress.innerHTML = Math.round(loaded/total*100) + '%';
+            controller.enqueue(value);
+            read();
+          }).catch(error => {
+            console.error(error);               
+          })
+        }
+      }
+    })
+  );
+})
+.then(response => response.blob())
+.then(data => {
+  document.getElementById('img').src = URL.createObjectURL(data);
+})
+```
+
 ## Cross-Origin Resource Sharing
 A web application executes a cross-origin HTTP request when it requests a resource that has a different origin (domain, protocol, or port) from its own. For security reasons, browsers restrict cross-origin HTTP requests initiated from scripts. XMLHttpRequest and the Fetch API follow the same-origin policy, which means that a web application using those APIs can only request resources from the same origin unless the response from other origins includes the right CORS headers.
 

@@ -1,0 +1,64 @@
+---
+layout: "../layouts/BlogPost.astro"
+title: "Simple server-sent events exmaple"
+slug: simple-server-sent-events-example
+description: ""
+added: "Mar 26 2023"
+tags: [js]
+---
+
+`EventSource` is a browser API that allows the client (browser) to receive real-time updates from the server over an HTTP connection. It uses a simple text-based protocol called [Server-Sent Events (SSE)](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) to send data from the server to the client in a unidirectional way. The client can listen to the SSE events using the `EventSource` API, and receive updates as they happen in real-time.
+
+- An `EventSource` instance opens a persistent connection to an HTTP server, which sends events in `text/event-stream` format. The connection remains open until closed by calling `EventSource.close()`.
+- Unlike WebSockets, server-sent events are unidirectional; that is, data messages are delivered in one direction, from the server to the client (such as a user's web browser). That makes them an excellent choice when there's no need to send data from the client to the server in message form. For example, EventSource is a useful approach for handling things like social media status updates, news feeds, or delivering data into a client-side storage mechanism like IndexedDB or web storage.
+
+```js
+const express = require('express');
+const cors = require('cors');
+const app = express();
+
+app.use(cors());
+
+app.get('/stream', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+  const id = Date.now();
+
+  setInterval(() => {
+    const data = {
+      id,
+      number: Math.floor(Math.random() * 100),
+    };
+    res.write(`id: ${data.id}\n`);
+    res.write(`data: ${JSON.stringify(data)}\n\n`);
+  }, 1000);
+});
+
+app.listen(3000, () => console.log('Listening on port 3000...'));
+```
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EventSource Example</title>
+</head>
+<body>
+  <h1>Random Numbers:</h1>
+  <ul id="numbers"></ul>
+
+  <script>
+    const numbers = document.getElementById('numbers');
+
+    const eventSource = new EventSource('http://localhost:3000/stream');
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      numbers.innerHTML += `<li>${data.number}</li>`;
+    };
+  </script>
+</body>
+</html>
+```

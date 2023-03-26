@@ -129,7 +129,7 @@ const completionResponse = await openai.createCompletion({
 })
 ```
 
-## Domain-specific ChatGTP Starter App
+### Domain-specific ChatGTP Starter App
 [This starter app](https://github.com/gannonh/gpt3.5-turbo-pgvector) uses embeddings to generate a vector representation of a document, and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which is then used to generate a response. The response is then streamed to the user.
 
 Creating and storing the embeddings: See [pages/embeddings.tsx](https://github.com/gannonh/gpt3.5-turbo-pgvector/blob/master/pages/embeddings.tsx) and [pages/api/generate-embeddings.ts](https://github.com/gannonh/gpt3.5-turbo-pgvector/blob/master/pages/api/generate-embeddings.ts)
@@ -192,6 +192,73 @@ async function getDocuments(urls: string[]) {
 There is an [example website](https://astro-labs.app/docs) base on this starter app. [paul-graham-gpt](https://github.com/mckaywrigley/paul-graham-gpt) is a similar one.
 
 <img alt="astro-labs.app" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hcc9xd8ly9j30yu0q6tb9.jpg" width="550" />
+
+### OpenAI SSE (Server-Sent Events) Streaming API
+Do you want to stream the response to your application in real-time — as it's being generated?
+
+1. The client creates an SSE `EventSource` to server endpoint with SSE configured.
+2. The server receives the request and sends a request to OpenAI API using the `stream: true` parameter.
+3. A server listens for server-side events from the OpenAI API connection. For each event received, we can forward that message to our client. This creates a nested SSE event system where we proxy the OpenAI SSE back to our client. This also keeps our API secret because all the communication to OpenAI happens on our server.
+4. After the client receives the entire response, OpenAI will send a special message to let us know to close the connection. The `[Done]` message will signal that we can close the SSE connection to OpenAI, and our client can close the connection to our server.
+
+```html
+<script>
+var source = new EventSource("/completion");
+source.onmessage = function(event) {
+  if (event.data === '[DONE]') {
+    source.close()
+  } else {
+    document.getElementById("result").innerHTML += event.data + "<br>";
+  }
+};
+</script>
+```
+
+```js
+const express = require('express')
+const { Configuration, OpenAIApi } = require("openai");
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+const app = express()
+const port = 3000
+
+app.get('/completion', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders(); // flush the headers to establish SSE with client
+
+  const response = openai.createCompletion({
+    model: "text-davinci-003",
+    prompt: "hello world",
+    max_tokens: 100,
+    temperature: 0,
+    stream: true,
+  }, { responseType: 'stream' });
+
+  response.then(resp => {
+    resp.data.on('data', data => {
+      const lines = data.toString().split('\n').filter(line => line.trim() !== '');
+      for (const line of lines) {
+        const message = line.replace(/^data: /, '');
+        if (message === '[DONE]') {
+          res.end();
+          return
+        }
+        const parsed = JSON.parse(message);
+        res.write(`data: ${parsed.choices[0].text}\n\n`)
+      }
+    });
+  })
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
+```
 
 ## GPT and LangChain Chatbot for PDF docs
 [gpt4-pdf-chatbot-langchain](https://github.com/mayooear/gpt4-pdf-chatbot-langchain) uses LangChain and Pinecone to build a chatGPT chatbot for large PDF docs.
