@@ -410,3 +410,6 @@ Advantages over `localStorage`:
 - The API of this module is much nicer. You can set and get nested properties. You can set default initial config.
 
 [vuex-electron](https://github.com/vue-electron/vuex-electron) uses `electron-store` to share your Vuex Store between all processes (including main).
+
+### Standalone Vue devtools
+In case you are using an unsupported browser, or if you have other specific needs (for example your application is in Electron), you can use the standalone application. https://devtools.vuejs.org/guide/installation.html#standalone

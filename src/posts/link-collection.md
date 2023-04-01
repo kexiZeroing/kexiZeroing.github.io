@@ -148,6 +148,8 @@ Preview glTF models in WebGL using three.js: https://github.com/donmccurdy/three
 
 Shiny Button: https://shiny-button.vercel.app
 
+Helps to test real-time requests directly from the browser: https://hoppscotch.io/realtime/websocket
+
 ---
 
 ## CSS related
@@ -248,6 +250,10 @@ A library that helps you create floating elements such as tooltips: https://floa
 
 Recommend npm packages based on your requirements and framework: https://npmpicker.vercel.app
 
+You don't need Moment.js: https://github.com/you-dont-need/You-Dont-Need-Momentjs/blob/master/README.md
+
+Color palette inspiration site: https://www.happyhues.co
+
 ---
 
 ## React ecosystem
@@ -333,6 +339,8 @@ End-of-life dates of various products: https://endoflife.date
 
 ## ChatGPT related
 
+OpenAI Cookbook: https://github.com/openai/openai-cookbook
+
 Awesome ChatGPT Prompts: https://prompts.chat
 
 Chat with any PDF: https://www.chatpdf.com
@@ -355,8 +363,10 @@ Node.js client for the official ChatGPT API: https://github.com/transitive-bulls
 
 An open-source ChatGPT UI: https://github.com/mckaywrigley/chatbot-ui
 
-Refactor, understand, and write code effortlessly with Cursor: https://github.com/getcursor/cursor
-
 Experimental AI assistant trained on the Astro docs: https://houston.astro.build
 
 Build an AI chatbot trained on your data: https://www.chatbase.co
+
+A universal local knowledge base solution: https://github.com/GanymedeNil/document.ai
+
+Share your wildest ChatGPT conversations with one click: https://sharegpt.com

@@ -88,6 +88,8 @@ Modules are cached after the first time they are loaded. This means every call t
 ### Source Map
 Once you've compiled and minified your code, normally alongside it will exist a sourceMap file(`file.js.map`). **It helps us with debugging transformed code in its original form**. The bundler will add a source map location comment `//# sourceMappingURL=/path/to/file.js.map` at the end of every generated bundle, which is required to signify to the browser devtools that a source map is available. Another type of source map is inline which has a base64 data URL like `# sourceMappingURL=data:application/json;base64,xxx...`
 
+> Learn what are source maps from Google Chrome Developers: https://www.youtube.com/watch?v=FIYkjjFYvoI
+
 In development all the source files have associated source maps, but we would not want to ship source maps to our production servers.
 - Source maps are usually large; they could be several hundreds of KBs even after compression.
 - We may not want to share the original source code of our application with the users.
@@ -108,6 +110,25 @@ source-map-explorer -h
 ```
 
 <img alt="source-map-explorer" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008i3skNly1gx2pz85jf1j31lf0u07aa.jpg" width="800" />
+
+One more thing, Chrome DevTools parses the [x_google_ignoreList](https://developer.chrome.com/articles/x-google-ignore-list) field in source maps to help improve developer debugging experience (to filter out generated code and let web developers focus only on the code they author.)
+
+```js
+/* demo.js.map */
+{
+  "version": 3,
+  "mappings": "AAAAA, ..." 
+  "sources": [
+    "app.js",
+    "components/Button.ts",
+    "node_modules/.../framework.js",
+    "node_modules/.../library.js",
+    ...
+  ],
+  "x_google_ignoreList": [2, 3],
+  ...
+}
+```
 
 ### What is core-js
 `core-js` is the most popular and the most universal polyfill of the JavaScript standard library, which provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.

@@ -9,6 +9,8 @@ tags: [js]
 
 `EventSource` is a browser API that allows the client (browser) to receive real-time updates from the server over an HTTP connection. It uses a simple text-based protocol called [Server-Sent Events (SSE)](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) to send data from the server to the client in a unidirectional way. The client can listen to the SSE events using the `EventSource` API, and receive updates as they happen in real-time.
 
+> Real-time Updates: [Polling, SSE and WebSockets](https://dev.to/thesanjeevsharma/real-time-updates-polling-sse-and-web-sockets-277i)
+
 - An `EventSource` instance opens a persistent connection to an HTTP server, which sends events in `text/event-stream` format. The connection remains open until closed by calling `EventSource.close()`.
 - Unlike WebSockets, server-sent events are unidirectional; that is, data messages are delivered in one direction, from the server to the client (such as a user's web browser). That makes them an excellent choice when there's no need to send data from the client to the server in message form. For example, EventSource is a useful approach for handling things like social media status updates, news feeds, or delivering data into a client-side storage mechanism like IndexedDB or web storage.
 

@@ -47,6 +47,8 @@ import './base.css'
 createApp(App).mount('#app')
 ```
 
+In a Vue component, `<script setup>` can be used alongside normal `<script>` (Use the options API or Run setup code one time). It works because the `<script setup>` block is compiled into the component's `setup()` function, [check out the docs](https://vuejs.org/api/sfc-script-setup.html#usage-alongside-normal-script)
+
 ### Date Countdown
 https://papaya-caramel-13dd76.netlify.app/
 
