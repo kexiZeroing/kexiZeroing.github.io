@@ -150,6 +150,8 @@ withDefaults(
 </script>
 ```
 
+`v-if` vs. `v-show`: Generally speaking, `v-if` has higher toggle costs while `v-show` has higher initial render costs. For example, if you have a tabs component, that some tab contains a heavy component. Using `v-if`, it will get the component destroyed and re-created when switching tabs. Using `v-show`, you will need to pay the mounting cost on the initial render even you haven't switch to that tab yet.
+
 ### Use Composables
 ```js
 // composables/itemComparison.js
