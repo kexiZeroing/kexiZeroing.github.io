@@ -141,6 +141,8 @@ Today, `import moment from "moment"` throws, as such bare specifiers are reserve
 </script>
 ```
 
+*Update at 2023-03-28:* [JavaScript import maps are now supported cross-browser](https://web.dev/import-maps-in-all-modern-browsers). A modern way to use ES modules is with the `<script type="importmap">` tag. This tag allows you to define a mapping of external module names to their corresponding URLs, which makes it easier to include and use external modules in your code.
+
 ## Getting started with Node.js ESM
 In May, 2020, Node.js v12.17.0 made ESM support available to all Node.js applications without experimental flags. Read more at https://formidable.com/blog/2021/node-esm-and-exports
 

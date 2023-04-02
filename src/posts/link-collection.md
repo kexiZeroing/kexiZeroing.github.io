@@ -150,6 +150,8 @@ Shiny Button: https://shiny-button.vercel.app
 
 Helps to test real-time requests directly from the browser: https://hoppscotch.io/realtime/websocket
 
+A new medium for presenting ideas powered by AI: https://gamma.app
+
 ---
 
 ## CSS related
@@ -357,6 +359,8 @@ AI cracks your math problem: https://www.aicracks.com
 
 SQL to Natural Language and Natural Language to SQL: https://www.sqltranslate.app
 
+AI Code Translator: https://ai-code-translator.vercel.app
+
 A CLI that writes git commit messages for you with AI: https://github.com/Nutlope/aicommits
 
 Node.js client for the official ChatGPT API: https://github.com/transitive-bullshit/chatgpt-api
@@ -370,3 +374,5 @@ Build an AI chatbot trained on your data: https://www.chatbase.co
 A universal local knowledge base solution: https://github.com/GanymedeNil/document.ai
 
 Share your wildest ChatGPT conversations with one click: https://sharegpt.com
+
+A chat assistant fine-tuned from LLaMA on user-shared conversations: https://vicuna.lmsys.org
