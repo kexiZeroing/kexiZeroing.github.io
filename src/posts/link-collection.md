@@ -363,6 +363,8 @@ AI Code Translator: https://ai-code-translator.vercel.app
 
 A CLI that writes git commit messages for you with AI: https://github.com/Nutlope/aicommits
 
+Translate your locale json files: https://github.com/ObservedObserver/chatgpt-i18n
+
 Node.js client for the official ChatGPT API: https://github.com/transitive-bullshit/chatgpt-api
 
 An open-source ChatGPT UI: https://github.com/mckaywrigley/chatbot-ui
@@ -376,3 +378,15 @@ A universal local knowledge base solution: https://github.com/GanymedeNil/docume
 Share your wildest ChatGPT conversations with one click: https://sharegpt.com
 
 A chat assistant fine-tuned from LLaMA on user-shared conversations: https://vicuna.lmsys.org
+
+---
+
+## Natural Language Processing
+
+Standford CS229: https://cs229.stanford.edu/notes2022fall
+
+Stanford CS224N: https://web.stanford.edu/class/cs224n/index.html
+
+Natural Language Processing: https://princeton-nlp.github.io/cos484
+
+Understanding Large Language Models: https://www.cs.princeton.edu/courses/archive/fall22/cos597G
