@@ -383,10 +383,12 @@ A chat assistant fine-tuned from LLaMA on user-shared conversations: https://vic
 
 ## Natural Language Processing
 
-Standford CS229: https://cs229.stanford.edu/notes2022fall
+Standford CS229 - Machine Learning: https://cs229.stanford.edu/notes2022fall
 
-Stanford CS224N: https://web.stanford.edu/class/cs224n/index.html
+Stanford CS224N - Natural Language Processing with Deep Learning: https://web.stanford.edu/class/cs224n/index.html
 
 Natural Language Processing: https://princeton-nlp.github.io/cos484
 
 Understanding Large Language Models: https://www.cs.princeton.edu/courses/archive/fall22/cos597G
+
+Stanford CS324 - Advances in Foundation Models: https://stanford-cs324.github.io/winter2023
