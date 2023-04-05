@@ -40,7 +40,7 @@ tags: [system]
     > - set proxy address: `git config --global http.proxy 127.0.0.1:7890`
     > - reset the proxy: `git config --global --unset http.proxy`
 
-6. Use `nvm` (Node Version Manager) to install Node.js, then install a version of node `nvm install xx.xx`, `nvm use xx.xx` and run `nvm ls`. Use `node -v && npm -v` to check the version. (`echo $PATH` or `which node`)
+6. Use `nvm` to install Node.js (an alternative way is using [Volta](https://volta.sh)), then install a version of node `nvm install xx.xx`, `nvm use xx.xx` and run `nvm ls`. Use `node -v && npm -v` to check the version. (`echo $PATH` or `which node`)
    -  nvm install script clones the nvm repository to `~/.nvm`, and attempts to add the source lines to the correct profile file like `~/.zshrc` or `~/.bashrc`.
    - `nvm ls-remote` to browse available versions
    - set default node version: `nvm alias default x.y.z` (`nvm alias default node` to make the "latest" default)
