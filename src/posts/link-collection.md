@@ -345,6 +345,10 @@ OpenAI Cookbook: https://github.com/openai/openai-cookbook
 
 Awesome ChatGPT Prompts: https://prompts.chat
 
+Prompt Engineering: https://lilianweng.github.io/posts/2023-03-15-prompt-engineering
+
+LangChain: https://docs.langchain.com/docs
+
 Chat with any PDF: https://www.chatpdf.com
 
 Generating dream rooms: https://www.roomgpt.io
@@ -352,10 +356,6 @@ Generating dream rooms: https://www.roomgpt.io
 Turn your rough sketch into a refined image: https://scribblediffusion.com 
 
 Paint by Text: https://paintbytext.chat
-
-Transcribe and translate your audio files: https://writeout.ai
-
-AI cracks your math problem: https://www.aicracks.com
 
 SQL to Natural Language and Natural Language to SQL: https://www.sqltranslate.app
 
