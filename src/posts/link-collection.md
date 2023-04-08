@@ -343,7 +343,9 @@ End-of-life dates of various products: https://endoflife.date
 
 ## ChatGPT related
 
-Notes for software engineers getting up to speed on new AI developments: https://github.com/sw-yx/ai-notes
+Futurepedia - AI Tools Directory: https://www.futurepedia.io
+
+Notes on AI state of the art: https://github.com/sw-yx/ai-notes
 
 OpenAI Cookbook: https://github.com/openai/openai-cookbook
 
@@ -352,8 +354,6 @@ Awesome ChatGPT Prompts: https://prompts.chat
 LangChain: https://docs.langchain.com/docs
 
 Chat with any PDF: https://www.chatpdf.com
-
-Generating dream rooms: https://www.roomgpt.io
 
 Turn your rough sketch into a refined image: https://scribblediffusion.com 
 
@@ -364,6 +364,8 @@ SQL to Natural Language and Natural Language to SQL: https://www.sqltranslate.ap
 AI Code Translator: https://ai-code-translator.vercel.app
 
 A CLI that writes git commit messages for you with AI: https://github.com/Nutlope/aicommits
+
+Find the Git Command You Need Now: https://www.gitfluence.com
 
 Translate your locale json files: https://github.com/ObservedObserver/chatgpt-i18n
 

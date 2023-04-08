@@ -164,7 +164,7 @@ Prompt:
 Output:
 > Adding all the odd numbers (15, 5, 13, 7, 1) gives 41. The answer is False.
 
-The authors claim that this is an emergent ability that arises with sufficiently large language models. And one idea that came out more recently is the idea of zero-shot CoT that essentially involves adding `"Let's think step by step"` to the original prompt. Let's try a simple problem and see how the model performs:
+The authors claim that this is an [emergent ability](https://www.jasonwei.net/blog/emergence) that arises with sufficiently large language models. And one idea that came out more recently is the idea of zero-shot CoT that essentially involves adding `"Let's think step by step"` to the original prompt. Let's try a simple problem and see how the model performs:
 
 Prompt:
 > I went to the market and bought 10 apples. I gave 2 apples to the neighbor and 2 to the repairman. I then went and bought 5 more apples and ate 1. How many apples did I remain with?
