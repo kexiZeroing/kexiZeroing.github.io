@@ -269,7 +269,7 @@ app.listen(port, () => {
 ## GPT and LangChain Chatbot for PDF docs
 [gpt4-pdf-chatbot-langchain](https://github.com/mayooear/gpt4-pdf-chatbot-langchain) uses LangChain and Pinecone to build a chatGPT chatbot for large PDF docs.
 
-[LangChain](https://blog.langchain.dev) is a framework that makes it easier to build scalable LLM apps and chatbots. For example, An [LLMChain](https://hwchase17.github.io/langchainjs/docs/modules/chains/llm_chain) is the simplest type of chain, and is used widely in other chains, so understanding it is important. We can construct an LLMChain which takes user input, formats it with a [PromptTemplate](https://hwchase17.github.io/langchainjs/docs/modules/prompts/prompt_template), and then passes the formatted response to an LLM.
+[LangChain](https://blog.langchain.dev) is a framework that makes it easier to build scalable LLM apps and chatbots. For example, An [LLMChain](https://docs.langchain.com/docs/components/chains/llm-chain) is the simplest type of chain, and is used widely in other chains, so understanding it is important. We can construct an LLMChain which takes user input, formats it with a [PromptTemplate](https://js.langchain.com/docs/modules/prompts/prompt_templates), and then passes the formatted response to an LLM.
 
 > - A Comprehensive Guide to LangChain: https://nathankjer.com/introduction-to-langchain
 > - TypeScript version for LangChain: https://blog.langchain.dev/typescript-support
@@ -300,12 +300,12 @@ Convert your PDF to embeddings:
 // https://github.com/mayooear/gpt4-pdf-chatbot-langchain/blob/main/scripts/ingest-data.ts
 
 /* load raw docs from the pdf file in the directory */
-// https://hwchase17.github.io/langchainjs/docs/modules/document_loaders/file_loaders/pdf
+// https://js.langchain.com/docs/modules/indexes/document_loaders/examples/file_loaders/pdf
 const loader = new PDFLoader(filePath);
 const rawDocs = await loader.load();
 
 /* split text into chunks */
-// https://hwchase17.github.io/langchainjs/docs/modules/indexes/text_splitter
+// https://js.langchain.com/docs/modules/indexes/text_splitters/examples/recursive_character
 const textSplitter = new RecursiveCharacterTextSplitter({
   chunkSize: 1000,
   chunkOverlap: 200,
@@ -313,7 +313,7 @@ const textSplitter = new RecursiveCharacterTextSplitter({
 const docs = await textSplitter.splitDocuments(rawDocs);
 
 /* create and store the embeddings in the vectorStore */
-// https://hwchase17.github.io/langchainjs/docs/modules/indexes/embeddings
+// https://js.langchain.com/docs/modules/models/embeddings/integrations
 const embeddings = new OpenAIEmbeddings();
 
 // https://github.com/hwchase17/langchainjs/pull/112

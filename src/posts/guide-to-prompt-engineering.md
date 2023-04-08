@@ -199,7 +199,9 @@ When discussing the distribution of exemplars within a prompt, we are referring 
 The order of exemplars can also cause bias. For example, a prompt that has randomly ordered exemplars will often perform better than the prompt which contains positive tweets first, followed by negative tweets.
 
 ## OpenAI Fine-tuning
-> Instructed LM finetunes a pretrained model with high-quality tuples of (task instruction, input, ground truth output) to make LM better understand user intention and follow instruction. RLHF (Reinforcement Learning from Human Feedback) is a common method to do so. The benefit of instruction following style fine-tuning improves the model to be more aligned with human intention and greatly reduces the cost of communication.
+Instructed LM finetunes a pretrained model with high-quality tuples of (task instruction, input, ground truth output) to make LM better understand user intention and follow instruction. RLHF (Reinforcement Learning from Human Feedback) is a common method to do so, which is a fine-tuning step to align the model with how we want to interact with it and how we expect it to respond.
+
+<img alt="fine-tuning" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hcsce8y1odj31c10u0gqf.jpg" width="800">
 
 GPT-3 has been pre-trained on a vast amount of text from the open internet. When given a prompt with just a few examples, it can often intuit what task you are trying to perform and generate a plausible completion. This is often called "few-shot learning."
 

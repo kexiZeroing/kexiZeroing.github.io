@@ -108,6 +108,8 @@ Summer Afternoon: https://summer-afternoon.vlucendo.com/
 
 Neal.Fun: https://neal.fun/
 
+Lynn Fisher: https://lynnandtonic.com/
+
 HTTP Cats: https://http.cat/
 
 Github contributions in 3D: https://skyline.github.com/, https://github-town.mornhee.works/
@@ -370,6 +372,8 @@ Node.js client for the official ChatGPT API: https://github.com/transitive-bulls
 An open-source ChatGPT UI: https://github.com/mckaywrigley/chatbot-ui
 
 Experimental AI assistant trained on the Astro docs: https://houston.astro.build
+
+Talk to your codebase: https://github.com/shobrook/adrenaline
 
 Build an AI chatbot trained on your data: https://www.chatbase.co
 
