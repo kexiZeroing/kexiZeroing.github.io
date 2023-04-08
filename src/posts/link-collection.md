@@ -341,11 +341,11 @@ End-of-life dates of various products: https://endoflife.date
 
 ## ChatGPT related
 
+Notes for software engineers getting up to speed on new AI developments: https://github.com/sw-yx/ai-notes
+
 OpenAI Cookbook: https://github.com/openai/openai-cookbook
 
 Awesome ChatGPT Prompts: https://prompts.chat
-
-Prompt Engineering: https://lilianweng.github.io/posts/2023-03-15-prompt-engineering
 
 LangChain: https://docs.langchain.com/docs
 
