@@ -153,6 +153,7 @@ export const run = async () => {
 Embeddings are vector representations of text that computers can understand, analyze, and compare.
 
 ```js
+// embeddings.ts
 import { OpenAIEmbeddings } from "langchain/embeddings";
 
 export const run = async () => {
@@ -174,6 +175,7 @@ export const run = async () => {
 Language models limit the amount of text that you can send to them per request. To overcome this challenge, we need to split the text into smaller chunks. The recommended TextSplitter is the `RecursiveCharacterTextSplitter`. This will split documents recursively by different characters - starting with `"\n\n"`, then `"\n"`, then `" "`. This is nice because it will try to keep all the semantically relevant content in the same place for as long as possible.
 
 ```js
+// recursive_text_splitter.ts
 import { Document } from "langchain/document";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import fs from "fs";
@@ -195,6 +197,7 @@ export const run = async () => {
 Document loaders make it easy to create Documents from a variety of sources. For example, loads data from text files.
 
 ```js
+// text_loader.ts
 import { TextLoader } from "langchain/document_loaders";
 
 export const run = async () => {
@@ -219,6 +222,7 @@ export const run = async () => {
 Takes input docs and a question sent to LLM for answer based on relevant docs.
 
 ```js
+// question_answering.ts
 import { OpenAI } from "langchain/llms";
 import { loadQAChain } from "langchain/chains";
 import { Document } from "langchain/document";
