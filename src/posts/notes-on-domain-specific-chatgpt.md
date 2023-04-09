@@ -4,7 +4,7 @@ title: "Notes on domain-specific ChatGPT"
 slug: notes-on-domain-specific-chatgpt
 description: ""
 added: "Mar 25 2023"
-tags: [other]
+tags: [AI]
 ---
 
 ## What are Vector Embeddings?
