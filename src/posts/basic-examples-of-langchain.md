@@ -92,7 +92,7 @@ export const run = async () => {
 };
 ```
 
-Agents are like bots/personal assistants that can take actions using external tools based on instructions from the LLM.
+Agents are like bots/personal assistants that can take actions using external tools based on instructions from the LLM. Agents use an LLM to determine which actions to take and in what order. To initialize an agent in LangChain, you need to provide a list of tools, an LLM, and the name of the agent to use. For example, the agent, `zero-shot-react-description`, consults the ReAct (Reason + Act) framework to select the appropriate tool and relies only on the tool's description.
 
 ```js
 // agent-basic.ts
@@ -109,7 +109,7 @@ export const run = async () => {
   const executor = await initializeAgentExecutor(
     tools,
     model,
-    "zero-shot-react-description" // a framework to decide what tool to use based on tool's description
+    "zero-shot-react-description"
   );
   console.log("Loaded agent.");
 
@@ -151,6 +151,8 @@ export const run = async () => {
 ```
 
 Embeddings are vector representations of text that computers can understand, analyze, and compare.
+
+> [Chroma](https://docs.trychroma.com) is a vector store and embeddings database to make it easy to build AI applications with embeddings. We found that LangChain and Chroma were a perfect fit. Specifically, LangChain provides a framework to easily prototype LLM applications locally, and Chroma provides a vector store and embedding database that can run seamlessly during local development to power these applications. Check out an example: https://github.com/hwchase17/chroma-langchain
 
 ```js
 // embeddings.ts
