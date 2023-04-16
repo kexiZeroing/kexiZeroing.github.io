@@ -97,9 +97,13 @@ To display something on a webpage the browser has to go through the following se
 3. Paint: Fill out the pixels for each element into layers.
 4. Composite: Draw the layers to the screen.
 
-When you animate something on a page that has already loaded these steps have to happen again. For example, if you animate something that changes layout, the paint and composite steps also have to run again. Animating something that changes layout is therefore more expensive than animating something that only changes compositing.
+This work brilliantly until you make changes often, like 60 times a second often. When you animate something on a page that has already loaded these steps have to happen again. For example, if you animate something that changes layout, the paint and composite steps also have to run again. Animating something that changes layout is therefore more expensive than animating something that only changes compositing.
 
 By placing the things that will be animated or transitioned onto a new layer, the browser only needs to repaint those items and not everything else. Browsers will often make good decisions about which items should be placed on a new layer, but you can manually force layer creation with the `will-change` property. However, creating new layers should be done with care because each layer uses memory.
+
+> You can make layers visible in DevTools in two ways:
+> 1. Enable “Layer Borders” in DevTool’s “Rendering” tab so you can see orange borders around elements that are on a separate layer.
+> 2. Check out the “Layers” tab in DevTools to get a real-time and interactive view of all layers on the current page.
 
 **Hardware acceleration** is a general term for offloading CPU processes onto another dedicated piece of hardware. In the world of CSS transitions, transforms, and animations, it implies that we’re offloading the process onto the GPU, and hence speeding it up. This occurs by pushing the element to a layer of its own, where it can be rendered independently while undergoing its animation.
 

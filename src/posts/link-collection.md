@@ -66,6 +66,8 @@ Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 
 A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
+WebGPU Fundamentals: https://webgpufundamentals.org
+
 ---
 
 ## Tools and Cool websites
@@ -156,6 +158,8 @@ The Steve Jobs Archive: https://stevejobsarchive.com
 
 A new medium for presenting ideas powered by AI: https://gamma.app
 
+The world’s most satisfying toggle: https://svarden.se/post/the-worlds-most-satisfying-toggle
+
 ---
 
 ## CSS related
@@ -210,7 +214,7 @@ CSS Style Queries: https://ishadeed.com/article/css-container-style-queries
 
 ## FE dev resources
 
-GUI Challenges: https://github.com/argyleink/gui-challenges
+GUI Challenges: https://www.youtube.com/playlist?list=PLNYkxOF6rcIAaV1wwI9540OC_3XoIzMjQ
 
 Accessible color combinations: https://randoma11y.com
 
@@ -301,6 +305,7 @@ A gentle introduction to React, but visualized: https://react.gg/visualized
 ---
 
 ## Vue and Vite ecosystem
+
 Projects - Anthony Fu: https://antfu.me/projects
 
 Opinionated Vite + Vue Starter Template: https://github.com/antfu/vitesse
@@ -323,11 +328,13 @@ Unified plugin system for build tools: https://github.com/unjs/unplugin
 
 ## Support lifecycles of various products
 
-Google Chrome: https://chromiumdash.appspot.com/schedule
+Google Chrome upcoming schedule: https://chromiumdash.appspot.com/schedule
 
 New in Chrome: https://developer.chrome.com/tags/new-in-chrome
 
-New in DevTools: https://developer.chrome.com/tags/new-in-devtools
+What's New in DevTools (Articles): https://developer.chrome.com/tags/new-in-devtools
+
+What's New in DevTools (Videos): https://www.youtube.com/playlist?list=PLNYkxOF6rcIBDSojZWBv4QJNoT4GNYzQD
 
 Node.js: https://github.com/nodejs/release
 
@@ -408,3 +415,5 @@ Understanding Large Language Models: https://www.cs.princeton.edu/courses/archiv
 Stanford CS324 - Advances in Foundation Models: https://stanford-cs324.github.io/winter2023
 
 Transformers from Scratch: https://e2eml.school/transformers.html
+
+Sverige_ Dong-seok @realrenmin: https://twitter.com/realrenmin
