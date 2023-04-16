@@ -338,3 +338,7 @@ for (let i = 0; i < docs.length; i += chunkSize) {
   );
 }
 ```
+
+## Vector Store
+
+<img alt="vectorstore" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hd08amw1npj30u00z9djx.jpg" width="700">

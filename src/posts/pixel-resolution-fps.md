@@ -148,3 +148,5 @@ https://www.smashingmagazine.com/2022/01/modern-fluid-typography-css-clamp
   font-size: clamp(2.25rem, 2vw + 1.5rem, 3.25rem);
 }
 ```
+
+> Use CSS `clamp()` to make any property have min + max values. For example, I'm using it to stop a tooltip from running off the page: `left: clamp(25px, var(--left), calc(100% - 25px))`.

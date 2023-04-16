@@ -40,7 +40,7 @@ Also known as Job Queue, which is reserved for promise’s thens. It is a priori
 Takes care of tasks to be done before every screen update or repaints. This process is sometimes referred also as critical rendering path. Browsers generally are set to repaint around 60 times every second (60FPS), but it can happen at this speed only when the main thread is idle or the call stack is empty.
 
 - **Event Loop**  
-The Event Loop is a constantly running process and it has one simple job — to monitor the Call Stack and the Queues. If the Call Stack is empty, it will take the first event from the queue and push it to the Call Stack. *Node.js and Chrome do not use the same event loop implementation. Chrome/Chromium uses `libevent`, while node.js uses `libuv`.*
+The Event Loop is a constantly running process and it has one simple job — to monitor the Call Stack and the Queues. If the Call Stack is empty, it will take the first event from the queue and push it to the Call Stack. Node.js and Chrome do not use the same event loop implementation. Chrome/Chromium uses `libevent`, while Node.js uses `libuv`. Check out [A Complete Visual Guide to Understanding the Node.js Event Loop](https://www.builder.io/blog/visual-guide-to-nodejs-event-loop).
 
 **The difference between the task queue and the microtask queue is simple but very important:**
 - When executing tasks from the task queue, the runtime executes each task that is in the queue at the moment a new iteration of the event loop begins. Tasks added to the queue after the iteration begins will not run until the next iteration.

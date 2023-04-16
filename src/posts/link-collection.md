@@ -152,6 +152,8 @@ Shiny Button: https://shiny-button.vercel.app
 
 Helps to test real-time requests directly from the browser: https://hoppscotch.io/realtime/websocket
 
+The Steve Jobs Archive: https://stevejobsarchive.com
+
 A new medium for presenting ideas powered by AI: https://gamma.app
 
 ---
@@ -294,6 +296,8 @@ Up and Running with Remix: https://egghead.io/courses/up-and-running-with-remix-
 
 Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/next-vs-remix
 
+A gentle introduction to React, but visualized: https://react.gg/visualized
+
 ---
 
 ## Vue and Vite ecosystem
@@ -381,9 +385,13 @@ Build an AI chatbot trained on your data: https://www.chatbase.co
 
 A universal local knowledge base solution: https://github.com/GanymedeNil/document.ai
 
+A proof-of-concept of a brain for an AI agent: https://github.com/mckaywrigley/ai-brainstore
+
 Share your wildest ChatGPT conversations with one click: https://sharegpt.com
 
 A chat assistant fine-tuned from LLaMA on user-shared conversations: https://vicuna.lmsys.org
+
+The AI search engine for developers: https://www.phind.com
 
 ---
 
@@ -398,3 +406,5 @@ Natural Language Processing: https://princeton-nlp.github.io/cos484
 Understanding Large Language Models: https://www.cs.princeton.edu/courses/archive/fall22/cos597G
 
 Stanford CS324 - Advances in Foundation Models: https://stanford-cs324.github.io/winter2023
+
+Transformers from Scratch: https://e2eml.school/transformers.html

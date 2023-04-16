@@ -16,6 +16,8 @@ LangChain is a framework for developing applications powered by language models,
 
 <img alt="langchain-components" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 
+<img alt="langchain-features" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hd07xkp1q0j31040jun05.jpg" width="600">
+
 `npm install langchain` We currently support LangChain on Node.js 18 and 19. LangChain is written in TypeScript and provides type definitions for all of its public APIs.
 
 ```js
@@ -152,7 +154,7 @@ export const run = async () => {
 
 Embeddings are vector representations of text that computers can understand, analyze, and compare.
 
-> [Chroma](https://docs.trychroma.com) is a vector store and embeddings database to make it easy to build AI applications with embeddings. We found that LangChain and Chroma were a perfect fit. Specifically, LangChain provides a framework to easily prototype LLM applications locally, and Chroma provides a vector store and embedding database that can run seamlessly during local development to power these applications. Check out an example: https://github.com/hwchase17/chroma-langchain
+> LangChain provides a framework to easily prototype LLM applications locally, and [Chroma](https://docs.trychroma.com) provides a vector store and embedding database that can run seamlessly during local development to power these applications. Check out an example: https://github.com/hwchase17/chroma-langchain
 
 ```js
 // embeddings.ts
