@@ -160,6 +160,8 @@ A new medium for presenting ideas powered by AI: https://gamma.app
 
 The world’s most satisfying toggle: https://svarden.se/post/the-worlds-most-satisfying-toggle
 
+A web scraping and browser automation library: https://crawlee.dev
+
 ---
 
 ## CSS related
@@ -399,6 +401,8 @@ Share your wildest ChatGPT conversations with one click: https://sharegpt.com
 A chat assistant fine-tuned from LLaMA on user-shared conversations: https://vicuna.lmsys.org
 
 The AI search engine for developers: https://www.phind.com
+
+Autonomous AI Agents in your browser: https://github.com/reworkd/AgentGPT
 
 ---
 
