@@ -26,7 +26,7 @@ order: 1
 13. Open VS code `settings.json`: `Cmd + Shift + P` -> type "Open Settings" and choose the one with JSON. User settings apply globally, while workspace settings only apply to the workspace you are currently working in. Workspace settings override user settings.
 14. Drag the file tab from VS Code into the terminal to get the absolute path for that file.
 15. Browser notepad: `data:text/html,<html contenteditable>`
-16. Ever struggled with some forgotten processes taking over a port you're trying to use? Just run `npx kill-port [port-number]`. In addition, `fkill` is an awesome CLI tool that lets you kill hanging processes `npx fkill`.
+16. Ever struggled with some forgotten processes taking over a port you're trying to use? Just run `npx kill-port [port-number]`. In addition, `fkill` is an awesome CLI tool that lets you kill hanging processes `npx fkill`. Check [kill-port](https://github.com/tiaanduplessis/kill-port) and [fkill-cli](https://github.com/sindresorhus/fkill-cli).
 17. Type `env` or `printenv` in the terminal to list all the default environment variables. The `env` command can run other commands with modified environments. If no command is given, `env` prints environment variables. `printenv` can only print environment variables and cannot run commands.
 18. Install [tldr-pages](https://github.com/tldr-pages/tldr) `npm install -g tldr` which simplify the `man pages` with practical examples, e.g. try to run `tldr tar` or `tldr git branch`.
 19. [m-cli](https://github.com/rgcr/m-cli) is a macOS command line tool (Swiss Army Knife for macOS) that lets you interact with utilities and applications entirely in Terminal. Run `m` to display all the available commands.

@@ -173,3 +173,4 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
   ```
 - Passing arguments to other npm scripts, we can leverage the `--` separator. e.g. `"pass-flags-to-other-script": "npm run my-script -- --watch"` will pass the `--watch` flag to the `my-script` command.
 - One convention that you may have seen is using a prefix and a colon to group scripts, for example `build:dev` and `build:prod`. This can be helpful to create groups of scripts that are easier to identify by their prefixes.
+- [npm-run-all](https://github.com/mysticatea/npm-run-all) is a CLI tool to run multiple npm-scripts in parallel or sequential.

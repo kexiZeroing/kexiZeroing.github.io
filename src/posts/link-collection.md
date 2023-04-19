@@ -326,6 +326,8 @@ Declarative ThreeJS using Vue Components: https://tresjs.org
 
 Unified plugin system for build tools: https://github.com/unjs/unplugin
 
+Auto import APIs on-demand for Vite, Webpack and Rollup: https://github.com/antfu/unplugin-auto-import
+
 ---
 
 ## Support lifecycles of various products
