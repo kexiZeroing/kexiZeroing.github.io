@@ -5,6 +5,7 @@ slug: intro-to-graphql
 description: ""
 added: "Nov 7 2022"
 tags: [web]
+updatedDate: "Nov 07 2022"
 ---
 
 HTTP is commonly associated with REST, which uses "resources" as its core concept. In contrast, GraphQL's conceptual model is an entity graph. It was created by Facebook in 2012 and open-sourced in 2015. GraphQL is not dealing with dedicated resources. Instead everything is regarded as a graph and therefore is connected. You can combine different entities in one query and you are able to specific which attributes should be included in the response on every level.

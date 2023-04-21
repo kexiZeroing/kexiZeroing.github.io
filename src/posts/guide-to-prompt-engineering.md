@@ -5,6 +5,7 @@ slug: a-guide-to-prompt-engineering
 description: ""
 added: "Apr 5 2023"
 tags: [AI]
+updatedDate: "Apr 09 2023"
 ---
 
 Prompt Engineering, also known as In-Context Prompting, refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of large language models (LLMs) on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs. All examples are tested with `text-davinci-003` (using OpenAI's playground) unless otherwise specified. It uses the default configurations, i.e., `temperature=0.7` and `top-p=1`.

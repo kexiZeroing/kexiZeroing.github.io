@@ -5,6 +5,7 @@ slug: image-add-watermark
 description: ""
 added: "Dec 1 2022"
 tags: [code]
+updatedDate: "Dec 01 2022"
 ---
 
 Image watermarking is the process of placing an overlay text on top of the original image, usually in one of the corners. The first approach shown below is primarily based on the HTML5 `<canvas>` element while the second one uses [watermark.js](https://brianium.github.io/watermarkjs) library, which requires just a few lines of code.

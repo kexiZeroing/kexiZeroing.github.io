@@ -5,6 +5,7 @@ slug: js-basics-you-should-know
 description: ""
 added: "Aug 3 2020"
 tags: [js]
+updatedDate: "Mar 15 2023"
 ---
 
 > You can read this post together with [JavaScript Questions](https://github.com/lydiahallie/javascript-questions) created by @lydiahallie to test how well you know JavaScript.

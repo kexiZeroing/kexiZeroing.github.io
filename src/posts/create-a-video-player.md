@@ -5,6 +5,7 @@ slug: create-a-video-player
 description: ""
 added: "Sep 18 2022"
 tags: [web]
+updatedDate: "Nov 06 2022"
 ---
 
 ## Creating a cross-browser video player

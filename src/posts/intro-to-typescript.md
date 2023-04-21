@@ -5,6 +5,7 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
+updatedDate: "Nov 11 2022"
 ---
 
 1. In terms of programming language, write modern JavaScript. Let TypeScript make sure you can write modern JavaScript.

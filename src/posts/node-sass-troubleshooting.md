@@ -5,6 +5,7 @@ slug: node-sass-troubleshooting
 description: ""
 added: "Nov 23 2022"
 tags: [web]
+updatedDate: "Feb 13 2023"
 ---
 
 ## Node-Sass installation

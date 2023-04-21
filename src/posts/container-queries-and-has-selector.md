@@ -5,6 +5,7 @@ slug: container-queries-and-has-selector
 description: ""
 added: "Jan 08 2023"
 tags: [css]
+updatedDate: "Jan 23 2023"
 ---
 
 `@container` and `:has()` are two powerful new responsive APIs landing in Chromium 105. Read at: https://developer.chrome.com/blog/has-with-cq-m105/

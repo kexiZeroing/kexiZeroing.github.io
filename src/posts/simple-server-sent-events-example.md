@@ -5,6 +5,7 @@ slug: simple-server-sent-events-example
 description: ""
 added: "Mar 26 2023"
 tags: [js]
+updatedDate: "Apr 16 2023"
 ---
 
 ## Using server-sent events

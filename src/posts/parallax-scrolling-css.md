@@ -5,6 +5,7 @@ slug: parallax-scrolling-css
 description: ""
 added: "Nov 10 2022"
 tags: [css]
+updatedDate: "Nov 10 2022"
 ---
 
 In a parallax scrolling effect, both the foreground and background are moving, but the background typically moves much more slowly, giving the illusion of depth.

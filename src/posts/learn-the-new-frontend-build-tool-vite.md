@@ -5,6 +5,7 @@ slug: learn-the-new-frontend-build-tool-vite
 description: ""
 added: "Jan 29 2022"
 tags: [web]
+updatedDate: "Mar 22 2023"
 ---
 
 ## Next Generation Frontend Tooling

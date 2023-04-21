@@ -5,6 +5,7 @@ slug: rendering-performance
 description: ""
 added: "Oct 16 2021"
 tags: [web]
+updatedDate: "Mar 26 2023"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen. 

@@ -5,6 +5,7 @@ slug: setup-new-mac
 description: ""
 added: "Feb 13 2022"
 tags: [system]
+updatedDate: "Apr 05 2023"
 ---
 
 ## Setting up development environment

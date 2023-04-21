@@ -5,6 +5,7 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
+updatedDate: "Mar 13 2023"
 ---
 
 ### Rainbow Artword

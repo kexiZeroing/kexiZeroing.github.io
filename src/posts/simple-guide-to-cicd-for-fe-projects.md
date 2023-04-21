@@ -5,6 +5,7 @@ slug: simple-guide-to-cicd-for-fe-projects
 description: ""
 added: "Sep 11 2022"
 tags: [devops]
+updatedDate: "Mar 12 2023"
 ---
 
 ## Linting, Formatting, and Unit tests

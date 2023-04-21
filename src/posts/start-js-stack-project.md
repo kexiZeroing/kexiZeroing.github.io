@@ -5,6 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
+updatedDate: "Apr 16 2023"
 ---
 
 ## Start a modern front-end project

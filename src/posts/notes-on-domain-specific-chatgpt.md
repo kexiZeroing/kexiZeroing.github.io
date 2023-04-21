@@ -5,6 +5,7 @@ slug: notes-on-domain-specific-chatgpt
 description: ""
 added: "Mar 25 2023"
 tags: [AI]
+updatedDate: "Apr 16 2023"
 ---
 
 ## What are Vector Embeddings?

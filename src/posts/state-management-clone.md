@@ -5,6 +5,7 @@ slug: state-management-clone
 description: ""
 added: "Sep 8 2020"
 tags: [code]
+updatedDate: "Oct 30 2022"
 ---
 
 ```js

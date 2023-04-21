@@ -5,6 +5,7 @@ slug: what-is-nginx
 description: ""
 added: "Nov 3 2022"
 tags: [devops]
+updatedDate: "Mar 19 2023"
 ---
 
 Developers started simply using the app as an HTTP server. You can serve your node.js application without using any other web servers. Other web development frameworks in Go, Java and Swift also do this. When you serve a node.js app, note that you are the author of your own web server. Any potential bug in your app is a directly exploitable bug on the internet. Some people are not comfortable with this. Adding a layer of Apache or Nginx in front of your app (proxies the requests to a node.js server) means that you have a battle-tested, security-hardened piece of software on the live internet as an interface to your app.

@@ -5,6 +5,7 @@ slug: simple-frontend-router
 description: ""
 added: "Aug 18 2020"
 tags: [code]
+updatedDate: "Mar 26 2023"
 ---
 
 Change URL without refreshing the page:

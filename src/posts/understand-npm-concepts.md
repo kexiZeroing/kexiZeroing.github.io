@@ -5,6 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
+updatedDate: "Apr 19 2023"
 ---
 
 ### package.json and package-lock.json

@@ -5,6 +5,7 @@ slug: fp-jargon
 description: ""
 added: "Jul 24 2022"
 tags: [other]
+updatedDate: "Nov 10 2022"
 ---
 
 ### The Rules of Functional Programming

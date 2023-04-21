@@ -5,6 +5,7 @@ slug: using-blob-in-js
 description: ""
 added: "Nov 18 2022"
 tags: [js]
+updatedDate: "Nov 18 2022"
 ---
 
 Blob means "Binary Large Object" and it’s an opaque representation of a chunk of bytes. Blob can be read as text or binary data, or converted into a ReadableStream so its methods can be used for processing the data. The File interface is based on Blob, inheriting blob functionality and expanding it to support files on the user's system.

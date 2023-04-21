@@ -5,6 +5,7 @@ slug: http-connection-caching-http2
 description: ""
 added: "Nov 20 2022"
 tags: [web]
+updatedDate: "Feb 17 2023"
 ---
 
 ## Connection management

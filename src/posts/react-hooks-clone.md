@@ -5,6 +5,7 @@ slug: react-hooks-clone
 description: ""
 added: "Sep 12 2020"
 tags: [code]
+updatedDate: "Oct 30 2022"
 ---
 
 ```js

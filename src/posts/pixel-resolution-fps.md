@@ -5,6 +5,7 @@ slug: pixel-resolution-fps
 description: ""
 added: "Oct 15 2021"
 tags: [css]
+updatedDate: "Apr 16 2023"
 ---
 
 ## Concept of pixel and resolution

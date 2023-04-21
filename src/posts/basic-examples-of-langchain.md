@@ -5,6 +5,7 @@ slug: basic-examples-of-langchain
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
+updatedDate: "Apr 16 2023"
 ---
 
 LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.

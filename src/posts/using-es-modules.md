@@ -5,6 +5,7 @@ slug: using-es-modules
 description: ""
 added: "Aug 12 2020"
 tags: [js]
+updatedDate: "Apr 02 2023"
 ---
 
 ## ES Modules

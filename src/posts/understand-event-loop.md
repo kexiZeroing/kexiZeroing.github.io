@@ -5,6 +5,7 @@ slug: understand-the-event-loop
 description: ""
 added: "Aug 26 2020"
 tags: [js]
+updatedDate: "Apr 16 2023"
 ---
 
 Chrome has a multi-process architecture and each process is heavily multi-threaded. The **renderer process** is responsible for everything that happens inside of a tab. In a renderer process, the **main thread** handles most of the code you send to the user. Sometimes parts of your JavaScript is handled by worker threads if you use a web worker. Compositor and raster threads are also run inside of a renderer processes to render a page efficiently and smoothly.

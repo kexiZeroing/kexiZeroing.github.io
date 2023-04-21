@@ -5,6 +5,7 @@ slug: learn-from-advent-of-vue-2022
 description: ""
 added: "Dec 27 2022"
 tags: [js]
+updatedDate: "Apr 16 2023"
 ---
 
 ### Code Structure

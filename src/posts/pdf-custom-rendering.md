@@ -5,6 +5,7 @@ slug: pdf-custom-rendering
 description: ""
 added: "Nov 6 2022"
 tags: [code]
+updatedDate: "Nov 06 2022"
 ---
 
 When it comes to the Web, almost every modern browser supports viewing of PDF documents natively. But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership. 

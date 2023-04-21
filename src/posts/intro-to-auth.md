@@ -5,6 +5,7 @@ slug: intro-to-auth
 description: ""
 added: "Nov 28 2022"
 tags: [web]
+updatedDate: "Feb 17 2023"
 ---
 
 > This post is my learning notes from the article [Authorization and Authentication for Everyone](https://maida.kim/2020/07/authorization-and-authentication-for-everyone) wrote by @KimMaida.

@@ -5,6 +5,7 @@ slug: the-punctuation-guide
 description: ""
 added: "Oct 24 2020"
 tags: [other]
+updatedDate: "Mar 06 2023"
 ---
 
 Writing is alwasy necessary and important, but sometimes we're confused about the use of punctuation marks. I came across a guide for this https://www.thepunctuationguide.com and want to document it here.

@@ -5,6 +5,7 @@ slug: mac-terminal
 description: ""
 added: "March 14 2022"
 tags: [system]
+updatedDate: "Feb 24 2023"
 ---
 
 ## Terminal Primer

@@ -5,11 +5,12 @@ slug: dockerfile-for-a-nodejs-application
 description: ""
 added: "Mar 12 2023"
 tags: [devops]
+updatedDate: "Mar 12 2023"
 ---
 
 This is a valid Dockerfile for a NodeJS application. But we can improve it a lot.
 
-```dockerfile
+```
 FROM node
 
 COPY . .
@@ -23,14 +24,14 @@ CMD [ "node", "index.js" ]
    - Docker image builds are inconsistent.
    - The node Docker image is based on a full-fledged operating system, full of libraries and tools that you may or may not need to run your Node.js application.
 
-```dockerfile
+```
 # Pin specific version and reduce image size
 FROM node:19.7.0-bullseye-slim
 ```
 
 2. Set the working directory to provide a dedicated place in the filesystem with your app. By default, the working directory would be the root path (/) but you should set it to something else based on the conventions of your specific language and framework.
 
-```dockerfile
+```
 FROM node:19.7.0-bullseye-slim
 
 # Specify working directory other than /
@@ -41,7 +42,7 @@ WORKDIR /usr/src/app
 
 > For the `ADD` and `COPY` instructions, the contents of each file in the image are examined and a checksum is calculated for each file. Aside from the `ADD` and `COPY` commands, just the command string itself is used to find a match. Once the cache is invalidated, all subsequent Dockerfile commands generate new images and the cache isn’t used.
 
-```dockerfile
+```
 FROM node:19.7.0-bullseye-slim
 
 WORKDIR /usr/src/app
@@ -59,7 +60,7 @@ CMD [ "node", "index.js" ]
 
 4. By default, Docker runs commands inside the container as root which violates the Principle of Least Privilege when superuser permissions are not strictly required. You want to run the container as an unprivileged user whenever possible. The node images provide the `node` user for such purpose. 
 
-```dockerfile
+```
 FROM node:19.7.0-bullseye-slim
 
 WORKDIR /usr/src/app
@@ -81,7 +82,7 @@ CMD [ "node", "index.js" ]
 
 > By default, `npm install` will install all modules listed as dependencies in `package.json`. With the `--production` flag (or when the `NODE_ENV` environment variable is set to `production`), npm will not install modules listed in `devDependencies`. To install all modules listed in both `dependencies` and `devDependencies` when `NODE_ENV` is set to `production`, you can use `--production=false`.
 
-```dockerfile
+```
 FROM node:19.7.0-bullseye-slim
 
 # Set NODE_ENV
@@ -103,7 +104,7 @@ CMD [ "node", "index.js" ]
 
 6. Use the EXPOSE instruction. EXPOSE documents to users of the image which port the application expects to be listening on. You will still need to publish the port at runtime, but this makes it clear to end users what to expect.
 
-```dockerfile
+```
 FROM node:19.7.0-bullseye-slim
 
 ENV NODE_ENV production
@@ -128,7 +129,7 @@ CMD [ "node", "index.js" ]
    - Skip potentially modified copies of `node_modules/` in the Docker image.
    - It helps speed up Docker builds because it ignores files that would have otherwise caused a cache invalidation.
 
-```dockerignore
+```
 /dist
 /node_modules
 /coverage

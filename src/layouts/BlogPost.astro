@@ -33,6 +33,11 @@ const {
   			border-top: 1px solid var(--gray);
 				margin: 1rem 0;
 			}
+			.update-time {
+				font-style: italic;
+				font-size: 14px;
+				opacity: .8;
+			}
 		</style>
 	</head>
 
@@ -50,7 +55,7 @@ const {
 				)}
 				<h1 class="title">{title}</h1>
 				{added && <time>{added}</time>}
-				{updatedDate && <div>Last updated on <time>{updatedDate}</time></div>}
+				{updatedDate && <div class="update-time">Last updated on <time>{updatedDate}</time></div>}
 				<hr />
 				<slot />
 			</article>

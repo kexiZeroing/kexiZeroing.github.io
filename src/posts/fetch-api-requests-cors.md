@@ -5,6 +5,7 @@ slug: fetch-api-requests-and-cors
 description: ""
 added: "Aug 9 2020"
 tags: [js]
+updatedDate: "Apr 16 2023"
 ---
 
 ## Fetch API

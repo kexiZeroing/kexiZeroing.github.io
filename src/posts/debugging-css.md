@@ -5,6 +5,7 @@ slug: debugging-css
 description: ""
 added: "Oct 10 2021"
 tags: [css]
+updatedDate: "Feb 17 2023"
 ---
 
 - A fundamental concept for CSS layout is inline vs. block elements. Inline means elements only take up the space they need, and do not affect flow. Applying `margin` or `padding` to an inline element will only work in the "inline" direction (left/right) not the "block" direction (top/bottom).

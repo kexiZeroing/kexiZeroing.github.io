@@ -5,6 +5,7 @@ slug: js-string-array-object
 description: ""
 added: "Aug 6 2020"
 tags: [js]
+updatedDate: "Nov 15 2022"
 ---
 
 ## String

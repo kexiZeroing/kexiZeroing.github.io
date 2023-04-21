@@ -5,6 +5,7 @@ slug: react-api-evolution
 description: ""
 added: "Sep 20 2020"
 tags: [code]
+updatedDate: "Oct 30 2022"
 ---
 
 Read similar articles to learn more about React:
