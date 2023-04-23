@@ -371,10 +371,6 @@ LangChain: https://docs.langchain.com/docs
 
 Chat with any PDF: https://www.chatpdf.com
 
-Turn your rough sketch into a refined image: https://scribblediffusion.com 
-
-Paint by Text: https://paintbytext.chat
-
 SQL to Natural Language and Natural Language to SQL: https://www.sqltranslate.app
 
 AI Code Translator: https://ai-code-translator.vercel.app
@@ -391,11 +387,11 @@ An open-source ChatGPT UI: https://github.com/mckaywrigley/chatbot-ui
 
 Experimental AI assistant trained on the Astro docs: https://houston.astro.build
 
-Talk to your codebase: https://github.com/shobrook/adrenaline
-
 Build an AI chatbot trained on your data: https://www.chatbase.co
 
 A universal local knowledge base solution: https://github.com/GanymedeNil/document.ai
+
+Local knowledge based ChatGLM with langchain: https://github.com/imClumsyPanda/langchain-ChatGLM
 
 A proof-of-concept of a brain for an AI agent: https://github.com/mckaywrigley/ai-brainstore
 
@@ -404,8 +400,6 @@ Share your wildest ChatGPT conversations with one click: https://sharegpt.com
 A chat assistant fine-tuned from LLaMA on user-shared conversations: https://vicuna.lmsys.org
 
 The AI search engine for developers: https://www.phind.com
-
-Autonomous AI Agents in your browser: https://github.com/reworkd/AgentGPT
 
 ---
 
