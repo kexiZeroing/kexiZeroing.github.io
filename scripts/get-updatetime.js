@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const dirPath = './src/posts';
+const dirPath = '/src/posts';
 
 const files = fs.readdirSync(dirPath).filter((file) => {
   return path.extname(file) === '.md';
