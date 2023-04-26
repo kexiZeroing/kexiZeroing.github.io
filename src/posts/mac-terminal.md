@@ -311,6 +311,7 @@ Linux Commands Xmind: https://xmind.app/m/K3SKii
 | uptime | 系统运⾏时间、⽤户数、负载
 | env | 系统的环境变量
 | cal 2022 | 年日历
+| ifconfig \| grep inet | IP 地址
 | ps -ax | 系统中运行的进程 (include processes not initiated by users through a terminal)
 | ps -ax \| grep "Visual Studio Code" | combining `grep` with a pipe
 | top | 动态显示 cpu /内存/进程等情况

@@ -5,7 +5,7 @@ slug: a-guide-to-prompt-engineering
 description: ""
 added: "Apr 5 2023"
 tags: [AI]
-updatedDate: "Apr 09 2023"
+updatedDate: "Apr 26 2023"
 ---
 
 Prompt Engineering, also known as In-Context Prompting, refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of large language models (LLMs) on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs. All examples are tested with `text-davinci-003` (using OpenAI's playground) unless otherwise specified. It uses the default configurations, i.e., `temperature=0.7` and `top-p=1`.
@@ -148,6 +148,20 @@ We can observe that the model has somehow learned how to perform the task by pro
 
 - The format you use also plays a key role in performance, even if you just use random labels, this is much better than no labels at all.
 - Few-shot can be expensive in terms of token usage and restricts the input length due to limited context length.
+
+Furthermore, chat is not a radically new feature, but rather a way in which auto-completion is being utilized. For example, in [llama.cpp](https://github.com/ggerganov/llama.cpp)(which rewriting the Python code to C++, so it runs significantly faster even on CPUs), we can find a file `chat-with-bob.txt` in the `prompts/` subfolder. It contains the following content:
+
+```
+Transcript of a dialog, where the User interacts with an Assistant named Bob. Bob is helpful, kind, honest, good at writing, and never fails to answer the User's requests immediately and with precision.
+
+User: Hello, Bob.
+Bob: Hello. How may I help you today?
+User: Please tell me the largest city in Europe.
+Bob: Sure. The largest city in Europe is Moscow, the capital of Russia.
+User:
+```
+
+The chat mode feeds the AI assistant's conversation transcript to the network for completion, starting with a prompt, followed by a sample format (question, answer). This creates the entire illusion of chat, even though the model is still just completing the "transcript" of a conversation between a human and AI.
 
 ### Chain-of-Thought Prompting
 It seems like few-shot prompting is not enough to get reliable responses for the type of reasoning problem. Chain-of-Thought (CoT) prompting enables complex reasoning capabilities through intermediate reasoning steps. You can combine it with few-shot prompting to get better results on more complex tasks that require reasoning before responding.
