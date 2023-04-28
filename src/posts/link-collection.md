@@ -401,6 +401,10 @@ A chat assistant fine-tuned from LLaMA on user-shared conversations: https://vic
 
 The AI search engine for developers: https://www.phind.com
 
+AI Playground - play with the latest AI language models: https://play.vercel.ai
+
+ChartGPT - text to beautiful charts: https://www.chartgpt.dev
+
 ---
 
 ## Natural Language Processing

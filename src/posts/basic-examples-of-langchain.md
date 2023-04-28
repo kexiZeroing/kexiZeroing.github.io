@@ -5,19 +5,38 @@ slug: basic-examples-of-langchain
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
-updatedDate: "Apr 16 2023"
+updatedDate: "Apr 28 2023"
 ---
 
-LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.
+ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers have released APIs allowing developers to interact directly with these models. And this is where LangChain comes in. LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.
 
 - Homepage: https://langchain.com
 - Blog: https://blog.langchain.dev
-- Doc: https://js.langchain.com/docs
-- LangChain beginner's tutorial for javascript: https://github.com/mayooear/langchain-js-tutorial 
+- JS/TS Docs: https://js.langchain.com/docs
+
+There are two main value propositions of LangChain:
+- **Components:** modular abstractions (think building blocks) for working with language models
+- **Use-Case Specific Chains:** assembly of components tailored for specific use cases
 
 <img alt="langchain-components" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 
-<img alt="langchain-features" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hd07xkp1q0j31040jun05.jpg" width="600">
+### Components: Building Blocks of LangChain
+- Models (LLMs, Chat Models, Text Embedding Models)
+- Prompts (Prompt Templates, Example Selectors)
+- Indexes (Document Loaders, Text Splitters, Vectorstores, Retrievers)
+- Memory (Chat Message History)
+- Chains
+- Agents
+
+### Use-Case Specific Chains: Tailored Solutions
+- Personal Assistants
+- Question Answering Over Docs
+- Chatbots
+- Interacting with APIs
+- Summarisation
+- Extraction
+
+### Examples
 
 `npm install langchain` We currently support LangChain on Node.js 18 and 19. LangChain is written in TypeScript and provides type definitions for all of its public APIs.
 
