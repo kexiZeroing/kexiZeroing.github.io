@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Apr 16 2023"
+updatedDate: "Apr 30 2023"
 ---
 
 ## Start a modern front-end project
@@ -89,8 +89,6 @@ Modules are cached after the first time they are loaded. This means every call t
 ### Source Map
 Once you've compiled and minified your code, normally alongside it will exist a sourceMap file(`file.js.map`). **It helps us with debugging transformed code in its original form**. The bundler will add a source map location comment `//# sourceMappingURL=/path/to/file.js.map` at the end of every generated bundle, which is required to signify to the browser devtools that a source map is available. Another type of source map is inline which has a base64 data URL like `# sourceMappingURL=data:application/json;base64,xxx...`
 
-> Learn what are source maps from Google Chrome Developers: https://www.youtube.com/watch?v=FIYkjjFYvoI
-
 In development all the source files have associated source maps, but we would not want to ship source maps to our production servers.
 - Source maps are usually large; they could be several hundreds of KBs even after compression.
 - We may not want to share the original source code of our application with the users.
@@ -130,6 +128,12 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
   ...
 }
 ```
+
+> Learn source maps from Google Chrome Developers
+> - What are source maps: https://www.youtube.com/watch?v=FIYkjjFYvoI
+> - Using source maps in DevTools: https://www.youtube.com/watch?v=SkUcO4ML5U0
+
+<img alt="source-map-authored" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hdhsb35qhrj30uq0gqac8.jpg" width="650" />
 
 ### What is core-js
 `core-js` is the most popular and the most universal polyfill of the JavaScript standard library, which provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.

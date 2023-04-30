@@ -13,6 +13,7 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 - Homepage: https://langchain.com
 - Blog: https://blog.langchain.dev
 - JS/TS Docs: https://js.langchain.com/docs
+- Twitter: https://twitter.com/LangChainAI/status/1626624683222388736
 
 There are two main value propositions of LangChain:
 - **Components:** modular abstractions (think building blocks) for working with language models

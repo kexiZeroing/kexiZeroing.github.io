@@ -69,6 +69,8 @@ A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
 WebGPU Fundamentals: https://webgpufundamentals.org
 
+Open Source Guides: https://opensource.guide
+
 ---
 
 ## Tools and Cool websites
@@ -392,8 +394,6 @@ Build an AI chatbot trained on your data: https://www.chatbase.co
 A universal local knowledge base solution: https://github.com/GanymedeNil/document.ai
 
 Local knowledge based ChatGLM with langchain: https://github.com/imClumsyPanda/langchain-ChatGLM
-
-A proof-of-concept of a brain for an AI agent: https://github.com/mckaywrigley/ai-brainstore
 
 Share your wildest ChatGPT conversations with one click: https://sharegpt.com
 
