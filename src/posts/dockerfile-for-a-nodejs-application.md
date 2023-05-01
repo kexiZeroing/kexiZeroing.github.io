@@ -130,15 +130,20 @@ CMD [ "node", "index.js" ]
    - It helps speed up Docker builds because it ignores files that would have otherwise caused a cache invalidation.
 
 ```
-/dist
-/node_modules
+node_modules
+.env
+/build
 /coverage
-
-logs
-*.log
+/.vscode
+prisma/sqlite.db
+prisma/sqlite.db-journal
+Dockerfile
+.dockerignore
+.git
 ```
 
 More to read: 
 - https://nodejs.org/en/docs/guides/nodejs-docker-webapp
 - https://robertcooper.me/post/docker-guide
 - https://github.com/sidpalas/devops-directive-docker-course
+- https://www.epicweb.dev/tutorials/deploy-web-applications

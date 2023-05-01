@@ -114,3 +114,49 @@ jobs:
         # Never expose tokens! Github has a very handy secrets feature that can 
         # store your tokens securely, and allows them to be used in any workflow.
 ```
+
+### Continuous Deployment with Fly.io and GitHub Actions
+So you want your application continuously deployed to Fly.io from its GitHub repository.
+
+```yml
+# .github/workflows/deploy.yml
+name: 🚀 Deploy
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  deploy:
+    name: 🚀 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 👀 Read app name
+        uses: SebRollen/toml-action@v1.0.2
+        id: app_name
+        with:
+          file: "fly.toml"
+          field: "app"
+
+      - name: 🚀 Deploy Staging
+        if: ${{ github.ref == 'refs/heads/dev' }}
+        uses: superfly/flyctl-actions@1.3
+        with:
+          args:
+            "deploy --app ${{ steps.app_name.outputs.value }}-staging
+            --remote-only"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: 🚀 Deploy Production
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: superfly/flyctl-actions@1.3
+        with:
+          args: "deploy --remote-only"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+```
