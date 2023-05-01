@@ -164,6 +164,8 @@ The world’s most satisfying toggle: https://svarden.se/post/the-worlds-most-sa
 
 A web scraping and browser automation library: https://crawlee.dev
 
+Not just a syntax highlighter: https://codehike.org
+
 ---
 
 ## CSS related

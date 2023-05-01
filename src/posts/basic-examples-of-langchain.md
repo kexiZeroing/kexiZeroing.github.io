@@ -13,11 +13,8 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 - Homepage: https://langchain.com
 - Blog: https://blog.langchain.dev
 - JS/TS Docs: https://js.langchain.com/docs
-- Twitter: https://twitter.com/LangChainAI/status/1626624683222388736
-
-There are two main value propositions of LangChain:
-- **Components:** modular abstractions (think building blocks) for working with language models
-- **Use-Case Specific Chains:** assembly of components tailored for specific use cases
+- JS/TS support for LangChain: https://twitter.com/LangChainAI/status/1626624683222388736
+- Tutorials on building LLM powered applications: https://www.youtube.com/playlist?list=PLqZXAkvF1bPNQER9mLmDbntNfSpzdDIU5
 
 <img alt="langchain-components" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 
@@ -69,6 +66,7 @@ export const run = async () => {
   ];
 
   const exampleFormatterTemplate = "Country: {country}\nCapital: {capital}\n";
+  // Prompt Templates: manage prompts for LLMs
   const examplePrompt = new PromptTemplate({
     inputVariables: ["country", "capital"],
     template: exampleFormatterTemplate,
