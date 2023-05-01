@@ -220,8 +220,6 @@ CSS Style Queries: https://ishadeed.com/article/css-container-style-queries
 
 GUI Challenges: https://www.youtube.com/playlist?list=PLNYkxOF6rcIAaV1wwI9540OC_3XoIzMjQ
 
-Accessible color combinations: https://randoma11y.com
-
 A dark-first collection of UI patterns and components: https://ui.draculatheme.com
 
 Modern & Interactive Open-source Charts: https://apexcharts.com
@@ -265,6 +263,8 @@ A library that helps you create floating elements such as tooltips: https://floa
 Recommend npm packages based on your requirements and framework: https://npmpicker.vercel.app
 
 You don't need Moment.js: https://github.com/you-dont-need/You-Dont-Need-Momentjs/blob/master/README.md
+
+Accessible color combinations: https://randoma11y.com
 
 Color palette inspiration site: https://www.happyhues.co
 

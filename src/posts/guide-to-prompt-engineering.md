@@ -5,17 +5,19 @@ slug: a-guide-to-prompt-engineering
 description: ""
 added: "Apr 5 2023"
 tags: [AI]
-updatedDate: "Apr 26 2023"
+updatedDate: "May 1 2023"
 ---
 
 Prompt Engineering, also known as In-Context Prompting, refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of large language models (LLMs) on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs. All examples are tested with `text-davinci-003` (using OpenAI's playground) unless otherwise specified. It uses the default configurations, i.e., `temperature=0.7` and `top-p=1`.
 
 **Temperature** - In short, the lower the `temperature` the more deterministic the results. Increasing temperature could lead to more randomness encouraging more diverse or creative outputs. We are essentially increasing the weights of the other possible tokens. In terms of application, we might want to use a lower temperature value for tasks like fact-based QA to encourage more factual and concise responses. For poem generation or other creative tasks, it might be beneficial to increase the temperature value.
 
-**Top_p** - Similarly, with `top_p`, you can control how deterministic the model is at generating a response. If you are looking for exact and factual answers keep this low. If you are looking for more diverse responses, increase to a higher value.
+**Top_p** - Computes the cumulative probability distribution, and cut off as soon as that distribution exceeds the value of `top_p`. For example, a `top_p` of 0.3 means that only the tokens comprising the top 30% probability mass are considered. If you are looking for exact and factual answers keep this low. If you are looking for more diverse responses, increase to a higher value.
 
 ## Basics of Prompting
 You can achieve a lot with simple prompts, but the quality of results depends on how much information you provide it and how well-crafted it is. A prompt can contain information like the *instruction or question* you are passing to the model and including other details such as *context, inputs, or examples*. You can use these elements to instruct the model better and get better results.
+
+<img alt="prompt-elements" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hdivz2s16sj30va0ksabz.jpg" width="650">
 
 Prompt: 
 > The sky is
@@ -212,6 +214,13 @@ Depending on their distribution and order within the prompt, exemplars may bias 
 When discussing the distribution of exemplars within a prompt, we are referring to how many exemplars from different classes are present. For example, if you are performing binary sentiment analysis (positive or negative) on tweets, and you provide 3 positive tweets and 1 negative tweet as exemplars, then you have a distribution of 3:1. Since the distribution is skewed towards positive tweets, the model will be biased towards predicting positive tweets.
 
 The order of exemplars can also cause bias. For example, a prompt that has randomly ordered exemplars will often perform better than the prompt which contains positive tweets first, followed by negative tweets.
+
+### Prompt Injections
+Prompt engineering can be used not only to improve performance but also the reliability of response from a safety perspective. Prompt injections aim to find vulnerabilities in LLMs.
+
+Prompt injection is used to hijack an LM’s output by injecting an untrusted command that overrides instruction of a prompt. This could easily happen if you just concatenate your prompt with another user generated prompt.
+
+<img alt="prompt-injection" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hdiwfcr35fj30tz11kn0x.jpg" width="500">
 
 ## OpenAI Fine-tuning
 Instructed LM finetunes a pretrained model with high-quality tuples of (task instruction, input, ground truth output) to make LM better understand user intention and follow instruction. RLHF (Reinforcement Learning from Human Feedback) is a common method to do so, which is a fine-tuning step to align the model with how we want to interact with it and how we expect it to respond.
