@@ -5,8 +5,11 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Mar 13 2023"
+updatedDate: "May 1 2023"
 ---
+
+### CSS Tip
+https://css-tip.com has a wide collection of CSS tips and tricks. The best place to keep up to date with the new CSS features.
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">

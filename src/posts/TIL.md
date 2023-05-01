@@ -6,7 +6,6 @@ description: ""
 added: ""
 top: true
 order: 1
-updatedDate: "Apr 19 2023"
 ---
 
 1. **major.minor.patch** version (also known as **breaking.feature.fix**): `^` instructs npm to install the newest version of the package with the same major version; Use `~` to have both the major and minor version match.
@@ -138,3 +137,4 @@ updatedDate: "Apr 19 2023"
 124. In this [demo](https://danq.me/wp-content/no-code-webpage/), you’ll see a white page in anything but Firefox. But in Firefox you’ll see a webpage-looking webpage only if you View Source you’ll see nothing at all. This is a classic CSS trick that relies on the fact that Firefox lets you apply CSS to a page by including it as a Data URL in a `link` response header. Browsers automatically inject some HTML, as long as the response is of `Content-Type text/html`. So you’ve got a number of elements to style. The pseudo-elements `::before` and `::after` do the rest.
 125. [Xterm.js](https://github.com/xtermjs/xterm.js) is a front-end component that lets applications bring fully-featured terminals to their users in the browser. It's used by popular projects such as VS Code and Hyper.
 126. Instead of looking at the same boring blue folder icons, you can select any of your [favorite images](https://una.github.io/gradient-folders/) to turn it into your folder icon on Mac. Right-click on the folder you want to customize and select "Get Info", click on the folder image at the top left corner of the folder info panel, then `Cmd + V` to paste the image you copied.
+127. [Lerp](https://rachsmith.com/lerp/) is the nickname for Linear Interpolation between two points. Given you have a current position for an object, and a position you want to move - you can linearly interpolate to a percentage of the distance between those points, and update the position by that amount on each frame. By doing this, the amount the object moves becomes smaller as the distance between position and target decreases. This means the object will slow down as it gets closer to its target, creating a nice easing effect.

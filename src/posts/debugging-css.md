@@ -5,7 +5,7 @@ slug: debugging-css
 description: ""
 added: "Oct 10 2021"
 tags: [css]
-updatedDate: "Feb 17 2023"
+updatedDate: "May 1 2023"
 ---
 
 - A fundamental concept for CSS layout is inline vs. block elements. Inline means elements only take up the space they need, and do not affect flow. Applying `margin` or `padding` to an inline element will only work in the "inline" direction (left/right) not the "block" direction (top/bottom).
@@ -123,6 +123,24 @@ updatedDate: "Feb 17 2023"
   }
   ```
 
+- Grid for layout, Flexbox for components. Most of the time, if the component you are viewing has all of its child items displayed inline, then most probably flexbox is the best solution here. However, if you see columns and rows, then CSS grid is the solution for your case.
+
+- The styles for flexbox columns are built with the `order` property to reposition the columns. With CSS grid, it isn’t needed at all as we can reorder the layout by positioning an element on any grid lines we want.
+
+  ```css
+  .c-newspaper {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+  /* The first column is placed from line 2 to line 3 */
+  .c-newspaper__col:first-child {
+    grid-column: 2/3;
+  }
+  /* The last column is placed from line 3 to line 4 */
+  .c-newspaper__col:last-child {
+    grid-column: 3/4;
+  }
+  ```
+
 - Have you ever wondered why padding is inconsistent above and below text elements? Each font has a different `line-height` and that comes with a different spacing above and below the text. To fix that, we can add a fake element next to the button’s TextNode, and when a pseudo-element is placed next to it, we can use `vertical-align: middle` to center both. This is a much better solution than setting the different top and bottom spacing values.
 
   ```css
@@ -131,20 +149,5 @@ updatedDate: "Feb 17 2023"
     display: inline-block;
     height: 16px;
     vertical-align: middle;
-  }
-  ```
-
-- Increase the clickable area of a button:
-  ```css
-  .small-element { 
-    position: relative;
-  }
-  .small-element::after {
-    content: '';
-    position: absolute;
-    top: -10px;
-    bottom: -10px;
-    left: -10px;
-    right: -10px;
   }
   ```

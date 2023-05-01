@@ -6,7 +6,6 @@ description: ""
 added: ""
 top: true
 order: 2
-updatedDate: "Apr 19 2023"
 ---
 
 ## Worth learning repeatedly
@@ -183,15 +182,15 @@ Centering in CSS: https://ishadeed.com/article/learn-css-centering
 
 Learn CSS Positioning: https://ishadeed.com/article/learn-css-positioning
 
-Understanding Z-Index: https://ishadeed.com/article/understanding-z-index
+Everything About Auto in CSS: https://ishadeed.com/article/auto-css
 
-The blueprint HTML and CSS for website headers: https://headers-css.vercel.app
+Box alignment in Grid and Flexbox: https://ishadeed.com/article/learn-box-alignment
+
+Understanding Z-Index: https://ishadeed.com/article/understanding-z-index
 
 Basic styles for HTML Elements without classes: https://boltcss.com
 
 Some simple ways to make content look good: https://set.studio/some-simple-ways-to-make-content-look-good
-
-Box alignment in Grid and Flexbox: https://ishadeed.com/article/learn-box-alignment
 
 CSS Flexbox: https://github.com/samanthaming/Flexbox30
 
