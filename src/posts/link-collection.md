@@ -214,7 +214,9 @@ Intro to CSS 3D transforms: https://3dtransforms.desandro.com
 
 Color Formats in CSS: https://www.joshwcomeau.com/css/color-formats
 
-CSS Style Queries: https://ishadeed.com/article/css-container-style-queries
+It's time to learn oklch color: https://keithjgrant.com/posts/2023/04/its-time-to-learn-oklch-color
+
+Reimagine Atomic CSS: https://antfu.me/posts/reimagine-atomic-css
 
 ---
 
