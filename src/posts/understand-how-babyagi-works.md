@@ -5,6 +5,7 @@ slug: understand-how-babyagi-works
 description: ""
 added: "Apr 23 2023"
 tags: [AI]
+updatedDate: "May 2 2023"
 ---
 
 ## BabyAGI User Guide
@@ -219,6 +220,7 @@ babyAgi.call({ objective: OBJECTIVE });
 
 ## References
 - https://github.com/ericciarla/babyagijs
+- https://github.com/miurla/babyagi-ui
 - https://github.com/yoheinakajima/babyagi
 - https://python.langchain.com/en/latest/use_cases/agents/baby_agi.html
 - https://github.com/reworkd/AgentGPT

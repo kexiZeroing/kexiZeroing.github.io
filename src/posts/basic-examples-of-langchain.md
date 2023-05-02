@@ -5,7 +5,7 @@ slug: basic-examples-of-langchain
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
-updatedDate: "Apr 28 2023"
+updatedDate: "May 2 2023"
 ---
 
 ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers have released APIs allowing developers to interact directly with these models. And this is where LangChain comes in. LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.
@@ -19,11 +19,12 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 <img alt="langchain-components" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 
 ### Components: Building Blocks of LangChain
+- Schema (Text, Messages, Documents)
 - Models (LLMs, Chat Models, Text Embedding Models)
-- Prompts (Prompt Templates, Example Selectors)
-- Indexes (Document Loaders, Text Splitters, Vectorstores, Retrievers)
+- Prompts (Prompt Templates, Example Selectors, Output Parse)
+- Indexes (Loaders, Text Splitters, Vectorstores, Retrievers)
 - Memory (Chat Message History)
-- Chains
+- Chains (Summarize, Question Answering)
 - Agents
 
 ### Use-Case Specific Chains: Tailored Solutions
@@ -115,6 +116,8 @@ export const run = async () => {
 
 Agents are like bots/personal assistants that can take actions using external tools based on instructions from the LLM. Agents use an LLM to determine which actions to take and in what order. To initialize an agent in LangChain, you need to provide a list of tools, an LLM, and the name of the agent to use. For example, the agent, `zero-shot-react-description`, consults the ReAct (Reason + Act) framework to select the appropriate tool and relies only on the tool's description.
 
+LangChain provides the tools you can use out of the box: https://js.langchain.com/docs/modules/agents/tools/integrations/
+
 ```js
 // agent-basic.ts
 import { OpenAI } from "langchain";
@@ -174,6 +177,8 @@ export const run = async () => {
 Embeddings are vector representations of text that computers can understand, analyze, and compare.
 
 > LangChain provides a framework to easily prototype LLM applications locally, and [Chroma](https://docs.trychroma.com) provides a vector store and embedding database that can run seamlessly during local development to power these applications. Check out an example: https://github.com/hwchase17/chroma-langchain
+> 
+> [Faiss](https://github.com/facebookresearch/faiss) is a library for efficient similarity search and clustering of dense vectors. Both Chroma and FAISS are easy to work with locally.
 
 ```js
 // embeddings.ts
@@ -219,6 +224,9 @@ export const run = async () => {
 
 Document loaders make it easy to create Documents from a variety of sources. For example, loads data from text files.
 
+- Google Drive Loader: https://github.com/gkamradt/langchain-tutorials/blob/main/loaders/Google%20Drive%20Loader.ipynb
+- YouTube Loader: https://github.com/gkamradt/langchain-tutorials/blob/main/loaders/YouTube%20Loader.ipynb
+
 ```js
 // text_loader.ts
 import { TextLoader } from "langchain/document_loaders";
@@ -243,6 +251,13 @@ export const run = async () => {
 ```
 
 Takes input docs and a question sent to LLM for answer based on relevant docs.
+
+> Get past your model's token limit using alternative chain types: https://github.com/gkamradt/langchain-tutorials/blob/main/chains/Chain%20Types.ipynb
+>
+> - The default `chain_type="stuff"` uses all of the text from the documents in the prompt. (It could exceed the token limit)
+> - `chain_type="map_reduce"` separates texts into batches, feeds each batch with the question to LLM separately, and comes up with the final answer based on the answers from each batch.
+> - `chain_type="refine"` separates texts into batches, feeds the first batch to LLM, and feeds the answer and the second batch to LLM. It refines the answer by going through all the batches.
+> - `chain_type="map-rerank"` separates texts into batches, feeds each batch to LLM, returns a score of how fully it answers the question, and comes up with the final answer based on the high-scored answers from each batch.
 
 ```js
 // question_answering.ts
