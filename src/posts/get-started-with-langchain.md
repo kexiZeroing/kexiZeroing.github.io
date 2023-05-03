@@ -1,11 +1,11 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Basic examples of langchain"
-slug: basic-examples-of-langchain
+title: "Get started with langchain"
+slug: get-started-with-langchain
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
-updatedDate: "May 2 2023"
+updatedDate: "May 3 2023"
 ---
 
 ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers have released APIs allowing developers to interact directly with these models. And this is where LangChain comes in. LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.
@@ -111,6 +111,30 @@ export const run = async () => {
         'Capital:'
    * }
    */
+};
+```
+
+LangChain provides a standard interface for using chat models. Chat models are a variation on language models. Rather than expose a "text in, text out" API, chat models expose an interface where "chat messages" are the inputs and outputs.
+
+- `HumanChatMessage`: A chat message that is sent as if from a Human's point of view.
+- `AIChatMessage`: A chat message that is sent from the point of view of the AI system to which the Human is corresponding.
+- `SystemChatMessage`: A chat message that gives the AI system some information about the conversation. This is usually sent at the beginning of a conversation.
+- `ChatMessage`: A generic chat message, with not only a "text" field but also an arbitrary "role" field.
+
+```js
+import { ChatOpenAI } from "langchain/chat_models/openai";
+import { HumanChatMessage } from "langchain/schema";
+
+export const run = async () => {
+  const chat = new ChatOpenAI();
+  // Pass in a list of messages to `call` to start a conversation.
+  const response = await chat.call([
+    new HumanChatMessage(
+      "What is a good name for a company that makes colorful socks?"
+    ),
+  ]);
+  console.log(response);
+  // AIChatMessage { text: '\n\nRainbow Sox Co.' }
 };
 ```
 
