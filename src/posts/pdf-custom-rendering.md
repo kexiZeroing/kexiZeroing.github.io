@@ -5,7 +5,7 @@ slug: pdf-custom-rendering
 description: ""
 added: "Nov 6 2022"
 tags: [code]
-updatedDate: "Nov 06 2022"
+updatedDate: "May 4 2023"
 ---
 
 When it comes to the Web, almost every modern browser supports viewing of PDF documents natively. But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership. 
@@ -158,3 +158,13 @@ According to the up-to-date [example](https://github.com/mozilla/pdf.js/blob/mas
 </body>
 </html>
 ```
+
+You can also chech out another example from the official repo: https://github.com/mozilla/pdf.js/blob/master/examples/components/simpleviewer.html 
+
+### Annotations to a PDF
+PDF.js provides only viewer:  
+> PDF.js is designed for reading PDF files, not editing them. Because of that we don't support adding any kind of annotations. However, we do support rendering annotations for viewing.
+
+See also:
+- https://github.com/instructure/pdf-annotate.js
+- https://github.com/agentcooper/react-pdf-highlighter
