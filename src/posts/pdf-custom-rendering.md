@@ -10,14 +10,15 @@ updatedDate: "May 4 2023"
 
 When it comes to the Web, almost every modern browser supports viewing of PDF documents natively. But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership. 
 
-[PDF.js](https://github.com/mozilla/pdf.js), created by Mozilla Labs, which can render PDF documents in your browser. Most importantly, you as a developer have full control over rendering the PDF document’s pages as per your requirements. But integrating it isn’t as straightforward as it might seem. There is little documentation available on how to integrate certain features like rendering text-layers or annotations, and supporting password protected files. Basic Examples are provided [here](https://mozilla.github.io/pdf.js/examples).
+[PDF.js](https://github.com/mozilla/pdf.js), created by Mozilla Labs, which can render PDF documents in your browser. Most importantly, you as a developer have full control over rendering the PDF document’s pages as per your requirements. But integrating it isn’t as straightforward as it might seem. There is little documentation available on how to integrate certain features like rendering text-layers or annotations, and supporting password protected files.
 
 `pdf.js` and `pdf.worker.js` are two main files required by PDF.js, which contain methods to fetch, parse and render a PDF document. `pdf.js` is the main library, which essentially has methods to fetch a PDF document from some URL. PDF.js relies heavily on Web Workers to provide a performance boost by moving CPU-heavy operations, like parsing and rendering, off of the main thread.
 
 - PDF.js automatically detects whether your browser supports Web Workers, and if it does, it will attempt to load `pdf.worker.js` from the same location as `pdf.js`. If the file is in another location, you can configure it using `workerSrc` property right after including the main library.
 - The API of PDF.js is quite elegant and easy to use and is heavily based on Promises.
+- Getting started with PDF.js: https://mozilla.github.io/pdf.js/getting_started
 
-### Basic rendering as canvas
+## Basic rendering as canvas
 In my demo, PDF.js-related libraries are imported from [UNPKG](https://unpkg.com/browse/pdfjs-dist@3.0.279/). You should check the version of `pdfjs-dist` you imports, since the APIs are different among various PDF.js versions.
 
 ```html
@@ -86,7 +87,7 @@ In my demo, PDF.js-related libraries are imported from [UNPKG](https://unpkg.com
 </html>
 ```
 
-### Rendering Text-Layers
+## Rendering Text-Layers
 PDF.js gives you the ability to render text layers atop PDF pages that have been rendered using canvas. This time you will not only see PDF pages being rendered but you can also select and copy text from them.
 
 According to the up-to-date [example](https://github.com/mozilla/pdf.js/blob/master/examples/components/pageviewer.html) on how to get a text layer, we need to also import `web/pdf_viewer.js` and `web/pdf_viewer.css`.
@@ -161,10 +162,11 @@ According to the up-to-date [example](https://github.com/mozilla/pdf.js/blob/mas
 
 You can also chech out another example from the official repo: https://github.com/mozilla/pdf.js/blob/master/examples/components/simpleviewer.html 
 
-### Annotations to a PDF
+## Annotations to a PDF
 PDF.js provides only viewer:  
 > PDF.js is designed for reading PDF files, not editing them. Because of that we don't support adding any kind of annotations. However, we do support rendering annotations for viewing.
 
 See also:
 - https://github.com/instructure/pdf-annotate.js
+- https://github.com/taoky/pdf-annotate.js
 - https://github.com/agentcooper/react-pdf-highlighter
