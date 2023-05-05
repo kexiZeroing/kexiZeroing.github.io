@@ -44,8 +44,6 @@ Learn Node.js: https://nodejs.dev/en/learn
 
 Node.js Best Practices: https://github.com/goldbergyoni/nodebestpractices
 
-PM2 as a daemon process manager: https://pm2.keymetrics.io/docs/usage/quick-start
-
 Docker Guide: https://www.robertcooper.me/docker-guide
 
 Tail Call Optimization: https://www.youtube.com/watch?v=-PX0BV9hGZY
@@ -59,6 +57,8 @@ Machine Learning for Beginners: https://github.com/microsoft/ML-For-Beginners
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
 DevOps Exercises: https://github.com/bregman-arie/devops-exercises
+
+Amazon Web Services — a practical guide: https://github.com/open-guides/og-aws
 
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials/beginners-typescript
 

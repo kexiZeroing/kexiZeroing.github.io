@@ -13,8 +13,8 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 - Homepage: https://langchain.com
 - Blog: https://blog.langchain.dev
 - JS/TS Docs: https://js.langchain.com/docs
-- JS/TS support for LangChain: https://twitter.com/LangChainAI/status/1626624683222388736
 - Tutorials on building LLM powered applications: https://www.youtube.com/playlist?list=PLqZXAkvF1bPNQER9mLmDbntNfSpzdDIU5
+- Drag & drop UI to build your customized LLM flow using LangchainJS: https://github.com/FlowiseAI/Flowise
 
 <img alt="langchain-components" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 
