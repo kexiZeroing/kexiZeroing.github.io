@@ -170,7 +170,7 @@ Not just a syntax highlighter: https://codehike.org
 
 ## CSS related
 
-Super Useful CSS Resources: https://dev.to/lissy93/super-useful-css-resources-1ba3
+Modern CSS Solutions for Old CSS Problems: https://moderncss.dev
 
 Defensive CSS - writing CSS that is protected: https://ishadeed.com/article/defensive-css
 

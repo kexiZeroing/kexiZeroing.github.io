@@ -223,4 +223,4 @@ babyAgi.call({ objective: OBJECTIVE });
 - https://github.com/miurla/babyagi-ui
 - https://github.com/yoheinakajima/babyagi
 - https://python.langchain.com/en/latest/use_cases/agents/baby_agi.html
-- https://github.com/reworkd/AgentGPT
+- https://github.com/ColinEberhardt/langchain-mini

@@ -8,6 +8,8 @@ tags: [AI]
 updatedDate: "May 3 2023"
 ---
 
+> Large Language Models have taken the whole world by storm. Here is a curated [list](https://github.com/Hannibal046/Awesome-LLM) of LLM, especially relating to ChatGPT.
+
 Prompt Engineering, also known as In-Context Prompting, refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of large language models (LLMs) on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs. All examples are tested with `text-davinci-003` (using OpenAI's playground) unless otherwise specified. It uses the default configurations, i.e., `temperature=0.7` and `top-p=1`.
 
 **Temperature** - In short, the lower the `temperature` the more deterministic the results. Increasing temperature could lead to more randomness encouraging more diverse or creative outputs. We are essentially increasing the weights of the other possible tokens. In terms of application, we might want to use a lower temperature value for tasks like fact-based QA to encourage more factual and concise responses. For poem generation or other creative tasks, it might be beneficial to increase the temperature value.
