@@ -112,6 +112,10 @@ By placing the things that will be animated or transitioned onto a new layer, th
 2. Only compositing CSS properties (`opacity`, `transform: translate / scale / rotate`, etc) are acceleratable.
 3. The element has been given its own compositing layer. (it may be forced by using a "go faster" hack like `transform: translate3d`)
 
+> More knowledge about GPU:
+> 1. The Graphic Processing Unit (GPU) is an electronic subsystem within a computer that was originally specialized for processing graphics. However, in the past 10 years, it has evolved towards a more flexible architecture allowing developers to implement many types of algorithms, not just render 3D graphics. These capabilities are referred to as GPU Compute, and using a GPU as a coprocessor for general-purpose scientific computing is called general-purpose GPU (GPGPU) programming.
+> 2. The Chrome team is thrilled to announce that WebGPU is now available by default in Chrome 113, which allows high-performance 3D graphics and data-parallel computation on the web. See https://developer.chrome.com/blog/webgpu-release/
+
 ## Best practice for font units
 - `1px` is equal to whatever the browser is treating as a single pixel (even if it’s not literally a pixel on the hardware screen).
 - `1rem` is always equal to the browser’s font size — or, more accurately the font size of the `html` element. `1em` is the font size of the current element, and `font-size: 1em` is equivalent to `font-size: 100%`.
