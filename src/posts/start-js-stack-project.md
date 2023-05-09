@@ -273,7 +273,7 @@ const App = () => (
 export default App; 
 ```
 
-Then create an Express server and define a route that serves an HTML page when a user visits `http://localhost:3000/`.
+Then create an Express server and define a route that serves an HTML page when a user visits `http://localhost:3000`.
 
 ```js
 // server/index.js
