@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Apr 30 2023"
+updatedDate: "May 9 2023"
 ---
 
 ## Start a modern front-end project
@@ -248,6 +248,101 @@ One solution to this problem is that rather than have a general-purpose API back
 BFFs can be a useful pattern for architectures where there are a number of backend services, as the need to aggregate multiple downstream calls to deliver user functionality increases. In such situations it will be common for a single call in to a BFF to result in multiple downstream calls to microservices (multiple services hold the pieces of information we want).
 
 The other benefit of using a BFF is that the team creating the interface can be much more fluid in thinking about where functionality lives. For example they could decide to push functionality on to the server-side to promote reuse in the future and simplify a native mobile application, or to allow for the faster release of new functionality. This decision is one that can be made by the team in isolation if they own both the mobile application and the BFF - it doesn't require any cross-team coordination.
+
+## React Server Side Rendering
+With SSR, you render your JS on the server into HTML. You serve that HTML to your client so it appears to have fast startup. But you still have to wait for your JS to reach the user before anything can be interactive (hydration). After hydration, SSR can't be used again - it's typically only used for initial loads.
+
+1. Browser sends HTTP request to server to load a page.
+2. Server receives HTTP request and turns React JSX into HTML markup.
+3. Server inserts the markup into a HTML template and sends the HTML response back to the browser.
+4. Browser renders the HTML, downloads the client-side JavaScript bundle, and “hydrates” the HTML.
+
+Let’s create a simple React component App. We will render this component on the server-side and hydrate it on the client-side.
+
+```js
+// client/components/App/index.js
+
+import React from 'react'
+const App = () => (
+  <>
+    <div>Hello World</div>
+    <button onClick={e => alert('Hello You!')}>Say Hello</button>
+  </>
+);
+
+export default App; 
+```
+
+Then create an Express server and define a route that serves an HTML page when a user visits `http://localhost:3000/`.
+
+```js
+// server/index.js
+
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
+import express from 'express'
+import App from '../client/components/App'
+
+const app = express()
+const port = 3000
+// This is the local static server that serves the client-side bundles.
+const cdnHost = `http://localhost:5000`;
+
+app.get('/', (req, res) => {
+  // This turns the React component App into an HTML string
+  const jsx = ReactDOMServer.renderToString(<App />)
+  const clientBundleStyle = `<link rel="stylesheet" href="${cdnHost}/styles/bundle.css">`
+  // This loads the JS code to “hydrate” the markup with interactivity.
+  const clientBundleScript = `<script src="${cdnHost}/scripts/bundle.js"></script>`
+
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My SSR App</title>
+        ${clientBundleStyle}
+      </head>
+      <body>
+        <div id='ssr-app'>${jsx}</div>
+        ${clientBundleScript}
+      </body>
+    </html>
+  `)
+})
+
+app.listen(port, () => {
+  console.log(`App listening on http://localhost:${port}`)
+})
+```
+
+In the client-side entry point, we will “hydrate” the React component that was SSR-ed into the root DOM container with the ID "ssr-app".
+
+```js
+// ./client/index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
+
+ReactDOM.hydrate(<App />, document.getElementById('ssr-app'));
+```
+
+Run `npm run dev` in the terminal to spin up the SSR app.
+- `dev:client` — This tells webpack to build the client-side code, save the bundle output "in memory", and serve it from http://localhost:8080 (as per `./webpack.client.config.js`).
+- `dev:server` — This uses nodemon to monitor any file changes in the working directory (minus `./build`), and [npm-run-all](https://www.npmjs.com/package/npm-run-all) to re-run clear, `build:server`, and `start:server` whenever there are file changes.
+
+```json
+"scripts": {
+  "clear": "rimraf build",
+  "build:server": "webpack --config webpack.server.config.js",
+  "start:server": "node build/server/bundle.js",
+  "dev:server": "nodemon --ignore build --exec 'run-s clear build:server start:server'",
+  "dev:client": "webpack serve --config webpack.client.config.js",
+  "dev": "run-p dev:client dev:server"
+}
+```
 
 ## Jamstack
 Jamstack is a web architecture and stands for **J**avascript, **A**PIs, and **M**arkup stack. In this architecture, the frontend and the backend are completely separate. All interactions with the backend and third parties are done using APIs. Markup that incorporates Javascript, is pre-built into static assets, served to a client from a CDN, and relies on reusable APIs for its functionalities. **「a Jamstack site is a set of pre-generated static assets served from a CDN」**

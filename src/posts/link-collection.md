@@ -262,6 +262,8 @@ Easy visualizer for JavaScript KeyCodes: https://keycode.info
 
 GSAP ScrollTrigger Demos: https://greensock.com/st-demos
 
+Scroll-driven Animations: https://scroll-driven-animations.style
+
 A library that helps you create floating elements such as tooltips: https://floating-ui.com
 
 Recommend npm packages based on your requirements and framework: https://npmpicker.vercel.app
