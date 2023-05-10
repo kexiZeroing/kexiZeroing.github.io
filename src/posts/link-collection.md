@@ -316,6 +316,8 @@ A gentle introduction to React, but visualized: https://react.gg/visualized
 
 ## Vue and Vite ecosystem
 
+Updates, tips & opinions from the maintainers of Vue.js: https://blog.vuejs.org
+
 Projects - Anthony Fu: https://antfu.me/projects
 
 Opinionated Vite + Vue Starter Template: https://github.com/antfu/vitesse
