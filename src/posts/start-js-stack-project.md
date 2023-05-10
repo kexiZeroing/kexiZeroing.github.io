@@ -108,7 +108,7 @@ source-map-explorer bundle.min.js --json result.json
 source-map-explorer -h
 ```
 
-<img alt="source-map-explorer" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008i3skNly1gx2pz85jf1j31lf0u07aa.jpg" width="800" />
+<img alt="source-map-explorer" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008i3skNly1gx2pz85jf1j31lf0u07aa.jpg" width="800" />
 
 One more thing, Chrome DevTools parses the [x_google_ignoreList](https://developer.chrome.com/articles/x-google-ignore-list) field in source maps to help improve developer debugging experience (to filter out generated code and let web developers focus only on the code they author.)
 
@@ -133,7 +133,7 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 > - What are source maps: https://www.youtube.com/watch?v=FIYkjjFYvoI
 > - Using source maps in DevTools: https://www.youtube.com/watch?v=SkUcO4ML5U0
 
-<img alt="source-map-authored" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hdhsb35qhrj30uq0gqac8.jpg" width="650" />
+<img alt="source-map-authored" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hdhsb35qhrj30uq0gqac8.jpg" width="650" />
 
 ### What is core-js
 `core-js` is the most popular and the most universal polyfill of the JavaScript standard library, which provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.

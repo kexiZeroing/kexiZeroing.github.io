@@ -110,7 +110,7 @@ The primary goals for HTTP/2 are to reduce latency by enabling **full request an
 ### Binary Framing Layer
 At the core of all performance enhancements of HTTP/2 is the new binary framing layer, which dictates how the HTTP messages are encapsulated and transferred between the client and server.
 
-<img alt="http/2" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8alebcldyj318o0ncq5w.jpg" width="600" />
+<img alt="http/2" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8alebcldyj318o0ncq5w.jpg" width="600" />
 
 The "layer" refers to a design choice to introduce a new optimized encoding mechanism. Unlike the newline delimited plaintext HTTP/1.x protocol, **all HTTP/2 communication is split into smaller messages and frames, each of which is encoded in binary format**. As a result, both client and server must use the new encoding mechanism to understand each other: an HTTP/1.x client won’t understand an HTTP/2 only server, and vice versa. Thankfully, our applications (not working with raw TCP sockets) remain blissfully unaware of all these changes, as the client and server perform all the necessary framing work on our behalf.
 
@@ -123,7 +123,7 @@ The "layer" refers to a design choice to introduce a new optimized encoding mech
 ### Request and Response Multiplexing
 With HTTP/1.x, if the client wants to make multiple parallel requests, then multiple TCP connections must be used. This behavior is a consequence of the HTTP/1.x delivery model, which ensures that only one response can be delivered at a time per connection. The new binary framing layer in HTTP/2 removes these limitations, and enables full request and response multiplexing, by allowing the client and server to **break down an HTTP message into independent frames, interleave them, and then reassemble them on the other end**.
 
-<img alt="multiplexing" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8aquuwp3gj319o0dedhk.jpg" width="700" />
+<img alt="multiplexing" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8aquuwp3gj319o0dedhk.jpg" width="700" />
 
 The client is transmitting a DATA frame (stream 5) to the server, while the server is transmitting an interleaved sequence of frames to the client for streams 1 and 3. As a result, there are three parallel streams in flight.
 

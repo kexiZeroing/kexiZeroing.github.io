@@ -19,7 +19,7 @@ Prompt Engineering, also known as In-Context Prompting, refers to methods for ho
 ## Basics of Prompting
 You can achieve a lot with simple prompts, but the quality of results depends on how much information you provide it and how well-crafted it is. A prompt can contain information like the *instruction or question* you are passing to the model and including other details such as *context, inputs, or examples*. You can use these elements to instruct the model better and get better results.
 
-<img alt="prompt-elements" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hdivz2s16sj30va0ksabz.jpg" width="650">
+<img alt="prompt-elements" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hdivz2s16sj30va0ksabz.jpg" width="650">
 
 Prompt: 
 > The sky is
@@ -170,7 +170,7 @@ The chat mode feeds the AI assistant's conversation transcript to the network fo
 ### Chain-of-Thought Prompting
 It seems like few-shot prompting is not enough to get reliable responses for the type of reasoning problem. Chain-of-Thought (CoT) prompting enables complex reasoning capabilities through intermediate reasoning steps. You can combine it with few-shot prompting to get better results on more complex tasks that require reasoning before responding.
 
-<img alt="chain-of-thought" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hcqvzcmxovj31080h2n0i.jpg" width="650">
+<img alt="chain-of-thought" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hcqvzcmxovj31080h2n0i.jpg" width="650">
 
 Prompt:
 > The odd numbers in this group add up to an even number: 4, 8, 9, 15, 12, 2, 1.  
@@ -208,7 +208,7 @@ It's impressive that this simple prompt is effective at this task. This is parti
 ### Program-Aided Language Models
 We present Program-Aided Language models (PAL): a new method that uses the LLM to read natural language problems and generate programs as the intermediate reasoning steps, but offloads the solution step to a programmatic runtime such as a Python interpreter.
 
-<img alt="chain-of-thought" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hcqwbiecw3j314h0u0wm9.jpg" width="650">
+<img alt="chain-of-thought" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hcqwbiecw3j314h0u0wm9.jpg" width="650">
 
 ### Prompt Debiasing
 Depending on their distribution and order within the prompt, exemplars may bias LLM outputs.
@@ -222,17 +222,17 @@ Prompt engineering can be used not only to improve performance but also the reli
 
 Prompt injection is used to hijack an LM’s output by injecting an untrusted command that overrides instruction of a prompt. This could easily happen if you just concatenate your prompt with another user generated prompt.
 
-<img alt="prompt-injection" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hdiwfcr35fj30tz11kn0x.jpg" width="500">
+<img alt="prompt-injection" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hdiwfcr35fj30tz11kn0x.jpg" width="500">
 
 <br>
-<img alt="prompt-injection-1" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hdl6fvbkh5j31hc0u0whz.jpg" width="550">
+<img alt="prompt-injection-1" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hdl6fvbkh5j31hc0u0whz.jpg" width="550">
 
 (Copied from [Prompt injection explained, with video, slides, and a transcript](https://simonwillison.net/2023/May/2/prompt-injection-explained/))
 
 ## OpenAI Fine-tuning
 Instructed LM finetunes a pretrained model with high-quality tuples of (task instruction, input, ground truth output) to make LM better understand user intention and follow instruction. RLHF (Reinforcement Learning from Human Feedback) is a common method to do so, which is a fine-tuning step to align the model with how we want to interact with it and how we expect it to respond.
 
-<img alt="fine-tuning" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hcsce8y1odj31c10u0gqf.jpg" width="800">
+<img alt="fine-tuning" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hcsce8y1odj31c10u0gqf.jpg" width="800">
 
 GPT-3 has been pre-trained on a vast amount of text from the open internet. When given a prompt with just a few examples, it can often intuit what task you are trying to perform and generate a plausible completion. This is often called "few-shot learning."
 

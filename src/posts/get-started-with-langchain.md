@@ -16,7 +16,7 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 - Tutorials on building LLM powered applications: https://www.youtube.com/playlist?list=PLqZXAkvF1bPNQER9mLmDbntNfSpzdDIU5
 - Drag & drop UI to build your customized LLM flow using LangchainJS: https://github.com/FlowiseAI/Flowise
 
-<img alt="langchain-components" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
+<img alt="langchain-components" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 
 ### Components: Building Blocks of LangChain
 - Schema (Text, Messages, Documents)

@@ -12,7 +12,7 @@ updatedDate: "May 1 2023"
 https://css-tip.com has a wide collection of CSS tips and tricks. The best place to keep up to date with the new CSS features.
 
 ### Rainbow Artword
-<img alt="Rainbow Artword" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
+<img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
 
 ```html
 <style>
@@ -45,7 +45,7 @@ https://css-tip.com has a wide collection of CSS tips and tricks. The best place
 - `drop-shadow` is similar to the `box-shadow` property. The `box-shadow` property creates a rectangular shadow behind an element's entire box, while the `drop-shadow` creates a shadow that conforms to the shape (alpha channel) of the image itself.
 
 ### Hover Text Effects
-<img alt="Hover Text Effects" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8t04ox2d3j30e2048jrb.jpg" width="200">
+<img alt="Hover Text Effects" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t04ox2d3j30e2048jrb.jpg" width="200">
 
 https://codepen.io/jh3y/pen/abGPKGO
 
@@ -90,7 +90,7 @@ https://codepen.io/jh3y/pen/abGPKGO
 - `:has(+ .char:hover)` means target any character that is directly followed by a character that is hovered. It is available in Chrome 105.
 
 ### 3D Flip Hover Effects
-<img alt="3D Flip Hover" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/Screen%20Shot%202023-02-18%20at%207.06.16%20PM.png" width="200">
+<img alt="3D Flip Hover" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/Screen%20Shot%202023-02-18%20at%207.06.16%20PM.png" width="200">
 
 https://codepen.io/rikanutyy/pen/PEJBxX
 

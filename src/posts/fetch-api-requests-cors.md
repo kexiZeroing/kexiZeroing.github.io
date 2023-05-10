@@ -162,7 +162,7 @@ Use `multipart/form-data` when your form includes any `<input type="file">` elem
 - fields are separated by the given boundary string. The browser must choose a boundary that will not appear in any of the fields, so this is why the boundary may vary between requests.
 - Every field gets some sub headers before its data: `Content-Disposition: form-data`, the field name, the filename, followed by the data.
 
-<img alt="form-data" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h7pzihd80yj31440gy40l.jpg" width="700"> 
+<img alt="form-data" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7pzihd80yj31440gy40l.jpg" width="700"> 
 
 ### POST and PUT
 The difference between `PUT` and `POST` is that `PUT` is idempotent *(If you PUT an object twice, it has no effect)*. `PUT` implies putting a resource - completely replacing whatever is available at the given URL with a different thing. Do it as many times as you like, and the result is the same. You can PUT a resource whether it previously exists, or not. So consider like this: do you name your URL objects you create explicitly, or let the server decide? If you name them then use `PUT`. If you let the server decide then use `POST`.

@@ -36,4 +36,4 @@ https://console.brev.dev/
 
 Brev creates your powerful computer in the cloud for development. Brev solves configurations with the `.brev` directory. Create your `.brev/setup.sh` script to make your environment reproducible. Brev will automatically run it when creating the workspace.
 
-<img alt="brev demo" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/e6c9d24ely1h3dnwzu0szj21ee0o4mzl.jpg" width="800">
+<img alt="brev demo" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/e6c9d24ely1h3dnwzu0szj21ee0o4mzl.jpg" width="800">

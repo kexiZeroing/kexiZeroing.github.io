@@ -111,7 +111,7 @@ updatedDate: "May 1 2023"
 
 - Center one and right/left align other element: Grid layout may be the cleanest and most efficient method. There is no need for absolute positioning or flexbox with fake elements.
 
-  <img alt="header_center_grid" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8pu4q80utj30zq0u0gnm.jpg" width="600" />
+  <img alt="header_center_grid" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8pu4q80utj30zq0u0gnm.jpg" width="600" />
 
   *(above picture comes from @shadeed9)*
 

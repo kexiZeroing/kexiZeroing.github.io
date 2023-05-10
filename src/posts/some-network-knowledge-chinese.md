@@ -11,7 +11,7 @@ updatedDate: "Apr 03 2023"
 ### 光纤入户  
 光纤 - 光猫 - 网线 - 路由器 - 网络设备
 
-![光猫举例](https://raw.githubusercontent.com/kexiZeroing/blog-images/main/e6c9d24ely1h2g95qm9ixj20dw0afmyb.jpg)
+![光猫举例](https://raw.gitmirror.com/kexiZeroing/blog-images/main/e6c9d24ely1h2g95qm9ixj20dw0afmyb.jpg)
 
 连接到光纤线的设备就是光猫。路由器是自己买的设备，一般有一个 WAN 口，数个 LAN 口，一般应使用 WAN 口连接光猫。
 
@@ -26,7 +26,7 @@ updatedDate: "Apr 03 2023"
 
 > 5G 通信和 5Ghz WiFi 不是一回事，5G 通信是 5th Generation mobile networks，第五代移动网络的简称，是指蜂窝移动通信技术（户外移动通信）。而 5G 无线网络指的是 WiFi 标准中的 5GHz，是指采用了 5GHz 频段传输数据的 WiFi 信号（室内无线终端上网）。同时支持 2.4 GHz 和 5GHz 的宽带路由器称为双频无线路由器。
 
-![WiFi标准](https://raw.githubusercontent.com/kexiZeroing/blog-images/main/e6c9d24ely1h2g9m6o073j20o104hdgw.jpg)
+![WiFi标准](https://raw.gitmirror.com/kexiZeroing/blog-images/main/e6c9d24ely1h2g9m6o073j20o104hdgw.jpg)
 
 将路由器的无线信号，改为 2.4G 和 5G 的分离信号，不要使用融合信号。比如一个名字是 ABC，一个是 ABC_5G，其中 ABC 是 2.4G 无线。ABC_2.4G 给智能设备使用（可以设置一个独立的密码），让这些设备连接 2.4G 的无线，用来获得更大的覆盖距离。而 ABC_5G 给手机电脑使用，可以获得更好的无线速度，更低的延迟。
 
