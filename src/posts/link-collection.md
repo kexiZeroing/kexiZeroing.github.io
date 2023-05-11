@@ -166,6 +166,8 @@ A web scraping and browser automation library: https://crawlee.dev
 
 Not just a syntax highlighter: https://codehike.org
 
+Turns data scripts into shareable web apps in minutes: https://streamlit.io
+
 ---
 
 ## CSS related
