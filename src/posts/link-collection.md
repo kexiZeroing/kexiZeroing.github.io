@@ -430,4 +430,6 @@ Stanford CS324 - Advances in Foundation Models: https://stanford-cs324.github.io
 
 Transformers from Scratch: https://e2eml.school/transformers.html
 
+The Illustrated Machine Learning website: https://illustrated-machine-learning.github.io
+
 Sverige_ Dong-seok @realrenmin: https://twitter.com/realrenmin

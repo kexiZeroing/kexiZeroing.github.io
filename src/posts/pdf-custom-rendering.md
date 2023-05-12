@@ -5,7 +5,7 @@ slug: pdf-custom-rendering
 description: ""
 added: "Nov 6 2022"
 tags: [code]
-updatedDate: "May 4 2023"
+updatedDate: "May 12 2023"
 ---
 
 When it comes to the Web, almost every modern browser supports viewing of PDF documents natively. But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership. 
@@ -168,5 +168,5 @@ PDF.js provides only viewer:
 
 See also:
 - https://github.com/instructure/pdf-annotate.js
-- https://github.com/taoky/pdf-annotate.js
+- https://github.com/Submitty/pdf-annotate.js
 - https://github.com/agentcooper/react-pdf-highlighter

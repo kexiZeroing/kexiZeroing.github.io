@@ -157,9 +157,9 @@ A POST request is typically sent via an HTML form. In this case, the content typ
 - **multipart/form-data**: each value is sent as a block of data ("body part"), with a user agent defined delimiter ("boundary") separating each part. The keys are given in the `Content-Disposition` header of each part.
 - **text/plain**
 
-Use `multipart/form-data` when your form includes any `<input type="file">` elements. **Characters are NOT encoded**. This is important when the form has a file upload control. You want to send the file binary and this ensures that bitstream is not altered.
+Use `multipart/form-data` when your form includes any `<input type="file">` elements. **Characters are NOT encoded** (No encoding means you save a lot of CPU cycles and keeps the total body size small). This is important when the form has a file upload control. You want to send the file binary and this ensures that bitstream is not altered.
 
-- fields are separated by the given boundary string. The browser must choose a boundary that will not appear in any of the fields, so this is why the boundary may vary between requests.
+- Fields are separated by the given boundary string. The browser must choose a boundary that will not appear in any of the fields, so this is why the boundary may vary between requests.
 - Every field gets some sub headers before its data: `Content-Disposition: form-data`, the field name, the filename, followed by the data.
 
 <img alt="form-data" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7pzihd80yj31440gy40l.jpg" width="700"> 
