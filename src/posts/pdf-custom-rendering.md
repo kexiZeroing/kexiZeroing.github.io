@@ -18,6 +18,28 @@ When it comes to the Web, almost every modern browser supports viewing of PDF do
 - The API of PDF.js is quite elegant and easy to use and is heavily based on Promises.
 - Getting started with PDF.js: https://mozilla.github.io/pdf.js/getting_started
 
+## Prebuilt overview
+
+```
+├── build/
+│   ├── pdf.js                             - display layer
+│   ├── pdf.js.map                         - display layer's source map
+│   ├── pdf.worker.js                      - core layer
+│   └── pdf.worker.js.map                  - core layer's source map
+├── web/
+│   ├── cmaps/                             - character maps (required by core)
+│   ├── compressed.tracemonkey-pldi-09.pdf - PDF file for testing purposes
+│   ├── debugger.js                        - helpful debugging features
+│   ├── images/                            - images for the viewer and annotation icons
+│   ├── locale/                            - translation files
+│   ├── viewer.css                         - viewer style sheet
+│   ├── viewer.html                        - viewer layout
+│   ├── viewer.js                          - viewer layer
+│   └── viewer.js.map                      - viewer layer's source map
+```
+
+> CMaps (Character Maps) are text files that are used in PostScript and other Adobe products to map character codes to character glyphs in CID fonts. They are mostly used when dealing with East Asian writing systems. This technology is a legacy technology, so it should not be used in pdfs created by modern tools. `pdf.js` needs the CMap file when it wants to display such CID fonts.
+
 ## Basic rendering as canvas
 In my demo, PDF.js-related libraries are imported from [UNPKG](https://unpkg.com/browse/pdfjs-dist@3.0.279/). You should check the version of `pdfjs-dist` you imports, since the APIs are different among various PDF.js versions.
 
