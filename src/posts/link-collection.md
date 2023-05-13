@@ -414,15 +414,17 @@ AI Playground - play with the latest AI language models: https://play.vercel.ai
 
 ChartGPT - text to beautiful charts: https://www.chartgpt.dev
 
+HuggingChat - build an open source alternative to ChatGPT: https://huggingface.co/chat
+
 ---
 
 ## Natural Language Processing
 
-Standford CS229 - Machine Learning: https://cs229.stanford.edu/notes2022fall
+Introduction to Machine Learning: https://developers.google.com/machine-learning
 
 Stanford CS224N - Natural Language Processing with Deep Learning: https://web.stanford.edu/class/cs224n/index.html
 
-Natural Language Processing: https://princeton-nlp.github.io/cos484
+Princeton Natural Language Processing: https://princeton-nlp.github.io/cos484
 
 Understanding Large Language Models: https://www.cs.princeton.edu/courses/archive/fall22/cos597G
 
@@ -431,5 +433,3 @@ Stanford CS324 - Advances in Foundation Models: https://stanford-cs324.github.io
 Transformers from Scratch: https://e2eml.school/transformers.html
 
 The Illustrated Machine Learning website: https://illustrated-machine-learning.github.io
-
-Sverige_ Dong-seok @realrenmin: https://twitter.com/realrenmin
