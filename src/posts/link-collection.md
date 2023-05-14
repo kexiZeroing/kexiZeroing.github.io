@@ -68,7 +68,9 @@ A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
 WebGPU Fundamentals: https://webgpufundamentals.org
 
-Open Source Guides: https://opensource.guide
+Your first WebGPU app: https://codelabs.developers.google.com/your-first-webgpu-app
+
+Machine Learning for Web Developers (Web ML): https://www.youtube.com/playlist?list=PLOU2XLYxmsILr3HQpqjLAUkIPa5EaZiui
 
 ---
 
