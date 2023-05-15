@@ -3,10 +3,18 @@ const today = new Date();
 ---
 
 <footer>
-	&copy; {today.getFullYear()} Kexi Dang. Inspired by @cassidoo.
+	&copy; {today.getFullYear()} Kexi Dang. Inspired by <a class="web-link tag-link" href="https://blog.cassidoo.co" target="_blank">@cassidoo</a>.
 </footer>
 <style>
 	footer {
 		text-align: center;
+	}
+	footer .web-link {
+		color: var(--text-color);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 </style>
