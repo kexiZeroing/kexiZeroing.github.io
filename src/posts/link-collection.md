@@ -370,7 +370,7 @@ End-of-life dates of various products: https://endoflife.date
 
 ---
 
-## ChatGPT related
+## Awesome ChatGPT
 
 Futurepedia - AI Tools Directory: https://www.futurepedia.io
 
@@ -417,6 +417,8 @@ AI Playground - play with the latest AI language models: https://play.vercel.ai
 ChartGPT - text to beautiful charts: https://www.chartgpt.dev
 
 HuggingChat - build an open source alternative to ChatGPT: https://huggingface.co/chat
+
+Interact privately with your documents using LLMs: https://github.com/imartinez/privateGPT
 
 ---
 
