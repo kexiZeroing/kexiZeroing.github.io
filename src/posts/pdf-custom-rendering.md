@@ -5,7 +5,7 @@ slug: pdf-custom-rendering
 description: ""
 added: "Nov 6 2022"
 tags: [code]
-updatedDate: "May 12 2023"
+updatedDate: "May 16 2023"
 ---
 
 When it comes to the Web, almost every modern browser supports viewing of PDF documents natively. But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership. 
@@ -182,7 +182,15 @@ According to the up-to-date [example](https://github.com/mozilla/pdf.js/blob/mas
 </html>
 ```
 
-You can also chech out another example from the official repo: https://github.com/mozilla/pdf.js/blob/master/examples/components/simpleviewer.html 
+## PDF viewer
+Online demo: https://mozilla.github.io/pdf.js/web/viewer.html
+
+Get the code from https://github.com/mozilla/pdf.js/blob/master/web/viewer.html, and then you can start a local web server to run http://localhost:8888/web/viewer.html
+
+[Options](https://github.com/mozilla/pdf.js/wiki/Viewer-options) for the PDF.js viewer that can be given at URL level:
+- `https://mozilla.github.io/pdf.js/web/viewer.html?file=compressed.tracemonkey-pldi-09.pdf`
+- `https://mozilla.github.io/pdf.js/web/viewer.html#page=2`
+- `https://mozilla.github.io/pdf.js/web/viewer.html#zoom=200`
 
 ## Annotations to a PDF
 PDF.js provides only viewer:  
