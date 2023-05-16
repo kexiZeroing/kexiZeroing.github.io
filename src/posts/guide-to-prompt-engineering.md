@@ -273,6 +273,15 @@ openai api fine_tunes.get -i <YOUR_FINE_TUNE_JOB_ID>
 openai api completions.create -m <FINE_TUNED_MODEL> -p <YOUR_PROMPT>
 ```
 
+### Misconception about Finetuning
+Finetuning is about **teaching the model a new task, not new information or knowledge**. What's the difference? A task is just reusing stuff you already know.
+
+In fact, ChatGPT will say that it doesn't know a thing. This is because it was finetuned to follow a conversational pattern.
+
+Finetuning is slow, difficult, and expensive. It is 100x more difficult than prompt engineering. It's also crazy expensive, and many other companies have no idea how OpenAI does their finetuning at scale.
+
+So... what is finetuning good for then? If you need a highly specific and reliable pattern (ChatGPT is a pattern, Email is a pattern, JSON/HTML/XML is a pattern), then finetuning is what you need.
+
 ## References
 - https://www.promptingguide.ai
 - https://lilianweng.github.io/posts/2023-03-15-prompt-engineering
