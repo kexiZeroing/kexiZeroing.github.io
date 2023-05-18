@@ -5,7 +5,7 @@ slug: pdf-custom-rendering
 description: ""
 added: "Nov 6 2022"
 tags: [code]
-updatedDate: "May 16 2023"
+updatedDate: "May 18 2023"
 ---
 
 When it comes to the Web, almost every modern browser supports viewing of PDF documents natively. But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership. 
@@ -193,7 +193,11 @@ Get the code from https://github.com/mozilla/pdf.js/blob/master/web/viewer.html,
 - `https://mozilla.github.io/pdf.js/web/viewer.html#zoom=200`
 
 ## Annotations to a PDF
-PDF.js provides only viewer:  
+To edit a PDF in any meaningful GUI way, you would need to unpack the PDF and render the components (images, formatted text, pages) to the display device; then allow folks to mess with the layout; then re-pack the PDF. You would have to do this perfectly in line with the PDF standards otherwise you may find the downstream consumers of your edited PDF file crash or are unable to render it. It's a very complicated subject. Better to think about having the users edit HTML and generate the PDF at the server.
+
+If you need to annotate the PDF then things are easier. On the server, you need to generate images of the pages of the document, send those to the client, display them to the user, let the user mark them up, capture the co-ordinates of the annotations back to the server and use a server-side PDF library to render the annotations into the PDF. It is achievable, though requires various skillsets for server-side PDF to image manipulation and client side presentation and annotation capture.
+
+PDF.js provides only viewer:
 > PDF.js is designed for reading PDF files, not editing them. Because of that we don't support adding any kind of annotations. However, we do support rendering annotations for viewing.
 
 See also:
