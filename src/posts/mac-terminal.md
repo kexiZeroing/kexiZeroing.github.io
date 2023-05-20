@@ -334,3 +334,25 @@ Linux Commands Xmind: https://xmind.app/m/K3SKii
 | find . -name "*.txt" -maxdepth 1 \| xargs grep "foo" | 将标准输入转换成命令行参数 first find the files and then look for specific keyword
 
 `/etc` is a symlink to `/private/etc`. They both have the same contents. The same is true for `/tmp` and `/var`.
+
+## Cron Syntax
+Cron is a UNIX tool that has been around for a long time, so its scheduling capabilities are powerful and proven. [cRonstrue](https://bradymholt.github.io/cRonstrue/) is a JavaScript library that translates cron expressions to human readable descriptions.
+
+```
+*    *    *    *    *    *
+┬    ┬    ┬    ┬    ┬    ┬
+│    │    │    │    │    |
+│    │    │    │    │    └ day of week (0 - 7, 1L - 7L) (0 or 7 is Sun)
+│    │    │    │    └───── month (1 - 12)
+│    │    │    └────────── day of month (1 - 31, L)
+│    │    └─────────────── hour (0 - 23)
+│    └──────────────────── minute (0 - 59)
+└───────────────────────── second (0 - 59, optional)
+```
+
+Special characters:
+- `*` (“all values”) - used to select all values within a field. For example, “*” in the minute field means “every minute”.
+- `?` (“no specific value”) - useful when you need to specify something in one of the two fields in which the character is allowed, but not the other. For example, if I want my trigger to fire on a particular day of the month (say, the 10th), but don’t care what day of the week that happens to be, I would put “10” in the day-of-month field, and “?” in the day-of-week field.
+- `-` - used to specify ranges. For example, “10-12” in the hour field means “the hours 10, 11 and 12”.
+- `/` - used to specify increments. For example, “0/15” in the seconds field means “the seconds 0, 15, 30, and 45”. And “5/15” in the seconds field means “the seconds 5, 20, 35, and 50”.
+- `L` (“last”) - used to specify either the last day of the month, or the last xxx day of the month. L character is allowed for the day-of-month and day-of-week fields.
