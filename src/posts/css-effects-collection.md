@@ -192,3 +192,93 @@ https://codepen.io/rikanutyy/pen/PEJBxX
   </div>
 </div>
 ```
+
+### Color Palettes
+Builds a wide gamut color palette with okLCH and inspects color with devtools. Check out https://www.youtube.com/watch?v=6aCsAMgwnjE
+
+<img alt="okLCH Color Palettes" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1he4xakrh5qj30tg0ka0ts.jpg" width="500">
+
+```html
+<style>
+  html {
+    --hue: 140;
+    
+    --swatch-1: oklch(99% .05 var(--hue));
+    --swatch-2: oklch(90% .1 var(--hue));
+    --swatch-3: oklch(80% .2 var(--hue));
+    --swatch-4: oklch(72% .25 var(--hue));
+    --swatch-5: oklch(67% .31 var(--hue));
+    --swatch-6: oklch(50% .27 var(--hue));
+    --swatch-7: oklch(35% .25 var(--hue));
+    --swatch-8: oklch(25% .2 var(--hue));
+    --swatch-9: oklch(13% .2 var(--hue));
+    --swatch-10: oklch(5% .1 var(--hue));
+    
+    --text-1: var(--swatch-10);
+    --text-2: var(--swatch-9);
+    --surface-1: var(--swatch-1);
+    --surface-2: var(--swatch-2);
+    --surface-3: var(--swatch-3);
+  }
+
+  html {
+    background: var(--surface-1);
+    color: var(--text-1);
+  }
+  body {
+    display: grid;
+    place-content: center;
+    gap: 5vmin;
+    grid-auto-flow: column;
+  }
+  .palette {
+    display: grid;
+    grid-auto-rows: 8vh;
+    grid-template-columns: 20vw;
+  }
+  .swatch {
+    box-shadow: inset 0 0 0 1px oklch(50% 0 0 / 20%);
+  }
+  .swatch:nth-of-type(1)  { background: var(--swatch-1) }
+  .swatch:nth-of-type(2)  { background: var(--swatch-2) }
+  .swatch:nth-of-type(3)  { background: var(--swatch-3) }
+  .swatch:nth-of-type(4)  { background: var(--swatch-4) }
+  .swatch:nth-of-type(5)  { background: var(--swatch-5) }
+  .swatch:nth-of-type(6)  { background: var(--swatch-6) }
+  .swatch:nth-of-type(7)  { background: var(--swatch-7) }
+  .swatch:nth-of-type(8)  { background: var(--swatch-8) }
+  .swatch:nth-of-type(9)  { background: var(--swatch-9) }
+  .swatch:nth-of-type(10) { background: var(--swatch-10) }
+
+  .card {
+    display: grid;
+    border-radius: 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--surface-3);
+    padding: 1rem;
+  }
+</style>
+
+<body>
+  <div class="palette">
+    <div class="swatch"></div>
+    <div class="swatch"></div>
+    <div class="swatch"></div>
+    <div class="swatch"></div>
+    <div class="swatch"></div>
+    <div class="swatch"></div>
+    <div class="swatch"></div>
+    <div class="swatch"></div>
+    <div class="swatch"></div>
+    <div class="swatch"></div>
+  </div>
+  
+  <article>
+    <div class="card">
+      <h2>I'm a card</h2>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque doloremque modi veniam aspernatur voluptatum
+        labore dolores perspiciatis.</p>
+    </div>
+  </article>
+</body>
+```
