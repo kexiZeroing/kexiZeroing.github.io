@@ -220,7 +220,7 @@ Color Formats in CSS: https://www.joshwcomeau.com/css/color-formats
 
 It's time to learn oklch color: https://keithjgrant.com/posts/2023/04/its-time-to-learn-oklch-color
 
-Reimagine Atomic CSS: https://antfu.me/posts/reimagine-atomic-css
+Open Source CSS Variables: https://open-props.style
 
 ---
 
@@ -317,6 +317,8 @@ Up and Running with Remix: https://egghead.io/courses/up-and-running-with-remix-
 Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/next-vs-remix
 
 A gentle introduction to React, but visualized: https://react.gg/visualized
+
+React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.com/watch?v=zMf_xeGPn6s
 
 ---
 

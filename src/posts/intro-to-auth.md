@@ -112,23 +112,43 @@ A JWT needs to be stored in a safe place inside the user’s browser. If you sto
 
 Storing the JWT token in a httponly, secure, same-site cookie is currently considered as the most secure option for SPAs, but in this scenario you will not be able to add its content to the Authorization header. You either need to store tokens directly in the JS code (e.g. in local storage - taking into consideration the risk), or you need to add a proxy between the APIs and your SPA. The proxy will extract the token from the cookie and place it in the Authorization header.
 
-```js
-// https://github.com/auth0/node-jsonwebtoken
-const jwt = require("jsonwebtoken");
+Take [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) for node.js as an example.
 
-// create a middleware to check if we have the cookie "access_token"
-const authorization = (req, res, next) => {
-  const token = req.cookies.access_token;
-  if (!token) {
-    return res.sendStatus(403);
-  }
-  try {
-    const data = jwt.verify(token, "YOUR_SECRET_KEY");
-    req.userId = data.id;
-    req.userRole = data.role;
-    return next();
-  } catch {
-    return res.sendStatus(403);
+```js
+import jwt from 'jsonwebtoken';
+
+// generate token
+const generateToken = (res, userId) => {
+  const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  });
+
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== 'development', // Use secure cookies in production
+    sameSite: 'strict', // Prevent CSRF attacks
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+  });
+};
+
+// verify token
+const protect = async (req, res, next) => {
+  let token = req.cookies.jwt;
+
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      // then use `decoded.userId` to find the user stored in database
+      // req.user = ...
+      next();
+    } catch (error) {
+      console.error(error);
+      res.status(401);
+      throw new Error('Not authorized, token failed');
+    }
+  } else {
+    res.status(401);
+    throw new Error('Not authorized, no token');
   }
 };
 ```
