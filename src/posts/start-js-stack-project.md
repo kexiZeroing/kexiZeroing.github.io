@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "May 9 2023"
+updatedDate: "May 21 2023"
 ---
 
 ## Start a modern front-end project
@@ -145,11 +145,6 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 
 `core-js` is used by most of the popular websites. We can check it using `window['__core-js_shared__'].versions`, see details at https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md
 
-## Debugging Node.js with `--inspect-brk`
-https://www.builder.io/blog/debug-nodejs
-
-Launch your Node.js process using the `--inspect-brk` flag (`node server.js --inspect-brk`). Now, open up any Edge or Chrome dev tools window and click the little green Node.js logo button. A new instance of DevTools will open and connect to the node process.
-
 ## Set up Prettier and ESLint
 1. Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
 2. We can edit some default settings for prettier in settings (`cmd + ,`, then type prettier)
@@ -240,6 +235,40 @@ Here's how it works:
 - Upon seeing that the certificate has been signed by the mkcert-generated certificate authority, the browser checks whether it's registered as a trusted certificate authority.
 - mkcert is listed as a trusted authority, so your browser trusts the certificate and creates an HTTPS connection.
 
+## Deployment a Node.js App with the frontend
+Setup an Ubuntu server, install Node.js, and deploy the app with PM2 process manager and Nginx. This [GitHub gist](https://gist.github.com/bradtraversy/b8b72581ddc940e0a41e0bc09172d91b) explains how to deploy to linode and all of the setup steps.
+
+```js
+// put frontend (after build) as static resource in backend
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
+
+app.get('*', (req, res) =>
+  res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
+);
+```
+
+```
+sudo npm install -g pm2
+pm2 start backend/server.js
+
+sudo apt install nginx
+
+location / {
+  proxy_pass http://localhost:5000;
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection 'upgrade';
+  proxy_set_header Host $host;
+  proxy_cache_bypass $http_upgrade;
+}
+```
+
+### Debugging Node.js with `--inspect-brk`
+https://www.builder.io/blog/debug-nodejs
+
+Launch your Node.js process using the `--inspect-brk` flag (`node server.js --inspect-brk`). Now, open up any Edge or Chrome dev tools window and click the little green Node.js logo button. A new instance of DevTools will open and connect to the node process.
+
 ## Introducing the Backend For Frontend
 We had server-side functionality which we wanted to expose both via our desktop web UI, and via one or more mobile UIs. We often faced a problem in accommodating these new types of user interface, often as we already had a tight coupling between the desktop web UI and our backed services. However the nature of a mobile experience differs from a desktop web experience. In practice, our mobile devices will want to make different calls, fewer calls, and will want to display different (and probably less) data than their desktop counterparts. This means that we need to add additional functionality to our API backend to support our mobile interfaces.
 
@@ -327,21 +356,6 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 
 ReactDOM.hydrate(<App />, document.getElementById('ssr-app'));
-```
-
-Run `npm run dev` in the terminal to spin up the SSR app.
-- `dev:client` — This tells webpack to build the client-side code, save the bundle output "in memory", and serve it from http://localhost:8080 (as per `./webpack.client.config.js`).
-- `dev:server` — This uses nodemon to monitor any file changes in the working directory (minus `./build`), and [npm-run-all](https://www.npmjs.com/package/npm-run-all) to re-run clear, `build:server`, and `start:server` whenever there are file changes.
-
-```json
-"scripts": {
-  "clear": "rimraf build",
-  "build:server": "webpack --config webpack.server.config.js",
-  "start:server": "node build/server/bundle.js",
-  "dev:server": "nodemon --ignore build --exec 'run-s clear build:server start:server'",
-  "dev:client": "webpack serve --config webpack.client.config.js",
-  "dev": "run-p dev:client dev:server"
-}
 ```
 
 ## Jamstack

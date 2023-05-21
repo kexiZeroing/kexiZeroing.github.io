@@ -5,7 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "Apr 19 2023"
+updatedDate: "May 21 2023"
 ---
 
 ### package.json and package-lock.json
@@ -175,3 +175,13 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
 - Passing arguments to other npm scripts, we can leverage the `--` separator. e.g. `"pass-flags-to-other-script": "npm run my-script -- --watch"` will pass the `--watch` flag to the `my-script` command.
 - One convention that you may have seen is using a prefix and a colon to group scripts, for example `build:dev` and `build:prod`. This can be helpful to create groups of scripts that are easier to identify by their prefixes.
 - [npm-run-all](https://github.com/mysticatea/npm-run-all) is a CLI tool to run multiple npm-scripts in parallel or sequential.
+- [concurrently](https://github.com/open-cli-tools/concurrently) can run multiple commands concurrently. Say you have both backend and frontend folder in the project directroy containing a `package.json` file:
+  ```json
+  {
+    "scripts": {
+      "server": "nodemon backend/server.js",
+      "client": "npm run dev --prefix frontend",
+      "dev": "concurrently \"npm run server\" \"npm run client\""
+    }
+  }
+  ```

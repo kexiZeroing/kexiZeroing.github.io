@@ -346,6 +346,8 @@ Unified plugin system for build tools: https://github.com/unjs/unplugin
 
 Auto import APIs on-demand for Vite, Webpack and Rollup: https://github.com/antfu/unplugin-auto-import
 
+Toast notification plugin for Vue.js: https://github.com/ankurk91/vue-toast-notification
+
 ---
 
 ## Support lifecycles of various products
