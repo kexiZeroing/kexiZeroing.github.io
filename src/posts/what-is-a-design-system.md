@@ -5,6 +5,7 @@ slug: what-is-a-design-system
 description: ""
 added: "May 22 2023"
 tags: [other]
+updatedDate: "May 22 2023"
 ---
 
 Companies trying to create consistent digital experiences for their customers have to make hundreds of design decisions every day. Instead of approaching each decision on a one-off basis, design systems provide repeatable solutions to common design problems, like what font to use, where to place an image, or how an entire website can meet accessibility standards.
@@ -20,7 +21,7 @@ Design systems often start with high-level guidelines and common use cases — l
 - **Design process guidelines**, which help designers interpret design principles as they execute a task.
 - **Accessibility elements and guidelines** that help teams create designs that are more accessible to all users and that comply with the Web Content Accessibility Guidelines (WCAG).
 
-## What kind of Design System?
+## What kind of design system?
 Every design system is a little bit different. We can almost say that there is one kind of design system per team or product.
 
 **Strict or loose?**
@@ -40,6 +41,11 @@ An **integrated system** focus on one unique context. It’s also composed of pa
 In a **centralized model**, one team is in charge of the system and makes it evolve. This team is here to facilitate the work of the other teams and has to be very close to them, to be sure that the System covers most of their needs.
 
 In a **distributed model**, several people of several teams are in charge of the system. The adoption of the system is quicker because everyone feels involve but it also needs team leaders that will keep an overall vision of it.
+
+## Getting started with Storybook
+[Storybook](https://storybook.js.org) helps with the development process of design systems and component libraries. Normally, you'd have to build out a whole app in order to see your components as you create them. Storybook allows you to develop components independently so you can focus on styling and interaction. You can use it with many different frontend libraries such as React, Angular, Vue, or even just with HTML.
+
+Read more at https://welearncode.com/storybook/
 
 ## Some examples and resources
 - A collection of awesome design systems: https://github.com/alexpate/awesome-design-systems
