@@ -262,8 +262,6 @@ A collection of free Tailwind CSS components: https://www.hyperui.dev
 
 daisyUI components - Use Tailwind CSS but write fewer class names: https://daisyui.com
 
-A collection of awesome design systems: https://github.com/alexpate/awesome-design-systems
-
 Easy visualizer for JavaScript KeyCodes: https://keycode.info
 
 GSAP ScrollTrigger Demos: https://greensock.com/st-demos

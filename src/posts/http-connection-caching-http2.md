@@ -58,6 +58,10 @@ The HTTP cache stores a response associated with a request and reuses the stored
 
 - A shared cache is a cache that stores responses to be reused by more than one user. For example, an ISP might have set up a web proxy as part of its local network infrastructure to serve many users so that popular resources are reused a number of times, reducing network traffic and latency.
 
+> What is Edge Caching? While browser caching (private cache) helps with many requests by the same user, it doesn't solve the issue of many users making requests, because each user has their own browser with their own cache. To fix this, you need a shared cache.
+> 
+> For example, Cloudflare caches only static assets by default, such as images, fonts, scripts, etc. The HTML containing the page content is not cached, because if you have an e-commerce store, for example, each user will have their own shopping cart, and if you cache that, the next user will see the previous one's items. Sites without dynamic content can opt in to cache everything. This makes it possible for an edge to serve entire pages all by itself, without having to contact your server. This way, you can have a very weak server, yet handle thousands of requests per second, because the load is mainly on the CDN.
+
 ### Controlling caching
 There are many directives in the `Cache-Control` spec, and it may be difficult to understand all of them. But most websites can be covered by a combination of a handful of patterns.
 
