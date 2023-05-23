@@ -94,6 +94,8 @@ HTML DOM with vanilla JavaScript: https://htmldom.dev/
 
 Devhints for developer documentation: https://devhints.io/
 
+Quick Reference Cheat Sheet: https://quickref.me
+
 Sketch UI with a hand-drawn look: https://excalidraw.com/
 
 A tiny little drawing app: https://tldraw.com/
@@ -169,6 +171,8 @@ A web scraping and browser automation library: https://crawlee.dev
 Not just a syntax highlighter: https://codehike.org
 
 Turns data scripts into shareable web apps in minutes: https://streamlit.io
+
+In-browser literal notebook: https://github.com/gzuidhof/starboard-notebook
 
 ---
 

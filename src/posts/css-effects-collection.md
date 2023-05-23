@@ -5,11 +5,18 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "May 1 2023"
+updatedDate: "May 23 2023"
 ---
 
-### CSS Tip
-https://css-tip.com has a wide collection of CSS tips and tricks. The best place to keep up to date with the new CSS features.
+> https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
+
+### TOC
+- [TOC](#toc)
+- [Rainbow Artword](#rainbow-artword)
+- [Hover Text Effects](#hover-text-effects)
+- [3D Flip Hover Effects](#3d-flip-hover-effects)
+- [Color Palettes](#color-palettes)
+- [3D Clock](#3d-clock)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -282,3 +289,8 @@ Builds a wide gamut color palette with okLCH and inspects color with devtools. C
   </article>
 </body>
 ```
+
+### 3D Clock
+<img alt="3D Clock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/3dclock.jpg" width="300">
+
+https://codepen.io/bigxixi/pen/abjEMbg
