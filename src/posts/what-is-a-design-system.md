@@ -52,10 +52,10 @@ Read more at https://welearncode.com/storybook/
 
 - Stack Overflow's Design System: https://stackoverflow.design
 
+- GOV.UK Design System: https://design-system.service.gov.uk
+
 - Atlassian's Design System: https://atlassian.design
 
 - Shopify's Design System: https://polaris.shopify.com
-
-- Contentful's Design System: https://f36.contentful.com
 
 - GitHub’s design system: https://primer.style

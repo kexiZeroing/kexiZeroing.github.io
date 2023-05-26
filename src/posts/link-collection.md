@@ -72,6 +72,8 @@ Your first WebGPU app: https://codelabs.developers.google.com/your-first-webgpu-
 
 Machine Learning for Web Developers (Web ML): https://www.youtube.com/playlist?list=PLOU2XLYxmsILr3HQpqjLAUkIPa5EaZiui
 
+Learning JavaScript Design Patterns: https://addyosmani.com/learning-jsdp/
+
 ---
 
 ## Tools and Cool websites
@@ -427,6 +429,8 @@ ChartGPT - text to beautiful charts: https://www.chartgpt.dev
 HuggingChat - build an open source alternative to ChatGPT: https://huggingface.co/chat
 
 Interact privately with your documents using LLMs: https://github.com/imartinez/privateGPT
+
+AI Tutor Prompt for customizable learning experiences: https://github.com/JushBJJ/Mr.-Ranedeer-AI-Tutor
 
 ---
 
