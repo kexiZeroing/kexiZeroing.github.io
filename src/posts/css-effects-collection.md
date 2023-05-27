@@ -5,7 +5,7 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "May 23 2023"
+updatedDate: "May 27 2023"
 ---
 
 > https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
@@ -17,6 +17,7 @@ updatedDate: "May 23 2023"
 - [3D Flip Hover Effects](#3d-flip-hover-effects)
 - [Color Palettes](#color-palettes)
 - [3D Clock](#3d-clock)
+- [Animation with View Transitions](#animation-with-view-transitions)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -294,3 +295,46 @@ Builds a wide gamut color palette with okLCH and inspects color with devtools. C
 <img alt="3D Clock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/3dclock.jpg" width="300">
 
 https://codepen.io/bigxixi/pen/abjEMbg
+
+### Animation with View Transitions
+<img alt="View Transitions" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/5fb05025-a9ca-417a-83f8-1363b092535c.png" width="500">
+
+https://codepen.io/argyleink/pen/NWOEvro
+
+```html
+<style>
+  body {
+    display: grid;
+    place-content: center;
+  } 
+  .box {
+    view-transition-name: box;
+    width: 100px;
+    height: 100px;
+    background: blue;
+  }
+</style>
+
+<div class="box"></div>
+<script>
+  const positions = ['start', 'end', 'center']
+
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  function setRandomAlignments() {
+    document.body.style.alignContent = positions[getRandomInt(3)]
+    document.body.style.justifyContent = positions[getRandomInt(3)]
+  }
+
+  document.body.addEventListener('click', e => {
+    if (!document.startViewTransition)
+      setRandomAlignments()
+    else
+      document.startViewTransition(() => {
+        setRandomAlignments()
+      })
+  })
+</script>
+```
