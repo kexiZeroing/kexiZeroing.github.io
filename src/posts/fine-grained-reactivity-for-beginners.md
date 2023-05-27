@@ -8,6 +8,8 @@ tags: [web]
 updatedDate: "Mar 11 2023"
 ---
 
+> Reactivity can be broadly defined as the automatic update of the UI due to a change in the application's state.
+
 In a reactive programming context, dependency tracking is a technique used to automatically update computations that depend on some input data when that data changes. In order for dependency tracking to work, the reactive framework needs to know which computations depend on which data. This is typically done by wrapping the data in reactive objects or variables that the framework can monitor for changes. When a piece of data changes, the framework can then notify any computations that depend on that data and trigger a re-evaluation of those computations.
 
 If you access properties directly instead of through getter functions, the reactive framework may not be able to detect changes to the data. For example, if you have a property `myData` and you directly modify it with `myData = newValue`, the reactive framework may not be able to detect this change because it doesn't know that `myData` is being used by some computation. On the other hand, if you use a getter function to access `myData`, the reactive framework can detect that the getter function is being used by a computation and can monitor it for changes. If `myData` changes, the reactive framework will be notified and can update any computations that depend on it.

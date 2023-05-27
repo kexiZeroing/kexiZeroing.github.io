@@ -228,6 +228,8 @@ It's time to learn oklch color: https://keithjgrant.com/posts/2023/04/its-time-t
 
 Open Source CSS Variables: https://open-props.style
 
+Across pages view transitions: https://smashing-transitions.netlify.app
+
 ---
 
 ## FE dev resources
