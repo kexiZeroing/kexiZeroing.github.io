@@ -8,11 +8,13 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "postbuild": "pagefind --source dist",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/mdx": "^0.19.1",
-    "astro": "^2.4.4"
+    "astro": "^2.4.4",
+    "pagefind": "^0.12.0"
   }
 }

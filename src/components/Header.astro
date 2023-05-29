@@ -24,6 +24,24 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 		<HeaderLink class="header-link" href="https://twitter.com/kdang2020" target="_blank">Twitter</HeaderLink>
 		<HeaderLink class="header-link" href="https://registry.jsonresume.org/kexiZeroing" target="_blank">Resume</HeaderLink>
 		<ThemeToggle />
+
+		{	import.meta.env.PROD &&
+			// Search only available in production
+			<link href="/_pagefind/pagefind-ui.css" rel="stylesheet" />
+			<script src="/_pagefind/pagefind-ui.js" type="text/javascript"></script>
+			<div id="search" class="search-box"></div>
+			<script>
+				window.addEventListener('DOMContentLoaded', () => {
+					// https://github.com/FriendlyUser/astro-tech-blog/issues/70
+					// @ts-ignore
+					new PagefindUI({
+						element: '#search',
+						// https://pagefind.app/docs/ui/#pagefindui-options
+						showImages: false,
+					});
+				});
+			</script>
+		}
 	</nav>
 </header>
 <style>
@@ -58,12 +76,22 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 		margin: 10px 14px;
 		line-height: 1.1;
 	}
+	.search-box {
+		margin-left: 32px;
+	}
+	
 	@media only screen and (max-width:600px)  {
 		.header-section {
 			display: none;
 		}
 		.short-header-section {
 			display: block;
+		}
+		nav {
+			justify-content: flex-start;
+		}
+		.search-box {
+			margin-left: 12px;
 		}
 	}
 </style>
