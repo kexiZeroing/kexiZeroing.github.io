@@ -5,7 +5,7 @@ slug: using-images-in-web
 description: ""
 added: "Oct 12 2021"
 tags: [web]
-updatedDate: "Jan 23 2023"
+updatedDate: "May 29 2023"
 ---
 
 ## Image file types
@@ -96,6 +96,11 @@ Read more about best practices for web images:
 - https://github.com/nucliweb/image-element
 - https://ausi.github.io/respimagelint/docs.html
 - https://web.dev/browser-level-image-lazy-loading
+
+### Let the CDN do the work
+Most images on modern websites are hosted on a CDN that can resize images on the fly and deliver them at the edge. Despite this, most web frameworks will still download and resize the image at build time or on your server, rather than using the CDN, or just uses a single source image rather than handling multiple resolutions.
+
+The library [unpic-img](https://github.com/ascorbic/unpic-img) detects the image CDN, and then uses the CDN's URL API to resize and format images. It then generates the correct srcset and sizes attributes for the image. It uses new features built into modern browsers to handle lazy loading, fetch priority and decoding. It also uses pure CSS to handle responsive resizing of images, preserving aspect ratio and avoiding layout shift.
 
 ## Vue lazy-load images
 Lazy-load images and videos. It makes sense to only load the resources that your users need at that moment. Postpone loading images and videos that are off-screen at first, and lazy load them later.
