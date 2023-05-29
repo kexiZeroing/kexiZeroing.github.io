@@ -5,7 +5,7 @@ slug: notes-on-domain-specific-chatgpt
 description: ""
 added: "Mar 25 2023"
 tags: [AI]
-updatedDate: "Apr 16 2023"
+updatedDate: "May 29 2023"
 ---
 
 ## What are Vector Embeddings?
@@ -274,9 +274,6 @@ app.listen(port, () => {
 
 [LangChain](https://blog.langchain.dev) is a framework that makes it easier to build scalable LLM apps and chatbots. For example, An [LLMChain](https://docs.langchain.com/docs/components/chains/llm-chain) is the simplest type of chain, and is used widely in other chains, so understanding it is important. We can construct an LLMChain which takes user input, formats it with a [PromptTemplate](https://js.langchain.com/docs/modules/prompts/prompt_templates), and then passes the formatted response to an LLM.
 
-> - A Comprehensive Guide to LangChain: https://nathankjer.com/introduction-to-langchain
-> - TypeScript version for LangChain: https://blog.langchain.dev/typescript-support
-
 ```js
 import { OpenAI } from "langchain/llms";
 import { PromptTemplate } from "langchain/prompts";
@@ -341,6 +338,9 @@ for (let i = 0; i < docs.length; i += chunkSize) {
   );
 }
 ```
+
+### Quick Start Tutorial on Langchain and Pinecone with Node.js
+https://github.com/developersdigest/Get-Started-With-Langchain-and-Pinecone-in-Node.js
 
 ## Vector Store
 
