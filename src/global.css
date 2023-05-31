@@ -31,6 +31,13 @@ html.theme-dark {
   --text-color: #ddd;
   --code-bg: #727272;
   --quote-code-bg: #e0e0e0;
+
+  /* Pagefind custom UI https://pagefind.app/docs/ui/#customising-the-styles */
+  --pagefind-ui-primary: #eeeeee;
+  --pagefind-ui-text: #eeeeee;
+  --pagefind-ui-background: #152028;
+  --pagefind-ui-border: #152028;
+  --pagefind-ui-tag: #152028;
 }
 
 ::selection {
