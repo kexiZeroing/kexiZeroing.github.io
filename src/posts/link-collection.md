@@ -306,9 +306,7 @@ Guide to React Rendering Behavior: https://blog.isquaredsoftware.com/2020/05/blo
 
 Build your own React: https://pomb.us/build-your-own-react
 
-A curated list about React Hooks: https://github.com/glauberfc/awesome-react-hooks
-
-useHooks Code Examples: https://usehooks.com
+A collection of React hooks from the ui.dev team: https://usehooks.com
 
 How styled-components works: https://medium.com/styled-components/how-styled-components-works-618a69970421
 

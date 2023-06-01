@@ -301,6 +301,9 @@ https://codepen.io/bigxixi/pen/abjEMbg
 
 https://codepen.io/argyleink/pen/NWOEvro
 
+> - Getting started with View Transitions on multi-page apps: https://daverupert.com/2023/05/getting-started-view-transitions
+> - A collection of example view transitions for multi-page sites: https://mpa-view-transitions-sandbox.netlify.app
+
 ```html
 <style>
   body {

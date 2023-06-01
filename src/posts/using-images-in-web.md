@@ -5,7 +5,7 @@ slug: using-images-in-web
 description: ""
 added: "Oct 12 2021"
 tags: [web]
-updatedDate: "May 29 2023"
+updatedDate: "June 1 2023"
 ---
 
 ## Image file types
@@ -102,58 +102,10 @@ Most images on modern websites are hosted on a CDN that can resize images on the
 
 The library [unpic-img](https://github.com/ascorbic/unpic-img) detects the image CDN, and then uses the CDN's URL API to resize and format images. It then generates the correct srcset and sizes attributes for the image. It uses new features built into modern browsers to handle lazy loading, fetch priority and decoding. It also uses pure CSS to handle responsive resizing of images, preserving aspect ratio and avoiding layout shift.
 
+> Markdown images (`![alt](foo.jpg)`) are an anti-pattern. To render an image responsibly in modern times you need attributes like `srcset`, `loading`, `decoding`, `fetchpriority`, etc. If you’re going to include all these attributes, you might as well use an HTML `<img>` tag.
+
 ## Vue lazy-load images
 Lazy-load images and videos. It makes sense to only load the resources that your users need at that moment. Postpone loading images and videos that are off-screen at first, and lazy load them later.
 - [Vue-Lazyload](https://github.com/hilongjw/vue-lazyload)
 - [v-lazy-image](https://github.com/alexjoverm/v-lazy-image)
 - [vue-content-loader](https://github.com/egoist/vue-content-loader)
-
-## Compress images
-
-**HTMLCanvasElement `toBlob` method**  
-```js
-/**
- * 压缩图片
- * @param img 被压缩的img对象
- * @param type 压缩后转换的文件类型
- * @param mx 触发压缩的图片最大宽度限制
- * @param mh 触发压缩的图片最大高度限制
- * @param quality 图片质量
- */
- function compressImg(img, type, mx, mh, quality = 1) {
-  return new Promise((resolve, reject) => {
-    const canvas = document.createElement('canvas')
-    const context = canvas.getContext('2d')
-    const { width: originWidth, height: originHeight } = img
-    // 最大尺寸限制
-    const maxWidth = mx
-    const maxHeight = mh
-    // 目标尺寸
-    let targetWidth = originWidth
-    let targetHeight = originHeight
-    if (originWidth > maxWidth || originHeight > maxHeight) {
-      if (originWidth / originHeight > 1) {
-        // 宽图片
-        targetWidth = maxWidth
-        targetHeight = Math.round(maxWidth * (originHeight / originWidth))
-      } else {
-        // 高图片
-        targetHeight = maxHeight
-        targetWidth = Math.round(maxHeight * (originWidth / originHeight))
-      }
-    }
-    canvas.width = targetWidth
-    canvas.height = targetHeight
-    context?.clearRect(0, 0, targetWidth, targetHeight)
-
-    context?.drawImage(img, 0, 0, targetWidth, targetHeight)
-    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
-    canvas.toBlob(function(blob) {
-      resolve(blob)
-    }, type || 'image/png', quality) 
-  })
-}
-```
-
-**Automate compression workflow**  
-The [Tinify API](https://tinypng.com/developers/reference/nodejs) allows you to compress and optimize WebP, JPEG and PNG images. It is designed as a REST service.
