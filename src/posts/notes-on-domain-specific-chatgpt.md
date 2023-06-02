@@ -5,7 +5,7 @@ slug: notes-on-domain-specific-chatgpt
 description: ""
 added: "Mar 25 2023"
 tags: [AI]
-updatedDate: "May 29 2023"
+updatedDate: "June 2 2023"
 ---
 
 ## What are Vector Embeddings?
@@ -20,6 +20,8 @@ There is something special about vectors that makes them so useful. This represe
 We train models to translate objects to vectors. A deep neural network is a common tool for training such models. The resulting embeddings are usually high dimensional (up to two thousand dimensions) and dense (all values are non-zero). For text data, models such as Word2Vec, GloVe, and BERT transform words, sentences, or paragraphs into vector embeddings. Images can be embedded using models such as convolutional neural networks (CNNs).
 
 > Know more about Text2vec: https://github.com/shibing624/text2vec and a HuggingFace Demo: https://huggingface.co/spaces/shibing624/text2vec
+>
+> Compare embedding retrieval models from Google, OpenAI, and Cohere: https://github.com/justinliang1020/embedding-dev
 
 ## OpenAI’s text embeddings API
 An embedding is a vector (list) of floating point numbers. The distance between two vectors measures their relatedness. Small distances suggest high relatedness and large distances suggest low relatedness.

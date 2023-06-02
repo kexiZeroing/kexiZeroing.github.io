@@ -5,7 +5,7 @@ slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Apr 19 2023"
+updatedDate: "June 2 2023"
 ---
 
 ### 项目是怎么跑起来的
@@ -186,6 +186,26 @@ If that doesn't help, make sure the module you are trying to import is tracked b
 ```
 
 > Above was created in the days before Vue shipped with TypeScript out of the box. Now the best path to get started is through the official CLI.
+
+#### Bundling your library with Webpack
+So far everything should be the same as bundling an application, and here comes the different part – we need to expose exports from the entry point through `output.library` option.
+
+- As a library author, we want it to be compatible in different environments. `type: 'umd'` exposes your library under all the module definitions, allowing it to work with CommonJS, AMD, and as global variable.
+- If your library uses dependencies like `lodash`, we'd prefer to treat it as a peer dependency. This can be done using the `externals` configuration, which means the library expects it to be available in the consumer's environment.
+- Also add the path to your generated bundle as the package's `main` field in the `package.json`.
+
+```js
+output: {
+  filename: "library-starter.js",
+  path: path.resolve(__dirname, "dist"),
+  library: {
+    name: 'MyLibrary', // Specify a name for the library.
+    type: 'umd',       // Configure how the library will be exposed.
+    export: 'default', // Access without using `.default` 
+  },
+  globalObject: "this"  // To make UMD build available on both browsers and Node.js, 
+},
+```
 
 ### 本地 build 与上线 build
 1. 公共组件库 C 需要先 build，再 `npm link` 映射到全局的 node_modules，然后被其他项目 `npm link C` 引用。
