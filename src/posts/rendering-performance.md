@@ -23,6 +23,16 @@ While the Core Web Vitals are the critical metrics for understanding and deliver
 
 [Interaction to Next Paint (INP)](https://web.dev/inp/) is a pending Core Web Vital metric that will replace First Input Delay (FID) in March 2024. INP is a metric that assesses a page's overall responsiveness to user interactions by observing the latency of all click, tap, and keyboard interactions that occur throughout the lifespan of a user's visit to a page.
 
+> LCP recommendations
+> 1. Ensure the LCP resource is discoverable from the HTML source.
+> 2. Ensure the LCP resource is prioritized. (Don't lazy-load your LCP image)
+> 3. Use a CDN to optimize document and resource TTFB.
+> 
+> CLS recommendations
+> 1. Set explicit sizes on any content loaded from the page.
+> 2. Be eligible for bfcache.
+> 3. Avoid animations/transitions that use layout-inducing CSS properties. (Never animate using top / bottom / left / right)
+
 ### Optimize your server
 Instead of just immediately serving a static page on a browser request, many server-side web frameworks need to create the web page dynamically. This could be due to pending results from a database query or because components need to be generated into markup by a UI framework. Many **web frameworks that run on the server have performance guidance** that you can use to speed up this process.
 

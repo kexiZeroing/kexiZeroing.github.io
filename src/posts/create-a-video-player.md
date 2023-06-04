@@ -5,7 +5,7 @@ slug: create-a-video-player
 description: ""
 added: "Sep 18 2022"
 tags: [web]
-updatedDate: "Nov 06 2022"
+updatedDate: "June 04 2023"
 ---
 
 ## Creating a cross-browser video player
@@ -359,3 +359,7 @@ if ('IntersectionObserver' in window) {
   observer.observe(video);
 }
 ```
+
+## Open source HTML5 video player
+- https://github.com/bytedance/xgplayer
+- https://github.com/zhw2590582/ArtPlayer

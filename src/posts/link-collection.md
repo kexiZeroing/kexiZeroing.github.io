@@ -234,6 +234,8 @@ Across pages view transitions: https://smashing-transitions.netlify.app
 
 ## FE dev resources
 
+Web Interface Guidelines: https://github.com/raunofreiberg/interfaces
+
 GUI Challenges: https://www.youtube.com/playlist?list=PLNYkxOF6rcIAaV1wwI9540OC_3XoIzMjQ
 
 A dark-first collection of UI patterns and components: https://ui.draculatheme.com
@@ -323,6 +325,8 @@ Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/n
 A gentle introduction to React, but visualized: https://react.gg/visualized
 
 React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.com/watch?v=zMf_xeGPn6s
+
+React Server Components from scratch: https://github.com/reactwg/server-components/discussions/5
 
 ---
 
