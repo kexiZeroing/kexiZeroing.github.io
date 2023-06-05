@@ -86,6 +86,13 @@ There’re six `<link rel>` tags that instruct the browser to preload something:
 
 > Resource hints like `preconnect` and `dns-prefetch` are executed as the browser sees fit. The `preload`, on the other hand, is mandatory for the browser. Modern browsers are already pretty good at prioritizing resources, that's why it's important to use `preload` sparingly and only preload the most critical resources.
 
+> *Modern HTML has many performance controls:*
+> - Prioritize a key image: `<img fetchpriority=high>`
+> - Lazy-load images: `<img loading=lazy>`
+> - Warm connections to origins: `rel=preconnect`
+> - Fetch late-found resources: `rel=preload`
+> - Fetch next-page navigations: `rel=prefetch`
+
 For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. Defer scripts are guaranteed to execute in the order that they appear in the document. Typically you want to use `async` where possible, then `defer` then no attribute. 
 
 Chrome 107 comes with a new `renderBlockingStatus` field on ResourceTiming entries. Use it to find and monitor all the render blocking resources in a page.

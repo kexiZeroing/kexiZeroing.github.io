@@ -54,6 +54,8 @@ What happens when we type google.com in a browser: https://github.com/vasanthk/h
 
 Machine Learning for Beginners: https://github.com/microsoft/ML-For-Beginners
 
+Artificial Intelligence for Beginners: https://github.com/microsoft/AI-For-Beginners
+
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
 DevOps Exercises: https://github.com/bregman-arie/devops-exercises
