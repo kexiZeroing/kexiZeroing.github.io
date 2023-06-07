@@ -104,6 +104,8 @@ end$    matches the pattern only if the pattern is at the end of the line
 .*      matches zero or more of any character
 ```
 
+> For example, `ls -la | grep test | sort | uniq | wc -l`: The final output of this command would be the number of files and directories in the current directory whose name contains the string “test.”
+
 ## lsof
 Linux/Unix considers everything as a file and `lsof` is a command meaning "list open files", which is used to report a list of all open files and the processes that opened them. Add `-i` to list network connections. Use `lsof -i -n -P | grep LISTEN` to check the listening ports and `lsof -i :22` to see a specific port.
 
