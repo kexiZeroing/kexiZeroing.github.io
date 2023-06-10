@@ -5,7 +5,7 @@ slug: screen-and-webcam-recording
 description: ""
 added: "Oct 14 2022"
 tags: [web]
-updatedDate: "Nov 06 2022"
+updatedDate: "June 10 2023"
 ---
 
 Let's explore how far browser technology has come in the way of screen sharing and recording, and attempt to create a tool that would allow us to quickly create short-form technical video content. All of this is powered by browser APIs using no external services. The original article is [here](https://formidable.com/blog/2022/screen-webcam-mixing-recording).
@@ -283,3 +283,26 @@ Some of the most popular streaming protocols include RTMP, HLS, and WebRTC.
 - [HTTP Live Streaming (HLS)](https://www.cloudflare.com/learning/video/what-is-http-live-streaming) is one of the most widely used video streaming protocols created by Apple. It breaks down video files into smaller downloadable HTTP files and delivers them using the HTTP protocol. One advantage of HLS is that all Internet-connected devices support HTTP, making it simpler to implement than streaming protocols that require the use of specialized servers. Another advantage is that an HLS stream can increase or decrease video quality depending on network conditions without interrupting playback. This is why video quality may get better or worse in the middle of a video as a user is watching it. This feature is known as "adaptive bitrate streaming".
 
 - [WebRTC](https://webrtc.github.io/samples) is an abbrevation of "Web Real Time Communication." The set of standards that comprise WebRTC makes it possible to share data and perform teleconferencing peer-to-peer, without requiring that the user install plug-ins or any other third-party software. The connections are peer-to-peer rather than sent and aggregated by a central location, which means that the video and audio is shared to each device communicating in the conversation. This keeps the communictaion latency very low.
+
+### FFMPEG.WASM
+[ffmpeg.wasm](https://ffmpegwasm.netlify.app) is a pure WebAssembly / JavaScript port of FFmpeg. It enables video & audio record, convert and stream right inside browsers. Check browser examples at https://github.com/ffmpegwasm/ffmpeg.wasm/tree/master/examples/browser
+
+There are two components inside `ffmpeg.wasm`: `@ffmpeg/ffmpeg` and `@ffmpeg/core`. `@ffmpeg/ffmpeg` contains kind of a wrapper to handle the complexity of loading core and calling low-level APIs. `@ffmpeg/core` contains WebAssembly code which is transpiled from original FFmpeg C code with minor modifications.
+
+```js
+// AVI to MP4 Demo
+import { writeFile } from 'fs/promises';
+import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+
+const ffmpeg = createFFmpeg({ log: true });
+
+(async () => {
+  await ffmpeg.load();
+  ffmpeg.FS('writeFile', 'test.avi', await fetchFile('./test.avi'));
+  await ffmpeg.run('-i', 'test.avi', 'test.mp4');
+  await fs.promises.writeFile('./test.mp4', ffmpeg.FS('readFile', 'test.mp4'));
+  process.exit(0);
+})();
+```
+
+> [Mock Interview Simulator](https://github.com/Tameyer41/liftoff) is an AI-powered interview prep app to practice your tech interview skills. Under the hood, it uses FFmpeg to transcode the raw video into MP3. Chrome, Safari, and Firefox all record with different codecs, and FFmpeg is great for standardizing them. Then we send the audio directly to be transcribed by OpenAI's Whisper endpoint, and then stream feedback from the edge using OpenAI's gpt-3.5-turbo.
