@@ -202,6 +202,8 @@ Box alignment in Grid and Flexbox: https://ishadeed.com/article/learn-box-alignm
 
 Understanding Z-Index: https://ishadeed.com/article/understanding-z-index
 
+Digging Into CSS Logical Properties: https://ishadeed.com/article/css-logical-properties
+
 Basic styles for HTML Elements without classes: https://boltcss.com
 
 Some simple ways to make content look good: https://set.studio/some-simple-ways-to-make-content-look-good
@@ -437,6 +439,8 @@ HuggingChat - build an open source alternative to ChatGPT: https://huggingface.c
 Interact privately with your documents using LLMs: https://github.com/imartinez/privateGPT
 
 AI Tutor Prompt for customizable learning experiences: https://github.com/JushBJJ/Mr.-Ranedeer-AI-Tutor
+
+Understanding GPT tokenizers: https://simonwillison.net/2023/Jun/8/gpt-tokenizers/
 
 ---
 
