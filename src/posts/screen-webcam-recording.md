@@ -5,7 +5,7 @@ slug: screen-and-webcam-recording
 description: ""
 added: "Oct 14 2022"
 tags: [web]
-updatedDate: "June 10 2023"
+updatedDate: "June 12 2023"
 ---
 
 Let's explore how far browser technology has come in the way of screen sharing and recording, and attempt to create a tool that would allow us to quickly create short-form technical video content. All of this is powered by browser APIs using no external services. The original article is [here](https://formidable.com/blog/2022/screen-webcam-mixing-recording).
@@ -304,5 +304,7 @@ const ffmpeg = createFFmpeg({ log: true });
   process.exit(0);
 })();
 ```
+
+[ffmpeg-online](https://ffmpeg-online.vercel.app) is an online version of ffmpeg based on `ffmpeg.wasm`, which can be used to process audio and video online. The most straightforward example `ffmpeg -i input.mp4 output.avi` is used to convert an input media file to a different format.
 
 > [Mock Interview Simulator](https://github.com/Tameyer41/liftoff) is an AI-powered interview prep app to practice your tech interview skills. Under the hood, it uses FFmpeg to transcode the raw video into MP3. Chrome, Safari, and Firefox all record with different codecs, and FFmpeg is great for standardizing them. Then we send the audio directly to be transcribed by OpenAI's Whisper endpoint, and then stream feedback from the edge using OpenAI's gpt-3.5-turbo.
