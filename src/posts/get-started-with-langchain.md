@@ -5,7 +5,7 @@ slug: get-started-with-langchain
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
-updatedDate: "May 3 2023"
+updatedDate: "June 13 2023"
 ---
 
 ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers have released APIs allowing developers to interact directly with these models. And this is where LangChain comes in. LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.
@@ -13,10 +13,6 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 - Homepage: https://langchain.com
 - Blog: https://blog.langchain.dev
 - JS/TS Docs: https://js.langchain.com/docs
-- Awesome LangChain: https://github.com/kyrolabs/awesome-langchain
-- Tutorials on building LLM powered applications: https://www.youtube.com/playlist?list=PLqZXAkvF1bPNQER9mLmDbntNfSpzdDIU5
-- LangChain James Briggs' Playlist: https://www.youtube.com/playlist?list=PLIUOU7oqGTLieV9uTIFMm6_4PXg-hlN6F
-- Drag & drop UI to build your customized LLM flow using LangchainJS: https://github.com/FlowiseAI/Flowise
 
 <img alt="langchain-components" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 
@@ -36,6 +32,12 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 - Interacting with APIs
 - Summarisation
 - Extraction
+
+### Useful Links
+- Awesome LangChain: https://github.com/kyrolabs/awesome-langchain
+- Tutorials on building LLM powered applications: https://www.youtube.com/playlist?list=PLqZXAkvF1bPNQER9mLmDbntNfSpzdDIU5
+- LangChain James Briggs' Playlist: https://www.youtube.com/playlist?list=PLIUOU7oqGTLieV9uTIFMm6_4PXg-hlN6F
+- Easy to use code snippets for LangChain: https://github.com/JorisdeJong123/LangChain-Cheatsheet
 
 ### Examples
 

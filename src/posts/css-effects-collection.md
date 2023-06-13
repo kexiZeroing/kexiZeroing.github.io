@@ -5,7 +5,7 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "May 27 2023"
+updatedDate: "June 13 2023"
 ---
 
 > https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
@@ -18,6 +18,7 @@ updatedDate: "May 27 2023"
 - [Color Palettes](#color-palettes)
 - [3D Clock](#3d-clock)
 - [Animation with View Transitions](#animation-with-view-transitions)
+- [Filter and backdrop filter](#filter-and-backdrop-filter)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -340,4 +341,18 @@ https://codepen.io/argyleink/pen/NWOEvro
       })
   })
 </script>
+```
+
+### Filter and backdrop filter
+[backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) have the same effect as [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter), with one notable difference — backdrop filters apply only to areas behind the element instead of to the element and its children. Filters, on the other hand, apply directly to the element and its children, and don’t affect anything behind the element.
+
+<img alt="backdrop-filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a9f0c5e0-6f17-4068-b481-17bfac204791.png" width="500">
+
+```css
+filter: blur(5px);
+filter: brightness(2);
+filter: contrast(200%);
+filter: grayscale(100%);
+filter: saturate(80%);
+filter: sepia(60%);
 ```
