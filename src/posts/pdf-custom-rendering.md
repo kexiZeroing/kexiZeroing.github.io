@@ -203,4 +203,5 @@ PDF.js provides only viewer:
 See also:
 - https://github.com/instructure/pdf-annotate.js
 - https://github.com/Submitty/pdf-annotate.js
+- https://github.com/taoky/pdf-annotate.js
 - https://github.com/agentcooper/react-pdf-highlighter

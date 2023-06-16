@@ -442,6 +442,8 @@ AI Tutor Prompt for customizable learning experiences: https://github.com/JushBJ
 
 Understanding GPT tokenizers: https://simonwillison.net/2023/Jun/8/gpt-tokenizers/
 
+Transformers directly in your browser: https://github.com/xenova/transformers.js
+
 ---
 
 ## Natural Language Processing
