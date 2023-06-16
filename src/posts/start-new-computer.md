@@ -99,7 +99,8 @@ updatedDate: "Apr 05 2023"
 
 9. Install Chrome extension [DevTools Theme: New Moon](https://github.com/taniarascia/new-moon-chrome-devtools), then set devtool's theme to "Dark" and go to Experiments and select "Allow custom UI themes".
 
-10. Add VSCode extentions like `Prettier`, `GitLens`, `New Moon Theme`, `Live Server`, `Import Cost`. 
+10. Add VSCode extentions like `Prettier`, `GitLens`, `Live Server`, `Import Cost`. 
+   - Color themes I like: [New Moon Theme](https://github.com/taniarascia/new-moon) or [Nord](https://github.com/nordtheme/visual-studio-code), search and install one from extentions.
    - Prettier usage: https://prettier.io/docs/en/install.html
    - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost) will display inline in the editor the size of the imported packages.
    - [Preview.js](https://previewjs.com): Preview UI components in your IDE instantly. It leverages the power of Vite to support React and Vue.js. (needs NodeJS 14.18.0+ to run)
