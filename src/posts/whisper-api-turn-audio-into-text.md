@@ -5,9 +5,10 @@ slug: whisper-api-turn-audio-into-text
 description: ""
 added: "June 13 2023"
 tags: [code]
+updatedDate: "June 16 2023"
 ---
 
-OpenAI Whisper is a transformer-based automatic speech recognition system with open source code. [Whisper](https://github.com/openai/whisper) is free to use, and the model is downloaded to your machine on the first run. However, you also have an option of using the commercial API from OpenAI. Check the official guide at https://platform.openai.com/docs/guides/speech-to-text
+OpenAI Whisper is a transformer-based automatic speech recognition system with open source code. [Whisper](https://github.com/openai/whisper) is free to use, and the model is downloaded to your machine on the first run. You can try [whisper.cpp](https://github.com/ggerganov/whisper.cpp) and follow this post [AI auto-subtitling](https://www.spapas.net/2023/05/22/ai-auto-subtitling/). However, you also have an option of using the commercial API from OpenAI. Check the official guide at https://platform.openai.com/docs/guides/speech-to-text
 
 
 ```python
