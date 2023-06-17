@@ -442,6 +442,10 @@ Understanding GPT tokenizers: https://simonwillison.net/2023/Jun/8/gpt-tokenizer
 
 Transformers directly in your browser: https://github.com/xenova/transformers.js
 
+Vercel AI SDK: https://sdk.vercel.ai/docs
+
+AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel-labs/ai-chatbot
+
 ---
 
 ## Natural Language Processing
