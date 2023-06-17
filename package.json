@@ -4,6 +4,7 @@
   "author": "kexiZeroing",
   "description": "Personal blog built with Astro",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -15,6 +16,7 @@
   "dependencies": {
     "@astrojs/mdx": "^0.19.1",
     "astro": "^2.4.4",
+    "node-fetch": "^3.3.1",
     "pagefind": "^0.12.0"
   }
 }
