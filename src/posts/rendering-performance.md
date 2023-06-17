@@ -158,3 +158,4 @@ When faced with a web font that has not yet loaded, the browser is faced with a 
 - A collection of the best practices that the Chrome DevRel team believes are the most effective ways to improve Core Web Vitals performance in 2023: https://web.dev/top-cwv-2023
 - Web Performance Snippets: https://github.com/nucliweb/webperf-snippets
 - Get your `<head>` in order: https://github.com/rviscomi/capo.js
+- Inline your app's critical CSS and lazy-load the rest: https://github.com/GoogleChromeLabs/critters

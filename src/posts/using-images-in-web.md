@@ -102,8 +102,6 @@ Most images on modern websites are hosted on a CDN that can resize images on the
 
 The library [unpic-img](https://github.com/ascorbic/unpic-img) detects the image CDN, and then uses the CDN's URL API to resize and format images. It then generates the correct srcset and sizes attributes for the image. It uses new features built into modern browsers to handle lazy loading, fetch priority and decoding. It also uses pure CSS to handle responsive resizing of images, preserving aspect ratio and avoiding layout shift.
 
-> Markdown images (`![alt](foo.jpg)`) are an anti-pattern. To render an image responsibly in modern times you need attributes like `srcset`, `loading`, `decoding`, `fetchpriority`, etc. If you’re going to include all these attributes, you might as well use an HTML `<img>` tag.
-
 ## Vue lazy-load images
 Lazy-load images and videos. It makes sense to only load the resources that your users need at that moment. Postpone loading images and videos that are off-screen at first, and lazy load them later.
 - [Vue-Lazyload](https://github.com/hilongjw/vue-lazyload)
