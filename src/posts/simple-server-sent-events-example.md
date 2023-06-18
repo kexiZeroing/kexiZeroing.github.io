@@ -69,6 +69,36 @@ app.listen(3000, () => console.log('Listening on port 3000...'));
 </html>
 ```
 
+## Server-side streams
+What if one wanted to build a server which responded with a message every second? This can be achieved by combining `ReadableStream` with `setInterval`. Additionally, by setting the content-type to `text/event-stream` and prefixing each message with `"data: "`, Server-Sent Events make for easy processing using the [EventSource API](https://developer.mozilla.org/en-US/docs/Web/API/EventSource).
+
+```js
+import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
+
+const msg = new TextEncoder().encode("data: hello\r\n\r\n");
+
+serve(async (_) => {
+  let timerId: number | undefined;
+  const body = new ReadableStream({
+    start(controller) {
+      timerId = setInterval(() => {
+        controller.enqueue(msg);
+      }, 1000);
+    },
+    cancel() {
+      if (typeof timerId === "number") {
+        clearInterval(timerId);
+      }
+    },
+  });
+  return new Response(body, {
+    headers: {
+      "Content-Type": "text/event-stream",
+    },
+  });
+});
+```
+
 ## Download streamed data using vanilla JavaScript
 
 ```js

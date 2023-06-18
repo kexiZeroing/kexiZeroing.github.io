@@ -378,13 +378,41 @@ There are two points in time that you can integrate dynamic content into a Jamsa
 ## Serverless
 Your code needs to be hosted on a server. Depending on the size of your code and the amount of users you expect to use your product, you might need many servers. Companies used to have their own facilities and warehouses that held their servers and many still do. But for many, this is not ideal. Servers can be difficult to maintain. Maintaining servers and the buildings that house them can become expensive too. That's where AWS and other cloud providers come in.
 
-Cloud is basically renting out servers and data storage that's owned by someone else (Serverless does not mean there aren't any servers; You still need servers to host and run your code.) Through the cloud provider (AWS, Azure, or Google Cloud), you gain access to resources like storage services, servers, networking, analytics, AI, and more. There are many other benefits: You pay only for what you use. You can easily spin up and use new servers when needed, allowing you to scale quickly. You can deploy applications globally. 
+Cloud is basically renting out servers and data storage that's owned by someone else (Serverless does not mean there aren't any servers; You still need servers to host and run your code.) Through the cloud provider (AWS, Azure, or Google Cloud), you gain access to resources like storage services, servers, networking, analytics, AI, and more. There are many other benefits: You pay only for what you use. You can easily spin up and use new servers when needed, allowing you to scale quickly. You can deploy applications globally.
+
+> Serverless is just a way of handling how you are using servers. Instead of handling all the infrastructure and server operations yourself you're relying on a cloud provider.
 
 There are different families of cloud services.
 - **Infrastructure as a service (IaaS)** - Amazon EC2, Digital Ocean
 - **Platform as a service (PaaS)** - Heroku, AWS Elastic Beanstalk
 - **Software as a service (SaaS)** - Dropbox, iCloud, Slack
 - **Function as a service (FaaS)** - AWS Lambda
+
+Serverless functions are an approach to writing back-end code that doesn’t require writing a back-end. In the simplest terms: we write a function using our preferred language, like JavaScript; we send that function to a serverless provider; and then we can call that function just like any API using HTTP methods. These Functions are co-located with your code and part of your Git workflow.
+
+Let's create and deploy our first serverless function using [Netlify Functions](https://www.netlify.com/products/functions/). Learn from https://www.learnwithjason.dev/blog/serverless-functions/deploy-first-serverless-function/
+
+```js
+// Write your first serverless function `/functions/my-first-function.js`
+// The file needs to export a function named `handler`
+exports.handler = async () => ({
+  statusCode: 200,
+  body: 'boop',
+});
+```
+
+```toml
+# netlify.toml
+[build]
+  command = "# no build command needed; it’s just HTML!"
+  functions = "functions"
+  publish = "public"
+```
+
+- Configure the project for deployment and tell Netlify that our functions live in the functions folder.
+- Create the repo and push to GitHub.
+- Create a new Netlify site using `netlify-cli` (connected to the GitHub repo we just created).
+- By default, Netlify functions live at the URL endpoint `/.netlify/functions/<function-name>`.
 
 ### What is "edge compute"?
 To solve the latency problem, very smart folks came up with the idea of deploying multiple copies of a program and distributing it around the world. When a user makes a request, it can be handled by the closest copy, thus reducing the distance traveled and the time spent in transit.
