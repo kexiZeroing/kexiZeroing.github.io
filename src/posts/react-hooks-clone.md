@@ -9,6 +9,7 @@ updatedDate: "Oct 30 2022"
 ---
 
 ```js
+// https://www.youtube.com/watch?v=KJP1E-Y-xyo
 const React = (function() {
   let hooks = [];
   let idx = 0;
