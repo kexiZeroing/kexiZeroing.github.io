@@ -25,9 +25,15 @@ updatedDate: "Mar 15 2023"
 - @JoshWComeau blog https://www.joshwcomeau.com
 - @lydiahallie technology through writing and visualizations
 - @ChromiumDev @Una Chrome DevRel team https://web.dev/blog
-- @bruno_simon Threejs https://bruno-simon.com
 
 ## Business and Engineering alignment by Kent C. Dodds
 Your job isn't to turn user stories into code. The company has a mission. Everyone at the company is hired to push that mission forward. You're not a software engineer hired to code. You're a human hired to push their mission forward. It just so happens that you are a human with coding skills and during the hiring process, they recognized that those coding skills could help them in their mission.
 
 You may not have enough information to perform the analysis. You may need to ask the product manager questions about the features and how they tie into the mission of the company. Go into the conversation with an open mind and a desire to understand. The company hired the product manager to help prioritize work in the optimal way to push the mission forward. You should trust them to do their job well and recognize that they may have context that you're missing. So long as you effectively expressed all the information you can about the long-term benefit-to-effort ratio of your ideas then you've done all you can there.
+
+## Learn from mistakes
+1. Make a mistake 
+2. Fix the mistake 
+3. Learn from the mistake 
+4. Share the mistake experience with others 
+5. Repeat 1-4 for the rest of your career
