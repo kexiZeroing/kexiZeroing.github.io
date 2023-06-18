@@ -208,6 +208,7 @@ class Compiler {
     };
     // 调用 babel 分析代码
     // 需要引入 @babel/parser, @babel/traverse, @babel/generator
+    // Read more: https://vivaxyblog.github.io/2020/01/05/how-babel-is-built.html
     const ast = parser.parse(this.moduleCode, {
       sourceType: 'module',
     });
