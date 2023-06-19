@@ -12,7 +12,7 @@ updatedDate: "Feb 09 2023"
 更全面的准备可以参考:
 - https://febook.hzfe.org/awesome-interview
 - https://github.com/Sunny-117/js-challenges
-- https://github.com/course-dasheng/fe-algorithm
+- https://github.com/lydiahallie/advanced-web-dev-quiz
 
 ---
 
