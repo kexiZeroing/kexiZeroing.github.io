@@ -9,6 +9,8 @@ tags: [css]
 
 [Una Kravets](https://una.im) builds an amazing site with [1-Line Layouts](https://1linelayouts.glitch.me) demos showing how robust and impactful a single-line of styling code can be. There is a lot to learn, but it is all worth learning and empowers you to do great things.
 
+> [SmolCSS](https://smolcss.dev) is also worth learning, which are minimal snippets for modern CSS layouts and components by @5t3ph.
+
 ### 01. Super Centered
 
 ```css

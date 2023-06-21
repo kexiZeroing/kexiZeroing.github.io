@@ -14,8 +14,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^0.19.1",
-    "astro": "^2.4.4",
+    "@astrojs/mdx": "^0.19.7",
+    "astro": "^2.6.6",
     "node-fetch": "^3.3.1",
     "pagefind": "^0.12.0"
   }
