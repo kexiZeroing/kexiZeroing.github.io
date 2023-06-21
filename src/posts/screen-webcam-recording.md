@@ -5,7 +5,7 @@ slug: screen-and-webcam-recording
 description: ""
 added: "Oct 14 2022"
 tags: [web]
-updatedDate: "June 12 2023"
+updatedDate: "June 21 2023"
 ---
 
 Let's explore how far browser technology has come in the way of screen sharing and recording, and attempt to create a tool that would allow us to quickly create short-form technical video content. All of this is powered by browser APIs using no external services. The original article is [here](https://formidable.com/blog/2022/screen-webcam-mixing-recording).
@@ -273,11 +273,13 @@ And there we go! After our recording finishes, we’ve got a `.webm` video file 
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaStream
 
 ### Video Glossary
-[FFMPEG](https://ffmpeg.org) stands for Fast Forward Moving Picture Experts Group. It is a free and open source software project that offers many tools for video and audio processing. It's designed to run on a command line interface, and has many different libraries and programs to manipulate and handle video files. Most video programs include FFMPEG as a part of the video processing pipeline.
+**[FFMPEG](https://ffmpeg.org)** stands for Fast Forward Moving Picture Experts Group. It is a free and open source software project that offers many tools for video and audio processing. It's designed to run on a command line interface, and has many different libraries and programs to manipulate and handle video files. Most video programs include FFMPEG as a part of the video processing pipeline.
 
-A [codec](https://api.video/what-is/codec) is a hardware or software tool that is used to compress (and decompress) video files. Common video codecs include h.264, h.265, VP8, VP9 and AV1.
+A **[codec](https://api.video/what-is/codec)** is a hardware or software tool that is used to compress (and decompress) video files. Common video codecs include h.264, h.265, VP8, VP9 and AV1.
 
-Some of the most popular streaming protocols include RTMP, HLS, and WebRTC.
+**VOD(Video on Demand)** is videos that can be accessed on viewer request. Unlike live streaming, VODs are prerecorded programs. With VOD, viewers can watch content they enjoy as frequently as they like. They can also pause, rewind, and view additional content that was not previously available. Streaming is one of two ways to access Video On Demand. The other way is to permanently download video files to a device’s memory. VOD systems typically distribute media using internet connections, so good bandwidth is important for best results for viewers. Popular platforms include Netflix, Hulu, Disney, Amazon Prime Video and many others.
+
+Some of the most popular **streaming protocols include RTMP, HLS, and WebRTC**:
 - [RTMP](https://vimeo.com/blog/post/rtmp-stream) stands for Real-Time Messaging Protocol and it's been used for streaming video and audio on the internet for many years owned by Adobe. The RTMP streaming protocol is TCP-based and designed to maintain constant, low-latency connections between a video player and server. The design allows RTMP to provide smooth and reliable streaming for viewers. To send your broadcast to a destination using RTMP, you need the RTMP Server URL as a unique web address that carries your live video stream every time you broadcast, and a Stream Key which is the private code that will allow your RTMP feed to connect to the exact location that you are streaming to.
 
 - [HTTP Live Streaming (HLS)](https://www.cloudflare.com/learning/video/what-is-http-live-streaming) is one of the most widely used video streaming protocols created by Apple. It breaks down video files into smaller downloadable HTTP files and delivers them using the HTTP protocol. One advantage of HLS is that all Internet-connected devices support HTTP, making it simpler to implement than streaming protocols that require the use of specialized servers. Another advantage is that an HLS stream can increase or decrease video quality depending on network conditions without interrupting playback. This is why video quality may get better or worse in the middle of a video as a user is watching it. This feature is known as "adaptive bitrate streaming".
