@@ -6,7 +6,6 @@ description: ""
 added: ""
 top: true
 order: 3
-updatedDate: "Mar 15 2023"
 ---
 
 - @cassidoo @sarah_edo career development and spirits
@@ -19,12 +18,13 @@ updatedDate: "Mar 15 2023"
 - @EmmaBostian @kvlly ladybug podcast
 - @vaidehijoshi basecs and baseds(distributed system)
 - @devdevcharlie ML for front-end developers
-- @antfu7 about Vue
-- @shadeed9 css articles https://ishadeed.com/articles
+- @antfu7 about Vue and open source
+- @shadeed9 @5t3ph about CSS
 - @taniarascia blog https://www.taniarascia.com/blog
 - @JoshWComeau blog https://www.joshwcomeau.com
 - @lydiahallie technology through writing and visualizations
 - @ChromiumDev @Una Chrome DevRel team https://web.dev/blog
+- @rauchg @steventey at Vercel about DX
 
 ## Business and Engineering alignment by Kent C. Dodds
 Your job isn't to turn user stories into code. The company has a mission. Everyone at the company is hired to push that mission forward. You're not a software engineer hired to code. You're a human hired to push their mission forward. It just so happens that you are a human with coding skills and during the hiring process, they recognized that those coding skills could help them in their mission.

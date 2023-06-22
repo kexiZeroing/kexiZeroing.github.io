@@ -5,7 +5,7 @@ slug: fine-grained-reactivity-for-beginners
 description: ""
 added: "Feb 20 2023"
 tags: [web]
-updatedDate: "Mar 11 2023"
+updatedDate: "June 22 2023"
 ---
 
 > Reactivity can be broadly defined as the automatic update of the UI due to a change in the application's state.
@@ -32,7 +32,7 @@ state.value.count = 2
 state.value = { count: 2 }
 ```
 
-### Shortcomings of `useState()`
+### Shortcomings of React `useState()`
 React `useState()` returns a state, the value. This means that `useState()` has no idea how the state value is used inside the component. The implication is that once you notify React of state change through a call to `setState()`, React has no idea which part of the page has changed and therefore must re-render the whole component.
 
 It's worth noting that while React may re-render the entire component, it does so efficiently. React uses virtual DOM diffing to minimize the amount of work required to update the DOM. This means that even if a component has a large number of elements, React can update only the parts of the DOM that have changed, resulting in a fast and efficient re-render.
@@ -65,10 +65,11 @@ render(() => <CountingComponent />, document.getElementById("app"));
 ```
 
 ### Angular Reactivity with Signals
-https://github.com/angular/angular/discussions/49090
+> Angular before signals run dirty-check algorithm (relies on `zone.js`) to detect when the states change and mark the component(s) as dirty. Once the component(s) marked dirty, the component is re-run so that the framework can re-read/re-create the values and therefore detect which parts have changed and reflect the changes to the DOM.
 
-
-Angular Signals in Vue by Evan You [in the Vue docs](https://vuejs.org/guide/extras/reactivity-in-depth.html#connection-to-signals)
+- Angular Reactivity with Signals: https://github.com/angular/angular/discussions/49090
+- Angular Signals Demo: https://angular-signals.netlify.app
+- Angular Signals in Vue by Evan You: https://vuejs.org/guide/extras/reactivity-in-depth.html#connection-to-signals
 
 ```js
 import { shallowRef, triggerRef, computed as _computed } from 'vue'
