@@ -39,6 +39,10 @@ APP 管理智能设备，只需要 APP 的手机可以联网，智能设备联�
 
 在移动光猫的设置里，开启 2.4G 的无线网络叫做 “SSID 使能”（应该是 enable 翻译过来的），SSID 名称就是你给自己无线网络所取的名字。开启 SSID 后会在无线列表中看到路由器设置的无线名称，关闭后则看不到。
 
+### 网络速度是带宽和延迟共同的结果
+- 延迟 Latency：数据请求到达服务器，然后数据返回给你所需的时间（比如打开网页的速度），可以使用 ping 命令测量，如果 ping 某个网站，大于 50ms，打开就慢，10-30ms 打开就比较快）。延迟高低是由多个因素决定的，网络上的每一个服务器/路由器都是一个节点，所有的节点加在一起的响应速度，才是自己的网络延迟，如果某一中间节点出现出题，无法提供服务，其它节点就会重新计算路由，还有 DNS 服务器的影响等等。
+带宽 Bandwidth：10M 变为 20M，提高的是带宽，并不能改变延迟。打开网页可能只占 1% 的带宽，此时延迟起主要作用。但如果是下载大文件可能几乎占满带宽，此时带宽为主要因素。我们一般说的网速都是指带宽。
+
 ### 为什么上不去 Google
 GFW 实现网络封锁的手段主要包括 dns 劫持和 ip 封锁。IP 是网络上各主机的地址，dns 将域名和 IP 关联起来，形成映射。而 GFW 所做的就是站在用户和 dns 服务器之间，破坏它们的正常通讯，并向用户回传一个假 ip，也就访问不到本想访问的网站了。dns 劫持是 GFW 早期的技术手段，用户通过修改 Hosts 文件就可以突破封锁。dns 劫持之后，GFW 引入了 IP 封锁，直接锁住了访问目标网站的去路，用户发往被封锁 IP 的任何数据都会被墙截断。这个时候只能依靠在第三方架设服务器，代理与目标服务器间的来往，目前几乎所有的过墙手段都是基于这个原理。
 
@@ -54,81 +58,3 @@ Shadowsocks 的出现是一个拐点，它把代理服务器拆分成 server 端
 - 浏览器、邮件、文件传输都是在应用层；Shadowsocks、V2Ray 等 Socks5 类型的代理都是在会话层，所以可以代理应用层的数据；游戏数据是直接通过传输层协议 TCP 和 UDP 进行通讯的，不经过会话层，所以正常情况下 Socks5 是不能代理游戏通讯数据的（即使开了全局代理）；PING、TRACE 这些 ICMP 指令都是在网络层，也不通过 Socks5 代理转发；而主流的 VPN 协议都是在数据链路层，近乎所有的流量都可以被 VPN 代理。
 
 > 可能遇到的服务调整：*由于防火墙升级，当前默认的节点端口已更改至 xxx，请更新订阅或手动修改节点端口至 xxx。* 在 Config 里找到 yaml 配置文件，将里面所有订阅项的端口改为 xxx，然后点击 Reload config 即可。
-
-### 带宽 时延 丢包
-People think more bandwidth will make your Internet connection seem faster, but that isn't even close to the whole story. There are three interrelated things you need to care about:
-- bandwidth
-- latency
-- packet loss
-
-Bandwidth means, once things get going, how fast you can download. But "once things get going" can take a really long time. In fact, it can take longer than the whole download! This is especially true for simple web pages, or web pages made up of a bunch of tiny pieces, which is very common on today's web.
-
-That's where latency comes in. Latency is the time it takes to make a round trip to the server. Really good web designers know how to minimize the number of round trips, or at least do more round trips at the same time - which makes their pages load faster on everyone's connection. But every web page, whether optimized or not, automatically benefits pretty much proportionally to your network latency. Cut latency in half, and most pages will load about twice as fast.
-
-Packet loss is the third component, and it's often forgotten. If you run the 'ping' program, which most people don't do and which is hard or impossible to do from many modern Internet devices (phones, tablets, etc), it will show you how many packets are dropped, and how many got through. And it's not that useful anyway, since real web pages don't see "packet loss." On the web (and any TCP-based protocol), packet loss translates into packet retransmissions, which means latency in some cases is 2, 3, or more times higher than usual.
-
-### JS 网络测速
-The `Navigator.connection` read-only property returns a [NetworkInformation](https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation) object containing information about the system's connection, such as the current bandwidth of the user's device or whether the connection is metered. *(experimental technology)* 
-
-- `navigator.connection.type`: The type of connection a device is using to communicate with the network. 
-- `navigator.connection.effectiveType`: Effective connection type meaning one of 'slow-2g', '2g', '3g', or '4g'.
-- `navigator.connection.saveData`: Data-saver enabled/disabled
-
-If you have large assets that are critical for initial rendering, you can use different variations of the same resource depending on the user's connection. For example, you can display an image instead of a video for any connection speeds lower than 4G:
-
-```js
-if (navigator.connection && navigator.connection.effectiveType) {
-  if (navigator.connection.effectiveType === '4g') {
-    // Load video
-  } else {
-    // Load image
-  }
-}
-```
-
-`ping` 表示给目标 IP 地址发送一个 ICMP 报文，再要求对方返回一个大小相同的数据包来确定两台网络机器是否能正常通信以及有多少时延。JS 无法真正原生地测量 ping 值，但可以通过请求一个尽量小的资源来模拟发送报文，记录发起请求到收到返回值的时间差。请求的内容可以是网站的 `favicon.ico`，一个空文件或者一个空接口。然后多次测量 ping 值就可以得出网络波动情况。
-
-```js
-const Dashboard = React.memo(() => {
-  const [ping, setPing] = useState<number>(0);
-  const [count, setCount] = useState<number>(0);
-  const [pingList, setPingList] = useState<number[]>([]);
-  const [jitter, setJitter] = useState<number>(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const img = new Image();
-      const startTime = new Date().getTime();
-      // 此处选择加载 github 的 favicon
-      img.src = `https://github.com/favicon.ico?d=${startTime}`;
-      img.onload = () => {
-        const endTime = new Date().getTime();
-        const delta = endTime - startTime;
-        
-        if ((count + 1) % 5 === 0) {
-          // 抖动: 取五次测量结果的最大最小值求差，可以看出网络的波动情况，差值越小代表网络越稳定
-          const maxPing = Math.max(delta, ...pingList);
-          const minPing = Math.min(delta, ...pingList);
-          setJitter(maxPing - minPing);
-          setPingList([]);
-        } else {
-          setPingList(lastList => [...lastList, delta]);
-        }
-        setCount(count + 1);
-        setPing(delta);
-      };
-      img.onerror = err => {
-        console.log('error', err);
-      };
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [count, pingList]);
-
-  return (
-    <div>
-      <h1>PING: {ping}ms</h1>
-      <h1>抖动: {jitter}ms</h1>
-    </div>
-  );
-});
-```
