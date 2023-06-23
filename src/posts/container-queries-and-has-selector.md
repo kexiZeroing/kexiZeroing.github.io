@@ -68,7 +68,7 @@ Let’s expand on the example with the rocket card. What if you had a card witho
 
 Learn more about the new CSS pseudo-classes explained - `:is()` `:where()` `:has()` at https://www.youtube.com/watch?v=3ncFpP8GP4g
 
-- In CSS when using a selector list, if any of the selectors are invalid then the whole list is deemed invalid. When using `:is()` or `:where()` instead of the whole list of selectors being deemed invalid if one fails to parse, the incorrect or unsupported selector will be ignored and the others used.
+- In CSS when using a selector list, if any of the selectors are invalid then the whole list is deemed invalid. When using `:is()` or `:where()` instead of the whole list of selectors being deemed invalid if one fails to parse, the incorrect or unsupported selector will be ignored and the others used. *(so-called "forgiving selectors")*.
 - The difference between `:where()` and `:is()` is that `:where()` always has 0 specificity, whereas `:is()` takes on the specificity of the most specific selector in its arguments.
 - The `:has()` pseudo-class itself doesn’t add any specificity weight to the selector. Like `:is()` and `:not()`, the specificity of `:has()` is equal to the highest specificity selector in the selector list.
 

@@ -346,13 +346,32 @@ https://codepen.io/argyleink/pen/NWOEvro
 ### Filter and backdrop filter
 [backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) have the same effect as [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter), with one notable difference — backdrop filters apply only to areas behind the element instead of to the element and its children. Filters, on the other hand, apply directly to the element and its children, and don’t affect anything behind the element.
 
-<img alt="backdrop-filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a9f0c5e0-6f17-4068-b481-17bfac204791.png" width="500">
+<img alt="filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a9f0c5e0-6f17-4068-b481-17bfac204791.png" width="500">
 
-```css
-filter: blur(5px);
-filter: brightness(2);
-filter: contrast(200%);
-filter: grayscale(100%);
-filter: saturate(80%);
-filter: sepia(60%);
+<img alt="backdrop-filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/t0635k.png" width="500">
+
+```html
+<div class="parent">
+  <div class="blur">Blur</div>
+  <div class="invert">Invert</div>
+  <div class="hue">Hue</div>
+  <div class="grayscale">Grayscale</div>
+</div>
+<style>
+.parent {
+  background-image: url("/images/neue-donau.webp");
+}
+.blur {
+  backdrop-filter: blur(5px);
+}
+.invert {
+  backdrop-filter: invert(1);
+}
+.hue {
+  backdrop-filter: hue-rotate(260deg);
+}
+.grayscale {
+  backdrop-filter: grayscale(100%);
+}
+</style>
 ```

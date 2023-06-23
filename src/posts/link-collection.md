@@ -454,7 +454,7 @@ AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel-
 
 ## Natural Language Processing
 
-Introduction to Machine Learning: https://developers.google.com/machine-learning
+Stanford CS229 Machine Learning: https://cs229.stanford.edu
 
 Stanford CS224N - Natural Language Processing with Deep Learning: https://web.stanford.edu/class/cs224n/index.html
 

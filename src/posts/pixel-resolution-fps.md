@@ -158,4 +158,5 @@ https://www.smashingmagazine.com/2022/01/modern-fluid-typography-css-clamp
 }
 ```
 
-> Use CSS `clamp()` to make any property have min + max values. For example, I'm using it to stop a tooltip from running off the page: `left: clamp(25px, var(--left), calc(100% - 25px))`.
+> *Use CSS `clamp()` to make any property have min + max values:*  
+> If we want to define a default value and both a minimum and maximum value, we could use `width: max(300px, min(90%, 700px));`, and there's a handy alternative for this, `width: clamp(300px, 90%, 700px);`, meaning the width of the element is 90% with a minimum width of 300px and maximum width of 700px.
