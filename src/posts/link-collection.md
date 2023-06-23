@@ -322,7 +322,7 @@ How styled-components works: https://medium.com/styled-components/how-styled-com
 
 Start developing websites like it's 2025: https://react2025.com
 
-The Story of Next.js: https://www.youtube.com/watch?v=BILxV_vrZO0
+Learn Next.js: https://nextjs.org/learn/foundations/about-nextjs
 
 Introducing Remix: https://www.youtube.com/watch?v=wsJaUjd1rUo
 

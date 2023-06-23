@@ -5,8 +5,10 @@ slug: simple-server-sent-events-example
 description: ""
 added: "Mar 26 2023"
 tags: [js]
-updatedDate: "Apr 16 2023"
+updatedDate: "June 23 2023"
 ---
+
+> Read this first: https://vercel.com/blog/an-introduction-to-streaming-on-the-web
 
 ## Using server-sent events
 With server-sent events, it's possible for a server to send new data to a web page at any time, by pushing messages to the web page. These incoming messages can be treated as Events + data inside the web page.

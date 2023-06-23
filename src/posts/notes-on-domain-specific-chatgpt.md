@@ -203,7 +203,7 @@ There is an [example website](https://astro-labs.app/docs) base on this starter 
 ### OpenAI SSE (Server-Sent Events) Streaming API
 Do you want to stream the response to your application in real-time — as it's being generated?
 
-> FYI, streaming is the action of rendering data on the client progressively while it's still being generated on the server.
+> FYI, streaming is the action of rendering data on the client progressively while it's still being generated on the server. As data arrives in chunks, it can be processed without waiting for the entire payload. This can significantly enhance the perceived performance of large data loads or slow network connections.
 
 1. The client creates an SSE `EventSource` to server endpoint with SSE configured.
 2. The server receives the request and sends a request to OpenAI API using the `stream: true` parameter.

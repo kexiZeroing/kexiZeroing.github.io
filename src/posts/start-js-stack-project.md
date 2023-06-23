@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "May 21 2023"
+updatedDate: "June 23 2023"
 ---
 
 ## Start a modern front-end project
@@ -417,9 +417,10 @@ exports.handler = async () => ({
 ### What is "edge compute"?
 To solve the latency problem, very smart folks came up with the idea of deploying multiple copies of a program and distributing it around the world. When a user makes a request, it can be handled by the closest copy, thus reducing the distance traveled and the time spent in transit.
 
-- Move things closer to users (like a CDN)
-- Do work on servers (like cloud servers/functions)
+- The **Origin server** refers to the main computer that stores and runs the original version of your application code.
+- **CDNs** store static content (such as HTML and image files) in multiple locations around the world. When a new request comes in, the closest CDN location to the user can respond with the cached result.
+- Similar to CDNs, **Edge servers** are distributed to multiple locations around the world. But unlike CDNs, which store static content, some Edge servers can run small snippets of code. This means both caching and code execution can be done at the Edge closer to the user.
 
 > Cloud = a server, somewhere; Edge = a server, close to you
 
-With [Netlify Edge Functions](https://edge-functions-examples.netlify.app), you can transform HTTP Requests and Responses, stream server rendered content, and even run full server side rendered applications. And this all happens at the Edge — directly from the worldwide location closest to each user. You can write edge functions using JavaScript or TypeScript, but instead of using Node.js under the hood, they are powered by Deno.
+For example, with [Netlify Edge Functions](https://edge-functions-examples.netlify.app), you can transform HTTP Requests and Responses, stream server rendered content, and even run full server side rendered applications. And this all happens at the Edge — directly from the worldwide location closest to each user. You can write edge functions using JavaScript or TypeScript, but instead of using Node.js under the hood, they are powered by Deno.
