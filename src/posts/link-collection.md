@@ -182,6 +182,8 @@ In-browser literal notebook: https://github.com/gzuidhof/starboard-notebook
 
 AST explorer: https://astexplorer.net/
 
+Zstandard (zstd) - Fast real-time compression algorithm: https://facebook.github.io/zstd/
+
 ---
 
 ## CSS related
