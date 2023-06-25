@@ -76,6 +76,8 @@ Machine Learning for Web Developers (Web ML): https://www.youtube.com/playlist?l
 
 Learning JavaScript Design Patterns: https://addyosmani.com/learning-jsdp/
 
+Problem Solving with Python: https://problemsolvingwithpython.com
+
 ---
 
 ## Tools and Cool websites
@@ -362,7 +364,7 @@ Unified plugin system for build tools: https://github.com/unjs/unplugin
 
 Auto import APIs on-demand for Vite, Webpack and Rollup: https://github.com/antfu/unplugin-auto-import
 
-Toast notification plugin for Vue.js: https://github.com/ankurk91/vue-toast-notification
+A lightweight, customizable Vue UI library for mobile web apps: https://vant-ui.github.io
 
 ---
 

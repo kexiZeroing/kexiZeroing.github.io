@@ -5,7 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "May 21 2023"
+updatedDate: "June 25 2023"
 ---
 
 ### package.json and package-lock.json
@@ -130,6 +130,8 @@ npm link MyModule
 ### publish npm packages
 Learn how to create a new npm package and publish the code to npm by the demo [Building a business card CLI tool](https://whitep4nth3r.com/blog/build-a-business-card-cli-tool). Once your package is published to npm, you can run `npx {your-command}` to execute your script whenever you like.
 
+> Most popular npm packages: https://socket.dev/npm/category/popular
+
 ### npm and pnpm
 The very first package manager ever released was npm, back in January 2010. In 2020, GitHub acquired npm, so in principle, npm is now under the stewardship of Microsoft. *(npm should never be capitalized unless it is being displayed in a location that is customarily all-capitals.)*
 
@@ -185,3 +187,10 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
     }
   }
   ```
+
+### The rise of supply chain attacks
+Software [supply chain attacks](https://socket.dev/blog/inside-node-modules) occur when an attacker infiltrates a vendor's network and injects malicious code into its software, which that vendor then unknowingly distributes to its customers. Imagine an attacker gets malicious code into a package hosted on npm. From there, the vulnerability spreads to the `node_modules` folders on developer machines, to the build servers, and finally to production systems.
+
+> In October 2021, a hacker advertised on a Russian forum the sale of an npm account that controlled a package with over 7 million weekly downloads. Two weeks later, `ua-parser-js` was compromised, presumably by whoever purchased the password on the hacking forum, and three versions of the package were published containing malware. In just four hours, tens of thousands of users downloaded these versions before the community identified the problem and removed the malicious packages.
+> 
+> Anyone who ran `npm install ua-parser-js` was compromised. Anyone who installed a package that depended on `ua-parser-js` was also compromised. Anyone running npm install without a `package-lock.json` file was compromised. Anyone unlucky enough to update to a new version of `ua-parser-js`, whether manually with `npm update` or through an automated pull request such as from Dependabot, was compromised.

@@ -5,10 +5,8 @@ slug: simple-server-sent-events-example
 description: ""
 added: "Mar 26 2023"
 tags: [js]
-updatedDate: "June 23 2023"
+updatedDate: "June 25 2023"
 ---
-
-> Read this first: https://vercel.com/blog/an-introduction-to-streaming-on-the-web
 
 ## Using server-sent events
 With server-sent events, it's possible for a server to send new data to a web page at any time, by pushing messages to the web page. These incoming messages can be treated as Events + data inside the web page.
@@ -19,6 +17,7 @@ With server-sent events, it's possible for a server to send new data to a web pa
 
 - An `EventSource` instance opens a persistent connection to an HTTP server, which sends events in `text/event-stream` format. The connection remains open until closed by calling `EventSource.close()`.
 - Unlike WebSockets, server-sent events are unidirectional; that is, data messages are delivered in one direction, from the server to the client (such as a user's web browser). That makes them an excellent choice when there's no need to send data from the client to the server in message form. For example, `EventSource` is a useful approach for handling things like social media status updates, news feeds, or delivering data into a client-side storage mechanism like IndexedDB or web storage.
+- One potential downside of using Server-Sent Events is the limitations in data format. Since SSE is restricted to transporting UTF-8 messages, binary data is not supported. When not used over HTTP/2, another limitation is the restricted number of concurrent connections per browser. With only six concurrent open SSE connections allowed at any given time, opening multiple tabs with SSE connections can become a bottleneck.
 
 ```js
 const express = require('express');
@@ -100,6 +99,8 @@ serve(async (_) => {
   });
 });
 ```
+
+> Further reading: https://vercel.com/blog/an-introduction-to-streaming-on-the-web
 
 ## Download streamed data using vanilla JavaScript
 
