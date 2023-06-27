@@ -454,11 +454,17 @@ Vercel AI SDK: https://sdk.vercel.ai/docs
 
 AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel-labs/ai-chatbot
 
+QR Code AI Art Generator: https://huggingface.co/spaces/huggingface-projects/QR-code-AI-art-generator
+
 ---
 
-## Natural Language Processing
+## Machine Learning
+
+Math: http://ai-start.com/dl2017/html/math.html, http://ai-start.com/CS229/1.CS229-LinearAlgebra.html, http://ai-start.com/CS229/2.CS229-Prob.html
 
 Stanford CS229 Machine Learning: https://cs229.stanford.edu
+
+CS 229 illustrated Machine Learning cheatsheets: https://stanford.edu/~shervine/teaching/cs-229/
 
 Stanford CS224N - Natural Language Processing with Deep Learning: https://web.stanford.edu/class/cs224n/index.html
 
