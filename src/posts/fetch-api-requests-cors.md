@@ -5,7 +5,7 @@ slug: fetch-api-requests-and-cors
 description: ""
 added: "Aug 9 2020"
 tags: [js]
-updatedDate: "Apr 16 2023"
+updatedDate: "June 27 2023"
 ---
 
 ## Fetch API
@@ -343,4 +343,8 @@ By default, in cross-site XMLHttpRequest or Fetch invocations, browsers will not
 ### `integrity` and `crossorigin` in CDN links
 It is important to ensure that the CDN’s servers deliver only the code the author expects them to deliver. Integrity attribute is to allow the browser to check the file source to ensure that the code is never loaded if the source has been manipulated.
 
-When the request doesn't match Same Origin Policy the `crossorigin` attribute MUST be present for the integrity of the file to be checked. With an `integrity` set on an external origin and a missing `crossorigin` the browser will choose to 'fail-open' which means it will load the resource as if the integrity attribute was not set. `crossorigin="anonymous"` means don't send credentials.
+When the request doesn't match Same Origin Policy the `crossorigin` attribute MUST be present for the integrity of the file to be checked. With an `integrity` set on an external origin and a missing `crossorigin` the browser will choose to 'fail-open' which means it will load the resource as if the integrity attribute was not set. `crossorigin="anonymous"` means don't send credentials. Setting the attribute name to an empty value, like `crossorigin` or `crossorigin=""`, is the same as `anonymous`.
+
+1. There are actually three possible values for the `crossorigin` attribute: `anonymous`, `use-credentials`, and an "missing value default" that can only be accessed by omitting the attribute. The default value causes the browser to skip CORS entirely, which is the normal behavior.
+2. In the case of a cross-origin request, certain limitations will be applied based on the type of element (`<audio>`, `<img>`, `<link>`, `<script>`, and `<video>`) concerned.
+3. The `crossorigin` attribute should only be used if we care about getting error information for the resource being loaded. **Since accessing this information (with CORS settings attribute) requires a CORS check, the `Access-Control-Allow-Origin` header must be present on the resource for it to be loaded.**
