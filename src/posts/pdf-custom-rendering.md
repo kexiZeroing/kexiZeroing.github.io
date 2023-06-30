@@ -5,7 +5,7 @@ slug: pdf-custom-rendering
 description: ""
 added: "Nov 6 2022"
 tags: [code]
-updatedDate: "June 27 2023"
+updatedDate: "June 30 2023"
 ---
 
 When it comes to the Web, almost every modern browser supports viewing of PDF documents natively. But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership. 
@@ -148,6 +148,7 @@ According to the up-to-date [example](https://github.com/mozilla/pdf.js/blob/mas
     });
 
     // Display pdf loading progress
+    // https://github.com/mozilla/pdf.js/blob/88c7c8b5bfae61a20d7cb5fb27b3749b98a48d02/src/display/api.js#L636
     loadingTask.onProgress = (progressData) => {
       const { loaded, total } = progressData
       console.log('progress: ', loaded / total)
