@@ -184,6 +184,8 @@ AST explorer: https://astexplorer.net/
 
 Zstandard (zstd) - Fast real-time compression algorithm: https://facebook.github.io/zstd/
 
+Camera-controlled snake game built with Angular and TensorFlow: https://angular-tensorflow-snake.web.app/signals
+
 ---
 
 ## CSS related

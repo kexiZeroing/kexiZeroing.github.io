@@ -11,11 +11,11 @@ updatedDate: "June 13 2023"
 ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers have released APIs allowing developers to interact directly with these models. And this is where LangChain comes in. LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.
 
 - Homepage: https://langchain.com
-- Blog: https://blog.langchain.dev
 - JS/TS Docs: https://js.langchain.com/docs
 - Awesome LangChain: https://github.com/kyrolabs/awesome-langchain
 - Tutorials on building LLM powered applications: https://www.youtube.com/playlist?list=PLqZXAkvF1bPNQER9mLmDbntNfSpzdDIU5
 - Easy to use code snippets for LangChain: https://github.com/JorisdeJong123/LangChain-Cheatsheet
+- LangChain integrations hub: https://integrations.langchain.com
 
 <img alt="langchain-components" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 

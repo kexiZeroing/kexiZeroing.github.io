@@ -54,7 +54,8 @@ verify();
 
 `npm outdated`, a built-in npm command, will check the registry to see if any installed packages are currently outdated. By default, only the direct dependencies of the root project are shown. Use `--all` to find all outdated meta-dependencies as well.
 
-[depcheck](https://github.com/depcheck/depcheck) check your npm module for unused dependencies. `npx depcheck` (needs node.js >= 10)
+> - [depcheck](https://github.com/depcheck/depcheck) check your npm module for unused dependencies.
+> - [Taze](https://github.com/antfu/taze) is a modern cli tool that keeps your deps fresh. No installation required — `npx taze`.
 
 ### dependencies, devDependencies and peerDependencies
 **Dependencies** are required at runtime, like a library that provides functions that you call from your code. If you are deploying your application, dependencies has to be installed, or your app will not work. They are installed transitively (if A depends on B depends on C, npm install on A will install B and C). *Example: lodash,and your project calls some lodash functions*.
