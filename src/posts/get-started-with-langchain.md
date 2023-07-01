@@ -177,7 +177,7 @@ export const run = async () => {
 };
 ```
 
-Gives a chain the ability to remember information from previous interactions. This is useful for chatbots and conversation bots. `ConversationChain` is a simple type of memory that remembers all previous conversations and adds them as context that is passed to the LLM.
+OpenAI’s API is not stateful so each time you sent a request to generate a new chat message, you have to pass back any context that might be necessary to allow the model to answer the query at hand. Gives a chain the ability to remember information from previous interactions. This is useful for chatbots and conversation bots. `ConversationChain` is a simple type of memory that remembers all previous conversations and adds them as context that is passed to the LLM.
 
 ```js
 // memory.ts

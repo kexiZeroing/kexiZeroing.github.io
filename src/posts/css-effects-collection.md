@@ -292,6 +292,23 @@ Builds a wide gamut color palette with okLCH and inspects color with devtools. C
 </body>
 ```
 
+Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick for creating semi-opaque versions of the brand colors is mixing them with the transparent color value. 
+
+```css
+:root {
+  --brandBlue: skyblue;
+  --brandBlue-a10: color-mix(in srgb, var(--brandBlue), transparent 90%);
+  --brandBlue-a20: color-mix(in srgb, var(--brandBlue), transparent 80%);
+  --brandBlue-a30: color-mix(in srgb, var(--brandBlue), transparent 70%);
+  --brandBlue-a40: color-mix(in srgb, var(--brandBlue), transparent 60%);
+  --brandBlue-a50: color-mix(in srgb, var(--brandBlue), transparent 50%);
+  --brandBlue-a60: color-mix(in srgb, var(--brandBlue), transparent 40%);
+  --brandBlue-a70: color-mix(in srgb, var(--brandBlue), transparent 30%);
+  --brandBlue-a80: color-mix(in srgb, var(--brandBlue), transparent 20%);
+  --brandBlue-a90: color-mix(in srgb, var(--brandBlue), transparent 10%);
+}
+```
+
 ### 3D Clock
 <img alt="3D Clock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/3dclock.jpg" width="300">
 

@@ -302,6 +302,8 @@ Accessible color combinations: https://randoma11y.com
 
 Color palette inspiration site: https://www.happyhues.co
 
+Delightful JavaScript plugins: https://metafizzy.co
+
 ---
 
 ## React ecosystem
