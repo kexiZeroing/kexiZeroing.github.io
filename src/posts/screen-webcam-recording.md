@@ -287,7 +287,7 @@ Some of the most popular **streaming protocols include RTMP, HLS, and WebRTC**:
 - [WebRTC](https://webrtc.github.io/samples) is an abbrevation of "Web Real Time Communication." The set of standards that comprise WebRTC makes it possible to share data and perform teleconferencing peer-to-peer, without requiring that the user install plug-ins or any other third-party software. The connections are peer-to-peer rather than sent and aggregated by a central location, which means that the video and audio is shared to each device communicating in the conversation. This keeps the communictaion latency very low.
 
 ### FFMPEG.WASM
-[ffmpeg.wasm](https://ffmpegwasm.netlify.app) is a pure WebAssembly / JavaScript port of FFmpeg. It enables video & audio record, convert and stream right inside browsers. Check browser examples at https://github.com/ffmpegwasm/ffmpeg.wasm/tree/master/examples/browser
+WebAssembly enables developers to bring new performant functionality to the web from other languages. [FFmpeg.wasm](https://ffmpegwasm.netlify.app) (WebAssembly / JavaScript port of FFmpeg) is one of a showcasing of the [new functionality](https://web.dev/wasm-libraries/) being made available thanks to WebAssembly. It enables video & audio record, convert and stream right inside browsers. Check browser examples at https://github.com/ffmpegwasm/ffmpeg.wasm/tree/master/examples/browser
 
 There are two components inside `ffmpeg.wasm`: `@ffmpeg/ffmpeg` and `@ffmpeg/core`. `@ffmpeg/ffmpeg` contains kind of a wrapper to handle the complexity of loading core and calling low-level APIs. `@ffmpeg/core` contains WebAssembly code which is transpiled from original FFmpeg C code with minor modifications.
 

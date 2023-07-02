@@ -458,7 +458,7 @@ Vercel AI SDK: https://sdk.vercel.ai/docs
 
 AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel-labs/ai-chatbot
 
-QR Code AI Art Generator: https://huggingface.co/spaces/huggingface-projects/QR-code-AI-art-generator
+How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr-code/
 
 ---
 
