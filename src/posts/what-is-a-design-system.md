@@ -5,7 +5,7 @@ slug: what-is-a-design-system
 description: ""
 added: "May 22 2023"
 tags: [other]
-updatedDate: "May 22 2023"
+updatedDate: "July 2 2023"
 ---
 
 Companies trying to create consistent digital experiences for their customers have to make hundreds of design decisions every day. Instead of approaching each decision on a one-off basis, design systems provide repeatable solutions to common design problems, like what font to use, where to place an image, or how an entire website can meet accessibility standards.
@@ -41,6 +41,46 @@ An **integrated system** focus on one unique context. It’s also composed of pa
 In a **centralized model**, one team is in charge of the system and makes it evolve. This team is here to facilitate the work of the other teams and has to be very close to them, to be sure that the System covers most of their needs.
 
 In a **distributed model**, several people of several teams are in charge of the system. The adoption of the system is quicker because everyone feels involve but it also needs team leaders that will keep an overall vision of it.
+
+## Color variable starter kit
+
+|   Name  |  Day  |  Night |
+|  ----   |  ---- |  ----  |
+|  bg  |  #value  |  #value 
+|  bg-secondary  |  #value  |  #value 
+|  bg-inactive  |  #value  |  #value 
+|  bg-brand  |  #value  |  #value 
+|  bg-brand-hover  |  #value  |  #value 
+|  bg-accent  |  #value  |  #value 
+|  bg-accent-hover  |  #value  |  #value 
+|  bg-success  |  #value  |  #value 
+|  bg-success-hover  |  #value  |  #value 
+|  bg-error  |  #value  |  #value  
+|  bg-error-hover  |  #value  |  #value 
+|  bg-wraning  |  #value  |  #value  
+|  bg-warning-hover  |  #value  |  #value 
+|  bg-action  |  #value  |  #value  
+|  bg-action-hover  |  #value  |  #value 
+|  border  |  #value  |  #value  
+|  border-secondary  |  #value  |  #value 
+|  border-inactive  |  #value  |  #value  
+|  border-success  |  #value  |  #value 
+|  border-error  |  #value  |  #value  
+|  border-warning  |  #value  |  #value 
+|  text  |  #value  |  #value  
+|  text-secondary  |  #value  |  #value 
+|  text-brand  |  #value  |  #value  
+|  text-accent  |  #value  |  #value 
+|  text-inactive  |  #value  |  #value  
+|  text-success  |  #value  |  #value 
+|  text-error  |  #value  |  #value 
+|  text-warning  |  #value  |  #value 
+
+> Some meanings:
+> - Primary - Default, the most common use
+> - Secondary – Supporting, less prominence
+> - Brand – Company color
+> - Accent – Brand alternate
 
 ## Getting started with Storybook
 [Storybook](https://storybook.js.org) helps with the development process of design systems and component libraries. Normally, you'd have to build out a whole app in order to see your components as you create them. Storybook allows you to develop components independently so you can focus on styling and interaction. You can use it with many different frontend libraries such as React, Angular, Vue, or even just with HTML.
