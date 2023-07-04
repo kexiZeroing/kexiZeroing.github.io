@@ -5,7 +5,7 @@ slug: rendering-performance
 description: ""
 added: "Oct 16 2021"
 tags: [web]
-updatedDate: "May 13 2023"
+updatedDate: "July 4 2023"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
@@ -19,7 +19,7 @@ Core Web Vitals are the subset of Web Vitals that apply to all web pages, should
 
 The easiest way to measure all the Core Web Vitals is to use the [web-vitals](https://github.com/GoogleChrome/web-vitals) JavaScript library, a small, production-ready wrapper around the underlying web APIs.
 
-While the Core Web Vitals are the critical metrics for understanding and delivering a great user experience, there are other vital metrics as well. For example, the metrics **Time to First Byte (TTFB)** and **First Contentful Paint (FCP)** are both vital aspects of the loading experience.
+While the Core Web Vitals are the critical metrics for understanding and delivering a great user experience, there are other vital metrics as well. For example, the metrics **Time to First Byte (TTFB)** and **First Contentful Paint (FCP)** are both vital aspects of the loading experience. TTFB is a good measure of your server response times and general back-end health, and issues here may have knock-on effects later down the line (namely with Largest Contentful Paint).
 
 [Interaction to Next Paint (INP)](https://web.dev/inp/) is a pending Core Web Vital metric that will replace First Input Delay (FID) in March 2024. INP is a metric that assesses a page's overall responsiveness to user interactions by observing the latency of all click, tap, and keyboard interactions that occur throughout the lifespan of a user's visit to a page.
 
@@ -102,6 +102,25 @@ window.performance.getEntriesByType('resource')
   // filter out the blocking ones and log their names
   .filter(({renderBlockingStatus}) => renderBlockingStatus === 'blocking')
   .forEach(({name}) => console.log(name))
+```
+
+### The DOMContentLoaded event
+The `DOMContentLoaded` event fires once all of your deferred JavaScript (`<script defer>` and `<script type="module">`) has finished running. It doesn't wait for other things like images, subframes, and async scripts to finish loading. If we want to capture this data more deliberately ourselves, we need to lean on the Navigation Timing API, which gives us access to a suite of milestone timings.
+
+- The `DOMContentLoaded` as measured and emitted by the Navigation Timing API is actually referred to as `domContentLoadedEventStart`, you need `window.performance.timing.domContentLoadedEventStart`.
+- `domContentLoadedEventEnd` event captures the time at which all JS wrapped in a `DOMContentLoaded` event listener has finished running.
+- `domInteractive` is the event immediately before `domContentLoadedEventStart`. This is the moment the browser has finished parsing all synchronous DOM work: your HTML and all blocking scripts it encountered on the way. Basically, the browser is now at the `</html>` tag. The browser is ready to run your deferred JavaScript.
+
+```js
+window.addEventListener('load', (event) => {
+  const timings = window.performance.timing;
+  const start   = timings.navigationStart;
+
+  console.log('Ready to start running `defer`ed code: ' + (timings.domInteractive - start + 'ms'));
+  console.log('`defer`ed code finished: ' + (timings.domContentLoadedEventEnd - start + 'ms'));
+  console.log('`defer`ed code duration: ' + (timings.domContentLoadedEventStart - timings.domInteractive + 'ms'));
+  console.log('`DOMContentLoaded`- wrapped code duration: ' + (timings.domContentLoadedEventEnd - timings.domContentLoadedEventStart + 'ms'));
+});
 ```
 
 ### Best practices for fonts
