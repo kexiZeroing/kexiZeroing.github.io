@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "June 23 2023"
+updatedDate: "July 7 2023"
 ---
 
 ## Start a modern front-end project
@@ -374,6 +374,14 @@ There are two points in time that you can integrate dynamic content into a Jamsa
 > What type of website are you building? https://whattheframework.netlify.app
 > 
 > One thing people liked about SPAs is that you could run your website, mobile app, public API, and other clients from the same backend infrastructure. With the pendulum swinging back toward server rendering, you’ll need a web server again.
+
+### What is headless UI?
+Headless user interface components separate the logic & behavior of a component from its visual representation. They offer maximum visual flexibility by providing no interface. 
+
+People constantly have to reinvent the wheel to offer fairly basic functionality, so it’s good that there are libraries to handle the behaviour and accessibility while supporting whatever visual styles you want to make.
+
+- [Headless UI](https://headlessui.com) is a good example, which contains completely unstyled, fully accessible UI components, designed to integrate beautifully with Tailwind CSS.
+- [Radix UI](https://github.com/radix-ui/primitives) is a low-level UI component library with a focus on accessibility, customization and developer experience. You can use these components either as the base layer of your design system, or adopt them incrementally.
 
 ## Serverless
 Your code needs to be hosted on a server. Depending on the size of your code and the amount of users you expect to use your product, you might need many servers. Companies used to have their own facilities and warehouses that held their servers and many still do. But for many, this is not ideal. Servers can be difficult to maintain. Maintaining servers and the buildings that house them can become expensive too. That's where AWS and other cloud providers come in.
