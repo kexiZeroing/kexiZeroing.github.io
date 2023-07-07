@@ -5,7 +5,7 @@ slug: rendering-performance
 description: ""
 added: "Oct 16 2021"
 tags: [web]
-updatedDate: "July 4 2023"
+updatedDate: "July 7 2023"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
@@ -122,6 +122,15 @@ window.addEventListener('load', (event) => {
   console.log('`DOMContentLoaded`- wrapped code duration: ' + (timings.domContentLoadedEventEnd - timings.domContentLoadedEventStart + 'ms'));
 });
 ```
+
+### Performance Analysis with Chrome DevTools
+The "start profiling and reload page" button in the Performance tab of Chrome DevTools allows users to run a performance analysis on a website and view detailed information about how the page is loading and rendering. By clicking this button, the tool will simulate a user visiting the website and interacting with it, and will then provide metrics and other information about the page load process.
+
+> The "Idle" state is the time when nothing has happened (so I'm not sure why you would want to reduce it). Go to `about:blank` page, and get a new CPU profile. The result is probably the value for idle close to 100%. The "Idle" state should not be confused with the "Loading" state.
+
+The Performance Insights Tab in Chrome DevTools allows users to measure the page load of a website. This is done by running a performance analysis on the website and providing metrics on various aspects of the page load process, such as the time it takes for the page to be displayed, the time it takes for network resources to be loaded, and the time it takes for the page to be interactive.
+
+Performance analytics can help you identify requests that block/slow down the page rendering, or expensive function calls that block the main thread. It also provides you with information on important performance metrics, such as DCL (DOM Content Loaded), FCP (First Contentful Paint), LCP (Largest Contentful Paint) and TTI (Time To Interactive). You can also simulate network or CPU throttling, or enable the cache if your use case requires that.
 
 ### Best practices for fonts
 

@@ -5,7 +5,7 @@ slug: learn-from-advent-of-vue-2022
 description: ""
 added: "Dec 27 2022"
 tags: [js]
-updatedDate: "Apr 16 2023"
+updatedDate: "July 7 2023"
 ---
 
 ### Code Structure
@@ -330,4 +330,29 @@ const toggleUnit = () => {
     </NorthPoleDistance>
   </div>
 </template>
+```
+
+### Prevent Navigation Away
+We can use the native `beforeunload` event to detect when a user is about to navigate away or refresh the page.
+
+```vue
+<script setup>
+import { ref, onBeforeMount, onBeforeUnmount } from 'vue';
+
+const blockNavigation = ref(false);
+const preventNav = event => {
+  if (!blockNavigation.value) return;
+  event.preventDefault();
+  // Chrome requires returnValue to be set
+  event.returnValue = "";
+};
+
+onBeforeMount(() => {
+  window.addEventListener("beforeunload", preventNav);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("beforeunload", preventNav);
+});
+</script>
 ```
