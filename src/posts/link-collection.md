@@ -28,8 +28,6 @@ An Overview of Networks: https://intronetworks.cs.luc.edu/current2/html/intro.ht
 
 The Missing Semester of Your CS Education: https://missing.csail.mit.edu
 
-Software Architecture Guide: https://martinfowler.com/architecture
-
 High Performance Browser Networking: https://hpbn.co
 
 HTTP Semantics: https://www.rfc-editor.org/rfc/rfc9110.html
@@ -68,15 +66,9 @@ Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 
 A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
-WebGPU Fundamentals: https://webgpufundamentals.org
-
 Your first WebGPU app: https://codelabs.developers.google.com/your-first-webgpu-app
 
 Machine Learning for Web Developers (Web ML): https://www.youtube.com/playlist?list=PLOU2XLYxmsILr3HQpqjLAUkIPa5EaZiui
-
-Learning JavaScript Design Patterns: https://addyosmani.com/learning-jsdp/
-
-Problem Solving with Python: https://problemsolvingwithpython.com
 
 ---
 
