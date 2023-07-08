@@ -174,7 +174,7 @@ The world’s most satisfying toggle: https://svarden.se/post/the-worlds-most-sa
 
 A web scraping and browser automation library: https://crawlee.dev
 
-Not just a syntax highlighter: https://codehike.org
+Not just a syntax highlighter. Build code walkthroughs for the web: https://codehike.org
 
 Turns data scripts into shareable web apps in minutes: https://streamlit.io
 
@@ -461,6 +461,8 @@ Vercel AI SDK: https://sdk.vercel.ai/docs
 AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel-labs/ai-chatbot
 
 How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr-code/
+
+An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
 
 ---
 

@@ -5,12 +5,10 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Nov 11 2022"
+updatedDate: "July 8 2023"
 ---
 
-1. In terms of programming language, write modern JavaScript. Let TypeScript make sure you can write modern JavaScript.
-2. In terms of type system, find ways to make sure type safety and our JavaScript makes sense.
-3. Try at https://www.typescriptlang.org/play
+TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented. TypeScript is neither an interpreted nor a compiled language. [The Concise TypeScript Book](https://github.com/gibbok/typescript-book) provides a comprehensive and succinct overview of TypeScript's capabilities. 
 
 ## Setting up TypeScript
 To start off, the TypeScript compiler will need to be installed in order to convert TypeScript files into JavaScript files. To do this, TypeScript can either be installed globally or only available at the project level.

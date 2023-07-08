@@ -385,6 +385,10 @@ webpackConfig.plugins.push(
 https://github.com/miracle90/monitor  
 https://github.com/LianjiaTech/fee
 
+### 开发自己的调试工具
+https://kentcdodds.com/blog/make-your-own-dev-tools  
+https://app-dev-tools.netlify.app
+
 ### 日常开发 Tips and Tricks
 - The `input` event is fired every time the value of the element changes. This is unlike the `change` event, which only fires when the value is committed, such as by pressing the enter key or selecting a value from a list of options.
 
