@@ -298,6 +298,8 @@ Color palette inspiration site: https://www.happyhues.co
 
 Delightful JavaScript plugins: https://metafizzy.co
 
+Audio waveform player: https://wavesurfer-js.org
+
 ---
 
 ## React ecosystem
@@ -317,6 +319,8 @@ When useEffect runs: https://dev.to/cassidoo/when-useeffect-runs-3pf3
 Guide to React Rendering Behavior: https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior
 
 Build your own React: https://pomb.us/build-your-own-react
+
+Just React (in Chinese): https://github.com/BetaSu/just-react
 
 A collection of React hooks from the ui.dev team: https://usehooks.com
 

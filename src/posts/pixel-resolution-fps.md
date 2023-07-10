@@ -88,6 +88,10 @@ $("#stop").on("click", function() {
 });
 ```
 
+Tools:
+- Performance monitor stats.js: https://github.com/mrdoob/stats.js
+- Monitor for JS Heap Size memory-stats.js: https://github.com/paulirish/memory-stats.js
+
 ## Animations Overview
 Modern browsers can animate two CSS properties cheaply: `transform` and `opacity`. If you animate anything else, the chances are you're not going to hit a silky smooth 60 frames per second.
 
