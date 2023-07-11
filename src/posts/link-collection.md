@@ -254,6 +254,8 @@ The react library to build dashboards fast: https://github.com/tremorlabs/tremor
 
 SVG spinners: https://github.com/n3r4zzurr0/svg-spinners
 
+Understanding SVG Paths: https://www.nan.fyi/svg-paths
+
 CSS animations on demand: https://animista.net
 
 Composable CSS animation toolkit: https://animxyz.com

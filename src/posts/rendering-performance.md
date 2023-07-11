@@ -5,7 +5,7 @@ slug: rendering-performance
 description: ""
 added: "Oct 16 2021"
 tags: [web]
-updatedDate: "July 7 2023"
+updatedDate: "July 11 2023"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
@@ -17,7 +17,9 @@ Core Web Vitals are the subset of Web Vitals that apply to all web pages, should
 - **First Input Delay (FID)**: measures interactivity. To provide a good user experience, pages should have a FID of 100 milliseconds or less.
 - **Cumulative Layout Shift (CLS)**: measures visual stability. To provide a good user experience, pages should maintain a CLS of 0.1 or less.
 
-The easiest way to measure all the Core Web Vitals is to use the [web-vitals](https://github.com/GoogleChrome/web-vitals) JavaScript library, a small, production-ready wrapper around the underlying web APIs.
+The [Web Vitals extension](https://web.dev/debug-cwvs-with-web-vitals-extension/) provides easy access to Core Web Vitals diagnostic information to help developers measure, and address Core Web Vitals issues. It supplements the other tools provided by the Chrome team to aid developers in improving the experiences on their websites.
+
+The [web-vitals library](https://github.com/GoogleChrome/web-vitals) is a tiny library for measuring all the Web Vitals metrics on real users, in a way that accurately matches how they're measured by Chrome and reported to other Google tools.
 
 While the Core Web Vitals are the critical metrics for understanding and delivering a great user experience, there are other vital metrics as well. For example, the metrics **Time to First Byte (TTFB)** and **First Contentful Paint (FCP)** are both vital aspects of the loading experience. TTFB is a good measure of your server response times and general back-end health, and issues here may have knock-on effects later down the line (namely with Largest Contentful Paint).
 
