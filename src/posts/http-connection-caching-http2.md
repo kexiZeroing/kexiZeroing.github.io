@@ -145,6 +145,11 @@ HTTP/2 standard **allows each stream to have an associated weight and dependency
 
 HTTP/1.x must rely on the use of parallel connections, which enables limited parallelism of up to six requests per origin. As a result, requests are queued on the client until a connection is available, which adds unnecessary network latency. It is eliminated in HTTP/2 because the browser can dispatch all requests the moment they are discovered, and the browser can communicate its stream prioritization preference via stream dependencies and weights, allowing the server to further optimize response delivery.
 
+> Why HTTP/2 waterfalls often still look like HTTP/1.x. Why are things are done in sequence rather than in parallel? –––https://csswizardry.com/2023/07/the-http1liness-of-http2
+> <img alt="HTTP/2 waterfalls" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/67d48a19-0f75-469e-bb2b-f1227df07314.png" width="600">
+>
+> ‘when was a file useful?’ is much more important than ‘when was a file discovered?’. The only thing that matters is usefulness. We want files to arrive and be useful as soon as possible. Each of those files is a deferred JS bundle, meaning they need to run in sequence. It turns out that some slightly H/1-like behaviour is still a good idea. Queue, fetch, execute, queue, fetch, execute, queue, fetch, execute with almost zero dead time.
+
 ### Header Compression
 Each HTTP transfer carries a set of headers that describe the transferred resource and its properties. In HTTP/1.x, this metadata is always sent as plain text *(not compress request and response headers)* and adds 500–800 bytes of overhead per transfer, and sometimes kilobytes more if HTTP cookies are being used. To reduce this overhead and improve performance, HTTP/2 compresses request and response header metadata using the **HPACK** compression format that uses two techniques:
 

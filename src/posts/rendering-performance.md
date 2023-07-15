@@ -19,6 +19,8 @@ Core Web Vitals are the subset of Web Vitals that apply to all web pages, should
 
 The [Web Vitals extension](https://web.dev/debug-cwvs-with-web-vitals-extension/) provides easy access to Core Web Vitals diagnostic information to help developers measure, and address Core Web Vitals issues. It supplements the other tools provided by the Chrome team to aid developers in improving the experiences on their websites.
 
+<img alt="Web Vitals extension" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/F06vOEpXwAI172C.jpeg" width="500">
+
 The [web-vitals library](https://github.com/GoogleChrome/web-vitals) is a tiny library for measuring all the Web Vitals metrics on real users, in a way that accurately matches how they're measured by Chrome and reported to other Google tools.
 
 While the Core Web Vitals are the critical metrics for understanding and delivering a great user experience, there are other vital metrics as well. For example, the metrics **Time to First Byte (TTFB)** and **First Contentful Paint (FCP)** are both vital aspects of the loading experience. TTFB is a good measure of your server response times and general back-end health, and issues here may have knock-on effects later down the line (namely with Largest Contentful Paint).

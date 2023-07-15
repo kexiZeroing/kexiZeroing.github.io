@@ -5,7 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "June 25 2023"
+updatedDate: "July 15 2023"
 ---
 
 ### package.json and package-lock.json
@@ -31,7 +31,12 @@ updatedDate: "June 25 2023"
 
 `npm audit` automatically runs when you install a package with `npm install`. It checks direct dependencies and devDependencies, but does not check peerDependencies. Read more about [npm audit: Broken by Design](https://overreacted.io/npm-audit-broken-by-design) by Dan Abramov.
 
-> Having trouble with npm? Visit https://status.npmjs.org to check what's wrong with npm right now. 
+> What do "idealTree" and "reify" mean in the context of npm?  
+> An `idealTree` is the tree of package data that we intend to install. `actualTree` is the representation of the actual packages on disk.
+> 
+> During lockfile validation, npm compares the inventory of package items in the tree that is about to be installed (`idealTree`) with the inventory of items stored in the package-lock file (`virtualTree`).
+>
+> During reification, the `idealTree` is diffed against the actual tree, and then the nodes from the ideal tree are extracted onto disk. At the end of `reify()`, the ideal tree is copied to `actualTree`, since then it reflects the actual state of the `node_modules` folder.
 
 ### npm ls
 `npm ls` (aliases: list, la, ll) list dependencies that have been installed to `node_modules`. It throws an error for discrepancies between `package.json` and its lock.
