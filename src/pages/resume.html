@@ -18,7 +18,15 @@
       overflow: auto;
       position: absolute;
       width: 100%;
-      height: calc(100% - 68px);
+      height: calc(100% - 98px);  /* 68+22+8 */
+      margin-top: 8px;
+    }
+    .loading {
+      text-align: center;
+      line-height: 22px;
+    }
+    .hide {
+      visibility: hidden;
     }
     .selectContainer {
       height: 68px;
@@ -49,6 +57,9 @@
     .css-button-gradient:active {
       top: 2px;
     }
+    .pdfViewer .page:first-of-type {
+      border-top: none !important;
+    }
   </style>
 
   <link rel="stylesheet" href="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/web/pdf_viewer.css">
@@ -62,6 +73,7 @@
     <button class="css-button-gradient" id="en-pdf-btn">英文</button>
     <button class="css-button-gradient" id="json-pdf-btn">JSON Resume</button>
   </div>
+  <div class="loading hide">PDF 文件加载中...</div>
 
   <div id="viewerContainer">
     <div id="viewer" class="pdfViewer"></div>
@@ -94,6 +106,8 @@
     renderPDF(CUR_URL);
 
     function renderPDF(url = DEFAULT_URL) {
+      document.querySelector('.loading').classList.remove('hide');
+
       // Loading document.
       const loadingTask = pdfjsLib.getDocument({
         url,
@@ -105,7 +119,17 @@
       (async function () {
         const pdfDocument = await loadingTask.promise;
         pdfViewer.setDocument(pdfDocument);
+
+        document.querySelector('.loading').classList.add('hide');
       })();
+    }
+
+    function swithPDF(url) {
+      const isReady = document.querySelector('.loading').classList.contains('hide');
+      if (CUR_URL !== url && isReady) {
+        CUR_URL = url;
+        renderPDF(CUR_URL);
+      }
     }
 
     // 点击事件
@@ -113,16 +137,10 @@
       window.open('https://registry.jsonresume.org/kexiZeroing', '_blank');
     });
     document.querySelector('#zh-pdf-btn').addEventListener('click', () => {
-      if (CUR_URL !== '/pdf/zh.pdf') {
-        CUR_URL = '/pdf/zh.pdf';
-        renderPDF(CUR_URL);
-      }
+      swithPDF('/pdf/zh.pdf');
     });
     document.querySelector('#en-pdf-btn').addEventListener('click', () => {
-      if (CUR_URL !== '/pdf/en.pdf') {
-        CUR_URL = '/pdf/en.pdf';
-        renderPDF(CUR_URL);
-      }
+      swithPDF('/pdf/en.pdf');
     });
   </script>
 </body>
