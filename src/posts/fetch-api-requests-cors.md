@@ -5,7 +5,7 @@ slug: fetch-api-requests-and-cors
 description: ""
 added: "Aug 9 2020"
 tags: [js]
-updatedDate: "June 27 2023"
+updatedDate: "July 16 2023"
 ---
 
 ## Fetch API
@@ -348,3 +348,44 @@ When the request doesn't match Same Origin Policy the `crossorigin` attribute MU
 1. There are actually three possible values for the `crossorigin` attribute: `anonymous`, `use-credentials`, and an "missing value default" that can only be accessed by omitting the attribute. The default value causes the browser to skip CORS entirely, which is the normal behavior.
 2. In the case of a cross-origin request, certain limitations will be applied based on the type of element (`<audio>`, `<img>`, `<link>`, `<script>`, and `<video>`) concerned.
 3. The `crossorigin` attribute should only be used if we care about getting error information for the resource being loaded. **Since accessing this information (with CORS settings attribute) requires a CORS check, the `Access-Control-Allow-Origin` header must be present on the resource for it to be loaded.**
+
+## Understanding API Mocking 
+1. The most straightforward way to know when a request happens is to detect it on the request client level. "fetch" is stubbed here by our own implementation. The request never really happens, we only pretend that it does.
+
+```js
+const nativeFetch = window.fetch
+
+window.fetch = async (input, init) => {
+  const request = new Request(input, init)
+  // Check if we should respond to the intercepted request using mocks.
+  if (request.method === "GET" && request.url.endsWith("/movies")) {
+    return Response.json([
+      { title: "The Godfather" },
+      { title: "The Lord of The Rings" },
+      { title: "The Dark Knight" },
+    ])
+  }
+  // If the intercepted request doesn't match our predicate,
+  // perform it as-is using the previously stored native fetch.
+  return nativeFetch(input, init)
+}
+```
+
+2. We don’t reach the actual server but what if our request reaches a mocked server instead?
+
+```js
+// mock.server.js
+import express from "express"
+const app = express()
+
+app.get("/movies", (req, res) => {
+  res.json([
+    { title: "The Godfather" },
+    { title: "The Lord of The Rings" },
+    { title: "The Dark Knight" },
+  ])
+})
+app.listen(3000)
+```
+
+3. Service Worker API is designed for caching, and it would be quite a fit to bend it to the API mocking needs. [Mock Service Worker (MSW)](https://github.com/mswjs/msw) is a seamless REST/GraphQL API mocking library for browser and Node.js.

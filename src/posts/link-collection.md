@@ -330,8 +330,6 @@ How styled-components works: https://medium.com/styled-components/how-styled-com
 
 Start developing websites like it's 2025: https://react2025.com
 
-Learn Next.js: https://nextjs.org/learn/foundations/about-nextjs
-
 Introducing Remix: https://www.youtube.com/watch?v=wsJaUjd1rUo
 
 Up and Running with Remix: https://egghead.io/courses/up-and-running-with-remix-b82b6bb6
@@ -343,6 +341,8 @@ A gentle introduction to React, but visualized: https://react.gg/visualized
 React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.com/watch?v=zMf_xeGPn6s
 
 React Server Components from scratch: https://github.com/reactwg/server-components/discussions/5
+
+A demo of using RSC and Vercel Postgres, legally: https://github.com/rauchg/how-is-this-not-illegal
 
 ---
 
