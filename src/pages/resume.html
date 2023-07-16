@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="google" content="notranslate">
+  <title>Kexi Dang</title>
+
+  <style>
+    body {
+      background-color: #ccc;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    #viewerContainer {
+      overflow: auto;
+      position: absolute;
+      width: 100%;
+      height: calc(100% - 68px);
+    }
+    .selectContainer {
+      height: 68px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+    }
+    .css-button-gradient {
+      min-width: 130px;
+      height: 40px;
+      color: #fff;
+      padding: 5px 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      display: inline-block;
+      outline: none;
+      border-radius: 5px;
+      border: none;
+      background-size: 120% auto;
+      background-image: linear-gradient(315deg, #43cea2 0%, #185a9d 75%);
+    }
+    .css-button-gradient:hover {
+      background-position: right center;
+    }
+    .css-button-gradient:active {
+      top: 2px;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/web/pdf_viewer.css">
+  <script src="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/build/pdf.js"></script>
+  <script src="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/web/pdf_viewer.js"></script>
+</head>
+
+<body>
+  <div class="selectContainer">
+    <button class="css-button-gradient" id="zh-pdf-btn">中文</button>
+    <button class="css-button-gradient" id="en-pdf-btn">英文</button>
+    <button class="css-button-gradient" id="json-pdf-btn">JSON Resume</button>
+  </div>
+
+  <div id="viewerContainer">
+    <div id="viewer" class="pdfViewer"></div>
+  </div>
+
+  <script>
+    // The workerSrc property shall be specified.
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/build/pdf.worker.js";
+
+    // Some PDFs need external cmaps.
+    const CMAP_URL = "https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/cmaps/";
+    const CMAP_PACKED = true;
+
+    const DEFAULT_URL = "/pdf/zh.pdf";
+    let CUR_URL = '';
+    
+    const ENABLE_XFA = true;
+
+    const container = document.getElementById("viewerContainer");
+
+    const eventBus = new pdfjsViewer.EventBus();
+
+    const pdfViewer = new pdfjsViewer.PDFViewer({
+      container,
+      eventBus,
+    });
+
+    CUR_URL = DEFAULT_URL;
+    renderPDF(CUR_URL);
+
+    function renderPDF(url = DEFAULT_URL) {
+      // Loading document.
+      const loadingTask = pdfjsLib.getDocument({
+        url,
+        cMapUrl: CMAP_URL,
+        cMapPacked: CMAP_PACKED,
+        enableXfa: ENABLE_XFA,
+      });
+
+      (async function () {
+        const pdfDocument = await loadingTask.promise;
+        pdfViewer.setDocument(pdfDocument);
+      })();
+    }
+
+    // 点击事件
+    document.querySelector('#json-pdf-btn').addEventListener('click', () => { 
+      window.open('https://registry.jsonresume.org/kexiZeroing', '_blank');
+    });
+    document.querySelector('#zh-pdf-btn').addEventListener('click', () => {
+      if (CUR_URL !== '/pdf/zh.pdf') {
+        CUR_URL = '/pdf/zh.pdf';
+        renderPDF(CUR_URL);
+      }
+    });
+    document.querySelector('#en-pdf-btn').addEventListener('click', () => {
+      if (CUR_URL !== '/pdf/en.pdf') {
+        CUR_URL = '/pdf/en.pdf';
+        renderPDF(CUR_URL);
+      }
+    });
+  </script>
+</body>
+</html>
