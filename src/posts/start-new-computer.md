@@ -111,6 +111,7 @@ updatedDate: "Apr 05 2023"
 
 Some references:
 - https://dev.to/swyx/my-new-mac-setup-4ibi
+- https://www.swyx.io/new-mac-setup
 - https://www.taniarascia.com/setting-up-a-brand-new-mac-for-development
 - https://github.com/nicolashery/mac-dev-setup
 - https://github.com/kentcdodds/dotfiles

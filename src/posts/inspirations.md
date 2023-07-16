@@ -37,3 +37,5 @@ You may not have enough information to perform the analysis. You may need to ask
 3. Learn from the mistake 
 4. Share the mistake experience with others 
 5. Repeat 1-4 for the rest of your career
+
+> Rejection is an inevitable part of the job interview process, but it doesn't have to be the end of your journey. Take each rejection as a learning opportunity and come out stronger than before.
