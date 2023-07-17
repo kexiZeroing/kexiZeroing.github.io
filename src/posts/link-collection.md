@@ -268,7 +268,7 @@ Beautiful hand-crafted SVG icons: https://heroicons.com
 
 Guide users through a tour of your app: https://shepherdjs.dev
 
-Drive user's focus across the page: https://kamranahmed.info/driver.js
+Drive user's focus across the page: https://driverjs.com
 
 Split an element by words, characters, children and more: https://splitting.js.org
 

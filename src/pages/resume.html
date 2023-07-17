@@ -69,9 +69,9 @@
 
 <body>
   <div class="selectContainer">
-    <button class="css-button-gradient" id="zh-pdf-btn">中文</button>
-    <button class="css-button-gradient" id="en-pdf-btn">英文</button>
-    <button class="css-button-gradient" id="json-pdf-btn">JSON Resume</button>
+    <a href="/"><button class="css-button-gradient">Home</button></a>
+    <button class="css-button-gradient" id="zh-pdf-btn">Chinese</button>
+    <button class="css-button-gradient" id="en-pdf-btn">English</button>
   </div>
   <div class="loading hide">PDF 文件加载中...</div>
 
@@ -133,9 +133,6 @@
     }
 
     // 点击事件
-    document.querySelector('#json-pdf-btn').addEventListener('click', () => { 
-      window.open('https://registry.jsonresume.org/kexiZeroing', '_blank');
-    });
     document.querySelector('#zh-pdf-btn').addEventListener('click', () => {
       swithPDF('/pdf/zh.pdf');
     });
