@@ -16,6 +16,7 @@
   "dependencies": {
     "@astrojs/mdx": "^0.19.7",
     "astro": "^2.6.6",
+    "image-size": "^1.0.2",
     "node-fetch": "^3.3.1",
     "pagefind": "^0.12.0"
   }
