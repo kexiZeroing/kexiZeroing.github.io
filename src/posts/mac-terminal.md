@@ -319,6 +319,7 @@ Linux Commands Xmind: https://xmind.app/m/K3SKii
 | top | 动态显示 cpu /内存/进程等情况
 | df -h | 磁盘使⽤情况及挂载点
 | du -sh /dir | 指定某个⽬录的⼤⼩
+| du -sh */ | sort -hr | 所有路径按照大小排序
 | groups | 查看所在用户组
 | find /dir -name *.bin | 在指定⽬录搜索文件
 | cat -n file1 | 查看内容并标示⾏数

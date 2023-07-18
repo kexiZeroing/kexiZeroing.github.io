@@ -370,6 +370,8 @@ Unified plugin system for build tools: https://github.com/unjs/unplugin
 
 Auto import APIs on-demand for Vite, Webpack and Rollup: https://github.com/antfu/unplugin-auto-import
 
+On-demand components auto importing for Vue: https://github.com/antfu/unplugin-vue-components
+
 A lightweight, customizable Vue UI library for mobile web apps: https://vant-ui.github.io
 
 Modular and Accessible UI Components for your Vue Applications: https://vue.chakra-ui.com
