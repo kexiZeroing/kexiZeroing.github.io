@@ -360,8 +360,6 @@ Collection of essential Vue Composition Utilities: https://vueuse.org
 
 VitePress - Vite & Vue Powered Static Site Generator: https://vitepress.vuejs.org
 
-Vuetify - Vue Component Framework: https://vuetifyjs.com
-
 Vue Composables putting your components in motion: https://github.com/vueuse/motion
 
 Declarative ThreeJS using Vue Components: https://tresjs.org
@@ -375,6 +373,8 @@ On-demand components auto importing for Vue: https://github.com/antfu/unplugin-v
 A lightweight, customizable Vue UI library for mobile web apps: https://vant-ui.github.io
 
 Modular and Accessible UI Components for your Vue Applications: https://vue.chakra-ui.com
+
+Vue port of Radix UI Primitives: https://www.radix-vue.com
 
 ---
 

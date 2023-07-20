@@ -10,6 +10,8 @@ updatedDate: "July 8 2023"
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented. TypeScript is neither an interpreted nor a compiled language. [The Concise TypeScript Book](https://github.com/gibbok/typescript-book) provides a comprehensive and succinct overview of TypeScript's capabilities. 
 
+Every time you write JavaScript in e.g. VS Code, TypeScript runs behind the curtains and gives you information on built-in APIs. In fact, a lot of people think that they can live without TypeScript because JavaScript support is so fantastic in modern editors. Guess what’s, it has always been TypeScript.
+
 ## Setting up TypeScript
 To start off, the TypeScript compiler will need to be installed in order to convert TypeScript files into JavaScript files. To do this, TypeScript can either be installed globally or only available at the project level.
 

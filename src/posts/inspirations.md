@@ -25,6 +25,7 @@ order: 3
 - @lydiahallie technology through writing and visualizations
 - @ChromiumDev @Una Chrome DevRel team https://web.dev/blog
 - @rauchg @steventey at Vercel about DX
+- @csswizardry about web performance https://csswizardry.com/archive
 
 ## Business and Engineering alignment by Kent C. Dodds
 Your job isn't to turn user stories into code. The company has a mission. Everyone at the company is hired to push that mission forward. You're not a software engineer hired to code. You're a human hired to push their mission forward. It just so happens that you are a human with coding skills and during the hiring process, they recognized that those coding skills could help them in their mission.

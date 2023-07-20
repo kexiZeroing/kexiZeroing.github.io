@@ -63,6 +63,8 @@ While `dns-prefetch` only performs a DNS lookup, `preconnect` establishes a conn
 ### Render blocking JavaScript and CSS
 Before a browser can render any content, it needs to parse HTML markup into a DOM tree. The HTML parser will pause if it encounters any external stylesheets (`<link rel="stylesheet">`) or synchronous JavaScript tags (`<script src="main.js">`). Scripts and stylesheets are both render blocking resources which delay FCP, and consequently LCP. (Additionally, if CSS appears before a script, the script will not be executed until the CSSOM is created because JavaScript can also interact with the CSSOM.) Defer any non-critical JavaScript and CSS to speed up loading of the main content of your web page.
 
+> First Contentful Paint is a measure of your Critical Path, and anything after that event is no longer on your Critical Path at all. This is where your Critical Path ends.
+
 **Minify CSS**, if you use a module bundler or build tool, include an appropriate plugin to minify CSS files on every build. Use the `Coverage` tab in Chrome DevTools (`cmd + shift + p`, then type 'coverage') to **find any unused CSS** on your web page. **Inlining important styles** eliminates the need to make a round-trip request to fetch CSS. If you cannot manually add inline styles to your site, use a library to automate the process.
 
 > Take font inlining as an example, Next.js and Angular have support for inlining Google and Adobe fonts. They will download the content of `<link rel='stylesheet' href='https://fonts.googleapis.com/xxx' />` at build time, and inline it's content (replace link tag with a style tag) at serve/render time. This eliminates the extra round trip that the browser has to make to fetch the font declarations.
