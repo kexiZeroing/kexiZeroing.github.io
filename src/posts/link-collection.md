@@ -470,9 +470,11 @@ An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
 
 ## Machine Learning
 
-Math: http://ai-start.com/dl2017/html/math.html, http://ai-start.com/CS229/1.CS229-LinearAlgebra.html, http://ai-start.com/CS229/2.CS229-Prob.html
-
 Stanford CS229 Machine Learning: https://cs229.stanford.edu
+
+Linear Algebra Review and Reference: https://cs229.stanford.edu/summer2023/cs229-linalg.pdf
+
+Review of Probability Theory: https://cs229.stanford.edu/summer2023/cs229-prob.pdf
 
 CS 229 illustrated Machine Learning cheatsheets: https://stanford.edu/~shervine/teaching/cs-229/
 
