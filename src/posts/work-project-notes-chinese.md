@@ -423,6 +423,11 @@ window.addEventListener('mousedown', e => {
   https://registry.npmmirror.com/antd/latest/files
   ```
 
+- 播放器与字幕的跨域问题：由于加了字幕，但字幕地址是跨域的，所以播放器标签上必须加 `crossorigin="anonymous"` 也就是改变了原来请求视频的方式（no-cors 是 HTML 元素发起请求的默认状态；现在会创建一个状态为 anonymous 的 cors 请求，不发 cookie），此时服务端必须响应 `Access-Control-Allow-Origin` 才可以。『播放器不设置跨域 只给字幕配 cors 响应头』这个方案是不行的，因为必须要先发一个 cors 请求才可以，服务端配置的响应头才有用处。
+  1. Add `crossorigin="anonymous"` to the video tag to allow load VTT files from different domains.
+  2. Even if your CORS is set correctly on the server, you may need to have your HTML tag label itself as anonymous for the CORS policy to work.
+  3. 与 HTML 元素不同的是，Fetch API 的 mode 的默认值是 cors；当你发送一个状态为 no-cors 的跨域请求，会发现返回的 response body 是空，也就是说，虽然请求成功，但仍然无法访问返回的资源。
+
 ### 桌面端 Electron 的本地构建过程
 Electron是一个集成项目，允许开发者使用前端技术开发桌面端应用。其中 **Chromium 基础能力**可以让应用渲染 HTML 页面，执行页面的 JS 脚本，让应用可以在 Cookie 或 LocalStorage 中存取数据。Electron 还继承了 Chromium 的多进程架构，分一个主进程和多个渲染进程，主进程进行核心的调度启动，不同的 GUI 窗口独立渲染，做到进程间的隔离，进程与进程之间实现了 IPC 通信。**Node.js 基础能力**可以让开发者读写本地磁盘的文件，通过 socket 访问网络，创建和控制子进程等。**Electron 内置模块**可以支持创建操作系统的托盘图标，访问操作系统的剪切板，获取屏幕信息，发送系统通知，收集崩溃报告等。
 
