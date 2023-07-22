@@ -5,7 +5,7 @@ slug: my-early-career-notes-chinese
 description: ""
 added: "Apr 24 2016"
 tags: [web]
-updatedDate: "June 22 2023"
+updatedDate: "July 22 2023"
 ---
 
 > 将早期工作刚接触 Web 开发不久时的笔记（原先记录在印象笔记）中有价值的部分提炼出来，记录在这里成为一篇文章，值得纪念。
@@ -21,6 +21,12 @@ updatedDate: "June 22 2023"
 Web server（如 nginx）只是内容的分发者。比如，请求 `/index.html`，那么 server 会去文件系统中找到这个文件，发送给浏览器，这里分发的是静态数据。如果现在请求的是 `/index.php`，nginx 知道这个不是静态文件，需要去找 PHP 解析器来处理，那么它会把这个请求简单处理后交给 PHP 解析器。Nginx 会传哪些数据给 PHP 解析器呢？要有 url、查询字符串、POST 数据、HTTP header，CGI 就是规定要传哪些数据、以什么样的格式传递给后方处理这个请求的协议（是 php 文件的执行环境）。接下来 PHP 解析器会解析 `php.ini` 文件，初始化执行环境，然后处理请求，再以 CGI 规定的格式返回处理后的结果，退出进程。最后 server 再把结果返回给浏览器。
 
 不同的项目在不同的机器中，也可以是一台机器（虚拟主机），每个项目对应不同的端口。也可能是同一端口，此时不能直接访问 ip 地址，需要依靠域名区分，比如 `git.lianjia.com` 和 `wiki.lianjia.com` 在同一台机器上，使用的是同一端口，这个时候只能通过域名区分请求，需要 DNS 解析，根据请求找相应的 nginx 配置文件 `/local/nginx1.7.7/conf/virtualhost/xxx.conf`。Nginx 监听某一端口，按照配置文件的规则（过程中可能会有 url rewrite）定位到某一个 php 文件，然后将环境交给 fastCGI。框架中的入口文件有 `APP_MODE`，可以找到项目的配置文件。PHP 根据项目的配置文件进入到某个模块，再根据模块中配置的路由规则，进入到某个 controller 的某个 action，调用 render 函数将结果返回给 nginx，最终返回给浏览器（返回结果是浏览器可以识别的内容）。
+
+> 这里补充一个问题，Why can't access website by IP but can access by qualified domain?
+> 
+> It is likely that multiple domains are served from the same server. In this case, the server relies on the `host` header of the request to specify what website to serve. If there is no default configured, then it will return a server error.
+>
+> In addition, if there is a certificate warning, it is a name mismatch error, which indicates that the domain name in the SSL certificate does not match the URL/address used to access the web server.
 
 关于 URL Rewrite：
 - `abc.com/show_a_product.php?product_id=7`

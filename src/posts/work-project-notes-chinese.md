@@ -5,7 +5,7 @@ slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "July 15 2023"
+updatedDate: "July 22 2023"
 ---
 
 ### 项目是怎么跑起来的
@@ -455,3 +455,6 @@ Advantages over `localStorage`:
 2. In the case of an electron app, the `electron` package is bundled as part of the built output. There is no need for your user to get `electron` from npm to use your built app. Therefore it matches well the definition of a `devDependency`. *(When you publish your package, if the consumer project needs other packages to use yours, then these must be listed as `dependencies`.)* For example, VS Code properly lists `electron` as a devDependency only: https://github.com/microsoft/vscode/blob/main/package.json
 3. In case you are using an unsupported browser, or if you have other specific needs (for example your application is in Electron), you can use the standalone [Vue devtools](https://devtools.vuejs.org/guide/installation.html#standalone)
 4. Vite + Electron 项目参考：https://github.com/liou666/polyglot
+5. Blank screen on builds, but works fine on serve. This issue is likely caused when Vue Router is operating in `history` mode. In Electron, it only works in `hash` mode.
+  > - 本地开发时是 http 服务，当访问某个地址的时候，其实真实目录下是没有这个文件的，本地服务可以帮助重定向到 `/index.html` 这是一定存在的入口文件，相当于走前端路由。一但打包之后，页面就是静态文件存放在目录中了，Electron 是找不到类似 `/index/page/1/2` 这样的目录的，所以需要使用 `/index.html#page/1/2` 这样的 hash 模式。同样，如果是 Web 项目使用了 history 模式打包，如果不在 nginx 中将全部 url 指向 `./index.html` 的话，也会出现 404 的错误，也就是需要把路由移交给前端去控制。
+  > - hash mode 是默认模式，原理是使用 `location.hash` 和 `onhashchange` 事件，利用 `#` 后面的内容不会被发送到服务端实现单页应用。history mode 要手动设置 `mode: 'history'`, 是基于 History API 来实现的，这也是浏览器本身的功能，地址不会被请求到服务端。

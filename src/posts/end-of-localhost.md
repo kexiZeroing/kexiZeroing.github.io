@@ -10,6 +10,15 @@ updatedDate: "Feb 17 2023"
 
 > This file is created in Gitpod instead of local. Try a workspace at https://gitpod.io/workspaces
 
+### Why code in the cloud?
+Developers traditionally install and run tools like IDEs, libraries, and language runtimes on their local workstations. This approach makes sense at first, but has some downsides as an organization grows:
+
+- Everyone must carefully follow long setup instructions every time they work on a new project or get a new device.
+- Laptop processing power limits build speeds. Docker is fast on Linux but much slower on Mac.
+- Managing various versions of Python, Node.js, and others on the same laptop gets pretty risky.
+- Making local builds accessible to coworkers for testing takes significant time and effort.
+- Some required tools may only work on certain laptops.
+
 ### GitHub Codespaces
 https://github.com/features/codespaces  
 https://github.blog/2021-08-11-githubs-engineering-team-moved-codespaces  

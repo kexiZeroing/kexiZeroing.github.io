@@ -151,3 +151,7 @@ chain = LLMChain(llm=llm, prompt=prompt_with_transcript)
 # Run chain
 summary = chain.run()
 ```
+
+### Memo - AI 驱动的视频、播客转文字、字幕工具
+
+支持多平台，利用 Whisper 技术识别语音转字幕，然后可以对识别的字幕进行简单的编辑。https://mxmefbp9p0g.feishu.cn/docx/ZI3ldweTXorTvMxYLbucT00Un5n

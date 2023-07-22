@@ -180,6 +180,8 @@ Camera-controlled snake game built with Angular and TensorFlow: https://angular-
 
 Create beautiful images of your source code: https://chalk.ist
 
+Console for mobile browsers: https://github.com/liriliri/eruda
+
 ---
 
 ## CSS related
