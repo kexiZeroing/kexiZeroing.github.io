@@ -47,6 +47,6 @@ If you join a company or team and deal with constant nonsense and a broken cultu
 
 You will do your best work when you are supported and included. You will make up more career time working 6 months at the right place, than in the previous 6 years of daily hell.
 
-An inclusive team will not judge you for switching multiple times finding the right fit. And hiring managers, have more confidence in your ability to create an environment that people want to stay at. 
+An inclusive team will not judge you for switching multiple times finding the right fit. And hiring managers, have more confidence in your ability to create an environment that people want to stay at. The past at other teams and other situations doesn’t predict the future at your team and this situation. I have seen so many “jumpy” people find their “home” after so many jumps. Sometimes it’s the first decent manager they have, sometimes the first company they can grow with and so on...
 
 Don't ask people why they left their last position. They often can't tell you, and it's not relevant. Instead, ask what they are looking for in their next role. You can even ask how long they intend to stay, or what would entice them to spend N years on the same team or role.
