@@ -70,6 +70,8 @@ Your first WebGPU app: https://codelabs.developers.google.com/your-first-webgpu-
 
 Machine Learning for Web Developers (Web ML): https://www.youtube.com/playlist?list=PLOU2XLYxmsILr3HQpqjLAUkIPa5EaZiui
 
+A technical explainer of how your computer runs programs: https://cpu.land
+
 ---
 
 ## Tools and Cool websites
