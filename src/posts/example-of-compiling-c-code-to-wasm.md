@@ -1,6 +1,6 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Example of compiling C code to Wasm"
+title: "An example of compiling C code to Wasm"
 slug: example-of-compiling-c-code-to-wasm
 description: ""
 added: "July 23 2023"
