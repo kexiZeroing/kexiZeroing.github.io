@@ -18,8 +18,6 @@ This experimental web app is [Clips](https://clips.formidable.dev) and it suppor
 - choosing from different background/layout options, including audio-visualization background
 - recording the video in your browser
 
-> Also check an electron app [Kap](https://github.com/wulkano/Kap), which is an open-source screen recorder built with web technology.
-
 ### Capturing the screen
 To allow the user to capture their screen, we can use the `MediaDevices.getDisplayMedia()` method available to us on the `navigator` global in modern browsers.
 
@@ -263,7 +261,7 @@ recorder.onstop = async () => {
 
 And there we go! After our recording finishes, we’ve got a `.webm` video file downloading to our Downloads folder.
 
-### MDN docs
+### MDN docs and links
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices
@@ -271,6 +269,7 @@ And there we go! After our recording finishes, we’ve got a `.webm` video file 
 - https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaStream
+- https://www.mux.com/blog
 
 ### Video Glossary
 **[FFMPEG](https://ffmpeg.org)** stands for Fast Forward Moving Picture Experts Group. It is a free and open source software project that offers many tools for video and audio processing. It's designed to run on a command line interface, and has many different libraries and programs to manipulate and handle video files. Most video programs include FFMPEG as a part of the video processing pipeline.
