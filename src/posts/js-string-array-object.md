@@ -289,6 +289,11 @@ arr1.map(x => x.split(" "));
 arr1.flatMap(x => x.split(" "));
 ```
 
+### Array sort
+- The `sort()` method sorts the elements of an array in place and returns the reference to the same array, now sorted.
+- The time and space complexity of the sort cannot be guaranteed as it depends on the implementation.
+- Since ECMAScript 2019, the specification dictates that `Array.prototype.sort` is stable. All major JavaScript engines now implement a stable Array sort.
+
 ## Object
 
 ### Check if an object is empty
