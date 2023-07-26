@@ -5,7 +5,7 @@ slug: fetch-api-requests-and-cors
 description: ""
 added: "Aug 9 2020"
 tags: [js]
-updatedDate: "July 16 2023"
+updatedDate: "July 26 2023"
 ---
 
 ## Fetch API
@@ -279,6 +279,13 @@ fetch('https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg')
   document.getElementById('img').src = URL.createObjectURL(data);
 })
 ```
+
+### Range header and 206 Partial Content
+The HTTP 206 Partial Content may be sent from the server when the client has asked for a range (e.g. "give me the first 2MB of video data"). It is vital for downloading data in chunks which avoids fetching unused resources. Look at the outgoing request for a `Range` header (e.g., `Range: bytes=200-1000`).
+
+The Range HTTP request header indicates the part of a document that the server should return. If the server sends back ranges, it uses the 206 Partial Content for the response. If the ranges are invalid, the server returns the 416 Range Not Satisfiable error. The server can also ignore the Range header and return the whole document with a 200 status code.
+
+> Chrome devtools emulation adds a header `Range:bytes=0-` every time when requesting a playlist m3u8 file. Server responds with 206 Partial content response, but Chrome doesn't download the response body and player is stuck at the loading state forever.
 
 ## Cross-Origin Resource Sharing
 A web application executes a cross-origin HTTP request when it requests a resource that has a different origin (domain, protocol, or port) from its own. For security reasons, browsers restrict cross-origin HTTP requests initiated from scripts. XMLHttpRequest and the Fetch API follow the same-origin policy, which means that a web application using those APIs can only request resources from the same origin unless the response from other origins includes the right CORS headers.
