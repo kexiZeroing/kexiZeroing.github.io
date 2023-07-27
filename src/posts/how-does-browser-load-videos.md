@@ -55,6 +55,10 @@ If you skip ahead in the video, the browser will cancel the currently on-going r
 ## MP4 and WebM
 MP4 and WebM formats are what we would call pseudo-streaming or "progressive download”. These formats do not support adaptive bitrate streaming (adjusts video quality based on network conditions). If you have ever taken an HTML video element and added a "src” attribute that points to an mp4, most players will progressively download the file. The good thing about progressive downloads is that you don’t have to wait for the player to download the entire file before you start watching. You can click play and start watching while the file is being downloaded in the background. Most players will also allow you to drag the playhead to specific places in the video timeline and the player will use byte-range requests to estimate which part of the file you are attempting to seek. What makes MP4 and WebM playback problematic is the lack of adaptive bitrate support. Every user who watches your content must have enough bandwidth available to download the file faster than it can playback the file.
 
+M3U8 files are the current industry standard for transferring video over HTTP Live Streaming (HLS). They are usually text files that contain links to the actual data files.
+
+<img alt="m3u8 compatibility" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/51ec8e88-554e-4272-b3de-df878d9dede4.png" width="750">
+
 ## References
 - https://www.zeng.dev/post/2023-http-range-and-play-mp4-in-browser
 - https://surma.dev/things/range-requests
