@@ -85,6 +85,8 @@ The `no-cache` directive does not prevent the storing of responses but instead p
 
 `s-maxage` is similar to `max-age` but it applies to proxies (CDN) instead of clients. Web proxy caches work on the same principle, but a much larger scale. Use `public` and `s-maxage` for general resources, which generate shared cache for every user, and only the first user needs to wait on response.
 
+Continue to read this article [Caching Header Best Practices](https://simonhearne.com/2022/caching-header-best-practices/) for more details.
+
 ### Freshness and Cache validation
 Before the expiration time, the resource is fresh; after the expiration time, the resource is stale. Stale responses are not immediately discarded. HTTP has a mechanism to transform a stale response into a fresh one by asking the origin server. This is called validation. Validation is done by using a conditional request that includes an `If-Modified-Since` or `If-None-Match` request header. The server will respond with `304 Not Modified` if the content has not changed. **Since this response only indicates "no change", there is no response body — there's just a status code — so the transfer size is extremely small.** The response can also include headers that update the expiration time of the cached resource.
 

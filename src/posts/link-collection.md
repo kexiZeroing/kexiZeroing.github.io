@@ -214,6 +214,8 @@ Understanding Z-Index: https://ishadeed.com/article/understanding-z-index
 
 Digging Into CSS Logical Properties: https://ishadeed.com/article/css-logical-properties
 
+The Guide To Responsive Design In 2023 and Beyond: https://ishadeed.com/article/responsive-design
+
 Basic styles for HTML Elements without classes: https://boltcss.com
 
 Some simple ways to make content look good: https://set.studio/some-simple-ways-to-make-content-look-good
