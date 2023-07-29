@@ -19,6 +19,7 @@ updatedDate: "June 13 2023"
 - [3D Clock](#3d-clock)
 - [Animation with View Transitions](#animation-with-view-transitions)
 - [Filter and backdrop filter](#filter-and-backdrop-filter)
+- [Apple-style OS dock](#apple-style-os-dock)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -392,3 +393,18 @@ https://codepen.io/argyleink/pen/NWOEvro
 }
 </style>
 ```
+
+### Apple-style OS dock
+CSS only, no JS. This one would be pretty sweet as a nav on your portfolio.
+
+```css
+.b:has(+ .b:hover),
+.b:hover + .b {
+  flex: calc(0.2 + (sin(30deg) * 1.5));
+  translate: 0 calc(sin(30deg) * -75%);
+}
+```
+
+<img alt="apple-style-dock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/dwucuh.png" width="450">
+
+https://codepen.io/jh3y/pen/GRwwWoV
