@@ -5,9 +5,10 @@ slug: how-does-browser-load-videos
 description: ""
 added: "July 27 2023"
 tags: [web]
+updatedDate: "July 30 2023"
 ---
 
-## Basic Concept
+## Basic concepts
 HTTP range request is a widely used feature when it comes to file resource. File systems such as S3 have good support for this.
 
 The HTTP 206 Partial Content may be sent from the server when the client has asked for a range (e.g. "give me the first 2MB of video data"). It is vital for downloading data in chunks which avoids fetching unused resources. Look at the outgoing request for a `Range` header (e.g., `Range: bytes=200-1000`).
@@ -57,10 +58,122 @@ MP4 and WebM formats are what we would call pseudo-streaming or "progressive dow
 
 M3U8 files are the current industry standard for transferring video over HTTP Live Streaming (HLS). They are usually text files that contain links to the actual data files.
 
-<img alt="m3u8 compatibility" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/51ec8e88-554e-4272-b3de-df878d9dede4.png" width="750">
+<img alt="m3u8 compatibility" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/51ec8e88-554e-4272-b3de-df878d9dede4.png" width="750">
+
+## Blob url video streaming
+
+<img alt="blob-url-video" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/12643918-81ad-47c1-8ea2-45205d1f23a9.png" width="500">
+
+All those websites actually still use the video tag. But instead of simply setting a video file in the src attribute, they make use of much more powerful web APIs, the Media Source Extensions (more often shortened to just “MSE”). Complex web-compatible video players are all based on MediaSource and [SourceBuffer](https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer).
+
+Those “extensions” add the MediaSource object to JavaScript. As its name suggests, this will be the source of the video, or put more simply, this is the object representing our video’s data. The `URL.createObjectURL` API allows creating an URL, which will actually refer not to a resource available online, but directly to a JavaScript object created on the client.
+
+> Blob URLs can only be generated internally by the browser. `URL.createObjectURL()` will create a special reference to the Blob object which later can be released using `URL.revokeObjectURL()`. These URLs can only be used locally in the single instance of the browser and in the same session. 
+
+```js
+// Create a MediaSource and attach it to the video
+const videoTag = document.getElementById("my-video");
+const myMediaSource = new MediaSource();
+const url = URL.createObjectURL(myMediaSource);
+videoTag.src = url;
+
+// 1. add source buffers
+const audioSourceBuffer = myMediaSource
+  .addSourceBuffer('audio/mp4; codecs="mp4a.40.2"');
+const videoSourceBuffer = myMediaSource
+  .addSourceBuffer('video/mp4; codecs="avc1.64001e"');
+
+// 2. download and add our audio/video to the SourceBuffers
+fetch("http://server.com/audio.mp4").then(function(response) {
+  return response.arrayBuffer();
+}).then(function(audioData) {
+  audioSourceBuffer.appendBuffer(audioData);
+});
+
+// the same for the video SourceBuffer
+fetch("http://server.com/video.mp4").then(function(response) {
+  return response.arrayBuffer();
+}).then(function(videoData) {
+  videoSourceBuffer.appendBuffer(videoData);
+});
+```
+
+What actually happens in the more advanced video players, is that video and audio data are split into multiple “segments”. These segments can come in various sizes, but they often represent between 2 to 10 seconds of content. Instead of pushing the whole content at once, we can just push progressively multiple segments. Now we do not have to wait for the whole audio or video content to be downloaded to begin playback.
+
+```js
+// fetch a video or an audio segment, and returns it as an ArrayBuffer
+function fetchSegment(url) {
+  return fetch(url).then(function(response) {
+    return response.arrayBuffer();
+  });
+}
+
+// fetching audio segments one after another
+fetchSegment("http://server.com/audio/segment0.mp4")
+  .then(function(audioSegment0) {
+    audioSourceBuffer.appendBuffer(audioSegment0);
+  })
+
+  .then(function() {
+    return fetchSegment("http://server.com/audio/segment1.mp4");
+  })
+  .then(function(audioSegment1) {
+    audioSourceBuffer.appendBuffer(audioSegment1);
+  })
+
+  .then(function() {
+    return fetchSegment("http://server.com/audio/segment2.mp4");
+  })
+  .then(function(audioSegment2) {
+    audioSourceBuffer.appendBuffer(audioSegment2);
+  })
+
+// same thing for video segments
+fetchSegment("http://server.com/video/segment0.mp4")
+  .then(function(videoSegment0) {
+    videoSourceBuffer.appendBuffer(videoSegment0);
+  });
+```
+
+Many video players have an “auto quality” feature, where the quality is automatically chosen depending on the user’s network and processing capabilities. This behavior is also enabled thanks to the concept of media segments. On the server-side, the segments are actually encoded in multiple qualities, and a web player will then automatically choose the right segments to download as the network or CPU conditions change.
+
+> The most common transport protocols used in a web context: 
+> - HLS (HTTP Live Streaming): Developed by Apple and used by Twitch. The HLS manifest is called the playlist and is in the m3u8 format *(which are m3u playlist files, encoded in UTF-8)*.
+> - DASH (Dynamic Adaptive Streaming over HTTP): Used by YouTube, Netflix or Amazon Prime Video and many others. DASH manifest is called the Media Presentation Description (or MPD).
+
+```
+./audio/
+  ├── ./128kbps/
+  |     ├── segment0.mp4
+  |     ├── segment1.mp4
+  |     └── segment2.mp4
+  └── ./320kbps/
+        ├── segment0.mp4
+        ├── segment1.mp4
+        └── segment2.mp4
+
+./video/
+  ├── ./240p/
+  |     ├── segment0.mp4
+  |     ├── segment1.mp4
+  |     └── segment2.mp4
+  └── ./720p/
+        ├── segment0.mp4
+        ├── segment1.mp4
+        └── segment2.mp4
+```
+
+## Open-source web video players
+- https://github.com/canalplus/rx-player
+- https://github.com/video-dev/hls.js
+- https://github.com/Dash-Industry-Forum/dash.js
+- https://github.com/shaka-project/shaka-player
+- https://github.com/bytedance/xgplayer
+- https://github.com/DIYgod/DPlayer
 
 ## References
 - https://www.zeng.dev/post/2023-http-range-and-play-mp4-in-browser
 - https://surma.dev/things/range-requests
 - https://medium.com/@radhian.amri/video-streaming-using-http-206-partial-content-in-go-4e89d96abdd0
 - https://howvideo.works
+- https://juejin.cn/post/6844903880774385671
