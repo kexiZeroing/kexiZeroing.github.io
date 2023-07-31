@@ -61,7 +61,7 @@ HTTP Live Streaming sends audio and video as a series of small files, called med
 
 <img alt="m3u8 compatibility" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/51ec8e88-554e-4272-b3de-df878d9dede4.png" width="750">
 
-1. Currently Desktop Safari and Edge latest version support 'native' HLS but Desktop Chrome does not. By 'native' in this context, it means the browser can recognise the streaming format or file type when it is included as the source attribute within the HTML5 tag and play it without any further plugins.
+1. Currently Desktop Safari supports native HLS but Desktop Chrome and Firefox do not. By native in this context, it means the browser can recognise the streaming format or file type when it is included as the source attribute within the HTML5 tag and play it without any further plugins.
 2. To allow you play the file back on Chrome, take a look on [hls.js](https://github.com/video-dev/hls.js) project, which solves exactly this problem. It relies on HTML5 video and MediaSource Extensions for playback.
 
 ```js
