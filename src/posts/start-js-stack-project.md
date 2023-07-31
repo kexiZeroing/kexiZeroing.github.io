@@ -19,7 +19,27 @@ We need modern javascript and Babel help us with that. We run `yarn add @babel/c
 
 At last, we need a `parcel build index.js` as a `build` script in `package.json` file which will be used for production, and parcel will create a `dist` directory with all assets minified.
 
-> Alternatively, start your app development process with the pre-built solutions: https://vercel.com/templates
+### Start a new React/Vue project
+
+```
+# https://ui.shadcn.com/docs/installation/next
+npx create-next-app@latest my-app --typescript --tailwind --eslint
+
+npx shadcn-ui@latest init
+
+npx shadcn-ui@latest add button
+```
+
+```
+# https://github.com/vitejs/vite/tree/main/packages/create-vite
+npm create vite@latest
+
+npm create vite@latest my-vue-app -- --template vue
+
+npm create vue@latest
+```
+
+With the help of Vercel, you can start your app development process with the pre-built solutions: https://vercel.com/templates
 
 ### Release helper
 - Interactive CLI that bumps version number (with `--commit` `--tag` `--push` by default): https://github.com/antfu/bumpp
