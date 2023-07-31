@@ -56,9 +56,29 @@ If you skip ahead in the video, the browser will cancel the currently on-going r
 ## MP4 and WebM
 MP4 and WebM formats are what we would call pseudo-streaming or "progressive download”. These formats do not support adaptive bitrate streaming (adjusts video quality based on network conditions). If you have ever taken an HTML video element and added a "src” attribute that points to an mp4, most players will progressively download the file. The good thing about progressive downloads is that you don’t have to wait for the player to download the entire file before you start watching. You can click play and start watching while the file is being downloaded in the background. Most players will also allow you to drag the playhead to specific places in the video timeline and the player will use byte-range requests to estimate which part of the file you are attempting to seek. What makes MP4 and WebM playback problematic is the lack of adaptive bitrate support. Every user who watches your content must have enough bandwidth available to download the file faster than it can playback the file.
 
-M3U8 files are the current industry standard for transferring video over HTTP Live Streaming (HLS). They are usually text files that contain links to the actual data files.
+## M3U8
+HTTP Live Streaming sends audio and video as a series of small files, called media segment files. An index file, or playlist, provides an ordered list of the URLs of the media segment files. Index files for HTTP Live Streaming are saved as M3U8 playlists, an extension of the M3U format used for MP3 playlists.
 
 <img alt="m3u8 compatibility" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/51ec8e88-554e-4272-b3de-df878d9dede4.png" width="750">
+
+1. Currently Desktop Safari and Edge latest version support 'native' HLS but Desktop Chrome does not. By 'native' in this context, it means the browser can recognise the streaming format or file type when it is included as the source attribute within the HTML5 tag and play it without any further plugins.
+2. To allow you play the file back on Chrome, take a look on [hls.js](https://github.com/video-dev/hls.js) project, which solves exactly this problem. It relies on HTML5 video and MediaSource Extensions for playback.
+
+```js
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<video id="video" controls></video>
+<script>
+  if(Hls.isSupported()) {
+    var video = document.getElementById('video');
+    var hls = new Hls();
+    hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED,function() {
+      video.play();
+  });
+}
+</script>
+```
 
 ## Blob url video streaming
 
