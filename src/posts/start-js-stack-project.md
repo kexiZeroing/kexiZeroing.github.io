@@ -37,6 +37,8 @@ npm create vue@latest
 
 You can also start your app development process with the pre-built solutions: https://vercel.com/templates
 
+> A real project can be checked out: [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, Tailwind, Prisma, and MySQL, including Dashboard and CMS creation.
+
 ### Release helper
 - Interactive CLI that bumps version number (with `--commit` `--tag` `--push` by default): https://github.com/antfu/bumpp
 - Generic CLI tool to automate versioning and package publishing related tasks: https://github.com/release-it/release-it

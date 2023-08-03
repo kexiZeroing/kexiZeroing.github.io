@@ -23,7 +23,7 @@ updatedDate: "July 22 2023"
 - 对于代码压缩，使用 `terser-webpack-plugin` 来压缩 JS，webpack 5 自带，但如果需要自定义配置，那么仍需要安装该插件，在 webpack 配置文件里设置 `optimization` 来引用这个插件。`HtmlWebpackPlugin` 里设置 `minify` 可以压缩 HTML，production 模式下是默认是 true（会使用 `html-minifier-terser` 插件去掉空格、注释等），自己传入一个 minify 对象，可以定制化[压缩设置](https://github.com/terser/html-minifier-terser#options-quick-reference)。
 - 对于 js 的压缩使用了 `uglifyjs-webpack-plugin`，里面传入 `compress` 定制化[压缩设置](https://github.com/mishoo/UglifyJS#compress-options)。比如有的项目没有 console 输出，可能就是因为这里设置了 `drop_console`。
 - 使用 `friendly-errors-webpack-plugin` 简化命令行的输出，可以只显示构建成功、警告、错误的提示，从而优化命令⾏的构建日志。
-- webpack 设置请求代理 proxy，默认情况下假设前端是 `localhost:3000`，后端是 `localhost:8082`，那么后端通过 `request.getHeader("Host")` 获取的依旧是 `localhost:3000`。如果设置了 `changeOrigin: true`，那么后端才会看到的是 `localhost:8082`, 代理服务器会根据请求的 target 地址修改 Host（这个在浏览器里看请求头是看不到改变的）。如果某个接口 404，一般就是这个路径没有配置代理。
+- webpack 设置请求代理 proxy（其背后使用的是 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)），默认情况下假设前端是 `localhost:3000`，后端是 `localhost:8082`，那么后端通过 `request.getHeader("Host")` 获取的依旧是 `localhost:3000`。如果设置了 `changeOrigin: true`，那么后端才会看到的是 `localhost:8082`, 代理服务器会根据请求的 target 地址修改 Host（这个在浏览器里看请求头是看不到改变的）。如果某个接口 404，一般就是这个路径没有配置代理。
 
 ### Vue 项目
 Vue npm 包有不同的 Vue.js 构建版本，可以在 `node_modules/vue/dist` 中看到它们，大致包括完整版、编译器（编译template）、运行时版本、UMD 版本（通过 `<script>` 标签直接用在浏览器中）、CommonJS 版本（用于很老的打包工具）、ES Module 版本（有两个，分别用于现代打包工具和浏览器 `<script type="module">` 引入）。总的来说，Runtime + Compiler 版本是包含编译代码的，可以把编译过程放在运行时做，如果需要在客户端编译模板 (比如传入一个字符串给 template 选项)，就需要加上编译器的完整版。Runtime 版本不包含编译代码，需要借助 webpack 的 `vue-loader` 事先把 `*.vue` 文件内的模板编译成 `render` 函数，在最终打好的包里实际上是不需要编译器的，只用运行时版本即可。

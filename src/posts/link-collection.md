@@ -246,6 +246,8 @@ Open Source CSS Variables: https://open-props.style
 
 Across pages view transitions: https://smashing-transitions.netlify.app
 
+The CSS Podcast by Adam and Una: https://www.youtube.com/playlist?list=PLNYkxOF6rcIAx_S2LSfXQLorIeehsPL3q
+
 ---
 
 ## FE dev resources
