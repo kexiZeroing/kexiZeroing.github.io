@@ -27,6 +27,7 @@ order: 3
 - @rauchg @steventey at Vercel about DX
 - @csswizardry about web performance https://csswizardry.com/archive
 - @BHolmesDev #WhiteboardTheWeb https://wtw.dev
+- @jlengstorf Learn With Jason https://www.learnwithjason.dev/episodes
 
 ## Learn from mistakes
 1. Make a mistake 

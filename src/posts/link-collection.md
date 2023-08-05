@@ -184,7 +184,7 @@ Create beautiful images of your source code: https://chalk.ist
 
 Console for mobile browsers: https://github.com/liriliri/eruda
 
-A modern playground for creating live-running code editing experiences: https://sandpack.codesandbox.io
+Get an insight into the inner-workings of a given website: https://web-check.xyz
 
 ---
 
@@ -465,6 +465,8 @@ Interact privately with your documents using LLMs: https://github.com/imartinez/
 AI Tutor Prompt for customizable learning experiences: https://github.com/JushBJJ/Mr.-Ranedeer-AI-Tutor
 
 Understanding GPT tokenizers: https://simonwillison.net/2023/Jun/8/gpt-tokenizers/
+
+Catching up on the weird world of LLMs: https://simonwillison.net/2023/Aug/3/weird-world-of-llms/
 
 Transformers directly in your browser: https://github.com/xenova/transformers.js
 

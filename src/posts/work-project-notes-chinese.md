@@ -194,6 +194,11 @@ So far everything should be the same as bundling an application, and here comes 
 - If your library uses dependencies like `lodash`, we'd prefer to treat it as a peer dependency. This can be done using the `externals` configuration, which means the library expects it to be available in the consumer's environment.
 - Also add the path to your generated bundle as the package's `main` field in the `package.json`.
 
+> - AMD: short for Asynchronous Module Definition, fetches modules asynchronously and was designed to be used in browsers.
+> - CommonJS: abbreviated CJS, fetches modules synchronously and was designed for server-side (Node supports it by default).
+> - UMD: is an abbreviation of Universal Module Definition. Its name (universal) derives from the fact that it works on both the front-end and back-end.
+> - ES6 modules: ES6 finally implements a built-in module system for JS. The format provides an import and export syntax that new JavaScript developers are likely more familiar with than AMD or CJS.
+
 ```js
 output: {
   filename: "library-starter.js",
@@ -203,14 +208,43 @@ output: {
     type: 'umd',       // Configure how the library will be exposed.
     export: 'default', // Access without using `.default` 
   },
-  globalObject: "this"  // To make UMD build available on both browsers and Node.js, 
+  globalObject: "this"  // To make UMD build available on both browsers and Node.js
 },
+```
+
+**Webpack's `output.library*` options**
+```js
+// libraryTarget: 'commonjs2':
+module.exports = {{BUNDLED_CODE}};
+
+// difference between commonjs and commonjs2
+// libraryTarget: "commonjs2", --> exported with module.exports
+// libraryTarget: "commonjs",  --> exported as properties to exports
+
+// libraryTarget: 'self':
+Object.assign(self, {{BUNDLED_CODE}});
+
+// library: 'myApp', libraryTarget: 'var':
+var myApp = {{BUNDLED_CODE}};
+
+// library: 'myApp', libraryTarget: 'var', libraryExport: 'default':
+var myApp = {{BUNDLED_CODE}}.default;
 ```
 
 ### 本地 build 与上线 build
 1. 公共组件库 C 需要先 build，再 `npm link` 映射到全局的 node_modules，然后被其他项目 `npm link C` 引用。(关于 `npm link` 的使用场景可以看看 https://github.com/atian25/blog/issues/17)
 2. 项目 A 的上线脚本中会先进入组件库 C，执行 `npm build` 和 `npm link`，之后再进入项目 A 本身，执行 `npm link C`，`npm build` 等项目本身的构建。
 3. 项目 C 会在本地构建（静态资源传七牛），远程仓库中包括 `server-static` 存放 build 后的静态文件，它的上线脚本里并不含构建过程，只是在拷贝仓库中的 `server-static` 目录。因为源文件中会有对组件库的引用 `import foo from 'C/dist/foo.js`，本地 build 时组件库已经被打包进去。
+
+```sh
+prefixOss=`echo ${CI_COMMIT_REF_NAME} | sed -e "s/\_/-/g" -e "s/\//-/g"`
+
+[ -z ${CI_COMMIT_TAG} ] && sed -i -E "s/^  \"version\": \"[0-9\.]+\"/  \"version\": \"0.0.0-${prefixOss}-${CI_COMMIT_SHORT_SHA}\"/g" package.json
+```
+
+The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning it's not a tag build). If that's the case, it uses sed to perform an in-place replacement in the `package.json` file. Specifically, it looks for lines that start with "version": "[0-9\.]+" and replaces them with a new version format `0.0.0-${prefixOss}-${CI_COMMIT_SHORT_SHA}`. This script appears to be adjusting versioning and paths based on the branch or tag being built in a CI/CD pipeline.
+
+> The `s` command is for substitute, to replace text -- the format is `s/[text to select]/[text to replace]/`. For example, `sed 's/target/replacement/g' file.txt` will globally substitute the word `target` with `replacement`.
 
 ### 本地 build 脚本
 1. 使用 [ora](https://www.npmjs.com/package/ora) 做 spinner，提示 building for production...

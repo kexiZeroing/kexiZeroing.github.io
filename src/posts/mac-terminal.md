@@ -297,7 +297,6 @@ Open Activity Monitor, you’ll see a column named “Kind”. If the app says �
 > - If you try to install older versions of node as usual, you will probably experience either compilation errors when installing node or out-of-memory errors while running your code.
 
 ## 常⽤命令和作用
-Linux Commands Xmind: https://xmind.app/m/K3SKii
 
 | 常⽤命令 |  作用 |
 |  ----   | ---- |
@@ -335,8 +334,20 @@ Linux Commands Xmind: https://xmind.app/m/K3SKii
 | cat /etc/hosts | 管理 IP 地址和主机名之间的映射
 | cat /etc/resolv.conf | DNS 客户机配置文件
 | find . -name "*.txt" -maxdepth 1 \| xargs grep "foo" | 将标准输入转换成命令行参数 first find the files and then look for specific keyword
+|
 
-`/etc` is a symlink to `/private/etc`. They both have the same contents. The same is true for `/tmp` and `/var`.
+System Information Library for Node.js: https://systeminformation.io
+```js
+import { cpu, osInfo } from "systeminformation";
+
+const { manufacturer, brand, speed, cores } = await cpu();
+const { distro, release, codename} = await osInfo();
+console.log(`
+  Node ${process.version}
+  ${manufacturer} ${brand} ${speed}ghz ${cores} cores
+  ${distro} ${release} ${codename}
+`);
+```
 
 ## Cron Syntax
 Cron is a UNIX tool that has been around for a long time, so its scheduling capabilities are powerful and proven. [cRonstrue](https://bradymholt.github.io/cRonstrue/) is a JavaScript library that translates cron expressions to human readable descriptions.
