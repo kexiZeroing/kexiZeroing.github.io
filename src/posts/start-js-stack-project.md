@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "July 30 2023"
+updatedDate: "Aug 6 2023"
 ---
 
 ## Start a modern front-end project
@@ -37,7 +37,18 @@ npm create vue@latest
 
 You can also start your app development process with the pre-built solutions: https://vercel.com/templates
 
-> A real project can be checked out: [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, Tailwind, Prisma, and MySQL, including Dashboard and CMS creation.
+> **React**: check out the project [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in this project:
+> 
+> - @clerk/nextjs: add authentication and user management to your Next.js application.
+> - prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. It integrates Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database.
+> - zustand: one of many state management libraries for React.
+> - react-hot-toast: lightweight notifications for React.
+> - lucide-react: implementation of the lucide icon library for react applications.
+> - date-fns: modern JavaScript date utility library.
+> - next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the CldImage component, social cards, and an upload widget.
+> - @tanstack/react-table: headless UI for building powerful tables & datagrids for React.
+>
+> **Vue**: check out the project [AliExpress Clone](https://github.com/John-Weeks-Dev/aliexpress-clone), built with Nuxt 3, Vue, Supabase, Stripe, Tailwind CSS, Prisma, Pinia, and hosted on Netlify.
 
 ### Release helper
 - Interactive CLI that bumps version number (with `--commit` `--tag` `--push` by default): https://github.com/antfu/bumpp
@@ -378,3 +389,11 @@ To solve the latency problem, very smart folks came up with the idea of deployin
 > Cloud = a server, somewhere; Edge = a server, close to you
 
 For example, with [Netlify Edge Functions](https://edge-functions-examples.netlify.app), you can transform HTTP Requests and Responses, stream server rendered content, and even run full server side rendered applications. And this all happens at the Edge — directly from the worldwide location closest to each user. You can write edge functions using JavaScript or TypeScript, but instead of using Node.js under the hood, they are powered by Deno.
+
+### Worker runtimes
+Worker Runtimes are an adaptation of the Service Workers API, which is a browser standard for offline web applications. To give web developers more freedom over offline experiences, the specification includes a minimal HTTP server. Since it was published, other vendors have implemented this API for servers that run in the cloud — or on the edge in the case of Cloudflare Workers.
+
+Cloudflare Workers provides a serverless execution environment that allows you to create new applications or augment existing ones without configuring or maintaining infrastructure. Under the hood, the Workers runtime uses the V8 engine. The Workers runtime also implements many of the standard APIs available in most modern browsers. Rather than running on an individual’s machine (for example, a browser application or on a centralized server), Workers functions run on Cloudflare’s Edge Network - a growing global network of thousands of machines distributed across hundreds of locations.
+
+- https://developers.cloudflare.com/workers/learning/how-workers-works
+- https://deno.com/deploy/docs
