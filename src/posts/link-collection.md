@@ -386,6 +386,8 @@ Modular and Accessible UI Components for your Vue Applications: https://vue.chak
 
 Vue port of Radix UI Primitives: https://www.radix-vue.com
 
+Nuxt on the Edge: https://nuxt.com/blog/nuxt-on-the-edge
+
 ---
 
 ## Support lifecycles of various products
