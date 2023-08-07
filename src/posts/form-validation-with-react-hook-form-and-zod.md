@@ -1,6 +1,6 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Form Validation with React Hook Form and Zod"
+title: "Form validation with React Hook Form and Zod"
 slug: form-validation-with-react-hook-form-and-zod
 description: ""
 added: "Aug 6 2023"
