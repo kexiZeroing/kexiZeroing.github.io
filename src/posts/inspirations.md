@@ -24,7 +24,7 @@ order: 3
 - @JoshWComeau blog https://www.joshwcomeau.com
 - @lydiahallie technology through writing and visualizations
 - @ChromiumDev @Una Chrome DevRel team https://web.dev/blog
-- @rauchg @steventey at Vercel about DX
+- @rauchg @steventey @leeerob at Vercel about DX
 - @csswizardry about web performance https://csswizardry.com/archive
 - @BHolmesDev #WhiteboardTheWeb https://wtw.dev
 - @jlengstorf Learn With Jason https://www.learnwithjason.dev/episodes
@@ -51,3 +51,12 @@ You will do your best work when you are supported and included. You will make up
 An inclusive team will not judge you for switching multiple times finding the right fit. And hiring managers, have more confidence in your ability to create an environment that people want to stay at. The past at other teams and other situations doesn’t predict the future at your team and this situation. I have seen so many “jumpy” people find their “home” after so many jumps. Sometimes it’s the first decent manager they have, sometimes the first company they can grow with and so on...
 
 Don't ask people why they left their last position. They often can't tell you, and it's not relevant. Instead, ask what they are looking for in their next role. You can even ask how long they intend to stay, or what would entice them to spend N years on the same team or role.
+
+## Product and Platform Engineers by Lee Robinson
+The divide between frontend and backend engineers is increasingly less useful:
+- Frontend developers are no longer just writing HTML, CSS, and JavaScript. It's now common to see a frontend-focused developer build an entire web application from scratch. They integrate and connect to databases, handle authentication, and more.
+- Backend developers are often forced to choose between two paths: writing more frontend code to support their backend, or moving closer towards managing, maintaining, and building software infrastructure used by the former developers.
+
+Product Engineers consider the frontend, backend, design, and everything in between to create a great user experience. They don't need to understand every part deeply, a common misconception of "fullstack". Instead, they have a broad understanding of the available tools and deep experience applying those tools to build products. At Vercel, we updated our job descriptions to change references from Fullstack to Product Engineers.
+
+While Product Engineers focus on building and enhancing features that solve end user problems, Platform Engineers focus on the infrastructure that supports the product.

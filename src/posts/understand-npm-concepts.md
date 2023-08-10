@@ -74,6 +74,10 @@ The `npm install` command will install both *devDependencies* and *dependencies*
 
 In npm versions 3 through 6, `peerDependencies` were not automatically installed, and would raise a warning if an invalid version of the peer dependency was found in the tree. **As of npm v7, `peerDependencies` are installed by default.** If your dependency contains some `peerDependencies` that conflict with the root project's dependency, run `npm install --legacy-peer-deps` to tell npm to ignore peer deps and proceed with the installation anyway.
 
+> `@npmcli/arborist` is the library that calculates dependency trees and manages the `node_modules` folder hierarchy for the npm command line interface. It's used in some tools like [npm-why](https://github.com/amio/npm-why) to help identify why a package has been installed.
+>
+> Arborist - the npm tree doctor: `npx @npmcli/arborist --help`
+
 ### URLs as dependencies
 See details at https://docs.npmjs.com/cli/v8/configuring-npm/package-json#urls-as-dependencies
 1. Git URLs as dependencies
