@@ -47,6 +47,7 @@ You can also start your app development process with the pre-built solutions: ht
 > - date-fns: modern JavaScript date utility library.
 > - next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the CldImage component, social cards, and an upload widget.
 > - @tanstack/react-table: headless UI for building powerful tables & datagrids for React.
+> - query-string: parse and stringify URL query strings.
 >
 > **Vue**: check out the project [AliExpress Clone](https://github.com/John-Weeks-Dev/aliexpress-clone), built with Nuxt 3, Vue, Supabase, Stripe, Tailwind CSS, Prisma, Pinia, and hosted on Netlify.
 

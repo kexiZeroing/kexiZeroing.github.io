@@ -43,6 +43,7 @@ updatedDate: "July 15 2023"
 
 - If `depth` is not set, `npm ls` will show only the immediate dependencies of the root project.
 - If `--all` is set, it will show all dependencies by default.
+- `npm ls <package>` to check a specific package.
 
 ```js
 const cp = require("child_process");

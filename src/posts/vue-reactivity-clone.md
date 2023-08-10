@@ -7,6 +7,21 @@ added: "June 18 2023"
 tags: [code]
 ---
 
+### Vue reactivity
+By default, JavaScript isn’t reactive.
+
+```js
+let framework = 'Vue'
+let sentence = `${framework} is awesome`
+console.log(sentence)
+// logs "Vue is awesome"
+
+framework = 'React'
+console.log(sentence)
+// still logs "Vue is awesome"
+// should log "React is awesome" if 'sentence' is reactive.
+```
+
 <img alt="Vue3 reactivity" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/ba9fd338-ae71-43ab-88cc-52086aa8700a.png" width="650" />
 
 ```js
@@ -114,4 +129,22 @@ watcher(() => {
 
 product.quantity = 5
 product.price = 12
+```
+
+### Render function
+When using the render function instead of templates, you'll be using the `h` function a lot. It creates a VNode (virtual node), an object that Vue uses internally to track updates and what it should be rendering.
+
+```vue
+<script>
+import { h } from 'vue'
+
+export default {
+  render() {
+    return h("div", {}, [
+      h("h1", {}, "Render Functions are awesome"),
+      h("p", {class: 'text-blue-400'}, "Some text")
+    ]);
+  }
+}
+</script>
 ```

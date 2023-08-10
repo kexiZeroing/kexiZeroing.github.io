@@ -62,12 +62,6 @@ Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版�
 - 如果不习惯 Vite ，依然可以使用 [Vue CLI](https://cli.vuejs.org) 作为开发脚手架，它使用的构建工具还是基于 Webpack。使用 create 命令 `vue create hello-vue3` 根据提示创建项目。*(Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use create-vue to scaffold Vite-based projects.)*
 - [Volar](https://blog.vuejs.org/posts/volar-1.0.html) 是 Vue 官方推荐的 VSCode 扩展 *(the official IDE/TS tooling support for Vue)*，用以代替 Vue 2 时代的 Vetur 插件。
 
-```js
-// Check the version of vue.js at runtime
-import { version } from 'vue'
-console.log(version)
-```
-
 ### 一些 webpack 的配置
 - Webpack 5 Crash Course: https://www.youtube.com/watch?v=IZGNcSuwBZs
 - Webpack 5 boilerplate: https://github.com/taniarascia/webpack-boilerplate
@@ -252,6 +246,32 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 3. 调用 `webpack()` 传入配置 `webpack.prod.conf` 和一个回调函数，**webpack stats 对象** 作为回调函数的参数，可以通过它获取到 webpack 打包过程中的信息，使用 `process.stdout.write(stats.toString(...))` 输出到命令行中 (`console.log` in Node is just `process.stdout.write` with formatted output)
 4. 使用 [chalk](https://www.npmjs.com/package/chalk) 在命令行中显示一些提示信息。
 5. 补充：目前大多数工程都是通过脚手架来创建的，使用脚手架的时候最明显的就是与命令行的交互，[Inquirer.js](https://github.com/SBoudrias/Inquirer.js) 是一组常见的交互式命令行用户界面。[Commander.js](https://github.com/tj/commander.js) 作为 node.js 命令行解决方案，是开发 node cli 的必备技能。
+
+### 老项目升级
+背景：引用第三方 sdk，babel 版本过低导致引入的 js 里面有些语法不认识  
+-> 升级 babel (检查 `npm ls babel-core` 看还有没有旧版本被引用)  
+-> Error: Requires Babel "^7.0.0-0", but was loaded with "6.26.3"  
+-> babel-loader 版本不够，升级  
+-> babel-loader 报错 Error: Cannot find module 'fs/promises'  
+-> node 版本过低导致 In the old version of Node.js, there's no dedicated module fs/promises yet  
+-> 用 node 16 跑 npm install 报错，因为 node-sass 与 node 版本绑定，升级 node-sass 下载 bindings 等比较麻烦  
+-> 去掉 node-sass，安装 sass，升级 sass-loader  
+-> npm run 报错 this.getOptions is not a function，查 sass-loader 更新日志看到 sass-loader@8 minimum required webpack version is 4.36.0  
+-> 不升级 webpack 情况下试一下低版本的 sass-loader 也不行  
+-> 结论就是需要全面升级  
+
+配置 babel-loader 不编译引入的 sdk 文件：  
+Transpiling is an expensive process and many projects have thousands of lines of code imported in that babel would need to run over. Your `node_modules` should already be runnable without transpiling and there are simple ways to exclude your `node_modules` but transpile any code that needs it.
+```js
+{
+  test: /\.js$/,
+  exclude: /node_modules\/(?!(my_main_package\/what_i_need_to_include)\/).*/,
+  use: {
+    loader: 'babel-loader',
+    options: ...
+  }
+}
+```
 
 ### 后端模板
 有些 url 请求是后端直出页面返回 html，通过类似 `render_to_response(template, data)` 的方法，将数据打到模板 html 中，模板里会引用 `xx/static/js` 路径下的 js 文件，这些 js 使用 require 框架，导入需要的其他 js 文件或 tpl 模板，再结合业务逻辑使用 underscore 的 template 方法（`_.template(xx)`）可以将 tpl 渲染为 html，然后被 jquery `.html()` 方法插入到 DOM 中。
