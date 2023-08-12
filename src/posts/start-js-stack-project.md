@@ -48,6 +48,8 @@ You can also start your app development process with the pre-built solutions: ht
 > - next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the CldImage component, social cards, and an upload widget.
 > - @tanstack/react-table: headless UI for building powerful tables & datagrids for React.
 > - query-string: parse and stringify URL query strings.
+> - recharts: chart library to help you to write charts in React.
+> - stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
 >
 > **Vue**: check out the project [AliExpress Clone](https://github.com/John-Weeks-Dev/aliexpress-clone), built with Nuxt 3, Vue, Supabase, Stripe, Tailwind CSS, Prisma, Pinia, and hosted on Netlify.
 
