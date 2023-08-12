@@ -394,6 +394,12 @@ To solve the latency problem, very smart folks came up with the idea of deployin
 For example, with [Netlify Edge Functions](https://edge-functions-examples.netlify.app), you can transform HTTP Requests and Responses, stream server rendered content, and even run full server side rendered applications. And this all happens at the Edge — directly from the worldwide location closest to each user. You can write edge functions using JavaScript or TypeScript, but instead of using Node.js under the hood, they are powered by Deno.
 
 ### Worker runtimes
+What JS engines/runtimes do we have now?
+- Three main engines: V8 (Chromium), SpiderMonkey (Firefox), JavaScriptCore (Safari)
+- Node.js, Deno, Cloudflare Workers: all run on V8
+- Bun: runs on JavascriptCore
+- (Fastly Compute, Alibaba, Bloomberg, Bytedance also have server runtimes)
+
 Worker Runtimes are an adaptation of the Service Workers API, which is a browser standard for offline web applications. To give web developers more freedom over offline experiences, the specification includes a minimal HTTP server. Since it was published, other vendors have implemented this API for servers that run in the cloud — or on the edge in the case of Cloudflare Workers.
 
 Cloudflare Workers provides a serverless execution environment that allows you to create new applications or augment existing ones without configuring or maintaining infrastructure. Under the hood, the Workers runtime uses the V8 engine. The Workers runtime also implements many of the standard APIs available in most modern browsers. Rather than running on an individual’s machine (for example, a browser application or on a centralized server), Workers functions run on Cloudflare’s Edge Network - a growing global network of thousands of machines distributed across hundreds of locations.
