@@ -65,8 +65,17 @@ function getImageSize(imgUrl) {
         count++;
         console.log(count)
         if (count === allImageUrls.length) {
+          console.log(`Total images: ${allImageUrls.length}\n`);
           console.log(resHtml);
+          pbcopy(resHtml);
         }
     })
   })
+}
+
+// only for Mac
+function pbcopy(data) {
+  var proc = require('child_process').spawn('pbcopy'); 
+  proc.stdin.write(data);
+  proc.stdin.end();
 }
