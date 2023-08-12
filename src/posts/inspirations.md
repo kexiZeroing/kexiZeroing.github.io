@@ -25,9 +25,9 @@ order: 3
 - @lydiahallie technology through writing and visualizations
 - @ChromiumDev @Una Chrome DevRel team https://web.dev/blog
 - @rauchg @steventey @leeerob at Vercel about DX
-- @csswizardry about web performance https://csswizardry.com/archive
 - @BHolmesDev #WhiteboardTheWeb https://wtw.dev
 - @jlengstorf Learn With Jason https://www.learnwithjason.dev/episodes
+- @asidorenko_ short videos about React/Next.js
 
 ## Learn from mistakes
 1. Make a mistake 

@@ -180,7 +180,7 @@ Zstandard (zstd) - Fast real-time compression algorithm: https://facebook.github
 
 Camera-controlled snake game built with Angular and TensorFlow: https://angular-tensorflow-snake.web.app/signals
 
-Create beautiful images of your source code: https://chalk.ist
+A beautiful Syntax Highlighter: https://shiki.matsu.io
 
 Console for mobile browsers: https://github.com/liriliri/eruda
 

@@ -1600,5 +1600,10 @@ function expect(actual) {
 
 Instead of building our own framework, [Jest](https://jestjs.io) is a JavaScript testing framework built on top of Jasmine and maintained by Meta. It works out of the box for most JavaScript projects.
 
+> React beginners often confuse the tools for testing in React: 
+> - Jest is a test runner that finds tests, runs the tests, and determines whether the tests passed or failed. Additionally, Jest offers functions for test suites, test cases, and assertions.
+> - [React Testing Library](https://github.com/testing-library/react-testing-library) is not a test runner. It provides virtual DOMs for testing React components. If you are using create-react-app, Jest and React Testing Library comes by default with the installation. Enzyme and React Testing Library are two similar things and alternatives to each other.
+> - Vitest is a popular alternative to Jest, especially when being used in Vite. It also comes with a test runner, test suites (describe-block), test cases (it-block), and assertions (e.g. expect).
+
 ## Javascript obfuscation techniques
 https://www.trickster.dev/post/javascript-obfuscation-techniques-by-example
