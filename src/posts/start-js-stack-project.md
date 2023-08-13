@@ -37,7 +37,7 @@ npm create vue@latest
 
 You can also start your app development process with the pre-built solutions: https://vercel.com/templates
 
-> **React**: check out the project [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in this project:
+> Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in this project:
 > 
 > - @clerk/nextjs: add authentication and user management to your Next.js application.
 > - prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. It integrates Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database.
@@ -50,8 +50,6 @@ You can also start your app development process with the pre-built solutions: ht
 > - query-string: parse and stringify URL query strings.
 > - recharts: chart library to help you to write charts in React.
 > - stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
->
-> **Vue**: check out the project [AliExpress Clone](https://github.com/John-Weeks-Dev/aliexpress-clone), built with Nuxt 3, Vue, Supabase, Stripe, Tailwind CSS, Prisma, Pinia, and hosted on Netlify.
 
 ### Release helper
 - Interactive CLI that bumps version number (with `--commit` `--tag` `--push` by default): https://github.com/antfu/bumpp

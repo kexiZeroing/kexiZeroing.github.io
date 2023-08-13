@@ -312,6 +312,8 @@ Delightful JavaScript plugins: https://metafizzy.co
 
 Audio waveform player: https://wavesurfer-js.org
 
+Real-time collaboration infrastructure for building performant collaborative experiences: https://liveblocks.io/docs
+
 ---
 
 ## React ecosystem
