@@ -17,4 +17,3 @@ Astro includes built-in support for standard Markdown files. With the `@astrojs/
 - Astro CHANGELOG: https://github.com/withastro/astro/blob/main/packages/astro/CHANGELOG.md
 - Astro starter template: https://github.com/surjithctly/astroship
 - Build beautiful, high-performance documentation websites with Astro: https://starlight.astro.build
-- Astro starter powered by MPA view transitions: https://github.com/argyleink/morphull
