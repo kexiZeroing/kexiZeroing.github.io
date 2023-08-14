@@ -5,6 +5,7 @@ slug: form-validation-with-react-hook-form-and-zod
 description: ""
 added: "Aug 6 2023"
 tags: [web]
+updatedDate: "Aug 14 2023"
 ---
 
 ## Setup
@@ -209,6 +210,49 @@ function App() {
 ```
 
 ## Using shadcn `<Form />` component
-
 - https://ui.shadcn.com/docs/components/form
 - https://ui.shadcn.com/examples/forms
+
+To understand shadcn/ui, first we need to know what does `class-variance-authority` do. It basically is a function, that allows us to define variants for the element we want to style. A simple variant definition has a name and a list of possible values, each with a list of classes that should apply.
+
+Let's build a button component, using `cva` to handle our variant's classes.
+
+```jsx
+// 
+import { cva } from "class-variance-authority";
+ 
+const button = cva(["font-semibold", "border", "rounded"], {
+  variants: {
+    intent: {
+      primary: [
+        "bg-blue-500",
+        "text-white",
+        "border-transparent",
+        "hover:bg-blue-600",
+      ],
+      // **or**
+      // primary: "bg-blue-500 text-white border-transparent hover:bg-blue-600",
+      secondary: [
+        "bg-white",
+        "text-gray-800",
+        "border-gray-400",
+        "hover:bg-gray-100",
+      ],
+    },
+    size: {
+      small: ["text-sm", "py-1", "px-2"],
+      medium: ["text-base", "py-2", "px-4"],
+    },
+  },
+  defaultVariants: {
+    intent: "primary",
+    size: "medium",
+  },
+});
+ 
+button();
+// => "font-semibold border rounded bg-blue-500 text-white border-transparent hover:bg-blue-600 text-base py-2 px-4"
+ 
+button({ intent: "secondary", size: "small" });
+// => "font-semibold border rounded bg-white text-gray-800 border-gray-400 hover:bg-gray-100 text-sm py-1 px-2"
+```
