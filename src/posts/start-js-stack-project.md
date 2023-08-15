@@ -35,7 +35,7 @@ npm create vite@latest my-vue-app -- --template vue
 npm create vue@latest
 ```
 
-You can also start your app development process with the pre-built solutions: https://vercel.com/templates
+[next-template](https://github.com/shadcn-ui/next-template) is a Next.js 13 template for building apps with Radix UI and Tailwind CSS. You can also start your app development process with other pre-built solutions: https://vercel.com/templates
 
 > Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in this project:
 > 
@@ -177,6 +177,13 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 
 ## Set up Prettier and ESLint
 1. Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
+    ```json
+    // .vscode/settings.json
+    {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    }
+    ```
 2. We can edit some default settings for prettier in settings (`cmd + ,`, then type prettier)
 3. Install eslint and prettier npm packages `npm i -D eslint prettier`. *(ESLint only as an npm package does not provide any editor integration, only the CLI executable.)*
 4. Run `eslint --init` to create a `eslintrc.json` (or `.js`, `.yml`) config file after install eslint globally `npm i -g eslint` (otherwise need to run `./node_modules/eslint/bin/eslint.js --init`), pick the following options:
@@ -207,7 +214,7 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
             browser: true,
             es2021: true,
         },
-        extends: ['airbnb-base', 'prettier'],
+        extends: ['airbnb-base', 'prettier'], // ["eslint:recommended"],
         parserOptions: {
             ecmaVersion: 12,
             sourceType: 'module',
@@ -219,6 +226,8 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
     };
     ```
 8. Add `eslint src` as a lint script which can be run as `npm run lint`, and it shows eslint errors in the Problems tab. Run `npm run lint -- --fix` to fix errors (if not format on save).
+
+<img alt="format & eslint" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a79fd1f2-367d-464d-b6eb-34db4aa17a71.png" width="450" />
 
 ### Configure ESLint in an existing project
 If you joined a project that uses ESLint to manage its code style, you wanted to match the team’s formatting. You can configure VSCode to use the `eslintrc.json` file in the project’s root dir instead of Prettier.
