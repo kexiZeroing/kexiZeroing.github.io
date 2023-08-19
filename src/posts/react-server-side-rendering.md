@@ -88,6 +88,11 @@ ReactDOM.hydrate(<App />, document.getElementById('ssr-app'));
 ```
 
 ## Adding File-System Based Routing and Data Fetching
+Let's learn from https://www.youtube.com/watch?v=3RzhNYhjVAw&t=460s
+1. server side rendering
+2. server side routing
+3. fetch data as early as possible
+4. renderToString vs. renderToPipeableStream
 
 ```js
 import React from "react";

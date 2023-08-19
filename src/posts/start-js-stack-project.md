@@ -30,6 +30,8 @@ npx shadcn-ui@latest add button
 ```
 
 ```
+npm create vite@latest
+
 npm create vite@latest my-vue-app -- --template vue
 
 npx nuxi init my-app

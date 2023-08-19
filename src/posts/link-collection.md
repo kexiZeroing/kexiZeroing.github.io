@@ -338,7 +338,7 @@ Guide to React Rendering Behavior: https://blog.isquaredsoftware.com/2020/05/blo
 
 Build your own React: https://pomb.us/build-your-own-react
 
-Just React (in Chinese): https://github.com/BetaSu/just-react
+All Developer Way Articles about React: https://www.developerway.com/posts?filter=react
 
 A collection of React hooks from the ui.dev team: https://usehooks.com
 
@@ -358,7 +358,7 @@ React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.co
 
 React Server Components from scratch: https://github.com/reactwg/server-components/discussions/5
 
-A demo of using RSC and Vercel Postgres, legally: https://github.com/rauchg/how-is-this-not-illegal
+A demo of using RSC and Vercel Postgres legally: https://github.com/rauchg/how-is-this-not-illegal
 
 Next.js full stack projects: https://www.codewithantonio.com/projects
 
