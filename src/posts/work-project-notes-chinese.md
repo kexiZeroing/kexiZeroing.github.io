@@ -513,3 +513,5 @@ Advantages over `localStorage`:
 5. Blank screen on builds, but works fine on serve. This issue is likely caused when Vue Router is operating in `history` mode. In Electron, it only works in `hash` mode.
   > - 本地开发时是 http 服务，当访问某个地址的时候，其实真实目录下是没有这个文件的，本地服务可以帮助重定向到 `/index.html` 这是一定存在的入口文件，相当于走前端路由。一但打包之后，页面就是静态文件存放在目录中了，Electron 是找不到类似 `/index/page/1/2` 这样的目录的，所以需要使用 `/index.html#page/1/2` 这样的 hash 模式。同样，如果是 Web 项目使用了 history 模式打包，如果不在 nginx 中将全部 url 指向 `./index.html` 的话，也会出现 404 的错误，也就是需要把路由移交给前端去控制。
   > - hash mode 是默认模式，原理是使用 `location.hash` 和 `onhashchange` 事件，利用 `#` 后面的内容不会被发送到服务端实现单页应用。history mode 要手动设置 `mode: 'history'`, 是基于 History API 来实现的，这也是浏览器本身的功能，地址不会被请求到服务端。
+6. 关于 Icon 图标，Windows（.ico 文件）和 Mac（.icns 文件）的都是复合格式，包含了多种尺寸和颜色模式，Linux 就是多张 png。注意不要把 png 直接改成 ico，可以使用在线工具转换。如果 Windows 窗口或任务栏图标未更换成功，可能是 ico 文件中缺少小尺寸图标，如缺少 16x16 或 32x32 的图标。
+7. 可以通过命令行启动程序，查看打包后的主进程日志，Mac 进入到 `/Applications/Demo.app/Contents/MacOS/` 路径，执行 `./Demo` 启动应用层序。Windows 上打开 Powershell 进入到程序的安装目录，执行 `.\Demo.exe`，如果文件名中有空格，需要用双引号把文件名引起来。
