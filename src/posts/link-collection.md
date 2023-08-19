@@ -188,6 +188,8 @@ Get an insight into the inner-workings of a given website: https://web-check.xyz
 
 Astro starter powered by MPA view transitions: https://github.com/argyleink/morphull
 
+Web accessibility interactive quizzes: https://www.a11yiseverything.com/quizzes/aria-label/
+
 ---
 
 ## CSS related
@@ -312,9 +314,9 @@ Color palette inspiration site: https://www.happyhues.co
 
 Delightful JavaScript plugins: https://metafizzy.co
 
-Audio waveform player: https://wavesurfer-js.org
-
 Real-time collaboration infrastructure for building performant collaborative experiences: https://liveblocks.io/docs
+
+Make videos programmatically with React: https://www.remotion.dev
 
 ---
 
@@ -393,6 +395,8 @@ Modular and Accessible UI Components for your Vue Applications: https://vue.chak
 Vue port of Radix UI Primitives: https://www.radix-vue.com
 
 Nuxt on the Edge: https://nuxt.com/blog/nuxt-on-the-edge
+
+Pre-built Auth UI for Vue: https://github.com/nuxtbase/auth-ui-vue
 
 ---
 

@@ -362,6 +362,64 @@ https://codepen.io/argyleink/pen/NWOEvro
 </script>
 ```
 
+<img alt="just the tabs" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/245b6eaa-8117-430d-a2aa-faa40e0e51a2.png" width="450">
+
+https://codepen.io/argyleink/pen/GRPRJyM
+
+```html
+<body>
+  <div class="just-the-tabs">
+    <div class="tab" style="view-transition-name: tab-1">
+      <span contenteditable>This is a tab</span>
+      <button>×</button>
+    </div>
+    <div class="tab" style="view-transition-name: tab-2">
+      <span contenteditable>web.dev</span>
+      <button>×</button> 
+    </div>
+    <div class="tab" style="view-transition-name: tab-3">
+      <span contenteditable>candy - Google Search</span>
+      <button>×</button>
+    </div>
+    <button id="newtab" style="view-transition-name: new-tab">+</button>
+  </div>
+
+  <script>
+    const tabs = document.querySelector('.just-the-tabs')
+
+    tabs.addEventListener('click', e => {
+      if (e.target.nodeName !== 'BUTTON') return
+      
+      function mutate() {
+        e.target.parentElement.remove()
+      }
+      
+      document.startViewTransition 
+        ? document.startViewTransition(mutate)
+        : mutate()
+    })
+
+    let i = tabs.childElementCount
+    newtab.addEventListener('click', e => {
+      e.preventDefault()
+      e.stopPropagation()
+      
+      const tab = `<div class="tab" style="view-transition-name: tab-${i++}"><span contenteditable>New Tab</span><button>×</button></div>`
+
+      function mutate() {
+        tabs.insertAdjacentHTML('beforeend', tab)
+        tabs.appendChild(newtab)
+        newtab.focus()
+      }
+      
+      document.startViewTransition 
+        ? document.startViewTransition(mutate)
+        : mutate()
+    })
+  </script>
+</body>
+```
+
 ### Filter and backdrop filter
 [backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) have the same effect as [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter), with one notable difference — backdrop filters apply only to areas behind the element instead of to the element and its children. Filters, on the other hand, apply directly to the element and its children, and don’t affect anything behind the element.
 

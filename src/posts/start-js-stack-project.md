@@ -32,7 +32,7 @@ npx shadcn-ui@latest add button
 ```
 npm create vite@latest my-vue-app -- --template vue
 
-npm create vue@latest
+npx nuxi init my-app
 ```
 
 [next-template](https://github.com/shadcn-ui/next-template) is a Next.js 13 template for building apps with Radix UI and Tailwind CSS. You can also start your app development process with other pre-built solutions: https://vercel.com/templates
@@ -340,7 +340,7 @@ The web platform is severely lacking in terms of UI components. There's pretty m
 People constantly have to reinvent the wheel to offer fairly basic functionality, so it’s good that there are libraries to handle the behaviour and accessibility while supporting whatever visual styles you want to make.
 
 - [Headless UI](https://headlessui.com) is a good example, which contains completely unstyled, fully accessible UI components, designed to integrate beautifully with Tailwind CSS.
-- [Radix UI](https://github.com/radix-ui/primitives) is a low-level UI component library with a focus on accessibility, customization and developer experience. You can use these components either as the base layer of your design system, or adopt them incrementally.
+- [Radix UI](https://github.com/radix-ui/primitives) is a low-level UI component library with a focus on accessibility, customization and developer experience. You can use these components either as the base layer of your design system, or adopt them incrementally. Try out: https://www.radix-ui.com/themes/playground
 
 Examples:
 1. The video [So You Think You Can Build A Dropdown?](https://www.youtube.com/watch?v=lY-RQjWeweo) is diving deep into the complexities of designing and building a fully-accessible dropdown menu.
