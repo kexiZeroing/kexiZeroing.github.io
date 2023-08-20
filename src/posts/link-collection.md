@@ -352,6 +352,8 @@ Up and Running with Remix: https://egghead.io/courses/up-and-running-with-remix-
 
 Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/next-vs-remix
 
+Advanced Remix Workshop: https://github.com/remix-run/advanced-remix-2023
+
 A gentle introduction to React, but visualized: https://react.gg/visualized
 
 React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.com/watch?v=zMf_xeGPn6s
