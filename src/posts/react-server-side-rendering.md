@@ -88,6 +88,43 @@ import App from './components/App';
 ReactDOM.hydrate(<App />, document.getElementById('ssr-app'));
 ```
 
+### React hydration error
+While rendering your application, there was a difference between the React tree that was pre-rendered from the server and the React tree that was rendered during the first render in the browser (hydration).
+
+When the React app runs on the client for the first time, it builds up a mental picture of what the DOM should look like, by mounting all of your components. Then it squints at the DOM nodes already on the page, and tries to fit the two together. By rendering something different depending on whether we're within the server-side render or not, we're hacking the system. We're rendering one thing on the server, but then telling React to expect something else on the client.
+
+To avoid issues, we need to ensure that the hydrated app matches the original HTML. When the React app adopts the DOM during hydration, `useEffect` hasn't been called yet, and so we're meeting React's expectation. (And immediately after this comparison, we trigger a re-render, and this allows React to do a proper reconciliation. It'll notice that there's some new content to render here.)
+
+```tsx
+'use client';
+
+import React, { useState, useEffect } from 'react';
+
+interface ClientOnlyProps {
+  children: React.ReactNode;
+}
+
+const ClientOnly: React.FC<ClientOnlyProps> = ({ 
+  children
+}) => {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, [])
+
+  if (!hasMounted) return null;
+
+  return (
+    <>
+      {children}
+    </>
+  );
+};
+
+export default ClientOnly;
+```
+
 ## Adding File-System Based Routing and Data Fetching
 Learn from https://www.youtube.com/watch?v=3RzhNYhjVAw&t=460s
 1. server side rendering
@@ -147,6 +184,9 @@ app.listen(3000, () => {
 In SSR, JavaScript still needs to be fetched for interactivity which is often achieved via a hydration step. Server-side rendering is generally used for the initial page load, so post-hydration you're unlikely to see it used again.
 
 Before React Server Components, all React components are “client” components — they are all run in the browser. RSC makes it possible for some components to be rendered by the server, and some components to be rendered by the browser. Server Components are not a replacement for SSR, enabling rendering into an intermediate abstraction format without needing to add to the JavaScript bundle. When an RSC needs to be re-rendered, due to state change, it refreshes on the server and seamlessly merges into the existing DOM without a hard refresh.
+
+- Server Component: Fetch data; Access backend resources directly; Keep large dependencies on the server.
+- Client Component: Add interactivity and event listeners (`onClick()`); Use State and Lifecycle Effects (`useState()`, `useEffect()`); Use browser-only APIs.
 
 > What is RSC wire format?  
 > The server sends a serialized tree (similar to JSON but with “holes”) to the browser, and the browser can do the work of deserializing it, filling the client placeholders with the actual client components, and rendering the end result.
