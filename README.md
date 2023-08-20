@@ -8,7 +8,7 @@ https://kexizeroing.github.io
 - Posts searching uses static search library [pagefind](https://pagefind.app).
 - A "Pictures" page contains all the images in all posts. Use [image-size](https://github.com/image-size/image-size) to detect image dimensions and [PhotoSwipe](https://photoswipe.com) to preview.
 
-## About Astro
+## About Astro - content focus with server-first MPA architecture
 By default, [Astro](https://astro.build) ships HTML and CSS. No JavaScript at all. This is ideal for a substantial portion of the sites on the internet — most of these sites show us text and images without much interactivity or state. However, unlike previous tools that are against JavaScript, Astro fully embraces it. You can add any JavaScript you want, using any framework you want, and opt-in to shipping JS on the client side. Astro’s got you covered.
 
 Astro includes built-in support for standard Markdown files. With the `@astrojs/mdx` integration installed, Astro also supports [MDX](https://docs.astro.build/en/guides/markdown-content/) (`.mdx`) files which bring added features like support for JSX expressions and components in your Markdown content.
