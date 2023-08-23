@@ -396,6 +396,8 @@ Modular and Accessible UI Components for your Vue Applications: https://vue.chak
 
 Vue port of Radix UI Primitives: https://www.radix-vue.com
 
+Vue UI Component Library: https://primevue.org
+
 Nuxt on the Edge: https://nuxt.com/blog/nuxt-on-the-edge
 
 Pre-built Auth UI for Vue: https://github.com/nuxtbase/auth-ui-vue
@@ -491,6 +493,8 @@ AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel-
 How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr-code/
 
 An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
+
+Open-source logging and analytics platform for OpenAI: https://github.com/dillionverma/llm.report
 
 ---
 
