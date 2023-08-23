@@ -367,30 +367,6 @@ There are different families of cloud services.
 
 Serverless functions are an approach to writing back-end code that doesn’t require writing a back-end. In the simplest terms: we write a function using our preferred language, like JavaScript; we send that function to a serverless provider; and then we can call that function just like any API using HTTP methods. These Functions are co-located with your code and part of your Git workflow.
 
-Let's create and deploy our first serverless function using [Netlify Functions](https://www.netlify.com/products/functions/). Learn from https://www.learnwithjason.dev/blog/serverless-functions/deploy-first-serverless-function/
-
-```js
-// Write your first serverless function `/functions/my-first-function.js`
-// The file needs to export a function named `handler`
-exports.handler = async () => ({
-  statusCode: 200,
-  body: 'boop',
-});
-```
-
-```toml
-# netlify.toml
-[build]
-  command = "# no build command needed; it’s just HTML!"
-  functions = "functions"
-  publish = "public"
-```
-
-- Configure the project for deployment and tell Netlify that our functions live in the functions folder.
-- Create the repo and push to GitHub.
-- Create a new Netlify site using `netlify-cli` (connected to the GitHub repo we just created).
-- By default, Netlify functions live at the URL endpoint `/.netlify/functions/<function-name>`.
-
 ### What is "edge compute"?
 To solve the latency problem, very smart folks came up with the idea of deploying multiple copies of a program and distributing it around the world. When a user makes a request, it can be handled by the closest copy, thus reducing the distance traveled and the time spent in transit.
 
@@ -400,7 +376,7 @@ To solve the latency problem, very smart folks came up with the idea of deployin
 
 > Cloud = a server, somewhere; Edge = a server, close to you
 
-For example, with [Netlify Edge Functions](https://edge-functions-examples.netlify.app), you can transform HTTP Requests and Responses, stream server rendered content, and even run full server side rendered applications. And this all happens at the Edge — directly from the worldwide location closest to each user. You can write edge functions using JavaScript or TypeScript, but instead of using Node.js under the hood, they are powered by Deno.
+With [Netlify Edge Functions](https://edge-functions-examples.netlify.app), you can transform HTTP Requests and Responses, stream server rendered content, and even run full server side rendered applications. And this all happens at the Edge — directly from the worldwide location closest to each user. You can write edge functions using JavaScript or TypeScript, but instead of using Node.js under the hood, they are powered by Deno. Continue reading https://whitep4nth3r.com/blog/what-is-the-edge-serverless-functions/
 
 ### Worker runtimes
 What JS engines/runtimes do we have now?
