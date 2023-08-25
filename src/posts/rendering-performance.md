@@ -5,7 +5,7 @@ slug: rendering-performance
 description: ""
 added: "Oct 16 2021"
 tags: [web]
-updatedDate: "July 11 2023"
+updatedDate: "Aug 25 2023"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
@@ -98,6 +98,7 @@ There’re six `<link rel>` tags that instruct the browser to preload something:
 > - Warm connections to origins: `rel=preconnect`
 > - Fetch late-found resources: `rel=preload`
 > - Fetch next-page navigations: `rel=prefetch`
+> - `rel="prerender"` goes a step beyond prefetching and actually renders the whole page as if the user had navigated to it, but keeps it in a hidden background renderer process ready to be used if the user actually navigates there.
 
 For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. The good thing about defer is that you can guarantee the order of the script execution. *When you have both async and defer, `async` takes precedence and the script will be async.*
 

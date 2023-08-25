@@ -5,7 +5,7 @@ slug: fine-grained-reactivity-for-beginners
 description: ""
 added: "Feb 20 2023"
 tags: [web]
-updatedDate: "June 22 2023"
+updatedDate: "Aug 25 2023"
 ---
 
 > Reactivity can be broadly defined as the automatic update of the UI due to a change in the application's state.
@@ -13,6 +13,9 @@ updatedDate: "June 22 2023"
 In a reactive programming context, dependency tracking is a technique used to automatically update computations that depend on some input data when that data changes. In order for dependency tracking to work, the reactive framework needs to know which computations depend on which data. This is typically done by wrapping the data in reactive objects or variables that the framework can monitor for changes. When a piece of data changes, the framework can then notify any computations that depend on that data and trigger a re-evaluation of those computations.
 
 If you access properties directly instead of through getter functions, the reactive framework may not be able to detect changes to the data. For example, if you have a property `myData` and you directly modify it with `myData = newValue`, the reactive framework may not be able to detect this change because it doesn't know that `myData` is being used by some computation. On the other hand, if you use a getter function to access `myData`, the reactive framework can detect that the getter function is being used by a computation and can monitor it for changes. If `myData` changes, the reactive framework will be notified and can update any computations that depend on it.
+
+### Patterns for Reactivity with Modern Vanilla JavaScript
+https://frontendmasters.com/blog/vanilla-javascript-reactivity
 
 ### Why Vue need to use `.value` to access the ref property?
 The `.value` syntax is used in Vue 3 to access the value of a ref property because refs are designed to be reactive objects rather than simple values. When you create a ref, you are actually creating an object with a single property named `value`. The `value` property holds the actual value that the ref represents, and any changes to the `value` property trigger reactivity. When we access the ref directly, we are accessing the object, not the value.

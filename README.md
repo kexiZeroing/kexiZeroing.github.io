@@ -13,7 +13,7 @@ By default, [Astro](https://astro.build) ships HTML and CSS. No JavaScript at al
 
 Astro includes built-in support for standard Markdown files. With the `@astrojs/mdx` integration installed, Astro also supports [MDX](https://docs.astro.build/en/guides/markdown-content/) (`.mdx`) files which bring added features like support for JSX expressions and components in your Markdown content.
 
-- Deploy to GitHub Pages: https://docs.astro.build/en/guides/deploy/github
 - Astro CHANGELOG: https://github.com/withastro/astro/blob/main/packages/astro/CHANGELOG.md
 - Astro starter template: https://github.com/surjithctly/astroship
 - Build beautiful, high-performance documentation websites with Astro: https://starlight.astro.build
+- Accessible Astro Components: https://github.com/markteekman/accessible-astro-components
