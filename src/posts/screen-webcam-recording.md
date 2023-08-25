@@ -272,7 +272,7 @@ And there we go! After our recording finishes, we’ve got a `.webm` video file 
 - https://www.mux.com/blog
 
 ### Video Glossary
-**[FFMPEG](https://ffmpeg.org)** stands for Fast Forward Moving Picture Experts Group. It is a free and open source software project that offers many tools for video and audio processing. It's designed to run on a command line interface, and has many different libraries and programs to manipulate and handle video files. Most video programs include FFMPEG as a part of the video processing pipeline.
+**[FFMPEG](https://ffmpeg.org)** stands for Fast Forward Moving Picture Experts Group. It is a free and open source software project that offers many tools for video and audio processing. It's designed to run on a command line interface, and has many different libraries and programs to manipulate and handle video files. Most video programs include FFMPEG as a part of the video processing pipeline. *(FFmpeg powers all online video - Youtube, Facebook, Instagram, Disney+, Netflix etc, all run FFmpeg underneath.)*
 
 A **[codec](https://api.video/what-is/codec)** is a hardware or software tool that is used to compress (and decompress) video files. Common video codecs include h.264, h.265, VP8, VP9 and AV1.
 

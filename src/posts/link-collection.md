@@ -40,7 +40,7 @@ Bash Commands and Tips: https://dev.to/awwsmm/101-bash-commands-and-tips-for-beg
 
 Learn Node.js: https://nodejs.dev/en/learn
 
-Node.js Best Practices: https://github.com/goldbergyoni/nodebestpractices
+Learn Node.js by building a backend framework: https://github.com/ishtms/learn-nodejs-hard-way
 
 Docker Guide: https://www.robertcooper.me/docker-guide
 
