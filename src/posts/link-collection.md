@@ -250,8 +250,6 @@ Open Source CSS Variables: https://open-props.style
 
 Across pages view transitions: https://smashing-transitions.netlify.app
 
-The CSS Podcast by Adam and Una: https://www.youtube.com/playlist?list=PLNYkxOF6rcIAx_S2LSfXQLorIeehsPL3q
-
 ---
 
 ## FE dev resources
@@ -344,7 +342,7 @@ A collection of React hooks from the ui.dev team: https://usehooks.com
 
 How styled-components works: https://medium.com/styled-components/how-styled-components-works-618a69970421
 
-React API evolution: https://frantic.im/react-api-evolution
+TanStack Query (formerly known as React Query): https://tanstack.com/query/latest/docs/react/overview
 
 Start developing websites like it's 2025: https://react2025.com
 

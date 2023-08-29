@@ -5,7 +5,7 @@ slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "July 22 2023"
+updatedDate: "Aug 29 2023"
 ---
 
 ### 项目是怎么跑起来的
@@ -128,7 +128,7 @@ With `hot` flag, it sets `webpack-dev-server` in hot mode. If we don’t use thi
 
 `webpack-dev-server` (WDS) also inserts some code in the bundle that we call “WDS client”, because it must tell the client when a file has changed and new code can be loaded. WDS server does this by opening a websocket connection to the WDS client on page load. When the WDS client receives the websocket messages, it tells the HMR runtime to download the new manifest of the new module and the actual code for that module that has changed. Read more at https://blog.jakoblind.no/webpack-hmr
 
-#### webpack-bundle-analyzer
+#### webpack-bundle-analyzer（检查打包体积）
 It will create an interactive treemap visualization of the contents of all your bundles when you build the application. There are two ways to configure webpack bundle analyzer in a webpack project. Either as a plugin or using the command-line interface. 
 
 ```js
@@ -146,6 +146,29 @@ module.exports = {
 - *stat* - This is the "input" size of your files, before any transformations like minification. It is called "stat size" because it's obtained from Webpack's stats object.
 - *parsed* - This is the "output" size of your files. If you're using a Webpack plugin such as Uglify, then this value will reflect the minified size of your code.
 - *gzip* - This is the size of running the parsed bundles/modules through gzip compression.
+
+#### speed-measure-webpack-plugin（检查打包速度）
+See how fast (or not) your plugins and loaders are, so you can optimise your builds. This plugin measures your webpack build speed, giving an output in the terminal.
+
+```js
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+
+const smp = new SpeedMeasurePlugin();
+
+const webpackConfig = smp.wrap({
+  plugins: [new MyPlugin(), new MyOtherPlugin()],
+});
+```
+
+Webpack 5 fails if using `smp.wrap()` the config, with the error: "You forgot to add 'mini-css-extract-plugin' plugin". As a hacky workaround, you can append `MiniCssExtractPlugin` after wrapping with `speed-measure-webpack-plugin`:
+
+```js
+// https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861
+const configWithTimeMeasures = new SpeedMeasurePlugin().wrap(config);
+configWithTimeMeasures.plugins.push(new MiniCssExtractPlugin({}));
+
+module.exports = configWithTimeMeasures;
+```
 
 #### TypeScript and Webpack
 Webpack is extensible with "loaders" that can be added to handle particular file formats.

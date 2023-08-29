@@ -43,6 +43,14 @@ Vite only support ES Modules, and parsing the native ES Modules means it will re
 > - dev-server: native ES Modules served via Vite using Koa web server
 > - production build: Rollup
 
+### Popular Webpack plugins and their Vite equivalents
+- HtmlWebpackPlugin -> vite-plugin-html
+- MiniCssExtractPlugin -> vite-plugin-purgecss
+- CopyWebpackPlugin -> vite-plugin-static-copy
+- DefinePlugin -> define()
+
+Under the hood, Vite uses Rollup as its build tool, and you can add any Rollup plugins to Vite, add them into the `plugins` array your `vite.config.js`.
+
 ## Features
 
 ### NPM Dependency Resolving
