@@ -352,6 +352,8 @@ Then it leaves us with the decision about how to style things. This is where [sh
 
 shadcn/ui is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn-ui add card`, making it even more convenient to use. What's neat about shadcn/ui is that it combines Radix UI and Tailwind CSS. [This video](https://www.youtube.com/watch?v=DTGRIaAJYIo) walks through setting it up in different frameworks.
 
+> [UI Colorgen](https://ui-colorgen.vercel.app) is an application built to help you with color setup in shadcn/ui. It generates variables for root in `globals.css` and creates the color section for `tailwind.config.js`.
+
 ## Serverless
 Your code needs to be hosted on a server. Depending on the size of your code and the amount of users you expect to use your product, you might need many servers. Companies used to have their own facilities and warehouses that held their servers and many still do. But for many, this is not ideal. Servers can be difficult to maintain. Maintaining servers and the buildings that house them can become expensive too. That's where AWS and other cloud providers come in.
 

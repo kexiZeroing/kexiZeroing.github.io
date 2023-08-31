@@ -5,7 +5,7 @@ slug: simple-guide-to-cicd-for-fe-projects
 description: ""
 added: "Sep 11 2022"
 tags: [devops]
-updatedDate: "Mar 12 2023"
+updatedDate: "Aug 31 2023"
 ---
 
 ## Linting, Formatting, and Unit tests
@@ -26,6 +26,8 @@ While unit tests help to test parts of your project in isolation, integration te
 - Views depending on external data: Test your list view that's fetching some data with different mocked API responses: does it show the proper empty state if there's no data? Is the filter button enabled if your API returned an error? Does it show a notification if the fetch was successful?
 
 End-to-End tests are the set of tests that are the closest to what the user should experience when using your product. In most frameworks like Selenium or Cypress, an e2e test suite is nothing more than a scripted user flow that the computer will go through. Most of these tests will be executed directly within a browser.
+
+> At the end of August 2023 Protractor will officially have reached the end of long term support and will transition to End of Life in September of 2023. There are several end-to-end testing tools with direct integrations for the Angular CLI and even supported migration paths for existing Protractor tests. Check out [Migrating from Protractor to Cypress](https://docs.cypress.io/guides/end-to-end-testing/protractor-to-cypress).
 
 ## Automation
 The objective for your team should be to automate as much as possible, from running the tests to previewing the deployments, to deploying to production. The only manual step left in your CI/CD pipeline should be the code review.

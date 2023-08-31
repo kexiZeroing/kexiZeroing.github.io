@@ -158,6 +158,9 @@ After committing several times, you realize that you need to create `.gitignore`
 ## skip git commit hooks
 The pre-commit hook can be used to run tests, lint, type check, etc. The hooks are located in the `.git/hooks/` directory. Use the `--no-verify` option to bypass git commit hooks, e.g. `git commit -m "commit message" --no-verify`. And as a long-term solution, assure CI is configured.
 
+## co-authoring git commits
+Sometimes when I'm pair programming, I want to be able to give another developer credit in a commit I make in a Git repo. In your commit, you just have to add `Co-authored-by` to your commit message like this `git commit -m "Regular commit message" -m "Co-authored-by: name <someemail@example.com>"`.
+
 ## update your GitHub fork
 You cannot push code to repositories that you don’t own. So instead, you make your own copy of the repository by “forking” it. You are then free to make any changes you wish to your repository.
 
