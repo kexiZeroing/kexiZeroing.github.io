@@ -402,6 +402,8 @@ Nuxt on the Edge: https://nuxt.com/blog/nuxt-on-the-edge
 
 Pre-built Auth UI for Vue: https://github.com/nuxtbase/auth-ui-vue
 
+The open-source form framework for Vue: https://formkit.com
+
 ---
 
 ## Support lifecycles of various products
@@ -484,11 +486,11 @@ Understanding GPT tokenizers: https://simonwillison.net/2023/Jun/8/gpt-tokenizer
 
 Catching up on the weird world of LLMs: https://simonwillison.net/2023/Aug/3/weird-world-of-llms/
 
-Transformers directly in your browser: https://github.com/xenova/transformers.js
-
 Vercel AI SDK: https://sdk.vercel.ai/docs
 
 AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel-labs/ai-chatbot
+
+Fine-tuning GPT with OpenAI, Next.js and Vercel AI SDK: https://vercel.com/guides/fine-tuning-openai-nextjs
 
 How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr-code/
 
