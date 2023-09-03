@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "Simple guide to CI/CD for FE projects"
 slug: simple-guide-to-cicd-for-fe-projects
 description: ""
-added: "Sep 11 2022"
+added: "Sep 3 2022"
 tags: [devops]
 updatedDate: "Aug 31 2023"
 ---
