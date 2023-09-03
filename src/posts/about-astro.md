@@ -13,7 +13,7 @@ By default, [Astro](https://astro.build) ships HTML and CSS. No JavaScript at al
 
 ```astro
 ---
-// Example Astro component. You write JavaScript inside the `---` block
+// Example Astro component. You write JavaScript inside the `---` front matter block
 // everything here will be run on the server
 export let name = 'Astro';
 ---
@@ -51,6 +51,8 @@ import VueFooter from './components/VueFooter.vue';
   </footer>
 </article>
 ```
+
+If you want interactivity, you need to add the `client:load` directive, and then the framework’s runtime will be loaded client-side. This is an implementation of what’s called "island architecture".
 
 Astro includes built-in support for standard Markdown files. With the `@astrojs/mdx` integration installed, Astro also supports [MDX](https://docs.astro.build/en/guides/markdown-content/) (`.mdx`) files which bring added features like support for JSX expressions and components in your Markdown content. Astro lets you turn markdown and MDX files directly into pages on your website. All you have to do is specify a layout value in the front matter.
 

@@ -41,7 +41,7 @@ npx nuxi init my-app
 
 > Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in this project:
 > 
-> - @clerk/nextjs: add authentication and user management to your Next.js application.
+> - @clerk/nextjs: add authentication and user management to your Next.js application. There is a [course from @traversymedia](https://www.youtube.com/watch?v=RHFmsoiVtKE) about Simple Next.js & React Authentication With Clerk.
 > - prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. It integrates Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database.
 > - zustand: one of many state management libraries for React.
 > - react-hot-toast: lightweight notifications for React.
