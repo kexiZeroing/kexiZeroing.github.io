@@ -314,7 +314,7 @@ Delightful JavaScript plugins: https://metafizzy.co
 
 Real-time collaboration infrastructure for building performant collaborative experiences: https://liveblocks.io/docs
 
-Make videos programmatically with React: https://www.remotion.dev
+A headless, framework-agnostic and extendable rich text editor: https://tiptap.dev/introduction
 
 ---
 
@@ -363,6 +363,8 @@ React Server Components from scratch: https://github.com/reactwg/server-componen
 A demo of using RSC and Vercel Postgres legally: https://github.com/rauchg/how-is-this-not-illegal
 
 Next.js full stack projects: https://www.codewithantonio.com/projects
+
+React for interactive command-line apps: https://github.com/vadimdemedes/ink
 
 ---
 
