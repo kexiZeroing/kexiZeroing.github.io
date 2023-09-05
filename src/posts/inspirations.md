@@ -13,7 +13,7 @@ order: 3
 - @stefanjudis dev reources and TIL
 - @mgechev about Angular
 - @jecfish Chrome DevTools
-- @addyosmani almost every tweet
+- @addyosmani almost every tweet https://addyosmani.com/blog
 - @b0rk wizard zines https://wizardzines.com
 - @EmmaBostian @kvlly ladybug podcast
 - @vaidehijoshi basecs and baseds(distributed system)
