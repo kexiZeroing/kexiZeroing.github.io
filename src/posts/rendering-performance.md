@@ -5,7 +5,7 @@ slug: rendering-performance
 description: ""
 added: "Oct 16 2021"
 tags: [web]
-updatedDate: "Sep 3 2023"
+updatedDate: "Sep 6 2023"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
@@ -88,15 +88,9 @@ If you know that a particular resource should be prioritized, use `<link rel="pr
 
 Another one, `<link rel="prefetch">` is a low priority resource hint that allows the browser to fetch resources in the background (idle time) that might be needed later, and store them in the browser's cache. It is helpful when you know you’ll need that resource on a subsequent page, and you want to cache it ahead of time. *Prefetching can be achieved through the use of resource hints such as `rel=prefetch` or `rel=preload`, via libraries such as [quicklink](https://github.com/GoogleChromeLabs/quicklink) or [Guess.js](https://github.com/guess-js/guess).*
 
-Quicklink attempts to make navigations to subsequent pages load faster. It:
-- Detects links within the viewport (using [Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API))
-- Waits until the browser is idle (using [requestIdleCallback](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback))
-- Checks if the user isn't on a slow connection (using `navigator.connection.effectiveType`) or has data-saver enabled (using `navigator.connection.saveData`)
-- Prefetches (using `<link rel=prefetch>` or XHR) or prerenders URLs to the links.
-
-There’re six `<link rel>` tags that instruct the browser to preload something: [Preload, prefetch and other <link> tags](https://3perf.com/blog/link-rels/)
-
-> Resource hints like `preconnect` and `dns-prefetch` are executed as the browser sees fit. The `preload`, on the other hand, is mandatory for the browser. Modern browsers are already pretty good at prioritizing resources, that's why it's important to use `preload` sparingly and only preload the most critical resources.
+- There’re six `<link rel>` tags that instruct the browser to preload something: https://3perf.com/blog/link-rels/
+- Resource hints like `preconnect` and `dns-prefetch` are executed as the browser sees fit. The `preload`, on the other hand, is mandatory for the browser. Modern browsers are already pretty good at prioritizing resources, that's why it's important to use `preload` sparingly and only preload the most critical resources.
+- The `fetchpriority` attribute (available in Chrome 101 or later) is a hint and not a directive. Fetch Priority can also complement `preload`. Take a LCP image, which, when preloaded, will still get a low priority. If it is postponed by other early low-priority resources, using Fetch Priority can help how soon the image gets loaded.
 
 > *Modern HTML has many performance controls:*
 > - Prioritize a key image: `<img fetchpriority=high>`
