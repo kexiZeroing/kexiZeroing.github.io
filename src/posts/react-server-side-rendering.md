@@ -193,6 +193,9 @@ Before React Server Components, all React components are “client” components
 > 
 > Why invent a whole new wire format?   
 > The goal on the client is to reconstruct the React element tree. It is much easier to accomplish this from this format than from html, where we’d have to parse the HTML to create the React elements. Note that the reconstruction of the React element tree is important, as this allows us to merge subsequent changes to the React tree with minimal commits to the DOM.
+>
+> How is the Next.js App Router related to Server Components?
+> Next.js 13+ introduced the App Router with new features, conventions, and support for React Server Components. Components in the app directory are React Server Components by default. `"use client"` directive used to mark components as Client Components. Server and Client Components can be interleaved in the same component tree, with React handling the merging of both environments.
 
 Compare for server side rendering and server components:
 - https://github.com/TejasQ/makeshift-next.js/tree/spoiled
