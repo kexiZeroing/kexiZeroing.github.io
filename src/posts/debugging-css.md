@@ -5,7 +5,7 @@ slug: debugging-css
 description: ""
 added: "Oct 10 2021"
 tags: [css]
-updatedDate: "June 23 2023"
+updatedDate: "Sep 6 2023"
 ---
 
 - A fundamental concept for CSS layout is inline vs. block elements. Inline means elements only take up the space they need, and do not affect flow. Applying `margin` or `padding` to an inline element will only work in the "inline" direction (left/right) not the "block" direction (top/bottom).
@@ -155,5 +155,11 @@ updatedDate: "June 23 2023"
 - A dialog is a component in a web page or app that usually contains an action or some task to perform. Dialogs have a role of `dialog`, which the browser will assign automatically for you when you use the `<dialog>` element. You can also create dialogs with ARIA: apply `role="dialog"` to an element like `<div>`. If it is a modal dialog, add `aria-modal="true"` when it shows, and remove it when it is dismissed. Dialogs can be modal (when shown with `dialog.showModal()`) or non modal (when shown with `dialog.show()`). When `<dialog>`s are modal, the browser will treat the content outside of the dialog as inert, and prevent keyboard focus from reaching web content outside of the dialog. If a `<dialog>` is not modal, the other content is not treated as inert. Browsers will close modal dialogs when users press `Escape`. Non-modal dialogs don't get this default behaviour, developers can add it where it makes sense. Check out the [slides](https://talks.hiddedevries.nl/G9mATs/slides) about how to build dialogs and popovers.
 
 - CSS `unset` will remove all properties set directly on the matched element, and revert to inheriting from the cascade - like a parent element or `<body>` (if the property naturally inherits from its parent); `inherit` is pretty straight-forward that inherits all defined properties from its parent element. CSS `initial` reverts to browser defaults.
+
+- Stop re-inventing the wheel and just use `<button>` to create a button. If you're worried about default button styles, use `all: unset`. This one line of CSS will strip all default browser styles so you can apply your own.
+
+- Brief Note on Buttons, Enter, and Space:
+  - A native `<button>` fires on key down when that key is `Enter`. If you hold down the `Enter` key, it continues to fire for as long you hold Enter.
+  - A native `<button>` fires on key up when that key is `Space`. If you do not release the Space, and also press Tab to move away from the control, the control will not fire.
 
 - The `::placeholder` selector selects form elements with placeholder text, and let you style the placeholder text. The `:placeholder-shown` pseudo-class to select input fields with a placeholder that haven't been filled out yet.

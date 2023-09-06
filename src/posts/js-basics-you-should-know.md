@@ -1477,6 +1477,9 @@ Async functions can contain zero or more `await` expressions. Await expressions 
 - Use of `async / await` enables the use of ordinary `try / catch` blocks around asynchronous code.
 
 ```js
+// wait 1 second
+// await new Promise(resolve => setTimeout(resolve, 1000));
+
 function resolveAfter2Seconds() {
   return new Promise(resolve => {
     setTimeout(function() {

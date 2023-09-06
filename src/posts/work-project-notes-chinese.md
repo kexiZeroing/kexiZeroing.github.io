@@ -5,7 +5,7 @@ slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Aug 29 2023"
+updatedDate: "Sep 6 2023"
 ---
 
 ### 项目是怎么跑起来的
@@ -128,6 +128,11 @@ With `hot` flag, it sets `webpack-dev-server` in hot mode. If we don’t use thi
 
 `webpack-dev-server` (WDS) also inserts some code in the bundle that we call “WDS client”, because it must tell the client when a file has changed and new code can be loaded. WDS server does this by opening a websocket connection to the WDS client on page load. When the WDS client receives the websocket messages, it tells the HMR runtime to download the new manifest of the new module and the actual code for that module that has changed. Read more at https://blog.jakoblind.no/webpack-hmr
 
+#### something related to bundling/tree shaking
+1. Every component will get its own scope, and when it imports another module, webpack will check if the required file was already included or not in the bundle.
+2. Tree shaking means that unused modules will not be included in the bundle. In order to take advantage of tree shaking, you must use ES2015 module syntax. Ensure no compilers transform your ES2015 module syntax into CommonJS modules (this is the default behavior of the popular Babel preset `@babel/preset-env`).
+3. Use the `"sideEffects"` property in `package.json` to denote which files in your project are "pure" and therefore safe to prune if unused. Check out: https://sgom.es/posts/2020-06-15-everything-you-never-wanted-to-know-about-side-effects/
+
 #### webpack-bundle-analyzer（检查打包体积）
 It will create an interactive treemap visualization of the contents of all your bundles when you build the application. There are two ways to configure webpack bundle analyzer in a webpack project. Either as a plugin or using the command-line interface. 
 
@@ -227,25 +232,6 @@ output: {
   },
   globalObject: "this"  // To make UMD build available on both browsers and Node.js
 },
-```
-
-**Webpack's `output.library*` options**
-```js
-// libraryTarget: 'commonjs2':
-module.exports = {{BUNDLED_CODE}};
-
-// difference between commonjs and commonjs2
-// libraryTarget: "commonjs2", --> exported with module.exports
-// libraryTarget: "commonjs",  --> exported as properties to exports
-
-// libraryTarget: 'self':
-Object.assign(self, {{BUNDLED_CODE}});
-
-// library: 'myApp', libraryTarget: 'var':
-var myApp = {{BUNDLED_CODE}};
-
-// library: 'myApp', libraryTarget: 'var', libraryExport: 'default':
-var myApp = {{BUNDLED_CODE}}.default;
 ```
 
 #### `main` vs `module` vs `exports` in package.json
