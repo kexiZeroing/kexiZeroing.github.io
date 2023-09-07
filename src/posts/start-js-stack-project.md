@@ -5,21 +5,16 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Aug 6 2023"
+updatedDate: "Sep 7 2023"
 ---
 
-## Start a modern front-end project
-Create `index.js` and `index.html` files within a folder. Assuming that you have node.js installed, go ahead and install `yarn` and run `yarn init` command on your project’s repository. Alternatively, you can use `npm`. After running `yarn init` or `npm init`, just follow the instructions on the CLI and you should end up with a file called `package.json`.
+## Start a modern web project
 
-Then let’s bring a web application bundler. We want `parcel` in our project, so install it as a development dependency by running `yarn add parcel-bundler --dev` or `npm install parcel-bundler --save-dev`. Once parcel has been added to our project, we can simply run `parcel index.html` and parcel will serve the file on its built-in development server on port 1234. We can add a `start` script to our `package.json` and simply run `yarn start` or `npm start`.
+```
+npm create vite@latest
 
-Let’s move on and add Sass support to our project. To do so using parcel, we run `yarn add sass --dev`. We can create a file called `index.scss`. To make it works, we need to reference it. Go to the `index.js` file and import it using a relative path like `import './index.scss'`.
-
-We need modern javascript and Babel help us with that. We run `yarn add @babel/core @babel/cli @babel/preset-env --dev` and create a `.babelrc` file on the root of the project referencing the preset we are using. Note that babel doesn't do anything out-of-the-box; It’s the Babel plugins that does the work. And from version 7 of Babel, they moved `babel-preset-env` into the main Babel repo, and changed the name from `babel-preset-env` to [@babel/preset-env](https://blog.jakoblind.no/babel-preset-env).
-
-At last, we need a `parcel build index.js` as a `build` script in `package.json` file which will be used for production, and parcel will create a `dist` directory with all assets minified.
-
-### Start a new React/Vue project
+npm create vite@latest my-vue-app -- --template vue
+```
 
 ```
 npx create-next-app@latest my-app --typescript --tailwind --eslint
@@ -29,15 +24,10 @@ npx shadcn-ui@latest init
 npx shadcn-ui@latest add button
 ```
 
-```
-npm create vite@latest
-
-npm create vite@latest my-vue-app -- --template vue
-
-npx nuxi init my-app
-```
-
-[next-template](https://github.com/shadcn-ui/next-template) is a Next.js 13 template for building apps with Radix UI and Tailwind CSS. You can also start your app development process with other pre-built solutions: https://vercel.com/templates
+Start with templates:
+- Awesome Vite: https://github.com/vitejs/awesome-vite
+- A Next.js 13 template for building apps with Radix UI and Tailwind CSS: https://github.com/shadcn-ui/next-template
+- Vercel pre-built solutions: https://vercel.com/templates
 
 > Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in this project:
 > 
@@ -48,7 +38,7 @@ npx nuxi init my-app
 > - lucide-react: implementation of the lucide icon library for react applications.
 > - date-fns: modern JavaScript date utility library.
 > - next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the CldImage component, social cards, and an upload widget.
-> - @tanstack/react-table: headless UI for building powerful tables & datagrids for React.
+> - @tanstack/react-table: headless UI for building powerful tables & datagrids for React. ([@tanstack/react-query](https://tanstack.com/query/latest/docs) is more popular.)
 > - query-string: parse and stringify URL query strings.
 > - recharts: chart library to help you to write charts in React.
 > - stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
