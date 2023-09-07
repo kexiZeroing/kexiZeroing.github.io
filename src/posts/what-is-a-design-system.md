@@ -90,6 +90,8 @@ Read more at https://welearncode.com/storybook/
 ## Some examples and resources
 - A collection of awesome design systems: https://github.com/alexpate/awesome-design-systems
 
+- Material Design: https://m3.material.io
+
 - Stack Overflow's Design System: https://stackoverflow.design
 
 - GOV.UK Design System: https://design-system.service.gov.uk

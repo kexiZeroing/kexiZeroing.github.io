@@ -316,6 +316,8 @@ Real-time collaboration infrastructure for building performant collaborative exp
 
 A headless, framework-agnostic and extendable rich text editor: https://tiptap.dev/introduction
 
+The next open source file uploader for web browsers: https://uppy.io
+
 ---
 
 ## React ecosystem
@@ -324,9 +326,7 @@ The Beginner's Guide to React: https://egghead.io/courses/the-beginner-s-guide-t
 
 Getting Closure on React Hooks by Shawn Wang: https://www.youtube.com/watch?v=KJP1E-Y-xyo
 
-Why React Re-Renders: https://www.joshwcomeau.com/react/why-react-re-renders
-
-Understanding useMemo and useCallback: https://www.joshwcomeau.com/react/usememo-and-usecallback
+React articles from Josh: https://www.joshwcomeau.com/tutorials/react/
 
 useEffect Mistakes Every Junior React Developer Makes: https://www.youtube.com/watch?v=QQYeipc_cik
 
