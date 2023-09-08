@@ -64,6 +64,8 @@ updatedDate: "Sep 6 2023"
 
 - Each flex item has a `flex-basis` property, which acts as the sizing property for that item. When the value is `flex-basis: auto`, the basis is the content’s size. With `.item { flex-grow: 1; flex-basis: 0%; }`, each child item will take up the same space as its siblings.
 
+- While the default `min-width` value is 0 (zero), for flex items it is `auto`. This can make block elements take up much more space than desired, resulting in overflow. The solution is to add `min-width: 0;` to the flex item.
+
 - `flex-basis` is more of a suggestion than a hard constraint. At a certain point, there isn't enough space for all of the elements to sit at their assigned size, and so they have to compromise, in order to avoid an overflow. The default value for `flex-grow` is 0. The default value for `flex-shrink` is 1.
 
 - How we compare a design against implementation? We can take the original design as an image and place it above the page in the browser. Thanks to CSS backgrounds and pseudo-elements, this is possible. Please make sure that the browser width is equal to the design width and no other element in the same stacking context has a higher `z-index` than the pseudo-element. Also, you will notice that nothing is hoverable or clickable, that’s because the pseudo-element is covering the page. We can allow interactivity by setting `pointer-events: none` (the specified HTML element is never the target of pointer events).
