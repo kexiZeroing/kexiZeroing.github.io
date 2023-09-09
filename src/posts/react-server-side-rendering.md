@@ -200,7 +200,7 @@ Before React Server Components, all React components are “client” components
 Compare for server side rendering and server components:
 - https://github.com/TejasQ/makeshift-next.js/tree/spoiled
 - https://github.com/TejasQ/react-server-components-from-scratch/tree/spoild
-- https://github.com/reactwg/react-18/discussions/37 (New Suspense SSR Architecture in React 18)
+- https://github.com/reactwg/react-18/discussions/37
 
 If a page uses server-side rendering, the page HTML is generated on each request. Next.js used to allow us to do so by using `getServerSideProps`, which will be called by the server on every request. With React server component and following Next.js 13, developers can use this feature instead of `getServerSideProp`.
 
