@@ -474,8 +474,6 @@ Share your wildest ChatGPT conversations with one click: https://sharegpt.com
 
 A chat assistant fine-tuned from LLaMA on user-shared conversations: https://vicuna.lmsys.org
 
-The AI search engine for developers: https://www.phind.com
-
 ChartGPT - text to beautiful charts: https://www.chartgpt.dev
 
 HuggingChat - build an open source alternative to ChatGPT: https://huggingface.co/chat

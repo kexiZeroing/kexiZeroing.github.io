@@ -1,6 +1,7 @@
 import React from 'react'
 import './style.css'
 
+// Inspired by https://linknode.vercel.app
 const MobileMockup = () => {
   return (
     <div className="mobile__outline">
