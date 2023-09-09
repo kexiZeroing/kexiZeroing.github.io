@@ -1,13 +1,17 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
 import ThemeToggle from './ThemeToggle.astro';
+import MobileMockup from "./MobileMockup/MobileMockup";
 import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 ---
 
 <header>
 	<div class="header-section">
 		<div>
-			<h1>{SITE_TITLE}</h1>
+			<h1>
+				<img class="avatar-img" src="/placeholder-social.jpg" alt="avatar" width="40">
+				{SITE_TITLE}
+			</h1>
 			<h2 class="header-subtitle">blog/notes/digital garden</h2>
 		</div>
 		<div>
@@ -45,7 +49,12 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 			</script>
 		}
 	</nav>
+
+	<div class="mobile-mockup" id="mobileMockup" onclick="handleCloseMobileMockup(event)">
+		<MobileMockup client:visible />
+	</div>
 </header>
+
 <style>
 	header {
 		margin-bottom: 1.5em;
@@ -55,6 +64,20 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 		align-items: center;
 		justify-content: space-around;
 		flex-wrap: wrap;
+	}
+	.header-section h1 {
+		display: flex;
+		align-items: center;
+		gap: 18px;
+	}
+	.avatar-img {
+		border-radius: 50%;
+		border: 1px solid #dde0e4;
+		cursor: pointer;
+		transition-duration: .2s;
+	}
+	.avatar-img:hover {
+		border-color: #999;
 	}
 	.header-section .header-subtitle {
 		margin: 0.5em 0;
@@ -81,6 +104,16 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 	}
 	.search-box {
 		margin-left: 32px;
+	}
+	.mobile-mockup {
+		position: fixed;
+		display: none;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	.mobile-mockup.show {
+		display: block;
 	}
 	
 	@media only screen and (max-width:600px)  {
@@ -110,4 +143,15 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 			location.href = '/resume'
 		}
 	})
+
+	document.querySelector('.avatar-img').addEventListener('click', () => {
+		const mobileMockup = document.querySelector('#mobileMockup')
+		mobileMockup?.classList.toggle('show')
+	})
+
+	function handleCloseMobileMockup(ev) {
+		if (ev.target.dataset.switch === 'off') {
+			document.querySelector('#mobileMockup').classList.remove('show')
+		}
+	}
 </script>

@@ -1,0 +1,52 @@
+.mobile__outline {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 350px;
+  height: 700px;
+  border-radius: 42px;
+  border: 14px solid #000;
+  background-color: #fff;
+}
+.mobile__outline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  background-color: #000;
+  width: 148px;
+  height: 18px;
+  border-radius: 0 0 1.5rem 1.5rem;
+}
+.volume {
+  position: absolute;
+  left: -17px;
+  width: 4px;
+  height: 46px;
+  background-color: #000;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.switch {
+  position: absolute;
+  top: 142px;
+  right: -17px;
+  width: 4px;
+  height: 64px;
+  background-color: #000;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  cursor: pointer;
+}
+.volume-up {
+  top: 124px;
+}
+.volume-down {
+  top: 178px;
+}
+.main-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+}
