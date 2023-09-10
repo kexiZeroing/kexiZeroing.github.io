@@ -49,6 +49,7 @@ function getImageSize(imgUrl) {
       // { height: 152, width: 506, type: 'jpg' }
       const { height, width } = sizeOf(buffer)
 
+      // Use astro Image component instead of html <img> tag
       resHtml += `
         <a
           href="${imgUrl}"
@@ -56,9 +57,11 @@ function getImageSize(imgUrl) {
           data-pswp-height="${height}"
           target="_blank"
         >
-          <img
+          <Image
             src="${imgUrl}"
-            alt=""
+            alt="${imgUrl}"
+            width={${width}}
+            height={${height}}
           />
         </a>`;
 
