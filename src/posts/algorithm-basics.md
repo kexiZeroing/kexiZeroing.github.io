@@ -598,6 +598,9 @@ LRUCache.prototype.put = function(key, value) {
 
 **「解题思路」**
 - 一旦需要统计一个元素集中元素出现的次数，我们就应该想到哈希表。
+  > Q: You have an array of users. Implement `put(user), update(user), remove(id)` in a way that's as efficient as possible.  
+  > A: Efficient user management in arrays is key. Direct array methods can lag for big data. Using a hashmap tracks user ID indices, enabling faster finds & updates. This ensures O(1) for put, update, remove.
+
 - 哈希表的本质是当使用者提供一个键，根据哈希表自身定义的哈希函数(hash function)，映射出一个下标，根据这个下标决定需要把当前的元素存储在什么位置。在一些合理的假设情况下，查找一个元素的平均时间复杂度是O(1)，插入一个元素的平摊时间复杂度是O(1)。
 - 当对于不同的键，哈希函数提供相同的存储地址时，哈希表就遇到了所谓的冲突。解决冲突的方式有链接法(chaining)和开放地址法(open addressing)两种。简单来说，链接法相当于利用辅助数据结构(比如链表)，将哈希函数映射出相同地址的那些元素链接起来。而开放地址法是指以某种持续的哈希方式继续哈希，直到产生的下标对应尚未被使用的存储地址，然后把当前元素存储在这个地址里。
 - 巧用数组下标，把原始数据对应的数值作为数组下标，如果这个数出现过，则对应的数组位置加1。

@@ -241,6 +241,8 @@ When a package has an `"exports"` field, this will take precedence over the `"ma
 
 Generally speaking, `"exports"` superseded `"module"` field. `"module"` itself has never been an official standard but it became so widespread that at some point it was a de facto standard. If a package has no `"main"` key and has a `"module"` key, Node.js evaluates all files in that package as standard modules.
 
+> "The complete guide to packaging libraries" talk: https://package-library.bjornlu.com
+
 ### 本地 build 与上线 build
 1. 公共组件库 C 需要先 build，再 `npm link` 映射到全局的 node_modules，然后被其他项目 `npm link C` 引用。(关于 `npm link` 的使用场景可以看看 https://github.com/atian25/blog/issues/17)
 2. 项目 A 的上线脚本中会先进入组件库 C，执行 `npm build` 和 `npm link`，之后再进入项目 A 本身，执行 `npm link C`，`npm build` 等项目本身的构建。
