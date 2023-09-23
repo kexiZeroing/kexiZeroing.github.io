@@ -440,7 +440,7 @@ Futurepedia - AI Tools Directory: https://www.futurepedia.io
 
 Notes on AI state of the art: https://github.com/sw-yx/ai-notes
 
-OpenAI Cookbook: https://github.com/openai/openai-cookbook
+OpenAI Cookbook: https://github.com/openai/openai-cookbook, https://cookbook.openai.com
 
 Awesome ChatGPT Prompts: https://prompts.chat
 
@@ -497,6 +497,8 @@ How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr
 An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
 
 Open-source logging and analytics platform for OpenAI: https://github.com/dillionverma/llm.report
+
+Generate beautiful AI spiral art with one click: https://spirals.vercel.app
 
 ---
 

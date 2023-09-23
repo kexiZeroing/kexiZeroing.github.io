@@ -323,6 +323,7 @@ https://codepen.io/argyleink/pen/NWOEvro
 > - Getting started with View Transitions on multi-page apps: https://daverupert.com/2023/05/getting-started-view-transitions
 > - A collection of example view transitions for multi-page sites: https://mpa-view-transitions-sandbox.netlify.app
 > - Adam Argyle at SeattleJS Conf: https://seattlejs-view-transitions.netlify.app
+> - Astro View Transitions Photo Gallery: https://deathbyjavascript.com
 
 ```html
 <style>
