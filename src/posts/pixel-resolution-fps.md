@@ -133,6 +133,9 @@ https://www.smashingmagazine.com/2022/01/modern-fluid-typography-css-clamp
 
 <img alt="fluid-typography" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hbsmskxulnj31030u0ta0.jpg" width="500"> 
 
+*Use CSS `clamp()` to make any property have min + max values:*  
+If we want to define a default value and both a minimum and maximum value, we could use `width: max(300px, min(90%, 700px));`, and there's a handy alternative for this, `width: clamp(300px, 90%, 700px);`, meaning the width of the element is 90% with a minimum width of 300px and maximum width of 700px.
+
 ```css
 /* Fixed minimum value below the minimum breakpoint */
 .fluid {
@@ -162,5 +165,4 @@ https://www.smashingmagazine.com/2022/01/modern-fluid-typography-css-clamp
 }
 ```
 
-> *Use CSS `clamp()` to make any property have min + max values:*  
-> If we want to define a default value and both a minimum and maximum value, we could use `width: max(300px, min(90%, 700px));`, and there's a handy alternative for this, `width: clamp(300px, 90%, 700px);`, meaning the width of the element is 90% with a minimum width of 300px and maximum width of 700px.
+> The ideal viewport doesn’t exist. Instead of making design decisions on strict, limited breakpoints, keep in mind the sheer amount of fragmentation there is in viewports. https://viewports.fyi

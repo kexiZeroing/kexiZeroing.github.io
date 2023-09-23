@@ -21,6 +21,7 @@ function getPrivateIp() {
 }
 
 async function getPublicIp(useIPv6) {
+  // Type `curl ifconfig.me` in Terminal will give your public IP address
   // https://www.ipify.org
   const endpoint = useIPv6 ? "https://api6.ipify.org" : "https://api.ipify.org";
 
