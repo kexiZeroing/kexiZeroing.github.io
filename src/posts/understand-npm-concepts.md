@@ -62,6 +62,7 @@ verify();
 
 > - [depcheck](https://github.com/depcheck/depcheck) check your npm module for unused dependencies.
 > - [Taze](https://github.com/antfu/taze) is a modern cli tool that keeps your deps fresh. No installation required — `npx taze`. `-g` for global and `-I` for interactive.
+> -[npm-check-updates](https://github.com/raineorshine/npm-check-updates) upgrades your `package.json` dependencies to the latest versions, ignoring specified versions.
 
 ### dependencies, devDependencies and peerDependencies
 **Dependencies** are required at runtime, like a library that provides functions that you call from your code. If you are deploying your application, dependencies has to be installed, or your app will not work. They are installed transitively (if A depends on B depends on C, npm install on A will install B and C). *Example: lodash,and your project calls some lodash functions*.
@@ -73,6 +74,8 @@ verify();
 The `npm install` command will install both *devDependencies* and *dependencies*. With the `--production` flag or when the `NODE_ENV` environment variable is set to production `NODE_ENV=production npm install`, npm will not install modules listed in devDependencies.
 
 In npm versions 3 through 6, `peerDependencies` were not automatically installed, and would raise a warning if an invalid version of the peer dependency was found in the tree. **As of npm v7, `peerDependencies` are installed by default.** If your dependency contains some `peerDependencies` that conflict with the root project's dependency, run `npm install --legacy-peer-deps` to tell npm to ignore peer deps and proceed with the installation anyway.
+
+Using the `npm uninstall --no-save` will tell npm not to remove the package from your `package.json` or `package-lock.json` files.
 
 > `@npmcli/arborist` is the library that calculates dependency trees and manages the `node_modules` folder hierarchy for the npm command line interface. It's used in some tools like [npm-why](https://github.com/amio/npm-why) to help identify why a package has been installed.
 >

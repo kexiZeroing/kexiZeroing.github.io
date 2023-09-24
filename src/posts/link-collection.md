@@ -102,6 +102,8 @@ A tiny little drawing app: https://tldraw.com/
 
 Images of source code: https://carbon.now.sh/
 
+Create beautiful images of your source code: https://chalk.ist/
+
 App Icon Generator for any platform: https://icon.kitchen/
 
 Manage node_modules in the system: https://github.com/voidcosmos/npkill
@@ -266,6 +268,8 @@ The react library to build dashboards fast: https://github.com/tremorlabs/tremor
 
 SVG spinners: https://github.com/n3r4zzurr0/svg-spinners
 
+The Biggest Collection of Loading Animations: https://css-loaders.com
+
 Understanding SVG Paths: https://www.nan.fyi/svg-paths
 
 CSS animations on demand: https://animista.net
@@ -397,6 +401,8 @@ A lightweight, customizable Vue UI library for mobile web apps: https://vant-ui.
 Modular and Accessible UI Components for your Vue Applications: https://vue.chakra-ui.com
 
 Vue port of Radix UI Primitives: https://www.radix-vue.com
+
+Vue port of shadcn-ui: https://github.com/radix-vue/shadcn-vue
 
 Vue UI Component Library: https://primevue.org
 
