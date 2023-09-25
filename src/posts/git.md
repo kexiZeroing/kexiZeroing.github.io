@@ -201,3 +201,10 @@ Show commits more recent or older than a specific date:
 [git-extras](https://github.com/tj/git-extras) is a collection of Git utilities, which hosts more than 60 of "extras" with features that extend the basic functionality of Git. Install it with Homebrew `brew install git-extras`.
 
 To get an overview of all extras, it is worth running `git extras --help` after installation. Alternatively there is a [Commands.md](https://github.com/tj/git-extras/blob/master/Commands.md) in the repository which lists and explains all extras.
+
+## In a git repository, where do your files live?
+https://jvns.ca/blog/2023/09/14/in-a-git-repository--where-do-your-files-live-/
+
+- Every previous version of every file in a repository is stored in `.git/objects`.
+- If you try to look at the file in `.git/objects`, it gets a bit weird. It’s just compressed.
+- Commits are also stored in `.git/objects`. Git compresses objects into "pack files" to save space.
