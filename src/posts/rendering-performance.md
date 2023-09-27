@@ -90,7 +90,7 @@ Another one, `<link rel="prefetch">` is a low priority resource hint that allows
 
 - There’re six `<link rel>` tags that instruct the browser to preload something: https://3perf.com/blog/link-rels/
 - Resource hints like `preconnect` and `dns-prefetch` are executed as the browser sees fit. The `preload`, on the other hand, is mandatory for the browser. Modern browsers are already pretty good at prioritizing resources, that's why it's important to use `preload` sparingly and only preload the most critical resources.
-- The `fetchpriority` attribute (available in Chrome 101 or later) is a hint and not a directive. Fetch Priority can also complement `preload`. Take a LCP image, which, when preloaded, will still get a low priority. If it is postponed by other early low-priority resources, using Fetch Priority can help how soon the image gets loaded.
+- The `fetchpriority` attribute (available in Chrome 101 or later) is a hint and not a directive. Fetch Priority can also complement `preload`. Include the `fetchpriority` attribute when preloading several resources of the same type and you're clear about which is most important.
 
 > *Modern HTML has many performance controls:*
 > - Prioritize a key image: `<img fetchpriority=high>`
@@ -196,5 +196,6 @@ When faced with a web font that has not yet loaded, the browser is faced with a 
 - Web Performance 101: https://3perf.com/talks/web-perf-101/
 - A collection of the best practices that the Chrome DevRel team believes are the most effective ways to improve Core Web Vitals performance in 2023: https://web.dev/top-cwv-2023
 - Web Performance Snippets: https://github.com/nucliweb/webperf-snippets
+- Get All That Network Activity Under Control with Priority Hints: https://www.macarthur.me/posts/priority-hints
 - Get your `<head>` in order: https://github.com/rviscomi/capo.js
 - Inline your app's critical CSS and lazy-load the rest: https://github.com/GoogleChromeLabs/critters
