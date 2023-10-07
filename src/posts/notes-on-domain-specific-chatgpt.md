@@ -347,3 +347,5 @@ https://github.com/developersdigest/Get-Started-With-Langchain-and-Pinecone-in-N
 ## Vector Store
 
 <img alt="vectorstore" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hd08amw1npj30u00z9djx.jpg" width="700">
+
+Vector Databases Explained: https://vercel.com/guides/vector-databases

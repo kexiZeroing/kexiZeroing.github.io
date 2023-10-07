@@ -63,6 +63,7 @@ verify();
 > - [depcheck](https://github.com/depcheck/depcheck) check your npm module for unused dependencies.
 > - [Taze](https://github.com/antfu/taze) is a modern cli tool that keeps your deps fresh. No installation required — `npx taze`. `-g` for global and `-I` for interactive.
 > -[npm-check-updates](https://github.com/raineorshine/npm-check-updates) upgrades your `package.json` dependencies to the latest versions, ignoring specified versions.
+> - [Version Lens](https://marketplace.visualstudio.com/items?itemName=pflannery.vscode-versionlens) VS Code extension shows the latest version for each package.
 
 ### dependencies, devDependencies and peerDependencies
 **Dependencies** are required at runtime, like a library that provides functions that you call from your code. If you are deploying your application, dependencies has to be installed, or your app will not work. They are installed transitively (if A depends on B depends on C, npm install on A will install B and C). *Example: lodash,and your project calls some lodash functions*.

@@ -531,6 +531,8 @@ console.log(ClassWithStaticField.staticField);
 ClassWithStaticField.staticMethod(); 
 ```
 
+> JavaScript doesn’t allow class constructors to be `async`. We have to do any async actions outside of a constructor. Static class methods can help with this.
+
 ### Class getter and setter
 Add methods prefixed with `get` or `set` to create a getter and setter, which are executed based on what you are doing: accessing the variable, or modifying its value. If you only have a getter, the property cannot be set; If you only have a setter, you can change the value but not access it.
 

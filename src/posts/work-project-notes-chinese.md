@@ -465,6 +465,8 @@ https://app-dev-tools.netlify.app
 
 - The order in which the events are fired: `mousedown` --> `mouseup` --> `click`. When you add a `blur` event, it is actually fired before the `mouseup` event and after the `mousedown` event of the button. Refer to https://codepen.io/mudassir0909/full/qBjvzL
 
+- If we are appending each list item to the DOM as we create it, this is inefficient because the DOM is updated each time we append a new list item. Instead, we can create a document fragment using `document.createDocumentFragment()` and append all of the list items to the fragment. Then, we can append the fragment to the DOM. This way, the DOM is only updated once.
+
 - Vue parent component will wait for its children to mount before it mounts its own template to the DOM. The order should be: parent created -> child created -> child mounted -> parent mouted.
 
 - Sometimes I need to detect whether a click happens inside or outside of a particular element.

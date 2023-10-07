@@ -72,6 +72,8 @@ Machine Learning for Web Developers (Web ML): https://www.youtube.com/playlist?l
 
 A technical explainer of how your computer runs programs: https://cpu.land
 
+The reasoning behind various decisions made for the Epic Stack: https://github.com/epicweb-dev/epic-stack/tree/main/docs/decisions
+
 ---
 
 ## Tools and Cool websites

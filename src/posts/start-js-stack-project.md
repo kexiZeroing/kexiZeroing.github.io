@@ -29,19 +29,23 @@ Start with templates:
 - A Next.js 13 template for building apps with Radix UI and Tailwind CSS: https://github.com/shadcn-ui/next-template
 - Vercel pre-built solutions: https://vercel.com/templates
 
-> Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in this project:
-> 
-> - @clerk/nextjs: add authentication and user management to your Next.js application. There is a [course from @traversymedia](https://www.youtube.com/watch?v=RHFmsoiVtKE) about Simple Next.js & React Authentication With Clerk.
-> - prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. It integrates Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database.
-> - zustand: one of many state management libraries for React.
-> - react-hot-toast: lightweight notifications for React.
-> - lucide-react: implementation of the lucide icon library for react applications.
-> - date-fns: modern JavaScript date utility library.
-> - next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the CldImage component, social cards, and an upload widget.
-> - @tanstack/react-table: headless UI for building powerful tables & datagrids for React. ([@tanstack/react-query](https://tanstack.com/query/latest/docs) is more popular.)
-> - query-string: parse and stringify URL query strings.
-> - recharts: chart library to help you to write charts in React.
-> - stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
+Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in this project:
+
+- @clerk/nextjs: add authentication and user management to your Next.js application.
+- prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. It integrates Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database.
+- zustand: one of many state management libraries for React.
+- react-hot-toast: lightweight notifications for React.
+- lucide-react: implementation of the lucide icon library for react applications.
+- date-fns: modern JavaScript date utility library.
+- next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the CldImage component, social cards, and an upload widget.
+- @tanstack/react-table: headless UI for building powerful tables & datagrids for React. ([@tanstack/react-query](https://tanstack.com/query/latest/docs) is more popular.)
+- query-string: parse and stringify URL query strings.
+- recharts: chart library to help you to write charts in React.
+- stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
+
+> Crash course from @traversymedia: 
+> - Simple Next.js & React Authentication With **Clerk**: https://www.youtube.com/watch?v=RHFmsoiVtKE
+> - **Prisma** Crash Course: https://www.youtube.com/watch?v=CYH04BJzamo
 
 ### Release helper
 - Interactive CLI that bumps version number (with `--commit` `--tag` `--push` by default): https://github.com/antfu/bumpp
