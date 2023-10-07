@@ -5,7 +5,7 @@ slug: about-astro
 description: ""
 added: "Sep 11 2022"
 tags: [web]
-updatedDate: "Sep 3 2023"
+updatedDate: "Oct 7 2023"
 ---
 
 ## Astro and its features
@@ -15,7 +15,7 @@ By default, [Astro](https://astro.build) ships HTML and CSS. No JavaScript at al
 ---
 // Example Astro component. You write JavaScript inside the `---` front matter block
 // everything here will be run on the server
-export let name = 'Astro';
+const name = 'Astro';
 ---
 
 <h1 class="title">Hello {name}</h1>
@@ -52,7 +52,24 @@ import VueFooter from './components/VueFooter.vue';
 </article>
 ```
 
-If you want interactivity, you need to add the `client:load` directive, and then the framework’s runtime will be loaded client-side. This is an implementation of what’s called "island architecture".
+Astro includes an `astro add` command to automate the setup of integrations. Run `npx astro add tailwind` command to install both `tailwindcss` and `@astro/tailwind` as well as generate a `tailwind.config.cjs` file. When you install the integration, Tailwind’s utility classes should be ready to go right away.
+
+If you want interactivity **(note that there is not JavaScript being shipped to the client by default)**, you need to add the `client:load` directive, and then the framework’s runtime will be loaded client-side. This is an implementation of what’s called "island architecture".
+
+> There is also `client:visible`, which will load and hydrate the component JavaScript once the component has entered the user’s viewport. Read more at https://docs.astro.build/en/reference/directives-reference/#client-directives
+
+```astro
+---
+// `Counter.jsx` is a React component using `useState`
+import { Counter } from '../components/Counter';
+const hello = 'hello'
+---
+
+<body>
+  <h2 class="text-2xl">{hello}</h2>  
+  <Counter client:load />
+</body>
+```
 
 Astro includes built-in support for standard Markdown files. With the `@astrojs/mdx` integration installed, Astro also supports [MDX](https://docs.astro.build/en/guides/markdown-content/) (`.mdx`) files which bring added features like support for JSX expressions and components in your Markdown content. Astro lets you turn markdown and MDX files directly into pages on your website. All you have to do is specify a layout value in the front matter.
 
