@@ -326,6 +326,8 @@ A headless, framework-agnostic and extendable rich text editor: https://tiptap.d
 
 The next open source file uploader for web browsers: https://uppy.io
 
+Draggable objects: https://www.redblobgames.com/making-of/draggable
+
 ---
 
 ## React ecosystem
