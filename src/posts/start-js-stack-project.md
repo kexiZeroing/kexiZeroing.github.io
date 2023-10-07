@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Sep 7 2023"
+updatedDate: "Oct 7 2023"
 ---
 
 ## Start a modern web project
@@ -28,6 +28,7 @@ Start with templates:
 - Awesome Vite: https://github.com/vitejs/awesome-vite
 - A Next.js 13 template for building apps with Radix UI and Tailwind CSS: https://github.com/shadcn-ui/next-template
 - Vercel pre-built solutions: https://vercel.com/templates
+- `create-t3-app` to start a full-stack, typesafe Next.js app *(The T3 Stack)*. It consists of Next.js, tRPC, Tailwind CSS, TypeScript, Prisma, and NextAuth.js: https://create.t3.gg
 
 Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in this project:
 
@@ -107,6 +108,11 @@ console.log(module)  // { exports: { name: 'Bob', add: [Function] } }
 
 Modules are cached after the first time they are loaded. This means every call to `require('foo')` will get exactly the same object returned, if it would resolve to the same file.
 
+### What is core-js
+`core-js` is the most popular and the most universal polyfill of the JavaScript standard library, which provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.
+
+`core-js` is used by most of the popular websites. We can check it using `window['__core-js_shared__'].versions`, see details at https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md
+
 ### Live Reload and Hot Reload
 > When a file is edited, the dev server recompiles with the changes, then pushes a notification to the client code in the browser. The app code can then subscribe to "some file changed" notifications, re-import the new version of the code, and swap out the old code for the new code as the app is still running.
 
@@ -161,15 +167,32 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 
 <img alt="source-map-authored" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hdhsb35qhrj30uq0gqac8.jpg" width="650" />
 
-### What is core-js
-`core-js` is the most popular and the most universal polyfill of the JavaScript standard library, which provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.
+### Bun —— https://bun.sh
+Bun is a fast, all-in-one toolkit for running, building, testing, and debugging JavaScript and TypeScript, from a single file to a full-stack application.
 
-`babel` and `core-js` are tightly integrated: `babel` gives the possibility of optimizing the `core-js` import as much as possible.
-  - Using the option `useBuiltIns: usage` with `corejs: 3`, `@babel/preset-env` adds at the top of each file imports of polyfills only for features used in the current and not supported by target environments.
-  - Babel 7.4 supports injecting proposals polyfills. By default, `@babel/preset-env` does not inject them, but you can opt-in using the `proposals` flag: `corejs: { version: 3, proposals: true }`.
-  - core-js@3: https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md
+- Bun is a fast JavaScript runtime, written in Zig programming language.
+- Bun is a drop-in replacement for Node.js, faster than Node and Deno.
+- Bun can run JavaScript, TypeScript, and JSX/TSX files out of the box.
+- Bun is a JavaScript bundler with best-in-class performance.
+- Bun is an npm-compatible package manager with familiar commands.
+- Bun is a Jest-compatible test runner with support for snapshot testing, mocking, and code coverage.
 
-`core-js` is used by most of the popular websites. We can check it using `window['__core-js_shared__'].versions`, see details at https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md
+```js
+// bun run index.ts
+// bun --watch index.ts
+const server = Bun.serve({
+  port: Bun.env.PORT || 3000,
+  fetch(req) {
+    const url = new URL(req.url)
+
+    if (url.pathname === '/') return new Response('Welcome to Bun!')
+    if (url.pathname === '/blog') return new Response('Blog page')
+    return new Response('Error 404', { status: 404 })
+  }
+})
+
+console.log(`Server running at ${server.port}`);
+```
 
 ## Set up Prettier and ESLint
 1. Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
