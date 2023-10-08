@@ -5,7 +5,7 @@ slug: debugging-css
 description: ""
 added: "Oct 10 2021"
 tags: [css]
-updatedDate: "Sep 6 2023"
+updatedDate: "Oct 8 2023"
 ---
 
 - A fundamental concept for CSS layout is inline vs. block elements. Inline means elements only take up the space they need, and do not affect flow. Applying `margin` or `padding` to an inline element will only work in the "inline" direction (left/right) not the "block" direction (top/bottom).
@@ -165,3 +165,14 @@ updatedDate: "Sep 6 2023"
   - A native `<button>` fires on key up when that key is `Space`. If you do not release the Space, and also press Tab to move away from the control, the control will not fire.
 
 - The `::placeholder` selector selects form elements with placeholder text, and let you style the placeholder text. The `:placeholder-shown` pseudo-class to select input fields with a placeholder that haven't been filled out yet.
+
+- Sometimes the web page looks strangely inflated on mobile landscape devices. The reason is that Mobile Safari increases the default font-size when you switch a website from portrait to landscape. The way to control this font-size inflation is with the `-webkit-text-size-adjust` property, which you can set to a percentage which to increase the text size to at the most, to `auto` for default behavior or to `none` to prevent zooming text in. Setting it to `100%` is equivalent to `none`.
+
+  ```css
+  /* Prevent font size inflation */
+  html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+  ```

@@ -1,9 +1,4 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
- :root {
+:root {
   --white: #fff;
   --black: #000;
   --gray: #8b8b8b;
@@ -23,6 +18,12 @@
   --text-color: #000;
   --code-bg: #ececec;
   --quote-code-bg: #f2f2f2;
+}
+
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
 }
 
 html.theme-dark {

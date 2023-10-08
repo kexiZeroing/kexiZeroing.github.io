@@ -29,6 +29,7 @@ Start with templates:
 - A Next.js 13 template for building apps with Radix UI and Tailwind CSS: https://github.com/shadcn-ui/next-template
 - Vercel pre-built solutions: https://vercel.com/templates
 - `create-t3-app` to start a full-stack, typesafe Next.js app *(The T3 Stack)*. It consists of Next.js, tRPC, Tailwind CSS, TypeScript, Prisma, and NextAuth.js: https://create.t3.gg
+- Next.js, Tailwind CSS blogging starter template: https://github.com/timlrx/tailwind-nextjs-starter-blog
 
 Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in this project:
 
