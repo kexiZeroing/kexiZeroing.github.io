@@ -81,6 +81,9 @@ const hello = 'hello'
 </body>
 ```
 
+> Astro Islands explained in 30 seconds:  
+> Only certain parts of your app need to be interactive (these are the "islands of interactivity" a.k.a. Javscript). The rest can be plain, vanilla HTML.
+
 By default, `<script>` tags are processed by Astro.
 - Any imports will be bundled, allowing you to import local files or Node modules.
 - The processed script will be injected into your page’s `<head>` with `type="module"`.

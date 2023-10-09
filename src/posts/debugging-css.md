@@ -176,3 +176,5 @@ updatedDate: "Oct 8 2023"
     text-size-adjust: none;
   }
   ```
+
+- The border radius of the outer element should be equal to the sum of the border radius of the inner element and the distance between the two elements. so if the outer element border radius is 20, and there's a 5px space between the outer element and inner element, the inner element border radius should be 15.

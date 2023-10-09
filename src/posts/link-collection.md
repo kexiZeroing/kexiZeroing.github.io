@@ -74,6 +74,8 @@ A technical explainer of how your computer runs programs: https://cpu.land
 
 The reasoning behind various decisions made for the Epic Stack: https://github.com/epicweb-dev/epic-stack/tree/main/docs/decisions
 
+Short code snippets for all your development needs: https://www.30secondsofcode.org
+
 ---
 
 ## Tools and Cool websites
