@@ -8,7 +8,7 @@ tags: [web]
 updatedDate: "Oct 7 2023"
 ---
 
-## Astro and its features
+## Astro and its Features
 By default, [Astro](https://astro.build) ships HTML and CSS. No JavaScript at all. This is ideal for a substantial portion of the sites on the internet — most of these sites show us text and images without much interactivity or state. 
 
 ```astro
@@ -54,9 +54,19 @@ import VueFooter from './components/VueFooter.vue';
 
 Astro includes an `astro add` command to automate the setup of integrations. Run `npx astro add tailwind` command to install both `tailwindcss` and `@astro/tailwind` as well as generate a `tailwind.config.cjs` file. When you install the integration, Tailwind’s utility classes should be ready to go right away.
 
-If you want interactivity **(note that there is not JavaScript being shipped to the client by default)**, you need to add the `client:load` directive, and then the framework’s runtime will be loaded client-side. This is an implementation of what’s called "island architecture".
+Astro includes built-in support for standard Markdown files. With the `@astrojs/mdx` integration installed, Astro also supports [MDX](https://docs.astro.build/en/guides/markdown-content/) (`.mdx`) files which bring added features like support for JSX expressions and components in your Markdown content. Astro lets you turn markdown and MDX files directly into pages on your website. All you have to do is specify a layout value in the front matter.
 
-> There is also `client:visible`, which will load and hydrate the component JavaScript once the component has entered the user’s viewport. Read more at https://docs.astro.build/en/reference/directives-reference/#client-directives
+```md
+---
+title: About
+layout: ../layouts/MarkdownPage.astro
+---
+
+Welcome to My Blog
+```
+
+### Template Directives
+If you want interactivity **(note that there is not JavaScript being shipped to the client by default)**, you need to add the `client:load` directive, and then the framework’s runtime will be loaded client-side. This is an implementation of what’s called "island architecture".
 
 ```astro
 ---
@@ -71,16 +81,14 @@ const hello = 'hello'
 </body>
 ```
 
-Astro includes built-in support for standard Markdown files. With the `@astrojs/mdx` integration installed, Astro also supports [MDX](https://docs.astro.build/en/guides/markdown-content/) (`.mdx`) files which bring added features like support for JSX expressions and components in your Markdown content. Astro lets you turn markdown and MDX files directly into pages on your website. All you have to do is specify a layout value in the front matter.
+By default, `<script>` tags are processed by Astro.
+- Any imports will be bundled, allowing you to import local files or Node modules.
+- The processed script will be injected into your page’s `<head>` with `type="module"`.
+- TypeScript is fully supported, including importing TypeScript files.
 
-```md
----
-title: About
-layout: ../layouts/MarkdownPage.astro
----
+You can opt-out of this behavior with the `is:inline` directive. `is:inline` tells Astro to leave the `<script>` or `<style>` tag as-is in the final output HTML.
 
-Welcome to My Blog
-```
+In Astro components, the code in the frontmatter between the `---` fences runs on the server and is not available in the browser. To send variables from the server to the client, we need a way to store our variables and then read them when JavaScript runs in the browser. One way to do this is to use `data-*` attributes to store the value of variables in your HTML output. Scripts can then read these attributes using an element’s `dataset` property once your HTML loads in the browser.
 
 ## Astro Links
 - Astro CHANGELOG: https://github.com/withastro/astro/blob/main/packages/astro/CHANGELOG.md

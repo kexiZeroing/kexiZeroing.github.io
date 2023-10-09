@@ -158,9 +158,9 @@ GitHub Contributions Chart Generator: https://github-contributions.vercel.app
 
 Discover the apps everyone is docking about: https://www.dockhunt.com
 
-Preview glTF models in WebGL using three.js: https://github.com/donmccurdy/three-gltf-viewer
-
 Shiny Button: https://shiny-button.vercel.app
+
+Chrome-style tabs in HTML/CSS: https://github.com/adamschwartz/chrome-tabs
 
 Helps to test real-time requests directly from the browser: https://hoppscotch.io/realtime/websocket
 
@@ -255,6 +255,8 @@ It's time to learn oklch color: https://keithjgrant.com/posts/2023/04/its-time-t
 Open Source CSS Variables: https://open-props.style
 
 Across pages view transitions: https://smashing-transitions.netlify.app
+
+Reimagine Atomic CSS: https://antfu.me/posts/reimagine-atomic-css
 
 ---
 
