@@ -96,6 +96,7 @@ In Astro components, the code in the frontmatter between the `---` fences runs o
 ## Astro Links
 - Astro CHANGELOG: https://github.com/withastro/astro/blob/main/packages/astro/CHANGELOG.md
 - Astro starter template: https://github.com/surjithctly/astroship
+- A free template using Astro 3.0 and Tailwind CSS: https://github.com/onwidget/astrowind
 - Build beautiful, high-performance documentation websites with Astro: https://starlight.astro.build
 - Accessible Astro Components: https://github.com/markteekman/accessible-astro-components
 - Astro View Transitions: https://developer.chrome.com/blog/astro-view-transitions

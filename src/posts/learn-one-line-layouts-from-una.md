@@ -157,6 +157,8 @@ This places the title, description, and image block in a vertical column inside 
 
 The minimum size here is `23ch` or 23 character units, and the maximum size is `46ch`, 46 characters. *Character width units* are based on the font size of the element (specifically the width of the `0` glyph).
 
+> In monospace (fixed-width) fonts, where all characters are the same width, `1ch` equals one character. Otherwise, in proportional (variable-width) fonts, any given character could be wider or narrower than the “0” character.
+
 What the `clamp()` function does here is enabling this element to retain a 50% width until 50% is either greater than `46ch`, or smaller than `23ch`. This enables more legible layouts, as the text won't be too wide or too squished and narrow.
 
 This is also a great way to implement responsive typography. For example, you could write: `font-size: clamp(1.5rem, 20vw, 3rem)`. In this case, the font-size of a headline would always stay clamped between `1.5rem` and `3rem` but would grow and shrink based on the `20vw` actual value to fit the width of of the viewport.
