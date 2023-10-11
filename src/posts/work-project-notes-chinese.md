@@ -52,6 +52,12 @@ new Vue({
   // which is lazy-loaded when the route is visited.
   component: () => import('@/views/AboutView.vue'),
 }
+
+// A param can be made optional by adding "?". It works for Vue Router 2.0 onward
+{
+  path: '/optional-params/:foo?',
+  ...
+},
 ```
 
 Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版本页面](https://www.npmjs.com/package/vue?activeTab=versions) 可以看到当前已使用 3.2.x 作为默认 latest 版本。如果还要用 Vue 2 ，需要手动指定 `legacy` 版本才能安装到 Vue 2。更多关于 Vue 的发布更新可以看 https://blog.vuejs.org

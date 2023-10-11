@@ -5,7 +5,7 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Sep 9 2023"
+updatedDate: "Oct 11 2023"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
@@ -32,30 +32,42 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
 ```json
 {
   "compilerOptions": {
-    "target": "ES5",
-    "module": "ES2015"
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "verbatimModuleSyntax": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    /* If transpiling with TypeScript: */
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "outDir": "dist",
+    "sourceMap": true,
+    /* If NOT transpiling with TypeScript: */
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "noEmit": true,
+    /* If your code runs in the DOM: */
+    "lib": ["es2022", "dom", "dom.iterable"],
+    /* If your code doesn't run in the DOM: */
+    "lib": ["es2022"],
+    /* If you're building for a library: */
+    "declaration": true,
   }
 }
 ```
 
-At the moment, a `.ts` file will be transpiled to the ES5 version of JavaScript (`target`) and all import statements will be kept in the ES2015 format (`module`) in the output. You can also set the `module` to `CommonJS` as Webpack can also handle the CommonJS module system.
+See examples:
+- https://github.com/Microsoft/TypeScript-Babel-Starter/blob/master/tsconfig.json
+- https://www.totaltypescript.com/tsconfig-cheat-sheet
 
 Run `tsc --noEmit` that tells TypeScript that we just want to check types and not create any output files. If everything in our code is all right, `tsc` exits with no error. `tsc --noEmit --watch` will add a `watch` mode so TypeScript reruns type-checking every time you save a file.
 
 > `json` doesn't normally allow comments, but comments are valid in `tsconfig.json`. It's officially supported by TypeScript and VSCode understands it too. `npx tsc --init` command generates the `tsconfig.json` with all the settings commented. What's going on here is [jsonc](https://github.com/microsoft/node-jsonc-parser), or "JSON with JavaScript style comments", a proprietary format used by a bunch of Microsoft products, most notably Typescript and VSCode.
 
-### jsconfig and tsconfig
-JavaScript experience is improved when you have a `jsconfig.json` file in your workspace that defines the project context. **`jsconfig.json` is a descendant of `tsconfig.json`**. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
-
-The `exclude` attribute tells the language service what files are not part of your source code (e.g. `node_modules`, `dist`). Alternatively, you can explicitly set the files in your project using the `include` attribute (e.g. `src/**/*`).
-
-Below are `compilerOptions` to configure the JavaScript language support. Do not be confused by `compilerOptions`, since no actual compilation is required for JavaScript. This attribute exists because `jsconfig.json` is a descendant of `tsconfig.json`. See an example at https://github.com/Microsoft/TypeScript-Babel-Starter/blob/master/tsconfig.json
-
-- `target`: This setting changes which JS features are downleveled and which are left intact. Modern browsers support all ES6 features, so `ES6` is a good choice. The values are "es3", "es5", "es6", "es2015", "es2016", "es2017", "es2018", "es2019", "es2020", "esnext".
-- `module`: Specifies the module system when generating module code. The values are "amd", "commonJS", "es2015", "es6", "esnext", "none", "system", "umd".
-- `baseUrl`: Lets you set a base directory to resolve non-absolute module names. With `"baseUrl": "."`, it will look for files starting at the same folder as the `jsconfig.json`.
-- `paths`: A series of entries which re-map imports to lookup locations relative to the `baseUrl`, e.g. `"@models/*": ["app/models/*"]`.
-- `checkJs`: Enable type checking on JavaScript files. This is the equivalent of including `// @ts-check` at the top of all JavaScript files which are included in your project. (Set `allowJs: true` in `tsconfig.json` to tell TypeScript to allow a reference to regular JavaScript files.)
+By the way, `jsconfig.json` is a descendant of `tsconfig.json`. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
 
 ## Basic Static Types
 TypeScript brings along static types to the JavaScript language, and those **types are evaluated at compile time**. Static types can help warn you of possible errors without having to run the code.
