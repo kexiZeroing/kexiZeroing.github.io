@@ -5,7 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "July 15 2023"
+updatedDate: "Oct 13 2023"
 ---
 
 ### package.json and package-lock.json
@@ -130,7 +130,7 @@ npm stores cache data in an opaque directory in `.npm`, named `_cacache`. `npm c
 1. Run `npm link` from your `MyModule` directory: this will create a global package `{prefix}/node/{version}/lib/node_modules/<package>` symlinked to the `MyModule` directory.
 2. Run `npm link MyModule` from your `MyApp` directory: this will create a `MyModule` folder in `node_modules` symlinked to the globally-installed package and thus to the real location of `MyModule`. *Note that `<package-name>` is taken from `package.json`, not from the directory name.*
 3. Now any changes to `MyModule` will be reflected in `MyApp/node_modules/MyModule/`. Use `npm ls -g --depth=0 --link` to list all the globally linked modules.
-4. Run `npm unlink --no-save <package>` on your project’s directory to remove the local symlink, and run `npm unlink` on the module’s directory to remove the global symlink.
+4. Run `npm unlink --no-save <package>` on your project’s directory to remove the local symlink. And run `npm ls --global` to check and `npm rm --global xx` to remove the global symlink.
 
 You may also shortcut the two steps in one. For example, to do the above use-case in a shorter way:
 ```shell
@@ -202,6 +202,8 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
     }
   }
   ```
+
+[shx](https://github.com/shelljs/shx) is a wrapper around ShellJS Unix commands, providing an easy solution for simple Unix-like, cross-platform commands in npm package scripts. ShellJS is a portable (Windows/Linux/macOS) implementation of Unix shell commands on top of the Node.js API. `shx` is good for writing one-off commands in npm package scripts (e.g. `"clean": "shx rm -rf out/"`). Run `npm install shx --save-dev` to install it, and run command in either a Unix or Windows command line.
 
 ### The rise of supply chain attacks
 Software [supply chain attacks](https://socket.dev/blog/inside-node-modules) occur when an attacker infiltrates a vendor's network and injects malicious code into its software, which that vendor then unknowingly distributes to its customers. Imagine an attacker gets malicious code into a package hosted on npm. From there, the vulnerability spreads to the `node_modules` folders on developer machines, to the build servers, and finally to production systems.

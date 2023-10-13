@@ -408,7 +408,7 @@ On-demand components auto importing for Vue: https://github.com/antfu/unplugin-v
 
 A lightweight, customizable Vue UI library for mobile web apps: https://vant-ui.github.io
 
-Modular and Accessible UI Components for your Vue Applications: https://vue.chakra-ui.com
+Modular and Accessible UI Components for your Vue Applications (for Vue 2.x): https://vue.chakra-ui.com
 
 Vue port of Radix UI Primitives: https://www.radix-vue.com
 
