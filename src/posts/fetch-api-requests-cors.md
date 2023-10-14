@@ -5,7 +5,7 @@ slug: fetch-api-requests-and-cors
 description: ""
 added: "Aug 9 2020"
 tags: [js]
-updatedDate: "July 26 2023"
+updatedDate: "Oct 14 2023"
 ---
 
 ## Fetch API
@@ -163,6 +163,30 @@ Use `multipart/form-data` when your form includes any `<input type="file">` elem
 - Every field gets some sub headers before its data: `Content-Disposition: form-data`, the field name, the filename, followed by the data.
 
 <img alt="form-data" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7pzihd80yj31440gy40l.jpg" width="700"> 
+
+### Process the form data
+1. What does `body-parser` do with express? Originally, there was only `body-parser`, not `express.json()`. `body-parser` extracts the entire body portion of an incoming request stream and exposes it on `req.body`. As of Express version 4.16+, their own `body-parser` implementation is now included in the default Express package so there is no need for you to download another dependency.
+
+  ```js
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  ```
+
+2. However, `body-parser` does not handle multipart bodies. [Multer](https://github.com/expressjs/multer) is a node.js middleware for handling `multipart/form-data`, which is primarily used for uploading files.
+
+  ```js
+  const express = require('express')
+  const multer  = require('multer')
+  // where to upload the files. In case you omit the options object, the files will be kept in memory and never written to disk.
+  const upload = multer({ dest: 'uploads/' })
+
+  const app = express()
+
+  app.post('/profile', upload.single('avatar'), function (req, res, next) {
+    // req.file is the `avatar` file, which is the file you uploaded
+    console.log(req.file)
+  })
+  ```
 
 ### POST and PUT
 The difference between `PUT` and `POST` is that `PUT` is idempotent *(If you PUT an object twice, it has no effect)*. `PUT` implies putting a resource - completely replacing whatever is available at the given URL with a different thing. Do it as many times as you like, and the result is the same. You can PUT a resource whether it previously exists, or not. So consider like this: do you name your URL objects you create explicitly, or let the server decide? If you name them then use `PUT`. If you let the server decide then use `POST`.

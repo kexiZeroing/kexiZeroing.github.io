@@ -240,6 +240,8 @@ output: {
 },
 ```
 
+> Crash course to learn how to create and publish your own React component library to the NPM registry (with Storybook and Rollup): https://www.youtube.com/watch?v=hf6Z8OZanec
+
 #### `main` vs `module` vs `exports` in package.json
 The `"main"` field is supported in all versions of Node.js, but its capabilities are limited: it only defines the main entry point of the package.
 
