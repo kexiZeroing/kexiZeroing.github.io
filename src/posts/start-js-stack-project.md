@@ -171,7 +171,7 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 ### Bun —— https://bun.sh
 Bun is a fast, all-in-one toolkit for running, building, testing, and debugging JavaScript and TypeScript, from a single file to a full-stack application.
 
-- Bun is a fast JavaScript runtime, written in Zig programming language.
+- Bun is a fast JavaScript runtime, written in Zig and uses Apple’s JS Core instead of Chrome’s V8.
 - Bun is a drop-in replacement for Node.js, faster than Node and Deno.
 - Bun can run JavaScript, TypeScript, and JSX/TSX files out of the box.
 - Bun is a JavaScript bundler with best-in-class performance.

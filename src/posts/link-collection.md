@@ -324,8 +324,6 @@ Color palette inspiration site: https://www.happyhues.co
 
 Delightful JavaScript plugins: https://metafizzy.co
 
-Real-time collaboration infrastructure for building performant collaborative experiences: https://liveblocks.io/docs
-
 A headless, framework-agnostic and extendable rich text editor: https://tiptap.dev/introduction
 
 The next open source file uploader for web browsers: https://uppy.io
@@ -418,9 +416,9 @@ Vue UI Component Library: https://primevue.org
 
 Nuxt on the Edge: https://nuxt.com/blog/nuxt-on-the-edge
 
-Pre-built Auth UI for Vue: https://github.com/nuxtbase/auth-ui-vue
-
 The open-source form framework for Vue: https://formkit.com
+
+Integrate Clerk into your Vue application: https://vue-clerk.vercel.app
 
 ---
 

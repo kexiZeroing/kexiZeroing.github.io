@@ -332,7 +332,8 @@ https://codepen.io/argyleink/pen/NWOEvro
     place-content: center;
   } 
   .box {
-    view-transition-name: box;
+    /* Having a name means "hold onto this element and try to tween it" (otherwise you get the cross-fade) */
+    view-transition-name: box; /* whatever a unique name */
     width: 100px;
     height: 100px;
     background: blue;
