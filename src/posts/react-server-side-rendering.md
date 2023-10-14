@@ -196,6 +196,8 @@ Before React Server Components, all React components are “client” components
 >
 > How is the Next.js App Router related to Server Components?
 > Next.js 13+ introduced the App Router with new features, conventions, and support for React Server Components. Components in the app directory are React Server Components by default. `"use client"` directive used to mark components as Client Components. Server and Client Components can be interleaved in the same component tree, with React handling the merging of both environments.
+>
+> *Common misconception: Components with "use client" only run in browser. Client components still get pre-rendered to the initial HTML on the server (SSR).*
 
 Compare for server side rendering and server components:
 - https://github.com/TejasQ/makeshift-next.js/tree/spoiled
