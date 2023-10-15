@@ -46,6 +46,7 @@ Check out the real project [E-commerce](https://www.codewithantonio.com/projects
 - stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
 - react-quill: a React component that wraps Quill.js for both rich text editor and preview (with `readonly` props).
 - @mux/mux-node is a Mux API wrapper for Node projects to post a video. Note that this package uses Mux access tokens and secret keys and is intended to be used in server-side code only. @mux/mux-player-react to integrate [Mux](https://docs.mux.com) player into your web application.
+- react-confetti: create a confetti effect to celebrate the accomplishment of particular steps in an application.
 
 > Crash course from @traversymedia: 
 > - Simple Next.js & React Authentication With **Clerk**: https://www.youtube.com/watch?v=RHFmsoiVtKE

@@ -1,5 +1,6 @@
 import React from 'react'
 import './style.css'
+import Confetti from 'react-confetti'
 
 // Inspired by https://linknode.vercel.app
 // May change importing a css file to using css-in-js later...
@@ -10,6 +11,11 @@ const MobileMockup = () => {
       <div className="volume volume-down"></div>
       <div className="switch" data-switch="off"></div>
       <div className="main-content">
+        <Confetti
+          width="320"
+          height="650"
+          recycle={false}
+        />
         <main>
           <span className="relative flex shrink-0 h-20 w-20 rounded-full overflow-hidden mx-auto">
             <img className="aspect-square h-full w-full object-cover" alt="Kexi Dang's profile picture" src="https://avatars.githubusercontent.com/kexiZeroing" />
