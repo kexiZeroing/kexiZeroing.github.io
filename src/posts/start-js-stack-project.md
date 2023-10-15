@@ -31,7 +31,7 @@ Start with templates:
 - `create-t3-app` to start a full-stack, typesafe Next.js app *(The T3 Stack)*. It consists of Next.js, tRPC, Tailwind CSS, TypeScript, Prisma, and NextAuth.js: https://create.t3.gg
 - Next.js, Tailwind CSS blogging starter template: https://github.com/timlrx/tailwind-nextjs-starter-blog
 
-Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in this project:
+Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce) (or a similar one [Course-platform](https://www.codewithantonio.com/projects/lms-platform)). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in the project:
 
 - @clerk/nextjs: add authentication and user management to your Next.js application.
 - prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. It integrates Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database.
@@ -39,11 +39,13 @@ Check out the real project [E-commerce](https://www.codewithantonio.com/projects
 - react-hot-toast: lightweight notifications for React.
 - lucide-react: implementation of the lucide icon library for react applications.
 - date-fns: modern JavaScript date utility library.
-- next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the CldImage component, social cards, and an upload widget.
+- next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the `CldImage` component, social cards, and an upload widget.
 - @tanstack/react-table: headless UI for building powerful tables & datagrids for React. ([@tanstack/react-query](https://tanstack.com/query/latest/docs) is more popular.)
 - query-string: parse and stringify URL query strings.
 - recharts: chart library to help you to write charts in React.
 - stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
+- react-quill: a React component that wraps Quill.js for both rich text editor and preview (with `readonly` props).
+- @mux/mux-node is a Mux API wrapper for Node projects to post a video. Note that this package uses Mux access tokens and secret keys and is intended to be used in server-side code only. @mux/mux-player-react to integrate [Mux](https://docs.mux.com) player into your web application.
 
 > Crash course from @traversymedia: 
 > - Simple Next.js & React Authentication With **Clerk**: https://www.youtube.com/watch?v=RHFmsoiVtKE
