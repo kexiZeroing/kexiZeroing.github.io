@@ -91,6 +91,12 @@ Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版�
 - `output.path` represents the absolute path for webpack file output in the file system. In other words, `path` is the physical location on disk where webpack will write the bundled files.
 - `output.publicPath` represents the path from which bundled files should be accessed by the browser. You can load assets from a custom directory (`/assets/`) or a CDN (`https://cdn.example.com/assets/`). The value of the option is prefixed to every URL created by the runtime or loaders.
 
+#### app, vendor and manifest
+In a typical application built with webpack, there are three main types of code:
+1. The source code you have written. 自己编写的代码
+2. Any third-party library or "vendor" code your source is dependent on. 第三方库和框架
+3. A webpack runtime and manifest that conducts the interaction of all modules. 记录了打包后代码模块之间的依赖关系，需要第一个被加载
+
 #### resolve
 - extensions 数组，在 import 不带文件后缀时，webpack 会自动带上后缀去尝试访问文件是否存在，默认值 `['.js', '.json', '.wasm']`
 - mainFiles 设置解析目录时要使用的文件名，默认值 `['index']`

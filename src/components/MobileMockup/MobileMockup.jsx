@@ -1,9 +1,9 @@
 import React from 'react'
+// May change importing a css file to using css-in-js or tailwind directly later...
 import './style.css'
 import Confetti from 'react-confetti'
 
 // Inspired by https://linknode.vercel.app
-// May change importing a css file to using css-in-js later...
 const MobileMockup = () => {
   return (
     <div className="mobile__outline">
