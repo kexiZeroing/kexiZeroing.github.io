@@ -420,6 +420,8 @@ The open-source form framework for Vue: https://formkit.com
 
 Integrate Clerk into your Vue application: https://vue-clerk.vercel.app
 
+A FilePond (file upload library) adapter component for Vue: https://github.com/pqina/vue-filepond
+
 ---
 
 ## Support lifecycles of various products

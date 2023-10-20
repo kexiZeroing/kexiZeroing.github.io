@@ -123,7 +123,7 @@ For example, I want to change the git user (rewrite history) after push the code
 
 Another example, I want to squash my last 3 commits together into one commit: `git reset --soft HEAD~3 && git commit`. The soft reset just re-points HEAD to the last commit that you do not want to squash. Neither the index nor the working tree are touched, leaving the index in the desired state for your new commit.
 
-Github takes all of the commits on your PR branch and combines them into a single one when you merge. You also can squash all commits from a branch into one commit by `git merge --squash <branch>`.
+Github takes all of the commits on your PR branch and combines them into a single one when you merge. You also can squash all commits from a branch into one commit by `git merge --squash <branch>`. Run `git show` to show the changes made in the most recent commit, which is equivalent to `git show HEAD`. (also `git diff COMMIT` will show you the difference between that `COMMIT` and the head.)
 
 ## git restore and git switch
 `git checkout` is one of the many reasons why newcomers find git confusing, and that is because its effect is context-dependent. In version 2.23 of git, two new commands have been introduced to split the old `git checkout` in two.
