@@ -71,6 +71,9 @@ How about resolving cherry-pick conflicts using their changes? First you should 
   - git stash
   - git checkout right_branch
   - git stash apply
+
+> *The stash is a bunch of commits*: When you run `git stash`, git makes some commits with your changes and labels them with a reference called `stash` (in `.git/refs/stash`).
+
 - If you committed to the wrong branch, `git reset` those commits individually. Once you have done that, switch back to the desired branch and there you can use `git cherry-pick` to pick the specific commits.
   - git checkout right_branch
   - git cherry-pick commit_hash

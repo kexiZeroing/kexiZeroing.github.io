@@ -330,6 +330,8 @@ The next open source file uploader for web browsers: https://uppy.io
 
 Draggable objects: https://www.redblobgames.com/making-of/draggable
 
+PartyKit at ViteConf 2023: https://blog.partykit.io/posts/partykit-at-viteconf
+
 ---
 
 ## React ecosystem
