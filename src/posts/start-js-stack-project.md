@@ -383,7 +383,7 @@ Your code needs to be hosted on a server. Depending on the size of your code and
 
 Cloud is basically renting out servers and data storage that's owned by someone else (Serverless does not mean there aren't any servers; You still need servers to host and run your code.) Through the cloud provider (AWS, Azure, or Google Cloud), you gain access to resources like storage services, servers, networking, analytics, AI, and more. There are many other benefits: You pay only for what you use. You can easily spin up and use new servers when needed, allowing you to scale quickly. You can deploy applications globally.
 
-> Serverless is just a way of handling how you are using servers. Instead of handling all the infrastructure and server operations yourself you're relying on a cloud provider.
+> Serverless is just a way of handling how you are using servers. Instead of handling all the infrastructure and server operations yourself you're relying on a cloud provider. *Self-hosted for control, cloud services (may offer free tiers) for uptime.*
 
 There are different families of cloud services.
 - **Infrastructure as a service (IaaS)** - Amazon EC2, Digital Ocean
