@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Oct 7 2023"
+updatedDate: "Oct 22 2023"
 ---
 
 ## Start a modern web project
@@ -34,7 +34,7 @@ Start with templates:
 Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce) (or a similar one [Course-platform](https://www.codewithantonio.com/projects/lms-platform)). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in the project:
 
 - @clerk/nextjs: add authentication and user management to your Next.js application.
-- prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. It integrates Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database.
+- prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. You can integrate Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database. The fastest way to get started with Prisma is by following the [Quickstart](https://www.prisma.io/docs/getting-started/quickstart).
 - zustand: one of many state management libraries for React.
 - react-hot-toast: lightweight notifications for React.
 - lucide-react: implementation of the lucide icon library for react applications.

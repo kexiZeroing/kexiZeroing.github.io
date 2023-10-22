@@ -5,7 +5,7 @@ slug: http-connection-caching-http2
 description: ""
 added: "Nov 20 2022"
 tags: [web]
-updatedDate: "Feb 17 2023"
+updatedDate: "Oct 22 2023"
 ---
 
 ## Connection management
@@ -50,6 +50,16 @@ The `308 (Permanent Redirect)` status code, that is similar to `301 (Moved Perma
 - Requests to the `http://` version of your site will redirect to the `https://` version of your site.
 
 > Chrome users who navigate to websites by manually typing a URL often don’t include `http://` or `https://`. In this case, if it was a user’s first visit to a website, Chrome would previously choose `http://` as the default protocol. This was a practical default in the past, when much of the web did not support HTTPS. Starting in version 90, Chrome’s address bar uses `https://` by default.
+
+### Mixed content
+An HTTPS page that includes content fetched using cleartext HTTP is called a mixed content page. Pages like this are only partially encrypted, leaving the unencrypted content accessible to sniffers and man-in-the-middle attackers. There are two categories for mixed content: mixed passive/display content and mixed active content.
+
+- *Mixed passive/display content* is content served over HTTP that is included in an HTTPS webpage, but that cannot alter other portions of the webpage. For example, an attacker could replace an image served over HTTP with an inappropriate image or message to the user. (img src attribute, video src attribute, etc.)
+- *Mixed active content* is content that has access to all or parts of the Document Object Model of the HTTPS page. This type of mixed content can alter the behavior of the HTTPS page and potentially steal sensitive data from the user. (script src attribute, iframe src attribute, xhr requests, fetch, etc.)
+
+When visiting an HTTPS page in Google Chrome, the browser alerts you to mixed content as errors and warnings in the JavaScript console. Mixed active content is blocked by default.
+
+Content security policy (CSP) is a multi-purpose browser feature that you can use to manage mixed content at scale. The `upgrade-insecure-requests` CSP directive instructs the browser to upgrade insecure URLs before making network requests. As with browser automatic upgrading, if the resource is not available over HTTPS, the upgraded request fails and the resource is not loaded. This maintains the security of your page.
 
 ## HTTP caching
 The HTTP cache stores a response associated with a request and reuses the stored response for subsequent requests. Proper operation of the cache is critical to the health of the system.
@@ -99,6 +109,31 @@ In short, by adding `Cache-Control: no-cache` to the response along with `Last-M
 > Read from the Chromium projects, the HTTP Cache is the module that receives HTTP requests and decides when and how to fetch data from the Disk Cache or from the network. The cache lives in the browser process, as part of the network stack. It should not be confused with Blink's in-memory cache, which lives in the renderer process and it's tightly coupled with the resource loader.
 > 
 > Open Chrome Developper Tools / Network. Reload a page multiple times. The table column "Size" will tell you that some files are loaded "from memory cache". Now close the browser, open Developper Tools / Network and load that page again. All cached files are loaded "from disk cache" now, because your memory cache is empty.
+
+You are looking for [cachified](https://github.com/Xiphe/cachified), which wraps virtually everything that can store by key to act as cache with ttl/max-age, stale-while-validate, parallel fetch protection and type-safety support.
+
+```ts
+import { LRUCache } from 'lru-cache';
+import { cachified, CacheEntry } from 'cachified';
+
+const lru = new LRUCache<string, CacheEntry>({ max: 1000 });
+
+function getUserById(userId: number) {
+  return cachified({
+    key: `user-${userId}`,
+    cache: lru,
+    async getFreshValue() {
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/users/${userId}`,
+      );
+      return response.json();
+    },
+    /* 5 minutes until cache gets invalid
+     * Optional, defaults to Infinity */
+    ttl: 300_000,
+  });
+}
+```
 
 ### Revved resources
 They are some resources that would benefit the most from caching, but this makes them very difficult to update. This is typical of the resources included and linked from each web pages: JavaScript and CSS files change infrequently, but when they change you want them to be updated quickly.
