@@ -63,6 +63,29 @@ layout: ../layouts/MarkdownPage.astro
 ---
 
 Welcome to My Blog
+
+```
+
+```mdx
+## This is a mdx file
+
+<section>
+  And here is *markdown* in **JSX**!
+</section>
+
+{(function () {
+  const guess = Math.random()
+
+  if (guess > 0.66) {
+    return <span style={{color: 'tomato'}}>Look at us.</span>
+  }
+
+  if (guess > 0.33) {
+    return <span style={{color: 'violet'}}>Who would have guessed?!</span>
+  }
+
+  return <span style={{color: 'goldenrod'}}>Not me.</span>
+})()}
 ```
 
 ### Template Directives
