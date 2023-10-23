@@ -51,6 +51,8 @@ Chrome                                         Server
 
 **Note that the data being sent from the server is only a small chunk, even though the `Range` header has value “bytes=0-”.** Chrome and FireFox ask for ranges like `bytes=300-`, can server side return a smaller-range part, other than part from offset 300 to end of file? The answer is yes. When you play the video, browser will send range request for remaining bytes. Both Chrome and FireFox send range request using byte range (i.e `bytes=1867776-`) with last-byte-pos value absent. (The server sends TCP Keep-Alive to keep this TCP connection connected.)
 
+> HTTP servers hosting media files for iOS must support byte-range requests, which iOS uses to perform random access in media playback. The Safari browser is only asking for the first 2 bytes to be returned from the server initially: `Range: bytes=0-1`. (By the way, `canplay` event seems not to be fired in iOS.)
+
 If you skip ahead in the video, the browser will cancel the currently on-going response for the video content. It will then use the the video file’s metadata to map your desired new position to a byte offset and use it for a new range request (`byte=offset-`). When the buffer is full and the browser stops the server from sending more data, the request is technically still on-going, just no data is being sent.
 
 ## MP4 and WebM

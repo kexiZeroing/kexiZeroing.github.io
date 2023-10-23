@@ -69,10 +69,9 @@ Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版�
 - [Volar](https://blog.vuejs.org/posts/volar-1.0.html) 是 Vue 官方推荐的 VSCode 扩展 *(the official IDE/TS tooling support for Vue)*，用以代替 Vue 2 时代的 Vetur 插件。
 
 ### 一些 webpack 的配置
-- Webpack 5 Crash Course: https://www.youtube.com/watch?v=IZGNcSuwBZs
 - Webpack 5 boilerplate: https://github.com/taniarascia/webpack-boilerplate
 - Create App: https://createapp.dev/webpack
-- 玩转 webpack: https://github.com/cpselvis/geektime-webpack-course
+- Webpack articles: https://blog.jakoblind.no/tags/webpack
 
 #### filename and chunkFilename
 - `filename` 是对应于 entry 里面的输入文件，经过打包后输出文件的名称。`chunkFilename` 指未被列在 entry 中，却又需要被打包出来的 chunk 文件的名称（non-initial chunk files），一般是要懒加载的代码。
