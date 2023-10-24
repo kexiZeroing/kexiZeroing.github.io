@@ -132,6 +132,8 @@ function alterVolume(dir) {
 ### Progress
 When the `<progress>` element was defined above in the HTML, only two attributes were set, `value` and `min`, both being given a value of 0. It also needs to have a maximum value set so that it can display its range correctly, and this can be done via the `max` attribute, which needs to be set to the maximum playing time of the video. This is obtained from the video's `duration` attribute, which again is part of the Media API.
 
+> If there is no `value` attribute, the progress bar is indeterminate; this indicates that an activity is ongoing with no indication of how long it is expected to take.
+
 Ideally, the correct value of the video's `duration` attribute is available when the `loadedmetadata` event is raised, which occurs when the video's metadata has been loaded:
 
 ```js

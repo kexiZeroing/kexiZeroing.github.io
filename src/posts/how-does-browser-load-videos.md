@@ -5,7 +5,7 @@ slug: how-does-browser-load-videos
 description: ""
 added: "July 27 2023"
 tags: [web]
-updatedDate: "July 30 2023"
+updatedDate: "Oct 24 2023"
 ---
 
 ## Basic concepts
@@ -56,7 +56,7 @@ If you skip ahead in the video, the browser will cancel the currently on-going r
 > Some notes about compatibility issues especially on iOS:
 > 1. A `<video>` element can use the `play()` method to automatically play without user gestures only when it contains no audio tracks or has its muted property set to true.
 > 2. On iPhone, `<video playsinline>` elements will be allowed to play inline, and will not automatically enter fullscreen mode when playback begins. `<video>` elements without `playsinline` attributes will continue to require fullscreen mode for playback on iPhone.
-> 3. `canplay` and `canplaythrough` do not work in iOS.
+> 3. Just treat `loadedmetadat` as an iOS specific `canplay` event as iOS does not seem to trigger `canplay` on its own.
 > 4. The `play` event is fired when the `paused` property is changed from `true` to `false`, as a result of the `play` method, but that's no guarantee that the video will actually start playing. The `play` method returns a Promise which is resolved when playback has been successfully started.
 > 5. HTTP servers hosting media files for iOS must support byte-range requests, which iOS uses to perform random access in media playback. The Safari browser is only asking for the first 2 bytes to be returned from the server initially: `Range: bytes=0-1`.
 

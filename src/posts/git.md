@@ -5,7 +5,7 @@ slug: git-knowledge-not-clear
 description: ""
 added: "June 19 2022"
 tags: [system]
-updatedDate: "Feb 05 2023"
+updatedDate: "Oct 24 2023"
 ---
 
 ## helpful links
@@ -199,6 +199,21 @@ Show commits more recent or older than a specific date:
 - SSH, aka `git@github.com:` or `ssh://git@github.com/`, uses public-key authentication. You have to generate a keypair, then add it to your GitHub account. Authentication is needed for all connections, so you always need a GitHub account – even to pull or clone.
 
 > You can tell git to use https instead of `git://` with the command `git config --global url."https://".insteadOf git://`, and the change goes to your git config file `~/.gitconfig`.
+
+## Organize multiple Git identities
+One awesome feature of the `.gitconfig` file is that you can conditionally include other config files. For every identity, you keep a separate gitconfig file and include it in the main `~/.gitconfig`. See an example: https://garrit.xyz/posts/2023-10-13-organizing-multiple-git-identities
+
+```
+[user]
+  name = foo
+  email = foo@bar.com
+
+[includeIf "gitdir:~/work/"]
+  path = ~/.gitconfig-work
+
+[includeIf "gitdir:~/work/client/"]
+  path = ~/.gitconfig-client
+```
 
 ## Git Extras
 [git-extras](https://github.com/tj/git-extras) is a collection of Git utilities, which hosts more than 60 of "extras" with features that extend the basic functionality of Git. Install it with Homebrew `brew install git-extras`.
