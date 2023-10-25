@@ -356,8 +356,6 @@ A collection of React hooks from the ui.dev team: https://usehooks.com
 
 How styled-components works: https://medium.com/styled-components/how-styled-components-works-618a69970421
 
-TanStack Query (formerly known as React Query): https://tanstack.com/query/latest/docs/react/overview
-
 Start developing websites like it's 2025: https://react2025.com
 
 Introducing Remix: https://www.youtube.com/watch?v=wsJaUjd1rUo

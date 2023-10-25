@@ -82,7 +82,7 @@ Cache-Control: no-store
 Cache-Control: public
 Cache-Control: private
 Cache-Control: max-age=<seconds>
-Cache-Control: s-maxage=<seconds>
+Cache-Control: stale-while-revalidate=<seconds>
 ```
 
 In HTTP/1.0, freshness used to be specified by the `Expires` header. However, the time format is difficult to parse and many implementation bugs were found, therefore, `max-age` — for specifying an elapsed time — was adopted for `Cache-Control` in HTTP/1.1. If both `Expires` and `Cache-Control: max-age` are available, `max-age` is defined to be preferred.
@@ -95,7 +95,9 @@ The `no-cache` directive does not prevent the storing of responses but instead p
 
 `s-maxage` is similar to `max-age` but it applies to proxies (CDN) instead of clients. Web proxy caches work on the same principle, but a much larger scale. Use `public` and `s-maxage` for general resources, which generate shared cache for every user, and only the first user needs to wait on response.
 
-Continue to read this article [Caching Header Best Practices](https://simonhearne.com/2022/caching-header-best-practices/) for more details.
+`max-age=600, stale-while-revalidate=30` indicates that it is fresh for 600 seconds, and it may continue to be served stale for up to an additional 30 seconds while an asynchronous validation is attempted. Revalidation will make the cache be fresh again. If no request happened during that period, the cache became stale and the next request will revalidate normally.
+
+`stale-if-error=86400` indicates that the cache can reuse a stale response for an extra 1 day (86400s) when an error is encountered. Here, an error is considered any response with a status code of 500, 502, 503, or 504.
 
 ### Freshness and Cache validation
 Before the expiration time, the resource is fresh; after the expiration time, the resource is stale. Stale responses are not immediately discarded. HTTP has a mechanism to transform a stale response into a fresh one by asking the origin server. This is called validation. Validation is done by using a conditional request that includes an `If-Modified-Since` or `If-None-Match` request header. The server will respond with `304 Not Modified` if the content has not changed. **Since this response only indicates "no change", there is no response body — there's just a status code — so the transfer size is extremely small.** The response can also include headers that update the expiration time of the cached resource.
@@ -110,7 +112,7 @@ In short, by adding `Cache-Control: no-cache` to the response along with `Last-M
 > 
 > Open Chrome Developper Tools / Network. Reload a page multiple times. The table column "Size" will tell you that some files are loaded "from memory cache". Now close the browser, open Developper Tools / Network and load that page again. All cached files are loaded "from disk cache" now, because your memory cache is empty.
 
-You are looking for [cachified](https://github.com/Xiphe/cachified), which wraps virtually everything that can store by key to act as cache with ttl/max-age, stale-while-validate, parallel fetch protection and type-safety support.
+You are looking for [cachified](https://github.com/Xiphe/cachified), which wraps virtually everything that can store by key to act as cache with ttl/max-age, stale-while-revalidate, parallel fetch protection and type-safety support.
 
 ```ts
 import { LRUCache } from 'lru-cache';
