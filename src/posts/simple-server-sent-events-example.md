@@ -61,6 +61,7 @@ app.listen(3000, () => console.log('Listening on port 3000...'));
 
     const eventSource = new EventSource('http://localhost:3000/stream');
 
+    // eventSource.addEventListener('message', (event) => {}, false)
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
       numbers.innerHTML += `<li>${data.number}</li>`;
@@ -68,6 +69,24 @@ app.listen(3000, () => console.log('Listening on port 3000...'));
   </script>
 </body>
 </html>
+```
+
+```
+# Minimum viable SSE response
+> GET /stream/hello HTTP/1.1
+
+< HTTP/1.1 200 OK
+< Content-Type: text/event-stream
+
+# Events sperated by two newline characters \n\n
+< data: Hello\n\n
+
+< data: Are you there?\n\n
+
+# Custom named events with event identifiers
+< id: 1
+< event: status
+< data: {"msg": "hi"}\n\n
 ```
 
 ## Server-side streams
