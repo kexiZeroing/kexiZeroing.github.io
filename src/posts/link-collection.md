@@ -330,6 +330,8 @@ The next open source file uploader for web browsers: https://uppy.io
 
 Draggable objects: https://www.redblobgames.com/making-of/draggable
 
+Add motion to your apps with a single line of code: https://auto-animate.formkit.com
+
 PartyKit at ViteConf 2023: https://blog.partykit.io/posts/partykit-at-viteconf
 
 ---
@@ -364,8 +366,6 @@ Up and Running with Remix: https://egghead.io/courses/up-and-running-with-remix-
 
 Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/next-vs-remix
 
-Advanced Remix Workshop: https://github.com/remix-run/advanced-remix-2023
-
 A gentle introduction to React, but visualized: https://react.gg/visualized
 
 React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.com/watch?v=zMf_xeGPn6s
@@ -376,7 +376,7 @@ A demo of using RSC and Vercel Postgres legally: https://github.com/rauchg/how-i
 
 Next.js full stack projects: https://www.codewithantonio.com/projects
 
-React for interactive command-line apps: https://github.com/vadimdemedes/ink
+Learn Next.js course by Vercel: https://nextjs.org/learn
 
 ---
 
@@ -433,6 +433,8 @@ New in Chrome: https://developer.chrome.com/tags/new-in-chrome
 What's New in DevTools (Articles): https://developer.chrome.com/tags/new-in-devtools
 
 What's New in DevTools (Videos): https://www.youtube.com/playlist?list=PLNYkxOF6rcIBDSojZWBv4QJNoT4GNYzQD
+
+Safari Release Notes: https://developer.apple.com/documentation/safari-release-notes/
 
 Node.js: https://github.com/nodejs/release
 

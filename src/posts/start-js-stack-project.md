@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Oct 22 2023"
+updatedDate: "Oct 29 2023"
 ---
 
 ## Start a modern web project
@@ -48,9 +48,7 @@ Check out the real project [E-commerce](https://www.codewithantonio.com/projects
 - @mux/mux-node is a Mux API wrapper for Node projects to post a video. Note that this package uses Mux access tokens and secret keys and is intended to be used in server-side code only. Also add @mux/mux-player-react to integrate [Mux](https://docs.mux.com) player into your web application.
 - react-confetti: create a confetti effect to celebrate the accomplishment of particular steps in an application.
 
-> Crash course from @traversymedia: 
-> - Simple Next.js & React Authentication With **Clerk**: https://www.youtube.com/watch?v=RHFmsoiVtKE
-> - **Prisma** Crash Course: https://www.youtube.com/watch?v=CYH04BJzamo
+> Why Next.js written by @leeerob: I never need to write separate backends for projects I want to create. I can build my entire project with Next.js. I never have to worry about bundler, compiler, or frontend infrastructure. I'm able to use the latest React features, which I personally find to have a great developer experience. Next.js provides a bunch of components that help me keep my site fast.
 
 ### Release helper
 - Interactive CLI that bumps version number (with `--commit` `--tag` `--push` by default): https://github.com/antfu/bumpp
@@ -165,11 +163,11 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 }
 ```
 
+<img alt="source-map-ignore" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/sourcemap-ignore.png" width="500" />
+
 > Learn source maps from Google Chrome Developers
 > - What are source maps: https://www.youtube.com/watch?v=FIYkjjFYvoI
 > - Using source maps in DevTools: https://www.youtube.com/watch?v=SkUcO4ML5U0
-
-<img alt="source-map-authored" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hdhsb35qhrj30uq0gqac8.jpg" width="650" />
 
 ### Bun —— https://bun.sh
 Bun is a fast, all-in-one toolkit for running, building, testing, and debugging JavaScript and TypeScript, from a single file to a full-stack application.
@@ -208,7 +206,7 @@ console.log(`Server running at ${server.port}`);
     }
     ```
 2. We can edit some default settings for prettier in settings (`cmd + ,`, then type prettier)
-3. Install eslint and prettier npm packages `npm i -D eslint prettier`. *(ESLint only as an npm package does not provide any editor integration, only the CLI executable.)*
+3. Install eslint and prettier npm packages `npm i -D eslint prettier`. (ESLint only as an npm package does not provide any editor integration, only the CLI executable.)
 4. Run `eslint --init` to create a `eslintrc.json` (or `.js`, `.yml`) config file after install eslint globally `npm i -g eslint` (otherwise need to run `./node_modules/eslint/bin/eslint.js --init`), pick the following options:
     - To check syntax, find problems, and enforce code style
     - JavaScript modules (import/export)

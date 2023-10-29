@@ -165,7 +165,7 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
 - `npm run` is an alias for `npm run-script`, meaning you could also use `npm run-script lint`.
 - Built-in scripts can be executed using aliases, making the complete command shorter and easier to remember. For example, `npm run-script test`, `npm run test`, `npm test`, and `npm t` are same to run the test script. `npm run-script start`, `npm run start`, and `npm start` are also same.
 - Run `npm run` if you forget what npm scripts are available. This produces a list of scripts, and displays the code that each script runs.
-- We can use `&&` to run multiple scripts sequentially. For example, `npm run lint && npm test`.
+- We can use `&&` to run multiple scripts sequentially. If the first script fails, the second script is never executed. Another option is using `npm-run-all` library to run multiple npm-scripts in parallel or sequential, which is simplified and cross platform.
 - When a script finishes with a non-zero exit code, it means an error occurred while running the script, and the execution is terminated.
 - Use `npm run <script> --silent` to reduce logs and to prevent the script from throwing an error. This can be helpful when you want to run a script that you know may fail, but you don't want it to throw an error. Maybe in a CI pipeline, you want your whole pipeline to keep running even when the test command fails.
 - We can create "pre" and "post" scripts for any of our scripts, and npm will automatically run them in order.
