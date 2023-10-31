@@ -53,6 +53,7 @@ updatedDate: "June 13 2023"
 
 - Using the `background-clip` property we can control where the background shows. Specifically, we can set `background-clip: text` to make the background only show wherever there's text in the element.
 - `drop-shadow` is similar to the `box-shadow` property. The `box-shadow` property creates a rectangular shadow behind an element's entire box, while the `drop-shadow` creates a shadow that conforms to the shape (alpha channel) of the image itself.
+- A cool website: https://www.makewordart.com
 
 ### Hover Text Effects
 <img alt="Hover Text Effects" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t04ox2d3j30e2048jrb.jpg" width="200">

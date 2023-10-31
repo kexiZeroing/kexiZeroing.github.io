@@ -5,7 +5,7 @@ slug: learn-the-new-frontend-build-tool-vite
 description: ""
 added: "Jan 29 2022"
 tags: [web]
-updatedDate: "Mar 22 2023"
+updatedDate: "Oct 31 2023"
 ---
 
 ## Next Generation Frontend Tooling
@@ -60,7 +60,7 @@ Under the hood, Vite uses Rollup as its build tool, and you can add any Rollup p
 
 ### TypeScript
 - Vite supports importing `.ts` files out of the box.
-- Only performs transpilation on `.ts` files and does NOT perform type checking. It assumes type checking is taken care of by your IDE and build process.
+- Only performs transpilation on `.ts` files and does NOT perform type checking. It assumes type checking is taken care of by your IDE and build process. For production builds, you can run `tsc --noEmit` in addition to Vite's build command. During development, use [vite-plugin-checker](https://github.com/fi3ework/vite-plugin-checker) if you prefer having type errors directly reported in the browser.
 - Vite uses esbuild to transpile TypeScript into JavaScript which is about 20~30x faster than vanilla `tsc`.
 
 ### CSS
@@ -99,6 +99,8 @@ Vite uses dotenv (`.env`) to load additional environment variables, and the load
 ## Dynamic Image URL
 `import.meta.url` is a native ESM feature that exposes the current module's URL. Combining it with the native [URL constructor](https://developer.mozilla.org/en-US/docs/Web/API/URL), we can obtain the full, resolved URL of a static asset using relative path from a JavaScript module.
 
+> The `import.meta` meta-property exposes context-specific metadata to a JavaScript module. It contains information about the module, such as the module's URL. `import.meta` is available in JavaScript modules; using it outside of a module is a syntax error.
+
 ```vue
 <script setup>
 // https://stackoverflow.com/questions/66419471/vue-3-vite-dynamic-image-src
@@ -109,3 +111,15 @@ const imageUrl = new URL(`./dir/${name}.png`, import.meta.url).href
   <img :src="imageUrl" alt="img" />
 </template>
 ```
+
+## From Vue CLI to Vite
+1. Remove Vue CLI related dependencies in `package.json`.
+2. Remove `sass-loader` as Vite provides built-in support for the most common pre-processors out of the box.
+3. Add Vite as a dependency, as well as the Vue plugin for Vite.
+4. With the Vite plugins installed, remove the `vue-template-compiler` as that's handled by the Vite Vue plugins.
+5. Vite is a next generation build tool, let's proceed optimistically by only supporting the most modern browsers. Practically speaking, this means that we can remove Babel.
+6. Add a Vite config file `vite.config.js` in the root of the project. Import the Vue plugin and set  `@import` alias there.
+7. Contrary to the Vue CLI, Vite actually puts the `index.html` file in the root of the project instead of the public directory, so you'll need to move it. And the JavaScript application is no longer auto injected so we need to include it like `<script type="module" src="/src/main.js"></script>`.
+8. Change the old `vue-cli-service` commands to Vite specific commands in `package.json`.
+9. You can no longer access environment variables on a `process.env` variable. Instead they can be found on `import.meta.env`.
+10. Remove all the magic comments for naming your dynamic imports as these are webpack specific comments (e.g. `/* webpackChunkName: "about" */`) and don't mean anything to Vite. Vite will automatically name your chunk based off of the original `.vue` file name combined with a hash.
