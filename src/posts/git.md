@@ -27,13 +27,35 @@ You’ve made some commits locally (not yet pushed), but everything is terrible,
 > Use `git push -f` to change the remote after `git reset` locally.
 
 ## git merge
-The `--no-ff` flag prevents `git merge` from executing a "fast-forward" if it detects that your current `HEAD` is an ancestor of the commit you're trying to merge. A fast-forward is when, instead of constructing a merge commit, git just moves your branch pointer to point at the incoming commit. This commonly occurs when doing a `git pull` without any local changes.
+The `--no-ff` flag prevents `git merge` from executing a "fast-forward" if it detects that your current `HEAD` is an ancestor of the commit you're trying to merge. A fast-forward is when, instead of constructing a merge commit, git just moves your branch pointer to point at the incoming commit.
+
+```
+*---* (master)
+     \
+      *---*---* (foo)
+
+*---*
+     \
+      *---*---* (master, foo)
+
+In this situation, the merge is fast-forward because `master` is reachable from `foo`. In other words, you just have to move the master reference to foo, and you're done.
+
+*---*---* (master)
+     \
+      *---*---* (foo)
+
+*---*---*-------* (master)
+     \         / 
+      *---*---* (foo)
+
+When your branches diverge, you have to create a commit to "join" the two branches. The new commit is the merge commit and has two parent commits.
+```
 
 - `--ff`, when possible resolve the merge as a fast-forward (only update the branch pointer to match the merged branch; do not create a merge commit). When not possible (when the merged-in history is not a descendant of the current history), create a merge commit.
 
 - `--no-ff`, create a merge commit in all cases, even when the merge could instead be resolved as a fast-forward.
 
-- `--ff-only`, resolve the merge as a fast-forward when possible. When not possible, refuse to merge and exit with a non-zero status. *(Unix systems have a convention that an exit status of 0 denotes success, and any non-zero exit status denotes failure)*
+- `--ff-only`, resolve the merge as a fast-forward when possible. When not possible, refuse to merge and exit with a non-zero status.
 
 ## git pull --rebase vs. --merge
 - When you decide to push your work your push is rejected, because there's been parallel work on the same branch. At this point do a `git pull --rebase` to avoid the extra merge commits. You actually commit on top of the remote branch.

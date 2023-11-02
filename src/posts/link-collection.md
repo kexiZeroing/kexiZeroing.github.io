@@ -234,7 +234,7 @@ Some simple ways to make content look good: https://set.studio/some-simple-ways-
 
 CSS Flexbox: https://github.com/samanthaming/Flexbox30
 
-CSS Grid: https://www.youtube.com/playlist?list=PLu8EoSxDXHP5CIFvt9-ze3IngcdAc2xKG
+CSS Grid: https://css-tricks.com/snippets/css/complete-guide-grid
 
 Scroll Snap: https://oh-snap.netlify.app
 
