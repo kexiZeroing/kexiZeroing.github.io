@@ -360,8 +360,6 @@ How styled-components works: https://medium.com/styled-components/how-styled-com
 
 Start developing websites like it's 2025: https://react2025.com
 
-Introducing Remix: https://www.youtube.com/watch?v=wsJaUjd1rUo
-
 Up and Running with Remix: https://egghead.io/courses/up-and-running-with-remix-b82b6bb6
 
 Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/next-vs-remix

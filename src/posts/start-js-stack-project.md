@@ -29,7 +29,6 @@ Start with templates:
 - A Next.js 13 template for building apps with Radix UI and Tailwind CSS: https://github.com/shadcn-ui/next-template
 - Vercel pre-built solutions: https://vercel.com/templates
 - `create-t3-app` to start a full-stack, typesafe Next.js app *(The T3 Stack)*. It consists of Next.js, tRPC, Tailwind CSS, TypeScript, Prisma, and NextAuth.js: https://create.t3.gg
-- Next.js, Tailwind CSS blogging starter template: https://github.com/timlrx/tailwind-nextjs-starter-blog
 
 Check out the real project [E-commerce](https://www.codewithantonio.com/projects/ecommerce) (or a similar one [Course-platform](https://www.codewithantonio.com/projects/lms-platform)). It is a full stack web application with Next.js 13, React, shadcn/ui, Prisma, and MySQL, including Dashboard and CMS creation. Some packages used in the project:
 
@@ -41,7 +40,6 @@ Check out the real project [E-commerce](https://www.codewithantonio.com/projects
 - date-fns: modern JavaScript date utility library.
 - next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the `CldImage` component, social cards, and an upload widget.
 - @tanstack/react-table: headless UI for building powerful tables & datagrids for React. ([@tanstack/react-query](https://tanstack.com/query/latest/docs) is more popular.)
-- query-string: parse and stringify URL query strings.
 - recharts: chart library to help you to write charts in React.
 - stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
 - react-quill: a React component that wraps Quill.js for both rich text editor and preview (with `readonly` props).
@@ -50,36 +48,9 @@ Check out the real project [E-commerce](https://www.codewithantonio.com/projects
 
 > Why Next.js written by @leeerob: I never need to write separate backends for projects I want to create. I can build my entire project with Next.js. I never have to worry about bundler, compiler, or frontend infrastructure. I'm able to use the latest React features, which I personally find to have a great developer experience. Next.js provides a bunch of components that help me keep my site fast.
 
-### Release helper
-- Interactive CLI that bumps version number (with `--commit` `--tag` `--push` by default): https://github.com/antfu/bumpp
-- Generic CLI tool to automate versioning and package publishing related tasks: https://github.com/release-it/release-it
-- Generate [changelogs](https://keepachangelog.com) and release notes from a project's commit messages and metadata: https://github.com/conventional-changelog/conventional-changelog
-
-### browserslist and postcss
-The [browserslist](https://github.com/browserslist/browserslist) configuration (either in `package.json` or `.browserslistrc`) uses `caniuse` data (https://caniuse.com/usage-table) for queries to control the outputted JS/CSS so that the emitted code will be compatible with the browsers specified. It will be installed with webpack and used by many popular tools like autoprefixer, babel-preset-env. You can find these tools require `browserslist` in the `package-lock.json` file.
-
-- There is a `defaults` query (`> 0.5%, last 2 versions, Firefox ESR, not dead`), which gives a reasonable configuration for most users.
-- If you want to change the default set of browsers, we recommend combining `last 2 versions`, `not dead` with a usage number like `> 0.2%`.
-- `last 1 version or > 1%` is equal to `last 1 version, > 1%`. Each line in `.browserslistrc` file is combined with `or` combiner.
-- Display target browsers from a browserslist config: https://browsersl.ist/#q=defaults
-- Run `npx browserslist` in project directory to see what browsers was selected by your queries.
-
-`PostCSS` is a tool for transforming CSS with JavaScript plugins. It provides features via its extensive plugin ecosystem to help improve the CSS writing experience. Plugins for just about [anything](https://www.postcss.parts). For example:
-- [Autoprefixer](https://github.com/postcss/autoprefixer) is one of the many popular PostCSS plugins.
-- [postcss-import](https://github.com/postcss/postcss-import) to transform `@import` rules by inlining content. (`postcss-import` is different than the import rule in native CSS. You should avoid the import rule in native CSS, since it can prevent stylesheets from being downloaded concurrently which affects the loading speed and performance.)
-- [postcss-preset-env](https://www.npmjs.com/package/postcss-preset-env) lets you convert modern CSS into something most browsers can understand, which is similar to `@babel/preset-env`.
-- [cssnano](https://cssnano.co) is a compression tool written on top of the PostCSS ecosystem to compact CSS appropriately.
-
-```js
-// postcss.config.js
-module.exports = {
-  plugins: [
-    require('postcss-import'),
-    require('postcss-preset-env')({ stage: 1 }),
-    require('cssnano'),
-  ]
-}
-```
+### Remix - full stack web framework
+- Remix Tutorial: https://remix.run/start/tutorial
+- Remix Guide: https://remix.guide
 
 ### module and require in Node.js 
 **Node.js treats each JavaScript file as a separate module and encloses the entire code within a function wrapper**: `(function(exports, require, module, __filename, __dirname) {})`. The five parameters — `exports`, `require`, `module`, `__filename`, `__dirname` are available inside each module. Even if you define a global variable in a module using `let` or `const` keywords, the variables are scoped locally to the module rather than being scoped globally.
@@ -109,6 +80,32 @@ console.log(module)  // { exports: { name: 'Bob', add: [Function] } }
 `require` keyword refers to a function which is used to import all the constructs exported using the `module.exports` from another module. The value returned by the `require` function in module y is equal to the `module.exports` object in the module x. The require function takes in an argument which can be a name or a path. You should provide the name as an argument when you are using the third-party modules or core modules provided by NPM. On the other hand, when you have custom modules defined by you, you should provide the path of the module as the argument.
 
 Modules are cached after the first time they are loaded. This means every call to `require('foo')` will get exactly the same object returned, if it would resolve to the same file.
+
+### browserslist and postcss
+The [browserslist](https://github.com/browserslist/browserslist) configuration (either in `package.json` or `.browserslistrc`) uses `caniuse` data (https://caniuse.com/usage-table) for queries to control the outputted JS/CSS so that the emitted code will be compatible with the browsers specified. It will be installed with webpack and used by many popular tools like autoprefixer, babel-preset-env. You can find these tools require `browserslist` in the `package-lock.json` file.
+
+- There is a `defaults` query (`> 0.5%, last 2 versions, Firefox ESR, not dead`), which gives a reasonable configuration for most users.
+- If you want to change the default set of browsers, we recommend combining `last 2 versions`, `not dead` with a usage number like `> 0.2%`.
+- `last 1 version or > 1%` is equal to `last 1 version, > 1%`. Each line in `.browserslistrc` file is combined with `or` combiner.
+- Display target browsers from a browserslist config: https://browsersl.ist/#q=defaults
+- Run `npx browserslist` in project directory to see what browsers was selected by your queries.
+
+`PostCSS` is a tool for transforming CSS with JavaScript plugins. It provides features via its extensive plugin ecosystem to help improve the CSS writing experience. Plugins for just about [anything](https://www.postcss.parts). For example:
+- [Autoprefixer](https://github.com/postcss/autoprefixer) is one of the many popular PostCSS plugins.
+- [postcss-import](https://github.com/postcss/postcss-import) to transform `@import` rules by inlining content. (`postcss-import` is different than the import rule in native CSS. You should avoid the import rule in native CSS, since it can prevent stylesheets from being downloaded concurrently which affects the loading speed and performance.)
+- [postcss-preset-env](https://www.npmjs.com/package/postcss-preset-env) lets you convert modern CSS into something most browsers can understand, which is similar to `@babel/preset-env`.
+- [cssnano](https://cssnano.co) is a compression tool written on top of the PostCSS ecosystem to compact CSS appropriately.
+
+```js
+// postcss.config.js
+module.exports = {
+  plugins: [
+    require('postcss-import'),
+    require('postcss-preset-env')({ stage: 1 }),
+    require('cssnano'),
+  ]
+}
+```
 
 ### What is core-js
 `core-js` is the most popular and the most universal polyfill of the JavaScript standard library, which provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.

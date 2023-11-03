@@ -121,6 +121,7 @@ updatedDate: "Oct 8 2023"
   header {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
+    /* The `grid-column-gap` property was renamed to `column-gap` in CSS3 */
     grid-column-gap: 10px;
   }
   ```
