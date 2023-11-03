@@ -5,7 +5,7 @@ slug: git-knowledge-not-clear
 description: ""
 added: "June 19 2022"
 tags: [system]
-updatedDate: "Oct 24 2023"
+updatedDate: "Nov 3 2023"
 ---
 
 ## helpful links
@@ -13,7 +13,7 @@ updatedDate: "Oct 24 2023"
 - https://github.com/k88hudson/git-flight-rules
 - https://dev.to/g_abud/advanced-git-reference-1o9j
 - https://gitexplorer.com
-- https://www.githubstatus.com
+- https://jvns.ca/blog/2023/11/01/confusing-git-terminology/
 
 ## git reset
 You’ve made some commits locally (not yet pushed), but everything is terrible, you want to undo last commits like they never happened.
@@ -158,6 +158,8 @@ Github takes all of the commits on your PR branch and combines them into a singl
 `git switch` implements the behavior of `git checkout` when running it only against a branch name, so you can use it to switch between branches: `git switch develop`. While with `git checkout` you can switch to a commit and transition into a detached HEAD state, by default `git switch` does not allow that. You need to provide the `-d` flag: `git switch -d commit_id`. Another difference is that with `git checkout` you can create and switch to the new branch using the `-b` flag. You can do the same with the new one, but the flag is `-c`: `git switch -c new_branch`.
 
 `git checkout -` will checkout the previous branch.
+
+> HEAD doesn’t have to be a branch. Instead it can be a commit ID. Git calls this state (where HEAD is a commit ID instead of a branch) “detached HEAD state”.
 
 ## Another git process seems to be running in this repository
 Such problems generally occur when you execute two git commands simultaneously; maybe one from the command prompt and one from an IDE. Try `rm -f .git/index.lock` to delete the `index.lock` file and release the active lock.

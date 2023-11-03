@@ -5,7 +5,7 @@ slug: rendering-performance
 description: ""
 added: "Oct 16 2021"
 tags: [web]
-updatedDate: "Oct 7 2023"
+updatedDate: "Nov 3 2023"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
@@ -32,6 +32,10 @@ While the Core Web Vitals are the critical metrics for understanding and deliver
 > 1. Set explicit sizes on any content loaded from the page.
 > 2. Be eligible for bfcache.
 > 3. Avoid animations/transitions that use layout-inducing CSS properties. (Never animate using top / bottom / left / right)
+
+One of the key points to understand about Core Web Vitals is that they are based on field metrics or Real User Metrics (RUM). Google uses anonymized data from Chrome users to feedback metrics and makes these available in the Chrome User Experience Report (CrUX).
+
+The fact that RUM data is used, is an important distinction from synthetic or “lab-based” web performance tools like Lighthouse. These tools run page loads on simulated networks and devices and then tell you what the metrics were for that test run. So if you run Lighthouse on your high-powered developer machine and get great scores, that may not be reflective of what the users experience in the real world, and so what Google will use to measure your website user experience.
 
 ### Optimize your server
 Instead of just immediately serving a static page on a browser request, many server-side web frameworks need to create the web page dynamically. This could be due to pending results from a database query or because components need to be generated into markup by a UI framework. Many **web frameworks that run on the server have performance guidance** that you can use to speed up this process.

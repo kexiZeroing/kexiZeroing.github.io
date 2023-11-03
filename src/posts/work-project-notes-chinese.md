@@ -10,7 +10,7 @@ updatedDate: "Sep 6 2023"
 
 ### 项目是怎么跑起来的
 
-- 项目里面有很多子项目（`pages/*`），借助 webpack 多⼊⼝配置，打包成多个不同的子项目产出，总体结构借鉴 http://vuejs-templates.github.io/webpack
+- 项目里面有很多子项目（`pages/*`），借助 webpack 多⼊⼝配置，打包成多个不同的子项目产出，总体结构来自于模板项目 https://github.com/vuejs-templates/webpack
 - 在 webpack 配置的 entry 里可以看到这些子项目入口（列举出所有的入口 js 文件，或者通过遍历 `src/pages` 得到所有入口），entry 的 base 路径可以由 context 字段指定。
 - 对于每一个 page，都有对应的 `HtmlWebpackPlugin` 指定它的模板，并注入它需要的 chunks （对应每一个 entry 打包出的 js），本地直接通过 `localhost/xx.html` 访问，线上通过配置 nginx 路由映射访问 `try_files $uri /static/xx.html`
 - 指定 `chunks` 是因为项目是多 entry 会生成多个编译后的 js 文件，chunks 决定使用哪些 js 文件，如果没有指定默认会全部引用。`inject` 值为 true（结合 `scriptLoading` 的值），表明 chunks js 会被注入到 html 文件的 head 中，以 script defer 标签的形式引入。对于 css, 使用 `mini-css-extract-plugin` 从 bundle 中分离出单独的 css 文件并在 head 中以 link 标签引入。*（extract-text-webpack-plugin 是老版本 webpack 用来提取 css 文件的插件，从 webpack v4 被 mini-css-extract-plugin 替代）*
