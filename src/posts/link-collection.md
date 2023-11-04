@@ -372,7 +372,7 @@ React Server Components from scratch: https://github.com/reactwg/server-componen
 
 A demo of using RSC and Vercel Postgres legally: https://github.com/rauchg/how-is-this-not-illegal
 
-Next.js full stack projects: https://www.codewithantonio.com/projects
+Next.js full stack projects: https://www.codewithantonio.com
 
 Learn Next.js course by Vercel: https://nextjs.org/learn
 
