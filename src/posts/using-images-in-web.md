@@ -5,7 +5,7 @@ slug: using-images-in-web
 description: ""
 added: "Oct 12 2021"
 tags: [web]
-updatedDate: "June 1 2023"
+updatedDate: "Nov 5 2023"
 ---
 
 ## Image file types
@@ -58,6 +58,7 @@ This is where the `img` tag's `sizes` and `srcset` attributes come to into play.
 
 ```html
 <!-- Different sizes -->
+<!-- The `sizes` attribute is required any time you use `srcset` width descriptors -->
 <img srcset="elva-fairy-480w.jpg 480w,
              elva-fairy-800w.jpg 800w"
      sizes="(max-width: 600px) 480px,
@@ -66,6 +67,9 @@ This is where the `img` tag's `sizes` and `srcset` attributes come to into play.
      alt="Elva dressed as a fairy">
 
 <!-- Same size, different resolutions -->
+<!-- `background-image: image-set("foo.png" 1x, "foo-2x.png" 2x);` 
+  is used in CSS for resolution switching. In fact, `srcset` was modeled after `image-set()`
+-->
 <img srcset="elva-fairy-320w.jpg,
              elva-fairy-480w.jpg 1.5x,
              elva-fairy-640w.jpg 2x"
@@ -86,9 +90,12 @@ This is where the `img` tag's `sizes` and `srcset` attributes come to into play.
 </picture>
 ```
 
-**`srcset`** defines the set of images we will allow the browser to choose between. We write an image filename, a space, and the image's intrinsic width in pixels (`480w`) — note that this uses the `w` unit not `px`.
+The `srcset` defines the set of images we will allow the browser to choose between. We write an image filename, a space, and the image's intrinsic width in pixels (`480w`) — note that this uses the `w` unit not `px`.
 
-The browser will look at its device width and work out which media condition in the `sizes` list is the first one to be true (`sizes` is not needed for different resolutions). Then look at the slot size given to that media query, and load the image referenced in the `srcset` list that has the same size as the slot or, if there isn't one, the first image that is bigger than the chosen slot size. The last slot width has no media condition which is the default when none of the media conditions are true.
+The browser will look at its device width and work out which media condition in the `sizes` list is the first one to be true (`sizes` is not needed for different resolutions). We’re telling the browser what size the image will be in relation to the size of the viewport. And we can tell the browser how that relationship changes as the size of the viewport changes.
+
+> 1. In each comma-separated item, the first value is a media condition. The second value is a length, which can be absolute or relative. When there is no media condition listed, the length is assumed to be a default value.
+> 2. The read-only property `currentSrc` in the `<img>` element lets you determine which image from the set of provided images was selected by the browser.
 
 `<picture>` allows browsers to skip images they do not recognize, you can include images in your order of preference. **The browser selects the first one it supports**. The features — `srcset/sizes/<picture>` — are all supported in modern desktop and mobile browsers (including Microsoft's Edge browser, although not Internet Explorer.)
 
