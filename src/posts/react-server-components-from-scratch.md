@@ -4,7 +4,7 @@ title: "React Server Components from scratch"
 slug: react-server-components-from-scratch
 description: ""
 added: "June 12 2023"
-tags: [code]
+tags: [react, code]
 ---
 
 We can learn from Dan Abramov's writing about [RSC From Scratch. Part 1: Server Components](https://github.com/reactwg/server-components/discussions/5), which is a technical deep dive implementing a very simplified version of React Server Components from scratch.

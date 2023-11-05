@@ -4,7 +4,7 @@ title: "React Server Side Rendering"
 slug: react-server-side-rendering
 description: ""
 added: "July 8 2023"
-tags: [code]
+tags: [react]
 updatedDate: "Aug 20 2023"
 ---
 

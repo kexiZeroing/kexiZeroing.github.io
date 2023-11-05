@@ -4,7 +4,7 @@ title: "React hooks clone"
 slug: react-hooks-clone
 description: ""
 added: "Sep 12 2020"
-tags: [code]
+tags: [react, code]
 updatedDate: "Oct 30 2022"
 ---
 
