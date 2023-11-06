@@ -5,7 +5,7 @@ slug: react-server-side-rendering
 description: ""
 added: "July 8 2023"
 tags: [react]
-updatedDate: "Aug 20 2023"
+updatedDate: "Nov 6 2023"
 ---
 
 ## Adding Server-Side Rendering
