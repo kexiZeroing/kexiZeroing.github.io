@@ -16,8 +16,6 @@ With SSR, you render your JS on the server into HTML. You serve that HTML to you
 3. Server inserts the markup into a HTML template and sends the HTML response back to the browser.
 4. Browser renders the HTML, downloads the client-side JavaScript bundle, and “hydrates” the HTML.
 
-> If you follow semantic HTML principles, most of your app should work even before React has hydrated. Links can be followed, forms can be submitted, accordions can be expanded and collapsed (using `<details>` and `<summary>`). For most projects, it's fine if it takes a few seconds for React to hydrate.
-
 Let’s create a simple React component App. We will render this component on the server-side and hydrate it on the client-side.
 
 ```js
@@ -89,6 +87,10 @@ import App from './components/App';
 
 ReactDOM.hydrate(<App />, document.getElementById('ssr-app'));
 ```
+
+> It's extremely important that SSR React output (HTML) and CSR React output (HTML) are matching, otherwise React will not be able to render and attach event listeners properly.
+> 
+> If you follow semantic HTML principles, most of your app should work even before React has hydrated. Links can be followed, forms can be submitted, accordions can be expanded and collapsed (using `<details>` and `<summary>`). For most projects, it's fine if it takes a few seconds for React to hydrate.
 
 ### React hydration error
 While rendering your application, there was a difference between the React tree that was pre-rendered from the server and the React tree that was rendered during the first render in the browser (hydration).

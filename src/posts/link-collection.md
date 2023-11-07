@@ -364,13 +364,11 @@ Up and Running with Remix: https://egghead.io/courses/up-and-running-with-remix-
 
 Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/next-vs-remix
 
-A gentle introduction to React, but visualized: https://react.gg/visualized
+Learn Next.js Server Side Rendering: https://dev.to/skirianov/learn-nextjs-server-side-rendering-by-building-your-own-implementation-41m8
 
 React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.com/watch?v=zMf_xeGPn6s
 
 React Server Components from scratch: https://github.com/reactwg/server-components/discussions/5
-
-A demo of using RSC and Vercel Postgres legally: https://github.com/rauchg/how-is-this-not-illegal
 
 Next.js full stack projects: https://www.codewithantonio.com
 
