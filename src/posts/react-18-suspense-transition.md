@@ -58,6 +58,7 @@ const [isPending, startTransition] = useTransition();
 Suspense allows you to render a fallback component while a component is waiting for some asynchronous operations.
 
 Suspense (React 16) on the client. It would throw an error when used in SSR. Suspense and code-splitting using `React.lazy` were not compatible with SSR, until React 18.
+
 ```jsx
 import React, { lazy, Suspense } from 'react';
 
@@ -70,11 +71,32 @@ const Component = () => (
 );
 ```
 
-React 18 lets you use `<Suspense>` to break down your app into smaller independent units. As a result, your app’s users will see the content sooner and be able to start interacting with it much faster. This also means that `React.lazy` "just works" with SSR now. Read "New Suspense SSR Architecture in React 18": https://github.com/reactwg/react-18/discussions/37
+The problem with SSR today is a “waterfall”: fetch data (server) → render to HTML (server) → load code (client) → hydrate (client). Neither of the stages can start until the previous stage has finished for the app. This is why it’s inefficient. React 18 lets you use `<Suspense>` to break down your app into smaller independent units. As a result, your app’s users will see the content sooner and be able to start interacting with it much faster. Read "New Suspense SSR Architecture in React 18": https://github.com/reactwg/react-18/discussions/37
+
+```js
+import { renderToPipeableStream } from 'react-dom/server';
+
+app.use('/', (request, response) => {
+  const { pipe } = renderToPipeableStream(<App />, {
+    // This points to the JavaScript file used to bootstrap the client-side code.
+    bootstrapScripts: ['/main.js'],
+    // The `onShellReady` callback fires when the entire shell has been rendered. 
+    // The part of your app outside of any `<Suspense>` boundaries is called the shell.
+    // By the time `onShellReady` fires, components in nested `<Suspense>` might still be loading data.
+    onShellReady() {
+      response.setHeader('content-type', 'text/html');
+      pipe(response);
+    }
+  });
+});
+```
 
 1. To opt into streaming HTML on the server, you’ll need to switch from `renderToString` to the new `renderToPipeableStream` method.
 2. Only Suspense-enabled data sources will activate the Suspense component. (Data fetching with Suspense-enabled frameworks like Next.js; Lazy-loading component code with `lazy`)
 3. Suspense does not detect when data is fetched inside an Effect or event handler.
+
+> Understand Node stream:  
+> The HTTP response object is a writable stream. All streams are instances of `EventEmitter`. They emit events that can be used to read and write data. The `pipe()` function reads data from a readable stream as it becomes available and writes it to a destination writable stream. All that the `pipe` operation does is subscribe to the relevant events on the source and call the relevant functions on the destination. The `pipe` method is the easiest way to consume streams.
 
 ## Suspense and `startTransition`
 These two APIs are designed for different use cases and can absolutely be used together. Read from https://github.com/reactwg/react-18/discussions/94

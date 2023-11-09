@@ -9,7 +9,7 @@ updatedDate: "Nov 6 2023"
 ---
 
 ## Adding Server-Side Rendering
-With SSR, you render your JS on the server into HTML. You serve that HTML to your client so it appears to have fast startup. But you still have to wait for your JS to reach the user before anything can be interactive (hydration). After hydration, SSR can't be used again - it's typically only used for initial loads.
+With SSR, you render your JS on the server into HTML. You serve that HTML to your client so it appears to have fast startup. But you still have to wait for your JS to reach the user before anything can be interactive (hydration). React will render your component tree in memory, but instead of generating DOM nodes for it, it will attach all the logic to the existing HTML. After hydration, SSR can't be used again - it's typically only used for initial loads.
 
 1. Browser sends HTTP request to server to load a page.
 2. Server receives HTTP request and turns React JSX into HTML markup.
