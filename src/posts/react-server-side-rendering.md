@@ -185,8 +185,6 @@ app.listen(3000, () => {
 ```
 
 ## Write React Server Components from Scratch
-In SSR, JavaScript still needs to be fetched for interactivity which is often achieved via a hydration step. Server-side rendering is generally used for the initial page load, so post-hydration you're unlikely to see it used again.
-
 Before React Server Components, all React components are “client” components — they are all run in the browser. RSC makes it possible for some components to be rendered by the server, and some components to be rendered by the browser. Server Components are not a replacement for SSR. They render exclusively on the server. Their code isn't included in the JS bundle, and so they never hydrate or re-render.
 
 - Server Component: Fetch data; Access backend resources directly; Keep large dependencies on the server.
@@ -317,5 +315,23 @@ const escapeJsx = (key, value) => {
     return "$";
   }
   return value;
+}
+```
+
+## What are Server Actions
+React Server Actions allow you to run asynchronous code directly on the server. They eliminate the need to create API endpoints to mutate your data. Instead, you write asynchronous functions that execute on the server and can be invoked from your Client or Server Components.
+
+An advantage of invoking a Server Action within a Server Component is progressive enhancement - forms work even if JavaScript is disabled on the client.
+
+```js
+// Server Component
+export default function Page() {
+  async function create(formData: FormData) {
+    'use server';
+ 
+    // Logic to mutate data...
+  }
+ 
+  return <form action={create}>...</form>;
 }
 ```
