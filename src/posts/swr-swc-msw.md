@@ -5,7 +5,7 @@ slug: swr-swc-msw
 description: ""
 added: "Oct 25 2023"
 tags: [web]
-updatedDate: "Nov 9 2022"
+updatedDate: "Nov 9 2023"
 ---
 
 SWR, SWC, and MSW, three similar names, are always mentioned in the context of web development, but they are totally different things. In this article, we will learn each of them and where they are used.
