@@ -113,7 +113,7 @@ GROUP BY r.COFFEE
 
 - Groups the relation into subgroups, every tuple in the subgroup has the same value for `r.COFFEE`, then the aggregate runs over each subgroup independently.
 - If you have an attribute outside of an aggregate function in an aggregate query, then you must have grouped by that attribute, or the query will not compile.
-- The power of aggregate functions is greater when combined with the GROUP BY clause. The GROUP BY clause is rarely used without an aggregate function.
+- The power of aggregate functions is greater when combined with the GROUP BY clause. The GROUP BY clause is rarely used without an aggregate function. *(If you use GROUP BY with no aggregate functions in the select, you are just doing a DISTINCT.)*
 
 ```sql
 SELECT r.COFFEE, AVG (r.SCORE) AS AVG_RATING

@@ -5,7 +5,7 @@ slug: git-knowledge-not-clear
 description: ""
 added: "June 19 2022"
 tags: [system]
-updatedDate: "Nov 3 2023"
+updatedDate: "Nov 9 2023"
 ---
 
 ## helpful links
@@ -87,6 +87,11 @@ A remote URL is the place where your code is stored. You can only push to two ty
 Let's merge conflicting branch feature into master by `git merge feature`. You can use `git checkout --ours <file>` to select the changes done in master or `git checkout --theirs <file>` to select the changes done in feature. Then, continue as you would normally merge with `git add <file>` and `git merge --continue`.
 
 How about resolving cherry-pick conflicts using their changes? First you should undo your cherry-pick, try to run `git cherry-pick --abort`. Second, try to make cherry-pick getting their changes not yours with `git cherry-pick -s recursive -X theirs {commit}`. Here `-s` is a short for `--strategy` and `-X` short for `--strategy-option`.
+
+## merge strategies
+'ort' ("Ostensibly Recursive’s Twin") is the default merge strategy when pulling or merging one branch. This strategy can only resolve two heads using a 3-way merge algorithm. When there is more than one common ancestor that can be used for 3-way merge, it creates a merged tree of the common ancestors and uses that as the reference tree for the 3-way merge. This has been reported to result in fewer merge conflicts without causing mismerges. This algorithm came from the fact that it was written as a replacement for the previous default algorithm, `recursive`.
+
+Say you and your friend both checked out a file, and made some changes to it. You removed a line at the beginning, and your friend added a line at the end. Then he committed his file, and you need to merge his changes into your copy. With a three-way merge, it can compare the two files, but it can also compare each of them against the original copy. So it can see that you removed the first line, and that your friend added the last line. And it can use that information to produce the merged version.
 
 ## working on a wrong branch
 - If you did't commit the changes, use `git stash` (**git stash is per-repository, not per-branch**)
