@@ -5,6 +5,7 @@ slug: swr-swc-msw
 description: ""
 added: "Oct 25 2023"
 tags: [web]
+updatedDate: "Nov 9 2022"
 ---
 
 SWR, SWC, and MSW, three similar names, are always mentioned in the context of web development, but they are totally different things. In this article, we will learn each of them and where they are used.
@@ -87,7 +88,52 @@ function Profile () {
 }
 ```
 
+### React Query
 SWR and React Query (new name: TanStack Query) are the two most popular libraries that can be used to manage data fetching in a React application. SWR is a smaller library that focuses on providing a simple way to fetch and cache data, while React Query is a more comprehensive library that offers a wider range of features.
+
+> React Query is not a data fetching library - it's an async state manager. Learn more about React Query: https://tkdodo.eu/blog/why-you-want-react-query
+
+```jsx
+// Standard fetch in useEffect example
+function Bookmarks({ category }) {
+  const [data, setData] = useState([])
+  const [error, setError] = useState()
+
+  useEffect(() => {
+    fetch(`${endpoint}/${category}`)
+      .then(res => res.json())
+      .then(d => setData(d))
+      .catch(e => setError(e))
+  }, [category])
+
+  // Return JSX based on data and error state
+}
+```
+
+Bugs from the above code:
+1. Race Condition. Network responses can arrive in a different order than you sent them. So if you change the `category` from `books` to `movies` and the response for `movies` arrives before the response for `books`, you'll end up with the wrong data in your component.
+2. Both data and error are separate state variables, and they don't get reset when `category` changes. If we check for error first, we'll render the error UI with the old message even though we have valid data. If we check data first, we have the same problem if the second request fails.
+3. If your app is wrapped in `<React.StrictMode>`, React will intentionally call your effect twice in development mode to help you find bugs like missing cleanup functions.
+4. `fetch` doesn't reject on HTTP errors, so you'd have to check for `res.ok` and throw an error yourself.
+
+With React Query, the above code becomes:
+
+```jsx
+function Bookmarks({ category }) {
+  const { isLoading, data, error } = useQuery({
+    queryKey: ['bookmarks', category],
+    queryFn: () =>
+      fetch(`${endpoint}/${category}`).then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch')
+        }
+        return res.json()
+      }),
+  })
+
+  // Return JSX based on data and error state
+}
+```
 
 ## SWC - Rust-based platform for the Web
 SWC (stands for Speedy Web Compiler) is a super-fast TypeScript / JavaScript compiler written in Rust, and can be used for both compilation and bundling. SWC is 20x faster than babel on a single-core benchmark, 68x faster than babel on a multicore benchmark. 
