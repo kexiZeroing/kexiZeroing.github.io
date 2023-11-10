@@ -196,7 +196,7 @@ Astro starter powered by MPA view transitions: https://github.com/argyleink/morp
 
 Web accessibility interactive quizzes: https://www.a11yiseverything.com/quizzes/aria-label
 
-Docsify turns one or more Markdown files into a Website: https://github.com/docsifyjs/docsify
+End-of-life dates of various products: https://endoflife.date
 
 ---
 
@@ -420,7 +420,7 @@ A FilePond (file upload library) adapter component for Vue: https://github.com/p
 
 ---
 
-## Support lifecycles of various products
+## Browsers related
 
 Google Chrome upcoming schedule: https://chromiumdash.appspot.com/schedule
 
@@ -431,20 +431,6 @@ What's New in DevTools (Articles): https://developer.chrome.com/tags/new-in-devt
 What's New in DevTools (Videos): https://www.youtube.com/playlist?list=PLNYkxOF6rcIBDSojZWBv4QJNoT4GNYzQD
 
 Safari Release Notes: https://developer.apple.com/documentation/safari-release-notes/
-
-Node.js: https://github.com/nodejs/release
-
-Angular: https://angular.io/guide/releases
-
-React: https://reactjs.org/versions/
-
-Vue 3: https://vuejs.org/about/releases.html
-
-Vue 2: https://github.com/vuejs/vue/blob/main/CHANGELOG.md
-
-Electron: https://releases.electronjs.org/releases/stable
-
-End-of-life dates of various products: https://endoflife.date
 
 ---
 

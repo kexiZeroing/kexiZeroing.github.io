@@ -18,10 +18,11 @@ order: 3
 - @EmmaBostian @kvlly ladybug podcast
 - @vaidehijoshi basecs and baseds(distributed system)
 - @devdevcharlie ML for front-end developers
-- @antfu7 about Vue and open source
+- @antfu7 about Vue and open source https://github.com/antfu/use
 - @shadeed9 @5t3ph about CSS
 - @taniarascia blog https://www.taniarascia.com/blog
 - @JoshWComeau blog https://www.joshwcomeau.com
+- @TkDodo blog https://tkdodo.eu/blog
 - @lydiahallie technology through writing and visualizations
 - @ChromiumDev @Una Chrome DevRel team https://web.dev/blog
 - @rauchg @steventey @leeerob at Vercel about DX
