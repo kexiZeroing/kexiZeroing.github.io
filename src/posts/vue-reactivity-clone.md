@@ -4,11 +4,11 @@ title: "Vue reactivity clone"
 slug: vue-reactivity-clone
 description: ""
 added: "June 18 2023"
-tags: [code]
+tags: [vue, code]
+updatedDate: "Nov 11 2023"
 ---
 
-### Vue reactivity
-By default, JavaScript isn’t reactive.
+Reactive data can be broadly thought of as data that causes some intended side effect when accessed or modified. By default, JavaScript isn’t reactive.
 
 ```js
 let framework = 'Vue'
@@ -130,6 +130,15 @@ watcher(() => {
 product.quantity = 5
 product.price = 12
 ```
+
+### Vue 2 reactivity caveats
+Since Vue 2 performs the getter/setter conversion process during instance initialization, a property must be present in the data object in order for Vue to convert it and make it reactive.
+1. It cannot detect property addition or deletion.
+2. It cannot detect the changes to an array when you directly set an item with the index.
+
+To work around this, you can use `Vue.set(object, propertyName, value)` method instead. *(`this.$set` instance method is an alias to the global `Vue.set`)*
+
+In Vue 2, any sharing of component code required mixins because it's imperative to setting up reactivity that any properties you intend to be reactive are available to Vue at the time of instantiation. Proxies not only provides a way for the reactivity caveats of Vue 2 to be overcome but also allows the reuse of logic across components via the Composition API. Data objects created using `reactive` are not bound to the component instance. This means they can be shared like any other JavaScript data and retain their reactivity.
 
 ### Render function
 When using the render function instead of templates, you'll be using the `h` function a lot. It creates a VNode (virtual node), an object that Vue uses internally to track updates and what it should be rendering. These render functions are essentially what is happening "under the hood" when Vue compiles your single file components to be run in the browser.

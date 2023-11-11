@@ -4,7 +4,7 @@ title: "Learn from Advent of Vue 2022"
 slug: learn-from-advent-of-vue-2022
 description: ""
 added: "Dec 27 2022"
-tags: [js]
+tags: [vue]
 updatedDate: "July 7 2023"
 ---
 

@@ -5,7 +5,7 @@ slug: react-server-side-rendering
 description: ""
 added: "July 8 2023"
 tags: [react]
-updatedDate: "Nov 6 2023"
+updatedDate: "Nov 11 2023"
 ---
 
 ## Adding Server-Side Rendering
@@ -113,6 +113,7 @@ const ClientOnly: React.FC<ClientOnlyProps> = ({
 }) => {
   const [hasMounted, setHasMounted] = useState(false);
 
+  // `useEffect` doesn't run during SSR. It runs until the JavaScript is downloaded.
   useEffect(() => {
     setHasMounted(true);
   }, [])
@@ -128,6 +129,8 @@ const ClientOnly: React.FC<ClientOnlyProps> = ({
 
 export default ClientOnly;
 ```
+
+The above code also helps solve the error: "`window` is not defined" in the client component (i.e. render `{ window.navigator.platform }`). You can move the `window` to `useEffect` to access it.
 
 ## Adding File-System Based Routing and Data Fetching
 Learn from https://www.youtube.com/watch?v=3RzhNYhjVAw&t=460s
@@ -190,7 +193,7 @@ Before React Server Components, all React components are “client” components
 - Server Component: Fetch data; Access backend resources directly; Keep large dependencies on the server.
 - Client Component: Add interactivity and event listeners (`onClick()`); Use State and Lifecycle Effects (`useState()`, `useEffect()`); Use browser-only APIs.
 
-A common misconception here is that components with `"use client"` only run in browser. Client components still get pre-rendered to the initial HTML on the server (SSR). They render on both the client and the server.
+A common misconception here is that components with `"use client"` only run in browser. Client components still get pre-rendered to the initial HTML on the server (SSR). The `"use client"` doesn't mean the component is "client only", it means that we send the code for this component to the client and hydrate it.
 
 > What is RSC wire format?  
 > The server sends a serialized tree (similar to JSON but with “holes”) to the browser, and the browser can do the work of deserializing it, filling the client placeholders with the actual client components, and rendering the end result.
@@ -335,3 +338,5 @@ export default function Page() {
   return <form action={create}>...</form>;
 }
 ```
+
+Behind the scenes, Server Actions create a POST API endpoint. This is why you don't need to create API endpoints manually when using Server Actions. *(Server actions let us put our API endpoint back into the component boundary in the same way that server components let us move `getServerSideProps` into the component boundary.)*
