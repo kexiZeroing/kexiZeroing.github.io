@@ -334,6 +334,8 @@ Add motion to your apps with a single line of code: https://auto-animate.formkit
 
 PartyKit at ViteConf 2023: https://blog.partykit.io/posts/partykit-at-viteconf
 
+Typing Animation Library. Enter in any string, and watch it type: https://github.com/mattboldt/typed.js
+
 ---
 
 ## React ecosystem
@@ -342,9 +344,9 @@ The Beginner's Guide to React: https://egghead.io/courses/the-beginner-s-guide-t
 
 Getting Closure on React Hooks by Shawn Wang: https://www.youtube.com/watch?v=KJP1E-Y-xyo
 
-React articles from Josh: https://www.joshwcomeau.com/tutorials/react/
+Deconstructing React by Tejas Kumar: https://www.youtube.com/watch?v=f2mMOiCSj5c
 
-useEffect Mistakes Every Junior React Developer Makes: https://www.youtube.com/watch?v=QQYeipc_cik
+React articles from Josh: https://www.joshwcomeau.com/tutorials/react/
 
 When useEffect runs: https://dev.to/cassidoo/when-useeffect-runs-3pf3
 
@@ -496,9 +498,7 @@ How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr
 
 An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
 
-Open-source logging and analytics platform for OpenAI: https://github.com/dillionverma/llm.report
-
-Generate beautiful AI spiral art with one click: https://spirals.vercel.app
+Create LlamaIndex App: https://www.npmjs.com/package/create-llama
 
 ---
 

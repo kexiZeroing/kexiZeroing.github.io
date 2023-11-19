@@ -128,6 +128,8 @@ When you zoom, everything gets scaled up (or down), and in that scenario, the ch
 
 On the web, the default font size is `16px`. Some users never change that default, but many do. Remember, `px` values do not scale up or down when the user changes their font size, but `em` and `rem` values do adjust in proportion to font size. So asking yourself: “Should this value scale up as the user increases their browser's default font size?” If the value should increase with the default font size, use `rem`. Otherwise, use `px`.
 
+> This practice works well on desktop, but the mobile space is less predictable. The relative font size handling on mobile is more than messy: https://www.matuzo.at/blog/2023/how-browsers-zoom-text
+
 CSS Length Units: https://codesandbox.io/embed/length-units-mcilvb
 - Absolute (1in, 1px, 1pt)
 - Relative to font (1em, 1rem, 1ch)

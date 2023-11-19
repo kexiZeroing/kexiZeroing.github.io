@@ -11,7 +11,7 @@ order: 3
 - @cassidoo @sarah_edo career development and spirits
 - @kentcdodds @dan_abramov about React
 - @stefanjudis dev reources and TIL
-- @mgechev about Angular
+- @mgechev @twerske about Angular
 - @jecfish Chrome DevTools
 - @addyosmani almost every tweet https://addyosmani.com/blog
 - @b0rk wizard zines https://wizardzines.com
