@@ -157,3 +157,5 @@ export default {
 }
 </script>
 ```
+
+Read the [Rendering Mechanism](https://vuejs.org/guide/extras/rendering-mechanism.html) section of the Vue documentation goes into more detail.

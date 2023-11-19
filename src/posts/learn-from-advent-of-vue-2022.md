@@ -50,6 +50,8 @@ createApp(App).mount('#app')
 
 In a Vue component, `<script setup>` can be used alongside normal `<script>` (Use the options API or Run setup code one time). It works because the `<script setup>` block is compiled into the component's `setup()` function, [check out the docs](https://vuejs.org/api/sfc-script-setup.html#usage-alongside-normal-script)
 
+Components using `<script setup>` are closed by default - i.e. the public instance of the component will not expose any of the bindings declared inside `<script setup>`. To explicitly expose properties, use the `defineExpose` compiler macro.
+
 ### Date Countdown
 https://papaya-caramel-13dd76.netlify.app/
 

@@ -5,7 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "Oct 13 2023"
+updatedDate: "Nov 19 2023"
 ---
 
 ### package.json and package-lock.json
@@ -178,7 +178,7 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
     }
   }
   ```
-- You can run **`npm config ls -l` to get a list of the configuration parameters**, and you can use `$npm_config_` prefix (like `$npm_config_editor`) to access them in the scripts. Any key-value pairs we add to our script will be translated into an environment variable with the `npm_config` prefix.
+- You can run `npm config ls -l` to get a list of the configuration parameters, and you can use `$npm_config_` prefix (like `$npm_config_editor`) to access them in the scripts. Any key-value pairs we add to our script will be translated into an environment variable with the `npm_config` prefix.
   ```json
   {
     "scripts": {
@@ -188,6 +188,17 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
 
   // Output: "Hello Paula"
   npm run hello --firstname=Paula
+  ```
+- `package.json` vars are available via `process.env` (with `npm_package_` prefix) in Node scripts by default.
+  ```json
+  {
+    "name": "foo",
+    "version":"1.2.5",
+  }
+  
+  // When you run Node.js files via npm scripts
+  // Output: 'foo', '1.2.5'
+  console.log(process.env.npm_package_name, process.env.npm_package_version);
   ```
 - Passing arguments to other npm scripts, we can leverage the `--` separator. e.g. `"pass-flags-to-other-script": "npm run my-script -- --watch"` will pass the `--watch` flag to the `my-script` command.
 - One convention that you may have seen is using a prefix and a colon to group scripts, for example `build:dev` and `build:prod`. This can be helpful to create groups of scripts that are easier to identify by their prefixes.
