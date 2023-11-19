@@ -5,7 +5,7 @@ slug: vue-reactivity-clone
 description: ""
 added: "June 18 2023"
 tags: [vue, code]
-updatedDate: "Nov 11 2023"
+updatedDate: "Nov 19 2023"
 ---
 
 Reactive data can be broadly thought of as data that causes some intended side effect when accessed or modified. By default, JavaScript isn’t reactive.
@@ -158,4 +158,20 @@ export default {
 </script>
 ```
 
-Read the [Rendering Mechanism](https://vuejs.org/guide/extras/rendering-mechanism.html) section of the Vue documentation goes into more detail.
+JSX can help recreate our render implementation in a way that is a lot easier to read since we can safely write HTML in the render function. It’s important to keep in mind that JSX is a development tool that always needs to be transpiled with the help of a Babel package (like `babel-plugin-jsx`) to standard JavaScript. *(`create-vue` and Vue CLI both have options for scaffolding projects with pre-configured JSX support.)*
+
+```vue
+<template>
+  <render />
+</template>
+
+<script setup lang="jsx">
+  const { message } = defineProps(["message"]);
+
+  const render = (
+    <div class="render-card">
+      <header class="card-header card-header-title">{message}</header>
+    </div>
+  );
+</script>
+```

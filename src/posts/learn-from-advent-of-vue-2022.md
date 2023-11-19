@@ -5,7 +5,7 @@ slug: learn-from-advent-of-vue-2022
 description: ""
 added: "Dec 27 2022"
 tags: [vue]
-updatedDate: "July 7 2023"
+updatedDate: "Nov 19 2023"
 ---
 
 ### Code Structure
@@ -289,7 +289,7 @@ app.mount('#app')
 ```
 
 ### Renderless Components
-Renderless components can be an alternative to composables when finding ways to design reusable logic in your Vue apps. As you might guess, they don't render anything. Instead, they handle all the logic inside a script section and then expose properties through a scoped slot.
+Renderless components can be an alternative to composables when finding ways to design reusable logic in your Vue apps. As you might guess, they don't render anything. Instead, they handle all the logic inside a script section and then expose properties through a scoped slot. *(The ability to have the parent component dictate what should be rendered is made possible with the concept known as slots.)*
 
 > Many components are contentless components. They provide a container, and you have to supply the content. Think of a button, a menu, or a card component. Slots allow you to pass in whatever markup and components you want, and they also are relatively open-ended, giving you lots of flexibility.
 
@@ -321,6 +321,7 @@ const toggleUnit = () => {
 
 <template>
   <!-- this should only render a slot -->
+  <!-- or :unit="unit" :distance="distance" :toggleUnit="toggleUnit" -->
   <slot v-bind="{ unit, distance, toggleUnit }" />
 </template>
 
@@ -335,6 +336,8 @@ const toggleUnit = () => {
   </div>
 </template>
 ```
+
+Composables and renderless components are two patterns in Vue that offer different approaches for encapsulating and reusing logic. Composables typically consist of functions that return reactive data and methods, which can be imported and used in different components. On the other hand, renderless components focus on separating the logic of a component from its presentation by having the parent component take care of rendering the appropriate UI.
 
 ### Prevent Navigation Away
 We can use the native `beforeunload` event to detect when a user is about to navigate away or refresh the page.
