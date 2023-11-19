@@ -339,6 +339,39 @@ const toggleUnit = () => {
 
 Composables and renderless components are two patterns in Vue that offer different approaches for encapsulating and reusing logic. Composables typically consist of functions that return reactive data and methods, which can be imported and used in different components. On the other hand, renderless components focus on separating the logic of a component from its presentation by having the parent component take care of rendering the appropriate UI.
 
+```js
+// Option 1: composables
+export function useCheckboxToggle() {
+  const checkbox = ref(false);
+
+  const toggleCheckbox = () => {
+    checkbox.value = !checkbox.value;
+  };
+
+  return {
+    checkbox,
+    toggleCheckbox,
+  };
+}
+```
+
+```vue
+<!-- Option 2: renderless components -->
+<template>
+  <slot :checkbox="checkbox" :toggleCheckbox="toggleCheckbox"></slot>
+</template>
+
+<script setup>
+  import { ref } from "vue";
+
+  const checkbox = ref(false);
+
+  const toggleCheckbox = () => {
+    checkbox.value = !checkbox.value;
+  };
+</script>
+```
+
 ### Prevent Navigation Away
 We can use the native `beforeunload` event to detect when a user is about to navigate away or refresh the page.
 
