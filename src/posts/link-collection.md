@@ -346,6 +346,8 @@ Getting Closure on React Hooks by Shawn Wang: https://www.youtube.com/watch?v=KJ
 
 Deconstructing React by Tejas Kumar: https://www.youtube.com/watch?v=f2mMOiCSj5c
 
+Advanced React course from Developer Way: https://www.youtube.com/playlist?list=PL6dw1BPCcLC4n-4o-t1kQZH0NJeZtpmGp
+
 React articles from Josh: https://www.joshwcomeau.com/tutorials/react/
 
 When useEffect runs: https://dev.to/cassidoo/when-useeffect-runs-3pf3
@@ -419,6 +421,8 @@ The open-source form framework for Vue: https://formkit.com
 Integrate Clerk into your Vue application: https://vue-clerk.vercel.app
 
 A FilePond (file upload library) adapter component for Vue: https://github.com/pqina/vue-filepond
+
+Drag and drop components that support Vue2 and Vue3: https://alfred-skyblue.github.io/vue-draggable-plus
 
 ---
 
@@ -499,6 +503,10 @@ How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr
 An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
 
 Create LlamaIndex App: https://www.npmjs.com/package/create-llama
+
+Language Models 101: https://mozilla-ai-guide.netlify.app/content/llms-101
+
+Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
 
 ---
 

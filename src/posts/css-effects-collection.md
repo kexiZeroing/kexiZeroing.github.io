@@ -238,6 +238,7 @@ Builds a wide gamut color palette with okLCH and inspects color with devtools. C
   }
   body {
     display: grid;
+    /* justify-content && align-content */
     place-content: center;
     gap: 5vmin;
     grid-auto-flow: column;
