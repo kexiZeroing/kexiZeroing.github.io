@@ -5,12 +5,13 @@ slug: a-guide-to-prompt-engineering
 description: ""
 added: "Apr 5 2023"
 tags: [AI]
-updatedDate: "May 18 2023"
+updatedDate: "Nov 26 2023"
 ---
 
 > Large Language Models have taken the whole world by storm.
 > - A curated list of Large Language Model: https://github.com/Hannibal046/Awesome-LLM
 > - Numbers every LLM developer should know: https://github.com/ray-project/llm-numbers
+> - [1hr Talk] Intro to Large Language Models: https://www.youtube.com/watch?v=zjkBMFhNj_g
 
 Prompt Engineering, also known as In-Context Prompting, refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of large language models (LLMs) on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs. All examples are tested with `text-davinci-003` (using OpenAI's playground) unless otherwise specified. It uses the default configurations, i.e., `temperature=0.7` and `top-p=1`.
 
@@ -219,17 +220,21 @@ When discussing the distribution of exemplars within a prompt, we are referring 
 
 The order of exemplars can also cause bias. For example, a prompt that has randomly ordered exemplars will often perform better than the prompt which contains positive tweets first, followed by negative tweets.
 
+### Jailbreak the Model
+<img alt="prompt-jailbreak" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/wk5lfd.png" width="650">
+
 ### Prompt Injections
 Prompt engineering can be used not only to improve performance but also the reliability of response from a safety perspective. Prompt injections aim to find vulnerabilities in LLMs.
 
 Prompt injection is used to hijack an LM’s output by injecting an untrusted command that overrides instruction of a prompt. This could easily happen if you just concatenate your prompt with another user generated prompt.
 
-<img alt="prompt-injection" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hdiwfcr35fj30tz11kn0x.jpg" width="500">
+<img alt="prompt-injection-1" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hdiwfcr35fj30tz11kn0x.jpg" width="500">
 
 <br>
-<img alt="prompt-injection-1" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hdl6fvbkh5j31hc0u0whz.jpg" width="550">
+<img alt="prompt-injection-2" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hdl6fvbkh5j31hc0u0whz.jpg" width="550">
 
-(Copied from [Prompt injection explained, with video, slides, and a transcript](https://simonwillison.net/2023/May/2/prompt-injection-explained/))
+<br>
+<img alt="prompt-injection-3" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/howppd.png" width="550">
 
 ## OpenAI Fine-tuning
 Instructed LM finetunes a pretrained model with high-quality tuples of (task instruction, input, ground truth output) to make LM better understand user intention and follow instruction. RLHF (Reinforcement Learning from Human Feedback) is a common method to do so, which is a fine-tuning step to align the model with how we want to interact with it and how we expect it to respond.

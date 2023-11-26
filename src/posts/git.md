@@ -149,7 +149,7 @@ For example, I want to change the git user (rewrite history) after push the code
 3. `git rebase -i <after-this-commit>`
 4. Change the word 'pick' to 'edit' (there is a commit list you can change), save and exit; rebase is stopped at the next commit (you just changed) and you can amend this commit.
 5. `git commit --amend --reset-author --no-edit` and `git rebase --continue` to confirm and continue your rebase.
-6. `git push --force-with-lease` to overwrite the remote history. (`--force-with-lease` is safer than `--force`: If the remote branch has the same value as the remote branch on your local machine, you will overwrite remote. If it doesn't have the same value, it indicates a change that someone else made to the remote branch while you were working on your code and thus will not overwrite any code.)
+6. `git push --force-with-lease` to overwrite the remote history. (`--force-with-lease` is safer than `--force`: If the remote branch has the same value as the branch on your local machine, you will overwrite remote. If it doesn't have the same value, it indicates a change that someone else made to the remote branch while you were working on your code and thus will not overwrite any code.)
 
 Another example, I want to squash my last 3 commits together into one commit: `git reset --soft HEAD~3 && git commit`. The soft reset just re-points HEAD to the last commit that you do not want to squash. Neither the index nor the working tree are touched, leaving the index in the desired state for your new commit.
 

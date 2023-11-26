@@ -198,6 +198,8 @@ Web accessibility interactive quizzes: https://www.a11yiseverything.com/quizzes/
 
 End-of-life dates of various products: https://endoflife.date
 
+Stripe Black Friday-Cyber Monday Live Dashboard: https://bfcm.stripe.dev
+
 ---
 
 ## CSS related
@@ -504,7 +506,7 @@ An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
 
 Create LlamaIndex App: https://www.npmjs.com/package/create-llama
 
-Language Models 101: https://mozilla-ai-guide.netlify.app/content/llms-101
+A CLI utility and Python library for interacting with Large Language Models: https://llm.datasette.io
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
 
