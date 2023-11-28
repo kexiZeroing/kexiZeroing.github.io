@@ -5,7 +5,7 @@ slug: learn-the-new-frontend-build-tool-vite
 description: ""
 added: "Jan 29 2022"
 tags: [web]
-updatedDate: "Oct 31 2023"
+updatedDate: "Nov 28 2023"
 ---
 
 ## Next Generation Frontend Tooling
@@ -100,16 +100,25 @@ Vite uses dotenv (`.env`) to load additional environment variables, and the load
 `import.meta.url` is a native ESM feature that exposes the current module's URL. Combining it with the native [URL constructor](https://developer.mozilla.org/en-US/docs/Web/API/URL), we can obtain the full, resolved URL of a static asset using relative path from a JavaScript module.
 
 > The `import.meta` meta-property exposes context-specific metadata to a JavaScript module. It contains information about the module, such as the module's URL. `import.meta` is available in JavaScript modules; using it outside of a module is a syntax error.
+> 
+> `import.meta.glob` to import multiple modules from the file system is a Vite-only feature and is not a web or ES standard.
 
-```vue
-<script setup>
-// https://stackoverflow.com/questions/66419471/vue-3-vite-dynamic-image-src
-const imageUrl = new URL(`./dir/${name}.png`, import.meta.url).href
-</script>
+```js
+import fs from "node:fs/promises";
 
-<template>
-  <img :src="imageUrl" alt="img" />
-</template>
+const fileURL = new URL("./someFile.txt", import.meta.url);
+fs.readFile(fileURL, "utf8").then(console.log);
+```
+
+```js
+// only in Vite
+const rawInput = import.meta.glob([
+  './basic/**/*.*',
+  './basic/**/.npmrc',
+], {
+  as: 'raw',
+  eager: true,
+})
 ```
 
 ## From Vue CLI to Vite
