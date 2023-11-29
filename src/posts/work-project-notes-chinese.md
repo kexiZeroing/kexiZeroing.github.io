@@ -5,7 +5,7 @@ slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Nov 28 2023"
+updatedDate: "Nov 29 2023"
 ---
 
 ### 项目是怎么跑起来的
@@ -95,6 +95,19 @@ In a typical application built with webpack, there are three main types of code:
 1. The source code you have written. 自己编写的代码
 2. Any third-party library or "vendor" code your source is dependent on. 第三方库和框架
 3. A webpack runtime and manifest that conducts the interaction of all modules. 记录了打包后代码模块之间的依赖关系，需要第一个被加载
+
+#### optimization.splitChunks
+chunks: 'all' | 'initial' | 'async':  
+- `all` means both dynamically imported modules and statically imported modules will be selected for optimization.
+- `initial` means only statically imported modules; `async` means only dynamically imported modules.
+
+splitChunks.cacheGroups:  
+- Default config for webpack defines two cacheGroups, one for node modules and other for remaining modules.
+- `test`: This regex tests whether a module comes from the `node_modules` directory and includes one of the specified libraries (i.e. vue, vue-router, vuex, axios).
+- `name`: The name for the generated chunk. In this case, it's set to 'vendors'.
+- `chunks`: Specifies which chunks to include in the optimization. The value 'all' means that both initial and async chunks will be affected.
+- `priority`: Sets the priority for this cache group. A higher priority means it will be given precedence.
+- `reuseExistingChunk`: This is set to true, indicating that if a module already exists in a chunk, it won't be duplicated.
 
 #### resolve
 - extensions 数组，在 import 不带文件后缀时，webpack 会自动带上后缀去尝试访问文件是否存在，默认值 `['.js', '.json', '.wasm']`
