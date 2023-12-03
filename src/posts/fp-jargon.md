@@ -13,6 +13,8 @@ There are two main things you need to know to understand the concept:
 - Data is immutable: If you want to change data, such as an array, you return a new array with the changes, not the original.
 - Functions are stateless: Functions act as if for the first time, every single time. In other words, the function always gives the same return value for the same arguments.
 
+> First Steps into Functional Programming: https://github.com/vakila/functional-workshop
+
 ### Arity
 The number of arguments a function takes. From words like unary, binary, ternary, etc.
 

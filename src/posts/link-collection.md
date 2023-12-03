@@ -426,6 +426,8 @@ A FilePond (file upload library) adapter component for Vue: https://github.com/p
 
 Drag and drop components that support Vue2 and Vue3: https://alfred-skyblue.github.io/vue-draggable-plus
 
+Vue 3 & Nuxt 3 UI Components built with Tailwind: https://github.com/indielayer/ui
+
 ---
 
 ## Browsers related
