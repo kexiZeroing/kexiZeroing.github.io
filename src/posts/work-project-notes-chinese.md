@@ -97,6 +97,10 @@ In a typical application built with webpack, there are three main types of code:
 3. A webpack runtime and manifest that conducts the interaction of all modules. 记录了打包后代码模块之间的依赖关系，需要第一个被加载
 
 #### optimization.splitChunks
+It is necessary to differentiate between **Code Splitting** and **splitChunks**. Code splitting is a feature native to Webpack, which uses the `import('package')` statement to move certain modules to a new Chunk. SplitChunks is essentially a further splitting of the Chunks produced by code splitting.
+
+After code splitting, many Chunks will be created, and each Chunk will correspond to one ChunkGroup. SplitChunks is essentially splitting Chunk into more Chunks to form a group and to load groups together, for example, under HTTP/2, a Chunk could be split into a group of 20 Chunks for simultaneous loading.
+
 chunks: 'all' | 'initial' | 'async':  
 - `all` means both dynamically imported modules and statically imported modules will be selected for optimization.
 - `initial` means only statically imported modules; `async` means only dynamically imported modules.
@@ -116,8 +120,8 @@ splitChunks.cacheGroups:
 - modules 数组，tell webpack what directories should be searched when resolving modules, 默认值 `['node_modules']`，即从 node_modules 目录下寻找。
 
 #### css-loader and style-loader
-- `css-loader` takes a CSS file and returns the CSS with `@import` and `url(...)` resolved. It doesn't actually do anything with the returned CSS.
-- `style-loader` takes those styles and creates a `<style>` tag in the page's `<head>` element containing those styles.
+- `css-loader` takes a CSS file and returns the CSS with `@import` and `url(...)` resolved. It doesn't actually do anything with the returned CSS and is not responsible for how CSS is ultimately displayed on the page.
+- `style-loader` takes those styles and creates a `<style>` tag in the page's `<head>` element containing those styles. The order of CSS insertion is completely consistent with the import order.
 - We often chain the `sass-loader` with the `css-loader` and the `style-loader` to immediately apply all styles to the DOM or the `mini-css-extract-plugin` to extract it into a separate file.
 
 #### load images

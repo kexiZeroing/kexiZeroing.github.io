@@ -42,6 +42,8 @@ Learn Node.js: https://nodejs.dev/en/learn
 
 Learn Node.js by building a backend framework: https://github.com/ishtms/learn-nodejs-hard-way
 
+Node.js CLI Apps Best Practices: https://github.com/lirantal/nodejs-cli-apps-best-practices
+
 Docker Guide: https://www.robertcooper.me/docker-guide
 
 Tail Call Optimization: https://www.youtube.com/watch?v=-PX0BV9hGZY
@@ -445,8 +447,6 @@ Safari Release Notes: https://developer.apple.com/documentation/safari-release-n
 ---
 
 ## Awesome ChatGPT
-
-Futurepedia - AI Tools Directory: https://www.futurepedia.io
 
 Notes on AI state of the art: https://github.com/sw-yx/ai-notes
 
