@@ -162,3 +162,7 @@ summary = chain.run()
 - An CLI to transcribe Audio files w/ Whisper on-device: https://github.com/Vaibhavs10/insanely-fast-whisper
 
 - React Hook for OpenAI Whisper API with speech recorder and real-time transcription: https://github.com/chengsokdara/use-whisper
+
+- Using the Web Speech API: https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API
+
+- Web Speech API Demonstration: https://www.google.com/intl/en/chrome/demos/speech.html
