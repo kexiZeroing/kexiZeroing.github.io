@@ -464,8 +464,6 @@ AI Code Translator: https://ai-code-translator.vercel.app
 
 A CLI that writes git commit messages for you with AI: https://github.com/Nutlope/aicommits
 
-Find the Git Command You Need Now: https://www.gitfluence.com
-
 Translate your locale json files: https://github.com/ObservedObserver/chatgpt-i18n
 
 Node.js client for the official ChatGPT API: https://github.com/transitive-bullshit/chatgpt-api
@@ -509,6 +507,8 @@ An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
 Create LlamaIndex App: https://www.npmjs.com/package/create-llama
 
 A CLI utility and Python library for interacting with Large Language Models: https://llm.datasette.io
+
+Leaked prompts of GPTs: https://github.com/linexjlin/GPTs
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
 

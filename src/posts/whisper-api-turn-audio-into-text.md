@@ -5,11 +5,12 @@ slug: whisper-api-turn-audio-into-text
 description: ""
 added: "June 13 2023"
 tags: [code]
-updatedDate: "June 16 2023"
+updatedDate: "Dec 6 2023"
 ---
 
 OpenAI Whisper is a transformer-based automatic speech recognition system with open source code. [Whisper](https://github.com/openai/whisper) is free to use, and the model is downloaded to your machine on the first run. You can try [whisper.cpp](https://github.com/ggerganov/whisper.cpp) and follow this post [AI auto-subtitling](https://www.spapas.net/2023/05/22/ai-auto-subtitling/). However, you also have an option of using the commercial API from OpenAI. Check the official guide at https://platform.openai.com/docs/guides/speech-to-text
 
+For the real-time / streaming tasks, check out [this discussion page](https://github.com/openai/whisper/discussions/2) where are many speech2text apps built from the community.
 
 ```python
 import openai, os
@@ -152,6 +153,12 @@ chain = LLMChain(llm=llm, prompt=prompt_with_transcript)
 summary = chain.run()
 ```
 
-### Memo - AI 驱动的视频、播客转文字、字幕工具
+## Links
 
-支持多平台，利用 Whisper 技术识别语音转字幕，然后可以对识别的字幕进行简单的编辑。https://mxmefbp9p0g.feishu.cn/docx/ZI3ldweTXorTvMxYLbucT00Un5n
+- Model Hub: https://huggingface.co/models?search=whisper
+
+- Build real time speech2text web apps using OpenAI's Whisper: https://github.com/saharmor/whisper-playground
+
+- An CLI to transcribe Audio files w/ Whisper on-device: https://github.com/Vaibhavs10/insanely-fast-whisper
+
+- React Hook for OpenAI Whisper API with speech recorder and real-time transcription: https://github.com/chengsokdara/use-whisper
