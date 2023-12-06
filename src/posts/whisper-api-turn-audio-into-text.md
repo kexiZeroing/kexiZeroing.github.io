@@ -8,7 +8,7 @@ tags: [code]
 updatedDate: "Dec 6 2023"
 ---
 
-OpenAI Whisper is a transformer-based automatic speech recognition system with open source code. [Whisper](https://github.com/openai/whisper) is free to use, and the model is downloaded to your machine on the first run. You can try [whisper.cpp](https://github.com/ggerganov/whisper.cpp) and follow this post [AI auto-subtitling](https://www.spapas.net/2023/05/22/ai-auto-subtitling/). However, you also have an option of using the commercial API from OpenAI. Check the official guide at https://platform.openai.com/docs/guides/speech-to-text
+[OpenAI Whisper](https://github.com/openai/whisper) is a transformer-based automatic speech recognition system with open source code, trained on a large dataset of diverse audio. Whisper is free to use, and the model is downloaded to your machine on the first run. You can try [whisper.cpp](https://github.com/ggerganov/whisper.cpp) and follow this post [AI auto-subtitling](https://www.spapas.net/2023/05/22/ai-auto-subtitling/). However, you also have an option of using the commercial API from OpenAI. Check the official guide at https://platform.openai.com/docs/guides/speech-to-text
 
 For the real-time / streaming tasks, check out [this discussion page](https://github.com/openai/whisper/discussions/2) where are many speech2text apps built from the community.
 
@@ -160,6 +160,10 @@ summary = chain.run()
 - Build real time speech2text web apps using OpenAI's Whisper: https://github.com/saharmor/whisper-playground
 
 - An CLI to transcribe Audio files w/ Whisper on-device: https://github.com/Vaibhavs10/insanely-fast-whisper
+
+- ML-powered speech recognition directly in your browser: https://github.com/xenova/whisper-web
+
+- Cross-Platform, GPU Accelerated Whisper: https://github.com/FL33TW00D/whisper-turbo
 
 - React Hook for OpenAI Whisper API with speech recorder and real-time transcription: https://github.com/chengsokdara/use-whisper
 
