@@ -2,6 +2,8 @@ import express from "express";
 
 let app = express();
 app.use(express.static("public"));
+// parsing the URL-encoded data with the `querystring` library (when false) or the `qs` library (when true).
+// test the differences: https://stackblitz.com/edit/node-xa27zd?file=index.js
 app.use(express.urlencoded({ extended: true }));
 
 let projects = [
