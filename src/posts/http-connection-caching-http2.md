@@ -112,11 +112,11 @@ In short, by adding `Cache-Control: no-cache` to the response along with `Last-M
 > 
 > Open Chrome Developper Tools / Network. Reload a page multiple times. The table column "Size" will tell you that some files are loaded "from memory cache". Now close the browser, open Developper Tools / Network and load that page again. All cached files are loaded "from disk cache" now, because your memory cache is empty.
 
-You are looking for [cachified](https://github.com/Xiphe/cachified), which wraps virtually everything that can store by key to act as cache with ttl/max-age, stale-while-revalidate, parallel fetch protection and type-safety support.
+You are looking for [cachified](https://github.com/epicweb-dev/cachified), which wraps virtually everything that can store by key to act as cache with ttl/max-age, stale-while-revalidate, parallel fetch protection and type-safety support.
 
 ```ts
 import { LRUCache } from 'lru-cache';
-import { cachified, CacheEntry } from 'cachified';
+import { cachified, CacheEntry } from '@epic-web/cachified';
 
 const lru = new LRUCache<string, CacheEntry>({ max: 1000 });
 
@@ -135,6 +135,19 @@ function getUserById(userId: number) {
     ttl: 300_000,
   });
 }
+
+console.log(await getUserById(1));
+// > logs the user with ID 1
+
+// 2 minutes later
+console.log(await getUserById(1));
+// > logs the exact same user-data
+// Cache was filled an valid. `getFreshValue` was not invoked
+
+// 10 minutes later
+console.log(await getUserById(1));
+// > logs the user with ID 1 that might have updated fields
+// Cache timed out, `getFreshValue` got invoked to fetch a fresh copy of the user
 ```
 
 ### Revved resources

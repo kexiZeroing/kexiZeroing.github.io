@@ -193,6 +193,8 @@ The pre-commit hook can be used to run tests, lint, type check, etc. The hooks a
 ## co-authoring git commits
 Sometimes when I'm pair programming, I want to be able to give another developer credit in a commit I make in a Git repo. In your commit, you just have to add `Co-authored-by` to your commit message like this `git commit -m "Regular commit message" -m "Co-authored-by: name <someemail@example.com>"`.
 
+By the way, you can add a commit subject and description as follows: `git commit -m "subject line" -m "longer description"`.
+
 ## update your GitHub fork
 You cannot push code to repositories that you don’t own. So instead, you make your own copy of the repository by “forking” it. You are then free to make any changes you wish to your repository.
 

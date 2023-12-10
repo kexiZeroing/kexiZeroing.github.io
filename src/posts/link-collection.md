@@ -76,8 +76,6 @@ A technical explainer of how your computer runs programs: https://cpu.land
 
 The reasoning behind various decisions made for the Epic Stack: https://github.com/epicweb-dev/epic-stack/tree/main/docs/decisions
 
-Short code snippets for all your development needs: https://www.30secondsofcode.org
-
 ---
 
 ## Tools and Cool websites
@@ -198,9 +196,11 @@ Astro starter powered by MPA view transitions: https://github.com/argyleink/morp
 
 Web accessibility interactive quizzes: https://www.a11yiseverything.com/quizzes/aria-label
 
-End-of-life dates of various products: https://endoflife.date
+Short code snippets for all your development needs: https://www.30secondsofcode.org
 
 Stripe Black Friday-Cyber Monday Live Dashboard: https://bfcm.stripe.dev
+
+DGM is an online diagramming app: https://dgm.sh/home
 
 ---
 
@@ -340,6 +340,8 @@ PartyKit at ViteConf 2023: https://blog.partykit.io/posts/partykit-at-viteconf
 
 Typing Animation Library. Enter in any string, and watch it type: https://github.com/mattboldt/typed.js
 
+Learn SVG through examples: https://svg-tutorial.com
+
 ---
 
 ## React ecosystem
@@ -381,6 +383,8 @@ React Server Components from scratch: https://github.com/reactwg/server-componen
 Next.js full stack projects: https://www.codewithantonio.com
 
 Learn Next.js course by Vercel: https://nextjs.org/learn
+
+Code snippets for modern user interface techniques: https://buildui.com/recipes
 
 ---
 
@@ -511,6 +515,8 @@ A CLI utility and Python library for interacting with Large Language Models: htt
 Leaked prompts of GPTs: https://github.com/linexjlin/GPTs
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
+
+Run Hugging Face transformer models in the browser with no server required: https://huggingface.co/docs/transformers.js/index
 
 ---
 
