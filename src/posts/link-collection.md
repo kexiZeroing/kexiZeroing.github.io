@@ -264,6 +264,8 @@ Across pages view transitions: https://smashing-transitions.netlify.app
 
 Reimagine Atomic CSS: https://antfu.me/posts/reimagine-atomic-css
 
+CSS Wrapped 2023 from Chrome for Developers: https://developer.chrome.com/blog/css-wrapped-2023
+
 ---
 
 ## FE dev resources

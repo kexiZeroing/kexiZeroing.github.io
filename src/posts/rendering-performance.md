@@ -5,7 +5,7 @@ slug: rendering-performance
 description: ""
 added: "Oct 16 2021"
 tags: [web]
-updatedDate: "Nov 3 2023"
+updatedDate: "Dec 10 2023"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
@@ -37,6 +37,18 @@ One of the key points to understand about Core Web Vitals is that they are based
 
 The fact that RUM data is used, is an important distinction from synthetic or “lab-based” web performance tools like Lighthouse. These tools run page loads on simulated networks and devices and then tell you what the metrics were for that test run. So if you run Lighthouse on your high-powered developer machine and get great scores, that may not be reflective of what the users experience in the real world, and so what Google will use to measure your website user experience.
 
+#### Soft Navigations
+A soft navigation is essentially the dynamic emulation of the corresponding hard navigation that would be used in a website or multi page application. To expose dynamic content changes to the web browser, SPAs update the URLs dynamically using `history.pushState` without fully reloading the page.
+
+The SPA will respond faster than the traditional HTML website because the entire code is already downloaded, the JavaScript is compiled, and no more client-server communication is needed. However, capturing web performance metrics for a dynamic update of a single HTML page (i.e. soft navigation) is not as straightforward as measuring the performance impact of a static URL change where a real HTML page load takes place.
+
+To measure Core Web Vitals for soft navigations, we need a standardized way that can be used for any SPA, irrespective of the technology it was built with. The defining rules to identify soft navigations and the corresponding technical implementations are still in the drafting stage. According to the current version of the specifications, the following dynamic URL updates qualify as soft navigations:
+- The navigation is initiated by a user action.
+- The navigation results in a visible URL change to the user, and a history change.
+- The navigation results in a DOM change.
+
+Google Chrome’s web-vitals.js library has an [experimental soft-nav branch](https://github.com/GoogleChrome/web-vitals/tree/soft-navs#report-metrics-for-soft-navigations-experimental) that already includes working code that you can use to report Web Vitals for soft navigations.
+
 ### Optimize your server
 Instead of just immediately serving a static page on a browser request, many server-side web frameworks need to create the web page dynamically. This could be due to pending results from a database query or because components need to be generated into markup by a UI framework. Many **web frameworks that run on the server have performance guidance** that you can use to speed up this process.
 
@@ -56,7 +68,7 @@ Server requests to third-party origins can also impact LCP. Use `rel="preconnect
 
 Modern browsers try their best to anticipate what connections a page will need, but they cannot reliably predict them all. The good news is that you can give them a hint. Adding `rel=preconnect` to a `<link>` informs the browser that your page intends to establish a connection to another domain, and that you'd like the process to start as soon as possible. Resources will load more quickly because the setup process has already been completed by the time the browser requests them. But it's ultimately up to the browser to decide whether to execute them. (Setting up and keeping a connection open is a lot of work, so the browser might choose to ignore resource hints or execute them partially depending on the situation.)
 
-While `dns-prefetch` only performs a DNS lookup, `preconnect` establishes a connection to a server. This process includes DNS resolution, as well as establishing the TCP connection, and performing the TLS handshake. If a page needs to make connections to many third-party domains, preconnecting all of them is counterproductive. **The preconnect hint is best used for only the most critical connections. For all the rest, use `<link rel=dns-prefetch>` to save time on the first step, the DNS lookup**.
+While `dns-prefetch` only performs a DNS lookup, `preconnect` establishes a full connection (DNS, TCP, TLS) to a server. This process includes DNS resolution, as well as establishing the TCP connection, and performing the TLS handshake. If a page needs to make connections to many third-party domains, preconnecting all of them is counterproductive. **The preconnect hint is best used for only the most critical connections. For all the rest, use `<link rel=dns-prefetch>` to save time on the first step, the DNS lookup**.
 
 > The logic behind pairing these hints is because support for `dns-prefetch` is better than support for `preconnect`. Browsers that don’t support `preconnect` will still get some added benefit by falling back to `dns-prefetch`. Because this is an HTML feature, it is very fault-tolerant. If a non-supporting browser encounters a `dns-prefetch` hint—or any other resource hint—your site won’t break.
 
@@ -97,7 +109,7 @@ Another one, `<link rel="prefetch">` is a low priority resource hint that allows
 > *Modern HTML has many performance controls:*
 > - Prioritize a key image: `<img fetchpriority=high>`
 > - Lazy-load images: `<img loading=lazy>`
-> - Warm connections to origins: `rel=preconnect`
+> - Warm connections to origins: `rel=preconnect`. Don’t preconnect Too Many Origins.
 > - Fetch late-found resources: `rel=preload`
 > - Fetch next-page navigations: `rel=prefetch`
 > - `rel="prerender"` goes a step beyond prefetching and actually renders the whole page as if the user had navigated to it, but keeps it in a hidden background renderer process ready to be used if the user actually navigates there. (*deprecated*)

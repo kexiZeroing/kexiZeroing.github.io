@@ -183,7 +183,7 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 <img alt="source-map-ignore" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/sourcemap-ignore.png" width="500" />
 
 > Learn source maps from Google Chrome Developers
-> - What are source maps: https://www.youtube.com/watch?v=FIYkjjFYvoI
+> - What are source maps: https://web.dev/articles/source-maps
 > - Using source maps in DevTools: https://www.youtube.com/watch?v=SkUcO4ML5U0
 
 ### Bun —— https://bun.sh
