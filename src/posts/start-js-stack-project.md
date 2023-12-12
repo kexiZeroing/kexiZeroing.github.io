@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Nov 4 2023"
+updatedDate: "Dev 12 2023"
 ---
 
 ## Start a modern web project
@@ -321,6 +321,11 @@ console.log(`Server running at ${server.port}`);
 
 <img alt="format & eslint" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a79fd1f2-367d-464d-b6eb-34db4aa17a71.png" width="450" />
 
+[Biome](https://biomejs.dev) - Toolchain of the web
+- Biome is a fast formatter that scores 96% compatibility with Prettier.
+- Biome is a performant linter that features more than 170 rules from ESLint, TypeSCript ESLint, and other sources.
+- Biome is designed from the start to be used interactively within an editor. It can format and lint malformed code as you are writing it.
+
 ### Configure ESLint in an existing project
 If you joined a project that uses ESLint to manage its code style, you wanted to match the team’s formatting. You can configure VSCode to use the `eslintrc.json` file in the project’s root dir instead of Prettier.
 
@@ -446,6 +451,8 @@ Then it leaves us with the decision about how to style things. This is where [sh
 shadcn/ui is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn-ui add card`, making it even more convenient to use. What's neat about shadcn/ui is that it combines Radix UI and Tailwind CSS. [This video](https://www.youtube.com/watch?v=DTGRIaAJYIo) walks through setting it up in different frameworks.
 
 > [UI Colorgen](https://ui-colorgen.vercel.app) is an application built to help you with color setup in shadcn/ui. It generates variables for root in `globals.css` and creates the color section for `tailwind.config.js`.
+
+Another common way for styling is using CSS Modules. Next.js has built-in support for CSS Modules using the `.module.css` extension. CSS Modules locally scope CSS by automatically creating a unique class name. This allows you to use the same class name in different files without worrying about collisions.
 
 ## Serverless
 Your code needs to be hosted on a server. Depending on the size of your code and the amount of users you expect to use your product, you might need many servers. Companies used to have their own facilities and warehouses that held their servers and many still do. But for many, this is not ideal. Servers can be difficult to maintain. Maintaining servers and the buildings that house them can become expensive too. That's where AWS and other cloud providers come in.

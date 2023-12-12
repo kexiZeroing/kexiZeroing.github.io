@@ -9,7 +9,7 @@ updatedDate: "Nov 9 2023"
 ---
 
 ## helpful links
-- https://github.com/git-guides
+- https://ohshitgit.com
 - https://github.com/k88hudson/git-flight-rules
 - https://dev.to/g_abud/advanced-git-reference-1o9j
 - https://gitexplorer.com
@@ -24,7 +24,7 @@ You’ve made some commits locally (not yet pushed), but everything is terrible,
 
 `--hard`, resets the index and working tree. Any changes to tracked files in the working tree are discarded.
 
-> Use `git push -f` to change the remote after `git reset` locally.
+> A branch is a pointer to a commit. Run `cat .git/refs/heads/master` to see it. Understanding this will make it way easier to fix your branches when they're broken: you just need to figure out how to get your branch to point at the right commit again.
 
 ## git merge
 The `--no-ff` flag prevents `git merge` from executing a "fast-forward" if it detects that your current `HEAD` is an ancestor of the commit you're trying to merge. A fast-forward is when, instead of constructing a merge commit, git just moves your branch pointer to point at the incoming commit.
