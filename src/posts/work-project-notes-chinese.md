@@ -5,7 +5,7 @@ slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Nov 29 2023"
+updatedDate: "Dec 12 2023"
 ---
 
 ### 项目是怎么跑起来的
@@ -516,6 +516,21 @@ window.addEventListener('mousedown', e => {
     // Clicked outside of `el`
   }
 });
+```
+
+- Change the style of `:before` pseudo-elements using JS. (It's not possible to directly access pseudo-elements with JS as they're not part of the DOM.)
+```js
+let style = document.querySelector('.foo').style;
+style.setProperty('--background', 'red');
+```
+```css
+.foo::before {
+  background: var(--background);
+  content: '';
+  display: block;
+  width: 200px;
+  height: 200px;
+}
 ```
 
 - npmmirror 已内置[支持类似 unpkg cdn 解析能力](https://zhuanlan.zhihu.com/p/633904268)，可以简单理解为访问 unpkg 地址时，在回源服务里面根据 URL 参数，去 npm registry 下载对应的 npm 包，解压后响应对应的文件内容。即只需要遵循约定的 URL 进行访问，即可在页面中加载任意 npm 包里面的文件内容。
