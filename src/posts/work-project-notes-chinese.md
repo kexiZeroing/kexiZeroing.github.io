@@ -71,6 +71,7 @@ Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版�
 ### 一些 webpack 的配置
 - Webpack 5 boilerplate: https://github.com/taniarascia/webpack-boilerplate
 - Create App: https://createapp.dev/webpack
+- Professional front-end template: https://github.com/h5bp/html5-boilerplate
 - Webpack articles: https://blog.jakoblind.no/tags/webpack
 
 #### filename and chunkFilename

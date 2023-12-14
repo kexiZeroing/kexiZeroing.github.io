@@ -344,6 +344,8 @@ PartyKit at ViteConf 2023: https://blog.partykit.io/posts/partykit-at-viteconf
 
 Typing Animation Library. Enter in any string, and watch it type: https://github.com/mattboldt/typed.js
 
+A lightweight JavaScript animation library: https://github.com/juliangarnier/anime
+
 Learn SVG through examples: https://svg-tutorial.com
 
 ---

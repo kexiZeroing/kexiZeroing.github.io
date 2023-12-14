@@ -191,14 +191,6 @@ Many video players have an “auto quality” feature, where the quality is auto
         └── segment2.mp4
 ```
 
-## Open-source web video players
-- https://github.com/canalplus/rx-player
-- https://github.com/video-dev/hls.js
-- https://github.com/Dash-Industry-Forum/dash.js
-- https://github.com/shaka-project/shaka-player
-- https://github.com/bytedance/xgplayer
-- https://github.com/DIYgod/DPlayer
-
 ## References
 - https://www.zeng.dev/post/2023-http-range-and-play-mp4-in-browser
 - https://surma.dev/things/range-requests
