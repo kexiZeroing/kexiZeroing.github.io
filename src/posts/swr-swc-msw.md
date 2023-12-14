@@ -156,6 +156,16 @@ SWC is now a mature replacement for Babel, which was used in Vite 3.0. Vite 4.0 
 
 > SWC is a compiler, whereas esbuild is a bundler. SWC has limited bundling capabilities, so if you're looking for something to traverse your code and generate a single file, esbuild is what you want. The Next.js Compiler, written in Rust using SWC, allows Next.js to transform and minify your JavaScript code for production.
 
+### Oxc - The JavaScript Oxidation Compiler
+Oxc is building a parser, linter, formatter, transpiler, minifier, resolver ... all written in Rust.
+
+[Oxlint](https://oxc-project.github.io/docs/guide/usage/linter.html) is a JavaScript linter designed to catch erroneous or useless code without requiring any configurations by default. It is generally available at December 12, 2023.
+
+### Biome - Toolchain of the web
+- Biome is a fast formatter that scores 96% compatibility with Prettier.
+- Biome is a performant linter that features more than 170 rules from ESLint, TypeSCript ESLint, and other sources.
+- Biome is designed from the start to be used interactively within an editor. It can format and lint malformed code as you are writing it.
+
 ## MSW - API mocking library
 Mock Service Worker is an API mocking library for browser and Node.js that uses a Service Worker to intercept requests that actually happened. Developers come to MSW for various reasons: to establish proper testing boundaries, to prototype applications, debug network-related issues, or monitor production traffic.
 

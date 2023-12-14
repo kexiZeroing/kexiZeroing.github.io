@@ -321,11 +321,6 @@ console.log(`Server running at ${server.port}`);
 
 <img alt="format & eslint" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a79fd1f2-367d-464d-b6eb-34db4aa17a71.png" width="450" />
 
-[Biome](https://biomejs.dev) - Toolchain of the web
-- Biome is a fast formatter that scores 96% compatibility with Prettier.
-- Biome is a performant linter that features more than 170 rules from ESLint, TypeSCript ESLint, and other sources.
-- Biome is designed from the start to be used interactively within an editor. It can format and lint malformed code as you are writing it.
-
 ### Configure ESLint in an existing project
 If you joined a project that uses ESLint to manage its code style, you wanted to match the team’s formatting. You can configure VSCode to use the `eslintrc.json` file in the project’s root dir instead of Prettier.
 

@@ -232,6 +232,29 @@ export default function () {
 
 > It looks like most devs prefer the Composition API, but many are stuck with the Options API in order to support legacy projects. Many are slowly refactoring a codebase from Options API towards using Composition API. Some are using a hybrid approach — Options API with a `setup` section so they can leverage VueUse and other composables for reusability.
 
+```js
+// The easy way from Options API to Composition API
+setup() {
+  // Copy from data()
+  const state = reactive({
+    username: 'Michael',
+    access: 'superuser',
+    favouriteColour: 'blue',
+  });
+
+  // Copy from methods
+  updateUsername(username) {
+    state.username = username;
+  }
+
+	// Use toRefs so we can access values directly
+	return {
+    updateUsername,
+    ...toRefs(state),
+  }
+}
+```
+
 ### Writable Computed Refs
 
 ```js

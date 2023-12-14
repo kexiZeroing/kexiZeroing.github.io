@@ -202,6 +202,8 @@ Stripe Black Friday-Cyber Monday Live Dashboard: https://bfcm.stripe.dev
 
 DGM is an online diagramming app: https://dgm.sh/home
 
+A tool for writing better scripts: https://github.com/google/zx
+
 ---
 
 ## CSS related
@@ -519,6 +521,8 @@ Leaked prompts of GPTs: https://github.com/linexjlin/GPTs
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
 
 Run Hugging Face transformer models in the browser with no server required: https://huggingface.co/docs/transformers.js/index
+
+Get started with the Gemini API: https://ai.google.dev/docs
 
 ---
 
