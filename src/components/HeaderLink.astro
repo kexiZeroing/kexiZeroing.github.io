@@ -8,6 +8,11 @@ const isActive = Astro.url.pathname === href || Astro.url.pathname === `${href}/
 <a href={href} class:list={[className, { active: isActive }]} {...props}>
 	<slot />
 </a>
+
+<!-- Notes: 
+1. Styling here is scoped to this component.
+2. You can also use <style lang="scss"> after `npm i -D sass`.
+-->
 <style>
 	a {
 		display: inline-block;
