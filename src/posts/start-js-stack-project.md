@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Dev 12 2023"
+updatedDate: "Dec 16 2023"
 ---
 
 ## Start a modern web project
@@ -126,6 +126,12 @@ module.exports = {
   ]
 }
 ```
+
+[Lightning CSS](https://lightningcss.dev) is an extremely fast CSS parser, transformer, and minifier written in Rust. It lets you use modern CSS features and future syntax today. Features such as CSS nesting, custom media queries, high gamut color spaces, logical properties, and new selector features are automatically converted to more compatible syntax based on your browser targets. Lightning CSS includes a standalone CLI that can be used to compile, minify, and bundle CSS files: `lightningcss --minify --bundle --targets 'defaults' input.css -o output.css`.
+
+- Transpiling modern CSS syntax to support older browsers, including vendor prefixing and syntax lowering.
+- Supports bundling dependencies referenced by CSS `@import` rules into a single output file.
+- Optimize your CSS to make it smaller.
 
 ### What is core-js
 `core-js` is the most popular and the most universal polyfill of the JavaScript standard library, which provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.
@@ -443,7 +449,7 @@ Examples:
 
 Then it leaves us with the decision about how to style things. This is where [shadcn/ui](https://ui.shadcn.com) comes into the picture. It's not a component library, but more of a code registry where you can copy/paste/modify the code to your content. It's built with Tailwind and Radix.
 
-shadcn/ui is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn-ui add card`, making it even more convenient to use. What's neat about shadcn/ui is that it combines Radix UI and Tailwind CSS. [This video](https://www.youtube.com/watch?v=DTGRIaAJYIo) walks through setting it up in different frameworks.
+shadcn/ui is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn-ui add card`, making it even more convenient to use. What's neat about shadcn/ui is that it combines Radix UI and Tailwind CSS. The article ["The anatomy of shadcn/ui"](https://manupa.dev/blog/anatomy-of-shadcn-ui) covers its design principles, architecture overview and how the components are built.
 
 > [UI Colorgen](https://ui-colorgen.vercel.app) is an application built to help you with color setup in shadcn/ui. It generates variables for root in `globals.css` and creates the color section for `tailwind.config.js`.
 
