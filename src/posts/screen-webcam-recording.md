@@ -270,6 +270,7 @@ And there we go! After our recording finishes, we’ve got a `.webm` video file 
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaStream
 - https://www.mux.com/blog
+- https://github.com/alyssaxuu/screenity
 
 ### Video Glossary
 **[FFMPEG](https://ffmpeg.org)** stands for Fast Forward Moving Picture Experts Group. It is a free and open source software project that offers many tools for video and audio processing. It's designed to run on a command line interface, and has many different libraries and programs to manipulate and handle video files. Most video programs include FFMPEG as a part of the video processing pipeline. *(FFmpeg powers all online video - Youtube, Facebook, Instagram, Disney+, Netflix etc, all run FFmpeg underneath.)*

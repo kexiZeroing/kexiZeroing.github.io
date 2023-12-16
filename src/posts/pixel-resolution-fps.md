@@ -132,7 +132,7 @@ On the web, the default font size is `16px`. Some users never change that defaul
 
 CSS Length Units: https://codesandbox.io/embed/length-units-mcilvb
 - Absolute (1in, 1px, 1pt)
-- Relative to font (1em, 1rem, 1ch)
+- Relative to font (1em, 1rem, 1ch, 1lh)
 - Percentage of viewport (1vw, 1vh, 1vmin, 1vmax, 1dvw, 1dvh)
 - Container query (1cqw, 1cqh)
 

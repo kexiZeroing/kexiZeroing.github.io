@@ -206,6 +206,7 @@ Performance analytics can help you identify requests that block/slow down the pa
 - https://web.dev/font-best-practices
 - https://www.lydiahallie.io/blog/optimizing-webfonts-in-nextjs-13
 - https://github.com/system-fonts/modern-font-stacks
+- https://vercel.com/font
 
 A font stack is a list of fonts in the CSS font-family declaration. The fonts are listed in order of preference that you would like them to appear in case of a problem, such as a font not loading. A font stack usually ends with a generic font classification (`serif` or `sans-serif`).
 

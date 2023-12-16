@@ -5,7 +5,7 @@ slug: git-knowledge-not-clear
 description: ""
 added: "June 19 2022"
 tags: [system]
-updatedDate: "Nov 9 2023"
+updatedDate: "Dec 16 2023"
 ---
 
 ## helpful links
@@ -104,6 +104,13 @@ Say you and your friend both checked out a file, and made some changes to it. Yo
 - If you committed to the wrong branch, `git reset` those commits individually. Once you have done that, switch back to the desired branch and there you can use `git cherry-pick` to pick the specific commits.
   - git checkout right_branch
   - git cherry-pick commit_hash
+
+## show the changes
+- diff two branches: git diff master..develop
+- diff local and remote: git diff HEAD..origin/master
+- diff for a certain folder: git diff master..yourbranch -- path/to/folder
+- save in a file: git diff master..develop > my.diff
+- show the changes which have been staged: git diff --cached
 
 ## stash untracked files
 To stash your working directory including untracked files, use `git stash --include-untracked` or `git stash -u`.

@@ -5,7 +5,7 @@ slug: debugging-css
 description: ""
 added: "Oct 10 2021"
 tags: [css]
-updatedDate: "Dec 10 2023"
+updatedDate: "Dec 16 2023"
 ---
 
 - A fundamental concept for CSS layout is inline vs. block elements. Inline means elements only take up the space they need, and do not affect flow. Applying `margin` or `padding` to an inline element will only work in the "inline" direction (left/right) not the "block" direction (top/bottom).
@@ -181,3 +181,19 @@ updatedDate: "Dec 10 2023"
 - The border radius of the outer element should be equal to the sum of the border radius of the inner element and the distance between the two elements. so if the outer element border radius is 20, and there's a 5px space between the outer element and inner element, the inner element border radius should be 15.
 
 - Before Chrome 118, font sizes smaller than 10px or so were not rendered as specified, but rounded up if the language was Arabic, Farsi, Japanese, Korean, Thai, Simplified or Traditional Chinese. Developers needed workarounds to render small text, for example by using the `transform` property. From Chrome 118, this limit is ended for all languages, making the seven languages match the rest.
+
+- Less absolute positioning with modern CSS. For example, when we have a card that contains text over an image, we often use `position: absolute` to place the content over the image. This is no longer needed with CSS grid.
+
+```css
+/* By default, CSS grid will create rows automatically based on the content. */
+.card {
+  position: relative;
+  display: grid;
+}
+
+.card__thumb,
+.card__content {
+  grid-column: 1/2;  /* we can also use `grid-area: 1/-1` */
+  grid-row: 1/2;
+}
+```
