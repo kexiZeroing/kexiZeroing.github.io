@@ -163,8 +163,16 @@ Oxc is building a parser, linter, formatter, transpiler, minifier, resolver ... 
 
 ### Biome - Toolchain of the web
 - Biome is a fast formatter that scores 96% compatibility with Prettier.
-- Biome is a performant linter that features more than 170 rules from ESLint, TypeSCript ESLint, and other sources.
+- Biome is a performant (and pre-configured) linter that features more than 170 rules from ESLint, TypeSCript ESLint, and other sources.
 - Biome is designed from the start to be used interactively within an editor. It can format and lint malformed code as you are writing it.
+
+```sh
+npx @biomejs/biome init
+
+npx @biomejs/biome format path/to/file
+npx @biomejs/biome lint
+npx @biomejs/biome check
+```
 
 ## MSW - API mocking library
 Mock Service Worker is an API mocking library for browser and Node.js that uses a Service Worker to intercept requests that actually happened. Developers come to MSW for various reasons: to establish proper testing boundaries, to prototype applications, debug network-related issues, or monitor production traffic.
