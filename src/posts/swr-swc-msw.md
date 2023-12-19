@@ -111,7 +111,7 @@ function Bookmarks({ category }) {
 ```
 
 Bugs from the above code:
-1. Race Condition. Network responses can arrive in a different order than you sent them. So if you change the `category` from `books` to `movies` and the response for `movies` arrives before the response for `books`, you'll end up with the wrong data in your component.
+1. Race Condition. Network responses can arrive in a different order than you sent them. So if you change the `category` from `books` to `movies` and the response for `movies` arrives before the response for `books`, you'll end up with the wrong data in your component. See https://maxrozen.com/race-conditions-fetching-data-react-with-useeffect
 2. Both data and error are separate state variables, and they don't get reset when `category` changes. If we check for error first, we'll render the error UI with the old message even though we have valid data. If we check data first, we have the same problem if the second request fails.
 3. If your app is wrapped in `<React.StrictMode>`, React will intentionally call your effect twice in development mode to help you find bugs like missing cleanup functions.
 4. `fetch` doesn't reject on HTTP errors, so you'd have to check for `res.ok` and throw an error yourself.
