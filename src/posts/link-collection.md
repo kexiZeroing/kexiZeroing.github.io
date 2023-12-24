@@ -204,6 +204,8 @@ DGM is an online diagramming app: https://dgm.sh/home
 
 A tool for writing better scripts: https://github.com/google/zx
 
+Suno is building a future where anyone can make great music: https://www.suno.ai
+
 ---
 
 ## CSS related
@@ -516,7 +518,7 @@ An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
 
 Create LlamaIndex App: https://www.npmjs.com/package/create-llama
 
-A CLI utility and Python library for interacting with Large Language Models: https://llm.datasette.io
+Get up and running with large language models locally: https://github.com/jmorganca/ollama
 
 Leaked prompts of GPTs: https://github.com/linexjlin/GPTs
 

@@ -49,6 +49,8 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
     "moduleResolution": "Bundler",
     "module": "ESNext",
     "noEmit": true,
+    // keep the JSX as part of the output to be further consumed by another transform step.
+    // "jsx": "preserve",
     /* If your code runs in the DOM: */
     "lib": ["es2022", "dom", "dom.iterable"],
     /* If your code doesn't run in the DOM: */
