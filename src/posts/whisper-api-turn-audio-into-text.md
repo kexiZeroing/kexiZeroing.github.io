@@ -167,6 +167,8 @@ summary = chain.run()
 
 - React Hook for OpenAI Whisper API with speech recorder and real-time transcription: https://github.com/chengsokdara/use-whisper
 
+- Audio transcription using self-hosted Whisper and WebSocket: https://github.com/alesaccoia/VoiceStreamAI
+
 - Using the Web Speech API: https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API
 
 - Web Speech API Demonstration: https://www.google.com/intl/en/chrome/demos/speech.html
