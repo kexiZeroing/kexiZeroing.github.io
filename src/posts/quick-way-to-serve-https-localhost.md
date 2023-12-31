@@ -5,10 +5,12 @@ slug: quick-way-to-serve-https-localhost
 description: ""
 added: "Dec 31 2023"
 tags: [web]
+updatedDate: "Dec 31 2023"
 ---
 
 As we all know HTTPS is designed to provide a secure connection by encrypting the data exchanged between a user's web browser and the server. Sometimes we need a secure connection for our Node.js web server. This artile will help you understand how to do it.
 
+## Certificates
 First, let's talk about certificates. A certificate is a digital document that serves to authenticate the identity of an entity on the internet. This entity could be a website, a server, or even an individual. The most common type of certificate used in web security is an SSL/TLS certificate, which is used for enabling HTTPS. Note that a SSL/TLS certificate typically contains the following information:
 - Public Key: This is a cryptographic key that is used for encrypting data. It's part of a key pair, with the private key being securely stored on the server.
 - Identity Information: This includes details about the entity the certificate is issued to, such as the domain name of a website.
@@ -27,6 +29,7 @@ By going through these verification steps, the browser establishes trust in the 
 
 Curious about the details in verifing the trust. For example, on a Mac, the list of pre-installed trusted Certificate Authorities (CAs) is managed by the operating system. You can access and view this list through the Keychain Access application. You'll see a list of certificates, which may include both root certificates and intermediate certificates, as the trust chain often involves multiple levels of CAs.
 
+## Create Self-Assigned Certificate
 [mkcert](https://github.com/FiloSottile/mkcert) is a tool that simplifies the process of setting up a local development environment with HTTPS. `mkcert` is a simple tool for making locally-trusted development certificates.
 
 - When you use `mkcert` to generate a certificate for your local development server, it issues a certificate signed by the local CA. Since the local CA is added to the trust store on your machine, certificates signed by it are considered trusted for local development purposes.
@@ -48,6 +51,7 @@ Keep in mind that while this approach is useful for local development, when depl
 
 > To assign a name to your local IP address for local development, you can either modify the Hosts file or use a local DNS server. 
 
+## Integrate with Node.js
 Finally, let's combine the certificates we generated with the Node Express server.
 
 ```sh
