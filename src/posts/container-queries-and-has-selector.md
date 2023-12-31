@@ -5,7 +5,7 @@ slug: container-queries-and-has-selector
 description: ""
 added: "Jan 08 2023"
 tags: [css]
-updatedDate: "Jan 23 2023"
+updatedDate: "Dec 31 2023"
 ---
 
 `@container` and `:has()` are two powerful new responsive APIs landing in Chromium 105. Read at: https://developer.chrome.com/blog/has-with-cq-m105/
@@ -66,8 +66,16 @@ Let’s expand on the example with the rocket card. What if you had a card witho
 }
 ```
 
-Learn more about the new CSS pseudo-classes explained - `:is()` `:where()` `:has()` at https://www.youtube.com/watch?v=3ncFpP8GP4g
+Use Case 1: "Quantity Queries" are very easy in CSS now that we have `:has()`. You can just check if an element, for example, has a 10th child, like `.el:has(:nth-child(10))`, and now you know there are at least 10 children.
 
+Use Case 2: Imagine that you need to open a modal window, it's good practice to prevent the page behind it from scrolling. That's a scroll lock. We can tweak the CSS declaration on our body element to use `:has()`. As long as an element with `.lock-scroll` is in the DOM, the scroll we be locked.
+```css
+body:has(.lock-scroll) {
+  overflow: hidden;
+}
+```
+
+## The selector `:is()` and `:where()`
 - In CSS when using a selector list, if any of the selectors are invalid then the whole list is deemed invalid. When using `:is()` or `:where()` instead of the whole list of selectors being deemed invalid if one fails to parse, the incorrect or unsupported selector will be ignored and the others used. *(so-called "forgiving selectors")*.
 - The difference between `:where()` and `:is()` is that `:where()` always has 0 specificity, whereas `:is()` takes on the specificity of the most specific selector in its arguments.
 - The `:has()` pseudo-class itself doesn’t add any specificity weight to the selector. Like `:is()` and `:not()`, the specificity of `:has()` is equal to the highest specificity selector in the selector list.
