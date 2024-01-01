@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Dec 16 2023"
+updatedDate: "Jan 1 2024"
 ---
 
 ## Start a modern web project
@@ -475,7 +475,7 @@ Serverless functions give developers superpowers and enables them to do things t
 
 The serverless functions can be run by [Netlify Dev](https://cli.netlify.com/netlify-dev) in the same way they would be when deployed to the cloud. Once you've configured the functions directory in your `netlify.toml`, the functions will be accessible through netlify dev server. e.g. at http://localhost:8888/.netlify/functions/function-name.
 
-Go through the guide: https://www.netlify.com/blog/intro-to-serverless-functions/
+Go through the guide (mainly on traditional serverless functions): https://www.netlify.com/blog/intro-to-serverless-functions/
 
 ```js
 // netlify/functions/hello-world.js
@@ -506,20 +506,21 @@ To solve the latency problem, very smart folks came up with the idea of deployin
 - **CDNs** store static content (such as HTML and image files) in multiple locations around the world. When a new request comes in, the closest CDN location to the user can respond with the cached result.
 - Similar to CDNs, **Edge servers** are distributed to multiple locations around the world. But unlike CDNs, which store static content, some Edge servers can run small snippets of code. This means both caching and code execution can be done at the Edge closer to the user.
 
-> Cloud = a server, somewhere; Edge = a server, close to you
+> Cloud = a server, somewhere;  
+> Edge = a server, close to you;  
+> Edge functions = serverless functions run at the Edge;
 
-With [Netlify Edge Functions](https://edge-functions-examples.netlify.app), you can transform HTTP Requests and Responses, stream server rendered content, and even run full server side rendered applications. And this all happens at the Edge — directly from the worldwide location closest to each user. You can write edge functions using JavaScript or TypeScript, but instead of using Node.js under the hood, they are powered by Deno.
-
-### Worker runtimes
-What JS engines/runtimes do we have now?
+So what JS engines/runtimes do we have now?
 - Three main engines: V8 (Chromium), SpiderMonkey (Firefox), JavaScriptCore (Safari)
 - Node.js, Deno, Cloudflare Workers: all run on V8
 - Bun: runs on JavascriptCore
-- (Fastly Compute, Alibaba, Bloomberg, Bytedance also have server runtimes)
+- Edge-computing providers: a limited JavaScript environment running on CDN Nodes
 
 Worker Runtimes are an adaptation of the Service Workers API, which is a browser standard for offline web applications. To give web developers more freedom over offline experiences, the specification includes a minimal HTTP server. Since it was published, other vendors have implemented this API for servers that run in the cloud — or on the edge in the case of Cloudflare Workers.
 
-Cloudflare Workers provides a serverless execution environment that allows you to create new applications or augment existing ones without configuring or maintaining infrastructure. Under the hood, the Workers runtime uses the V8 engine. The Workers runtime also implements many of the standard APIs available in most modern browsers. Rather than running on an individual’s machine (for example, a browser application or on a centralized server), Workers functions run on Cloudflare’s Edge Network - a growing global network of thousands of machines distributed across hundreds of locations.
+[Cloudflare Workers](https://developers.cloudflare.com/workers/learning/how-workers-works) provides a serverless execution environment that allows you to create new applications without configuring or maintaining infrastructure. Under the hood, the Workers runtime uses the V8 engine. The Workers runtime also implements many of the standard APIs available in most modern browsers. Rather than running on an individual’s machine, Workers functions run on Cloudflare’s Edge Network - a growing global network of thousands of machines distributed across hundreds of locations.
 
-- https://developers.cloudflare.com/workers/learning/how-workers-works
-- https://deno.com/deploy/docs
+Read more about The Edge:
+- [Vercel Edge Functions](https://vercel.com/docs/functions/edge-functions) (using CloudFlare Workers under the hood)
+- [Netlify Edge Functions](https://www.netlify.com/blog/edge-functions-explained) (using Deno under the hood)
+- [Nuxt on the Edge](https://nuxt.com/blog/nuxt-on-the-edge)

@@ -211,7 +211,7 @@ Compare for server side rendering and server components:
 - https://github.com/TejasQ/react-server-components-from-scratch/tree/spoild
 - https://www.joshwcomeau.com/react/server-components
 
-If a page uses server-side rendering, the page HTML is generated on each request. Next.js used to allow us to do so by using `getServerSideProps`, which will be called by the server on every request *(only works at the route level)*. With React server component and following Next.js 13, developers can use this feature instead of `getServerSideProp`.
+If a page uses server-side rendering, the page HTML is generated on each request. Next.js used to allow us to do so by using `getServerSideProps`, which will be called by the server on every request *(only works at the route level)*. Next.js 13.4 with the "App Router" has a transformative shift for the core of the framework, watch the [talk](https://www.youtube.com/watch?v=5HaX0Q_Do1I) by Lee Robinson.
 
 ```jsx
 // React Components (used in server-side rendering)
