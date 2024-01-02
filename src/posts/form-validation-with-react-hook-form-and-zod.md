@@ -5,7 +5,7 @@ slug: form-validation-with-react-hook-form-and-zod
 description: ""
 added: "Aug 6 2023"
 tags: [web]
-updatedDate: "Aug 14 2023"
+updatedDate: "Jan 2 2024"
 ---
 
 ## Setup
@@ -212,6 +212,7 @@ function App() {
 ## Using shadcn `<Form />` component
 - https://ui.shadcn.com/docs/components/form
 - https://ui.shadcn.com/examples/forms
+- https://manupa.dev/blog/anatomy-of-shadcn-ui
 
 To understand shadcn/ui, first we need to know what does `class-variance-authority` do. It basically is a function, that allows us to define variants for the element we want to style. A simple variant definition has a name and a list of possible values, each with a list of classes that should apply.
 
@@ -221,7 +222,7 @@ Let's build a button component, using `cva` to handle our variant's classes.
 // 
 import { cva } from "class-variance-authority";
  
-const button = cva(["font-semibold", "border", "rounded"], {
+const buttonVariants = cva(["font-semibold", "border", "rounded"], {
   variants: {
     intent: {
       primary: [
@@ -250,9 +251,30 @@ const button = cva(["font-semibold", "border", "rounded"], {
   },
 });
  
-button();
+buttonVariants();
 // => "font-semibold border rounded bg-blue-500 text-white border-transparent hover:bg-blue-600 text-base py-2 px-4"
  
-button({ intent: "secondary", size: "small" });
+buttonVariants({ intent: "secondary", size: "small" });
 // => "font-semibold border rounded bg-white text-gray-800 border-gray-400 hover:bg-gray-100 text-sm py-1 px-2"
+```
+
+[clsx](https://github.com/lukeed/clsx) is used in `cva`. It is a utility for constructing `className` strings conditionally.
+
+```js
+import clsx from 'clsx';
+
+clsx('foo', true && 'bar', 'baz');
+//=> 'foo bar baz'
+
+clsx({ foo:true, bar:false, baz:isTrue() });
+//=> 'foo baz'
+
+clsx({ foo:true }, { bar:false }, null, { '--foobar':'hello' });
+//=> 'foo --foobar'
+
+clsx(['foo', 0, false, 'bar']);
+//=> 'foo bar'
+
+clsx(['foo'], ['', 0, false, 'bar'], [['baz', [['hello'], 'there']]]);
+//=> 'foo bar baz hello there'
 ```

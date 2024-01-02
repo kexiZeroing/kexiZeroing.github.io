@@ -294,6 +294,8 @@ arr1.flatMap(x => x.split(" "));
 - The time and space complexity of the sort cannot be guaranteed as it depends on the implementation.
 - Since ECMAScript 2019, the specification dictates that `Array.prototype.sort` is stable. All major JavaScript engines now implement a stable Array sort.
 
+> A good way to make you familiar with the Array methods is to go through the native implementations in the Github project named [You dont need lodash](https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore).
+
 ## Object
 
 ### Check if an object is empty

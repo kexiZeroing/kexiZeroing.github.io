@@ -62,7 +62,7 @@ DevOps Exercises: https://github.com/bregman-arie/devops-exercises
 
 Amazon Web Services — a practical guide: https://github.com/open-guides/og-aws
 
-Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials/beginners-typescript
+Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials
 
 Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 

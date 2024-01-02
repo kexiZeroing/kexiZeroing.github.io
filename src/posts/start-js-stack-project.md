@@ -447,11 +447,7 @@ Examples:
 1. The video [So You Think You Can Build A Dropdown?](https://www.youtube.com/watch?v=lY-RQjWeweo) is diving deep into the complexities of designing and building a fully-accessible dropdown menu.
 2. [Vaul](https://github.com/emilkowalski/vaul) is an unstyled drawer component for React that can be used as a Dialog replacement on tablet and mobile devices.
 
-Then it leaves us with the decision about how to style things. This is where [shadcn/ui](https://ui.shadcn.com) comes into the picture. It's not a component library, but more of a code registry where you can copy/paste/modify the code to your content. It's built with Tailwind and Radix.
-
-shadcn/ui is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn-ui add card`, making it even more convenient to use. What's neat about shadcn/ui is that it combines Radix UI and Tailwind CSS. The article ["The anatomy of shadcn/ui"](https://manupa.dev/blog/anatomy-of-shadcn-ui) covers its design principles, architecture overview and how the components are built.
-
-> [UI Colorgen](https://ui-colorgen.vercel.app) is an application built to help you with color setup in shadcn/ui. It generates variables for root in `globals.css` and creates the color section for `tailwind.config.js`.
+Then it leaves us with the decision about how to style things. This is where [shadcn/ui](https://ui.shadcn.com) comes into the picture. It's not a component library, but more of a code registry where you can copy/paste/modify the code to your content. It's built with Tailwind and Radix. `shadcn/ui` is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn-ui add card`, making it even more convenient to use.
 
 Another common way for styling is using CSS Modules. Next.js has built-in support for CSS Modules using the `.module.css` extension. CSS Modules locally scope CSS by automatically creating a unique class name. This allows you to use the same class name in different files without worrying about collisions.
 
