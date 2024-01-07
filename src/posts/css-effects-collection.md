@@ -9,6 +9,7 @@ updatedDate: "June 13 2023"
 ---
 
 > https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
+> https://anthonyhobday.com/sideprojects/saferules/ have some visual design rules you can safely follow every time.
 
 ### TOC
 - [TOC](#toc)

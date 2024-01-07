@@ -84,6 +84,8 @@ Chrome urls: [chrome://chrome-urls](chrome://chrome-urls/)
 
 Console Utilities API reference: https://developer.chrome.com/docs/devtools/console/utilities/
 
+Tips to get more comfortable with DevTools: https://devtoolstips.org/
+
 All Online Tools in One Box: https://10015.io/
 
 Frontend build config generator: https://createapp.dev/
@@ -243,6 +245,8 @@ Some simple ways to make content look good: https://set.studio/some-simple-ways-
 CSS Flexbox: https://github.com/samanthaming/Flexbox30
 
 CSS Grid: https://css-tricks.com/snippets/css/complete-guide-grid
+
+CSS Layout Generator is a tool for creating the CSS & HTML: https://layout.bradwoods.io
 
 Scroll Snap: https://oh-snap.netlify.app
 

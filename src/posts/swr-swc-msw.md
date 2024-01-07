@@ -5,7 +5,7 @@ slug: swr-swc-msw
 description: ""
 added: "Oct 25 2023"
 tags: [web]
-updatedDate: "Nov 9 2023"
+updatedDate: "Jan 7 2024"
 ---
 
 SWR, SWC, and MSW, three similar names, are always mentioned in the context of web development, but they are totally different things. In this article, we will learn each of them and where they are used.
@@ -154,7 +154,8 @@ SWC is now a mature replacement for Babel, which was used in Vite 3.0. Vite 4.0 
 - `@vitejs/plugin-react` is the default Vite plugin for React projects, which uses esbuild and Babel.
 - `@vitejs/plugin-react-swc` uses SWC to transform your code. *(SWC is a compiler, whereas esbuild is a bundler)*
 
-> SWC is a compiler, whereas esbuild is a bundler. SWC has limited bundling capabilities, so if you're looking for something to traverse your code and generate a single file, esbuild is what you want. The Next.js Compiler, written in Rust using SWC, allows Next.js to transform and minify your JavaScript code for production.
+> 1. SWC is a compiler, whereas esbuild is a bundler. SWC has limited bundling capabilities, so if you're looking for something to traverse your code and generate a single file, esbuild is what you want.
+> 2. `tsup` is the simplest way to bundle your TypeScript libraries with no config, powered by esbuild. It can bundle anything that's supported by Node.js natively, namely `.js`, `.json`, `.mjs`. And TypeScript `.ts`, `.tsx`.
 
 ### Oxc - The JavaScript Oxidation Compiler
 Oxc is building a parser, linter, formatter, transpiler, minifier, resolver ... all written in Rust.

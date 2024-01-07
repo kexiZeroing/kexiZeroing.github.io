@@ -24,6 +24,8 @@ updatedDate: "Nov 19 2023"
 > - `module`, ESM-specific entry point
 > - `exports`, modern entry points, more flexible
 
+<img alt="package-code-entries" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/package-code-entries.png" width="700" />
+
 ### npm install and npm ci
 `npm install` reads `package.json` to create a list of dependencies and uses `package-lock.json` to inform which versions of these dependencies to install. If a dependency is not in `package-lock.json` it will be added by `npm install`.
 

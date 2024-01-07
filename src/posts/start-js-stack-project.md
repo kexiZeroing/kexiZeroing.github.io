@@ -353,6 +353,8 @@ Install husky `npm i -D husky` and have a "husky" section in the `package.json` 
 }
 ```
 
+[better-commits](https://github.com/Everduin94/better-commits) is a CLI for creating better commits following the conventional commit guidelines. It will prompt a series of questions. These prompts will build a commit message, which you can preview, before confirming the commit.
+
 ## When and How to use https for local dev
 Most of the time, `http://localhost` does what you need. Browsers treat `http://localhost` in a special way: although it's HTTP, it mostly behaves like an HTTPS site. That's why some APIs that won't work on a deployed HTTP site, will work on `http://localhost`. What this means is that you need to use HTTPS locally only in special cases, like custom hostname, secure cookies across browsers, or using third-party libraries that require HTTPS.
 
