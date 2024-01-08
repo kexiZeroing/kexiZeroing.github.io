@@ -5,7 +5,7 @@ slug: fetch-api-requests-and-cors
 description: ""
 added: "Aug 9 2020"
 tags: [js]
-updatedDate: "Oct 29 2023"
+updatedDate: "Jan 8 2024"
 ---
 
 ## Fetch API
@@ -162,7 +162,7 @@ Use `multipart/form-data` when your form includes any `<input type="file">` elem
 - Fields are separated by the given boundary string. The browser must choose a boundary that will not appear in any of the fields, so this is why the boundary may vary between requests.
 - Every field gets some sub headers before its data: `Content-Disposition: form-data`, the field name, the filename, followed by the data.
 
-<img alt="form-data" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h7pzihd80yj31440gy40l.jpg" width="700"> 
+<img alt="form-data" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7pzihd80yj31440gy40l.jpg" width="700"> 
 
 ### Process the form data
 1. What does `body-parser` do with express? Originally, there was only `body-parser`, not `express.json()`. `body-parser` extracts the entire body portion of an incoming request stream and exposes it on `req.body`. As of Express version 4.16+, their own `body-parser` implementation is now included in the default Express package so there is no need for you to download another dependency.
@@ -196,7 +196,7 @@ GET data is appended to the URL as a query string, so there is a hard limit to t
 
 Responses to the POST method aren’t kept by most caches; if you send information in the path or query via GET, caches can store that information for the future.
 
-<img alt="http-post-get" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/post-get-others.png" width="460"> 
+<img alt="http-post-get" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/post-get-others.png" width="460"> 
 
 As far as security, **POST method is not more secure than GET as it also gets sent unencrypted over network**. HTTPS encrypts the data in transit and the remote server will decrypt it upon receipt; it protects against any 3rd parties in the middle being able to read or manipulate the data. A packet sniffer will show that the HTTP message sent over SSL is encrypted on the wire.
 
@@ -259,6 +259,8 @@ You can create a new Response object using the `Response()` constructor, but you
 The body of Response allows you to declare what its content type is and how it should be handled (`.json()`, `.blob()`, `.arrayBuffer()`, `.formData()`, `.text()`). For example, The `json()` method of the Response interface takes a Response stream and reads it to completion. It returns a promise which resolves with the result of parsing the body text as JSON.
 
 > `Response.body` is a `ReadableStream` of the body contents. [In this example](https://mdn.github.io/dom-examples/streams/simple-pump/) we fetch an image, expose the response's stream using `response.body`, create a reader using `ReadableStream.getReader()`, then enqueue that stream's chunks into a second, custom readable stream — effectively creating an identical copy of the image.
+
+<img alt="readable-stream" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/readable-stream.png" width="700">
 
 ```js
 // An example to fetch image with progress indicator
