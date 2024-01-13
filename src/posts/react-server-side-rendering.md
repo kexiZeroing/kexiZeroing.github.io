@@ -5,7 +5,7 @@ slug: react-server-side-rendering
 description: ""
 added: "July 8 2023"
 tags: [react]
-updatedDate: "Nov 11 2023"
+updatedDate: "Jan 13 2024"
 ---
 
 ## Adding Server-Side Rendering
@@ -131,6 +131,69 @@ export default ClientOnly;
 ```
 
 The above code also helps solve the error: "`window` is not defined" in the client component (i.e. render `{ window.navigator.platform }`). You can move the `window` to `useEffect` to access it.
+
+### Understand the "children pattern" from Developer Way
+React components re-render themselves and all their children when the state is updated. In this case, on every mouse move the state of `MovingComponent` is updated, its re-render is triggered, and as a result, `ChildComponent` will re-render as well.
+
+```jsx
+const MovingComponent = () => {
+  const [state, setState] = useState({ x: 100, y: 100 });
+
+  return (
+    <div
+      onMouseMove={(e) => setState({ x: e.clientX - 20, y: e.clientY - 20 })}
+      style={{ left: state.x, top: state.y }}
+    >
+      <ChildComponent />
+    </div>
+  );
+};
+```
+
+The way to fight this, other than `React.memo`, is to extract `ChildComponent` outside and pass it as children. React "children" is just a prop. Components passed as children don’t re-render since they are just props.
+
+```jsx
+const MovingComponent = ({ children }) => {
+  const [state, setState] = useState({ x: 100, y: 100 });
+
+  return (
+    <div
+      onMouseMove={(e) => setState({ x: e.clientX - 20, y: e.clientY - 20 })}
+      style={{ left: state.x, top: state.y }}>
+      // children now will not be re-rendered!
+      {children}
+    </div>
+  );
+};
+
+const SomeOutsideComponent = () => {
+  return (
+    <MovingComponent>
+      <ChildComponent />
+    </MovingComponent>
+  );
+};
+```
+
+React Element is nothing more than syntax sugar for a function `React.createElement` that returns an object. If the Parent component re-renders, the content of the `child` constant will be re-created from scratch, which is fine and super cheap since it’s just an object. And this is what allows memoization to work: the object will not be re-created, React will think that it doesn’t need updating, and Child’s re-render won’t happen.
+
+```jsx
+const ChildMemo = React.memo(Child);
+
+const Parent = () => {
+  const child = <ChildMemo />;
+
+  return <div>{child}</div>;
+};
+```
+
+```jsx
+const Parent = () => {
+  const child = useMemo(() => <Child />, []);
+
+  return <div>{child}</div>;
+};
+```
 
 ## Adding File-System Based Routing and Data Fetching
 Learn from https://www.youtube.com/watch?v=3RzhNYhjVAw&t=460s
