@@ -377,17 +377,16 @@ if (!isInIframe && !ua.toLowerCase().match(/micromessenger|android|iphone/i)) {
 https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
 
 1. `appid` 是公众号的唯一标识。
-2. `redirect_uri` 替换为回调页面地址，用户授权完成后，微信会帮你重定向到该地址，并携带相应的参数如 `code`，回调页面所在域名必须与后台配置一致。
-3. `scope` 根据业务需要选择 `snsapi_base` 或 `snsapi_userinfo`。其中 `snsapi_base` 为静默授权，不弹出授权页面，直接跳转，只能获取用户的 `openid`，而 `snsapi_userinfo` 会弹出授权页面，需要用户同意，但无需关注公众号，可在授权后获取用户的基本信息。
+2. `redirect_uri` 替换为回调页面地址，用户授权完成后，微信会帮你重定向到该地址，并携带相应的参数如 `code`，回调页面所在域名必须与后台配置一致。在微信公众号请求用户网页授权之前，开发者需要先到公众平台官网中配置授权回调域名。
+3. `scope` 根据业务需要选择 `snsapi_base` 或 `snsapi_userinfo`。其中 `snsapi_base` 为静默授权，不弹出授权页面，直接跳转，只能获取用户的 `openid`，而 `snsapi_userinfo` 会弹出授权页面，需要用户同意，但无需关注公众号，可在授权后获取用户的基本信息。（对于已关注公众号的用户，如果用户从公众号的会话或者自定义菜单进入本公众号的网页授权页，即使是 `scope` 为 `snsapi_userinfo`，也是静默授权，用户无感知。）
 4. `state` 不是必须的，重定向后会带上 `state` 参数，开发者可以填写 a-zA-Z0-9 的参数值，最多 128 字节。
-5. 如果用户同意授权，页面将跳转至 `redirect_uri/?code=CODE&state=STATE`，`code` 作为换取 `access_token` 的票据，每次用户授权带上的 `code` 不一样。
-6. 获取 `code` 后，请求 https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code 获取 `access_token` 和 `openid` (未关注公众号时，用户访问公众号的网页，也会产生一个唯一的 openid)。
-7. 如果网页授权作用域为 `snsapi_userinfo`，则此时可以请求 https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN 拉取用户信息。
+5. 如果用户同意授权，页面将跳转至 `redirect_uri/?code=CODE&state=STATE`，`code` 作为换取 `access_token` 的票据，每次用户授权带上的 `code` 不一样，`code` 只能使用一次，5分钟未被使用自动过期。
+6. 获取 `code` 后，请求 https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code 获取 `access_token` 和 `openid` (未关注公众号时，用户访问公众号的网页，也会产生一个唯一的 openid)。如果 `scope` 为 `snsapi_userinfo` 还会同时获得到 `unionid`。
+7. 如果网页授权作用域为 `snsapi_userinfo`，则此时可以请求 https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN 拉取用户信息，比如用户昵称、头像、`unionid` 等，不再返回用户性别及地区信息。
 8. 公众号的 `secret` 和获取到的 `access_token` 安全级别都非常高，必须只保存在服务器，不允许传给客户端。后续刷新 `access_token` 以及通过 `access_token` 获取用户信息等步骤，也必须从服务器发起。
 
-> 微信公众平台接口测试帐号申请: https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
-
-某个公众号的关注页面地址为 https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI0NDA2OTc2Nw==#wechat_redirect 其中 biz 字符串是微信公众号标识，在浏览器打开该公众号下的任意一篇文章，查看网页源代码，搜索 `var biz` 这样的关键字即可得到。
+> 1. 微信公众平台接口测试帐号申请: https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
+> 2. 某个公众号的关注页面地址为 https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI0NDA2OTc2Nw==#wechat_redirect 其中 biz 字符串是微信公众号标识，在浏览器打开该公众号下的任意一篇文章，查看网页源代码，搜索 `var biz` 这样的关键字即可得到。
 
 ### 唤起微信小程序
 微信外网页通过小程序链接 URL Scheme，微信内通过微信开放标签，且微信内不会直接拉起小程序，需要手动点击按钮跳转。这是官方提供的一个例子 https://postpay-2g5hm2oxbbb721a4-1258211818.tcloudbaseapp.com/jump-mp.html 可以用手机浏览器查看效果，直接跳转小程序。
