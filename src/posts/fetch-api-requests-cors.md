@@ -5,7 +5,7 @@ slug: fetch-api-requests-and-cors
 description: ""
 added: "Aug 9 2020"
 tags: [js]
-updatedDate: "Jan 8 2024"
+updatedDate: "Jan 13 2024"
 ---
 
 ## Fetch API
@@ -318,6 +318,12 @@ A web application executes a cross-origin HTTP request when it requests a resour
 CORS works by adding new HTTP headers that let servers describe which origins are permitted to read that information from a web browser. Additionally, for HTTP request methods other than `GET`, or `POST` with certain MIME types, the specification mandates that browsers **"preflight"** the request, soliciting supported methods from the server with the HTTP `OPTIONS` request method, and then, upon "approval" from the server, sending the actual request. Servers can also inform clients whether "credentials" (such as Cookies and HTTP Authentication) should be sent with requests.
 
 > If Site A requests a page from Site B, the browser will actually fetch the requested page on the network level and check if the response headers list Site A as a permitted requester domain.
+
+<br>
+<img alt="same-cross-origin" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/same-cross-origin.png" width="700">
+
+<br>
+<img alt="same-cross-site" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/same-site.png" width="700">
 
 ### Simple requests
 Simple requests don’t trigger a CORS preflight. It should meet all the following conditions:

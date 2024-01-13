@@ -246,8 +246,6 @@ CSS Flexbox: https://github.com/samanthaming/Flexbox30
 
 CSS Grid: https://css-tricks.com/snippets/css/complete-guide-grid
 
-CSS Layout Generator is a tool for creating the CSS & HTML: https://layout.bradwoods.io
-
 Scroll Snap: https://oh-snap.netlify.app
 
 Simple CSS scrollbar editor: https://scrollbar.app
