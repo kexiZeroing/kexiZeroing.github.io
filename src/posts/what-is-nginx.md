@@ -82,6 +82,11 @@ Typically the types of functions the gateway may provide may include:
 
 API Gateway and Load Balancer are two different things. Load Balancer works at protocol or socket level (eg. tcp, http, or port 3306 etc). Its job is to balance the incoming traffic by distributing it to the destinations with various logics. It doesn't offer features such as authorization checks, authentication of requests etc.
 
+### Nginx and Ingress
+Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource.
+
+You can deploy a bunch of ingress rules, but nothing will happen unless you have a controller that can process them. An Ingress Controller is a pod that is configured to interpret ingress rules. `ingress-nginx` is an Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
+
 ### Nginx command line
 NGINX has only a few command-line parameters, and the configuration is done entirely via the configuration file (`/usr/local/etc/nginx/nginx.conf`).
 

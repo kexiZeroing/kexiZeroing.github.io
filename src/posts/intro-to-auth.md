@@ -82,6 +82,24 @@ Claims also include statements about the end user. Some of the standard profile 
 
 The `nonce` is a cryptographically random string that the client creates and sends with an authorization request. The authorization server then places the nonce in the token that is sent back to the app. The app verifies that the nonce in the token matches the one sent with the authorization request. This way, the app can verify that the token came from the place it requested the token from in the first place.
 
+```js
+// This library doesn't validate the token, any well-formed JWT can be decoded. 
+import { jwtDecode } from "jwt-decode";
+
+const token = "eyJ0eXAiO...// jwt token";
+const decoded = jwtDecode(token);
+
+console.log(decoded);
+
+/* prints:
+ * { 
+ *   foo: "bar",
+ *   exp: 1393286893,
+ *   iat: 1393268893  
+ * }
+ */
+```
+
 In practice, when a user wants to log in, the app sends an request to the authorization server. The user’s credentials are verified by the authorization server, and if everything checks out, the authorization server issues an ID token to the application. The client application then decodes the ID token (which is a JWT) and verifies it. This includes validating the signature, and we must also verify the claims. Once we’ve established the authenticity of the ID token, the user is authenticated. We also now have access to the identity claims and know who this user is. The [OpenID Connect Playground](https://openidconnect.net) is a debugger that lets developers explore and test OIDC calls and responses step-by-step.
 
 ### Accessing APIs with Access Tokens
