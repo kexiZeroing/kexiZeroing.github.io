@@ -150,6 +150,7 @@ curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json"
 > - **-I, --head**: Fetch the headers only. When used on an FTP or FILE, displays the file size and last modification time only.
 > - **-i, --include**: Include the HTTP response headers in the output.
 > - **-v, --verbose**: Makes curl verbose during the operation. Useful for seeing what's going on under the hood. Try `curl -vI https://www.baidu.com` as an exmple.
+> - **-o, --output \<file\>**: Write to file instead of stdout.
 
 A POST request is typically sent via an HTML form. In this case, the content type is selected by the string in the **`enctype` attribute** of the `form` element.
 

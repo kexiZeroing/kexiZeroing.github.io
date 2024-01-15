@@ -5,7 +5,7 @@ slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Dec 12 2023"
+updatedDate: "Jan 15 2024"
 ---
 
 ### 项目是怎么跑起来的
@@ -24,6 +24,7 @@ updatedDate: "Dec 12 2023"
 - 对于 js 的压缩使用了 `uglifyjs-webpack-plugin`，里面传入 `compress` 定制化[压缩设置](https://github.com/mishoo/UglifyJS#compress-options)。比如有的项目没有 console 输出，可能就是因为这里设置了 `drop_console`。
 - 使用 `friendly-errors-webpack-plugin` 简化命令行的输出，可以只显示构建成功、警告、错误的提示，从而优化命令⾏的构建日志。
 - webpack 设置请求代理 proxy（其背后使用的是 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)），默认情况下假设前端是 `localhost:3000`，后端是 `localhost:8082`，那么后端通过 `request.getHeader("Host")` 获取的依旧是 `localhost:3000`。如果设置了 `changeOrigin: true`，那么后端才会看到的是 `localhost:8082`, 代理服务器会根据请求的 target 地址修改 Host（这个在浏览器里看请求头是看不到改变的）。如果某个接口 404，一般就是这个路径没有配置代理。
+- 路由中加载组件的方式为 `component: () => import('@/views/About.vue')` 可以做到 code-splitting，这样会单独产出一个文件名为 `About.[hash].js` 的 chunk 文件，路由被访问时才会被加载。
 
 ### Vue 项目
 Vue npm 包有不同的 Vue.js 构建版本，可以在 `node_modules/vue/dist` 中看到它们，大致包括完整版、编译器（编译template）、运行时版本、UMD 版本（通过 `<script>` 标签直接用在浏览器中）、CommonJS 版本（用于很老的打包工具）、ES Module 版本（有两个，分别用于现代打包工具和浏览器 `<script type="module">` 引入）。总的来说，Runtime + Compiler 版本是包含编译代码的，可以把编译过程放在运行时做，如果需要在客户端编译模板 (比如传入一个字符串给 template 选项)，就需要加上编译器的完整版。Runtime 版本不包含编译代码，需要借助 webpack 的 `vue-loader` 事先把 `*.vue` 文件内的模板编译成 `render` 函数，在最终打好的包里实际上是不需要编译器的，只用运行时版本即可。
@@ -40,24 +41,6 @@ new Vue({
     return h('div', this.hi)
   }
 })
-```
-
-```js
-// https://github.com/logue/vite-vue2-ts-starter/blob/master/src/router.ts
-{
-  path: '/about',
-  name: 'About',
-  // route level code-splitting
-  // this generates a separate chunk (About.[hash].js) for this route
-  // which is lazy-loaded when the route is visited.
-  component: () => import('@/views/AboutView.vue'),
-}
-
-// A param can be made optional by adding "?". It works for Vue Router 2.0 onward
-{
-  path: '/optional-params/:foo?',
-  ...
-},
 ```
 
 Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版本页面](https://www.npmjs.com/package/vue?activeTab=versions) 可以看到当前已使用 3.2.x 作为默认 latest 版本。如果还要用 Vue 2 ，需要手动指定 `legacy` 版本才能安装到 Vue 2。更多关于 Vue 的发布更新可以看 https://blog.vuejs.org
@@ -487,9 +470,15 @@ webpackConfig.plugins.push(
 )
 ```
 
-### 前端监控体系搭建
-https://github.com/miracle90/monitor  
-https://github.com/LianjiaTech/fee
+### 阿里云 CDN
+阿里云CDN 对于文件是否支持缓存是以 `X-Cache` 头部来确定，缓存时间是以 `X-Swift-CacheTime` 头部来确认。
+- `Age` 表示该文件在 CDN 节点上缓存的时间，单位为秒。只有文件存在于节点上 Age 字段才会出现，当文件被刷新后或者文件被清除的首次访问，在此前文件并未缓存，无Age头部字段。当 Age 为 0 时，表示节点已有文件的缓存，但由于缓存已过期，本次无法直接使用该缓存，需回源校验。
+- `X-Swift-SaveTime` 该文件是在什么时间缓存到 CDN 节点上的。(GMT时间，Greenwich Mean Time Zone)
+- `X-Swift-CacheTime` 该文件可以在 CDN 节点上缓存多久，是指文件在 CDN 节点缓存的总时间。通过 `X-Swift-CacheTime – Age` 计算还有多久需要回源刷新。
+
+> 1. CDN 节点是指与最终接入用户之间具有较少中间环节的网络节点，对最终接入用户有相对于源站而言更好的响应能力和连接速度。当节点没有缓存用户请求的内容时，节点会返回源站获取资源数据并返回给用户。阿里云 CDN 的源站可以是对象存储OSS、函数计算、自有源站（IP、源站域名）。
+> 2. 加速域名是接入 CDN 用于加速、终端用户实际访问的域名。CNAME 域名是 CDN 生成的，当您在阿里云 CDN 控制台添加加速域名后，系统会为加速域名分配一个 `*.*kunlun*.com` 形式的 CNAME 域名。
+> 3. 添加加速域名后，需要在 DNS 解析服务商处，添加一条 CNAME 记录，将加速域名唯一解析到 CNAME 域名，记录生效后该域名所有的请求都将转向 CDN 节点，达到加速效果。CNAME 域名将会解析到具体哪个节点 IP 地址，将由 CDN 的调度系统综合多个条件来决定。
 
 ### 开发自己的调试工具
 https://kentcdodds.com/blog/make-your-own-dev-tools  
