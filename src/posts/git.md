@@ -105,6 +105,8 @@ Say you and your friend both checked out a file, and made some changes to it. Yo
   - git checkout right_branch
   - git cherry-pick commit_hash
 
+> To cherry-pick all the commits from commit A to commit B (where A is older than B), run: `git cherry-pick <commitA>^..<commitB>`.
+
 ## show the changes
 - diff two branches: git diff master..develop
 - diff local and remote: git diff HEAD..origin/master
