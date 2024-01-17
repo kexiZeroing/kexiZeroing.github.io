@@ -240,7 +240,7 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 }
 ```
 
-<img alt="source-map-ignore" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/sourcemap-ignore.png" width="500" />
+<img alt="source-map-ignore" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/sourcemap-ignore.png" width="500" />
 
 > Learn source maps from Google Chrome Developers
 > - What are source maps: https://web.dev/articles/source-maps
@@ -409,7 +409,7 @@ https://www.builder.io/blog/debug-nodejs
 Launch your Node.js process using the `--inspect-brk` flag (`node server.js --inspect-brk`). Now, open up any Edge or Chrome dev tools window and click the little green Node.js logo button. A new instance of DevTools will open and connect to the node process.
 
 > Node.js 20.6.0 now supports reading `.env` files with the `--env-file` flag. You'll no longer need the `dotenv` package. Also supports passing runtime flags like `--inspect` and `--watch`. Example from @wesbos:  
-> <img alt="node-env" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/F5WdyiKXEAAY7So.jpeg" width="600" />
+> <img alt="node-env" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/F5WdyiKXEAAY7So.jpeg" width="600" />
 
 ## Introducing the Backend For Frontend
 We had server-side functionality which we wanted to expose both via our desktop web UI, and via one or more mobile UIs. We often faced a problem in accommodating these new types of user interface, often as we already had a tight coupling between the desktop web UI and our backed services. However the nature of a mobile experience differs from a desktop web experience. In practice, our mobile devices will want to make different calls, fewer calls, and will want to display different (and probably less) data than their desktop counterparts. This means that we need to add additional functionality to our API backend to support our mobile interfaces.

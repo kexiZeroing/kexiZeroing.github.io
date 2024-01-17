@@ -321,7 +321,7 @@ CORS works by adding new HTTP headers that let servers describe which origins ar
 > If Site A requests a page from Site B, the browser will actually fetch the requested page on the network level and check if the response headers list Site A as a permitted requester domain.
 
 <br>
-<img alt="same-cross-origin" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/same-cross-origin.png" width="700">
+<img alt="same-cross-origin" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/same-cross-origin.png" width="700">
 
 <br>
 <img alt="same-cross-site" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/same-site.png" width="700">
