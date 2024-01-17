@@ -9,12 +9,6 @@ order: 4
 updatedDate: "June 18 2023"
 ---
 
-更全面的准备可以参考:
-- https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/
-- https://github.com/course-dasheng/fe-algorithm
-
----
-
 ### TOC
 - [TOC](#toc)
 - [Binary Search](#binary-search)
