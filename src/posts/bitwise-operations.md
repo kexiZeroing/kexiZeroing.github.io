@@ -32,6 +32,8 @@ Let's look at 4-bit integers. Tiny, but useful for illustration purposes. Since 
 
 > I'm curious if there's a reason -1 is represented by 1111 (two's complement) rather than 1001 which is binary 1 with first bit as negative flag.
 
+In computers, integers are stored in two's complement form. In two's complement representation, computers can treat addition of positive and negative numbers equally, eliminating the need for separately designing special hardware circuits for subtraction operations, and avoiding any ambiguity regarding positive and negative zero.
+
 Say you have two numbers, 2 and -1. In your "intuitive" way of representing numbers, they would be `0010` and `1001`, respectively. In the two's complement way, they are `0010` and `1111`. Now, let's say I want to add them.
 
 Two's complement addition is very simple. You add numbers normally and **any carry bit at the end is discarded**. So they're added as follows:

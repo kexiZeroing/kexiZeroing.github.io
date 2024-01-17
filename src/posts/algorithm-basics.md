@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "June 18 2023"
+updatedDate: "Jan 17 2024"
 ---
 
 ### TOC
@@ -18,6 +18,7 @@ updatedDate: "June 18 2023"
 - [Quick Sort](#quick-sort)
 - [Merge Sort](#merge-sort)
 - [Count Sort](#count-sort)
+- [Undo/Redo stacks](#undoredo-stacks)
 - [Shuffle an array](#shuffle-an-array)
 - [Traverse Binary Tree](#traverse-binary-tree)
 - [Graph DFS](#graph-dfs)
@@ -215,6 +216,46 @@ function countSort(arr, min, max) {
     }
   }
   return arr;
+}
+```
+
+### Undo/Redo stacks
+
+```js
+class UndoRedoManager {
+  constructor() {
+    this.undoStack = [];
+    this.redoStack = [];
+  }
+
+  doAction(action) {
+    // Perform the action
+    action();
+
+    // Push the action onto the undo stack
+    this.undoStack.push(action);
+
+    // Clear the redo stack
+    this.redoStack = [];
+  }
+
+  undo() {
+    if (this.undoStack.length > 0) {
+      const lastAction = this.undoStack.pop();
+      lastAction();
+
+      this.redoStack.push(lastAction);
+    }
+  }
+
+  redo() {
+    if (this.redoStack.length > 0) {
+      const lastUndoneAction = this.redoStack.pop();
+      lastUndoneAction();
+
+      this.undoStack.push(lastUndoneAction);
+    }
+  }
 }
 ```
 
@@ -595,27 +636,6 @@ LRUCache.prototype.put = function(key, value) {
 ```
 
 ### Example Problems
-
-**「解题思路」**
-- 一旦需要统计一个元素集中元素出现的次数，我们就应该想到哈希表。
-  > Q: You have an array of users. Implement `put(user), update(user), remove(id)` in a way that's as efficient as possible.  
-  > A: Efficient user management in arrays is key. Direct array methods can lag for big data. Using a hashmap tracks user ID indices, enabling faster finds & updates. This ensures O(1) for put, update, remove.
-
-- 哈希表的本质是当使用者提供一个键，根据哈希表自身定义的哈希函数(hash function)，映射出一个下标，根据这个下标决定需要把当前的元素存储在什么位置。在一些合理的假设情况下，查找一个元素的平均时间复杂度是O(1)，插入一个元素的平摊时间复杂度是O(1)。
-- 当对于不同的键，哈希函数提供相同的存储地址时，哈希表就遇到了所谓的冲突。解决冲突的方式有链接法(chaining)和开放地址法(open addressing)两种。简单来说，链接法相当于利用辅助数据结构(比如链表)，将哈希函数映射出相同地址的那些元素链接起来。而开放地址法是指以某种持续的哈希方式继续哈希，直到产生的下标对应尚未被使用的存储地址，然后把当前元素存储在这个地址里。
-- 巧用数组下标，把原始数据对应的数值作为数组下标，如果这个数出现过，则对应的数组位置加1。
-- 由于栈具有 LIFO 的特性，如需实现任何特定顺序的读取操作，往往可以借助两个栈互相“倾倒”来实现特定顺序。
-- 递归本身就是相当于把函数一层一层地加到操作系统的内存栈上，所以利用栈数据结构去实现递归也是非常自然的：入栈操作相当于递归调用自身，出栈操作相当于递归返回。入栈操作的对象相当于需要被解决的问题，出栈对象相当于已经解决的子问题，通过共享的状态变量或返回值把子问题的结果传递出来。
-- 对于单向链表(singly linked list)，每个节点有一个 next 指针指向后一个节点，还有一个成员变量用以存储数值；对于双向链表(doubly Linked List)，还有一个 prev 指针指向前一个节点。链表不能通过常数时间(O(1))读取第k个数据。链表的优势在于能够以较高的效率在任意位置插入或删除一个节点。
-- 当链表的 head 可能有变化时，使用 dummy node 可以简化代码，最后返回 dummy.next 即可。使用 dummy 节点，处理第一个节点和之后的节点在操作上就一样了，不用做额外的判断。
-- 利用快慢指针找出未知长度单链表的中间节点，fast 指向末尾节点时，slow 正好就在中间；判断单链表是否有环，如果 fast == slow 说明该链表是循环链表；单链表中找倒数第 N 个节点，p1先移动 N 步，然后两个指针一起前进，p1到达末尾时，p2即为倒数第 N 个节点。
-- 遍历子树的过程是一个自上而下结构：从顶层出发，逐渐向下扩散，所以考虑递归或者栈。采用 DFS 访问，利用回溯思想，直到无法继续访问再返回。值得注意的是，如果 path 本身是以引用(reference)的形式传入，那么需要在返回之前消除之前所做的影响(回溯)。因为传引用(Pass by reference)相当于把 path 也看作全局变量，对 path 的任何操作都会影响其他递归状态，而传值(pass by value)则不会。传引用的好处是可以减小空间开销。
-- 二分查找树通常被用于维护有序数据。二分查找树查找、删除、插入的效率都会优于一般的线性数据结构。对于二分查找树的操作相当于执行二分搜索，其执行效率与树的高度(depth)有关。当二分查找树退化为一个由小到大排列的单链表，其搜索效率变为O(n)。为了解决这样的问题，引入平衡二叉树的概念，具体实现算法包括 AVL 算法和红黑算法等。
-- 堆其实就是一个优先队列，从结构上说是完全二叉树，从实现上说一般用数组。堆最重要的性质是，它满足部分有序：最大(小)堆的父节点一定大于等于(小于等于)当前节点，且堆顶元素一定是当前所有元素的最大(小)值。下移(shift-down)操作是堆算法的核心。对于最大堆而言，对于某个节点的下移操作相当于比较当前节点与其左右子节点的相对大小。如果当前节点小于其子节点，则将当前节点与其左右子节点中较大的子节点对换。之后继续调整下移的节点。
-- 图的数据表示方式分为两种，即邻接表(adjacency list)和邻接矩阵(adjacency matrix)。对于节点 A，A 的邻接表将与 A 之间相连的所有节点以链表的形势存储起来，节点 A 为链表的头节点。这样，对于有 V 个节点的图而言，邻接表表示法包含 V 个链表；对于有 V 个节点的图而言，邻接矩阵用 V*V 的二维矩阵形式表示一个图。矩阵中的元素 Aij 表示节点 i 到节点 j 之间是否直接有边相连。若有，则 Aij 数值为该边的权值，否则 Aij 数值为0。
-- 动态规划的核心在于如果一个问题的解决方案中，子问题被重复计算，那么就可以利用记录中间结果，达到用空间换取时间的目的。算法的核心在于找到状态转移方程，即如何通过子问题解决原问题。f(n) = G[f(n-1), f(n-2), … , f(1)]，其中 G 表示子问题到原问题的映射关系。
-
----
 
 Given a non-empty array of integers, return the `k` most frequent elements.
 
