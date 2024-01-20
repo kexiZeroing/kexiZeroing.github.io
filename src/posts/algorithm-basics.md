@@ -36,6 +36,7 @@ const binarySearch = (array, target) => {
   let endIndex = array.length - 1;
 
   while(startIndex <= endIndex) {
+    // parseInt(i + (j - i) / 2)
     let middleIndex = Math.floor((startIndex + endIndex) / 2);
     if(target === array[middleIndex]) {
       return middleIndex;
@@ -48,6 +49,9 @@ const binarySearch = (array, target) => {
     }
   }
   
+  // If the target is not found,
+  // `startIndex` points to the first element that is greater than the target
+  // `endIndex` points to the last element that is less than the target
   return -1;
 }
 ```
@@ -55,17 +59,16 @@ const binarySearch = (array, target) => {
 ### Bubble Sort
 
 ```js
-function bubbleSort(arr) {
-  for (let i = 0; i < arr.length - 1; i++) {
-    for (let j = 0; j < arr.length - 1 - i; j++) {
-      if (arr[j] > arr[j + 1]) {
-        let tmp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = tmp;
+function bubbleSort(nums) {
+  for (let i = nums.length - 1; i > 0; i--) {
+    for (let j = 0; j < i; j++) {
+      if (nums[j] > nums[j + 1]) {
+        let tmp = nums[j];
+        nums[j] = nums[j + 1];
+        nums[j + 1] = tmp;
       }
     }
   }
-  return arr;
 }
 ```
 
@@ -140,24 +143,21 @@ function quickSort(arr) {
 }
 
 // another way to do the partition with two pointers
-function partition(arr, left, right) {
-  const pivot = arr[Math.floor((right + left) / 2)];
-  while (left <= right) {
-    while (arr[left] < pivot) {
-      left++;
+function partition(nums, left, right) {
+  let i = left, j = right;
+  while (i < j) {
+    while (i < j && nums[j] >= nums[left]) {
+      j -= 1;
     }
-    while (arr[right] > pivot) {
-      right--;
+    while (i < j && nums[i] <= nums[left]) {
+      i += 1;
     }
-    if (left <= right) {
-      let temp = arr[left];
-      arr[left] = arr[right];
-      arr[right] = temp;
-      left++;
-      right--;
-    }
+
+    this.swap(nums, i, j);
   }
-  return left;
+
+  this.swap(nums, i, left);
+  return i;
 }
 ```
 
