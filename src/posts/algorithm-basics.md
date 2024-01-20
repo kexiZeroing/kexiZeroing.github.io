@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Jan 17 2024"
+updatedDate: "Jan 20 2024"
 ---
 
 ### TOC
@@ -68,6 +68,21 @@ function bubbleSort(nums) {
         nums[j + 1] = tmp;
       }
     }
+  }
+}
+
+function bubbleSortWithFlag(nums) {
+  for (let i = nums.length - 1; i > 0; i--) {
+    let flag = false;
+    for (let j = 0; j < i; j++) {
+      if (nums[j] > nums[j + 1]) {
+        let tmp = nums[j];
+        nums[j] = nums[j + 1];
+        nums[j + 1] = tmp;
+        flag = true;
+      }
+    }
+    if (!flag) break;
   }
 }
 ```
