@@ -5,7 +5,7 @@ slug: vue-reactivity-clone
 description: ""
 added: "June 18 2023"
 tags: [vue, code]
-updatedDate: "Nov 19 2023"
+updatedDate: "Jan 21 2024"
 ---
 
 Reactive data can be broadly thought of as data that causes some intended side effect when accessed or modified. By default, JavaScript isn’t reactive.
@@ -141,7 +141,7 @@ To work around this, you can use `Vue.set(object, propertyName, value)` method i
 In Vue 2, any sharing of component code required mixins because it's imperative to setting up reactivity that any properties you intend to be reactive are available to Vue at the time of instantiation. Proxies not only provides a way for the reactivity caveats of Vue 2 to be overcome but also allows the reuse of logic across components via the Composition API. Data objects created using `reactive` are not bound to the component instance. This means they can be shared like any other JavaScript data and retain their reactivity.
 
 ### Render function
-When using the render function instead of templates, you'll be using the `h` function a lot. It creates a VNode (virtual node), an object that Vue uses internally to track updates and what it should be rendering. These render functions are essentially what is happening "under the hood" when Vue compiles your single file components to be run in the browser.
+When using the render function instead of templates, you'll be using the `h` function a lot (`hyperscript` - "JavaScript that produces HTML"). It creates a virtual node, an object that Vue uses internally to track updates and what it should be rendering. These render functions are essentially what is happening "under the hood" when Vue compiles your single file components to be run in the browser.
 
 ```vue
 <script>
@@ -158,20 +158,44 @@ export default {
 </script>
 ```
 
-JSX can help recreate our render implementation in a way that is a lot easier to read since we can safely write HTML in the render function. It’s important to keep in mind that JSX is a development tool that always needs to be transpiled with the help of a Babel package (like `babel-plugin-jsx`) to standard JavaScript. *(`create-vue` and Vue CLI both have options for scaffolding projects with pre-configured JSX support.)*
+```js
+// vue-vdom.js
+// Create a virtual node
+export function h(tag, props, children) {
+  return { tag, props, children }
+}
 
-```vue
-<template>
-  <render />
-</template>
+// tag: h1
+// props: { class: 'text-red-500'}
+// children: 'Hello'
+// Add a virtual node onto the DOM
+export function mount(vnode, container) {
+  const el = document.createElement(vnode.tag)
+  vnode.el = el
 
-<script setup lang="jsx">
-  const { message } = defineProps(["message"]);
+  for (const key in vnode.props) {
+    if (key.startsWith('on')) {
+      el.addEventListener(key.slice(2).toLowerCase(), vnode.props[key])
+    }
+    el.setAttribute(key, vnode.props[key])
+  }
 
-  const render = (
-    <div class="render-card">
-      <header class="card-header card-header-title">{message}</header>
-    </div>
-  );
-</script>
+  if (typeof vnode.children === 'string') {
+    // Text
+    el.textContent = vnode.children
+  } else if (Array.isArray(vnode.children)) {
+    // Array of vnodes
+    vnode.children.forEach(child => mount(child, el))
+  } else {
+    // Single vnode
+    mount(vnode.children, el)
+  }
+
+  container.appendChild(el)
+}
+
+// Remove a vnode from the real DOM
+export function unmount(vnode) {
+  vnode.el.parentNode.removeChild(vnode.el);
+}
 ```
