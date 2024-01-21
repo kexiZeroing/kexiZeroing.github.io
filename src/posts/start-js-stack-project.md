@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Jan 1 2024"
+updatedDate: "Jan 21 2024"
 ---
 
 ## Start a modern web project
@@ -22,6 +22,12 @@ npx create-next-app@latest my-app --typescript --tailwind --eslint
 npx shadcn-ui@latest init
 
 npx shadcn-ui@latest add button
+```
+
+```
+npx nuxi@latest init my-app
+
+git clone https://github.com/viandwi24/nuxt3-awesome-starter
 ```
 
 Start with templates:
