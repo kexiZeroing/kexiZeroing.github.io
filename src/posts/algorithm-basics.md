@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Jan 20 2024"
+updatedDate: "Jan 21 2024"
 ---
 
 ### TOC
@@ -24,6 +24,7 @@ updatedDate: "Jan 20 2024"
 - [Graph DFS](#graph-dfs)
 - [Graph BFS](#graph-bfs)
 - [Heap](#heap)
+- [Backtracking](#backtracking)
 - [DP](#dp)
 - [LRU](#lru)
 - [Example Problems](#example-problems)
@@ -375,6 +376,23 @@ var levelOrderTraversal = function(root) {
 
   return result;
 };
+
+// backtracking with path
+function preOrder(root, path, res) {
+  if (root === null) {
+    return;
+  }
+  path.push(root);
+
+  // i.e. to find the node which has value 7
+  if (root.val === 7) {
+    res.push([...path]);
+  }
+
+  preOrder(root.left, path, res);
+  preOrder(root.right, path, res);
+  path.pop();
+}
 ```
 
 ### Graph DFS
@@ -518,6 +536,30 @@ MinHeap.prototype.bubbleDown = function () {
     }
     this.swap(smallerIndex, index);
     index = smallerIndex;
+  }
+}
+```
+
+### Backtracking
+
+```js
+function permute(nums) {
+  let result = []
+  backtracking(result, [], nums) 
+  return result
+}
+
+const backtracking = (result, current, nums) => {
+  if (current.length === nums.length) {
+    result.push([...current])
+  } else {
+    for (let i = 0; i < nums.length; i++) {
+      if (current.includes(nums[i])) continue
+      
+      current.push(nums[i])
+      backtracking(result, current, nums)
+      current.pop()
+    }
   }
 }
 ```
@@ -953,6 +995,27 @@ var merge = function(intervals) {
     }
   }
   return intervals.filter(q => q); // fiter to pass undefined value
+};
+```
+
+You are given an integer array `height` of length n. There are n vertical lines. Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+```js
+var maxArea = function(height) {
+  let i = 0, j = height.length - 1;
+  let res = 0;
+
+  while (i < j) {
+    const cap = Math.min(height[i], height[j]) * (j - i);
+    res = Math.max(res, cap);
+
+    if (height[i] < height[j]) {
+      i += 1;
+    } else {
+      j -= 1;
+    }
+  }
+  return res;  
 };
 ```
 
