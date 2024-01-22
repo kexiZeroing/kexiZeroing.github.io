@@ -100,8 +100,8 @@ import.meta.env;   // An alias to `process.env`
 
 ## Package Manager
 1. If your project has a `package.json`, `bun install` can help you speed up your workflow. Switch from `npm install` to `bun install` in any Node.js project to make your installations up to 25x faster.
-2. To add a particular package, run `bun add zod`. Use `--dev` to add as a dev dependency.
-3. To remove a dependency, run `bun remove ts-node`.
+2. To add a particular package, run `bun add <pkg-name>`. Use `--dev` to add as a dev dependency.
+3. To remove a dependency, run `bun remove <pkg-name>`.
 4. Running `bun install` will create a binary lockfile called `bun.lockb`. Bun’s lockfile saves & loads incredibly quickly, and saves a lot more data than what is typically inside lockfiles.
 
 All packages downloaded from the registry are stored in a global cache at `~/.bun/install/cache`. They are stored in subdirectories named like `${name}@${version}`, so multiple versions of a package can be cached. The contents of the package only exist in a single location on disk, greatly reducing the amount of disk space dedicated to `node_modules`.
