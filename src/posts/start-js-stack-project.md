@@ -252,33 +252,6 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 > - What are source maps: https://web.dev/articles/source-maps
 > - Using source maps in DevTools: https://www.youtube.com/watch?v=SkUcO4ML5U0
 
-### Bun —— https://bun.sh
-Bun is a fast, all-in-one toolkit for running, building, testing, and debugging JavaScript and TypeScript, from a single file to a full-stack application.
-
-- Bun is a fast JavaScript runtime, written in Zig and uses Apple’s JS Core instead of Chrome’s V8.
-- Bun is a drop-in replacement for Node.js, faster than Node and Deno.
-- Bun can run JavaScript, TypeScript, and JSX/TSX files out of the box.
-- Bun is a JavaScript bundler with best-in-class performance.
-- Bun is an npm-compatible package manager with familiar commands.
-- Bun is a Jest-compatible test runner with support for snapshot testing, mocking, and code coverage.
-
-```js
-// bun run index.ts
-// bun --watch index.ts
-const server = Bun.serve({
-  port: Bun.env.PORT || 3000,
-  fetch(req) {
-    const url = new URL(req.url)
-
-    if (url.pathname === '/') return new Response('Welcome to Bun!')
-    if (url.pathname === '/blog') return new Response('Blog page')
-    return new Response('Error 404', { status: 404 })
-  }
-})
-
-console.log(`Server running at ${server.port}`);
-```
-
 ## Set up Prettier and ESLint
 1. Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
     ```json
