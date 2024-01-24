@@ -82,6 +82,8 @@ The reasoning behind various decisions made for the Epic Stack: https://github.c
 
 Chrome urls: [chrome://chrome-urls](chrome://chrome-urls/)
 
+A collective list of free APIs: https://github.com/public-apis/public-apis
+
 Console Utilities API reference: https://developer.chrome.com/docs/devtools/console/utilities/
 
 Tips to get more comfortable with DevTools: https://devtoolstips.org/

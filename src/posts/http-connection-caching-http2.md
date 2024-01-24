@@ -109,8 +109,6 @@ Before the expiration time, the resource is fresh; after the expiration time, th
 In short, by adding `Cache-Control: no-cache` to the response along with `Last-Modified` and `ETag`, the client will receive a `200 OK` response if the requested resource has been updated, or will otherwise receive a `304 Not Modified` response if the requested resource has not been updated.
 
 > Read from the Chromium projects, the HTTP Cache is the module that receives HTTP requests and decides when and how to fetch data from the Disk Cache or from the network. The cache lives in the browser process, as part of the network stack. It should not be confused with Blink's in-memory cache, which lives in the renderer process and it's tightly coupled with the resource loader.
-> 
-> Open Chrome Developper Tools / Network. Reload a page multiple times. The table column "Size" will tell you that some files are loaded "from memory cache". Now close the browser, open Developper Tools / Network and load that page again. All cached files are loaded "from disk cache" now, because your memory cache is empty.
 
 You are looking for [cachified](https://github.com/epicweb-dev/cachified), which wraps virtually everything that can store by key to act as cache with ttl/max-age, stale-while-revalidate, parallel fetch protection and type-safety support.
 
