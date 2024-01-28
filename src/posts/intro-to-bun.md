@@ -5,6 +5,7 @@ slug: intro-to-bun
 description: ""
 added: "Jan 22 2024"
 tags: [web]
+updatedDate: "Jan 28 2024"
 ---
 
 Bun is a fast, all-in-one toolkit for running, building, testing, and debugging JavaScript and TypeScript, from a single file to a full-stack application. The goal of Bun is to run most of the world's server-side JavaScript and provide tools to improve performance, reduce complexity, and multiply developer productivity.
@@ -155,6 +156,20 @@ describe("arithmetic", () => {
     expect(2 * 2).toBe(4);
   });
 });
+```
+
+## The Bun Shell
+The Bun Shell is a new experimental embedded language and interpreter that allows you to run cross-platform shell scripts in JavaScript & TypeScript.
+
+```js
+import { $ } from "bun";
+
+const welcome = await $`echo "Hello World!"`.text();
+console.log(welcome); // Hello World!\n
+
+const response = new Response("hello i am a response body");
+const result = await $`cat < ${response} | wc -w`.text();
+console.log(result); // 6\n
 ```
 
 ## Hono and Bun

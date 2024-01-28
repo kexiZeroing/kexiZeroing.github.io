@@ -5,48 +5,11 @@ slug: learn-from-advent-of-vue-2022
 description: ""
 added: "Dec 27 2022"
 tags: [vue]
-updatedDate: "Nov 19 2023"
+updatedDate: "Jan 28 2024"
 ---
 
 ### Code Structure
 [Advent Of Vue](https://www.getrevue.co/profile/AdventOfVue) is a series of Vue coding challenges. The template of code starter is here https://stackblitz.com/edit/vue3-vite-starter
-
-```html
-<!-- index.html -->
-<!DOCTYPE html>
-<html lang="en" class="w-screen h-screen">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Advent Of Vue Challenge</title>
-  </head>
-  <body class="m-0 p-0 w-full h-full">
-    <div id="app" class="w-full h-full"></div>
-    <footer class="bottom-0 fixed w-full bg-green text-gray-dark p-3 text-center">
-      Made for
-      <a
-        href="https://adventofvue.com"
-        target="_blank"
-        rel="noreferrer noopener"
-        class="underline hover:bg-gray-dark hover:text-green"
-      >
-        Advent Of Vue 2022
-      </a>
-    </footer>
-    <script type="module" src="/src/main.js"></script>
-  </body>
-</html>
-```
-
-```js
-// src/main.js
-import { createApp } from 'vue'
-import App from './App.vue'
-import './base.css'
-
-createApp(App).mount('#app')
-```
 
 In a Vue component, `<script setup>` can be used alongside normal `<script>` (Use the options API or Run setup code one time). It works because the `<script setup>` block is compiled into the component's `setup()` function, [check out the docs](https://vuejs.org/api/sfc-script-setup.html#usage-alongside-normal-script)
 
@@ -230,27 +193,50 @@ export default function () {
 
 [VueUse](https://github.com/vueuse/vueuse) is a collection of essential Vue composition utilities for Vue 2 and 3. Check the most recent update in [v10.0.0](https://github.com/vueuse/vueuse/releases/tag/v10.0.0).
 
-> It looks like most devs prefer the Composition API, but many are stuck with the Options API in order to support legacy projects. Many are slowly refactoring a codebase from Options API towards using Composition API. Some are using a hybrid approach — Options API with a `setup` section so they can leverage VueUse and other composables for reusability.
+### Organize your Composition API code
+We abandon the options API for the composition API, and the idea is not that we write everything the same way as the options API but not having the data/computed/watch options.
 
 ```js
-// The easy way from Options API to Composition API
-setup() {
-  // Copy from data()
-  const state = reactive({
-    username: 'Michael',
-    access: 'superuser',
-    favouriteColour: 'blue',
-  });
+// Common mistake: Grouping by options
+// data
+const originalMessage = ref('Hello World!')
+const isReversed = ref(false)
 
-  // Copy from methods
-  updateUsername(username) {
-    state.username = username;
+// computed
+const message = computed(() => {
+  if (isReversed.value) {
+    return originalMessage.value.split('').reverse().join('')
   }
+  return originalMessage.value
+})
 
-	// Use toRefs so we can access values directly
-	return {
-    updateUsername,
-    ...toRefs(state),
+// watch...
+```
+
+```js
+// Let's Refactor it
+// Message-related stuff
+const originalMessage = ref('Hello World!')
+const { toggleReverse, message } = useMessage(originalMessage)
+
+// create `useMessage.js` file or inline composables
+function useMessage(input) {
+  const originalMessage = toRef(input)
+  const reversedMessage = computed(() => originalMessage.value.split('').reverse().join(''))
+  const isReversed = ref(false)
+  function toggleReverse() {
+    isReversed.value = !isReversed.value
+  }
+  const message = computed(() => {
+    if (isReversed.value) {
+      return reversedMessage.value
+    }
+    return originalMessage.value
+  })
+
+  return {
+    toggleReverse,
+    message
   }
 }
 ```
