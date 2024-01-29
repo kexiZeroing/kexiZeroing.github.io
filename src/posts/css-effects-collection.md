@@ -5,7 +5,7 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "June 13 2023"
+updatedDate: "Jan 29 2024"
 ---
 
 > https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
@@ -21,6 +21,7 @@ updatedDate: "June 13 2023"
 - [Animation with View Transitions](#animation-with-view-transitions)
 - [Filter and backdrop filter](#filter-and-backdrop-filter)
 - [Apple-style OS dock](#apple-style-os-dock)
+- [Scroll-driven animations](#scroll-driven-animations)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -472,3 +473,64 @@ CSS only, no JS. This one would be pretty sweet as a nav on your portfolio.
 <img alt="apple-style-dock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/dwucuh.png" width="450">
 
 https://codepen.io/jh3y/pen/GRwwWoV
+
+### Scroll-driven animations
+Add one line of CSS that instructs the animation to be triggered by scrolling, using the `scroll()` function. Similar to keyframes, they still run from 0-100%. But now, 0% is the scroll start position and 100% is the scroll end position.
+
+```css
+@keyframes spin {
+  to {
+    transform: rotateY(5turn);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    div {
+      animation: spin linear both;
+      animation-timeline: scroll();
+    } 
+  }
+}
+```
+
+Next, change `scroll()` to `view()`. This time 0% is when the element is entering the scroll area and 100% is when it’s about to go out of that scroll area.
+
+```css
+@supports (animation-timeline: scroll()) {
+  div {
+    animation: spin linear both;
+    animation-timeline: view();
+    animation-range: contain;
+  }
+}
+```
+
+Let’s have a look at some more examples.
+
+```css
+/* Image scales up as it enters the scrollport */
+@keyframes scale-a-lil {
+  from {
+    scale: .5;
+  }
+} 
+
+img {
+  animation: scale-a-lil linear both;
+  animation-timeline: view();
+  animation-range: 25vh 75vh;
+}
+
+/* Fade in the primary nav on scroll */
+@keyframes fade-in {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+ 
+nav {
+  animation: fade-in auto linear both;
+  animation-timeline: scroll();
+  animation-range: 0% 100px;
+}
+```
