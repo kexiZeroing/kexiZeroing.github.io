@@ -30,6 +30,8 @@ GIF uses lossless compression. The file sizes are much smaller than BMP, because
 ### JPEG
 JPEG images were designed to make detailed photographic images as small as possible by removing information that the human eye won't notice. As a result it's a lossy format. It stores direct color depth and so is great for photographs, but the lossy compression means it's bad for logos and line drawings: Not only will they look fuzzy, but such images will also have a larger file-size compared to GIFs.
 
+> JPG and JPEG stand both for an image format proposed and supported by the Joint Photographic Experts Group. The two terms have the same meaning and are interchangeable. The reason for the different file extensions dates back to the early versions of Windows. The original file extension was '.jpeg'; however in Windows at that time all files required a three letter file extension. So, the file extension was shortened to '.jpg'.
+
 ### PNG-8 
 PNG-8 (the indexed version of PNG) is really a good replacement for GIFs. It is also lossless. However, it cannot support animation like GIFs, and it has some support issues with very old browsers. The main thing that PNG-8 does better than GIFs is having support for alpha-transparency.
 
