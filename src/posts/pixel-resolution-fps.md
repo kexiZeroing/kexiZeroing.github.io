@@ -174,5 +174,3 @@ If we want to define a default value and both a minimum and maximum value, we co
   font-size: clamp(2.25rem, 2vw + 1.5rem, 3.25rem);
 }
 ```
-
-> The ideal viewport doesn’t exist. Instead of making design decisions on strict, limited breakpoints, keep in mind the sheer amount of fragmentation there is in viewports. https://viewports.fyi

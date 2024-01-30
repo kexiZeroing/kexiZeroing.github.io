@@ -5,6 +5,7 @@ slug: learn-one-line-layouts-from-una
 description: ""
 added: "May 27 2023"
 tags: [css]
+updatedDate: "Jan 30 2024"
 ---
 
 [Una Kravets](https://una.im) builds an amazing site with [1-Line Layouts](https://1linelayouts.glitch.me) demos showing how robust and impactful a single-line of styling code can be. There is a lot to learn, but it is all worth learning and empowers you to do great things.
@@ -136,6 +137,33 @@ You are using repeat again, but this time, using the `auto-fit` keyword instead 
 <img alt="grid-auto-fit" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/68c40383-3e52-433a-88ee-9650cc9d601a.png" width="600">
 
 > The `fr` unit brings Flexbox-style flexibility to CSS Grid. `fr`-based columns are flexible, and so the column won't shrink below its minimum content size, even if that means breaking the proportions. If there's any leftover space, it'll be distributed based on the `fr` values. This is very similar to `flex-grow`.
+
+```css
+/* Responsive CSS Grid */
+.smol-css-grid {
+  --min: 15ch;
+  --gap: 1rem;
+
+  display: grid;
+  grid-gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min)), 1fr));
+}
+```
+
+```css
+/* Responsive Flexbox Grid */
+.smol-flexbox-grid {
+  --min: 10ch;
+  --gap: 1rem;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.smol-flexbox-grid > * {
+  flex: 1 1 var(--min);
+}
+```
 
 ### 08. Line Up
 
