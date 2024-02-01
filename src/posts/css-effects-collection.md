@@ -5,7 +5,7 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Jan 29 2024"
+updatedDate: "Feb 1 2024"
 ---
 
 > https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
@@ -475,7 +475,7 @@ CSS only, no JS. This one would be pretty sweet as a nav on your portfolio.
 https://codepen.io/jh3y/pen/GRwwWoV
 
 ### Scroll-driven animations
-Add one line of CSS that instructs the animation to be triggered by scrolling, using the `scroll()` function. Similar to keyframes, they still run from 0-100%. But now, 0% is the scroll start position and 100% is the scroll end position.
+At its simplest, the `animation-timeline` property lets us link any keyframe animation to the progress of scroll. They still run from 0-100%. But now, 0% is the scroll start position and 100% is the scroll end position.
 
 ```css
 @keyframes spin {
@@ -494,7 +494,7 @@ Add one line of CSS that instructs the animation to be triggered by scrolling, u
 }
 ```
 
-Next, change `scroll()` to `view()`. This time 0% is when the element is entering the scroll area and 100% is when it’s about to go out of that scroll area.
+Next, change `scroll()` to `view()`, which means we can trigger animations when elements enter and exit the viewport. This time 0% is when the element is entering the scroll area and 100% is when it’s about to go out of that scroll area.
 
 ```css
 @supports (animation-timeline: scroll()) {
@@ -503,34 +503,5 @@ Next, change `scroll()` to `view()`. This time 0% is when the element is enterin
     animation-timeline: view();
     animation-range: contain;
   }
-}
-```
-
-Let’s have a look at some more examples.
-
-```css
-/* Image scales up as it enters the scrollport */
-@keyframes scale-a-lil {
-  from {
-    scale: .5;
-  }
-} 
-
-img {
-  animation: scale-a-lil linear both;
-  animation-timeline: view();
-  animation-range: 25vh 75vh;
-}
-
-/* Fade in the primary nav on scroll */
-@keyframes fade-in {
-  from { opacity: 0 }
-  to   { opacity: 1 }
-}
- 
-nav {
-  animation: fade-in auto linear both;
-  animation-timeline: scroll();
-  animation-range: 0% 100px;
 }
 ```

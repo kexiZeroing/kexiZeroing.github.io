@@ -5,7 +5,7 @@ slug: js-string-array-object
 description: ""
 added: "Aug 6 2020"
 tags: [js]
-updatedDate: "Nov 15 2022"
+updatedDate: "Feb 1 2024"
 ---
 
 ## String
@@ -294,7 +294,41 @@ arr1.flatMap(x => x.split(" "));
 - The time and space complexity of the sort cannot be guaranteed as it depends on the implementation.
 - Since ECMAScript 2019, the specification dictates that `Array.prototype.sort` is stable. All major JavaScript engines now implement a stable Array sort.
 
-> A good way to make you familiar with the Array methods is to go through the native implementations in the Github project named [You dont need lodash](https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore).
+### New JS Array methods
+```js
+let wizards = ['Merlin', 'Ursula', 'Gandalf'];
+let reverseWizards = wizards.toReversed();
+
+// logs ["Gandalf", "Ursula", "Merlin"]
+console.log(reverseWizards);
+// logs ["Merlin", "Ursula", "Gandalf"]
+console.log(wizards);
+
+let wizards = ['Merlin', 'Ursula of the Sea', 'Gandalf the Gray'];
+let sortedWizards = wizards.toSorted();
+
+// logs ['Gandalf the Gray', 'Merlin', 'Ursula of the Sea']
+console.log(sortedWizards);
+// logs ['Merlin', 'Ursula of the Sea', 'Gandalf the Gray']
+console.log(wizards);
+
+let wizards = ['Merlin', 'Ursula', 'Gandalf', 'Radagast'];
+let lessWizards = wizards.toSpliced(2, 1);
+
+// logs ['Merlin', 'Ursula', 'Radagast']
+console.log(lessWizards);
+// logs ['Merlin', 'Ursula', 'Gandalf', 'Radagast']
+console.log(wizards);
+
+// Creates a copy of an array and updates a single value in the array.
+let wizards = ['Merlin', 'Ursula', 'Gandalf'];
+let differentWizards = wizards.with(2, 'Radagast');
+
+// logs ['Merlin', 'Ursula', 'Radagast']
+console.log(differentWizards);
+// logs ['Merlin', 'Ursula', 'Gandalf']
+console.log(wizards);
+```
 
 ## Object
 
