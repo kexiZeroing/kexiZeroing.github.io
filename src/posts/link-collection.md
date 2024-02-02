@@ -30,8 +30,6 @@ The Missing Semester of Your CS Education: https://missing.csail.mit.edu
 
 High Performance Browser Networking: https://hpbn.co
 
-HTTP Semantics: https://www.rfc-editor.org/rfc/rfc9110.html
-
 Modern JavaScript-based web development: https://fullstackopen.com
 
 Bash Commands and Tips: https://dev.to/awwsmm/101-bash-commands-and-tips-for-beginners-to-experts-30je
@@ -54,9 +52,9 @@ Machine Learning for Beginners: https://github.com/microsoft/ML-For-Beginners
 
 Artificial Intelligence for Beginners: https://github.com/microsoft/AI-For-Beginners
 
-90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
+Machine Learning for Web Developers (Web ML): https://www.youtube.com/playlist?list=PLOU2XLYxmsILr3HQpqjLAUkIPa5EaZiui
 
-DevOps Exercises: https://github.com/bregman-arie/devops-exercises
+90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
 Amazon Web Services — a practical guide: https://github.com/open-guides/og-aws
 
@@ -65,8 +63,6 @@ Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials
 Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 
 A year-end celebration of fundamental web technologies: https://12daysofweb.dev
-
-Machine Learning for Web Developers (Web ML): https://www.youtube.com/playlist?list=PLOU2XLYxmsILr3HQpqjLAUkIPa5EaZiui
 
 A technical explainer of how your computer runs programs: https://cpu.land
 
@@ -84,8 +80,6 @@ Console Utilities API reference: https://developer.chrome.com/docs/devtools/cons
 
 Tips to get more comfortable with DevTools: https://devtoolstips.org/
 
-All Online Tools in One Box: https://10015.io/
-
 Frontend build config generator: https://createapp.dev/
 
 Web Page Test: https://www.webpagetest.org/
@@ -94,11 +88,9 @@ Chrome DevTools tips: https://umaar.com/dev-tips/
 
 HTML Tips & Tricks: https://www.htmhell.dev/tips/
 
-HTML DOM with vanilla JavaScript: https://htmldom.dev/
-
 Devhints for developer documentation: https://devhints.io/
 
-Quick Reference Cheat Sheet: https://quickref.me
+Quick Reference Cheat Sheet: https://quickref.me/
 
 Sketch UI with a hand-drawn look: https://excalidraw.com/
 
@@ -106,15 +98,11 @@ A tiny little drawing app: https://tldraw.com/
 
 Images of source code: https://carbon.now.sh/
 
-Create beautiful images of your source code: https://chalk.ist/
-
 App Icon Generator for any platform: https://icon.kitchen/
 
 Manage node_modules in the system: https://github.com/voidcosmos/npkill
 
 Interactive website with live coding: https://www.strml.net/
-
-A randomly generated endless city: https://demos.littleworkshop.fr/infinitown
 
 Driving game run in a browser: https://slowroads.io/
 
@@ -122,19 +110,17 @@ Summer Afternoon: https://summer-afternoon.vlucendo.com/
 
 Neal.Fun: https://neal.fun/
 
-Lynn Fisher: https://lynnandtonic.com/
-
 HTTP Cats: https://http.cat/
 
 Github contributions in 3D: https://skyline.github.com/, https://github-town.mornhee.works/
+
+GitHub Contributions Chart Generator: https://github-contributions.vercel.app
 
 wenyan‑lang: https://wy-lang.org/
 
 Build your own X: https://github.com/danistefanovic/build-your-own-x
 
 You Don't Need: https://github.com/you-dont-need/You-Dont-Need
-
-World smallest Office suite: https://zserge.com/posts/awfice/
 
 All the Ways to Make a Web Component: https://webcomponents.dev/blog/all-the-ways-to-make-a-web-component/
 
@@ -148,27 +134,17 @@ Visual history of your favorite technology: https://www.versionmuseum.com/
 
 Floating Point Math: https://0.30000000000000004.com/  (\`https://${0.1 + 0.2}.com\`)
 
-Text to Handwriting: https://github.com/saurabhdaware/text-to-handwriting
-
 PPTist: https://github.com/pipipi-pikachu/PPTist
 
 Web based macOS and Windows XP desktop recreation: https://macos-web.app, https://winxp.vercel.app
 
 Windows 11 in React: https://github.com/blueedgetechno/win11React
 
-GitHub Contributions Chart Generator: https://github-contributions.vercel.app
-
 Discover the apps everyone is docking about: https://www.dockhunt.com
-
-Shiny Button: https://shiny-button.vercel.app
 
 Chrome-style tabs in HTML/CSS: https://github.com/adamschwartz/chrome-tabs
 
-Helps to test real-time requests directly from the browser: https://hoppscotch.io/realtime/websocket
-
 The Steve Jobs Archive: https://stevejobsarchive.com
-
-A new medium for presenting ideas powered by AI: https://gamma.app
 
 The world’s most satisfying toggle: https://svarden.se/post/the-worlds-most-satisfying-toggle
 
@@ -178,15 +154,9 @@ Not just a syntax highlighter. Build code walkthroughs for the web: https://code
 
 Turns data scripts into shareable web apps in minutes: https://streamlit.io
 
-In-browser literal notebook: https://github.com/gzuidhof/starboard-notebook
-
 AST explorer: https://astexplorer.net/
 
 Zstandard (zstd) - Fast real-time compression algorithm: https://facebook.github.io/zstd/
-
-Camera-controlled snake game built with Angular and TensorFlow: https://angular-tensorflow-snake.web.app/signals
-
-A beautiful Syntax Highlighter: https://shiki.matsu.io
 
 Console for mobile browsers: https://github.com/liriliri/eruda
 
@@ -195,8 +165,6 @@ Get an insight into the inner-workings of a given website: https://web-check.xyz
 Astro starter powered by MPA view transitions: https://github.com/argyleink/morphull
 
 Web accessibility interactive quizzes: https://www.a11yiseverything.com/quizzes/aria-label
-
-Short code snippets for all your development needs: https://www.30secondsofcode.org
 
 DGM is an online diagramming app: https://dgm.sh/home
 
@@ -236,8 +204,6 @@ The Guide To Responsive Design In 2023 and Beyond: https://ishadeed.com/article/
 
 Basic styles for HTML Elements without classes: https://boltcss.com
 
-Some simple ways to make content look good: https://set.studio/some-simple-ways-to-make-content-look-good
-
 CSS Flexbox: https://github.com/samanthaming/Flexbox30
 
 CSS Grid: https://css-tricks.com/snippets/css/complete-guide-grid
@@ -264,19 +230,13 @@ Open Source CSS Variables: https://open-props.style
 
 Across pages view transitions: https://smashing-transitions.netlify.app
 
-Reimagine Atomic CSS: https://antfu.me/posts/reimagine-atomic-css
-
 CSS Wrapped 2023 from Chrome for Developers: https://developer.chrome.com/blog/css-wrapped-2023
 
 ---
 
 ## FE dev resources
 
-Web Interface Guidelines: https://github.com/raunofreiberg/interfaces
-
 GUI Challenges: https://www.youtube.com/playlist?list=PLNYkxOF6rcIAaV1wwI9540OC_3XoIzMjQ
-
-A dark-first collection of UI patterns and components: https://ui.draculatheme.com
 
 Modern & Interactive Open-source Charts: https://apexcharts.com
 
@@ -290,7 +250,7 @@ Understanding SVG Paths: https://www.nan.fyi/svg-paths
 
 CSS animations on demand: https://animista.net
 
-Composable CSS animation toolkit: https://animxyz.com
+A lightweight JavaScript animation library: https://github.com/juliangarnier/anime
 
 Buttons Generator: https://markodenic.com/tools/buttons-generator
 
@@ -308,23 +268,15 @@ Lightweight fuzzy-search library: https://fusejs.io
 
 Create full screen pages fast and simple: https://github.com/alvarotrigo/fullPage.js
 
-Lightweight and flexible carousel: https://github.com/glidejs/glide
-
 A collection of free Tailwind CSS components: https://www.hyperui.dev
 
 daisyUI components - Use Tailwind CSS but write fewer class names: https://daisyui.com
 
 Easy visualizer for JavaScript KeyCodes: https://keycode.info
 
-GSAP ScrollTrigger Demos: https://greensock.com/st-demos
-
 Scroll-driven Animations: https://scroll-driven-animations.style
 
 A library that helps you create floating elements such as tooltips: https://floating-ui.com
-
-Recommend npm packages based on your requirements and framework: https://npmpicker.vercel.app
-
-You don't need Moment.js: https://github.com/you-dont-need/You-Dont-Need-Momentjs/blob/master/README.md
 
 Accessible color combinations: https://randoma11y.com
 
@@ -344,10 +296,6 @@ PartyKit at ViteConf 2023: https://blog.partykit.io/posts/partykit-at-viteconf
 
 Typing Animation Library. Enter in any string, and watch it type: https://github.com/mattboldt/typed.js
 
-A lightweight JavaScript animation library: https://github.com/juliangarnier/anime
-
-Learn SVG through examples: https://svg-tutorial.com
-
 ---
 
 ## React ecosystem
@@ -358,17 +306,15 @@ Getting Closure on React Hooks by Shawn Wang: https://www.youtube.com/watch?v=KJ
 
 Deconstructing React by Tejas Kumar: https://www.youtube.com/watch?v=f2mMOiCSj5c
 
-Advanced React course from Developer Way: https://www.youtube.com/playlist?list=PL6dw1BPCcLC4n-4o-t1kQZH0NJeZtpmGp
+When useEffect runs: https://dev.to/cassidoo/when-useeffect-runs-3pf3
+
+All Developer Way Articles about React: https://www.developerway.com/posts?filter=react
 
 React articles from Josh: https://www.joshwcomeau.com/tutorials/react/
-
-When useEffect runs: https://dev.to/cassidoo/when-useeffect-runs-3pf3
 
 Guide to React Rendering Behavior: https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior
 
 Build your own React: https://pomb.us/build-your-own-react
-
-All Developer Way Articles about React: https://www.developerway.com/posts?filter=react
 
 A collection of React hooks from the ui.dev team: https://usehooks.com
 
@@ -387,8 +333,6 @@ Learn Next.js Server Side Rendering: https://dev.to/skirianov/learn-nextjs-serve
 React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.com/watch?v=zMf_xeGPn6s
 
 React Server Components from scratch: https://github.com/reactwg/server-components/discussions/5
-
-Next.js full stack projects: https://www.codewithantonio.com
 
 Learn Next.js course by Vercel: https://nextjs.org/learn
 
@@ -422,7 +366,7 @@ On-demand components auto importing for Vue: https://github.com/antfu/unplugin-v
 
 A lightweight, customizable Vue UI library for mobile web apps: https://vant-ui.github.io
 
-Modular and Accessible UI Components for your Vue Applications (for Vue 2.x): https://vue.chakra-ui.com
+Modular and Accessible UI Components for your Vue Applications (Made for Vue 2.x): https://vue.chakra-ui.com
 
 Vue port of Radix UI Primitives: https://www.radix-vue.com
 
@@ -432,15 +376,11 @@ Vue UI Component Library: https://primevue.org
 
 Nuxt on the Edge: https://nuxt.com/blog/nuxt-on-the-edge
 
-The open-source form framework for Vue: https://formkit.com
-
 Integrate Clerk into your Vue application: https://vue-clerk.vercel.app
 
 A FilePond (file upload library) adapter component for Vue: https://github.com/pqina/vue-filepond
 
 Drag and drop components that support Vue2 and Vue3: https://alfred-skyblue.github.io/vue-draggable-plus
-
-Vue 3 & Nuxt 3 UI Components built with Tailwind: https://github.com/indielayer/ui
 
 ---
 
@@ -464,7 +404,7 @@ New to the web platform (every month): https://web.dev/blog/web-platform-01-2024
 
 Notes on AI state of the art: https://github.com/sw-yx/ai-notes
 
-OpenAI Cookbook: https://github.com/openai/openai-cookbook, https://cookbook.openai.com
+OpenAI Cookbook: https://github.com/openai/openai-cookbook
 
 Awesome ChatGPT Prompts: https://prompts.chat
 
@@ -476,15 +416,11 @@ SQL to Natural Language and Natural Language to SQL: https://www.sqltranslate.ap
 
 AI Code Translator: https://ai-code-translator.vercel.app
 
-A CLI that writes git commit messages for you with AI: https://github.com/Nutlope/aicommits
-
 Translate your locale json files: https://github.com/ObservedObserver/chatgpt-i18n
 
 Node.js client for the official ChatGPT API: https://github.com/transitive-bullshit/chatgpt-api
 
 An open-source ChatGPT UI: https://github.com/mckaywrigley/chatbot-ui
-
-Experimental AI assistant trained on the Astro docs: https://houston.astro.build
 
 Build an AI chatbot trained on your data: https://www.chatbase.co
 
@@ -498,11 +434,7 @@ A chat assistant fine-tuned from LLaMA on user-shared conversations: https://vic
 
 ChartGPT - text to beautiful charts: https://www.chartgpt.dev
 
-HuggingChat - build an open source alternative to ChatGPT: https://huggingface.co/chat
-
 Interact privately with your documents using LLMs: https://github.com/imartinez/privateGPT
-
-AI Tutor Prompt for customizable learning experiences: https://github.com/JushBJJ/Mr.-Ranedeer-AI-Tutor
 
 Understanding GPT tokenizers: https://simonwillison.net/2023/Jun/8/gpt-tokenizers/
 
@@ -525,8 +457,6 @@ Get up and running with large language models locally: https://github.com/jmorga
 Leaked prompts of GPTs: https://github.com/linexjlin/GPTs
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
-
-Run Hugging Face transformer models in the browser with no server required: https://huggingface.co/docs/transformers.js/index
 
 Get started with the Gemini API: https://ai.google.dev/docs
 
