@@ -64,6 +64,11 @@ When your branches diverge, you have to create a commit to "join" the two branch
 
 Note that `git fetch` is the command that tells your local git to retrieve the latest meta-data info from the original yet doesn't do any file transferring. `git pull` on the other hand does that AND brings those changes from the remote repository.
 
+## Dealing with diverged git branches
+- I want to keep both sets of changes on `main`. To do this, I’ll run `git pull --rebase`. It rebases `main` onto the remote `main` branch.
+- The remote changes are useless and I want to overwrite them. To do this, I’ll run `git push --force`.
+- The local changes are useless and I want to overwrite them. To do this, I’ll run `git reset --hard origin/main`.
+
 ## git pull/push without parameter
 - `git pull`: In order to determine what remote branches to fetch when the command is run without any refspec parameters on the command line, values of the configuration variable `remote.<origin>.fetch` are consulted. *A refspec maps a branch in the local repository to a branch in a remote repository.* For example, `refs/heads/*:refs/remotes/origin/*` specifies that all remote branches are tracked using remote-tracking branches in `refs/remotes/origin/` hierarchy under the same name.
 

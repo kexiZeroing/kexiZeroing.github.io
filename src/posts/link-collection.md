@@ -32,9 +32,7 @@ High Performance Browser Networking: https://hpbn.co
 
 HTTP Semantics: https://www.rfc-editor.org/rfc/rfc9110.html
 
-Modern JavaScript-based web development: https://fullstackopen.com/en
-
-Complete roadmap for web development: https://andreasbm.github.io/web-skills
+Modern JavaScript-based web development: https://fullstackopen.com
 
 Bash Commands and Tips: https://dev.to/awwsmm/101-bash-commands-and-tips-for-beginners-to-experts-30je
 
@@ -67,8 +65,6 @@ Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials
 Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 
 A year-end celebration of fundamental web technologies: https://12daysofweb.dev
-
-Your first WebGPU app: https://codelabs.developers.google.com/your-first-webgpu-app
 
 Machine Learning for Web Developers (Web ML): https://www.youtube.com/playlist?list=PLOU2XLYxmsILr3HQpqjLAUkIPa5EaZiui
 
@@ -201,8 +197,6 @@ Astro starter powered by MPA view transitions: https://github.com/argyleink/morp
 Web accessibility interactive quizzes: https://www.a11yiseverything.com/quizzes/aria-label
 
 Short code snippets for all your development needs: https://www.30secondsofcode.org
-
-Stripe Black Friday-Cyber Monday Live Dashboard: https://bfcm.stripe.dev
 
 DGM is an online diagramming app: https://dgm.sh/home
 
@@ -461,6 +455,8 @@ What's New in DevTools (Articles): https://developer.chrome.com/tags/new-in-devt
 What's New in DevTools (Videos): https://www.youtube.com/playlist?list=PLNYkxOF6rcIBDSojZWBv4QJNoT4GNYzQD
 
 Safari Release Notes: https://developer.apple.com/documentation/safari-release-notes/
+
+New to the web platform (every month): https://web.dev/blog/web-platform-01-2024
 
 ---
 
