@@ -18,7 +18,7 @@ const MobileMockup = () => {
         />
         <main>
           <span className="relative flex shrink-0 h-20 w-20 rounded-full overflow-hidden mx-auto">
-            <img className="aspect-square h-full w-full object-cover" alt="Kexi Dang's profile picture" src="https://avatars.githubusercontent.com/kexiZeroing" />
+            <img className="aspect-square h-full w-full object-cover" alt="Kexi Dang's profile picture" src="https://github.com/kexiZeroing.png" />
           </span>
           <h3 className="text-xl font-bold mt-4 text-slate-800">Hello World</h3>
           <div className="sentence-list text-sm text-slate-600">

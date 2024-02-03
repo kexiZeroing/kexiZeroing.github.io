@@ -61,7 +61,7 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 		}
 	</nav>
 
-	<div class="mobile-mockup" id="mobileMockup" onclick="handleCloseMobileMockup(event)">
+	<div class="mobile-mockup" id="mobileMockup">
 		<MobileMockup client:visible />
 	</div>
 </header>
@@ -125,6 +125,7 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 	}
 	.mobile-mockup.show {
 		display: block;
+		z-index: 9;
 	}
 	
 	@media only screen and (max-width:600px)  {
@@ -155,14 +156,19 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 		}
 	})
 
-	document.querySelector('.avatar-img').addEventListener('click', () => {
-		const mobileMockup = document.querySelector('#mobileMockup')
-		mobileMockup?.classList.toggle('show')
+	const mobileMockupEl = document.querySelector('#mobileMockup')
+	const handleOpenMobileMockup = () => mobileMockupEl?.classList.add('show')
+	const handleCloseMobileMockup = () => mobileMockupEl?.classList.remove('show')
+
+	document.querySelector('.avatar-img').addEventListener('click', (ev) => {
+		ev.stopPropagation()
+		handleOpenMobileMockup()
 	})
 
-	function handleCloseMobileMockup(ev) {
-		if (ev.target.dataset.switch === 'off') {
-			document.querySelector('#mobileMockup').classList.remove('show')
-		}
+	const onClickOutside = (element, callback) => {
+		document.addEventListener('click', e => {
+			if (!element.contains(e.target)) callback()
+		})
 	}
+	onClickOutside(mobileMockupEl, handleCloseMobileMockup)
 </script>

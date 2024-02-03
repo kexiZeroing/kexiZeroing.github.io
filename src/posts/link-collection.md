@@ -238,7 +238,7 @@ CSS Wrapped 2023 from Chrome for Developers: https://developer.chrome.com/blog/c
 
 GUI Challenges: https://www.youtube.com/playlist?list=PLNYkxOF6rcIAaV1wwI9540OC_3XoIzMjQ
 
-Modern & Interactive Open-source Charts: https://apexcharts.com
+Web Interface Guidelines: https://github.com/raunofreiberg/interfaces
 
 The react library to build dashboards fast: https://github.com/tremorlabs/tremor
 
@@ -412,8 +412,6 @@ LangChain: https://docs.langchain.com/docs
 
 Chat with any PDF: https://www.chatpdf.com
 
-SQL to Natural Language and Natural Language to SQL: https://www.sqltranslate.app
-
 AI Code Translator: https://ai-code-translator.vercel.app
 
 Translate your locale json files: https://github.com/ObservedObserver/chatgpt-i18n
@@ -452,13 +450,13 @@ An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
 
 Create LlamaIndex App: https://www.npmjs.com/package/create-llama
 
-Get up and running with large language models locally: https://github.com/jmorganca/ollama
-
 Leaked prompts of GPTs: https://github.com/linexjlin/GPTs
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
 
 Get started with the Gemini API: https://ai.google.dev/docs
+
+Hugging Chat Assistant (similar to OpenAI GPTs): https://huggingface.co/chat/assistants
 
 ---
 
