@@ -5,7 +5,7 @@ slug: swr-swc-msw
 description: ""
 added: "Oct 25 2023"
 tags: [web]
-updatedDate: "Jan 7 2024"
+updatedDate: "Feb 4 2024"
 ---
 
 SWR, SWC, and MSW, three similar names, are always mentioned in the context of web development, but they are totally different things. In this article, we will learn each of them and where they are used.
@@ -91,8 +91,6 @@ function Profile () {
 ### React Query
 SWR and React Query (new name: TanStack Query) are the two most popular libraries that can be used to manage data fetching in a React application. SWR is a smaller library that focuses on providing a simple way to fetch and cache data, while React Query is a more comprehensive library that offers a wider range of features.
 
-> React Query is not a data fetching library - it's an async state manager. Learn more about React Query: https://tkdodo.eu/blog/why-you-want-react-query
-
 ```jsx
 // Standard fetch in useEffect example
 function Bookmarks({ category }) {
@@ -134,6 +132,18 @@ function Bookmarks({ category }) {
   // Return JSX based on data and error state
 }
 ```
+
+React Query takes the good parts of Apollo and brings them to REST. It works with any function that returns a Promise and embraces the stale-while-revalidate caching strategy. The library tries to keep your data as fresh as possible while at the same time showing data to the user as early as possible.
+
+> TanStack Query is a server-state library, responsible for managing asynchronous operations between your server and client. Vuex, Pinia, Zustand, etc. are client-state libraries that can be used to store asynchronous data.
+
+`staleTime` is the duration until a query transitions from fresh to stale. As long as the query is fresh, data will always be read from the cache only - no network request will happen. If the query is stale (which per default is: instantly), you will still get data from the cache, but a background refetch can happen.
+
+Stale queries are refetched automatically in the background when:
+- Its corresponding component mounts (`refetchOnMount`)
+- The window is refocused (`refetchOnWindowFocus`)
+- The network is reconnected (`refetchOnReconnect`)
+- The query is optionally configured with a refetch interval (`refetchInterval`)
 
 ## SWC - Rust-based platform for the Web
 SWC (stands for Speedy Web Compiler) is a super-fast TypeScript / JavaScript compiler written in Rust, and can be used for both compilation and bundling. SWC is 20x faster than babel on a single-core benchmark, 68x faster than babel on a multicore benchmark. 
