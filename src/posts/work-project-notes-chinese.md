@@ -371,6 +371,14 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 > 1. 微信公众平台接口测试帐号申请: https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
 > 2. 某个公众号的关注页面地址为 https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI0NDA2OTc2Nw==#wechat_redirect 其中 biz 字符串是微信公众号标识，在浏览器打开该公众号下的任意一篇文章，查看网页源代码，搜索 `var biz` 这样的关键字即可得到。
 
+微信授权也符合通常的 OAuth 流程：  
+*You first need to register your app with your provider to get the required credentials. You’ll be asked to define a callback URL or a redirect URI.*
+1. Redirect the user to the provider.
+2. User is authenticated by the provider.
+3. User is redirected back to your server with a secret code.
+4. Exchange that secret code for the user’s access token.
+5. Use the access token access the user’s data.
+
 ### 唤起微信小程序
 微信外网页通过小程序链接 URL Scheme，微信内通过微信开放标签，且微信内不会直接拉起小程序，需要手动点击按钮跳转。这是官方提供的一个例子 https://postpay-2g5hm2oxbbb721a4-1258211818.tcloudbaseapp.com/jump-mp.html 可以用手机浏览器查看效果，直接跳转小程序。
 

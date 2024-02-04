@@ -8,7 +8,7 @@ tags: [web]
 updatedDate: "Feb 17 2023"
 ---
 
-> This post is my learning notes from the article [Authorization and Authentication for Everyone](https://maida.kim/2020/07/authorization-and-authentication-for-everyone) wrote by @KimMaida.
+> If you’ve ever signed in to a website using your Google/LinkedIn/GitHub account, that website was likely using OAuth. This post is my learning notes from the article [Authorization and Authentication for Everyone](https://maida.kim/2020/07/authorization-and-authentication-for-everyone) wrote by @KimMaida.
 
 In a broad sense, authentication refers to the process of verifying that a user is who they say they are. Authorization deals with granting or denying rights to access resources.
 
