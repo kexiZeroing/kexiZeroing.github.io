@@ -232,6 +232,8 @@ Across pages view transitions: https://smashing-transitions.netlify.app
 
 CSS Wrapped 2023 from Chrome for Developers: https://developer.chrome.com/blog/css-wrapped-2023
 
+Compare web animation techniques by bouncing a ball: https://sparkbox.github.io/bouncy-ball
+
 ---
 
 ## FE dev resources

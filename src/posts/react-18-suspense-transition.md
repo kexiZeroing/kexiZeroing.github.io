@@ -5,7 +5,7 @@ slug: react-18-suspense-transition
 description: ""
 added: "Oct 7 2023"
 tags: [react]
-updatedDate: "Nov 9 2023"
+updatedDate: "Feb 5 2024"
 ---
 
 A key property of Concurrent React is that rendering is interruptible. With synchronous rendering, once an update starts rendering, nothing can interrupt it until the user can see the result on screen. In a concurrent render, this is not always the case. React may start rendering an update, pause in the middle, then continue later. It may even abandon an in-progress render altogether.
@@ -97,6 +97,29 @@ app.use('/', (request, response) => {
 
 > Understand Node stream:  
 > The HTTP response object is a writable stream. All streams are instances of `EventEmitter`. They emit events that can be used to read and write data. The `pipe()` function reads data from a readable stream as it becomes available and writes it to a destination writable stream. All that the `pipe` operation does is subscribe to the relevant events on the source and call the relevant functions on the destination. The `pipe` method is the easiest way to consume streams.
+
+### Streaming in Next.js
+Streaming enables you to progressively render UI from the server, which allows you to break down the page's HTML into smaller chunks and progressively send those chunks from the server to the client. This enables parts of the page to be displayed sooner, without waiting for all the data to load before any UI can be rendered. Streaming is built into the Next.js App Router by default.
+
+```tsx
+import { Suspense } from 'react'
+import { PostFeed, Weather } from './Components'
+ 
+export default function Posts() {
+  return (
+    <section>
+      <Suspense fallback={<p>Loading feed...</p>}>
+        <PostFeed />
+      </Suspense>
+      <Suspense fallback={<p>Loading weather...</p>}>
+        <Weather />
+      </Suspense>
+    </section>
+  )
+}
+```
+
+<img alt="suspense-streaming" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/F842lAqWkAAtmDK.png" width="650">  
 
 ## Suspense and `startTransition`
 These two APIs are designed for different use cases and can absolutely be used together. Read from https://github.com/reactwg/react-18/discussions/94
