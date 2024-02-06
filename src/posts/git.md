@@ -209,6 +209,14 @@ Sometimes when I'm pair programming, I want to be able to give another developer
 
 By the way, you can add a commit subject and description as follows: `git commit -m "subject line" -m "longer description"`.
 
+## command auto correct
+If you mistype a command, git helpfully tries to figure out what you meant, but it still refuses to do it. If you set `help.autocorrect` to 1, Git will actually run this command for you. (If you set it to 50, Git will give you 5 seconds to change your mind before executing the autocorrected command.)
+
+```
+[help]
+    autocorrect = 50
+```
+
 ## update your GitHub fork
 You cannot push code to repositories that you don’t own. So instead, you make your own copy of the repository by “forking” it. You are then free to make any changes you wish to your repository.
 

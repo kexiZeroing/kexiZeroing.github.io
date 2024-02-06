@@ -298,6 +298,8 @@ PartyKit at ViteConf 2023: https://blog.partykit.io/posts/partykit-at-viteconf
 
 Typing Animation Library. Enter in any string, and watch it type: https://github.com/mattboldt/typed.js
 
+What PWA Can Do Today: https://whatpwacando.today
+
 ---
 
 ## React ecosystem

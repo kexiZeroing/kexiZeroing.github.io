@@ -5,7 +5,7 @@ slug: intro-to-auth
 description: ""
 added: "Nov 28 2022"
 tags: [web]
-updatedDate: "Feb 17 2023"
+updatedDate: "Feb 6 2024"
 ---
 
 > If you’ve ever signed in to a website using your Google/LinkedIn/GitHub account, that website was likely using OAuth. This post is my learning notes from the article [Authorization and Authentication for Everyone](https://maida.kim/2020/07/authorization-and-authentication-for-everyone) wrote by @KimMaida.
@@ -100,7 +100,11 @@ console.log(decoded);
  */
 ```
 
-In practice, when a user wants to log in, the app sends an request to the authorization server. The user’s credentials are verified by the authorization server, and if everything checks out, the authorization server issues an ID token to the application. The client application then decodes the ID token (which is a JWT) and verifies it. This includes validating the signature, and we must also verify the claims. Once we’ve established the authenticity of the ID token, the user is authenticated. We also now have access to the identity claims and know who this user is. The [OpenID Connect Playground](https://openidconnect.net) is a debugger that lets developers explore and test OIDC calls and responses step-by-step.
+In practice, when a user wants to log in, the app sends an request to the authorization server. The user’s credentials are verified by the authorization server, and if everything checks out, the authorization server issues an ID token to the application. The client application then decodes the ID token (which is a JWT) and verifies it. This includes validating the signature, and we must also verify the claims. Once we’ve established the authenticity of the ID token, the user is authenticated. We also now have access to the identity claims and know who this user is.
+
+> Check out a practical example that shows session based authentication through cookies in the Next.js App Router: https://github.com/balazsorban44/auth-poc-next
+> 
+> [next-auth](https://github.com/vercel/next.js/tree/canary/examples/auth) is a complete open-source authentication solution for Next.js applications.
 
 ### Accessing APIs with Access Tokens
 Access tokens are used for granting access to resources. Unlike ID tokens, access tokens have no defined format. They do not have to be (and aren’t necessarily) JWT. However, many identity solutions use JWTs for access tokens because the format enables validation.
