@@ -16,7 +16,7 @@ const MobileMockup = () => {
           height="650"
           recycle={false}
         />
-        <main>
+        <main className="content-box">
           <span className="relative flex shrink-0 h-20 w-20 rounded-full overflow-hidden mx-auto">
             <img className="aspect-square h-full w-full object-cover" alt="Kexi Dang's profile picture" src="https://github.com/kexiZeroing.png" />
           </span>

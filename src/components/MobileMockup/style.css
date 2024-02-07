@@ -51,11 +51,19 @@
   border-radius: 28px; /* 42 - 14 */
   text-align: center;
 }
+.content-box {
+  display: flex;
+  flex-direction: column;
+}
 .sentence-list {
-  max-height: 300px;
-  padding: 0 1rem;
+  flex: 1 0 auto;
+  max-height: 400px;
+  padding: 0 1.5rem;
   overflow: auto;
   text-align: left;
+}
+.sentence-list p {
+  text-wrap: balance;
 }
 
 /* copy from tailwind css definition */
