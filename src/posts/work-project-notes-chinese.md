@@ -143,10 +143,22 @@ With `hot` flag, it sets `webpack-dev-server` in hot mode. If we don’t use thi
 #### something related to bundling/tree shaking
 1. Every component will get its own scope, and when it imports another module, webpack will check if the required file was already included or not in the bundle.
 2. Webpack v5 comes with the latest `terser-webpack-plugin` out of the box. `optimization.minimize` is set to `true` by default, telling webpack to minimize the bundle using the `TerserPlugin`.
-3. Tree shaking means that unused modules will not be included in the bundle. In order to take advantage of tree shaking, you must use ES2015 module syntax. Ensure no compilers transform your ES2015 module syntax into CommonJS modules (this is the default behavior of the popular Babel preset `@babel/preset-env`).
+3. Tree shaking means that unused modules will not be included in the bundle (The term was popularized by Rollup). In order to take advantage of tree shaking, you must use ES2015 module syntax. Ensure no compilers transform your ES2015 module syntax into CommonJS modules (this is the default behavior of the popular Babel preset `@babel/preset-env`).
 4. Packages with side effects cannot be properly eliminated, even when completely unreachable. Use the `"sideEffects"` property in `package.json` to denote which files in your project are "pure" and therefore safe to prune if unused.
 
-> “You can imagine your application as a tree. The source code and libraries you actually use represent the green, living leaves of the tree. Dead code represents the brown, dead leaves of the tree that are consumed by autumn. In order to get rid of the dead leaves, you have to shake the tree, causing them to fall.”
+```js
+// babel.config.js
+// Keeping Babel from transpiling ES6 modules to CommonJS modules
+export default {
+  presets: [
+    [
+      "@babel/preset-env", {
+        modules: false
+      }
+    ]
+  ]
+}
+```
 
 #### webpack-bundle-analyzer（检查打包体积）
 It will create an interactive treemap visualization of the contents of all your bundles when you build the application. There are two ways to configure webpack bundle analyzer in a webpack project. Either as a plugin or using the command-line interface. 
