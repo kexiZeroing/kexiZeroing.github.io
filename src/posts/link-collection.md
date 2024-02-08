@@ -86,8 +86,6 @@ Web Page Test: https://www.webpagetest.org/
 
 Chrome DevTools tips: https://umaar.com/dev-tips/
 
-HTML Tips & Tricks: https://www.htmhell.dev/tips/
-
 Devhints for developer documentation: https://devhints.io/
 
 Quick Reference Cheat Sheet: https://quickref.me/
@@ -99,6 +97,8 @@ A tiny little drawing app: https://tldraw.com/
 Images of source code: https://carbon.now.sh/
 
 App Icon Generator for any platform: https://icon.kitchen/
+
+Doodles-as-A-Service Repo: https://github.com/girliemac/a-picture-is-worth-a-1000-words
 
 Manage node_modules in the system: https://github.com/voidcosmos/npkill
 
@@ -446,6 +446,8 @@ Vercel AI SDK: https://sdk.vercel.ai/docs
 
 AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel-labs/ai-chatbot
 
+LangChain + Next.js starter template: https://github.com/langchain-ai/langchain-nextjs-template
+
 Fine-tuning GPT with OpenAI, Next.js and Vercel AI SDK: https://vercel.com/guides/fine-tuning-openai-nextjs
 
 How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr-code/
@@ -461,6 +463,8 @@ Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
 Get started with the Gemini API: https://ai.google.dev/docs
 
 Hugging Chat Assistant (similar to OpenAI GPTs): https://huggingface.co/chat/assistants
+
+Pi, your personal AI: https://pi.ai/
 
 ---
 

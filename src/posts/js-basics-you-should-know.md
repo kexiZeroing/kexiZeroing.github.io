@@ -1283,7 +1283,17 @@ A good test string is `>'>"><img src=x onerror=alert(0)>`. If your application d
 > We do not recommend that you manually escape user-supplied data. Instead, we strongly recommend that you use a templating system or web development framework that provides context-aware auto-escaping. If this is impossible for your website, use existing libraries (e.g., [DOMPurify](https://github.com/cure53/DOMPurify)) that are known to work, and apply them consistently to all user-supplied data.
 
 ## Content Security Policy
-Configuring Content Security Policy involves adding the `Content-Security-Policy` HTTP header to a web page and giving it values to control what resources the user agent is allowed to load for that page. If the site doesn't offer the CSP header, browsers likewise use the standard same-origin policy. A properly designed Content Security Policy helps protect a page against a cross-site scripting attack. There are specific directives for a wide variety of types of items, so that each type can have its own policy, including fonts, frames, images, audio and video media, scripts, and workers. Check out the [CSP Reference](https://content-security-policy.com/) and [MDN doc](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP).
+Configuring Content Security Policy involves adding the `Content-Security-Policy` HTTP header to a web page and giving it values to control what resources the user agent is allowed to load for that page. If the site doesn't offer the CSP header, browsers likewise use the standard same-origin policy. A properly designed Content Security Policy helps protect a page against a cross-site scripting attack. There are specific directives for a wide variety of types of items, so that each type can have its own policy, including fonts, frames, images, audio and video media, scripts, and workers.
+
+```
+Content-Security-Policy: default-src 'self'; script-src 'self' cdn.example.com; img-src 'self' img.example.com; style-src 'self';
+```
+
+The above policy permits:
+- All content to be loaded only from the site's own origin.
+- Scripts to be loaded from the site's own origin and `cdn.example.com`.
+- Images from the site's own origin and `img.example.com`
+- Styles only from the site's origin.
 
 ## Promise
 A `Promise` is a proxy for a value not necessarily known when the promise is created. The Promise object represents the eventual completion or failure of an asynchronous operation and its success value or failure reason. Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.
