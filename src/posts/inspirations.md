@@ -22,7 +22,7 @@ order: 3
 - @shadeed9 @5t3ph about CSS
 - @taniarascia blog https://www.taniarascia.com/blog
 - @JoshWComeau blog https://www.joshwcomeau.com
-- @TkDodo blog https://tkdodo.eu/blog
+- @TkDodo blog about React Query https://tkdodo.eu/blog/practical-react-query
 - @lydiahallie technology through writing and visualizations
 - @ChromiumDev @Una Chrome DevRel team https://web.dev/blog
 - @rauchg @steventey @leeerob at Vercel about DX

@@ -416,8 +416,6 @@ LangChain: https://docs.langchain.com/docs
 
 Chat with any PDF: https://www.chatpdf.com
 
-AI Code Translator: https://ai-code-translator.vercel.app
-
 Translate your locale json files: https://github.com/ObservedObserver/chatgpt-i18n
 
 Node.js client for the official ChatGPT API: https://github.com/transitive-bullshit/chatgpt-api
@@ -455,6 +453,8 @@ How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr
 An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
 
 Create LlamaIndex App: https://www.npmjs.com/package/create-llama
+
+Get up and running with large language models locally: https://ollama.com
 
 Leaked prompts of GPTs: https://github.com/linexjlin/GPTs
 

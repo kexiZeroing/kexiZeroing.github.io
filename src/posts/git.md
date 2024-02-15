@@ -178,6 +178,8 @@ Github takes all of the commits on your PR branch and combines them into a singl
 
 `git checkout -` will checkout the previous branch.
 
+`git checkout -b <new_branch> <remote_name>/<remote_branch>` create and switch to a new branch based on a specific reference (branch, remote branch, tag are examples of valid references).
+
 > HEAD doesn’t have to be a branch. Instead it can be a commit ID. Git calls this state (where HEAD is a commit ID instead of a branch) “detached HEAD state”.
 
 ## Another git process seems to be running in this repository
