@@ -38,8 +38,6 @@ Learn Node.js: https://nodejs.dev/en/learn
 
 Learn Node.js by building a backend framework: https://github.com/ishtms/learn-nodejs-hard-way
 
-Node.js CLI Apps Best Practices: https://github.com/lirantal/nodejs-cli-apps-best-practices
-
 Docker Guide: https://www.robertcooper.me/docker-guide
 
 Tail Call Optimization: https://www.youtube.com/watch?v=-PX0BV9hGZY
@@ -170,7 +168,9 @@ DGM is an online diagramming app: https://dgm.sh/home
 
 A tool for writing better scripts: https://github.com/google/zx
 
-Suno is building a future where anyone can make great music: https://www.suno.ai
+Effortlessly build beautiful command-line apps: https://github.com/natemoo-re/clack
+
+The resource you’ll ever need for mechanical keyboards: https://www.keyboard.university
 
 ---
 
@@ -465,6 +465,8 @@ Get started with the Gemini API: https://ai.google.dev/docs
 Hugging Chat Assistant (similar to OpenAI GPTs): https://huggingface.co/chat/assistants
 
 Pi, your personal AI: https://pi.ai/
+
+Suno is building a future where anyone can make great music: https://www.suno.ai
 
 ---
 
