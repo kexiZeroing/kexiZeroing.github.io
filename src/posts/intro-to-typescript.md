@@ -5,12 +5,14 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Feb 16 2024"
+updatedDate: "Feb 17 2024"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
 >
 > TypeScript allows you to write complex yet elegant code. Some TypeScript users love to explore the possibilities of the type system and love to encode logic at type level. This practice is known as type gymnastics. The community also helps users to learn type gymnastics by creating fun and challenges such as [type challenges](https://github.com/type-challenges/type-challenges).
+>
+> Cheatsheets for experienced React developers getting started with TypeScript: https://react-typescript-cheatsheet.netlify.app
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
 
@@ -291,7 +293,7 @@ type GroupedEvents = {
 type GroupProperties = keyof GroupedEvents
 ```
 
-**Generic Types**: Instead of working with a specific type, we work with a parameter that is then substituted for a specific type. Type parameters are denoted within angle brackets at function heads or class declarations.
+**Generic Types**: Instead of working with a specific type, we work with a parameter that is then substituted for a specific type. Type parameters are denoted within angle brackets at function heads or class declarations. *[Generics are not scary](https://ts.chibicode.com/generics). They’re like regular function parameters, but instead of values, it deals with types.*
 
 ```ts
 // Type as the parameter
@@ -311,6 +313,13 @@ const defaultP: UserPreferences;
 const userP: Partial<UserPreferences>;
 const specialP: Readonly<UserPreferences>;
 ```
+
+### How to use @ts-expect-error
+`@ts-expect-error` lets you specify that an error will occur on the next line of the file, which is helpful letting us be sure that an error will occur. If `@ts-expect-error` doesn't find an error, it will source an error itself *(Unused '@ts-expect-error' directive)*.
+
+When you actually want to ignore an error, you'll be tempted to use `@ts-ignore`. It works similarly to `@ts-expect-error`, except for one thing: it won't error if it doesn't find an error.
+
+Sometimes, you'll want to ignore an error that later down the line gets fixed. If you're using `@ts-ignore`, it'll just ignore the fact that the error is gone. But with `@ts-expect-error`, you'll actually get a hint that the directive is now safe to remove. So if you're choosing between them, pick `@ts-expect-error`.
 
 ## Adding Type Check to JavaScript
 TypeScript provides code analysis for JavaScript and VS Code gives us TypeScript out of the box (TypeScript language server). With the addition of `//@ts-check` as the very first line in our JavaScript file, TypeScript became active and started to add red lines to code pieces that just don’t make sense.
