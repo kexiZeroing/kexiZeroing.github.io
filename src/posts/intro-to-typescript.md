@@ -5,7 +5,7 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Feb 17 2024"
+updatedDate: "Feb 18 2024"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
@@ -74,7 +74,7 @@ Run `tsc --noEmit` that tells TypeScript that we just want to check types and no
 
 How to run ts files from command line? There is [ts-node](https://github.com/TypeStrong/ts-node) that will compile the code and REPL for node.js: `npx ts-node src/foo.ts`. `tsc` writes js to disk. `ts-node` doesn't need to do that and runs ts on the fly.
 
-> `json` doesn't normally allow comments, but comments are valid in `tsconfig.json`. It's officially supported by TypeScript and VSCode understands it too. `npx tsc --init` command generates the `tsconfig.json` with all the settings commented. What's going on here is [jsonc](https://github.com/microsoft/node-jsonc-parser), or "JSON with JavaScript style comments", a proprietary format used by a bunch of Microsoft products, most notably Typescript and VSCode.
+> `json` doesn't normally allow comments, but comments are valid in `tsconfig.json`. It's officially supported by TypeScript and VSCode understands it too. What's going on here is [jsonc](https://github.com/microsoft/node-jsonc-parser), or "JSON with JavaScript style comments", a proprietary format used by a bunch of Microsoft products, most notably Typescript and VSCode.
 
 By the way, `jsconfig.json` is a descendant of `tsconfig.json`. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
 
@@ -228,8 +228,13 @@ function createUser(name: string, role: 'admin' | 'maintenance') {
 const user = createUser('Stefan', 'admin')
 type User = typeof user
 
-// Built-in Helper Types
-// retrieve the return type from the function signature (without run the function)
+// Built-in Helper Types (https://www.typescriptlang.org/docs/handbook/utility-types.html)
+const fieldsToUpdate: Partial<Todo>
+const todo: Readonly<Todo>
+const cats: Record<string, string | number>
+type TodoPreview = Omit<Todo, "description">
+type TodoPreview = Pick<Todo, "title" | "completed">
+// retrieve the return type from the function signature without run the function
 type User = ReturnType<typeof createUser>
 // collect all arguments from a function in a tuple
 type Param = Parameters<typeof createUser>
@@ -237,7 +242,14 @@ type Param = Parameters<typeof createUser>
 
 In TypeScript, every function has a return type. If we don’t explicitly type or infer, the return type is by default `void`, and `void` is a keyword in JavaScript returning `undefined`.
 
-**Declaration merging for interfaces** means we can declare an interface at separate positions with different properties, and TypeScript combines all declarations and merges them into one.
+**Declaration merging for interfaces** means we can declare an interface at separate positions with different properties, and TypeScript combines all declarations and merges them into one. You use `declare` to let TypeScript know that the variable exists, even though it's not declared in the code.
+```ts
+declare module "react" {
+  interface CSSProperties {
+    [key: `--${string}`]: string | number;
+  }
+}
+```
 
 **Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, `any` and `unknown` are top types). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all and is used for situations that should never occur.
 
@@ -307,11 +319,6 @@ type URLObject = {
   [k: string]: URL
 }
 function loadFile<Formats extends URLObject>(fileFormats: Formats, format: keyof Formats)
-
-// Partial (each key becomes optional) and Readonly (Object.freeze)
-const defaultP: UserPreferences;
-const userP: Partial<UserPreferences>;
-const specialP: Readonly<UserPreferences>;
 ```
 
 ### How to use @ts-expect-error

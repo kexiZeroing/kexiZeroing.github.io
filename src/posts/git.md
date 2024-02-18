@@ -5,7 +5,7 @@ slug: git-knowledge-not-clear
 description: ""
 added: "June 19 2022"
 tags: [system]
-updatedDate: "Dec 16 2023"
+updatedDate: "Feb 18 2024"
 ---
 
 ## helpful links
@@ -72,7 +72,13 @@ Note that `git fetch` is the command that tells your local git to retrieve the l
 ## git pull/push without parameter
 - `git pull`: In order to determine what remote branches to fetch when the command is run without any refspec parameters on the command line, values of the configuration variable `remote.<origin>.fetch` are consulted. *A refspec maps a branch in the local repository to a branch in a remote repository.* For example, `refs/heads/*:refs/remotes/origin/*` specifies that all remote branches are tracked using remote-tracking branches in `refs/remotes/origin/` hierarchy under the same name.
 
-- `git push`: When neither the command-line nor the configuration specify what to push, the default behavior is used, which corresponds to the `simple` value for `push.default` (since Git 2.0): the current branch is pushed to the corresponding upstream branch, but as a safety measure, the push is aborted if the upstream branch does not have the same name as the local one.
+- `git push`: When neither the command-line nor the configuration specify what to push, the default behavior is used, which corresponds to the `simple` value for `push.default`: the current branch is pushed to the corresponding upstream branch, but as a safety measure, the push is aborted if the upstream branch does not have the same name as the local one.
+
+> `git config push.default`:
+> - `push.default simple` is the default in Git. It only works if your branch is already tracking a remote branch.
+> - `push.default current` will always push the local branch to a remote branch with the same name.
+> 
+> `git config push.autosetupremote true` assumes `--set-upstream` on default push when no upstream tracking exists for the current branch. It is useful if you want new branches to be pushed to the default remote (like the behavior of `push.default=current`) and you also want the upstream tracking to be set.
 
 ## git remote
 A remote URL is the place where your code is stored. You can only push to two types of URL addresses: HTTPS URL like `https://github.com/user/repo.git` or SSH URL like `git@github.com:user/repo.git`. Git associates a remote URL with a name, and your default remote is usually called `origin`.
@@ -252,8 +258,6 @@ Show commits more recent or older than a specific date:
 - HTTP, aka `http://github.com/`, doesn't work with GitHub anymore.
 
 - SSH, aka `git@github.com:` or `ssh://git@github.com/`, uses public-key authentication. You have to generate a keypair, then add it to your GitHub account. Authentication is needed for all connections, so you always need a GitHub account – even to pull or clone.
-
-> You can tell git to use https instead of `git://` with the command `git config --global url."https://".insteadOf git://`, and the change goes to your git config file `~/.gitconfig`.
 
 ## Organize multiple Git identities
 One awesome feature of the `.gitconfig` file is that you can conditionally include other config files. For every identity, you keep a separate gitconfig file and include it in the main `~/.gitconfig`. See an example: https://garrit.xyz/posts/2023-10-13-organizing-multiple-git-identities
