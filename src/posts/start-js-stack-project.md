@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Jan 21 2024"
+updatedDate: "Feb 19 2024"
 ---
 
 ## Start a modern web project
@@ -26,8 +26,6 @@ npx shadcn-ui@latest add button
 
 ```
 npx nuxi@latest init my-app
-
-git clone https://github.com/viandwi24/nuxt3-awesome-starter
 ```
 
 Start with templates:
@@ -42,7 +40,6 @@ A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and
 - zustand: one of many state management libraries for React.
 - react-hot-toast: lightweight notifications for React.
 - lucide-react: implementation of the lucide icon library for react applications.
-- date-fns: modern JavaScript date utility library.
 - next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the `CldImage` component, social cards, and an upload widget.
 - @tanstack/react-table: headless UI for building powerful tables & datagrids for React. ([@tanstack/react-query](https://tanstack.com/query/latest/docs) is more popular.)
 - recharts: chart library to help you to write charts in React.
@@ -55,7 +52,7 @@ A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and
 
 ### Remix - full stack web framework
 - Remix Tutorial: https://remix.run/start/tutorial
-- Remix Guide: https://remix.guide
+- Remix Templates: https://remix.run/docs/en/main/guides/templates
 
 ```jsx
 export const action = async ({ params, request }: ActionArgs) => {
@@ -263,14 +260,8 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
     ```
 2. We can edit some default settings for prettier in settings (`cmd + ,`, then type prettier)
 3. Install eslint and prettier npm packages `npm i -D eslint prettier`. (ESLint only as an npm package does not provide any editor integration, only the CLI executable.)
-4. Run `eslint --init` to create a `eslintrc.json` (or `.js`, `.yml`) config file after install eslint globally `npm i -g eslint` (otherwise need to run `./node_modules/eslint/bin/eslint.js --init`), pick the following options:
-    - To check syntax, find problems, and enforce code style
-    - JavaScript modules (import/export)
-    - None of these
-    - TypeScript: No
-    - Browser or Node, as you prefer
-    - Use a popular style guide Airbnb
-5. Create a config file for Prettier. Note that the VS Code's prettier plugin may inconsistent with prettier npm package in devDependencies that eslint uses, so we use this config file to unify the rules.
+4. Run `eslint --init` to create a `eslintrc.json` (or `.js`, `.yml`) config file after install eslint globally `npm i -g eslint` (otherwise need to run `./node_modules/eslint/bin/eslint.js --init`), pick the options as you prefer.
+5. Create a config file for Prettier. Note that the VS Code's prettier plugin may inconsistent with prettier npm package in devDependencies that eslint uses, so we use this config file to help unify the rules.
     ```js
     // .prettierrc.js
     // refer to https://prettier.io/docs/en/options.html
@@ -303,20 +294,15 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
     };
     ```
 8. Add `eslint src` as a lint script which can be run as `npm run lint`, and it shows eslint errors in the Problems tab. Run `npm run lint -- --fix` to fix errors (if not format on save).
+9. If you joined a project that uses ESLint to manage its code style, you wanted to match the team’s formatting. You can configure VSCode to use the `eslintrc.json` file instead of Prettier.
+    ```json
+    "eslint.format.enable": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
+    ```
 
 <img alt="format & eslint" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a79fd1f2-367d-464d-b6eb-34db4aa17a71.png" width="450" />
-
-### Configure ESLint in an existing project
-If you joined a project that uses ESLint to manage its code style, you wanted to match the team’s formatting. You can configure VSCode to use the `eslintrc.json` file in the project’s root dir instead of Prettier.
-
-After the ESLint plugin installed, go to Settings and open the raw JSON settings file (click top-right icon). Add these 4 new lines inside the top-level settings object. The first one turns on ESLint for formatting, and the next 3 make it do the formatting when you hit save. *(You might need to undo this if you switch back to a project that doesn’t use ESLint.)*
-
-```json
-"eslint.format.enable": true,
-"editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-}
-```
 
 ### What is Husky
 While working on an enterprise development team, it is important that all code linting and unit tests are passing before committing code, especially if you are using some form of continuous integration. **Husky** is a very popular npm package that allows custom scripts to be ran against your repository to prevent bad `git commit` and `git push`, which makes commits of fixing lint errors doesn't happen.
@@ -332,8 +318,6 @@ Install husky `npm i -D husky` and have a "husky" section in the `package.json` 
 }
 ```
 
-[better-commits](https://github.com/Everduin94/better-commits) is a CLI for creating better commits following the conventional commit guidelines. It will prompt a series of questions. These prompts will build a commit message, which you can preview, before confirming the commit.
-
 ## When and How to use https for local dev
 Most of the time, `http://localhost` does what you need. Browsers treat `http://localhost` in a special way: although it's HTTP, it mostly behaves like an HTTPS site. That's why some APIs that won't work on a deployed HTTP site, will work on `http://localhost`. What this means is that you need to use HTTPS locally only in special cases, like custom hostname, secure cookies across browsers, or using third-party libraries that require HTTPS.
 
@@ -342,29 +326,14 @@ To use HTTPS with your local development site and access `https://localhost`, yo
 What you need to do is to create a certificate and sign it with a CA that is trusted locally by your device and browser. [mkcert](https://github.com/FiloSottile/mkcert) is a tool that helps you do this in a few commands.
 
 1. Install mkcert `brew install mkcert`
-2. Add mkcert to your local root CAs `mkcert -install`
+2. Add mkcert to your local root CAs (registered as a trusted CA) `mkcert -install`
 3. Generate a certificate for your site, signed by mkcert `mkcert localhost`
 4. Configure your dev server to use HTTPS and the certificate you've created `{PATH/TO/CERTIFICATE-FILENAME}.pem`
 
 > Start your server: `http-server -S -C {PATH/TO/CERTIFICATE-FILENAME}.pem -K {PATH/TO/CERTIFICATE-KEY-FILENAME}.pem`. `-S` runs your server with HTTPS, while `-C` sets the certificate and `-K` sets the key.
 
-Here's how it works:
-- If you open your locally running site in your browser using HTTPS, your browser will check the certificate of your local development server.
-- Upon seeing that the certificate has been signed by the mkcert-generated certificate authority, the browser checks whether it's registered as a trusted certificate authority.
-- mkcert is listed as a trusted authority, so your browser trusts the certificate and creates an HTTPS connection.
-
 ## Deployment a Node.js App with the frontend
 Setup an Ubuntu server, install Node.js, and deploy the app with PM2 process manager and Nginx. This [GitHub gist](https://gist.github.com/bradtraversy/b8b72581ddc940e0a41e0bc09172d91b) explains how to deploy to linode and all of the setup steps.
-
-```js
-// put frontend (after build) as static resource in backend
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/frontend/dist')));
-
-app.get('*', (req, res) =>
-  res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
-);
-```
 
 ```
 sudo npm install -g pm2
@@ -400,7 +369,7 @@ BFFs can be a useful pattern for architectures where there are a number of backe
 The other benefit of using a BFF is that the team creating the interface can be much more fluid in thinking about where functionality lives. For example they could decide to push functionality on to the server-side to promote reuse in the future and simplify a native mobile application, or to allow for the faster release of new functionality. This decision is one that can be made by the team in isolation if they own both the mobile application and the BFF - it doesn't require any cross-team coordination.
 
 ## Jamstack
-Jamstack is a web architecture and stands for **J**avascript, **A**PIs, and **M**arkup stack. In this architecture, the frontend and the backend are completely separate. All interactions with the backend and third parties are done using APIs. Markup that incorporates Javascript, is pre-built into static assets, served to a client from a CDN, and relies on reusable APIs for its functionalities. **「a Jamstack site is a set of pre-generated static assets served from a CDN」**
+Jamstack is a web architecture and stands for **J**avascript, **A**PIs, and **M**arkup stack. In this architecture, the frontend and the backend are completely separate. All interactions with the backend and third parties are done using APIs. Markup that incorporates Javascript, is pre-built into static assets, served to a client from a CDN, and relies on reusable APIs for its functionalities. **A Jamstack site is a set of pre-generated static assets served from a CDN.**
 
 > Jamstack is a way of working. It’s not a group of frameworks or services or tied to any particular brands or tech stack. Jamstack is defined by how you build websites, rather than the tools with which you choose to build them.
 
@@ -413,8 +382,6 @@ There are two points in time that you can integrate dynamic content into a Jamsa
 - **Run time** - This should typically be content that is user specific, needs to update frequently, or is in response to a specific user action. For example, an ecommerce site may have product details populated at build time, but things like the current inventory, shipping options/prices based upon the user’s location, or the user’s shopping cart would all be populated at run time in the browser. As you may notice, in this example, the content on a single page (product details) may be a combination of both pre-rendered (build time) content (i.e. the product name, photo and description) and run time content (i.e. the product inventory and shipping options based on location).
 
 > What type of website are you building? https://whattheframework.netlify.app
-> 
-> One thing people liked about SPAs is that you could run your website, mobile app, public API, and other clients from the same backend infrastructure. With the pendulum swinging back toward server rendering, you’ll need a web server again.
 
 ## Headless UI and shadcn/ui
 The web platform is severely lacking in terms of UI components. There's pretty minimal by way of built-in components, and for many that do exist, they are extremely difficult to style. What's best is to get a "headless" UI library: One which handles the logic of accessible, reusable components, but leaves the styling up to you. Headless UI components separate the logic & behavior of a component from its visual representation. They offer maximum visual flexibility by providing no interface.
@@ -445,12 +412,10 @@ There are different families of cloud services.
 - **Software as a service (SaaS)** - Dropbox, iCloud, Slack
 - **Function as a service (FaaS)** - AWS Lambda
 
-Serverless functions are an approach to writing back-end code that doesn’t require writing a back-end. In the simplest terms: we write a function using our preferred language, like JavaScript; we send that function to a serverless provider; and then we can call that function just like any API using HTTP methods. These Functions are co-located with your code and part of your Git workflow.
+Serverless functions are an approach to writing back-end code that doesn’t require writing a back-end. In the simplest terms: we write a function using our preferred language, like JavaScript; we send that function to a serverless provider; and then we can call that function just like any API using HTTP methods. These Functions are co-located with your code and part of your Git workflow. You can focus on the business needs and developing a better quality application instead of worrying about the infrastructure and maintenance of a traditional server.
 
 ### Netlify functions
-Serverless functions give developers superpowers and enables them to do things that would not otherwise have been possible. You can focus on the business needs and developing a better quality application instead of worrying about the infrastructure and maintenance of a traditional server.
-
-The serverless functions can be run by [Netlify Dev](https://cli.netlify.com/netlify-dev) in the same way they would be when deployed to the cloud. Once you've configured the functions directory in your `netlify.toml`, the functions will be accessible through netlify dev server. e.g. at http://localhost:8888/.netlify/functions/function-name.
+The serverless functions can be run by [Netlify Dev](https://cli.netlify.com/netlify-dev) in the same way they would be when deployed to the cloud. Once you've configured the functions directory in your `netlify.toml`, the functions will be accessible through netlify dev server. e.g. at `http://localhost:8888/.netlify/functions/{function-name}`.
 
 Go through the guide (mainly on traditional serverless functions): https://www.netlify.com/blog/intro-to-serverless-functions/
 
@@ -493,9 +458,7 @@ So what JS engines/runtimes do we have now?
 - Bun: runs on JavascriptCore
 - Edge-computing providers: a limited JavaScript environment running on CDN Nodes
 
-Worker Runtimes are an adaptation of the Service Workers API, which is a browser standard for offline web applications. To give web developers more freedom over offline experiences, the specification includes a minimal HTTP server. Since it was published, other vendors have implemented this API for servers that run in the cloud — or on the edge in the case of Cloudflare Workers.
-
-[Cloudflare Workers](https://developers.cloudflare.com/workers/learning/how-workers-works) provides a serverless execution environment that allows you to create new applications without configuring or maintaining infrastructure. Under the hood, the Workers runtime uses the V8 engine. The Workers runtime also implements many of the standard APIs available in most modern browsers. Rather than running on an individual’s machine, Workers functions run on Cloudflare’s Edge Network - a growing global network of thousands of machines distributed across hundreds of locations.
+For example, [Cloudflare Workers](https://developers.cloudflare.com/workers/learning/how-workers-works) provides a serverless execution environment that allows you to create new applications without configuring or maintaining infrastructure. Under the hood, the Workers runtime uses the V8 engine. The Workers runtime also implements many of the standard APIs available in most modern browsers. Rather than running on an individual’s machine, Workers functions run on Cloudflare’s Edge Network - a growing global network of thousands of machines distributed across hundreds of locations.
 
 Read more about The Edge:
 - [Vercel Edge Functions](https://vercel.com/docs/functions/edge-functions) (using CloudFlare Workers under the hood)

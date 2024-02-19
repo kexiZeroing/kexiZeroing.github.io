@@ -217,6 +217,8 @@ Sometimes when I'm pair programming, I want to be able to give another developer
 
 By the way, you can add a commit subject and description as follows: `git commit -m "subject line" -m "longer description"`.
 
+> [better-commits](https://github.com/Everduin94/better-commits) is a CLI for creating better commits following the conventional commit guidelines. It will prompt a series of questions. These prompts will build a commit message, which you can preview, before confirming the commit.
+
 ## command auto correct
 If you mistype a command, git helpfully tries to figure out what you meant, but it still refuses to do it. If you set `help.autocorrect` to 1, Git will actually run this command for you. (If you set it to 50, Git will give you 5 seconds to change your mind before executing the autocorrected command.)
 
