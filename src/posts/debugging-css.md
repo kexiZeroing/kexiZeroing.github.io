@@ -184,24 +184,24 @@ updatedDate: "Dec 16 2023"
 
 - Less absolute positioning with modern CSS. For example, when we have a card that contains text over an image, we often use `position: absolute` to place the content over the image. This is no longer needed with CSS grid.
 
-```css
-/* By default, CSS grid will create rows automatically based on the content. */
-.card {
-  position: relative;
-  display: grid;
-}
+  ```css
+  /* By default, CSS grid will create rows automatically based on the content. */
+  .card {
+    position: relative;
+    display: grid;
+  }
 
-.card__thumb,
-.card__content {
-  grid-column: 1/2;  /* we can also use `grid-area: 1/-1` */
-  grid-row: 1/2;
-}
-```
+  .card__thumb,
+  .card__content {
+    grid-column: 1/2;  /* we can also use `grid-area: 1/-1` */
+    grid-row: 1/2;
+  }
+  ```
 
 - An easy way to add a gradient overlay above an existing background. The `border-image` property is set to use a linear gradient as the border image, and the `fill` value specifies that the image should fill the entire border area without being sliced.
 
-```css
-.overlay {
-  border-image: fill 0 linear-gradient(#0003, #000);
-}
-```
+  ```css
+  .overlay {
+    border-image: fill 0 linear-gradient(#0003, #000);
+  }
+  ```

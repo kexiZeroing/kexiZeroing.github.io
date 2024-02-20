@@ -318,20 +318,6 @@ Install husky `npm i -D husky` and have a "husky" section in the `package.json` 
 }
 ```
 
-## When and How to use https for local dev
-Most of the time, `http://localhost` does what you need. Browsers treat `http://localhost` in a special way: although it's HTTP, it mostly behaves like an HTTPS site. That's why some APIs that won't work on a deployed HTTP site, will work on `http://localhost`. What this means is that you need to use HTTPS locally only in special cases, like custom hostname, secure cookies across browsers, or using third-party libraries that require HTTPS.
-
-To use HTTPS with your local development site and access `https://localhost`, you need a TLS certificate. But browsers won't consider just any certificate valid: your **certificate needs to be signed by an entity that is trusted by your browser, called a trusted certificate authority (CA)**.
-
-What you need to do is to create a certificate and sign it with a CA that is trusted locally by your device and browser. [mkcert](https://github.com/FiloSottile/mkcert) is a tool that helps you do this in a few commands.
-
-1. Install mkcert `brew install mkcert`
-2. Add mkcert to your local root CAs (registered as a trusted CA) `mkcert -install`
-3. Generate a certificate for your site, signed by mkcert `mkcert localhost`
-4. Configure your dev server to use HTTPS and the certificate you've created `{PATH/TO/CERTIFICATE-FILENAME}.pem`
-
-> Start your server: `http-server -S -C {PATH/TO/CERTIFICATE-FILENAME}.pem -K {PATH/TO/CERTIFICATE-KEY-FILENAME}.pem`. `-S` runs your server with HTTPS, while `-C` sets the certificate and `-K` sets the key.
-
 ## Deployment a Node.js App with the frontend
 Setup an Ubuntu server, install Node.js, and deploy the app with PM2 process manager and Nginx. This [GitHub gist](https://gist.github.com/bradtraversy/b8b72581ddc940e0a41e0bc09172d91b) explains how to deploy to linode and all of the setup steps.
 
