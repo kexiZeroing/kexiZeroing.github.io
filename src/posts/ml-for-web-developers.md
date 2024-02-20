@@ -30,6 +30,7 @@ Some examples just run in browsers:
 - Are you sitting with correct posture right now? It can detect your posture and blurs a screen if it’s poor.
 
 Resources:
+- Machine Learning for Web Developers: https://www.youtube.com/playlist?list=PLOU2XLYxmsILr3HQpqjLAUkIPa5EaZiui
 - Teachable Machine: https://teachablemachine.withgoogle.com
 - COCO - Common Objects in Context: http://cocodataset.org
 - Pretrained models for TensorFlow.js: https://github.com/tensorflow/tfjs-models/tree/master

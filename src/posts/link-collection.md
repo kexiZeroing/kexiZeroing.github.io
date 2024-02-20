@@ -24,8 +24,6 @@ CS 61B: Data Structures: https://inst.eecs.berkeley.edu/~cs61b/sp20/index.html
 
 Intro to Computer Systems: http://www.cs.cmu.edu/~213/schedule.html
 
-An Overview of Networks: https://intronetworks.cs.luc.edu/current2/html/intro.html
-
 The Missing Semester of Your CS Education: https://missing.csail.mit.edu
 
 High Performance Browser Networking: https://hpbn.co
@@ -49,8 +47,6 @@ What happens when we type google.com in a browser: https://github.com/vasanthk/h
 Machine Learning for Beginners: https://github.com/microsoft/ML-For-Beginners
 
 Artificial Intelligence for Beginners: https://github.com/microsoft/AI-For-Beginners
-
-Machine Learning for Web Developers (Web ML): https://www.youtube.com/playlist?list=PLOU2XLYxmsILr3HQpqjLAUkIPa5EaZiui
 
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
@@ -111,8 +107,6 @@ Neal.Fun: https://neal.fun/
 HTTP Cats: https://http.cat/
 
 Github contributions in 3D: https://skyline.github.com/, https://github-town.mornhee.works/
-
-GitHub Contributions Chart Generator: https://github-contributions.vercel.app
 
 wenyan‑lang: https://wy-lang.org/
 
@@ -378,11 +372,7 @@ Vue port of shadcn-ui: https://github.com/radix-vue/shadcn-vue
 
 Vue UI Component Library: https://primevue.org
 
-Nuxt on the Edge: https://nuxt.com/blog/nuxt-on-the-edge
-
 Integrate Clerk into your Vue application: https://vue-clerk.vercel.app
-
-A FilePond (file upload library) adapter component for Vue: https://github.com/pqina/vue-filepond
 
 Drag and drop components that support Vue2 and Vue3: https://alfred-skyblue.github.io/vue-draggable-plus
 
