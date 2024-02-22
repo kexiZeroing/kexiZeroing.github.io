@@ -32,16 +32,16 @@ updatedDate: "Apr 05 2023"
     > - `cask` is no longer a `brew` command. When you want to install a Cask, just do `brew install` or `brew install --cask` instead of `brew cask install`
     > - install an package behind a proxy: `ALL_PROXY=127.0.0.1:7890 brew install <package>`
 
-5. Catalina comes with `zsh` as the default shell. Install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) anc check the `.zshrc` file.
-  - `robbyrussell` is the default theme, and you can change to use [spaceship prompt](https://github.com/spaceship-prompt/spaceship-prompt) theme.
-  - show the current shell `echo $SHELL`; list all shells `cat /etc/shells`; change the current shell `chsh -s /bin/zsh`
+5. Catalina comes with `zsh` as the default shell. Install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) and check the `.zshrc` file.
+   - `robbyrussell` is the default theme, and you can change to use [spaceship prompt](https://github.com/spaceship-prompt/spaceship-prompt) theme.
+   - show the current shell `echo $SHELL`; list all shells `cat /etc/shells`; change the current shell `chsh -s /bin/zsh`.
   
     > 'unable to access error': Something is blocking the connection to github. It is likely some kind of firewall, either on your machine or in your network. If it works with a browser on same machine then the browser is probably using a proxy and you need to configure git to use this proxy too.
     > - check if your git uses proxy: `git config --global http.proxy`
     > - set proxy address: `git config --global http.proxy 127.0.0.1:7890`
     > - reset the proxy: `git config --global --unset http.proxy`
 
-6. Use `nvm` to install Node.js, then install a version of node `nvm install xx.xx`, `nvm use xx.xx` and run `nvm ls`. Use `node -v && npm -v` to check the version. (`echo $PATH` or `which node`)
+6. Use `nvm` to install Node.js, then install a version of node `nvm install xx.xx`, `nvm use xx.xx` and run `nvm ls`. Use `node -v && npm -v` to check the version.
    -  nvm install script clones the nvm repository to `~/.nvm`, and attempts to add the source lines to the correct profile file like `~/.zshrc` or `~/.bashrc`.
    - `nvm ls-remote` to browse available versions
    - set default node version: `nvm alias default x.y.z` (`nvm alias default node` to make the "latest" default)
@@ -100,12 +100,11 @@ updatedDate: "Apr 05 2023"
 9. Install Chrome extension [DevTools Theme: New Moon](https://github.com/taniarascia/new-moon-chrome-devtools), then set devtool's theme to "Dark" and go to Experiments and select "Allow custom UI themes".
 
 10. Add VSCode extentions like `Prettier`, `GitLens`, `Live Server`, `Import Cost`. 
-   - Color themes I like: [New Moon Theme](https://github.com/taniarascia/new-moon) or [Nord](https://github.com/nordtheme/visual-studio-code), search and install one from extentions.
-   - Prettier usage: https://prettier.io/docs/en/install.html
-   - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost) will display inline in the editor the size of the imported packages.
-   - [Preview.js](https://previewjs.com): Preview UI components in your IDE instantly. It leverages the power of Vite to support React and Vue.js. (needs NodeJS 14.18.0+ to run)
-   - [Markdown PDF](https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf) converts Markdown files to pdf, html, png or jpeg files in VSCode.
-   - Add `Emoji Snippets` and `Markdown Emoji` for emoji support :tada: and check https://github.com/ikatyang/emoji-cheat-sheet for emoji shortcode to use.
+    - Color themes I like: [New Moon Theme](https://github.com/taniarascia/new-moon) or [Nord](https://github.com/nordtheme/visual-studio-code), search and install one from extentions.
+    - Prettier usage: https://prettier.io/docs/en/install.html
+    - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost) will display inline in the editor the size of the imported packages.
+    - [Markdown PDF](https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf) converts Markdown files to pdf, html, png or jpeg files in VSCode.
+    - Add `Emoji Snippets` and `Markdown Emoji` for emoji support :tada: and check https://github.com/ikatyang/emoji-cheat-sheet for emoji shortcode to use.
 
 11. Check out dotfiles https://github.com/mathiasbynens/dotfiles
 
@@ -151,17 +150,10 @@ SSH URLs provide access to a Git repository via SSH, a secure protocol. To use t
 <img alt="https ssh" src="https://ftp.bmp.ovh/imgs/2020/10/830c711c7263ab75.png" width="700">
 
 ### PAT in Azure DevOps
-A personal access token (PAT) is used as an alternate password to authenticate into Azure DevOps. Treat and use a PAT like your password. PATs are given permissions from a broad set of read and write scopes. They have access to all of the repositories and organizations that the user could access. Once you have a token, you can enter it instead of your password when performing Git operations over HTTPS. *If you are not prompted for your username and password, your credentials may be cached on your computer. You can update your credentials in the Keychain to replace your old password with the token.*
+A personal access token (PAT) is used as an alternate password to authenticate into Azure DevOps. Treat and use a PAT like your password. PATs are given permissions from a broad set of read and write scopes. They have access to all of the repositories and organizations that the user could access. Once you have a token, you can enter it instead of your password when performing Git operations over HTTPS.
 
 The **user's `.npmrc`** should contain credentials for all of the registries that you need to connect to. The NPM client will look at your **project's `.npmrc`**, discover the registry, and fetch matching credentials from user's `.npmrc`. This enables you to share project's `.npmrc` with the whole team while keeping your credentials secure.
 
 If you are developing on Windows, you only need to provide registries like `@foo:registry=https://pkgs.dev.azure.com/xxx/` in the user `.npmrc` file and run `vsts-npm-auth -config .npmrc` command on a periodic basis. Vsts will automatically create PAT tokens in Azure DevOps for each registry and inject credentials into your `.npmrc` file.
 
-If you are developing on Linux or Mac, vsts-npm-auth is not supported and we need to set up credentials manually. First generate a personal access token with packaging read & write scopes, and then Base64 encode the PAT. Now use the encoded PAT values as password in the user `.npmrc` file (also need the organization, feed, username, and email).
-
-## Debug iOS Safari from your Mac
-1. On your iPhone, go to Settings > Safari > Advanced and toggle on `Web Inspector`.
-2. On your Mac, open Safari and go to Safari > Preferences > Advanced then check `Show Develop menu in menu bar`.
-3. Connect your iPhone to your Mac with the USB cable.
-4. On your iPhone, open the web site that you want to debug.
-5. On your Mac, in Safari, the name of the iOS device will appear as a submenu in the `Develop menu`. This will open a Web Inspector window on your Mac.
+If you are developing on Linux or Mac, `vsts-npm-auth` is not supported and we need to set up credentials manually. First generate a personal access token with packaging read & write scopes, and then Base64 encode the PAT. Now use the encoded PAT values as password in the user `.npmrc` file (also need the organization, feed, username, and email).

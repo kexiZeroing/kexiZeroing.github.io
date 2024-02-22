@@ -403,6 +403,13 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 - iOS 方面，根据 App Store 审核指南，上架 App Store 的应用不允许使用自己的浏览器内核。如果 app 会浏览网页，则必须使用相应的 WebKit 框架和 WebKit Javascript。
 - Android 方面，不限制应用使用自己的浏览器内核。安卓微信之前的浏览器为基于 WebKit 的 X5 浏览器，后为了和小程序的浏览器内核同构，大概 2020-05 从 X5 迁移到 XWeb，内核版本主要为 Chromium 78 和 Chromium 86（[2023-06 更新](https://developers.weixin.qq.com/community/develop/doc/0002c2167840006af8df3c94256001)：当前安卓微信 XWeb 开发版基于 111 新内核，现网仍基于 107 内核）。
 
+### Debug iOS Safari from your Mac
+1. On your iPhone, go to Settings > Safari > Advanced and toggle on `Web Inspector`.
+2. On your Mac, open Safari and go to Safari > Preferences > Advanced then check `Show Develop menu in menu bar`.
+3. Connect your iPhone to your Mac with the USB cable.
+4. On your iPhone, open the web site that you want to debug.
+5. On your Mac, in Safari, the name of the iOS device will appear as a submenu in the `Develop menu`. This will open a Web Inspector window on your Mac.
+
 ### HTTP 请求相关
 首先明确一个认识，很多同学以为 GET 的请求数据在 URL 中，而 POST 不是，所以以为 POST 更安全。不是这样的，整个请求的 HTTP URL PATH 会全部封装在 HTTP 的协议头中。只要是 HTTPS，就是安全的。所谓的 POST 更安全，只能说明该同学并不理解 HTTP 协议。使用规范的方式，可以大大减少跨团队的沟能成本。最差的情况下，也是需要做到“读写分离”的，就是说，至少要有两个动词，GET 表示是读操作，POST 表示是写操作。
 
