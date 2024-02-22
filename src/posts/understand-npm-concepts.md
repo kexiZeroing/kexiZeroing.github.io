@@ -5,7 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "Nov 19 2023"
+updatedDate: "Feb 22 2024"
 ---
 
 ### package.json and package-lock.json
@@ -29,7 +29,7 @@ updatedDate: "Nov 19 2023"
 ### npm install and npm ci
 `npm install` reads `package.json` to create a list of dependencies and uses `package-lock.json` to inform which versions of these dependencies to install. If a dependency is not in `package-lock.json` it will be added by `npm install`.
 
-`npm ci` (named after **C**ontinuous **I**ntegration) installs dependencies directly from `package-lock.json` and uses `package.json` only to validate that there are no mismatched versions. If any dependencies are missing or have incompatible versions, it will throw an error. It will delete any existing `node_modules` folder to ensure a clean state. It never writes to `package.json` or `package-lock.json`. It does however expect a `package-lock.json` file in your project — if you do not have this file, `npm ci` will not work and you have to use `npm install` instead. (If you are on npm v5 or lower, you can only use `npm install` to install or update dependencies.)
+`npm ci` (named after **C**ontinuous **I**ntegration) installs dependencies directly from `package-lock.json` and uses `package.json` only to validate that there are no mismatched versions. If any dependencies are missing or have incompatible versions, it will throw an error. It will delete any existing `node_modules` folder to ensure a clean state. It never writes to `package.json` or `package-lock.json`. It does however expect a `package-lock.json` file in your project — if you do not have this file, `npm ci` will not work and you have to use `npm install` instead.
 
 `npm audit` automatically runs when you install a package with `npm install`. It checks direct dependencies and devDependencies, but does not check peerDependencies. Read more about [npm audit: Broken by Design](https://overreacted.io/npm-audit-broken-by-design) by Dan Abramov.
 
@@ -44,7 +44,6 @@ updatedDate: "Nov 19 2023"
 `npm ls` (aliases: list, la, ll) list dependencies that have been installed to `node_modules`. It throws an error for discrepancies between `package.json` and its lock.
 
 - If `depth` is not set, `npm ls` will show only the immediate dependencies of the root project.
-- If `--all` is set, it will show all dependencies by default.
 - `npm ls <package>` to check a specific package.
 
 ```js
@@ -64,7 +63,7 @@ verify();
 
 > - [depcheck](https://github.com/depcheck/depcheck) check your npm module for unused dependencies.
 > - [Taze](https://github.com/antfu/taze) is a modern cli tool that keeps your deps fresh. No installation required — `npx taze`. `-g` for global and `-I` for interactive.
-> -[npm-check-updates](https://github.com/raineorshine/npm-check-updates) upgrades your `package.json` dependencies to the latest versions, ignoring specified versions.
+> - [npm-check-updates](https://github.com/raineorshine/npm-check-updates) upgrades your `package.json` dependencies to the latest versions, ignoring specified versions.
 > - [Version Lens](https://marketplace.visualstudio.com/items?itemName=pflannery.vscode-versionlens) VS Code extension shows the latest version for each package.
 
 ### dependencies, devDependencies and peerDependencies
@@ -105,7 +104,19 @@ You can configure npm to resolve your dependencies across multiple registries.
 ```
 
 ### fix broken node modules instantly
-[patch-package](https://github.com/ds300/patch-package) lets app authors instantly make and keep fixes to npm dependencies.
+[patch-package](https://github.com/ds300/patch-package) lets app authors instantly make and keep fixes to npm dependencies. Patches created are automatically and gracefully applied when you use npm or yarn.
+
+```sh
+# fix a bug in one of your dependencies
+vim node_modules/some-package/brokenFile.js
+
+# run `patch-package` to create a .patch file
+npx patch-package some-package
+
+# commit the patch file to share the fix with your team
+git add patches/some-package+3.14.15.patch
+git commit -m "fix brokenFile.js in some-package"
+```
 
 ### npm and npx
 One might install a package locally on a certain project using `npm install some-package`, then we want to execute that package from the command line. Only globally installed packages can be executed by typing their name only. To fix this, you must type the local path `./node_modules/.bin/some-package`.
@@ -134,16 +145,6 @@ npm stores cache data in an opaque directory in `.npm`, named `_cacache`. `npm c
 3. Now any changes to `MyModule` will be reflected in `MyApp/node_modules/MyModule/`. Use `npm ls -g --depth=0 --link` to list all the globally linked modules.
 4. Run `npm unlink --no-save <package>` on your project’s directory to remove the local symlink. And run `npm ls --global` to check and `npm rm --global xx` to remove the global symlink.
 
-You may also shortcut the two steps in one. For example, to do the above use-case in a shorter way:
-```shell
-cd MyApp
-npm link ../MyModule  # here you are referring to the directory name
-
-# The second line is the equivalent of doing:
-(cd ../MyModule; npm link)
-npm link MyModule
-```
-
 ### publish npm packages
 Learn how to create a new npm package and publish the code to npm by the demo [Building a business card CLI tool](https://whitep4nth3r.com/blog/build-a-business-card-cli-tool). Once your package is published to npm, you can run `npx {your-command}` to execute your script whenever you like.
 
@@ -158,7 +159,7 @@ pnpm was released in 2017. It is a drop-in replacement for npm, so if you have a
 
 Traditionally, npm installed dependencies in a flat `node_modules` folder. On the other hand, pnpm manages `node_modules` by using hard linking and symbolic linking to a global on-disk content-addressable store. It results in a nested `node_modules` folder that stores packages in a global store on your home folder (`~/.pnpm-store/`). Every version of a dependency is physically stored in that folder only once, constituting a single source of truth. pnpm identifies the files by a hash id (also called "content integrity" or "checksum") and not by the filename, which means that two same files will have identical hash id and pnpm will determine that there’s no reason for duplication.
 
-<img alt="pnpm" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7aw9ablr4j30vm0u0q5z.jpg" width="700" />
+<img alt="pnpm" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7aw9ablr4j30vm0u0q5z.jpg" width="650" />
 
 ### npm scripts
 npm scripts are a set of built-in and custom scripts defined in the `package.json` file. Their goal is to provide a simple way to execute repetitive tasks.
@@ -167,7 +168,7 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
 - `npm run` is an alias for `npm run-script`, meaning you could also use `npm run-script lint`.
 - Built-in scripts can be executed using aliases, making the complete command shorter and easier to remember. For example, `npm run-script test`, `npm run test`, `npm test`, and `npm t` are same to run the test script. `npm run-script start`, `npm run start`, and `npm start` are also same.
 - Run `npm run` if you forget what npm scripts are available. This produces a list of scripts, and displays the code that each script runs.
-- We can use `&&` to run multiple scripts sequentially. If the first script fails, the second script is never executed. Another option is using `npm-run-all` library to run multiple npm-scripts in parallel or sequential, which is simplified and cross platform.
+- We can use `&&` to run multiple scripts sequentially. If the first script fails, the second script is never executed. Another option is using [npm-run-all](https://github.com/mysticatea/npm-run-all) library to run multiple npm-scripts in parallel or sequential, which is simplified and cross platform.
 - When a script finishes with a non-zero exit code, it means an error occurred while running the script, and the execution is terminated.
 - Use `npm run <script> --silent` to reduce logs and to prevent the script from throwing an error. This can be helpful when you want to run a script that you know may fail, but you don't want it to throw an error. Maybe in a CI pipeline, you want your whole pipeline to keep running even when the test command fails.
 - We can create "pre" and "post" scripts for any of our scripts, and npm will automatically run them in order.
@@ -204,7 +205,6 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
   ```
 - Passing arguments to other npm scripts, we can leverage the `--` separator. e.g. `"pass-flags-to-other-script": "npm run my-script -- --watch"` will pass the `--watch` flag to the `my-script` command.
 - One convention that you may have seen is using a prefix and a colon to group scripts, for example `build:dev` and `build:prod`. This can be helpful to create groups of scripts that are easier to identify by their prefixes.
-- [npm-run-all](https://github.com/mysticatea/npm-run-all) is a CLI tool to run multiple npm-scripts in parallel or sequential.
 - [concurrently](https://github.com/open-cli-tools/concurrently) can run multiple commands concurrently. Say you have both backend and frontend folder in the project directroy containing a `package.json` file:
   ```json
   {
@@ -215,8 +215,7 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
     }
   }
   ```
-
-[shx](https://github.com/shelljs/shx) is a wrapper around ShellJS Unix commands, providing an easy solution for simple Unix-like, cross-platform commands in npm package scripts. ShellJS is a portable (Windows/Linux/macOS) implementation of Unix shell commands on top of the Node.js API. `shx` is good for writing one-off commands in npm package scripts (e.g. `"clean": "shx rm -rf out/"`). Run `npm install shx --save-dev` to install it, and run command in either a Unix or Windows command line.
+- [shx](https://github.com/shelljs/shx) is a wrapper around ShellJS Unix commands, providing an easy solution for simple Unix-like, cross-platform commands in npm package scripts. ShellJS is a portable (Windows/Linux/macOS) implementation of Unix shell commands on top of the Node.js API. `shx` is good for writing one-off commands in npm package scripts (e.g. `"clean": "shx rm -rf out/"`). Run `npm install shx --save-dev` to install it, and run command in either a Unix or Windows command line.
 
 ### The rise of supply chain attacks
 Software [supply chain attacks](https://socket.dev/blog/inside-node-modules) occur when an attacker infiltrates a vendor's network and injects malicious code into its software, which that vendor then unknowingly distributes to its customers. Imagine an attacker gets malicious code into a package hosted on npm. From there, the vulnerability spreads to the `node_modules` folders on developer machines, to the build servers, and finally to production systems.
