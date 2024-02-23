@@ -5,17 +5,17 @@ slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Jan 15 2024"
+updatedDate: "Feb 23 2024"
 ---
 
 ### 项目是怎么跑起来的
 
-- 项目里面有很多子项目（`pages/*`），借助 webpack 多⼊⼝配置，打包成多个不同的子项目产出，总体结构来自于模板项目 https://github.com/vuejs-templates/webpack
-- 在 webpack 配置的 entry 里可以看到这些子项目入口（列举出所有的入口 js 文件，或者通过遍历 `src/pages` 得到所有入口），entry 的 base 路径可以由 context 字段指定。
+- 项目里面有很多子项目（`pages/*`），借助 webpack 多⼊⼝配置，打包成多个不同的子项目产出，总体结构来自于一个比较老的模板 https://github.com/vuejs-templates/webpack
+- 在 webpack 配置的 entry 里可以看到这些子项目入口，里面列举了所有的入口 js 文件，也可以通过遍历 `src/pages` 得到所有入口。
 - 对于每一个 page，都有对应的 `HtmlWebpackPlugin` 指定它的模板，并注入它需要的 chunks （对应每一个 entry 打包出的 js），本地直接通过 `localhost/xx.html` 访问，线上通过配置 nginx 路由映射访问 `try_files $uri /static/xx.html`
-- 指定 `chunks` 是因为项目是多 entry 会生成多个编译后的 js 文件，chunks 决定使用哪些 js 文件，如果没有指定默认会全部引用。`inject` 值为 true（结合 `scriptLoading` 的值），表明 chunks js 会被注入到 html 文件的 head 中，以 script defer 标签的形式引入。对于 css, 使用 `mini-css-extract-plugin` 从 bundle 中分离出单独的 css 文件并在 head 中以 link 标签引入。*（extract-text-webpack-plugin 是老版本 webpack 用来提取 css 文件的插件，从 webpack v4 被 mini-css-extract-plugin 替代）*
-- 每一个 page 里的 js 文件（入口文件）会创建该子项目的 Vue 实例，指定对应的 component, router, store, 同时会把 `jQuery`, `request`, `API`, `i18n` 这些对象挂载在 window 对象上，子组件中不需要单独引用。
-- 每一个 page 有对应的 `router` 文件，这是子项目的路由，而且每个路由加载的 component 都是异步获取，在访问该路由时按需加载。（注意 Vue Router 3 和 Vue 2 是配套的，Vue Router 4 和 Vue 3 是配套的）
+- 指定 `chunks` 是因为项目是多 entry 会生成多个编译后的 js 文件，chunks 决定使用哪些 js 文件，如果没有指定默认会全部引用。`inject` 值为 true，表明 chunks js 会被注入到 html 文件的 head 中，以 script defer 标签的形式引入。对于 css, 使用 `mini-css-extract-plugin` 从 bundle 中分离出单独的 css 文件并在 head 中以 link 标签引入。*（extract-text-webpack-plugin 是老版本 webpack 用来提取 css 文件的插件，从 webpack v4 被 mini-css-extract-plugin 替代）*
+- 每一个 page 里的 js 文件（入口文件）会创建该子项目的 Vue 实例，指定对应的 component, router, store, 同时会把 `request`, `API`, `i18n` 这些对象挂载在 window 对象上，子组件中不需要单独引用。
+- 每一个 page 有对应的 `router` 文件，这是子项目的路由，而且每个路由加载的 component 都是异步获取，在访问该路由时按需加载。
 - webpack 打包时（`dist/`）会 emit 出所有 `HtmlWebpackPlugin` 生成的 html 文件（这也是浏览器访问的入口），相对每个 entry 打包出的 js 文件 `js/[name].[chunkhash].js`（对应 output.filename），所有异步加载的组件 js `js/[id].[chunkhash].js`（对应 output.chunkFilename）。这些 chunk 基本来自 vue-router 配置的路由 `component: resolve => require(['@/components/foo'], resolve)`，这样懒加载的组件会生成一个 js 文件。
 - `copy-webpack-plugin` 用来把那些已经在项目目录中的文件（比如 `public/` 或 `static/`）拷贝到打包后的产出中，这些文件不需要 build，不需要 webpack 的处理。另外可以使用 `ignore: ["**/file.*", "**/ignored-directory/**"]` 这样的语法忽略一些文件不进行拷贝。
 - 图片、音乐、字体等资源的打包处理使用 `url-loader` 结合 `limit` 的设置，如果资源比较大会默认使用 `file-loader` 生成 `img/[name].[hash:7].[ext]` 这样的文件；如果资源小，会自动转成 base64。*（DEPREACTED for v5: please consider migrating to asset modules）*
@@ -43,12 +43,11 @@ new Vue({
 })
 ```
 
-Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版本页面](https://www.npmjs.com/package/vue?activeTab=versions) 可以看到当前已使用 3.2.x 作为默认 latest 版本。如果还要用 Vue 2 ，需要手动指定 `legacy` 版本才能安装到 Vue 2。更多关于 Vue 的发布更新可以看 https://blog.vuejs.org
-
+Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本。
 - [create-vite](https://github.com/vitejs/vite/tree/main/packages/create-vite) 是 Vite 官方推荐的一个脚手架工具，可以创建基于 Vite 的不同技术栈基础模板。`npm create vite` 可创建一个基于 Vite 的基础空项目。
 - [create-vue](https://github.com/vuejs/create-vue) 是 Vue 官方推出的一个脚手架，可以创建基于 Vite 的 Vue 基础模板。`npm init vue@3` 然后根据命令行的提示操作。
 - [Vue 3 + SSR + Vite](https://github.com/nuxt-contrib/vue3-ssr-starter) Vue 3 + SSR 使用 Vite 进行开发的模板。
-- 如果不习惯 Vite ，依然可以使用 [Vue CLI](https://cli.vuejs.org) 作为开发脚手架，它使用的构建工具还是基于 Webpack。使用 create 命令 `vue create hello-vue3` 根据提示创建项目。*(Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use create-vue to scaffold Vite-based projects.)*
+- 如果不习惯 Vite，依然可以使用 [Vue CLI](https://cli.vuejs.org) 作为开发脚手架，它使用的构建工具还是基于 Webpack。使用命令 `vue create hello-vue3` 根据提示创建项目。*(Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use create-vue to scaffold Vite-based projects.)*
 - [Volar](https://blog.vuejs.org/posts/volar-1.0.html) 是 Vue 官方推荐的 VSCode 扩展 *(the official IDE/TS tooling support for Vue)*，用以代替 Vue 2 时代的 Vetur 插件。
 
 ### 一些 webpack 的配置
@@ -61,14 +60,8 @@ Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本，在 [npm 版�
 - `filename` 是对应于 entry 里面的输入文件，经过打包后输出文件的名称。`chunkFilename` 指未被列在 entry 中，却又需要被打包出来的 chunk 文件的名称（non-initial chunk files），一般是要懒加载的代码。
 - `output.filename` 的输出文件名是 `js/[name].[chunkhash].js`，`[name]` 根据 entry 的配置推断为 index，所以输出为 `index.[chunkhash].js`。`output.chunkFilename` 默认使用 `[id].js`, 会把 `[name]` 替换为 chunk 文件的 id 号。
 - By prepending `js/` to the filename in `output.filename`, webpack will write bundled files to a js sub-directory in the `output.path`. This allows you to organize files of a particular type in appropriately named sub-directories.
-- `chunkFileName` 不能灵活自定义，可以通过 `/* webpackChunkName: "foo" */` 这样的 [Magic Comments](https://webpack.js.org/api/module-methods/#magic-comments)，给 import 语句添加注释来命名 chunk。
+- `chunkFileName` 不能灵活自定义，但可以通过 `/* webpackChunkName: "foo" */` 这样的 [Magic Comments](https://webpack.js.org/api/module-methods/#magic-comments)，给 import 语句添加注释来命名 chunk。
 - `chunkhash` 根据不同的入口文件构建对应的 chunk，生成对应的哈希值，来源于同一个 chunk，则 hash 值就一样。
-
-> 生成 chunks
-> 1. webpack 先将 entry 中对应的 module 都生成一个新的 chunk
-> 2. 遍历 module 的依赖列表，将依赖的 module 也加入到 chunk 中
-> 3. 如果一个依赖 module 是动态引入的模块，那么就会根据这个 module 创建一个 新的 chunk，继续遍历依赖
-> 4. 重复上面的过程，直至得到所有的 chunks
 
 #### path and publicPath
 - `output.path` represents the absolute path for webpack file output in the file system. In other words, `path` is the physical location on disk where webpack will write the bundled files.
@@ -89,14 +82,6 @@ chunks: 'all' | 'initial' | 'async':
 - `all` means both dynamically imported modules and statically imported modules will be selected for optimization.
 - `initial` means only statically imported modules; `async` means only dynamically imported modules.
 
-splitChunks.cacheGroups:  
-- Default config for webpack defines two cacheGroups, one for node modules and other for remaining modules.
-- `test`: This regex tests whether a module comes from the `node_modules` directory and includes one of the specified libraries (i.e. vue, vue-router, vuex, axios).
-- `name`: The name for the generated chunk. In this case, it's set to 'vendors'.
-- `chunks`: Specifies which chunks to include in the optimization. The value 'all' means that both initial and async chunks will be affected.
-- `priority`: Sets the priority for this cache group. A higher priority means it will be given precedence.
-- `reuseExistingChunk`: This is set to true, indicating that if a module already exists in a chunk, it won't be duplicated.
-
 #### resolve
 - extensions 数组，在 import 不带文件后缀时，webpack 会自动带上后缀去尝试访问文件是否存在，默认值 `['.js', '.json', '.wasm']`
 - mainFiles 设置解析目录时要使用的文件名，默认值 `['index']`
@@ -111,28 +96,13 @@ splitChunks.cacheGroups:
 #### load images
 Webpack goes through all the `import` and `require` files in your project, and for all those files which have a `.png|.jpg|.gif` extension, it uses as an input to the webpack `file-loader`. For each of these files, the file loader emits the file in the output directory and resolves the correct URL to be referenced. Note that this config only works for webpack 4, and Webpack 5 has deprecated the `file-loader`. If you are using webpack 5 you should change `file-loader` to `asset/resource`.
 
-By default, `file-loader` renames each file it process to a filename with random characters. Then it puts the file in the root of the output folder. We can change both the file name of the processed files and the output folder. We do that in an `options` section.
-```js
-module: {
-  rules: [
-    {
-      test: /\.png$/,
-      loader: 'file-loader',
-      options: {
-        name: '[name].[ext]', // keeps the original file names
-        outputPath: 'images'  // outputs all processed files in a subfolder called images
-      }
-    }
-  ]
-}
-```
-
 Webpack 4 also has the concept `url-loader`. It first base64 encodes the file and then inlines it. It will become part of the bundle. That means it will not output a separate file like `file-loader` does. If you are using webpack 5, then `url-loader` is deprecated and instead, you should use `asset/inline`.
 
 > Loaders are transformations that are applied to the source code of a module. When you provide a list of loaders, they are applied from right to left, like `use: ['third-loader', 'second-loader', 'first-loader']`. This makes more sense once you look at a loader as a function that passes its result to the next loader in the chain `third(second(first(source)))`.
 
 #### webpack in development
-- `webpack-dev-server` doesn't write any output files after compiling. Instead, it keeps bundle files in memory and serves them as if they were real files mounted at the server's root path. `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.
+- `webpack-dev-server` doesn't write any output files after compiling. Instead, it keeps bundle files in memory and serves them as if they were real files mounted at the server's root path.
+- `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.
 - Want to access `webpack-dev-server` from the mobile in local network: run `webpack-dev-server` with `--host 0.0.0.0`, which lets the server listen for requests from the network (all IP addresses on the local machine), not just localhost. But Chrome won't access `http://0.0.0.0:8089` (Safari can open). It's not the IP, it just means it is listening on all the network interfaces, so you can use any IP the host has.
 
 #### HMR (Hot Module Replacement) 
@@ -192,15 +162,7 @@ const webpackConfig = smp.wrap({
 });
 ```
 
-Webpack 5 fails if using `smp.wrap()` the config, with the error: "You forgot to add 'mini-css-extract-plugin' plugin". As a hacky workaround, you can append `MiniCssExtractPlugin` after wrapping with `speed-measure-webpack-plugin`:
-
-```js
-// https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861
-const configWithTimeMeasures = new SpeedMeasurePlugin().wrap(config);
-configWithTimeMeasures.plugins.push(new MiniCssExtractPlugin({}));
-
-module.exports = configWithTimeMeasures;
-```
+Webpack 5 fails if using `smp.wrap()` the config, with the error: "You forgot to add `mini-css-extract-plugin` plugin". As a hacky workaround, you can append `MiniCssExtractPlugin` after wrapping with `speed-measure-webpack-plugin`.
 
 #### TypeScript and Webpack
 Webpack is extensible with "loaders" that can be added to handle particular file formats.
@@ -210,9 +172,7 @@ Webpack is extensible with "loaders" that can be added to handle particular file
 3. If you want to further optimize the code produced by TSC, use `babel-loader` with `ts-loader`. We need to compile a `.ts` file using `ts-loader` first and then using `babel-loader`.
 4. `ts-loader` does not write any file to disk. It compiles TypeScript files and passes the resulting JavaScript to webpack, which happens in memory.
 
-But TypeScript still isn't happy. It doesn't know anything about Webpack, and obviously doesn't understand `.vue` files - they aren't actually Typescript modules. What should TypeScript do with something that isn’t a JS or TS module? Throwing an error! Could not find module.
-
-So it will throw an error when you try to import `Foo.vue`. The solution is `shims-vue.d.ts` in `src` directory. The filename does not seem to be important, as long as it ends with `.d.ts`. TypeScript looks for `.d.ts` files in the same places it looks for your regular `.ts` files. It basically means, "every time you import a module with the name `*.vue`, then treat it as if it had these contents, and the type of `Foo` will be Vue.".
+TypeScript doesn't understand `.vue` files - they aren't actually Typescript modules. So it will throw an error when you try to import `Foo.vue`. The solution is `shims-vue.d.ts` in `src` directory. The filename does not seem to be important, as long as it ends with `.d.ts`. TypeScript looks for `.d.ts` files in the same places it looks for your regular `.ts` files. It basically means, "every time you import a module with the name `*.vue`, then treat it as if it had these contents, and the type of `Foo` will be Vue."
 
 ```ts
 // shims-vue.d.ts
@@ -261,16 +221,18 @@ output: {
 },
 ```
 
-> Crash course to learn how to create and publish your own React component library to the NPM registry (with Storybook and Rollup): https://www.youtube.com/watch?v=hf6Z8OZanec
-
-#### `main` vs `module` vs `exports` in package.json
-The `"main"` field is supported in all versions of Node.js, but its capabilities are limited: it only defines the main entry point of the package.
-
-When a package has an `"exports"` field, this will take precedence over the `"main"` field when importing the package by name. [Conditional Exports](https://nodejs.org/api/packages.html#conditional-exports) can also be used within "exports" to define different package entry points per environment, including whether the package is referenced via `require` or via `import`.
-
-Generally speaking, `"exports"` superseded `"module"` field. `"module"` itself has never been an official standard but it became so widespread that at some point it was a de facto standard. If a package has no `"main"` key and has a `"module"` key, Node.js evaluates all files in that package as standard modules.
-
-> "The complete guide to packaging libraries" talk: https://package-library.bjornlu.com
+#### 配置 babel-loader 不编译引入的 sdk 文件
+Transpiling is an expensive process and many projects have thousands of lines of code imported in that babel would need to run over. Your `node_modules` should already be runnable without transpiling and there are simple ways to exclude your `node_modules` but transpile any code that needs it.
+```js
+{
+  test: /\.js$/,
+  exclude: /node_modules\/(?!(my_main_package\/what_i_need_to_include)\/).*/,
+  use: {
+    loader: 'babel-loader',
+    options: ...
+  }
+}
+```
 
 ### 本地 build 与上线 build
 1. 公共组件库 C 需要先 build，再 `npm link` 映射到全局的 node_modules，然后被其他项目 `npm link C` 引用。(关于 `npm link` 的使用场景可以看看 https://github.com/atian25/blog/issues/17)
@@ -294,34 +256,8 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 4. 使用 [chalk](https://www.npmjs.com/package/chalk) 在命令行中显示一些提示信息。
 5. 补充：目前大多数工程都是通过脚手架来创建的，使用脚手架的时候最明显的就是与命令行的交互，[Inquirer.js](https://github.com/SBoudrias/Inquirer.js) 是一组常见的交互式命令行用户界面。[Commander.js](https://github.com/tj/commander.js) 作为 node.js 命令行解决方案，是开发 node cli 的必备技能。
 
-### 老项目升级
-背景：引用第三方 sdk，babel 版本过低导致引入的 js 里面有些语法不认识  
--> 升级 babel (检查 `npm ls babel-core` 看还有没有旧版本被引用)  
--> Error: Requires Babel "^7.0.0-0", but was loaded with "6.26.3"  
--> babel-loader 版本不够，升级  
--> babel-loader 报错 Error: Cannot find module 'fs/promises'  
--> node 版本过低导致 In the old version of Node.js, there's no dedicated module fs/promises yet  
--> 用 node 16 跑 npm install 报错，因为 node-sass 与 node 版本绑定，升级 node-sass 下载 bindings 等比较麻烦  
--> 去掉 node-sass，安装 sass，升级 sass-loader  
--> npm run 报错 this.getOptions is not a function，查 sass-loader 更新日志看到 sass-loader@8 minimum required webpack version is 4.36.0  
--> 不升级 webpack 情况下试一下低版本的 sass-loader 也不行  
--> 结论就是需要全面升级  
-
-配置 babel-loader 不编译引入的 sdk 文件：  
-Transpiling is an expensive process and many projects have thousands of lines of code imported in that babel would need to run over. Your `node_modules` should already be runnable without transpiling and there are simple ways to exclude your `node_modules` but transpile any code that needs it.
-```js
-{
-  test: /\.js$/,
-  exclude: /node_modules\/(?!(my_main_package\/what_i_need_to_include)\/).*/,
-  use: {
-    loader: 'babel-loader',
-    options: ...
-  }
-}
-```
-
 ### 后端模板
-有些 url 请求是后端直出页面返回 html，通过类似 `render_to_response(template, data)` 的方法，将数据打到模板 html 中，模板里会引用 `xx/static/js` 路径下的 js 文件，这些 js 使用 require 框架，导入需要的其他 js 文件或 tpl 模板，再结合业务逻辑使用 underscore 的 template 方法（`_.template(xx)`）可以将 tpl 渲染为 html，然后被 jquery `.html()` 方法插入到 DOM 中。
+有些 url 请求是后端直出页面返回 html，通过类似 `render_to_response(template, data)` 的方法，将数据打到模板中，模板里会引用 `xx/static/js` 路径下的 js 文件，这些 js 使用 require 框架，导入需要的其他 js 文件或 tpl 模板，再结合业务逻辑使用 underscore 的 template 方法（`_.template(xx)`）可以将 tpl 渲染为 html，然后被 jquery `.html()` 方法插入到 DOM 中。
 
 - 请求 `/web?old=1` 后端会返回 html 扫码登录页面，这里面有一个 `/static/vue/login.js?_dt=xxxxx`，里面有登录和加载网页版首页的逻辑，这样就会展示出 h5 中的页面，其中的 iframe 可以嵌套任意 pc 或 h5 中的页面（只要有路由支持），这个 iframe 的链接自然也可以被单独访问。
 - h5 发起的第一次页面请求是走服务器，后端返回一个模板 html，这里面有一个 app 元素是 Vue 挂载的地方，前端通过一个老的 vue router API `router.start(App, 'app')` 创建 vue 实例并进行挂载（https://github.com/vuejs/vue-router/blob/1.0/docs/en/api/start.md），这之后才会被前端路由接管。而且这个 html 只能在手机端访问（根据 ua），否则会跳到 web 端的逻辑。
@@ -359,7 +295,7 @@ if (!isInIframe && !ua.toLowerCase().match(/micromessenger|android|iphone/i)) {
 > 常规的扫码登录原理（涉及 PC 端、手机端、服务端）：
 > 1. PC 端携带设备信息向服务端发起生成二维码的请求，生成的二维码中封装了 uuid 信息，并且跟 PC 设备信息关联起来，二维码有失效时间。PC 端轮询检查是否已经扫码登录。
 > 2. 手机（已经登录过）进行扫码，将手机端登录的信息凭证（token）和二维码 uuid 发送给服务端，此时的手机一定是登录的，不存在没登录的情况。服务端生成一个一次性 token 返回给移动端，用作确认时候的凭证。
-> 3. 移动端携带上一步的临时 token 确认登录，服务端校对完成后，会更新二维码状态，并且给 PC 端一个正式的 token ，后续 PC 端就是持有这个 token 访问服务端。
+> 3. 移动端携带上一步的临时 token 确认登录，服务端校对完成后，会更新二维码状态，并且给 PC 端一个正式的 token，后续 PC 端就是持有这个 token 访问服务端。
 
 > 常规的密码存储：
 > 
@@ -411,7 +347,7 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 5. On your Mac, in Safari, the name of the iOS device will appear as a submenu in the `Develop menu`. This will open a Web Inspector window on your Mac.
 
 ### HTTP 请求相关
-首先明确一个认识，很多同学以为 GET 的请求数据在 URL 中，而 POST 不是，所以以为 POST 更安全。不是这样的，整个请求的 HTTP URL PATH 会全部封装在 HTTP 的协议头中。只要是 HTTPS，就是安全的。所谓的 POST 更安全，只能说明该同学并不理解 HTTP 协议。使用规范的方式，可以大大减少跨团队的沟能成本。最差的情况下，也是需要做到“读写分离”的，就是说，至少要有两个动词，GET 表示是读操作，POST 表示是写操作。
+首先明确一个认识，很多同学以为 GET 的请求数据在 URL 中，而 POST 不是，所以以为 POST 更安全。不是这样的，整个请求的 HTTP URL PATH 会全部封装在 HTTP 的协议头中。只要是 HTTPS，就是安全的。所谓的 POST 更安全，只能说明该同学并不理解 HTTP 协议。使用规范的方式，可以大大减少跨团队的沟能成本。
 
 1. 使用 vue-resource
 - [vue-resource](https://github.com/pagekit/vue-resource) 是一个轻量级的用于处理 HTTP 请求的插件，通过 `Vue.use` 使用自定义的插件。
@@ -457,7 +393,7 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
       return axios
         .get(url)
         .then(function(response) {
-            return response
+          return response
         })
         .then(handleResponse)    // 统一处理 redirect, 赋值 location.href 
         .catch(errorResponseGet) // 统一处理错误码 4xx, 5xx
@@ -469,37 +405,16 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
   }
   ```
 
-Axios 遇到 302 返回：重定向直接被浏览器拦截处理，浏览器 redirect 后，被视为 Axios 发起了跨域请求，所以抛异常。Axios 捕获异常，进入 catch 逻辑。
+> 注意 Axios 遇到 302 的返回：重定向直接被浏览器拦截处理，浏览器 redirect 后，被视为 Axios 发起了跨域请求，所以抛异常。Axios 捕获异常，进入 catch 逻辑。
 
 ### API 版本和 URI 连字符
 API 版本可以放在两个地方: 在 url 中指定 API 的版本，例如 https://example.com/api/v1，这样不同版本的协议解析可以放在不同的服务器上，不用考虑协议兼容性，开发方便，升级也不受影响。另一种是放在 HTTP header 中，url 显得干净，符合 RESTful 惯例，毕竟版本号不属于资源的属性。缺点是需要解析头部，判断返回。
 
 URI 中尽量使用连字符 `-` 代替下划线 `_` 的使用，连字符用来分割 URI 中出现的单词，提高 URI 的可读性。下划线会和链接的样式冲突重叠。URI 是对大小写敏感的，为了避免歧义，我们尽量用小写字符。但主机名（Host）和协议名（Scheme）对大小写是不敏感的。
 
-### 静态资源文件上传七牛
-使用 [Qiniu](https://www.npmjs.com/package/qiniu) 作为 webpack 打包过程中的一个插件负责静态文件上传，可以使用 [qiniu-upload-plugin](https://github.com/mengsixing/qiniu-upload-plugin)，将 webpack 打包出来的 assets 上传到七牛云。
-
-```js
-// build 脚本使用自定义的 QiniuPlugin
-const publicPath = 'https://x.y.z/';
-const assetsSubDirectory = 'a/b/';
-webpackConfig.output.publicPath = publicPath + assetsSubDirectory;
-
-webpackConfig.plugins.push(
-  new QiniuPlugin({
-    publicPath: publicPath,
-    assetsSubDirectory: assetsSubDirectory,
-    accessKey: '...',
-    secretKey: '...',
-    bucket: 'xxx',
-    zone: 'Zone_z1',
-  })
-)
-```
-
 ### 阿里云 CDN
 阿里云 CDN 对于文件是否支持缓存是以 `X-Cache` 头部来确定，缓存时间是以 `X-Swift-CacheTime` 头部来确认。
-- `Age` 表示该文件在 CDN 节点上缓存的时间，单位为秒。只有文件存在于节点上 Age 字段才会出现，当文件被刷新后或者文件被清除的首次访问，在此前文件并未缓存，无Age头部字段。当 Age 为 0 时，表示节点已有文件的缓存，但由于缓存已过期，本次无法直接使用该缓存，需回源校验。
+- `Age` 表示该文件在 CDN 节点上缓存的时间，单位为秒。只有文件存在于节点上 Age 字段才会出现，当文件被刷新后或者文件被清除的首次访问，在此前文件并未缓存，无 Age 头部字段。当 Age 为 0 时，表示节点已有文件的缓存，但由于缓存已过期，本次无法直接使用该缓存，需回源校验。
 - `X-Swift-SaveTime` 该文件是在什么时间缓存到 CDN 节点上的。(GMT时间，Greenwich Mean Time Zone)
 - `X-Swift-CacheTime` 该文件可以在 CDN 节点上缓存多久，是指文件在 CDN 节点缓存的总时间。通过 `X-Swift-CacheTime – Age` 计算还有多久需要回源刷新。
 

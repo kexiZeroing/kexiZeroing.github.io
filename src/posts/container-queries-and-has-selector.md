@@ -75,6 +75,8 @@ body:has(.lock-scroll) {
 }
 ```
 
+> `.card:has(:not(img))` means “select a card that has any element that is not an image”. `.card:not(:has(img))` means “select a card doesn't have an image”, and that's exactly what we want.
+
 ## The selector `:is()` and `:where()`
 - In CSS when using a selector list, if any of the selectors are invalid then the whole list is deemed invalid. When using `:is()` or `:where()` instead of the whole list of selectors being deemed invalid if one fails to parse, the incorrect or unsupported selector will be ignored and the others used. *(so-called "forgiving selectors")*.
 - The difference between `:where()` and `:is()` is that `:where()` always has 0 specificity, whereas `:is()` takes on the specificity of the most specific selector in its arguments.

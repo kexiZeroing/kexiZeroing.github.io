@@ -146,60 +146,6 @@ module.exports = {
 
 **Live Reload** refreshes the entire app when a file changes. For example, if you were four links deep into your navigation and saved a change, live reloading would restart the app and load the app back to the initial route. **Hot Reload** only refreshes the files that were changed without losing the state of the app. (Webpack's **Hot Module Replacement** replaces the modules that have been modified on the fly without reloading the entire page). The advantage of this is that it doesn't lose your app state, e.g. your inputs on your form fields, your currently selected tab.
 
-What the heck is HMR: https://github.com/pcattori/what-the-heck-is-hmr
-```js
-// simple hmr.cjs
-let path = require("node:path")
-let chokidar = require("chokidar")
-let esbuild = require("esbuild")
-
-module.exports = async (entrypoint, socket) => {
-  // Invalidate only the modules that changes, and any dependents of the changed module
-  let invalidate = async (modulePath) => {
-    let dependents = await analyze(entrypoint)
-    let q = [modulePath]
-    while (q.length > 0) {
-      let modPath = q.pop()
-      delete require.cache[modPath]
-      let deps = dependents[modPath] ?? []
-      q.push(...deps)
-    }
-  }
-
-  // Watch for changes in the app directory
-  let appDir = path.join(process.cwd(), "app")
-  let watcher = chokidar.watch(appDir, { ignoreInitial: true })
-  watcher.on("change", async (file) => {
-    // If invalidate all the modules (delete all the keys in `require.cache`) -> live reload
-    await invalidate(file)
-    socket.send()
-  })
-
-  return () => require(entrypoint)
-}
-
-let analyze = async (entrypoint) => {
-  let result = await esbuild.build({
-    bundle: true,
-    entryPoints: [entrypoint],
-    metafile: true,
-    write: false,
-    platform: "node",
-    logLevel: "silent",
-  })
-
-  let dependents = {}
-  for (let [input, meta] of Object.entries(result.metafile.inputs)) {
-    for (let imp of meta.imports) {
-      let rImpPath = path.resolve(imp.path)
-      dependents[rImpPath] = dependents[rImpPath] ?? []
-      dependents[rImpPath].push(path.resolve(input))
-    }
-  }
-  return dependents
-}
-```
-
 ### Source Map
 Once you've compiled and minified your code, normally alongside it will exist a sourceMap file(`file.js.map`). **It helps us with debugging transformed code in its original form**. The bundler will add a source map location comment `//# sourceMappingURL=/path/to/file.js.map` at the end of every generated bundle, which is required to signify to the browser devtools that a source map is available. Another type of source map is inline which has a base64 data URL like `# sourceMappingURL=data:application/json;base64,xxx...`
 
