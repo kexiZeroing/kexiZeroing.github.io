@@ -51,7 +51,7 @@ Use the `container-type` property a value of `size`, `inline-size`, or `normal`.
 
 > There is also the possiblity to use style queries in addition, Style Queries let us query a CSS property or CSS variable for a container. Style queries are still experimental and currently are implemented only in Chrome Canary. A good reminder that mentioning "container queries" isn't enough now, we need to specify either size or style. Read more at: https://ishadeed.com/article/css-container-style-queries
 
-## The `:has()` parent selector
+## The `:has()` selector
 The CSS `:has()` pseudo-class enables developers to check if a parent element contains children with specific parameters. For example, `p:has(span)` indicates a paragraph selector, which has a `span` inside of it. You can use this to style the parent paragraph itself, or style anything within it.
 
 Let’s expand on the example with the rocket card. What if you had a card without an image? Maybe you want to increase the size of the title and adjust the grid layout to single column so that it looks more intentional without the image.
@@ -72,6 +72,29 @@ Use Case 2: Imagine that you need to open a modal window, it's good practice to 
 ```css
 body:has(.lock-scroll) {
   overflow: hidden;
+}
+```
+
+Use Case 3: We can check the input state like a checkbox or radio button.
+```css
+.box:has(input[type="checkbox"]:checked)  {
+  .btn {
+    opacity: 1;
+    pointer-events: initial;
+  }
+}
+
+.box:has(input[value="standard"]:checked)  {
+  .note {
+    display: block;
+  }
+}
+
+.question:has(input[data-correct="false"]:checked) {
+  .questionHeader {
+    box-shadow: inset 0 7px 0 0 var(--wrong);
+    background-color: var(--wrong-bg);
+  }
 }
 ```
 

@@ -70,16 +70,16 @@ defineProps({
 By the way, destructuring a value from a reactive object will break reactivity, since the reactivity comes from the object itself and not the property you’re grabbing. Using `toRefs` lets us destructure our props when using `script setup` without losing reactivity:
 
 ```js
-const { prop1, prop2 } = toRefs(defineProps({
-  prop1: {
-    type: String,
-    required: true,
-  },
-  prop2: {
-    type: String,
-    default: 'World',
-  },
-}));
+const { count } = defineProps<{ count: number }>(); // Don't do this!
+
+// The first obvious solution is to not destructure the props object
+const props = defineProps<{ count: number }>();
+const even = computed(() => (props.count % 2 === 0 ? 'even' : 'odd'));
+
+// Use toRefs() helper
+const props = defineProps<{ count: number }>();
+const { count } = toRefs(props);
+const even = computed(() => (count.value % 2 === 0 ? 'even' : 'odd'));
 ```
 
 ### Recursive Tree

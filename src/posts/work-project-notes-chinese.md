@@ -209,6 +209,11 @@ So far everything should be the same as bundling an application, and here comes 
 > - ES6 modules: ES6 finally implements a built-in module system for JS. The format provides an import and export syntax that new JavaScript developers are likely more familiar with than AMD or CJS.
 
 ```js
+// export components in the entry file index.js
+export * from './components/xxx'
+```
+
+```js
 output: {
   filename: "library-starter.js",
   path: path.resolve(__dirname, "dist"),
@@ -219,6 +224,27 @@ output: {
   },
   globalObject: "this"  // To make UMD build available on both browsers and Node.js
 },
+```
+
+```js
+// use Rollup is easier for bundling component library
+// "main": "dist/index.js"
+// "module": "dist/index.es.js"
+{
+  input: './src/index.js',
+  output: [
+    {
+      file: 'dist/index.js',
+      format: 'cjs',
+    },
+    {
+      file: 'dist/index.es.js',
+      format: 'es',
+      exports: 'named',
+    }
+  ],
+  plugins: [...]
+}
 ```
 
 #### 配置 babel-loader 不编译引入的 sdk 文件
