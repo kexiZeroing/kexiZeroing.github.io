@@ -65,6 +65,10 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
 }
 ```
 
+> Available from TypeScript 4.7+, `NodeNext` integrates with Node’s native ECMAScript Module support. The emitted JavaScript uses either CommonJS or ES2022 output depending on the file extension and the value of the `type` setting in the nearest `package.json`.
+>
+> In addition to the base functionality of ES2015/ES6, ES2020 adds support for dynamic imports, and `import.meta` while ES2022 further adds support for top level await.
+
 See examples:
 - https://github.com/Microsoft/TypeScript-Babel-Starter/blob/master/tsconfig.json
 - https://github.com/vuejs/tsconfig/blob/main/tsconfig.json

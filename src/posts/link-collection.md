@@ -62,6 +62,8 @@ A technical explainer of how your computer runs programs: https://cpu.land
 
 The reasoning behind various decisions made for the Epic Stack: https://github.com/epicweb-dev/epic-stack/tree/main/docs/decisions
 
+Awesome System Design Resources: https://github.com/ashishps1/awesome-system-design-resources
+
 ---
 
 ## Tools and Cool websites
