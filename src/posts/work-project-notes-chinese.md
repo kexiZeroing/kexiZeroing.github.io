@@ -373,8 +373,6 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 5. On your Mac, in Safari, the name of the iOS device will appear as a submenu in the `Develop menu`. This will open a Web Inspector window on your Mac.
 
 ### HTTP 请求相关
-首先明确一个认识，很多同学以为 GET 的请求数据在 URL 中，而 POST 不是，所以以为 POST 更安全。不是这样的，整个请求的 HTTP URL PATH 会全部封装在 HTTP 的协议头中。只要是 HTTPS，就是安全的。所谓的 POST 更安全，只能说明该同学并不理解 HTTP 协议。使用规范的方式，可以大大减少跨团队的沟能成本。
-
 1. 使用 vue-resource
 - [vue-resource](https://github.com/pagekit/vue-resource) 是一个轻量级的用于处理 HTTP 请求的插件，通过 `Vue.use` 使用自定义的插件。
 - 全局对象使用 `Vue.http.get()`，在一个组件内使用 `this.$http.get()`

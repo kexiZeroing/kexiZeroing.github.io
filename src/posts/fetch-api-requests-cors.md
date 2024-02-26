@@ -9,7 +9,7 @@ updatedDate: "Jan 13 2024"
 ---
 
 ## Fetch API
-Fetch method allows you to make network requests similar to `XMLHttpRequest`. The main difference is that the Fetch API uses `Promise`, which enables a simpler and cleaner API, avoiding callback hell and having to remember the complex API of XHR. 
+Fetch method allows you to make network requests similar to `XMLHttpRequest`. The main difference is that the Fetch API uses `Promise`, which enables a simpler and cleaner API, avoiding callback hell and having to remember the complex API of XHR.
 
 The `fetch()` method takes one mandatory argument, the path to the resource you want to fetch. It returns a Promise that resolves to the Response to that request even if the server response is an HTTP error status. Once a Response is retrieved, there are a number of methods available to define what the body content is and how it should be handled.
 
@@ -168,26 +168,28 @@ Use `multipart/form-data` when your form includes any `<input type="file">` elem
 ### Process the form data
 1. What does `body-parser` do with express? Originally, there was only `body-parser`, not `express.json()`. `body-parser` extracts the entire body portion of an incoming request stream and exposes it on `req.body`. As of Express version 4.16+, their own `body-parser` implementation is now included in the default Express package so there is no need for you to download another dependency.
 
-  ```js
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: false }));
-  ```
+    ```js
+    app.use(express.json());
+    // Parsing the URL-encoded data with the `querystring` library (when false) or the `qs` library (when true).
+    // To be simple,`querystring` cannot parse nested object.
+    app.use(express.urlencoded({ extended: false }));
+    ```
 
-2. However, `body-parser` does not handle multipart bodies. [Multer](https://github.com/expressjs/multer) is a node.js middleware for handling `multipart/form-data`, which is primarily used for uploading files.
+2. However, `body-parser` does not handle multipart bodies. [Multer](https://github.com/expressjs/multer) is a Node.js middleware for handling `multipart/form-data`, which is primarily used for uploading files.
 
-  ```js
-  const express = require('express')
-  const multer  = require('multer')
-  // where to upload the files. In case you omit the options object, the files will be kept in memory and never written to disk.
-  const upload = multer({ dest: 'uploads/' })
+    ```js
+    const express = require('express')
+    const multer  = require('multer')
+    // where to upload the files. In case you omit the options object, the files will be kept in memory and never written to disk.
+    const upload = multer({ dest: 'uploads/' })
 
-  const app = express()
+    const app = express()
 
-  app.post('/profile', upload.single('avatar'), function (req, res, next) {
-    // req.file is the `avatar` file, which is the file you uploaded
-    console.log(req.file)
-  })
-  ```
+    app.post('/profile', upload.single('avatar'), function (req, res, next) {
+      // req.file is the `avatar` file, which is the file you uploaded
+      console.log(req.file)
+    })
+    ```
 
 ### POST and PUT
 The difference between `PUT` and `POST` is that `PUT` is idempotent *(If you PUT an object twice, it has no effect)*. `PUT` implies putting a resource - completely replacing whatever is available at the given URL with a different thing. Do it as many times as you like, and the result is the same. You can PUT a resource whether it previously exists, or not. So consider like this: do you name your URL objects you create explicitly, or let the server decide? If you name them then use `PUT`. If you let the server decide then use `POST`.
@@ -271,8 +273,6 @@ const elProgress = document.getElementById('progress');
 
 fetch('https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg')
 .then(response => {
-  // to access headers, server must send CORS header "Access-Control-Expose-Headers: content-encoding, content-length x-file-size"
-  // server must send custom x-file-size header if gzip or other content-encoding is used
   const contentEncoding = response.headers.get('content-encoding');
   const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
   if (contentLength === null) {
@@ -290,13 +290,13 @@ fetch('https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg')
 
         read();
         function read() {
-          reader.read().then(({done, value}) => {
+          reader.read().then(({ done, value }) => {
             if (done) {
               controller.close();
               return; 
             }
             loaded += value.byteLength;
-            elProgress.innerHTML = Math.round(loaded/total*100) + '%';
+            elProgress.innerHTML = Math.round(loaded / total * 100) + '%';
             controller.enqueue(value);
             read();
           }).catch(error => {
@@ -377,55 +377,12 @@ By default, in cross-site XMLHttpRequest or Fetch invocations, browsers will not
 
 - The server must respond with the `Access-Control-Allow-Credentials: true` header to allow Cookies to be included on cross-origin requests.
 - The client must set the `XMLHttpRequest.withCredentials` flag to true in order to make the invocation with Cookies.
-- Note that cookies set in CORS responses are subject to normal third-party cookie policies.
+- Cookies set in CORS responses are subject to normal third-party cookie policies.
 
 ### `integrity` and `crossorigin` in CDN links
-It is important to ensure that the CDN’s servers deliver only the code the author expects them to deliver. The `integrity` attribute is to allow the browser to check the file source to ensure that the code is never loaded if the source has been manipulated.
+`integrity` defines the hash value of a resource (like a checksum) that has to be matched to make the browser execute it. The hash ensures that the file was unmodified and contains expected data. *With an `integrity` set on an external origin and a missing `crossorigin` the browser will choose to 'fail-open', as if the `integrity` attribute was not set.*
 
 The `crossorigin` attribute, valid on the `<audio>`, `<img>`, `<link>`, `<script>`, and `<video>` elements, provides support for CORS, defining how the element handles cross-origin requests. `crossorigin="anonymous"` means don't send credentials. Setting the attribute name to an empty value, like `crossorigin` or `crossorigin=""`, is the same as `anonymous`.
 
-With an `integrity` set on an external origin and a missing `crossorigin` the browser will choose to 'fail-open' which means it will load the resource as if the integrity attribute was not set.
-
 1. There are actually three possible values for the `crossorigin` attribute: `anonymous`, `use-credentials`, and an "missing value default" that can only be accessed by omitting the attribute. The default value causes the browser to skip CORS entirely, which is the normal behavior (`Sec-Fetch-Mode: no-cors`).
 2. The `crossorigin` attribute should only be used if we care about getting error information for the resource being loaded. Since accessing this information (with CORS settings attribute) requires a CORS check, the `Access-Control-Allow-Origin` header must be present on the resource for it to be loaded.
-
-## Understanding API Mocking 
-1. The most straightforward way to know when a request happens is to detect it on the request client level. "fetch" is stubbed here by our own implementation. The request never really happens, we only pretend that it does.
-
-```js
-const nativeFetch = window.fetch
-
-window.fetch = async (input, init) => {
-  const request = new Request(input, init)
-  // Check if we should respond to the intercepted request using mocks.
-  if (request.method === "GET" && request.url.endsWith("/movies")) {
-    return Response.json([
-      { title: "The Godfather" },
-      { title: "The Lord of The Rings" },
-      { title: "The Dark Knight" },
-    ])
-  }
-  // If the intercepted request doesn't match our predicate,
-  // perform it as-is using the previously stored native fetch.
-  return nativeFetch(input, init)
-}
-```
-
-2. We don’t reach the actual server but what if our request reaches a mocked server instead?
-
-```js
-// mock.server.js
-import express from "express"
-const app = express()
-
-app.get("/movies", (req, res) => {
-  res.json([
-    { title: "The Godfather" },
-    { title: "The Lord of The Rings" },
-    { title: "The Dark Knight" },
-  ])
-})
-app.listen(3000)
-```
-
-3. Service Worker API is designed for caching, and it would be quite a fit to bend it to the API mocking needs. [Mock Service Worker (MSW)](https://github.com/mswjs/msw) is a seamless REST/GraphQL API mocking library for browser and Node.js.
