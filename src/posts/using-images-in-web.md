@@ -5,7 +5,7 @@ slug: using-images-in-web
 description: ""
 added: "Oct 12 2021"
 tags: [web]
-updatedDate: "Nov 5 2023"
+updatedDate: "Feb 26 2024"
 ---
 
 ## Image file types
@@ -40,6 +40,13 @@ PNG-24 is a great format that combines lossless encoding with direct color. Unfo
 
 ### SVG
 SVG is different than all the above in that it's a vector file format (the above are all raster). This means SVG is perfect for logos and icons you wish to retain sharpness on Retina screens or at different sizes. It also means a small SVG logo can be used at a much larger size without degradation in image quality. SVG file sizes are often tiny, even if they're visually very large, which is great. However, it does depend on the complexity of the shapes used, and SVGs require more computing power than raster images because mathematical calculations are involved in drawing the curves and lines.
+
+```xml
+<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="400" cy="400" fill="none"
+    r="200" stroke-width="50" stroke="#E387FF" />
+</svg>
+```
 
 ### Webp
 WebP is an image format developed and first released by Google in 2010. It supports encoding images in both lossless and lossy formats, making it a great alternative format to both PNG or JPEG. WebP lossless images are 26% smaller in size compared to PNGs. WebP lossy images are 25-34% smaller than comparable JPEG images. It also supports transparency and animation.
@@ -110,9 +117,3 @@ Read more about best practices for web images:
 Most images on modern websites are hosted on a CDN that can resize images on the fly and deliver them at the edge. Despite this, most web frameworks will still download and resize the image at build time or on your server, rather than using the CDN, or just uses a single source image rather than handling multiple resolutions.
 
 The library [unpic-img](https://github.com/ascorbic/unpic-img) detects the image CDN, and then uses the CDN's URL API to resize and format images. It then generates the correct srcset and sizes attributes for the image. It uses new features built into modern browsers to handle lazy loading, fetch priority and decoding. It also uses pure CSS to handle responsive resizing of images, preserving aspect ratio and avoiding layout shift.
-
-## Vue lazy-load images
-Lazy-load images and videos. It makes sense to only load the resources that your users need at that moment. Postpone loading images and videos that are off-screen at first, and lazy load them later.
-- [Vue-Lazyload](https://github.com/hilongjw/vue-lazyload)
-- [v-lazy-image](https://github.com/alexjoverm/v-lazy-image)
-- [vue-content-loader](https://github.com/egoist/vue-content-loader)
