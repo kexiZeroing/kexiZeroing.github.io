@@ -114,30 +114,31 @@ A remote URL is the place where your code is stored. You can only push to two ty
 > To cherry-pick all the commits from commit A to commit B (where A is older than B), run: `git cherry-pick <commitA>^..<commitB>`.
 >
 > Usually you cannot cherry-pick a merge because you do not know which side of the merge should be considered the mainline. *(If a commit has two or more parents, it also represents two or more diffs - which one should be applied?)* `-m` option specifies the parent number (starting from 1, the order is the one in which they're listed in the commit as viewed by `git show`). For example, if your commit tree is like below:
-> ```
-> - A - D - E - F  master  
->    \     /  
->     B - C        branch one
-> ```
->
+```
+- A - D - E - F  master  
+   \     /  
+    B - C        branch one
+```
 > Then `git cherry-pick E` will produce the issue you faced. `git cherry-pick E -m 1` means using D-E, while `git cherry-pick E -m 2` means using B-C-E.
 
+- `git checkout -` will checkout the previous branch.
+
 ## show the changes
+Run `git show` to show the changes made in the most recent commit, which is equivalent to `git show HEAD`.
+
 - diff two branches: git diff master..develop
 - diff local and remote: git diff HEAD..origin/master
 - diff for a certain folder: git diff master..yourbranch -- path/to/folder
 - save in a file: git diff master..develop > my.diff
-- show the changes which have been staged: git diff --cached
+- diff between a commit and the head: git diff COMMIT
 
 ## refuse to merge unrelated histories
 I always see this error when I create a new Github repository with a README.md or a LICENSE file, then pull it to a local repository at the first time. `git pull origin main --allow-unrelated-histories` should fix it, which force the merge to happen.
 
 ## git log and git reflog
-`git log` shows the current HEAD and its ancestry. That is, it prints the commit HEAD points to, then its parent, its parent, and so on. It traverses back through the repo's ancestry by recursively looking up each commit's parent. (often use `git log --pretty=oneline`)
+`git log` (often use `git log --pretty=oneline`) shows the current HEAD and its ancestry. That is, it prints the commit HEAD points to, then its parent, its parent, and so on. It traverses back through the repo's ancestry by recursively looking up each commit's parent. Btw, `git log --full-history -- src/path/to/file.js` helps you find the final version of a deleted file.
 
 `git reflog` doesn't traverse HEAD's ancestry. The reflog is an ordered list of the commits that HEAD has pointed to: **it's the undo history for your repo**. The reflog isn't part of the repo itself (it's stored separately to the commits themselves and it's purely local). If you accidentally reset to an older commit, or rebase wrongly, or any other operation that visually "removes" commits, you can use the reflog to see where you were before and `git reset --hard HEAD@{index}` back to that ref to restore your previous state.
-
-`git log --full-history -- src/path/to/file.js` helps you find the final version of a deleted file.
 
 ## rename branch
 - Rename the branch while working in this branch: `git branch -m <new name>`; rename from outside the branch: `git branch -m <old name> <new name>`.
@@ -146,19 +147,7 @@ I always see this error when I create a new Github repository with a README.md o
 ## change the most recent commit message after push
 `git commit --amend` brings up the editor with the last commit message and lets you edit the message. You can use `-m` if you want to wipe out the old message and use a new one: `git commit --amend -m "new commit message"`. And then when you push, do `git push --force-with-lease <repository> <branch>`.
 
-## find the branches that have been marged
-Got a lot of old git branches hanging around? Here’s a little script that will find the branches that have been marged.
-
-```sh
-#!/bin/bash
-
-# Customize the MAIN variable to match
-MAIN=main
-
-echo "These branches have been merged into $MAIN and will be deleted:"
-echo
-git branch --merged $MAIN | grep -v "^\* $MAIN"
-```
+Btw, you can add a commit subject and description as follows: `git commit -m "subject line" -m "longer description"`.
 
 ## rewrite history: squash commit, fixup and autosquash
 - https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
@@ -170,11 +159,11 @@ For example, I want to change the git user (rewrite history) after push the code
 3. `git rebase -i <after-this-commit>`
 4. Change the word 'pick' to 'edit' (there is a commit list you can change), save and exit; rebase is stopped at the next commit (you just changed) and you can amend this commit.
 5. `git commit --amend --reset-author --no-edit` and `git rebase --continue` to confirm and continue your rebase.
-6. `git push --force-with-lease` to overwrite the remote history. (`--force-with-lease` is safer than `--force`: If the remote branch has the same value as the branch on your local machine, you will overwrite remote. If it doesn't have the same value, it indicates a change that someone else made to the remote branch while you were working on your code and thus will not overwrite any code.)
+6. `git push --force-with-lease` to overwrite the remote history. (**`--force-with-lease` is safer than `--force`**: If a change that someone else made to the remote branch while you were working on your code, you will not overwrite any remote code.)
 
 Another example, I want to squash my last 3 commits together into one commit: `git reset --soft HEAD~3 && git commit`. The soft reset just re-points HEAD to the last commit that you do not want to squash. Neither the index nor the working tree are touched, leaving the index in the desired state for your new commit.
 
-Github takes all of the commits on your PR branch and combines them into a single one when you merge. You also can squash all commits from a branch into one commit by `git merge --squash <branch>`. Run `git show` to show the changes made in the most recent commit, which is equivalent to `git show HEAD`. (also `git diff COMMIT` will show you the difference between that `COMMIT` and the head.)
+You also can squash all commits from a branch into one commit by `git merge --squash <branch>`.
 
 ## git restore and git switch
 `git checkout` is one of the many reasons why newcomers find git confusing, and that is because its effect is context-dependent. In version 2.23 of git, two new commands have been introduced to split the old `git checkout` in two.
@@ -183,19 +172,17 @@ Github takes all of the commits on your PR branch and combines them into a singl
 
 `git switch` implements the behavior of `git checkout` when running it only against a branch name, so you can use it to switch between branches: `git switch develop`. While with `git checkout` you can switch to a commit and transition into a detached HEAD state, by default `git switch` does not allow that. You need to provide the `-d` flag: `git switch -d commit_id`. Another difference is that with `git checkout` you can create and switch to the new branch using the `-b` flag. You can do the same with the new one, but the flag is `-c`: `git switch -c new_branch`.
 
-`git checkout -` will checkout the previous branch.
+> `git checkout -b <new_branch> <remote_name>/<remote_branch>` create and switch to a new branch based on a specific reference (branch, remote branch, tag are examples of valid references).
 
-`git checkout -b <new_branch> <remote_name>/<remote_branch>` create and switch to a new branch based on a specific reference (branch, remote branch, tag are examples of valid references).
-
-> HEAD doesn’t have to be a branch. Instead it can be a commit ID. Git calls this state (where HEAD is a commit ID instead of a branch) “detached HEAD state”.
-
-## Another git process seems to be running in this repository
+## another git process seems to be running in this repository
 Such problems generally occur when you execute two git commands simultaneously; maybe one from the command prompt and one from an IDE. Try `rm -f .git/index.lock` to delete the `index.lock` file and release the active lock.
+
+## skip git commit hooks
+The pre-commit hook can be used to run tests, lint, type check, etc. The hooks are located in the `.git/hooks/` directory. Use the `--no-verify` option to bypass git commit hooks, e.g. `git commit -m "commit message" --no-verify`. And as a long-term solution, assure CI is configured.
 
 ## speed up git clone
 `git clone [repo] --depth=1` When you don't need the entire history of a repository, you can speed up the download by specifying the number of revisions you need. You still get a `.git` folder that pertains to the project template.
 
-## degit - straightforward project scaffolding
 [degit](https://github.com/Rich-Harris/degit) makes copies of git repositories. When you run `degit some-user/some-repo`, it will find the latest commit and download the associated tar file if it doesn't exist locally. This is much quicker than using `git clone`, because you're not downloading the entire git history.
 
 ## gitignore
@@ -210,16 +197,6 @@ After committing several times, you realize that you need to create `.gitignore`
 - Use `git push origin v1.1.0` to push a particular tag, or `git push --tags` if you want to push all tags.
 - `git push origin :tagname` to delete a remote tag, and if you also need to delete the local tag, use `git tag --delete tagname`.
 
-## skip git commit hooks
-The pre-commit hook can be used to run tests, lint, type check, etc. The hooks are located in the `.git/hooks/` directory. Use the `--no-verify` option to bypass git commit hooks, e.g. `git commit -m "commit message" --no-verify`. And as a long-term solution, assure CI is configured.
-
-## co-authoring git commits
-Sometimes when I'm pair programming, I want to be able to give another developer credit in a commit I make in a Git repo. In your commit, you just have to add `Co-authored-by` to your commit message like this `git commit -m "Regular commit message" -m "Co-authored-by: name <someemail@example.com>"`.
-
-By the way, you can add a commit subject and description as follows: `git commit -m "subject line" -m "longer description"`.
-
-> [better-commits](https://github.com/Everduin94/better-commits) is a CLI for creating better commits following the conventional commit guidelines. It will prompt a series of questions. These prompts will build a commit message, which you can preview, before confirming the commit.
-
 ## command auto correct
 If you mistype a command, git helpfully tries to figure out what you meant, but it still refuses to do it. If you set `help.autocorrect` to 1, Git will actually run this command for you. (If you set it to 50, Git will give you 5 seconds to change your mind before executing the autocorrected command.)
 
@@ -231,18 +208,13 @@ If you mistype a command, git helpfully tries to figure out what you meant, but 
 ## update your GitHub fork
 You cannot push code to repositories that you don’t own. So instead, you make your own copy of the repository by “forking” it. You are then free to make any changes you wish to your repository.
 
-One of the challenges with forking a repository is keeping your copy up-to-date with the original repository, or the upstream repository. We're going to add the original repository as a git remote, so we can easily fetch and pull from it. Say you want to update your GitHub fork to the new `main` branch naming:
-1. git remote add upstream git@github.com:original-repo-url
+One of the challenges with forking a repository is keeping your copy up-to-date with the original repository, or the upstream repository. We're going to add the original repository as a git remote, so we can easily fetch and pull from it. Say you want to update your GitHub fork to the new `main` branch:
+1. git remote add origin git@github.com:original-repo-url
 2. git checkout master
-3. git fetch upstream main
-4. git rebase upstream/main
+3. git fetch origin main
+4. git rebase origin/main
 
 If there are merge conflicts, we need to fix it, then `git add .` and run `git rebase --continue`. Now git will apply the rest of our commits. It's notable that if you had trouble with the merge conflict, you can run `git rebase --abort` to abort the rebase and get back to where you were before you started the rebase.
-
-## GitHub fork and use templates
-When you say you are Forking a repository you are basically creating a copy of the repository (with entire commit history) under your GitHub ID. The point to note here is that any changes made to the original repository will be reflected back to your forked repositories (you need to fetch and rebase). If you make any changes to your forked repository you will have to explicitly create a pull request to the original repository.
-
-Templates are intended to use a repository as-is, and to use it as a boilerplate to build a website. It's not meant to be up-to-date with the main repository. To create a template repository, you must create a repository, then on the settings page, check the button for **Template repository**. Now when we go back to the repository page, we’ll get a big green button that says **Use this template**. A template repository often includes keyword: 'starter-kit', 'starter template', 'boilerplate'. For example, [vitesse](https://github.com/antfu/vitesse) is a Vite + Vue starter template.
 
 ## make your GitHub history back to 1990
 https://github.com/antfu/1990-script
@@ -281,10 +253,3 @@ One awesome feature of the `.gitconfig` file is that you can conditionally inclu
 [git-extras](https://github.com/tj/git-extras) is a collection of Git utilities, which hosts more than 60 of "extras" with features that extend the basic functionality of Git. Install it with Homebrew `brew install git-extras`.
 
 To get an overview of all extras, it is worth running `git extras --help` after installation. Alternatively there is a [Commands.md](https://github.com/tj/git-extras/blob/master/Commands.md) in the repository which lists and explains all extras.
-
-## In a git repository, where do your files live?
-https://jvns.ca/blog/2023/09/14/in-a-git-repository--where-do-your-files-live-/
-
-- Every previous version of every file in a repository is stored in `.git/objects`.
-- If you try to look at the file in `.git/objects`, it gets a bit weird. It’s just compressed.
-- Commits are also stored in `.git/objects`. Git compresses objects into "pack files" to save space.
