@@ -25,10 +25,12 @@ You’ve made some commits locally (not yet pushed), but everything is terrible,
 `--hard`, resets the index and working tree. Any changes to tracked files in the working tree are discarded.
 
 > A branch is a pointer to a commit. Run `cat .git/refs/heads/master` to see it. Understanding this will make it way easier to fix your branches when they're broken: you just need to figure out how to get your branch to point at the right commit again.
+>
+> - The remote changes are useless and I want to overwrite them. To do this, I’ll run `git push --force`.
+> - The local changes are useless and I want to overwrite them. To do this, I’ll run `git reset --hard origin/main`.
+> - I want to keep both sets of changes on `main`. To do this, I’ll run `git pull --rebase`. It rebases `main` onto the remote `main` branch.
 
 ## git merge
-The `--no-ff` flag prevents `git merge` from executing a "fast-forward" if it detects that your current `HEAD` is an ancestor of the commit you're trying to merge. A fast-forward is when, instead of constructing a merge commit, git just moves your branch pointer to point at the incoming commit.
-
 ```
 *---* (master)
      \
@@ -62,12 +64,22 @@ When your branches diverge, you have to create a commit to "join" the two branch
 
 - If you pull remote changes with the flag `--merge`, which is also the default, then your local changes are merged with the remote changes. This results in a merge commit that points to the latest local commit and the latest remote commit.
 
-Note that `git fetch` is the command that tells your local git to retrieve the latest meta-data info from the original yet doesn't do any file transferring. `git pull` on the other hand does that AND brings those changes from the remote repository.
+> Note that `git fetch` is the command that tells your local git to retrieve the latest meta-data info from the original yet doesn't do any file transferring. `git pull` on the other hand does that AND brings those changes from the remote repository.
 
-## Dealing with diverged git branches
-- I want to keep both sets of changes on `main`. To do this, I’ll run `git pull --rebase`. It rebases `main` onto the remote `main` branch.
-- The remote changes are useless and I want to overwrite them. To do this, I’ll run `git push --force`.
-- The local changes are useless and I want to overwrite them. To do this, I’ll run `git reset --hard origin/main`.
+## undo a git merge with conflicts
+- Since your pull was unsuccessful then HEAD is the last "valid" commit on your branch: `git reset --hard HEAD`
+
+- If you make a mistake or you’re not confident which the decision change to accept, you can stop the merge process by running `git merge --abort`
+
+- Generally you shouldn't merge with uncommitted changes. If you have changes you don't want to commit before starting a merge, just `git stash` them before the merge and `git stash pop` after finishing the merge. *To stash your working directory including untracked files, use `git stash --include-untracked` or `git stash -u`.*
+
+## merge with ours & theirs
+Let's merge conflicting branch feature into master by `git merge feature`. You can use `git checkout --ours <file>` to select the changes done in master or `git checkout --theirs <file>` to select the changes done in feature. Then, continue as you would normally merge with `git add <file>` and `git merge --continue`.
+
+## merge strategies
+'ort' ("Ostensibly Recursive’s Twin") is the default merge strategy when pulling or merging one branch. This strategy can only resolve two heads using a 3-way merge algorithm. When there is more than one common ancestor that can be used for 3-way merge, it creates a merged tree of the common ancestors and uses that as the reference tree for the 3-way merge. This has been reported to result in fewer merge conflicts without causing mismerges. This algorithm came from the fact that it was written as a replacement for the previous default algorithm, `recursive`.
+
+Say you and your friend both checked out a file, and made some changes to it. You removed a line at the beginning, and your friend added a line at the end. Then he committed his file, and you need to merge his changes into your copy. With a three-way merge, it can compare the two files, but it can also compare each of them against the original copy. So it can see that you removed the first line, and that your friend added the last line. And it can use that information to produce the merged version.
 
 ## git pull/push without parameter
 - `git pull`: In order to determine what remote branches to fetch when the command is run without any refspec parameters on the command line, values of the configuration variable `remote.<origin>.fetch` are consulted. *A refspec maps a branch in the local repository to a branch in a remote repository.* For example, `refs/heads/*:refs/remotes/origin/*` specifies that all remote branches are tracked using remote-tracking branches in `refs/remotes/origin/` hierarchy under the same name.
@@ -87,30 +99,13 @@ A remote URL is the place where your code is stored. You can only push to two ty
 - use `git remote add` to match a remote URL with a name. It takes two arguments: a remote name, for example, `origin`, and a remote URL, for example, `https://github.com/user/repo.git`
 - use `git remote set-url` to change an existing remote repository URL. It takes two arguments: an existing remote name like `origin` and a new URL for the remote.
 
-## undo a git merge with conflicts
-- Since your pull was unsuccessful then HEAD is the last "valid" commit on your branch: `git reset --hard HEAD`
-
-- If you make a mistake or you’re not confident which the decision change to accept, you can stop the merge process by running `git merge -- abort`
-
-- Generally you shouldn't merge with uncommitted changes. If you have changes you don't want to commit before starting a merge, just `git stash` them before the merge and `git stash pop` after finishing the merge.
-
-## merge with ours & theirs
-Let's merge conflicting branch feature into master by `git merge feature`. You can use `git checkout --ours <file>` to select the changes done in master or `git checkout --theirs <file>` to select the changes done in feature. Then, continue as you would normally merge with `git add <file>` and `git merge --continue`.
-
-How about resolving cherry-pick conflicts using their changes? First you should undo your cherry-pick, try to run `git cherry-pick --abort`. Second, try to make cherry-pick getting their changes not yours with `git cherry-pick -s recursive -X theirs {commit}`. Here `-s` is a short for `--strategy` and `-X` short for `--strategy-option`.
-
-## merge strategies
-'ort' ("Ostensibly Recursive’s Twin") is the default merge strategy when pulling or merging one branch. This strategy can only resolve two heads using a 3-way merge algorithm. When there is more than one common ancestor that can be used for 3-way merge, it creates a merged tree of the common ancestors and uses that as the reference tree for the 3-way merge. This has been reported to result in fewer merge conflicts without causing mismerges. This algorithm came from the fact that it was written as a replacement for the previous default algorithm, `recursive`.
-
-Say you and your friend both checked out a file, and made some changes to it. You removed a line at the beginning, and your friend added a line at the end. Then he committed his file, and you need to merge his changes into your copy. With a three-way merge, it can compare the two files, but it can also compare each of them against the original copy. So it can see that you removed the first line, and that your friend added the last line. And it can use that information to produce the merged version.
-
 ## working on a wrong branch
-- If you did't commit the changes, use `git stash` (**git stash is per-repository, not per-branch**)
+- If you did't commit the changes, use `git stash`. **git stash is per-repository, not per-branch.**
   - git stash
   - git checkout right_branch
   - git stash apply
 
-> *The stash is a bunch of commits*: When you run `git stash`, git makes some commits with your changes and labels them with a reference called `stash` (in `.git/refs/stash`).
+> The stash is a bunch of commits: When you run `git stash`, git makes some commits with your changes and labels them with a reference called `stash` (in `.git/refs/stash`).
 
 - If you committed to the wrong branch, `git reset` those commits individually. Once you have done that, switch back to the desired branch and there you can use `git cherry-pick` to pick the specific commits.
   - git checkout right_branch
@@ -134,10 +129,7 @@ Say you and your friend both checked out a file, and made some changes to it. Yo
 - save in a file: git diff master..develop > my.diff
 - show the changes which have been staged: git diff --cached
 
-## stash untracked files
-To stash your working directory including untracked files, use `git stash --include-untracked` or `git stash -u`.
-
-## refusing to merge unrelated histories
+## refuse to merge unrelated histories
 I always see this error when I create a new Github repository with a README.md or a LICENSE file, then pull it to a local repository at the first time. `git pull origin main --allow-unrelated-histories` should fix it, which force the merge to happen.
 
 ## git log and git reflog
