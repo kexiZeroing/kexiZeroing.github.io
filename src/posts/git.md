@@ -5,7 +5,7 @@ slug: git-knowledge-not-clear
 description: ""
 added: "June 19 2022"
 tags: [system]
-updatedDate: "Feb 18 2024"
+updatedDate: "Feb 27 2024"
 ---
 
 ## helpful links
@@ -117,6 +117,15 @@ Say you and your friend both checked out a file, and made some changes to it. Yo
   - git cherry-pick commit_hash
 
 > To cherry-pick all the commits from commit A to commit B (where A is older than B), run: `git cherry-pick <commitA>^..<commitB>`.
+>
+> Usually you cannot cherry-pick a merge because you do not know which side of the merge should be considered the mainline. *(If a commit has two or more parents, it also represents two or more diffs - which one should be applied?)* `-m` option specifies the parent number (starting from 1, the order is the one in which they're listed in the commit as viewed by `git show`). For example, if your commit tree is like below:
+> ```
+> - A - D - E - F  master  
+>    \     /  
+>     B - C        branch one
+> ```
+>
+> Then `git cherry-pick E` will produce the issue you faced. `git cherry-pick E -m 1` means using D-E, while `git cherry-pick E -m 2` means using B-C-E.
 
 ## show the changes
 - diff two branches: git diff master..develop
