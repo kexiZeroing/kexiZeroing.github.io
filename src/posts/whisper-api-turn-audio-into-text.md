@@ -169,6 +169,6 @@ summary = chain.run()
 
 - Audio transcription using self-hosted Whisper and WebSocket: https://github.com/alesaccoia/VoiceStreamAI
 
-- Using the Web Speech API: https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API
+- qingwu-zimu: https://github.com/melon/qingwu-zimu
 
 - Web Speech API Demonstration: https://www.google.com/intl/en/chrome/demos/speech.html

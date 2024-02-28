@@ -5,7 +5,7 @@ slug: js-string-array-object
 description: ""
 added: "Aug 6 2020"
 tags: [js]
-updatedDate: "Feb 1 2024"
+updatedDate: "Feb 28 2024"
 ---
 
 ## String
@@ -132,7 +132,7 @@ Note that `value instanceof Array` evaluates to `false` when value is an array c
 ```js
 // liner time, but has at least two drawbacks:
 // 1. doesn't distinguish numbers and "numeric strings" like [1, "1"]
-// 2. all objects will be considered equal
+// 2. all objects will be considered equal `[object Object]`
 function uniq(a) {
   var seen = {};
   return a.filter(function(item) {
@@ -290,7 +290,7 @@ arr1.flatMap(x => x.split(" "));
 ```
 
 ### Array sort
-- The `sort()` method sorts the elements of an array in place and returns the reference to the same array, now sorted.
+- The `sort()` method sorts the elements of an array in place and returns the reference to the same array.
 - The time and space complexity of the sort cannot be guaranteed as it depends on the implementation.
 - Since ECMAScript 2019, the specification dictates that `Array.prototype.sort` is stable. All major JavaScript engines now implement a stable Array sort.
 
@@ -520,7 +520,7 @@ Dog.prototype.toString = function() {
 theDog.toString(); // "Dog Gabby is a female chocolate Lab"
 ```
 
-JavaScript calls `valueOf()` to convert an object to a primitive value. You rarely need to invoke the valueOf method yourself; JavaScript automatically invokes it when encountering an object where a primitive value is expected. A unary plus sign can sometimes be used as a shorthand for valueOf.
+JavaScript calls `valueOf()` to convert an object to a primitive value. You rarely need to invoke the `valueOf` method yourself; JavaScript automatically invokes it when encountering an object where a primitive value is expected. A unary plus sign can sometimes be used as a shorthand for `valueOf`.
 
 ```js
 +"5" // 5
