@@ -86,7 +86,7 @@ It returns a new string with some or all matches of a pattern replaced by a repl
 
 The replacement string can include the following special replacement patterns:
 - `$&`: the matched substring
-- `$\`\`: the portion of the string that precedes the matched substring
+- `$\`: the portion of the string that precedes the matched substring
 - `$'`:	the portion of the string that follows the matched substring
 - `$n`: the nth parenthesized submatch string
 
@@ -442,7 +442,7 @@ p.b // undefined
 - Object.values() returns an array of a given object's own enumerable property values, in the same order as that provided by a `for...in` loop (the difference being that **for-in loop enumerates properties in the prototype chain as well**).
 - Object.entries() returns an array whose elements are arrays corresponding to the enumerable property `[key, value]` pairs found directly upon object.
 
-A `for...in` loop only iterates over enumerable, non-Symbol properties. Objects created from built–in constructors like `Object` and `String` have inherited non–enumerable properties from `Object.prototype` and `String.prototype`, such as String's `indexOf()` method or Object's `toString()` method *(not enumerable)*. The loop will iterate over all enumerable properties of the object itself and those enumerable properties the object inherits from its prototype chain.
+A `for...in` loop only iterates over enumerable, non-Symbol properties. Objects created from built–in constructors like `Object` and `String` have inherited non–enumerable properties from `Object.prototype` and `String.prototype`, such as String's `indexOf()` method or Object's `toString()` method **(not enumerable)**. The loop will iterate over all enumerable properties of the object itself and those enumerable properties the object inherits from its prototype chain.
 
 ```js
 var arr = ['a', 'b', 'c'];

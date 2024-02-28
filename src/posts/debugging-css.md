@@ -5,7 +5,7 @@ slug: debugging-css
 description: ""
 added: "Oct 10 2021"
 tags: [css]
-updatedDate: "Dec 16 2023"
+updatedDate: "Feb 28 2024"
 ---
 
 - A fundamental concept for CSS layout is inline vs. block elements. Inline means elements only take up the space they need, and do not affect flow. Applying `margin` or `padding` to an inline element will only work in the "inline" direction (left/right) not the "block" direction (top/bottom).
@@ -126,8 +126,6 @@ updatedDate: "Dec 16 2023"
   }
   ```
 
-- Grid for layout, Flexbox for components. Most of the time, if the component you are viewing has all of its child items displayed inline, then most probably flexbox is the best solution here. However, if you see columns and rows, then CSS grid is the solution for your case.
-
 - The styles for flexbox columns are built with the `order` property to reposition the columns. With CSS grid, it isn’t needed at all as we can reorder the layout by positioning an element on any grid lines we want.
 
   ```css
@@ -161,12 +159,6 @@ updatedDate: "Dec 16 2023"
 
 - Stop re-inventing the wheel and just use `<button>` to create a button. If you're worried about default button styles, use `all: unset`. This one line of CSS will strip all default browser styles so you can apply your own.
 
-- Brief Note on Buttons, Enter, and Space:
-  - A native `<button>` fires on key down when that key is `Enter`. If you hold down the `Enter` key, it continues to fire for as long you hold Enter.
-  - A native `<button>` fires on key up when that key is `Space`. If you do not release the Space, and also press Tab to move away from the control, the control will not fire.
-
-- The `::placeholder` selector selects form elements with placeholder text, and let you style the placeholder text. The `:placeholder-shown` pseudo-class to select input fields with a placeholder that haven't been filled out yet.
-
 - Sometimes the web page looks strangely inflated on mobile landscape devices. The reason is that Mobile Safari increases the default font-size when you switch a website from portrait to landscape. The way to control this font-size inflation is with the `-webkit-text-size-adjust` property, which you can set to a percentage which to increase the text size to at the most, to `auto` for default behavior or to `none` to prevent zooming text in. Setting it to `100%` is equivalent to `none`.
 
   ```css
@@ -178,7 +170,7 @@ updatedDate: "Dec 16 2023"
   }
   ```
 
-- The border radius of the outer element should be equal to the sum of the border radius of the inner element and the distance between the two elements. so if the outer element border radius is 20, and there's a 5px space between the outer element and inner element, the inner element border radius should be 15.
+- The border radius of the outer element should be equal to the sum of the border radius of the inner element and the distance between the two elements. So if the outer element border radius is 20, and there's a 5px space between the outer element and inner element, the inner element border radius should be 15.
 
 - Before Chrome 118, font sizes smaller than 10px or so were not rendered as specified, but rounded up if the language was Arabic, Farsi, Japanese, Korean, Thai, Simplified or Traditional Chinese. Developers needed workarounds to render small text, for example by using the `transform` property. From Chrome 118, this limit is ended for all languages, making the seven languages match the rest.
 
@@ -205,3 +197,5 @@ updatedDate: "Dec 16 2023"
     border-image: fill 0 linear-gradient(#0003, #000);
   }
   ```
+
+- 8-digit hex notation (#RRGGBBAA): The first 6 digits are interpreted identically to the 6-digit notation. The last pair of digits, interpreted as a hexadecimal number, specifies the alpha channel of the color, where `00` represents a fully transparent color and `ff` represent a fully opaque color. Btw, 4-digit notation (#RGBA) is a shorter variant of the 8-digit notation. If there is only one number, it is duplicated: `1` means `11`, `c` means `cc`.
