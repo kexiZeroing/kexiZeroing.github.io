@@ -62,8 +62,6 @@ document.addEventListener("click", function () {
 });
 ```
 
-> If you often use DevTools to debug performance problems, you will find that most of the obvious performance issues are caused by the codes we write in event handlers, not the repaint or reflow that are often asked in interviews.
-
 What’s wrong with creating animations using `setTimeout` or `setInterval`? First, the browser might be busy performing other operations, and the `setTimeout` calls might not make it in time for the repaint, and it’s going to be delayed to the next cycle. This is bad because we lose one frame, and in the next cycle the animation is performed 2 times, causing the eye to notice the awkward animation. Second, the tab is being hidden, or the animation itself could have been scrolled off the page making the update call unnecessary. Chrome does throttle `setInterval` and `setTimeout` to max 1 execution per second in hidden tabs, but this isn’t to be relied upon for all browsers.
 
 > For scripts that rely on WindowTimers like `setInterval()` or `setTimeout()` things get confusing when the site which the script is running on loses focus. Chrome, Firefox and maybe others throttle the frequency at which they invoke those timers to a maximum of once per second in such a situation. However this is only true for the main thread and does not affect the behavior of Web Workers. Therefore it is possible to avoid the throttling by using a worker to do the actual scheduling. This is exactly what [worker-timers](https://github.com/chrisguttandin/worker-timers) does. It is a replacement for `setInterval()` and `setTimeout()` which works in unfocused windows.
@@ -104,7 +102,7 @@ To display something on a webpage the browser has to go through the following se
 3. Paint: Fill out the pixels for each element into layers.
 4. Composite: Draw the layers to the screen.
 
-This work brilliantly until you make changes often, like 60 times a second often. When you animate something on a page that has already loaded these steps have to happen again. For example, if you animate something that changes layout, the paint and composite steps also have to run again. Animating something that changes layout is therefore more expensive than animating something that only changes compositing.
+When you animate something on a page that has already loaded these steps have to happen again. For example, if you animate something that changes layout, the paint and composite steps also have to run again. Animating something that changes layout is therefore more expensive than animating something that only changes compositing.
 
 By placing the things that will be animated or transitioned onto a new layer, the browser only needs to repaint those items and not everything else. Browsers will often make good decisions about which items should be placed on a new layer, but you can manually force layer creation with the `will-change` property. However, creating new layers should be done with care because each layer uses memory.
 
@@ -129,8 +127,6 @@ By placing the things that will be animated or transitioned onto a new layer, th
 When you zoom, everything gets scaled up (or down), and in that scenario, the choice of `px` or `em`/`rem` as your CSS unit doesn’t generally matter. It essentially applies a multiple to every unit, including pixels. But zoom isn’t the only way users make websites more usable for themselves, changing the default font size in the [browser settings](https://support.google.com/chrome/answer/96810) will redefine the default font size that all relative units will be based on (`rem`, `em`, `%`). 
 
 On the web, the default font size is `16px`. Some users never change that default, but many do. Remember, `px` values do not scale up or down when the user changes their font size, but `em` and `rem` values do adjust in proportion to font size. So asking yourself: “Should this value scale up as the user increases their browser's default font size?” If the value should increase with the default font size, use `rem`. Otherwise, use `px`.
-
-> This practice works well on desktop, but the mobile space is less predictable. The relative font size handling on mobile is more than messy: https://www.matuzo.at/blog/2023/how-browsers-zoom-text
 
 CSS Length Units: https://codesandbox.io/embed/length-units-mcilvb
 - Absolute (1in, 1px, 1pt)
