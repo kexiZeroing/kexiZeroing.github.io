@@ -5,7 +5,7 @@ slug: rendering-performance
 description: ""
 added: "Oct 16 2021"
 tags: [web]
-updatedDate: "Dec 10 2023"
+updatedDate: "Feb 29 2024"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
@@ -19,9 +19,9 @@ Core Web Vitals are the subset of Web Vitals that apply to all web pages, should
 
 [Interaction to Next Paint (INP)](https://web.dev/inp/) is a pending Core Web Vital metric that will replace First Input Delay (FID) in March 2024. INP is a metric that assesses a page's overall responsiveness to user interactions by observing the latency of all click, tap, and keyboard interactions that occur throughout the lifespan of a user's visit to a page.
 
-The [web-vitals library](https://github.com/GoogleChrome/web-vitals) is a tiny library for measuring all the Web Vitals metrics on real users, in a way that accurately matches how they're measured by Chrome and reported to other Google tools.
-
-While the Core Web Vitals are the critical metrics for understanding and delivering a great user experience, there are other vital metrics as well. For example, the metrics **Time to First Byte (TTFB)** and **First Contentful Paint (FCP)** are both vital aspects of the loading experience. TTFB is a good measure of your server response times and general back-end health, and issues here may have knock-on effects later down the line (namely with Largest Contentful Paint).
+While the Core Web Vitals are the critical metrics for understanding and delivering a great user experience, there are other vital metrics as well. For example, the metrics **Time to First Byte (TTFB)** and **First Contentful Paint (FCP)** are both vital aspects of the loading experience.
+- TTFB is a good measure of your server response times and general back-end health, and issues here may have knock-on effects later down the line.
+- FCP is a measure of your Critical Path, and anything after that event is no longer on your Critical Path at all. This is where your Critical Path ends.
 
 > LCP recommendations
 > 1. Ensure the LCP resource is discoverable from the HTML source.
@@ -33,13 +33,13 @@ While the Core Web Vitals are the critical metrics for understanding and deliver
 > 2. Be eligible for bfcache.
 > 3. Avoid animations/transitions that use layout-inducing CSS properties. (Never animate using top / bottom / left / right)
 
-One of the key points to understand about Core Web Vitals is that they are based on field metrics or Real User Metrics (RUM). Google uses anonymized data from Chrome users to feedback metrics and makes these available in the Chrome User Experience Report (CrUX).
+The [web-vitals library](https://github.com/GoogleChrome/web-vitals) is a tiny library for measuring all the Web Vitals metrics on real users, in a way that accurately matches how they're measured by Chrome and reported to other Google tools.
+
+Core Web Vitals are based on field metrics or Real User Metrics (RUM). Google uses anonymized data from Chrome users to feedback metrics and makes these available in the Chrome User Experience Report (CrUX).
 
 The fact that RUM data is used, is an important distinction from synthetic or “lab-based” web performance tools like Lighthouse. These tools run page loads on simulated networks and devices and then tell you what the metrics were for that test run. So if you run Lighthouse on your high-powered developer machine and get great scores, that may not be reflective of what the users experience in the real world, and so what Google will use to measure your website user experience.
 
 #### Soft Navigations
-A soft navigation is essentially the dynamic emulation of the corresponding hard navigation that would be used in a website or multi page application. To expose dynamic content changes to the web browser, SPAs update the URLs dynamically using `history.pushState` without fully reloading the page.
-
 The SPA will respond faster than the traditional HTML website because the entire code is already downloaded, the JavaScript is compiled, and no more client-server communication is needed. However, capturing web performance metrics for a dynamic update of a single HTML page (i.e. soft navigation) is not as straightforward as measuring the performance impact of a static URL change where a real HTML page load takes place.
 
 To measure Core Web Vitals for soft navigations, we need a standardized way that can be used for any SPA, irrespective of the technology it was built with. The defining rules to identify soft navigations and the corresponding technical implementations are still in the drafting stage. According to the current version of the specifications, the following dynamic URL updates qualify as soft navigations:
@@ -47,14 +47,14 @@ To measure Core Web Vitals for soft navigations, we need a standardized way that
 - The navigation results in a visible URL change to the user, and a history change.
 - The navigation results in a DOM change.
 
-Google Chrome’s web-vitals.js library has an [experimental soft-nav branch](https://github.com/GoogleChrome/web-vitals/tree/soft-navs#report-metrics-for-soft-navigations-experimental) that already includes working code that you can use to report Web Vitals for soft navigations.
+Google Chrome’s `web-vitals.js` library has an [experimental soft-nav branch](https://github.com/GoogleChrome/web-vitals/tree/soft-navs#report-metrics-for-soft-navigations-experimental) that already includes working code that you can use to report Web Vitals for soft navigations.
 
 ### Optimize your server
-Instead of just immediately serving a static page on a browser request, many server-side web frameworks need to create the web page dynamically. This could be due to pending results from a database query or because components need to be generated into markup by a UI framework. Many **web frameworks that run on the server have performance guidance** that you can use to speed up this process.
+Instead of just immediately serving a static page on a browser request, many server-side web frameworks need to create the web page dynamically. This could be due to pending results from a database query or because components need to be generated into markup by a UI framework. Many web frameworks that run on the server have performance guidance that you can use to speed up this process.
 
 If the content on your web page is being hosted on a single server, your website will load slower for users that are geographically farther away because their browser requests literally have to travel around the world. Consider [using a CDN](https://web.dev/content-delivery-networks) to ensure that your users never have to wait for network requests to faraway servers.
 
-If your HTML is static and doesn't need to change on every request, **caching** can prevent it from being recreated unnecessarily. Configure reverse proxies to serve cached content or act as a cache server when installed in front of an application server. Configure and manage your cloud provider's (Firebase, AWS, Azure) cache behavior. 
+If your HTML is static and doesn't need to change on every request, **caching** can prevent it from being recreated unnecessarily. Configure reverse proxies to serve cached content or act as a cache server when installed in front of an application server.
 
 For many sites, images are the largest element in view when the page has finished loading. 1) Compress images. 2) Convert images into newer formats. 3) Consider using an image CDN.
 
@@ -70,14 +70,10 @@ Modern browsers try their best to anticipate what connections a page will need, 
 
 While `dns-prefetch` only performs a DNS lookup, `preconnect` establishes a full connection (DNS, TCP, TLS) to a server. This process includes DNS resolution, as well as establishing the TCP connection, and performing the TLS handshake. If a page needs to make connections to many third-party domains, preconnecting all of them is counterproductive. **The preconnect hint is best used for only the most critical connections. For all the rest, use `<link rel=dns-prefetch>` to save time on the first step, the DNS lookup**.
 
-> The logic behind pairing these hints is because support for `dns-prefetch` is better than support for `preconnect`. Browsers that don’t support `preconnect` will still get some added benefit by falling back to `dns-prefetch`. Because this is an HTML feature, it is very fault-tolerant. If a non-supporting browser encounters a `dns-prefetch` hint—or any other resource hint—your site won’t break.
-
 ### Render blocking JavaScript and CSS
 Before a browser can render any content, it needs to parse HTML markup into a DOM tree. The HTML parser will pause if it encounters any external stylesheets (`<link rel="stylesheet">`) or synchronous JavaScript tags (`<script src="main.js">`). Scripts and stylesheets are both render blocking resources which delay FCP, and consequently LCP. (Additionally, if CSS appears before a script, the script will not be executed until the CSSOM is created because JavaScript can also interact with the CSSOM.) Defer any non-critical JavaScript and CSS to speed up loading of the main content of your web page.
 
-> First Contentful Paint is a measure of your Critical Path, and anything after that event is no longer on your Critical Path at all. This is where your Critical Path ends.
-
-**Minify CSS**, if you use a module bundler or build tool, include an appropriate plugin to minify CSS files on every build. Use the `Coverage` tab in Chrome DevTools (`cmd + shift + p`, then type 'coverage') to **find any unused CSS** on your web page. **Inlining important styles** eliminates the need to make a round-trip request to fetch CSS. If you cannot manually add inline styles to your site, use a library to automate the process.
+**Minify CSS**, if you use a module bundler or build tool, include an appropriate plugin to minify CSS files on every build. Use the `Coverage` tab in Chrome DevTools to **find any unused CSS** on your web page. **Inlining important styles** eliminates the need to make a round-trip request to fetch CSS. If you cannot manually add inline styles to your site, use a library to automate the process.
 
 > Take font inlining as an example, Next.js and Angular have support for inlining Google and Adobe fonts. They will download the content of `<link rel='stylesheet' href='https://fonts.googleapis.com/xxx' />` at build time, and inline it's content (replace link tag with a style tag) at serve/render time. This eliminates the extra round trip that the browser has to make to fetch the font declarations.
 
@@ -98,25 +94,22 @@ If you know that a particular resource should be prioritized, use `<link rel="pr
 />
 ```
 
-Another one, `<link rel="prefetch">` is a low priority resource hint that allows the browser to fetch resources in the background (idle time) that might be needed later, and store them in the browser's cache. It is helpful when you know you’ll need that resource on a subsequent page, and you want to cache it ahead of time. *Prefetching can be achieved through the use of resource hints such as `rel=prefetch` or `rel=preload`, via libraries such as [quicklink](https://github.com/GoogleChromeLabs/quicklink) or [Guess.js](https://github.com/guess-js/guess).*
+Another one, `<link rel="prefetch">` is a low priority resource hint that allows the browser to fetch resources in the background (idle time) that might be needed later, and store them in the browser's cache. It is helpful when you know you’ll need that resource on a subsequent page, and you want to cache it ahead of time. Prefetching can be achieved through the use of resource hints such as `rel=prefetch` or `rel=preload`, via libraries such as [quicklink](https://github.com/GoogleChromeLabs/quicklink) or [Guess.js](https://github.com/guess-js/guess).
 
 > In Next.js production environment, whenever `<Link>` components appear in the browser's viewport, Next.js automatically prefetches the code for the linked route in the background. By the time the user clicks the link, the code for the destination page will already be loaded in the background, and this is what makes the page transition near-instant.
 
-- There’re six `<link rel>` tags that instruct the browser to preload something: check out [Preload, prefetch and other <link> tags](https://3perf.com/blog/link-rels).
-- Resource hints like `preconnect` and `dns-prefetch` are executed as the browser sees fit. The `preload`, on the other hand, is mandatory for the browser. Modern browsers are already pretty good at prioritizing resources, that's why it's important to use `preload` sparingly and only preload the most critical resources.
-- The `fetchpriority` attribute (available in Chrome 101 or later) is a hint and not a directive. Fetch Priority can also complement `preload`. Include the `fetchpriority` attribute when preloading several resources of the same type and you're clear about which is most important.
+Resource hints like `preconnect` and `dns-prefetch` are executed as the browser sees fit. The `preload`, on the other hand, is mandatory for the browser. Modern browsers are already pretty good at prioritizing resources, that's why it's important to use `preload` sparingly and only preload the most critical resources.
 
-> *Modern HTML has many performance controls:*
-> - Prioritize a key image: `<img fetchpriority=high>`
-> - Lazy-load images: `<img loading=lazy>`
+The `fetchpriority` attribute (available in Chrome 101 or later) is a hint and not a directive. Fetch Priority can also complement `preload`. Include the `fetchpriority` attribute when preloading several resources of the same type and you're clear about which is most important.
+
+> Summary:
 > - Warm connections to origins: `rel=preconnect`. Don’t preconnect Too Many Origins.
 > - Fetch late-found resources: `rel=preload`
 > - Fetch next-page navigations: `rel=prefetch`
 > - `rel="prerender"` goes a step beyond prefetching and actually renders the whole page as if the user had navigated to it, but keeps it in a hidden background renderer process ready to be used if the user actually navigates there. (*deprecated*)
+> - Read more: [Preload, prefetch and other <link> tags](https://3perf.com/blog/link-rels).
 
-For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. The good thing about defer is that you can guarantee the order of the script execution. *When you have both async and defer, `async` takes precedence and the script will be async.*
-
-@addyosmani has a good summary about [JavaScript Loading Priorities in Chrome](https://addyosmani.com/blog/script-priorities):
+For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. The good thing about defer is that you can guarantee the order of the script execution. *When you have both async and defer, `async` takes precedence and the script will be async.* @addyosmani has a good summary about [JavaScript Loading Priorities in Chrome](https://addyosmani.com/blog/script-priorities).
 
 <img alt="JavaScript Loading Priorities" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/addyosmani.com_blog_script-priorities%20(1).png" width="800">
 
@@ -132,10 +125,9 @@ window.performance.getEntriesByType('resource')
 ### The Speculation Rules API
 https://developer.chrome.com/blog/prerender-pages/
 
-A page can be prerendered in one of three ways, all of which aim to make navigations quicker:
+A page can be prerendered in either of two ways, all of which aim to make navigations quicker:
 1. When you type a URL into the Chrome omnibox, Chrome may automatically prerender the page for you, if it has high confidence you will visit that page. (View Chrome's predictions for URLs in the `chrome://predictors` page)
-2. When you type a search term into the Chrome omnibox, Chrome may automatically prerender the search results page, when instructed to do so by the search engine.
-3. Sites can use the *Speculation Rules API*, to programmatically tell Chrome which pages to prerender. This replaces what `<link rel="prerender"...>` used to do and allows sites to proactively prerender a page based on speculation rules on the page.
+2. Sites can use the *Speculation Rules API*, to programmatically tell Chrome which pages to prerender. This replaces what `<link rel="prerender"...>` used to do and allows sites to proactively prerender a page based on speculation rules on the page.
 
 Developers can insert JSON instructions onto their pages to inform the browser about which URLs to prerender. Speculation rules can be added in either the `<head>` or the `<body>` of the main frame. 
 
@@ -168,10 +160,9 @@ Speculation rules can also be used to just prefetch pages, without a full preren
 </script>
 ```
 
-Speculation rules can be statically included in the page's HTML, or dynamically inserted into the page by JavaScript based on application logic, personalized to the user, or on certain user actions such as hovering over, or clicking down on a link.
-
-> 1. Prerendering does use additional memory and network bandwidth. Be careful not to over-prerender, at a cost of user resources. Only prerender when there is a high likelihood of the page being navigated to.
-> 2. At present, speculation rules are restricted to pages opened within the same tab, but we are working to reduce that restrictions. By default prerender is restricted to same-origin pages.
+> 1. Speculation rules can be statically included in the page's HTML, or dynamically inserted into the page by JavaScript based on application logic.
+> 2. Prerendering does use additional memory and network bandwidth. Be careful not to over-prerender, at a cost of user resources. Only prerender when there is a high likelihood of the page being navigated to.
+> 3. At present, speculation rules are restricted to pages opened within the same tab, but we are working to reduce that restrictions. By default prerender is restricted to same-origin pages.
 
 ### The DOMContentLoaded event
 The `DOMContentLoaded` event fires once all of your deferred JavaScript (`<script defer>` and `<script type="module">`) has finished running. It doesn't wait for other things like images, subframes, and async scripts to finish loading. If we want to capture this data more deliberately ourselves, we need to lean on the Navigation Timing API, which gives us access to a suite of milestone timings.
@@ -192,21 +183,11 @@ window.addEventListener('load', (event) => {
 });
 ```
 
-### Performance Analysis with Chrome DevTools
-The "start profiling and reload page" button in the Performance tab of Chrome DevTools allows users to run a performance analysis on a website and view detailed information about how the page is loading and rendering. By clicking this button, the tool will simulate a user visiting the website and interacting with it, and will then provide metrics and other information about the page load process.
-
-> The "Idle" state is the time when nothing has happened (so I'm not sure why you would want to reduce it). Go to `about:blank` page, and get a new CPU profile. The result is probably the value for idle close to 100%. The "Idle" state should not be confused with the "Loading" state.
-
-The Performance Insights Tab in Chrome DevTools allows users to measure the page load of a website. This is done by running a performance analysis on the website and providing metrics on various aspects of the page load process, such as the time it takes for the page to be displayed, the time it takes for network resources to be loaded, and the time it takes for the page to be interactive.
-
-Performance analytics can help you identify requests that block/slow down the page rendering, or expensive function calls that block the main thread. It also provides you with information on important performance metrics, such as DCL (DOM Content Loaded), FCP (First Contentful Paint), LCP (Largest Contentful Paint) and TTI (Time To Interactive). You can also simulate network or CPU throttling, or enable the cache if your use case requires that.
-
 ### Best practices for fonts
 
 - https://web.dev/font-best-practices
 - https://www.lydiahallie.io/blog/optimizing-webfonts-in-nextjs-13
 - https://github.com/system-fonts/modern-font-stacks
-- https://vercel.com/font
 
 A font stack is a list of fonts in the CSS font-family declaration. The fonts are listed in order of preference that you would like them to appear in case of a problem, such as a font not loading. A font stack usually ends with a generic font classification (`serif` or `sans-serif`).
 
