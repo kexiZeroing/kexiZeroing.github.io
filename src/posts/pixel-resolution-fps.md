@@ -5,7 +5,7 @@ slug: pixel-resolution-fps
 description: ""
 added: "Oct 15 2021"
 tags: [css]
-updatedDate: "Apr 16 2023"
+updatedDate: "Feb 29 2024"
 ---
 
 ## Concept of pixel and resolution
@@ -149,6 +149,9 @@ If we want to define a default value and both a minimum and maximum value, we co
 }
 
 /* Fluid value from 600 to 1400px viewport width */
+/* 
+font-size: calc([value-min] + ([value-max] - [value-min]) * ((100vw - [breakpoint-min]) / ([breakpoint-max] - [breakpoint-min])));
+*/
 @media screen and (min-width: 600px) {
   .fluid {
     font-size: calc(36px + 16 * ((100vw - 600px) / (1400 - 600)));
@@ -161,10 +164,21 @@ If we want to define a default value and both a minimum and maximum value, we co
     font-size: 52px;
   }
 }
+```
 
-/* 
- * Same effect as the code in above Fluid Typography but in one line,
- * and without the use of media queries.
+**Use the formula `y = (v / 100) * x + r` to calulate `clamp([min]rem, [v]vw + [r]rem, [max]rem)`**, which has the same effect as the code in above Fluid Typography but in one line and without the use of media queries.
+
+- y — resulting fluid font size for a current viewport width value x (px).
+- x — current viewport width value (px).
+- v — viewport width value that affects fluid value change rate (vw).
+- r — relative size equal to browser font size. Default value is 16px.
+
+```css
+/*
+ * We have two equations with two parameters that we need to calculate — viewport width value v and relative size r.
+
+  v = (52 - 36) / (1400 - 600) * 100 = 2vw
+  r = (600 * 52 - 1400 * 36) / (600 -1400) = 24px = 1.5rem
 */
 .fluid {
   font-size: clamp(2.25rem, 2vw + 1.5rem, 3.25rem);
