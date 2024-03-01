@@ -101,10 +101,6 @@ link.addEventListener('click', function() {
 link.addEventListener('click', () => {
   // this === window
 })
-
-// Default parameters with destructuring
-const colorize = ({ color = 'yellow' }) => {...} 
-const colorize = ({ color = 'yellow' } = {}) => {...}
 ```
 
 ## Closure

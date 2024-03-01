@@ -148,6 +148,7 @@ function uniq(a) {
 - [].concat(arr)
 - [...arr]
 - JSON.parse(JSON.stringify(arr))  // deep clone
+- structuredClone(arr)  // deep clone, works across the latest browser versions
 
 Note that `JSON.parse(JSON.stringify(arr))` depends upon JSON, it also inherits its limitations. `undefined`, `Function`, and `Symbol` are not valid JSON values. If any such values are encountered during the stringify conversion, they are either omitted (when found in an object) or changed to `null` (when found in an array).
 
