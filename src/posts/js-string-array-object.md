@@ -438,6 +438,30 @@ p.a // 1
 p.b // undefined
 ```
 
+### getter and setter in Object
+The `get syntax` binds an object property to a function that will be called when that property is looked up. The `set syntax` binds an object property to a function to be called when there is an attempt to set that property.
+
+```js
+// getter
+const obj = {
+  log: ['example', 'test'],
+  get latest() {
+    return this.log[this.log.length - 1];
+  }
+}
+console.log(obj.latest); // "test"
+
+// setter
+const language = {
+  set current(name) {
+    this.log.push(name);
+  },
+  log: []
+}
+language.current = 'EN';
+console.log(language.log); // ['EN']
+```
+
 ### Object.keys(), Object.values(), Object.entries()
 - Object.keys() returns an array whose elements are strings corresponding to the enumerable properties found directly upon object. 
 - Object.values() returns an array of a given object's own enumerable property values, in the same order as that provided by a `for...in` loop (the difference being that **for-in loop enumerates properties in the prototype chain as well**).
