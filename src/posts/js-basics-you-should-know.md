@@ -157,10 +157,10 @@ console.log(counter.value()); // logs 1
 > It is unwise to unnecessarily create functions within other functions if closures are not needed for a particular task, as it will negatively affect script performance both in terms of processing speed and memory consumption. In JavaScript, memory leaks happen when objects are no longer needed, but are still referenced by functions or other objects. These references prevent the unneeded objects from being reclaimed by the garbage collector.
 
 ## try...catch...finally
-The try statement consists of a try block, which contains one or more statements. `{}` must always be used, even for single statements. **At least one catch clause, or a finally clause, must be present**. If any statement within the try-block throws an exception, control is immediately shifted to the catch-block. If no exception is thrown in the try-block, the catch-block is skipped.
+The try statement consists of a try block, which contains one or more statements. `{}` must always be used, even for single statements. At least one catch clause, or a finally clause, must be present. If any statement within the try-block throws an exception, control is immediately shifted to the catch-block. If no exception is thrown in the try-block, the catch-block is skipped.
 
 - You can nest one or more try statements. If an inner try statement does not have a catch clause, the enclosing try statement's catch clause is entered.
-- **The finally block always run, even if there is an exception or a return**. This is the perfect place to put code that needs to run regardless of what happens.
+- **The `finally` block always run, even if there is an exception or a return**. This is the perfect place to put code that needs to run regardless of what happens.
 - In ES2019, catch can now be used without a binding (omit the parameter). This is useful if you don’t have a need for the exception object in the code that handles the exception.
 
 ```js
@@ -218,20 +218,20 @@ Object.prototype.toString.call(new Map())     // '[object Map]'
 ```
 
 ### Number static properties and BigInt
-- The `Number` type is a double-precision 64-bit binary format IEEE 754 value, and each digit represents 4-bits, hence 64-bit has 16 digits. That's why some numbers are rounded while represented in more than 16 digits.
+- The `Number` type is a double-precision 64-bit binary format IEEE 754 value (with a numeric precision of 53 bits). Integer values up to ±2^53 − 1 can be represented exactly.
 - To check for the largest available value or smallest available value within `±Infinity`, you can use the constants `Number.MAX_VALUE` or `Number.MIN_VALUE`. Values larger than `MAX_VALUE` are represented as `Infinity`.
 - `Number.MAX_VALUE` is the largest number possible to represent using a double precision floating point representation.
 - `Number.MAX_SAFE_INTEGER` is the largest integer which can be used safely in calculations, for example, `Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2` is true. Any integer larger than `Number.MAX_SAFE_INTEGER` cannot always be represented in memory accurately and will be a double-precision floating point approximation of the value.
 - With the introduction of `BigInt`, you can operate with numbers beyond the `Number.MAX_SAFE_INTEGER`. A `BigInt` is created by appending `n` to the end of an integer or by calling the constructor.
 
-> **The corrupted JSON data:**  
-> Javascript only has floating point numbers – it doesn’t have an integer type. The biggest integer you can represent in a 64-bit floating point number is `2^53`. People mentioned issues when they were trying to send a large integer in JSON and it got corrupted. This mostly makes sense to me because JSON has “Javascript” in the name, so it seems reasonable to decode the values the way Javascript would. This particular issue doesn’t happen in Python, because Python has integers. Read more about [Examples of floating point problems](https://jvns.ca/blog/2023/01/13/examples-of-floating-point-problems/).
+> Tweet IDs are big numbers, bigger than `2^53`. The Twitter API now returns them as both integers and strings, so that in Javascript you can just use the string ID, but if you tried to use the integer version in JS, things would go very wrong. This particular issue doesn’t happen in Python, because Python has integers. Read more about [Examples of floating point problems](https://jvns.ca/blog/2023/01/13/examples-of-floating-point-problems/).
 
 ### Why `[] + {}` is `"[object Object]"`
 Firstly convert both operands to primitive values, and try `valueOf()` followed by `toString()`. If either of them is a string, do `String(a) + String(b)`, otherwise do `Number(a) + Number(b)`.
 
-Another example is `{} > []`. In the case of `{}`, it first tries to call `valueOf` on the object but that returns `{}`. Since `typeof {} === "object"`, it then calls `toString` and gets `"[object Object]"`. In the case of `[]`, calling `valueOf` returns `[]`, and since `typeof [] === "object"`, it calls `toString` and the return value of `Array.prototype.toString()` on an empty array is an empty string. So we get `"[object Object]" > ""`.
+In the case of `{}`, it first tries to call `valueOf` on the object but that returns `{}`. Since `typeof {} === "object"`, it then calls `toString` and gets `"[object Object]"`. In the case of `[]`, calling `valueOf` returns `[]`, and since `typeof [] === "object"`, it calls `toString` and the return value of `Array.prototype.toString()` on an empty array is an empty string.
 
+Another example is `{} > []`, because we get `"[object Object]" > ""`.
 > Why you get an error when you attempt to run `{} > []` in the browser? **Block statements are evaluated before expressions**, so when the interpreter sees curly braces when not in an expression context, it interprets them as a block rather than an object literal. The way to force the interpreter to see `{}` as an object literal instead of as a block is to wrap it in parentheses.
 
 ## this, globalThis and binding
@@ -294,7 +294,7 @@ var banana = {
   name: 'banana'
 }
 
-var fruitCall = fruit.call(apple);
+var fruitCall = fruit.call(apple);  // `fruit` is normal function here
 fruitCall();  // apple
 fruitCall.call(banana);  // apple
 ```
@@ -321,7 +321,7 @@ Function.prototype.bind = function() {
   if (typeof thatFunc !== 'function') {
     throw new TypeError('what is trying to be bound is not callable');
   }
-  return function(){
+  return function() {
     var funcArgs = args.concat(slice.call(arguments))
     return thatFunc.apply(thatArg, funcArgs);
   };
@@ -345,13 +345,12 @@ boundGetX(); // 81
 
 // partially applied function
 function addArguments(arg1, arg2) {
-    return arg1 + arg2
+  return arg1 + arg2
 }
 
 var addThirtySeven = addArguments.bind(null, 37); 
 
 var result2 = addThirtySeven(5);  // 37 + 5 = 42 
-
 var result3 = addThirtySeven(5, 10);  // 37 + 5 = 42 , second argument is ignored
 
 // setTimeout, explicitly bind this to the callback function
@@ -396,8 +395,8 @@ Foo.call(o);
 
 // create an object
 let f = function () {
-   this.a = 1;
-   this.b = 2;
+  this.a = 1;
+  this.b = 2;
 }
 let o = new f();
 
