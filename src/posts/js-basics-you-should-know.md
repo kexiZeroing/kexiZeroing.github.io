@@ -876,28 +876,6 @@ textarea.addEventListener('input', e => e.target.dispatchEvent(eventAwesome));
 > - Use the `once` option in `addEventListener()` if you need to fire a callback only once.
 > - Use `AbortController()` if you have a series of listeners you’d like to imperatively remove at once, or if you just like the syntax.
 
-## Cross-site scripting
-Cross-site scripting (XSS) is a security bug that can affect websites. This bug can allow an attacker to add their own malicious JavaScript code onto the HTML pages displayed to the users. The vulnerabilities most often happen when user input is sent to the server, and the server responds back to the user by displaying a page that includes the user input without validation. XSS also can occur entirely in the client-side without data being sent back and forth between the client and server.
-
-A common technique for preventing XSS vulnerabilities is "escaping". The purpose of character and string escaping is to make sure that every part of a string is interpreted as a string primitive, not as a control character or code. Escape certain characters (like `<`, `>`, `&`, and `"`) with HTML entity to prevent them being executed.
-
-A good test string is `>'>"><img src=x onerror=alert(0)>`. If your application doesn't correctly escape this string, you will see an alert and will know that something went wrong. [The Big List of Naughty Strings](https://github.com/minimaxir/big-list-of-naughty-strings) is a list of strings which have a high probability of causing issues when used as user-input data.
-
-> We do not recommend that you manually escape user-supplied data. Instead, we strongly recommend that you use a templating system or web development framework that provides context-aware auto-escaping. If this is impossible for your website, use existing libraries (e.g., [DOMPurify](https://github.com/cure53/DOMPurify)) that are known to work, and apply them consistently to all user-supplied data.
-
-## Content Security Policy
-Configuring Content Security Policy involves adding the `Content-Security-Policy` HTTP header to a web page and giving it values to control what resources the user agent is allowed to load for that page. If the site doesn't offer the CSP header, browsers likewise use the standard same-origin policy. A properly designed Content Security Policy helps protect a page against a cross-site scripting attack. There are specific directives for a wide variety of types of items, so that each type can have its own policy, including fonts, frames, images, audio and video media, scripts, and workers.
-
-```
-Content-Security-Policy: default-src 'self'; script-src 'self' cdn.example.com; img-src 'self' img.example.com; style-src 'self';
-```
-
-The above policy permits:
-- All content to be loaded only from the site's own origin.
-- Scripts to be loaded from the site's own origin and `cdn.example.com`.
-- Images from the site's own origin and `img.example.com`
-- Styles only from the site's origin.
-
 ## Promise
 A `Promise` is a proxy for a value not necessarily known when the promise is created. The Promise object represents the eventual completion or failure of an asynchronous operation and its success value or failure reason. Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.
 
@@ -995,11 +973,11 @@ Promise.all([p1, p2, p3]).then(values => {
 });
 
 function loadImg(src){
-  return new Promise((resolve,reject) => {
+  return new Promise((resolve, reject) => {
     let img = document.createElement('img');
     img.src = src;
     img.onload = () => resolve(img);
-    img.onerror = (err) => eject(err);
+    img.onerror = (err) => reject(err);
   })
 }
 
@@ -1020,10 +998,10 @@ Promise.all([
 
 ```js
 var p1 = new Promise(function(resolve, reject) { 
-    setTimeout(() => resolve('one'), 500); 
+  setTimeout(() => resolve('one'), 500); 
 });
 var p2 = new Promise(function(resolve, reject) { 
-    setTimeout(() => resolve('two'), 100); 
+  setTimeout(() => resolve('two'), 100); 
 });
 
 Promise.race([p1, p2]).then(function(value) {
@@ -1031,10 +1009,10 @@ Promise.race([p1, p2]).then(function(value) {
 });
 
 var p3 = new Promise(function(resolve, reject) { 
-    setTimeout(() => resolve('three'), 500); 
+  setTimeout(() => resolve('three'), 500); 
 });
 var p4 = new Promise(function(resolve, reject) { 
-    setTimeout(() => reject(new Error('four')), 100);
+  setTimeout(() => reject(new Error('four')), 100);
 });
 
 Promise.race([p3, p4]).then(function(value) {
@@ -1157,20 +1135,6 @@ async function parallel() {
 
 > Concurrency is when two or more tasks can start, run, and complete in overlapping time periods. It doesn't necessarily mean they'll ever be running at the same instant. For example, multitasking on a single-core machine. Parallelism is when tasks literally run at the same time, e.g., on a multicore processor.
 
-```js
-// async error handling
-async function asyncWrap(promise) {
-  try {
-    const data = await promise;
-    return [data, null];
-  } catch (err) {
-    return [null, err];
-  }
-}
-
-const [data, err] = await asyncWrap(getData());
-```
-
 ## What is a JavaScript test
 
 ```js
@@ -1218,10 +1182,6 @@ function expect(actual) {
 
 Instead of building our own framework, [Jest](https://jestjs.io) is a JavaScript testing framework built on top of Jasmine and maintained by Meta. It works out of the box for most JavaScript projects.
 
-> React beginners often confuse the tools for testing in React: 
-> - Jest is a test runner that finds tests, runs the tests, and determines whether the tests passed or failed. Additionally, Jest offers functions for test suites, test cases, and assertions.
-> - [React Testing Library](https://github.com/testing-library/react-testing-library) is not a test runner. It provides virtual DOMs for testing React components. If you are using create-react-app, Jest and React Testing Library comes by default with the installation. Enzyme and React Testing Library are two similar things and alternatives to each other.
-> - Vitest is a popular alternative to Jest, especially when being used in Vite. It also comes with a test runner, test suites (describe-block), test cases (it-block), and assertions (e.g. expect).
-
-## Javascript obfuscation techniques
-https://www.trickster.dev/post/javascript-obfuscation-techniques-by-example
+- Jest finds tests, runs the tests, and determines whether the tests passed or failed. Additionally, it offers functions for test suites, test cases, and assertions.
+- Vitest is a popular alternative to Jest, especially when being used in Vite. It also comes with a test runner, test suites (describe-block), test cases (it-block), and assertions (e.g. expect).
+- [React Testing Library](https://github.com/testing-library/react-testing-library) is not a test runner. It provides virtual DOMs for testing React components. If you are using create-react-app, Jest and React Testing Library comes by default with the installation. Enzyme and React Testing Library are two similar things and alternatives to each other.

@@ -168,6 +168,8 @@ Effortlessly build beautiful command-line apps: https://github.com/natemoo-re/cl
 
 The resource you’ll ever need for mechanical keyboards: https://www.keyboard.university
 
+Sleek Framer UI components: https://drams.framer.website
+
 ---
 
 ## CSS related
