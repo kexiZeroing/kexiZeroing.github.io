@@ -11,21 +11,20 @@ updatedDate: "Nov 28 2023"
 ## Next Generation Frontend Tooling
 > When I need multiple different pages and create a React app that needs a backend, my go-to framework is `Next.js`. But sometimes I just want to create a React app, maybe for a demo or to start a project. I used to use `create-react-app` but these days I use `Vite`.
 
-Use [create-vite](https://github.com/vitejs/vite/tree/main/packages/create-vite) to start a Vite project by running `npm init vite@latest`. You can also try Vite online on [StackBlitz](https://vite.new).
+Use [create-vite](https://github.com/vitejs/vite/tree/main/packages/create-vite) to start a Vite project by running `npm create vite@latest`. You can also try Vite online on StackBlitz at https://vite.new.
 
 Vite consists of two major parts:
 - A dev server that serves your source files over native ES modules, with rich built-in features and fast Hot Module Replacement (HMR). It only needs to transform and serve source code on demand, as the browser requests it. When you debug with Vite, just looking at the network tab and every module is a request here because it doesn't concatenate everything.
+- A build command that bundles your code with Rollup, pre-configured to output highly optimized static assets for production.
 
-  > `esbuild`, which is written in Go, 10-100x faster than JavaScript-based bundlers, does the transpile things transforming into plain javascript. It will process and prebundle the dependencies into something works in the browser as native es-module. `vite --force` will ignore the dependency cache and reforce to process all the dependencies.
-
-- A build command that bundles your code with Rollup, pre-configured to output highly optimized static assets for production. (Rollup is a more battle-tested choice in bundling applications)
-
-Once you've built the app, you may test it locally by running `npm run preview` command. It will boot up a local static web server that serves the files from `dist` at `http://localhost:4173`. It's an easy way to check if the production build looks OK in your local environment.
+Once you've built the app, you may test it locally by running `npm run preview` command. It will boot up a local static web server that serves the files from `dist`. It's an easy way to check if the production build looks OK in your local environment.
 
 ## Webpack and Vite
 When you start the app in development, Webpack will bundle all of your code, and start the webpack-dev-server, the Express.js web server which will serve the bundled code. Within the bundled js file contains all modules for the app and need to regenerate the entire file when we change a file for HMR. It can often take an long wait to spin up a dev server, and even with HMR, file edits can take a couple seconds to be reflected in the browser.
 
 Vite doesn't set out to be a new bundler. Rather, it's a pre-configured build environment using the Rollup bundler and a tool for local development. Vite [pre-bundles dependencies](https://vitejs.dev/guide/dep-pre-bundling.html) in development mode using esbuild.
+
+> `esbuild`, which is written in Go, 10-100x faster than JavaScript-based bundlers, does the transpile things transforming into plain javascript. It will process and prebundle the dependencies into something works in the browser as native es-module. `vite --force` will ignore the dependency cache and reforce to process all the dependencies.
 
 Vite only support ES Modules, and parsing the native ES Modules means it will read the `export` and `import` lines from your code. It will convert those lines into HTTP requests back to the server, where it will again read the `export` and `import` lines and make new requests. Vite also leverages HTTP headers to speed up full page reloads: source code module requests are made conditional via `304 Not Modified`, and dependency module requests are strongly cached via `Cache-Control` header.
 
@@ -42,14 +41,12 @@ Vite only support ES Modules, and parsing the native ES Modules means it will re
 > - supported modules: ES Modules
 > - dev-server: native ES Modules served via Vite using Koa web server
 > - production build: Rollup
-
-### Popular Webpack plugins and their Vite equivalents
-- HtmlWebpackPlugin -> vite-plugin-html
-- MiniCssExtractPlugin -> vite-plugin-purgecss
-- CopyWebpackPlugin -> vite-plugin-static-copy
-- DefinePlugin -> define()
-
-Under the hood, Vite uses Rollup as its build tool, and you can add any Rollup plugins to Vite, add them into the `plugins` array your `vite.config.js`.
+> 
+> Popular Webpack plugins and their Vite equivalents
+> - HtmlWebpackPlugin -> vite-plugin-html
+> - MiniCssExtractPlugin -> vite-plugin-purgecss
+> - CopyWebpackPlugin -> vite-plugin-static-copy
+> - DefinePlugin -> define()
 
 ## Features
 

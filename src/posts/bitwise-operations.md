@@ -67,7 +67,7 @@ There's another bonus that when you need to extend the width of the register the
 ```
 
 ### Left shift and Right shift
-In an arithmetic shift (`<<` and `>>`), the bits that are shifted out of either end are discarded. In a **left arithmetic shift**, zeros are shifted in on the right; in a **right arithmetic shift**, the sign bit is shifted in on the left, thus preserving the sign of the operand. A left arithmetic shift by `n` is equivalent to multiplying by `2^n` **(provided the value does not overflow)**, while a right arithmetic shift by `n` is equivalent to dividing by `2^n`.
+In an arithmetic shift (`<<` and `>>`), the bits that are shifted out of either end are discarded. In a **left arithmetic shift**, zeros are shifted in on the right; in a **right arithmetic shift**, the sign bit is shifted in on the left, thus preserving the sign of the operand. A left arithmetic shift by `n` is equivalent to multiplying by `2^n` *(provided the value does not overflow)*, while a right arithmetic shift by `n` is equivalent to dividing by `2^n`.
 
 In a logical shift, zeros are shifted in to replace the discarded bits. Therefore, the logical and arithmetic left-shifts are exactly the same, so we **only have `>>>` don't have `<<<`**. The logical right-shift inserts zeros into the most significant bit instead of copying the sign bit, so it is ideal for unsigned binary numbers, while the arithmetic right-shift is ideal for signed two's complement binary numbers.
 
@@ -82,4 +82,4 @@ int t = (data[c] - 128) >> 31;
 sum += ~t & data[c];
 ```
 
-Arithmetically shift right by 31, it becomes either all ones if it is smaller than 128 or all zeros if it is greater or equal to 128. (0111 -> 0011 -> 0001 -> 0000 or 1000 -> 1100 -> 1110 -> 1111). The the second line adds to the sum either `0xFFFFFFFF & data[c]` (so `data[c]`) in the case that `data[c] >= 128`, or `0 & data[c]` (so zero) in the case that `data[c] < 128`.
+Arithmetically shift right by 31, it becomes either all ones if it is smaller than 128 or all zeros if it is greater or equal to 128. (0111 -> 0011 -> 0001 -> 0000 or 1000 -> 1100 -> 1110 -> 1111). The second line adds to the sum either `0xFFFFFFFF & data[c]` (so `data[c]`) in the case that `data[c] >= 128`, or `0 & data[c]` (so zero) in the case that `data[c] < 128`.
