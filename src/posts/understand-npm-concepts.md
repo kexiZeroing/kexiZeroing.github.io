@@ -41,7 +41,7 @@ updatedDate: "Feb 22 2024"
 > During reification, the `idealTree` is diffed against the actual tree, and then the nodes from the ideal tree are extracted onto disk. At the end of `reify()`, the ideal tree is copied to `actualTree`, since then it reflects the actual state of the `node_modules` folder.
 
 ### npm ls
-`npm ls` (aliases: list, la, ll) list dependencies that have been installed to `node_modules`. It throws an error for discrepancies between `package.json` and its lock.
+`npm ls` (aliases: list, la, ll) list dependencies that have been installed to `node_modules`. It throws an error for discrepancies between `package.json` and its lock. `npm ls --depth=0 --silent` to see the installed non-global libraries for your current location.
 
 - If `depth` is not set, `npm ls` will show only the immediate dependencies of the root project.
 - `npm ls <package>` to check a specific package.

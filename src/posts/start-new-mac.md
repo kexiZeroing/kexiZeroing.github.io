@@ -42,14 +42,13 @@ updatedDate: "Apr 05 2023"
     > - reset the proxy: `git config --global --unset http.proxy`
 
 6. Use `nvm` to install Node.js, then install a version of node `nvm install xx.xx`, `nvm use xx.xx` and run `nvm ls`. Use `node -v && npm -v` to check the version.
-   -  nvm install script clones the nvm repository to `~/.nvm`, and attempts to add the source lines to the correct profile file like `~/.zshrc` or `~/.bashrc`.
+   - nvm install script clones the nvm repository to `~/.nvm`, and attempts to add the source lines to the correct profile file like `~/.zshrc` or `~/.bashrc`.
    - `nvm ls-remote` to browse available versions
    - set default node version: `nvm alias default x.y.z` (`nvm alias default node` to make the "latest" default)
    - check npm config: `npm config ls`
    - `npm config set registry https://registry.npmmirror.com` to change the registry, `npm config delete registry` to change back to default (`https://registry.npmjs.org/`), `npm get registry` to see the current set.
    - set npm proxy `npm config set proxy http://127.0.0.1:7890` and remove this proxy `npm config delete proxy`
    <img alt="npm proxy" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008i3skNly1gz5abxu18ij31bu0eijtx.jpg" width="700">
-   - `npm list --depth=0 --silent` to see the installed non-global libraries for your current location and `npm list -g --depth=0` to find globally installed modules. (`npm ls` exits with an exit code of `1` if it finds unmet peer dependencies even with `--silent`)
    - Global Node modules will be installed at `~/.nvm/versions/node/v12.13.0/bin/` if you use nvm.
    <img alt="global node_modules" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/e6c9d24ely1h2zj27plslj218q04ydgm.jpg" width="700" />
 

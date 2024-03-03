@@ -134,6 +134,9 @@ function Bookmarks({ category }) {
 ```
 
 React Query takes the good parts of Apollo and brings them to REST. It works with any function that returns a Promise and embraces the stale-while-revalidate caching strategy. The library tries to keep your data as fresh as possible while at the same time showing data to the user as early as possible.
+1. Is an async state manager
+2. `staleTime` is your best friend
+3. Treat parameters as dependencies
 
 > TanStack Query is a server-state library, responsible for managing asynchronous operations between your server and client. Vuex, Pinia, Zustand, etc. are client-state libraries that can be used to store asynchronous data.
 

@@ -22,7 +22,6 @@ Developers traditionally install and run tools like IDEs, libraries, and languag
 ### GitHub Codespaces
 https://github.com/features/codespaces  
 https://github.blog/2021-08-11-githubs-engineering-team-moved-codespaces  
-https://maier.tech/posts/move-your-ide-to-the-cloud-introduction-to-github-codespaces
 
 ### CodeSandbox
 https://codesandbox.io/
