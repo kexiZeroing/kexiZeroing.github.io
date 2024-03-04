@@ -336,15 +336,10 @@ Open Activity Monitor, you’ll see a column named “Kind”. If the app says �
 | tail -f /log | 实时查看添加到⽂件中的内容
 | grep foo hello.txt | 在⽂件中查找关键词
 | grep ^foo hello.txt | 查找以 foo 开头的内容
-| tar -cvf xxx.tar dir | 创建⾮压缩 tar 包
-| tar -czvf xxx.tar.gz dir | 创建压缩包
-| tar -tzvf xxx.tar.gz | 查看 tar 包的内容
-| tar -xvf xxx.tar | 解压 tar 包
 | python3 -m http.server 8080 | 快速启动 http 服务
 | netstat -P tcp | 显示特定传输协议的状态
 | cat /etc/hosts | 管理 IP 地址和主机名之间的映射
 | cat /etc/resolv.conf | DNS 客户机配置文件
-| find . -name "*.txt" -maxdepth 1 \| xargs grep "foo" | 将标准输入转换成命令行参数 first find the files and then look for specific keyword
 |
 
 System Information Library for Node.js: https://systeminformation.io

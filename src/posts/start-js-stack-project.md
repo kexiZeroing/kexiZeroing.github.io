@@ -251,7 +251,7 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 <img alt="format & eslint" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a79fd1f2-367d-464d-b6eb-34db4aa17a71.png" width="450" />
 
 ### What is Husky
-While working on an enterprise development team, it is important that all code linting and unit tests are passing before committing code, especially if you are using some form of continuous integration. **Husky** is a very popular npm package that allows custom scripts to be ran against your repository to prevent bad `git commit` and `git push`, which makes commits of fixing lint errors doesn't happen.
+While working on an enterprise development team, it is important that all code linting and unit tests are passing before committing code, especially if you are using some form of continuous integration. [Git Hooks](https://githooks.com) are a built-in feature of Git that can execute automatically when certain events occur. **Husky**, as a project, is a very popular npm package that allows custom scripts to be ran against your repository to prevent bad `git commit` and `git push`, which makes commits of fixing lint errors doesn't happen.
 
 Install husky `npm i -D husky` and have a "husky" section in the `package.json` file to add git hooks.
 ```json
