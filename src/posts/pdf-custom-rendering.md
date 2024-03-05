@@ -206,6 +206,9 @@ To edit a PDF in any meaningful GUI way, you would need to unpack the PDF and re
 If you need to annotate the PDF then things are easier. On the server, you need to generate images of the pages of the document, send those to the client, display them to the user, let the user mark them up, capture the co-ordinates of the annotations back to the server and use a server-side PDF library to render the annotations into the PDF. It is achievable, though requires various skillsets for server-side PDF to image manipulation and client side presentation and annotation capture.
 
 > PDF.js provides only viewer. It is designed for reading PDF files, not editing them. Because of that we don't support adding any kind of annotations. However, we do support rendering annotations for viewing.
+>
+> 页面上展示出来的每一页 PDF 有三层：  
+> canvas 预览层（原始 pdf）-> annotationLayer 批注层（使用 svg，记录坐标）-> textLayer 文字层（透明的，在最上层保证文字一直可选）
 
 See also:
 - https://github.com/instructure/pdf-annotate.js
