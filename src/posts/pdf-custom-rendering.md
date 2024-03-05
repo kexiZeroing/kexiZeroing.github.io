@@ -8,7 +8,7 @@ tags: [code]
 updatedDate: "June 30 2023"
 ---
 
-When it comes to the Web, almost every modern browser supports viewing of PDF documents natively. But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership. 
+When it comes to the Web, almost every modern browser supports viewing of PDF documents natively. But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership.
 
 [PDF.js](https://github.com/mozilla/pdf.js), created by Mozilla Labs, which can render PDF documents in your browser. Most importantly, you as a developer have full control over rendering the PDF document’s pages as per your requirements. But integrating it isn’t as straightforward as it might seem. There is little documentation available on how to integrate certain features like rendering text-layers or annotations, and supporting password protected files.
 
@@ -41,7 +41,7 @@ When it comes to the Web, almost every modern browser supports viewing of PDF do
 > CMaps (Character Maps) are text files that are used in PostScript and other Adobe products to map character codes to character glyphs in CID fonts. They are mostly used when dealing with East Asian writing systems. This technology is a legacy technology, so it should not be used in pdfs created by modern tools. `pdf.js` needs the CMap file when it wants to display such CID fonts.
 
 ## Basic rendering as canvas
-In my demo, PDF.js-related libraries are imported from [UNPKG](https://unpkg.com/browse/pdfjs-dist@3.0.279/). You should check the version of `pdfjs-dist` you imports, since the APIs are different among various PDF.js versions.
+In this demo, PDF.js-related libraries are imported from [UNPKG](https://unpkg.com/browse/pdfjs-dist@3.0.279/). You should check the version of `pdfjs-dist` you imports, since the APIs are different among various PDF.js versions.
 
 ```html
 <!DOCTYPE html>
@@ -201,12 +201,11 @@ Get the code from https://github.com/mozilla/pdf.js/blob/master/web/viewer.html,
 - `https://mozilla.github.io/pdf.js/web/viewer.html#zoom=200`
 
 ## Annotations to a PDF
-To edit a PDF in any meaningful GUI way, you would need to unpack the PDF and render the components (images, formatted text, pages) to the display device; then allow folks to mess with the layout; then re-pack the PDF. You would have to do this perfectly in line with the PDF standards otherwise you may find the downstream consumers of your edited PDF file crash or are unable to render it. It's a very complicated subject. Better to think about having the users edit HTML and generate the PDF at the server.
+To edit a PDF in any meaningful GUI way, you would need to unpack the PDF and render the components (images, formatted text, pages) to the display device; then allow folks to mess with the layout; then re-pack the PDF. You would have to do this perfectly in line with the PDF standards otherwise you may find the downstream consumers of your edited PDF file crash or are unable to render it. It's a very complicated subject.
 
 If you need to annotate the PDF then things are easier. On the server, you need to generate images of the pages of the document, send those to the client, display them to the user, let the user mark them up, capture the co-ordinates of the annotations back to the server and use a server-side PDF library to render the annotations into the PDF. It is achievable, though requires various skillsets for server-side PDF to image manipulation and client side presentation and annotation capture.
 
-PDF.js provides only viewer:
-> PDF.js is designed for reading PDF files, not editing them. Because of that we don't support adding any kind of annotations. However, we do support rendering annotations for viewing.
+> PDF.js provides only viewer. It is designed for reading PDF files, not editing them. Because of that we don't support adding any kind of annotations. However, we do support rendering annotations for viewing.
 
 See also:
 - https://github.com/instructure/pdf-annotate.js

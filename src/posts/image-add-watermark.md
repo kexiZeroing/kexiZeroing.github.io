@@ -1,6 +1,6 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Image add watermark"
+title: "Add watermark to images"
 slug: image-add-watermark
 description: ""
 added: "Dec 1 2022"
@@ -75,11 +75,28 @@ Image watermarking is the process of placing an overlay text on top of the origi
       context.fillStyle = "blue";
       context.font = "bold 40px serif";
       // get width of text
-      var metrics = context.measureText(watermarkText);
+      const metrics = context.measureText(watermarkText);
       context.fillText(watermarkText, canvasWidth - metrics.width - 20, canvasHeight - 20);
 
       return canvas.toDataURL();
     }
   </script>
 </body>
+```
+
+```js
+// Use the library `watermark.js` in the browser.
+// image as watermark
+watermark(['/img/shepherd.jpg', '/img/logo.png'])
+  .image(watermark.image.lowerRight())
+  .then(function (img) {
+    document.getElementById('composite-image').appendChild(img);
+  });
+
+// text as watermark
+watermark(['/img/field.jpg'])
+  .image(watermark.text.lowerRight('MyPhoto', '28px serif', '#fff', 0.5))
+  .then(function (img) {
+    document.getElementById('text').appendChild(img);
+  });
 ```
