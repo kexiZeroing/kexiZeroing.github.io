@@ -19,6 +19,8 @@ Here are good resources to learn GraphQL:
 - https://www.taniarascia.com/graphql-server-node
 
 ### GraphQL client and server implementations
+A GraphQL implementation can be written with any programming language, integrate with any type of database, and support any client (such as mobile or web applications), as long as it follows the rules outlined in the specification. The GraphQL server describes the capabilities exposed in the API, and the client describes the requirements of the request. *(A simple XMLHttpRequest or fetch from a web browser is sufficient for making requests by sending a GraphQL document to a GraphQL server.)* 
+
 - GraphQL.js (https://github.com/graphql/graphql-js): The JavaScript reference implementation of the GraphQL specification. It is a general-purpose library and can be used both in a Node server and in the browser. 
 
 - Apollo Server (https://github.com/apollographql/apollo-server): A set of GraphQL server packages from Apollo that work with various Node.js HTTP frameworks like Express (most popular), Hapi, Koa, etc.
