@@ -64,6 +64,8 @@ The reasoning behind various decisions made for the Epic Stack: https://github.c
 
 Awesome System Design Resources: https://github.com/ashishps1/awesome-system-design-resources
 
+String Matching – What’s behind Ctrl+F: https://www.wild-inter.net/teaching/comp526/04-string-matching
+
 ---
 
 ## Tools and Cool websites

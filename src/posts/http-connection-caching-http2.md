@@ -5,17 +5,15 @@ slug: http-connection-caching-http2
 description: ""
 added: "Nov 20 2022"
 tags: [web]
-updatedDate: "Oct 22 2023"
+updatedDate: "Mar 6 2024"
 ---
 
 ## Connection management
-HTTP mostly relies on TCP for its transport protocol, providing a connection between the client and the server. Opening each TCP connection is a resource-consuming operation. Several messages must be exchanged between the client and the server. Opening and maintaining connections largely impacts the performance of web applications. In HTTP/1.x, there are several models: short-lived connections, persistent connections, and HTTP pipelining.
+HTTP mostly relies on TCP for its transport protocol, providing a connection between the client and the server. Opening each TCP connection is a resource-consuming operation. Several messages must be exchanged between the client and the server. Opening and maintaining connections largely impacts the performance of web applications.
 
 The original model of HTTP, and the default one in HTTP/1.0, is **short-lived connections**. Each HTTP request is completed on its own connection; this means a TCP handshake happens before each HTTP request, and these are serialized.
 
-A **persistent connection**, also called keep-alive connection, remains open for a period of time, and can be reused for several requests, saving the need for a new TCP handshake, and utilizing TCP's performance enhancing capabilities. This connection will not stay open forever: idle connections are closed after some time (a server may use the `Keep-Alive` header to specify a minimum time the connection should be kept open). Persistent connections also have drawbacks, even when idling they consume server resources, and under heavy load, DoS attacks can be conducted. In HTTP/1.1, persistence is the default, and the connection header is no longer needed.
-
-By default, HTTP requests are issued sequentially. **Pipelining** is the process to send successive requests, over the same persistent connection, without waiting for the answer. This avoids latency of the connection. Theoretically, performance could be improved if two HTTP requests were to be packed into the same TCP message. **Pipelining has been superseded by a better algorithm, `multiplexing`, that is used by HTTP/2.**
+A **persistent connection**, also called keep-alive connection, remains open for a period of time, and can be reused for several requests, saving the need for a new TCP handshake. To put it simply, the HTTP server doesn't close the TCP connection after each response but waits some time if some other HTTP request will come over it too. The connection will not stay open forever: idle connections are closed after some time (a server may use the `Keep-Alive` header to specify a minimum time the connection should be kept open). If the client doesn't send anything over TCP connection, then a timeout will close the connection; client will of course notice this and will send request through another TCP connection if needed. In HTTP/1.1, persistence is the default, and the connection header is no longer needed.
 
 ### Domain sharding
 In HTTP/1.x, the browser naively queue all HTTP requests on the client, sending one after another over a single, persistent connection. However, this is too slow. Hence, the browser vendors are left with no other choice than to **open multiple TCP sessions in parallel**. How many? In practice, most modern browsers, both desktop and mobile, open up to six connections per host. *(The higher the limit, the higher the client and server overhead, but at the additional benefit of higher request parallelism. Six connections per host is simply a safe middle ground.)*
@@ -68,11 +66,9 @@ The HTTP cache stores a response associated with a request and reuses the stored
 
 - A private cache is a cache tied to a specific client — typically a browser cache. This cache is especially useful when users hit the "back" button or click a link to see a page they’ve just looked at. If a response contains personalized content and you want to store the response only in the private cache, you must specify a `private` directive: `Cache-Control: private`.
 
-- A shared cache is a cache that stores responses to be reused by more than one user. For example, an ISP might have set up a web proxy as part of its local network infrastructure to serve many users so that popular resources are reused a number of times, reducing network traffic and latency.
+- A shared cache is a cache that stores responses to be reused by more than one user. While browser caching (private cache) helps with many requests by the same user, it doesn't solve the issue of many users making requests, because each user has their own browser with their own cache. To fix this, you need a shared cache. For example, an ISP might have set up a web proxy as part of its local network infrastructure to serve many users so that popular resources are reused a number of times, reducing network traffic and latency.
 
-> What is Edge Caching? While browser caching (private cache) helps with many requests by the same user, it doesn't solve the issue of many users making requests, because each user has their own browser with their own cache. To fix this, you need a shared cache.
-> 
-> For example, Cloudflare caches only static assets by default, such as images, fonts, scripts, etc. The HTML containing the page content is not cached, because if you have an e-commerce store, for example, each user will have their own shopping cart, and if you cache that, the next user will see the previous one's items. Sites without dynamic content can opt in to cache everything. This makes it possible for an edge to serve entire pages all by itself, without having to contact your server. This way, you can have a very weak server, yet handle thousands of requests per second, because the load is mainly on the CDN.
+> Cloudflare caches only static assets by default, such as images, fonts, scripts, etc. The HTML containing the page content is not cached, because if you have an e-commerce store, for example, each user will have their own shopping cart, and if you cache that, the next user will see the previous one's items. Sites without dynamic content can opt in to cache everything. This makes it possible for an edge to serve entire pages all by itself, without having to contact your server. This way, you can have a very weak server, yet handle thousands of requests per second, because the load is mainly on the CDN.
 
 ### Controlling caching
 There are many directives in the `Cache-Control` spec, and it may be difficult to understand all of them. But most websites can be covered by a combination of a handful of patterns.
@@ -89,7 +85,7 @@ Cache-Control: stale-while-revalidate=<seconds>
 
 In HTTP/1.0, freshness used to be specified by the `Expires` header. However, the time format is difficult to parse and many implementation bugs were found, therefore, `max-age` — for specifying an elapsed time — was adopted for `Cache-Control` in HTTP/1.1. If both `Expires` and `Cache-Control: max-age` are available, `max-age` is defined to be preferred.
 
-To ensure that the latest versions of resources will always be transferred, it's common practice to make the default `Cache-Control` value include `no-cache`. In addition, if the service implements cookies or other login methods, and the content is personalized for each user, `private` must be given too.
+To ensure that the latest versions of resources will always be transferred, it's common practice to make the default `Cache-Control` value include `no-cache`. In addition, if the service implements cookies and the content is personalized for each user, `private` must be given too.
 
 `max-age=0` means that the response is immediately stale, and `must-revalidate` means that it must not be reused without revalidation once it is stale — so, in combination, the semantics seem to be the same as `no-cache`. But now HTTP/1.1-conformant servers are widely deployed, there's no reason to ever use that combination — you should instead just use `no-cache`.
 
