@@ -5,13 +5,13 @@ slug: learn-from-advent-of-vue-2022
 description: ""
 added: "Dec 27 2022"
 tags: [vue]
-updatedDate: "Jan 28 2024"
+updatedDate: "Mar 6 2024"
 ---
 
 ### Code Structure
-[Advent Of Vue](https://www.getrevue.co/profile/AdventOfVue) is a series of Vue coding challenges. The template of code starter is here https://stackblitz.com/edit/vue3-vite-starter
+Use the template https://stackblitz.com/edit/vue3-vite-starter to start.
 
-In a Vue component, `<script setup>` can be used alongside normal `<script>` (Use the options API or Run setup code one time). It works because the `<script setup>` block is compiled into the component's `setup()` function, [check out the docs](https://vuejs.org/api/sfc-script-setup.html#usage-alongside-normal-script)
+In a Vue component, `<script setup>` can be used alongside normal `<script>` using the options API. It works because the `<script setup>` block is compiled into the component's `setup()` function, [check out the docs](https://vuejs.org/api/sfc-script-setup.html#usage-alongside-normal-script)
 
 Components using `<script setup>` are closed by default - i.e. the public instance of the component will not expose any of the bindings declared inside `<script setup>`. To explicitly expose properties, use the `defineExpose` compiler macro.
 
@@ -21,53 +21,7 @@ https://papaya-caramel-13dd76.netlify.app/
 1. Use the [useNow](https://vueuse.org/core/usenow) composable from VueUse to get a reactive version of the current time and then do the math to get days, hours, minutes, and seconds.
 2. Use the Vue transition component to transition smoothly between each countdown number.
 
-```vue
-<script setup>
-defineProps({
-  label: String,
-  number: Number,
-})
-</script>
-<template>
-  <div class="segment text-center">
-    <div class="pt-10 overflow-hidden relative">
-      <transition>
-        <span :key="number" class="numbers text-green absolute top-0 left-[50%]">{{ number }}</span>
-      </transition>
-    </div>
-
-    <span class="label block pt-2">{{ label }}</span>
-  </div>
-</template>
-<style>
-.segment {
-  width: 80px;
-}
-.numbers {
-  transform: translateX(-50%);
-  font-size: 32px;
-}
-.label {
-  font-size: 16px;
-}
-.v-enter-active,
-.v-leave-active {
-  transition: all 0.5s ease;
-}
-.v-enter-from {
-  transform: translateY(-100%) translateX(-50%);
-}
-.v-leave-to {
-  transform: translateY(100%) translateX(-50%);
-}
-.v-enter-to,
-.v-leave-from {
-  transform: translateY(0px) translateX(-50%);
-}
-</style>
-```
-
-By the way, destructuring a value from a reactive object will break reactivity, since the reactivity comes from the object itself and not the property you’re grabbing. Using `toRefs` lets us destructure our props when using `script setup` without losing reactivity:
+By the way, **destructuring a value from a reactive object will break reactivity**, since the reactivity comes from the object itself and not the property you’re grabbing. Using `toRefs` lets us destructure our props when using `script setup` without losing reactivity.
 
 ```js
 const { count } = defineProps<{ count: number }>(); // Don't do this!
@@ -82,15 +36,16 @@ const { count } = toRefs(props);
 const even = computed(() => (count.value % 2 === 0 ? 'even' : 'odd'));
 ```
 
+> What is the difference between ref, toRef and toRefs: https://stackoverflow.com/questions/66585688/what-is-the-difference-between-ref-toref-and-torefs
+>
+> I was wondering why `toRef` exists since you can just do `const fooRef = ref(state.foo)`, but that creates a disconnected ref; any changes to it only update fooRef's dependencies. But using `toRef` keeps the original connection.
+
 ### Recursive Tree
 1. Recursion always requires two things: Define your base case and recursive case. To do this you need a switch of some kind (maybe a `v-if`), and a value that changes with each step in the recursion.
 2. You can either place the recusion before or after what the component is rendering. Each will give you opposite results, and the wrong one will give you an upside-down tree.
 3. Challenge on decorations: https://github.com/Advent-Of-Vue/2022-christmas-tree-ornaments-solution
 
 ```vue
-<!-- App.vue -->
-<ChristmasTree :size="7" />
-
 <!-- ChristmasTree.vue -->
 <template>
   <div>
@@ -102,18 +57,6 @@ const even = computed(() => (count.value % 2 === 0 ? 'even' : 'odd'));
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-// https://vuejs.org/api/sfc-script-setup.html#typescript-only-features
-withDefaults(
-  defineProps<{
-    size: number
-  }>(),
-  {
-    size: 1,
-  }
-)
-</script>
 ```
 
 `v-if` vs. `v-show`: Generally speaking, `v-if` has higher toggle costs while `v-show` has higher initial render costs. For example, if you have a tabs component, that some tab contains a heavy component. Using `v-if`, it will get the component destroyed and re-created when switching tabs. Using `v-show`, you will need to pay the mounting cost on the initial render even you haven't switch to that tab yet.
@@ -121,50 +64,7 @@ withDefaults(
 ### Use Composables
 > Similar idea to "Copy JSX? Create a component. Copy logic? Create a hook."
 
-```js
-// composables/itemComparison.js
-import { ref } from 'vue'
-
-const availableItems = ref([])
-const isFetchingItems = ref(true)
-const itemsToCompare = ref([])
-
-export const useItemComparison = () => ({
-  availableItems,
-  isFetchingItems,
-  itemsToCompare,
-})
-```
-
-```js
-// App.vue
-const { isFetchingItems, availableItems, itemsToCompare } = useItemComparison()
-onMounted(async () => {
-  try {
-    const { products } = await (
-      await fetch('https://dummyjson.com/products')
-    ).json()
-    availableItems.value = products
-  } catch (error) {
-    console.error(error)
-  } finally {
-    isFetchingItems.value = false
-  }
-})
-
-// ItemSelect.vue
-const { isFetchingItems, availableItems, itemsToCompare } = useItemComparison()
-const selectedItem = ref()
-
-watch(selectedItem, (newItem, prevItem) => {
-  itemsToCompare.value = itemsToCompare.value.filter(
-    item => item.id !== prevItem?.id
-  )
-  itemsToCompare.value.push(newItem)
-})
-```
-
-**How the Vue Composition API Replaces Vue Mixins?**  
+**How the Vue Composition API replaces Vue Mixins?**  
 Normally, a Vue component is defined by a JavaScript object with various properties representing the functionality we need — things like `data`, `methods`, `computed`, and so on. When we want to share the same properties between components, we can extract the common properties into a separate module. Now we can add this mixin to any consuming component by assigning it to the `mixin` config property. At runtime, Vue will merge the properties of the component with any added mixins.
 
 Mixins have drawbacks: 
@@ -190,8 +90,6 @@ export default function () {
   }
 }
 ```
-
-[VueUse](https://github.com/vueuse/vueuse) is a collection of essential Vue composition utilities for Vue 2 and 3. Check the most recent update in [v10.0.0](https://github.com/vueuse/vueuse/releases/tag/v10.0.0).
 
 ### Organize your Composition API code
 We abandon the options API for the composition API, and the idea is not that we write everything the same way as the options API but not having the data/computed/watch options.
@@ -224,6 +122,7 @@ function useMessage(input) {
   const originalMessage = toRef(input)
   const reversedMessage = computed(() => originalMessage.value.split('').reverse().join(''))
   const isReversed = ref(false)
+
   function toggleReverse() {
     isReversed.value = !isReversed.value
   }
@@ -240,28 +139,6 @@ function useMessage(input) {
   }
 }
 ```
-
-### Writable Computed Refs
-
-```js
-const firstName = ref('');
-const lastName = ref('');
-
-const fullName = computed({
-  get: () => `${firstName.value} ${lastName.value}`,
-  set: (val) => {
-    const split = val.split(' '); // ['Michael', 'Thiessen']
-    firstName.value = split[0];   // 'Michael'
-    lastName.value = split[1];    // 'Thiessen'
-  }
-});
-
-fullName.value = 'Michael Thiessen';
-console.log(lastName.value);      // 'Thiessen'
-```
-
-### Drag and Drop
-Adding the proper event listeners and implementing the `startDrag` and `onDrop` methods. If you'd like some more explanations, here's a tutorial: https://learnvue.co/tutorials/vue-drag-and-drop
 
 ### Raido Player
 https://github.com/Advent-Of-Vue/xmas-radio  
@@ -295,6 +172,25 @@ app.directive('christmas', (el, binding) => {
 })
 
 app.mount('#app')
+```
+
+### Writable Computed Refs
+
+```js
+const firstName = ref('');
+const lastName = ref('');
+
+const fullName = computed({
+  get: () => `${firstName.value} ${lastName.value}`,
+  set: (val) => {
+    const split = val.split(' '); // ['Michael', 'Thiessen']
+    firstName.value = split[0];   // 'Michael'
+    lastName.value = split[1];    // 'Thiessen'
+  }
+});
+
+fullName.value = 'Michael Thiessen';
+console.log(lastName.value);      // 'Thiessen'
 ```
 
 ### Renderless Components
@@ -378,30 +274,5 @@ export function useCheckboxToggle() {
   const toggleCheckbox = () => {
     checkbox.value = !checkbox.value;
   };
-</script>
-```
-
-### Prevent Navigation Away
-We can use the native `beforeunload` event to detect when a user is about to navigate away or refresh the page.
-
-```vue
-<script setup>
-import { ref, onBeforeMount, onBeforeUnmount } from 'vue';
-
-const blockNavigation = ref(false);
-const preventNav = event => {
-  if (!blockNavigation.value) return;
-  event.preventDefault();
-  // Chrome requires returnValue to be set
-  event.returnValue = "";
-};
-
-onBeforeMount(() => {
-  window.addEventListener("beforeunload", preventNav);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("beforeunload", preventNav);
-});
 </script>
 ```
