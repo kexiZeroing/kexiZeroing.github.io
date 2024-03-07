@@ -5,7 +5,7 @@ slug: learn-from-advent-of-vue-2022
 description: ""
 added: "Dec 27 2022"
 tags: [vue]
-updatedDate: "Mar 6 2024"
+updatedDate: "Mar 7 2024"
 ---
 
 ### Code Structure
@@ -39,6 +39,18 @@ const even = computed(() => (count.value % 2 === 0 ? 'even' : 'odd'));
 > What is the difference between ref, toRef and toRefs: https://stackoverflow.com/questions/66585688/what-is-the-difference-between-ref-toref-and-torefs
 >
 > I was wondering why `toRef` exists since you can just do `const fooRef = ref(state.foo)`, but that creates a disconnected ref; any changes to it only update fooRef's dependencies. But using `toRef` keeps the original connection.
+
+Adding deep reactivity to a large object can cost you a lot of performance, you can optimize the reactivity in your app by using `shallowRef`. Here reactivity is only triggered when the `value` of the `ref` itself is changed, but modifying any of the nested properties won’t trigger anything.
+
+```js
+const state = shallowRef({ count: 1 })
+
+// does NOT trigger change
+state.value.count = 2
+
+// does trigger change
+state.value = { count: 2 }
+```
 
 ### Recursive Tree
 1. Recursion always requires two things: Define your base case and recursive case. To do this you need a switch of some kind (maybe a `v-if`), and a value that changes with each step in the recursion.
@@ -76,7 +88,7 @@ The key idea of the Composition API is that, rather than defining a component’
 ```js
 // useCounter.js
 // https://css-tricks.com/how-the-vue-composition-api-replaces-vue-mixins/
-import { ref, computed } from "vue";
+import { ref, computed } from 'vue';
 export default function () {
   const count = ref(0);
   const double = computed(() => count.value * 2)
@@ -89,6 +101,21 @@ export default function () {
     increment
   }
 }
+
+// useEvent composable
+import { onMounted, onBeforeUnmount } from 'vue';
+export function useEvent = (event, handler, options) => {
+  const {
+    target = window,
+    listener,
+  } = options;
+  onMounted(() => {
+    target.addEventListener(event, handler, listener);
+  });
+  onBeforeUnmount(() => {
+    target.removeEventListener(event, handler, listener);
+  });
+};
 ```
 
 ### Organize your Composition API code
@@ -194,9 +221,9 @@ console.log(lastName.value);      // 'Thiessen'
 ```
 
 ### Renderless Components
-Renderless components can be an alternative to composables when finding ways to design reusable logic in your Vue apps. As you might guess, they don't render anything. Instead, they handle all the logic inside a script section and then expose properties through a scoped slot. *(The ability to have the parent component dictate what should be rendered is made possible with the concept known as slots.)*
+Renderless components can be an alternative to composables when finding ways to design reusable logic in your Vue apps. As you might guess, they don't render anything. Instead, they handle all the logic inside a script section and then expose properties through a scoped slot.
 
-> Many components are contentless components. They provide a container, and you have to supply the content. Think of a button, a menu, or a card component. Slots allow you to pass in whatever markup and components you want, and they also are relatively open-ended, giving you lots of flexibility.
+Many components are contentless components. They provide a container, and you have to supply the content. Think of a button, a menu, or a card component. Slots allow you to pass in whatever markup and components you want, and they also are relatively open-ended, giving you lots of flexibility.
 
 ```vue
 <!-- NorthPoleDistance.vue -->
@@ -275,4 +302,64 @@ export function useCheckboxToggle() {
     checkbox.value = !checkbox.value;
   };
 </script>
+```
+
+### Render function
+When using the render function instead of templates, you'll be using the `h` function a lot (`hyperscript` - "JavaScript that produces HTML"). It creates a virtual node, an object that Vue uses internally to track updates and what it should be rendering. These render functions are essentially what is happening "under the hood" when Vue compiles your single file components to be run in the browser.
+
+```vue
+<script>
+import { h } from 'vue'
+
+export default {
+  render() {
+    return h("div", {}, [
+      h("h1", {}, "Render Functions are awesome"),
+      h("p", {class: 'text-blue-400'}, "Some text")
+    ])
+  }
+}
+</script>
+```
+
+```js
+// vue-vdom.js
+// Create a virtual node
+export function h(tag, props, children) {
+  return { tag, props, children }
+}
+
+// tag: h1
+// props: { class: 'text-red-500'}
+// children: 'Hello'
+// Add a virtual node onto the DOM
+export function mount(vnode, container) {
+  const el = document.createElement(vnode.tag)
+  vnode.el = el
+
+  for (const key in vnode.props) {
+    if (key.startsWith('on')) {
+      el.addEventListener(key.slice(2).toLowerCase(), vnode.props[key])
+    }
+    el.setAttribute(key, vnode.props[key])
+  }
+
+  if (typeof vnode.children === 'string') {
+    // Text
+    el.textContent = vnode.children
+  } else if (Array.isArray(vnode.children)) {
+    // Array of vnodes
+    vnode.children.forEach(child => mount(child, el))
+  } else {
+    // Single vnode
+    mount(vnode.children, el)
+  }
+
+  container.appendChild(el)
+}
+
+// Remove a vnode from the real DOM
+export function unmount(vnode) {
+  vnode.el.parentNode.removeChild(vnode.el)
+}
 ```
