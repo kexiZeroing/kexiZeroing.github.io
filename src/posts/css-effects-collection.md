@@ -15,12 +15,12 @@ updatedDate: "Feb 1 2024"
 - [TOC](#toc)
 - [Rainbow Artword](#rainbow-artword)
 - [Hover Text Effects](#hover-text-effects)
+- [Apple-style OS dock](#apple-style-os-dock)
 - [3D Flip Hover Effects](#3d-flip-hover-effects)
 - [Color Palettes](#color-palettes)
 - [3D Clock](#3d-clock)
 - [Animation with View Transitions](#animation-with-view-transitions)
 - [Filter and backdrop filter](#filter-and-backdrop-filter)
-- [Apple-style OS dock](#apple-style-os-dock)
 - [Scroll-driven animations](#scroll-driven-animations)
 
 ### Rainbow Artword
@@ -101,6 +101,21 @@ https://codepen.io/jh3y/pen/abGPKGO
 - [Splitting.js](https://splitting.js.org) is designed to split an element in a variety of ways, such as words, characters, child nodes, and more.
 - The `inset` CSS property is a shorthand that corresponds to the `top`, `right`, `bottom` and `left` properties.
 - `:has(+ .char:hover)` means target any character that is directly followed by a character that is hovered. It is available in Chrome 105.
+
+### Apple-style OS dock
+CSS only, no JS. This one would be pretty sweet as a nav on your portfolio.
+
+<img alt="apple-style-dock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/dwucuh.png" width="450">
+
+https://codepen.io/jh3y/pen/GRwwWoV
+
+```css
+.b:has(+ .b:hover),
+.b:hover + .b {
+  flex: calc(0.2 + (sin(30deg) * 1.5));
+  translate: 0 calc(sin(30deg) * -75%);
+}
+```
 
 ### 3D Flip Hover Effects
 <img alt="3D Flip Hover" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/Screen%20Shot%202023-02-18%20at%207.06.16%20PM.png" width="200">
@@ -455,21 +470,6 @@ https://codepen.io/argyleink/pen/GRPRJyM
   backdrop-filter: grayscale(100%);
 }
 </style>
-```
-
-### Apple-style OS dock
-CSS only, no JS. This one would be pretty sweet as a nav on your portfolio.
-
-<img alt="apple-style-dock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/dwucuh.png" width="450">
-
-https://codepen.io/jh3y/pen/GRwwWoV
-
-```css
-.b:has(+ .b:hover),
-.b:hover + .b {
-  flex: calc(0.2 + (sin(30deg) * 1.5));
-  translate: 0 calc(sin(30deg) * -75%);
-}
 ```
 
 ### Scroll-driven animations
