@@ -8,8 +8,8 @@ tags: [css]
 updatedDate: "Feb 1 2024"
 ---
 
-> https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
-> https://anthonyhobday.com/sideprojects/saferules/ have some visual design rules you can safely follow every time.
+> - https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
+> - https://anthonyhobday.com/sideprojects/saferules/ includes some visual design rules you can safely follow every time.
 
 ### TOC
 - [TOC](#toc)
@@ -320,14 +320,11 @@ Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick
 https://codepen.io/bigxixi/pen/abjEMbg
 
 ### Animation with View Transitions
-<img alt="View Transitions" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/5fb05025-a9ca-417a-83f8-1363b092535c.png" width="500">
 
-https://codepen.io/argyleink/pen/NWOEvro
-
-> - Getting started with View Transitions on multi-page apps: https://daverupert.com/2023/05/getting-started-view-transitions
-> - A collection of example view transitions for multi-page sites: https://mpa-view-transitions-sandbox.netlify.app
-> - Adam Argyle at SeattleJS Conf: https://seattlejs-view-transitions.netlify.app
-> - Astro View Transitions Photo Gallery: https://deathbyjavascript.com
+- Getting started with View Transitions on multi-page apps: https://daverupert.com/2023/05/getting-started-view-transitions
+- A collection of example view transitions for multi-page sites: https://mpa-view-transitions-sandbox.netlify.app
+- Adam Argyle at SeattleJS Conf: https://seattlejs-view-transitions.netlify.app
+- Astro View Transitions Photo Gallery: https://deathbyjavascript.com
 
 ```html
 <style>
@@ -346,6 +343,7 @@ https://codepen.io/argyleink/pen/NWOEvro
 
 <div class="box"></div>
 <script>
+  // https://codepen.io/argyleink/pen/NWOEvro
   const positions = ['start', 'end', 'center']
 
   function getRandomInt(max) {
@@ -427,7 +425,7 @@ https://codepen.io/argyleink/pen/GRPRJyM
 ```
 
 ### Filter and backdrop filter
-[backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) have the same effect as [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter), with one notable difference — backdrop filters apply only to areas behind the element instead of to the element and its children. Filters, on the other hand, apply directly to the element and its children, and don’t affect anything behind the element.
+[backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) has the same effect as [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter), with one notable difference — backdrop filters apply only to areas behind the element instead of to the element and its children. Filters, on the other hand, apply directly to the element and its children, and don’t affect anything behind the element.
 
 <img alt="filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a9f0c5e0-6f17-4068-b481-17bfac204791.png" width="500">
 
@@ -462,6 +460,10 @@ https://codepen.io/argyleink/pen/GRPRJyM
 ### Apple-style OS dock
 CSS only, no JS. This one would be pretty sweet as a nav on your portfolio.
 
+<img alt="apple-style-dock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/dwucuh.png" width="450">
+
+https://codepen.io/jh3y/pen/GRwwWoV
+
 ```css
 .b:has(+ .b:hover),
 .b:hover + .b {
@@ -469,10 +471,6 @@ CSS only, no JS. This one would be pretty sweet as a nav on your portfolio.
   translate: 0 calc(sin(30deg) * -75%);
 }
 ```
-
-<img alt="apple-style-dock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/dwucuh.png" width="450">
-
-https://codepen.io/jh3y/pen/GRwwWoV
 
 ### Scroll-driven animations
 At its simplest, the `animation-timeline` property lets us link any keyframe animation to the progress of scroll. They still run from 0-100%. But now, 0% is the scroll start position and 100% is the scroll end position.
