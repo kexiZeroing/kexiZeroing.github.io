@@ -331,6 +331,19 @@ Then it leaves us with the decision about how to style things. This is where [sh
 
 Another common way for styling is using CSS Modules. Next.js has built-in support for CSS Modules using the `.module.css` extension. CSS Modules locally scope CSS by automatically creating a unique class name. This allows you to use the same class name in different files without worrying about collisions.
 
+### Design system examples
+A design system is an ever evolving collection of reusable components, guided by rules that ensure consistency and speed, by being the single source of truth for any product development.
+
+- Stack Overflow's Design System: https://stackoverflow.design
+
+- GitHub’s design system: https://primer.style
+
+- Shopify's Design System: https://polaris.shopify.com
+
+- GOV.UK Design System: https://design-system.service.gov.uk
+
+- Atlassian's Design System: https://atlassian.design
+
 ## Serverless
 Your code needs to be hosted on a server. Depending on the size of your code and the amount of users you expect to use your product, you might need many servers. Companies used to have their own facilities and warehouses that held their servers and many still do. But for many, this is not ideal. Servers can be difficult to maintain. Maintaining servers and the buildings that house them can become expensive too. That's where AWS and other [cloud providers](https://getdeploying.com) come in.
 
