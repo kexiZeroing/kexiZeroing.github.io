@@ -8,7 +8,7 @@ tags: [web]
 updatedDate: "Oct 29 2023"
 ---
 
-## Basic concepts
+## Range requests
 HTTP range request is a widely used feature when it comes to file resource. File systems such as S3 have good support for this.
 
 The HTTP 206 Partial Content may be sent from the server when the client has asked for a range (e.g. "give me the first 2MB of video data"). It is vital for downloading data in chunks which avoids fetching unused resources. Look at the outgoing request for a `Range` header (e.g., `Range: bytes=200-1000`).
@@ -81,7 +81,7 @@ HTTP Live Streaming sends audio and video as a series of small files, called med
     var hls = new Hls();
     hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
     hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED,function() {
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
       video.play();
   });
 }
@@ -95,8 +95,6 @@ HTTP Live Streaming sends audio and video as a series of small files, called med
 All those websites actually still use the video tag. But instead of simply setting a video file in the src attribute, they make use of much more powerful web APIs, the Media Source Extensions (more often shortened to just “MSE”). Complex web-compatible video players are all based on MediaSource and [SourceBuffer](https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer).
 
 Those “extensions” add the MediaSource object to JavaScript. As its name suggests, this will be the source of the video, or put more simply, this is the object representing our video’s data. The `URL.createObjectURL` API allows creating an URL, which will actually refer not to a resource available online, but directly to a JavaScript object created on the client.
-
-> Blob URLs can only be generated internally by the browser. `URL.createObjectURL()` will create a special reference to the Blob object which later can be released using `URL.revokeObjectURL()`. These URLs can only be used locally in the single instance of the browser and in the same session. 
 
 ```js
 // Create a MediaSource and attach it to the video
@@ -168,6 +166,8 @@ Many video players have an “auto quality” feature, where the quality is auto
 > The most common transport protocols used in a web context: 
 > - HLS (HTTP Live Streaming): Developed by Apple and used by Twitch. The HLS manifest is called the playlist and is in the m3u8 format *(which are m3u playlist files, encoded in UTF-8)*.
 > - DASH (Dynamic Adaptive Streaming over HTTP): Used by YouTube, Netflix or Amazon Prime Video and many others. DASH manifest is called the Media Presentation Description (or MPD).
+>
+> For both HLS and DASH, players can adapt to the different renditions in real-time on a segment-by-segment basis.
 
 ```
 ./audio/
@@ -194,6 +194,5 @@ Many video players have an “auto quality” feature, where the quality is auto
 ## References
 - https://www.zeng.dev/post/2023-http-range-and-play-mp4-in-browser
 - https://surma.dev/things/range-requests
-- https://medium.com/@radhian.amri/video-streaming-using-http-206-partial-content-in-go-4e89d96abdd0
 - https://howvideo.works
 - https://juejin.cn/post/6844903880774385671
