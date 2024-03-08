@@ -486,4 +486,10 @@ Stanford CS324 - Advances in Foundation Models: https://stanford-cs324.github.io
 
 Transformers from Scratch: https://e2eml.school/transformers.html
 
-The Illustrated Machine Learning website: https://illustrated-machine-learning.github.io
+ML for front-end developers: https://docs.google.com/presentation/d/1f--c4Ui1VcmVgW4Gj3v-e_17GYfxRlbUSMnyk4sOVjg
+
+Machine Learning for Web Developers: https://www.youtube.com/playlist?list=PLOU2XLYxmsILr3HQpqjLAUkIPa5EaZiui
+
+Machine Learning 101 from Jason Mayes: https://docs.google.com/presentation/d/1kSuQyW5DTnkVaZEjGYCkfOxvzCqGEFzWBy4e9Uedd9k
+
+Teachable Machine: https://teachablemachine.withgoogle.com
