@@ -5,12 +5,10 @@ slug: learn-one-line-layouts-from-una
 description: ""
 added: "May 27 2023"
 tags: [css]
-updatedDate: "Jan 30 2024"
+updatedDate: "Mar 8 2024"
 ---
 
 [Una Kravets](https://una.im) builds an amazing site with [1-Line Layouts](https://1linelayouts.glitch.me) demos showing how robust and impactful a single-line of styling code can be. There is a lot to learn, but it is all worth learning and empowers you to do great things.
-
-> An episode from Learn With Jason - What’s new in HTML and CSS in 2023: Una Kravets shows us all the powerful new browser APIs we might have missed https://www.youtube.com/watch?v=LjwNXASSfq8
 
 ### 01. Super Centered
 
@@ -66,6 +64,10 @@ This takes advantage of the `minmax` function for grid layouts. What we're doing
 ```
 
 This layout is often used for both websites and apps with a single column grid. It sets the header and footer content to automatically take the size of its children, and applies the remaining space to the main area. The `auto` sized row will take the size of the minimum content of its children, so as that content increases in size, the row itself will grow to adjust.
+
+> `fr` is greedy, `auto` is shy.
+> - `1fr 1fr 1fr` --> 3 equal columns
+> - `auto auto auto` --> 3 adaptive-width columns
 
 ### 05. Classic Holy Grail Layout
 
@@ -135,8 +137,6 @@ You are using repeat again, but this time, using the `auto-fit` keyword instead 
 - With `auto-fill`, everything is the same as `auto-fit`, except empty tracks are not collapsed. *(Doesn't fit entire length of the contaier)*
 
 <img alt="grid-auto-fit" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/68c40383-3e52-433a-88ee-9650cc9d601a.png" width="600">
-
-> The `fr` unit brings Flexbox-style flexibility to CSS Grid. `fr`-based columns are flexible, and so the column won't shrink below its minimum content size, even if that means breaking the proportions. If there's any leftover space, it'll be distributed based on the `fr` values. This is very similar to `flex-grow`.
 
 ```css
 /* Responsive CSS Grid */
