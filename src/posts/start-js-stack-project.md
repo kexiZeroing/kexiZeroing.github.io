@@ -338,6 +338,8 @@ A design system is an ever evolving collection of reusable components, guided by
 
 - GitHub’s design system: https://primer.style
 
+- Vercel's Design System: https://vercel.com/geist/introduction
+
 - Shopify's Design System: https://polaris.shopify.com
 
 - GOV.UK Design System: https://design-system.service.gov.uk

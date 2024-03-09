@@ -190,6 +190,8 @@ updatedDate: "Feb 28 2024"
   }
   ```
 
+  <img alt="stack-elements-with-grid" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/stack-elements-grid.png" width="650" />
+
 - An easy way to add a gradient overlay above an existing background. The `border-image` property is set to use a linear gradient as the border image, and the `fill` value specifies that the image should fill the entire border area without being sliced.
 
   ```css

@@ -166,11 +166,11 @@ DGM is an online diagramming app: https://dgm.sh/home
 
 A tool for writing better scripts: https://github.com/google/zx
 
-Effortlessly build beautiful command-line apps: https://github.com/natemoo-re/clack
-
 The resource you’ll ever need for mechanical keyboards: https://www.keyboard.university
 
 Sleek Framer UI components: https://drams.framer.website
+
+Remote desktop environment in the browser: https://github.com/HeyPuter/puter
 
 ---
 
@@ -233,6 +233,8 @@ Across pages view transitions: https://smashing-transitions.netlify.app
 CSS Wrapped 2023 from Chrome for Developers: https://developer.chrome.com/blog/css-wrapped-2023
 
 Compare web animation techniques by bouncing a ball: https://sparkbox.github.io/bouncy-ball
+
+A Friendly Introduction to Spring Physics: https://www.joshwcomeau.com/animation/a-friendly-introduction-to-spring-physics
 
 ---
 
@@ -382,6 +384,8 @@ Integrate Clerk into your Vue application: https://vue-clerk.vercel.app
 
 Drag and drop components that support Vue2 and Vue3: https://alfred-skyblue.github.io/vue-draggable-plus
 
+Vue.js and Nuxt Tips, Tricks and good practice: https://vuejstips.com
+
 ---
 
 ## Browsers related
@@ -436,6 +440,8 @@ Understanding GPT tokenizers: https://simonwillison.net/2023/Jun/8/gpt-tokenizer
 
 Catching up on the weird world of LLMs: https://simonwillison.net/2023/Aug/3/weird-world-of-llms/
 
+[1hr Talk] Intro to Large Language Models: https://www.youtube.com/watch?v=zjkBMFhNj_g
+
 Vercel AI SDK: https://sdk.vercel.ai/docs
 
 AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel-labs/ai-chatbot
@@ -460,7 +466,7 @@ Get started with the Gemini API: https://ai.google.dev/docs
 
 Hugging Chat Assistant (similar to OpenAI GPTs): https://huggingface.co/chat/assistants
 
-Pi, your personal AI: https://pi.ai/
+Pi, your personal AI from Inflection: https://hello.pi.ai
 
 Suno is building a future where anyone can make great music: https://www.suno.ai
 

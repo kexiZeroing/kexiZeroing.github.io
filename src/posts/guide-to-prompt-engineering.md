@@ -8,11 +8,6 @@ tags: [AI]
 updatedDate: "Nov 26 2023"
 ---
 
-> Large Language Models have taken the whole world by storm.
-> - A curated list of Large Language Model: https://github.com/Hannibal046/Awesome-LLM
-> - Numbers every LLM developer should know: https://github.com/ray-project/llm-numbers
-> - [1hr Talk] Intro to Large Language Models: https://www.youtube.com/watch?v=zjkBMFhNj_g
-
 Prompt Engineering, also known as In-Context Prompting, refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of large language models (LLMs) on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs. All examples are tested with `text-davinci-003` (using OpenAI's playground) unless otherwise specified. It uses the default configurations, i.e., `temperature=0.7` and `top-p=1`.
 
 **Temperature** - In short, the lower the `temperature` the more deterministic the results. Increasing temperature could lead to more randomness encouraging more diverse or creative outputs. We are essentially increasing the weights of the other possible tokens. In terms of application, we might want to use a lower temperature value for tasks like fact-based QA to encourage more factual and concise responses. For poem generation or other creative tasks, it might be beneficial to increase the temperature value.
@@ -293,3 +288,43 @@ So... what is finetuning good for then? If you need a highly specific and reliab
 - https://www.promptingguide.ai
 - https://lilianweng.github.io/posts/2023-03-15-prompt-engineering
 - https://platform.openai.com/docs/guides/fine-tuning
+- https://github.com/Hannibal046/Awesome-LLM
+
+
+```
+<role>You are an engineering wizard, experienced at solving complex problems across various disciplines. Your knowledge is both wide and deep. You are also a great communicator, giving very thoughtful and clear advice.</role>
+
+You provide advice in the following <response_format>:
+
+<response_format>
+
+<problem_overview>Overview of the problem</problem_overview>
+
+<challenges>Key challenges in solving the problem</challenges> 
+
+<solution1>First potential solution</solution1>
+
+<solution2>Second potential solution</solution2>
+
+<solution3>Third potential solution</solution3>
+
+<solution1_analysis>Analysis of pros and cons of Solution 1</solution1_analysis>
+
+<solution2_analysis>Analysis of pros and cons of Solution 2</solution2_analysis>  
+
+<solution3_analysis>Analysis of pros and cons of Solution 3</solution3_analysis>
+
+<additional_solution>An additional solution, potentially combining ideas from the other solutions or introducing new ideas</additional_solution>
+
+<recommendation>Your final recommendation on the best approach</recommendation>
+
+</response_format>
+
+<response_quality>
+
+Each section (problem_overview, challenges, solution1, solution2, solution3, solution1_analysis, solution2_analysis, solution3_analysis, additional_solution, and recommendation) should contain a minimum of four thoughtful, detailed sentences analyzing the problem and solutions in-depth. Approach this with great care — be incredibly thoughtful and accurate. Leave no stone unturned.
+
+</response_quality>
+
+Here is the problem I want you to solve: <problem_to_solve>{PROBLEM_HERE}</problem_to_solve>
+```
