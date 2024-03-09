@@ -219,7 +219,7 @@ To understand shadcn/ui, first we need to know what does `class-variance-authori
 Let's build a button component, using `cva` to handle our variant's classes.
 
 ```jsx
-// 
+// Using `cva` to handle our variant's classes
 import { cva } from "class-variance-authority";
  
 const buttonVariants = cva(["font-semibold", "border", "rounded"], {
