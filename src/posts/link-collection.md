@@ -406,27 +406,19 @@ New to the web platform (every month): https://web.dev/blog/web-platform-01-2024
 
 ## Awesome ChatGPT
 
-Notes on AI state of the art: https://github.com/sw-yx/ai-notes
-
 OpenAI Cookbook: https://github.com/openai/openai-cookbook
 
 Awesome ChatGPT Prompts: https://prompts.chat
-
-LangChain: https://docs.langchain.com/docs
-
-Chat with any PDF: https://www.chatpdf.com
-
-Translate your locale json files: https://github.com/ObservedObserver/chatgpt-i18n
 
 Node.js client for the official ChatGPT API: https://github.com/transitive-bullshit/chatgpt-api
 
 An open-source ChatGPT UI: https://github.com/mckaywrigley/chatbot-ui
 
-Build an AI chatbot trained on your data: https://www.chatbase.co
-
 A universal local knowledge base solution: https://github.com/GanymedeNil/document.ai
 
 Local knowledge based ChatGLM with langchain: https://github.com/imClumsyPanda/langchain-ChatGLM
+
+Translate your locale json files: https://github.com/ObservedObserver/chatgpt-i18n
 
 Share your wildest ChatGPT conversations with one click: https://sharegpt.com
 
@@ -458,7 +450,9 @@ Create LlamaIndex App: https://www.npmjs.com/package/create-llama
 
 Get up and running with large language models locally: https://ollama.com
 
-Leaked prompts of GPTs: https://github.com/linexjlin/GPTs
+ML-powered speech recognition directly in your browser: https://github.com/xenova/whisper-web
+
+React hook for OpenAI Whisper with speech recorder: https://github.com/chengsokdara/use-whisper
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
 

@@ -195,7 +195,7 @@ async function getDocuments(urls: string[]) {
 ## GPT and LangChain Chatbot for PDF docs
 [gpt4-pdf-chatbot-langchain](https://github.com/mayooear/gpt4-pdf-chatbot-langchain) uses LangChain and Pinecone to build a chatGPT chatbot for large PDF docs.
 
-[LangChain](https://blog.langchain.dev) is a framework that makes it easier to build scalable LLM apps and chatbots. For example, An [LLMChain](https://docs.langchain.com/docs/components/chains/llm-chain) is the simplest type of chain, and is used widely in other chains, so understanding it is important. We can construct an LLMChain which takes user input, formats it with a [PromptTemplate](https://js.langchain.com/docs/modules/prompts/prompt_templates), and then passes the formatted response to an LLM.
+LangChain is a framework that makes it easier to build scalable LLM apps and chatbots. For example, An [LLMChain](https://docs.langchain.com/docs/components/chains/llm-chain) is the simplest type of chain, and is used widely in other chains, so understanding it is important. We can construct an LLMChain which takes user input, formats it with a [PromptTemplate](https://js.langchain.com/docs/modules/prompts/prompt_templates), and then passes the formatted response to an LLM.
 
 ```js
 import { OpenAI } from "langchain/llms";
