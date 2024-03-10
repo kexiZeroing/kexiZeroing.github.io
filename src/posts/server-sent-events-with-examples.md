@@ -1,7 +1,7 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Simple server-sent events example"
-slug: simple-server-sent-events-example
+title: "Server-sent events with examples"
+slug: server-sent-events-with-examples
 description: ""
 added: "Mar 26 2023"
 tags: [js]

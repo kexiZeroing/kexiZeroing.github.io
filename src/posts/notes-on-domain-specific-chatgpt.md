@@ -265,4 +265,6 @@ for (let i = 0; i < docs.length; i += chunkSize) {
 ## Vector Store
 Vector Databases Explained: https://vercel.com/guides/vector-databases
 
+[Chroma](https://docs.trychroma.com) provides a vector store and embedding database that can run seamlessly during local development to power the applications. [Faiss](https://github.com/facebookresearch/faiss) is a library for efficient similarity search and clustering of dense vectors. Both Chroma and FAISS are easy to work with locally.
+
 <img alt="vectorstore" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hd08amw1npj30u00z9djx.jpg" width="700">

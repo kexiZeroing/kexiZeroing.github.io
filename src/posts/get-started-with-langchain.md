@@ -45,13 +45,12 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 import { OpenAI } from "langchain/llms";
 
 export const run = async () => {
-  // temperature controls how random/creative the response is.
-  // It ranges from 0(deterministic) to 1(max creativity)
+  // temperature ranges from 0(deterministic) to 1(max creativity)
   const model = new OpenAI({ temperature: 0.1 });
 
   const res = await model.call("What is the capital city of France?");
   console.log({ res });
-  //output: "Paris"
+  // output: "Paris"
 };
 ```
 
@@ -200,10 +199,6 @@ export const run = async () => {
 ```
 
 Embeddings are vector representations of text that computers can understand, analyze, and compare.
-
-> LangChain provides a framework to easily prototype LLM applications locally, and [Chroma](https://docs.trychroma.com) provides a vector store and embedding database that can run seamlessly during local development to power these applications. Check out an example: https://github.com/hwchase17/chroma-langchain
-> 
-> [Faiss](https://github.com/facebookresearch/faiss) is a library for efficient similarity search and clustering of dense vectors. Both Chroma and FAISS are easy to work with locally.
 
 ```js
 // embeddings.ts
