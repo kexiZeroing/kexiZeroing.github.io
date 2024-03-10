@@ -162,3 +162,11 @@ const None = () => ({
 
 const maybeProp = (key, obj) => typeof obj[key] === 'undefined' ? None() : Some(obj[key])
 ```
+
+```ts
+type Option<T> = null | { value: T }
+declare let maybeX: Option<number>
+
+const x = maybeX?.value
+const x= maybeX?.value ?? 0
+```

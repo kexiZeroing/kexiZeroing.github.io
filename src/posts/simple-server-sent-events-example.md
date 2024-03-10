@@ -5,7 +5,7 @@ slug: simple-server-sent-events-example
 description: ""
 added: "Mar 26 2023"
 tags: [js]
-updatedDate: "Mar 9 2024"
+updatedDate: "Mar 10 2024"
 ---
 
 Ways to implement real-time updates before SSE:
@@ -101,6 +101,8 @@ app.listen(3000, () => console.log('Listening on port 3000...'));
 ## Server-side streams
 What if one wanted to build a server which responded with a message every second? This can be achieved by combining `ReadableStream` with `setInterval`. Additionally, by setting the content-type to `text/event-stream` and prefixing each message with `"data: "`, Server-Sent Events make for easy processing using the EventSource API.
 
+> Streaming is the action of rendering data on the client progressively while it's still being generated on the server. As data arrives in chunks, it can be processed without waiting for the entire payload. This can significantly enhance the perceived performance of large data loads or slow network connections.
+
 ```js
 import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
 
@@ -132,6 +134,45 @@ serve(async (_) => {
 `start(controller)` method is called immediately when the object is constructed. It aims to get access to the stream source, and do anything else required to set up the stream functionality. The `controller` parameter passed to this method can be used to control the stream's state and internal queue. 
 
 `cancel()` method will be called if the app signals that the stream is to be cancelled (e.g. if `ReadableStream.cancel()` is called).
+
+**How OpenAI uses SSE to stream the results back to the client?**
+1. The client creates an SSE `EventSource` to server endpoint with SSE configured.
+2. The server receives the request and sends a request to OpenAI API using the `stream: true` parameter.
+3. A server listens for server-side events from the OpenAI API connection. For each event received, we can forward that message to our client. This creates a nested SSE event system where we proxy the OpenAI SSE back to our client. This also keeps our API secret because all the communication to OpenAI happens on our server.
+4. After the client receives the entire response, OpenAI will send a special message to let us know to close the connection. The `[Done]` message will signal that we can close the SSE connection to OpenAI, and our client can close the connection to our server.
+
+```js
+app.get('/completion', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders(); // flush the headers to establish SSE with client
+
+  const response = openai.createCompletion({
+    model: "text-davinci-003",
+    prompt: "hello world",
+    max_tokens: 100,
+    temperature: 0,
+    stream: true,
+  }, { responseType: 'stream' });
+
+  response.then(resp => {
+    resp.data.on('data', data => {
+      const lines = data.toString().split('\n').filter(line => line.trim() !== '');
+      for (const line of lines) {
+        const message = line.replace(/^data: /, '');
+        if (message === '[DONE]') {
+          res.end();
+          return
+        }
+        const parsed = JSON.parse(message);
+        res.write(`data: ${parsed.choices[0].text}\n\n`)
+      }
+    });
+  })
+})
+```
 
 ## Download streamed data using vanilla JavaScript
 

@@ -11,8 +11,6 @@ updatedDate: "June 2 2023"
 ## What are Vector Embeddings?
 Vector embeddings are one of the most fascinating and useful concepts in machine learning. They are central to many NLP, recommendation, and search algorithms. ML algorithms, like most software algorithms, need numbers to work with. Sometimes we have a dataset with columns of numeric values or values that can be translated into them. Other times we come across something more abstract like an entire document of text. We create vector embeddings, which are just lists of numbers, for data like this to perform various operations with them. A whole paragraph of text or any other object can be reduced to a vector.
 
-<img alt="sentence_embeddings" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAgy1hcdnvlzi5dj30ru10sjvk.jpg" width="450" />
-
 There is something special about vectors that makes them so useful. This representation makes it possible to translate semantic similarity as perceived by humans to proximity in a vector space. In other words, when we represent real-world objects and concepts such as images, audio recordings, news articles, and user profiles as vector embeddings, the semantic similarity of these objects and concepts can be quantified by how close they are to each other as points in vector spaces.
 
 <img alt="sentence_embeddings" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hcc5elwuuoj313s0e075k.jpg" width="550" />
@@ -20,8 +18,6 @@ There is something special about vectors that makes them so useful. This represe
 We train models to translate objects to vectors. A deep neural network is a common tool for training such models. The resulting embeddings are usually high dimensional (up to two thousand dimensions) and dense (all values are non-zero). For text data, models such as Word2Vec, GloVe, and BERT transform words, sentences, or paragraphs into vector embeddings. Images can be embedded using models such as convolutional neural networks (CNNs).
 
 > Know more about Text2vec: https://github.com/shibing624/text2vec and a HuggingFace Demo: https://huggingface.co/spaces/shibing624/text2vec
->
-> Compare embedding retrieval models from Google, OpenAI, and Cohere: https://github.com/justinliang1020/embedding-dev
 
 ## OpenAI’s text embeddings API
 An embedding is a vector (list) of floating point numbers. The distance between two vectors measures their relatedness. Small distances suggest high relatedness and large distances suggest low relatedness.
@@ -196,81 +192,6 @@ async function getDocuments(urls: string[]) {
 }
 ```
 
-There is an [example website](https://astro-labs.app/docs) base on this starter app. [paul-graham-gpt](https://github.com/mckaywrigley/paul-graham-gpt) is a similar one.
-
-<img alt="astro-labs.app" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hcc9xd8ly9j30yu0q6tb9.jpg" width="550" />
-
-### OpenAI SSE (Server-Sent Events) Streaming API
-Do you want to stream the response to your application in real-time — as it's being generated?
-
-> FYI, streaming is the action of rendering data on the client progressively while it's still being generated on the server. As data arrives in chunks, it can be processed without waiting for the entire payload. This can significantly enhance the perceived performance of large data loads or slow network connections.
-
-1. The client creates an SSE `EventSource` to server endpoint with SSE configured.
-2. The server receives the request and sends a request to OpenAI API using the `stream: true` parameter.
-3. A server listens for server-side events from the OpenAI API connection. For each event received, we can forward that message to our client. This creates a nested SSE event system where we proxy the OpenAI SSE back to our client. This also keeps our API secret because all the communication to OpenAI happens on our server.
-4. After the client receives the entire response, OpenAI will send a special message to let us know to close the connection. The `[Done]` message will signal that we can close the SSE connection to OpenAI, and our client can close the connection to our server.
-
-> A simple server-sent events example: https://kexizeroing.github.io/post/simple-server-sent-events-example/
-
-```html
-<script>
-var source = new EventSource("/completion");
-source.onmessage = function(event) {
-  if (event.data === '[DONE]') {
-    source.close()
-  } else {
-    document.getElementById("result").innerHTML += event.data + "<br>";
-  }
-};
-</script>
-```
-
-```js
-const express = require('express')
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
-const app = express()
-const port = 3000
-
-app.get('/completion', (req, res) => {
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Connection', 'keep-alive');
-  res.flushHeaders(); // flush the headers to establish SSE with client
-
-  const response = openai.createCompletion({
-    model: "text-davinci-003",
-    prompt: "hello world",
-    max_tokens: 100,
-    temperature: 0,
-    stream: true,
-  }, { responseType: 'stream' });
-
-  response.then(resp => {
-    resp.data.on('data', data => {
-      const lines = data.toString().split('\n').filter(line => line.trim() !== '');
-      for (const line of lines) {
-        const message = line.replace(/^data: /, '');
-        if (message === '[DONE]') {
-          res.end();
-          return
-        }
-        const parsed = JSON.parse(message);
-        res.write(`data: ${parsed.choices[0].text}\n\n`)
-      }
-    });
-  })
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-```
-
 ## GPT and LangChain Chatbot for PDF docs
 [gpt4-pdf-chatbot-langchain](https://github.com/mayooear/gpt4-pdf-chatbot-langchain) uses LangChain and Pinecone to build a chatGPT chatbot for large PDF docs.
 
@@ -341,11 +262,7 @@ for (let i = 0; i < docs.length; i += chunkSize) {
 }
 ```
 
-### Quick Start Tutorial on Langchain and Pinecone with Node.js
-https://github.com/developersdigest/Get-Started-With-Langchain-and-Pinecone-in-Node.js
-
 ## Vector Store
+Vector Databases Explained: https://vercel.com/guides/vector-databases
 
 <img alt="vectorstore" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hd08amw1npj30u00z9djx.jpg" width="700">
-
-Vector Databases Explained: https://vercel.com/guides/vector-databases
