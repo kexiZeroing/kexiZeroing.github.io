@@ -5,17 +5,15 @@ slug: get-started-with-langchain
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
-updatedDate: "June 13 2023"
+updatedDate: "Mar 10 2024"
 ---
 
 ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers have released APIs allowing developers to interact directly with these models. And this is where LangChain comes in. LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.
 
-- Homepage: https://langchain.com
 - JS/TS Docs: https://js.langchain.com/docs
 - Awesome LangChain: https://github.com/kyrolabs/awesome-langchain
 - Tutorials on building LLM powered applications: https://www.youtube.com/playlist?list=PLqZXAkvF1bPNQER9mLmDbntNfSpzdDIU5
-- Easy to use code snippets for LangChain: https://github.com/JorisdeJong123/LangChain-Cheatsheet
-- LangChain integrations hub: https://integrations.langchain.com
+- Langchain and Pinecone with Node.js: A Quick Start Tutorial: https://github.com/developersdigest/Get-Started-With-Langchain-and-Pinecone-in-Node.js
 
 <img alt="langchain-components" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 
@@ -25,19 +23,10 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 - Prompts (Prompt Templates, Example Selectors, Output Parse)
 - Indexes (Loaders, Text Splitters, Vectorstores, Retrievers)
 - Memory (Chat Message History)
-- Chains (Summarize, Question Answering)
+- Chains (Summarize, Chatbots, Question Answering)
 - Agents
 
-### Use-Case Specific Chains: Tailored Solutions
-- Personal Assistants
-- Question Answering Over Docs
-- Chatbots
-- Interacting with APIs
-- Summarisation
-- Extraction
-
 ### Examples
-
 `npm install langchain` We currently support LangChain on Node.js 18 and 19. LangChain is written in TypeScript and provides type definitions for all of its public APIs.
 
 ```js
@@ -272,13 +261,6 @@ export const run = async () => {
 
 Takes input docs and a question sent to LLM for answer based on relevant docs.
 
-> Get past your model's token limit using alternative chain types: https://github.com/gkamradt/langchain-tutorials/blob/main/chains/Chain%20Types.ipynb
->
-> - The default `chain_type="stuff"` uses all of the text from the documents in the prompt. (It could exceed the token limit)
-> - `chain_type="map_reduce"` separates texts into batches, feeds each batch with the question to LLM separately, and comes up with the final answer based on the answers from each batch.
-> - `chain_type="refine"` separates texts into batches, feeds the first batch to LLM, and feeds the answer and the second batch to LLM. It refines the answer by going through all the batches.
-> - `chain_type="map-rerank"` separates texts into batches, feeds each batch to LLM, returns a score of how fully it answers the question, and comes up with the final answer based on the high-scored answers from each batch.
-
 ```js
 // question_answering.ts
 import { OpenAI } from "langchain/llms";
@@ -304,4 +286,81 @@ export const run = async () => {
    * { res: { text: ' Rachel went to Harvard.' } }
    */
 };
+```
+
+### How agents work under the hood
+With the Agent model, LLM becomes an orchestrator, taking a question, decomposing it into chunks, then using appropriate tools to pull together an answer.
+
+Delving into the LangChain codebase, we find that this orchestration is performed by the following prompt:
+```
+Answer the following questions as best you can. You have access to the following tools:
+
+${tools}
+
+Use the following format:
+
+Question: the input question you must answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [search, calculator]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Thought: I now know the final answer
+Final Answer: the final answer to the original input question
+
+Begin!
+
+Question: ${question}
+Thought:
+```
+
+The full code can be found at https://github.com/ColinEberhardt/langchain-mini
+
+```js
+const googleSearch = async (question) =>
+  await fetch(
+    `https://serpapi.com/search?api_key=${process.env.SERPAPI_API_KEY}&q=${question}`
+  )
+    .then((res) => res.json())
+    .then((res) => res.answer_box?.answer || res.answer_box?.snippet);
+
+const tools = {
+  search: {
+    description:
+      "a search engine. useful for when you need to answer questions about current events. input should be a search query.",
+    execute: googleSearch,
+  },
+  calculator: {
+    description:
+      "Useful for getting the result of a math expression. The input to this tool should be a valid mathematical expression that could be executed by a simple calculator.",
+    // import { Parser } from "expr-eval"
+    execute: (input) => Parser.evaluate(input).toString(),
+  },
+};
+
+// construct the prompt, with our question and the tools that the chain can use
+let prompt = promptTemplate.replace("${question}", question).replace(
+  "${tools}",
+  Object.keys(tools)
+    .map((toolname) => `${toolname}: ${tools[toolname].description}`)
+    .join("\n")
+);
+
+// allow the LLM to iterate until it finds a final answer
+while (true) {
+  const response = await completePrompt(prompt);
+
+  // add this to the prompt
+  prompt += response;
+
+  const action = response.match(/Action: (.*)/)?.[1];
+  if (action) {
+    // execute the action specified by the LLMs
+    const actionInput = response.match(/Action Input: "?(.*)"?/)?.[1];
+    const result = await tools[action.trim()].execute(actionInput);
+    prompt += `Observation: ${result}\n`;
+  } else {
+    return response.match(/Final Answer: (.*)/)?.[1];
+  }
+}
 ```
