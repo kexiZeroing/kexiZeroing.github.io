@@ -40,7 +40,7 @@ If HireMe123 assumes successfully calling MyCalApp’s API with an access token 
 It quickly became evident that formalization of authentication on top of OAuth 2.0 was necessary to allow logins with third party applications while keeping apps and their users safe.
 
 ### OpenID Connect
-This brings us to the specification called OpenID Connect, or OIDC, which is on top of OAuth 2.0 that says how to authenticate users.
+This brings us to the specification called OpenID Connect, or OIDC, which is on top of OAuth 2.0 that says how to authenticate users. An important addition to OAuth is that the identity provider returns an ID token alongside the access token.
 
 OIDC is an identity layer for authenticating users with an authorization server. Remember that an authorization server issues tokens. Tokens are encoded pieces of data for transmitting information between parties. In the case of OIDC and authentication, the authorization server issues ID tokens.
 
@@ -49,10 +49,6 @@ ID tokens provide information about the authentication event and they identify t
 - The first segment is the header segment, containing a signing algorithm and token type.
 - The second segment is the payload segment, containing data claims, which are statements about the user and the authentication event.
 - The final segment is the crypto segment, or signature. JWTs are signed so they can’t be modified in transit.
-
-> The details of how this works shouldn’t trouble you or keep you from effectively using an authorization server with token-based authentication.
-> - To further demystify JWT, read [Signing and Validating JSON Web Tokens For Everyone](https://maida.kim/2020/09/signing-and-validating-json-web-tokens-jwt-for-everyone) also by @KimMaida.
-> - [JWT.io](https://jwt.io) provides a debugger tool to decode, verify and generate JWT.
 
 Now that we know about the anatomy of a JWT, let’s talk more about the claims. ID tokens provide identity information, which is present in the claims.
 
@@ -81,6 +77,10 @@ Some of the required authentication claims in an ID token include:
 Claims also include statements about the end user. Some of the standard profile claims in an ID token include: sub (subject) which is the unique identifier for the user, name, email, birthdate, picture...
 
 The `nonce` is a cryptographically random string that the client creates and sends with an authorization request. The authorization server then places the nonce in the token that is sent back to the app. The app verifies that the nonce in the token matches the one sent with the authorization request. This way, the app can verify that the token came from the place it requested the token from in the first place.
+
+> The details of how this works shouldn’t trouble you or keep you from effectively using an authorization server with token-based authentication.
+> - To further demystify JWT, read [Signing and Validating JSON Web Tokens For Everyone](https://maida.kim/2020/09/signing-and-validating-json-web-tokens-jwt-for-everyone) also by @KimMaida.
+> - [JWT.io](https://jwt.io) provides a debugger tool to decode, verify and generate JWT.
 
 ```js
 // This library doesn't validate the token, any well-formed JWT can be decoded. 
@@ -174,3 +174,12 @@ const protect = async (req, res, next) => {
   }
 };
 ```
+
+### Multi-factor authentication
+MFA is when a user is required to input more than just a password to authenticate.
+
+- Time-based one-time passwords (TOTP): Standard TOTP uses an authenticator app, usually installed on the user's mobile device, to generate a code for the user. Each user has a secret key. Using that secret and the current time, the authenticator app can generate a new OTP.
+
+- SMS: We discourage SMS based MFA as it can be intercepted and unreliable at times. However, it may be more accessible than using authenticator apps. The code should be valid for around 5 minutes. Throttling must be implemented.
+
+- Passkeys: Passkeys are built on top of the Web Authentication standard and allow applications to authenticate users with in-device authentication methods, including biometrics and device pin-code. It can be more secure than traditional passwords as it doesn't require the user to remember their passwords.
