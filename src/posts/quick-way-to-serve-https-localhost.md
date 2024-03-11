@@ -8,7 +8,7 @@ tags: [web]
 updatedDate: "Jan 2 2024"
 ---
 
-As we all know HTTPS is designed to provide a secure connection by encrypting the data exchanged between a user's web browser and the server. Sometimes we need a secure connection for our Node.js web server. This artile will help you understand how to do it.
+As we all know HTTPS is designed to provide a secure connection by encrypting the data exchanged between a user's web browser and the server. Sometimes we need a secure connection for our Node.js web server. This article will help you understand how to do it.
 
 ## Certificates
 First, let's talk about certificates. A certificate is a digital document that serves to authenticate the identity of an entity on the internet. This entity could be a website, a server, or even an individual. The most common type of certificate used in web security is an SSL/TLS certificate, which is used for enabling HTTPS. Note that a SSL/TLS certificate typically contains the following information:

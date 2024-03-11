@@ -131,7 +131,7 @@ await Bun.build({
 })
 ```
 
-> Bun's bundler API is inspired heavily by esbuild. Migrating to Bun's bundler from esbuild should be relatively painless. Bun's bundler does not include a built-in development server or file watcher. It's just a bundler.
+> Bun's bundler API is inspired heavily by `esbuild`. Migrating to Bun's bundler from `esbuild` should be relatively painless. Bun's bundler does not include a built-in development server or file watcher. It's just a bundler.
 
 ## Test Runner
 Bun ships with a fast, built-in, Jest-compatible test runner. Define tests with a Jest-like API imported from the built-in `bun:test` module.
@@ -172,7 +172,9 @@ const result = await $`cat < ${response} | wc -w`.text();
 console.log(result); // 6\n
 ```
 
-## Hono and Bun
+## Build an HTTP server using Hono and Bun
+Bun is another JavaScript runtime. Hono also works on Bun.
+
 Hono is a server-side lightweight web framework similar to Express but with modern features. It supports a ton of different server runtimes, including Deno, Bun, Cloudflare Workers, Node.js, and more.
 
 ```sh
@@ -180,6 +182,8 @@ bun create hono my-app
 
 cd my-app
 bun install
+
+bun run --hot src/index.ts
 ```
 
 ```js
