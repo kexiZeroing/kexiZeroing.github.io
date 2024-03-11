@@ -273,20 +273,6 @@ And there we go! After our recording finishes, we’ve got a `.webm` video file 
 - https://github.com/alyssaxuu/screenity
 - https://blog.tomayac.com/2020/05/15/the-requestvideoframecallback-api
 
-### Video Glossary
-**[FFMPEG](https://ffmpeg.org)** stands for Fast Forward Moving Picture Experts Group. It is a free and open source software project that offers many tools for video and audio processing. It's designed to run on a command line interface, and has many different libraries and programs to manipulate and handle video files. Most video programs include FFMPEG as a part of the video processing pipeline. *(FFmpeg powers all online video - Youtube, Facebook, Instagram, Disney+, Netflix etc, all run FFmpeg underneath.)*
-
-A **[codec](https://api.video/what-is/codec)** is a hardware or software tool that is used to compress (and decompress) video files. Common video codecs include h.264, h.265, VP8, VP9 and AV1.
-
-**VOD(Video on Demand)** is videos that can be accessed on viewer request. Unlike live streaming, VODs are prerecorded programs. With VOD, viewers can watch content they enjoy as frequently as they like. They can also pause, rewind, and view additional content that was not previously available. Streaming is one of two ways to access Video On Demand. The other way is to permanently download video files to a device’s memory. VOD systems typically distribute media using internet connections, so good bandwidth is important for best results for viewers. Popular platforms include Netflix, Hulu, Disney, Amazon Prime Video and many others.
-
-Some of the most popular **streaming protocols include RTMP, HLS, and WebRTC**:
-- [RTMP](https://vimeo.com/blog/post/rtmp-stream) stands for Real-Time Messaging Protocol and it's been used for streaming video and audio on the internet for many years owned by Adobe. The RTMP streaming protocol is TCP-based and designed to maintain constant, low-latency connections between a video player and server. The design allows RTMP to provide smooth and reliable streaming for viewers. To send your broadcast to a destination using RTMP, you need the RTMP Server URL as a unique web address that carries your live video stream every time you broadcast, and a Stream Key which is the private code that will allow your RTMP feed to connect to the exact location that you are streaming to.
-
-- [HTTP Live Streaming (HLS)](https://www.cloudflare.com/learning/video/what-is-http-live-streaming) is one of the most widely used video streaming protocols created by Apple. It breaks down video files into smaller downloadable HTTP files and delivers them using the HTTP protocol. One advantage of HLS is that all Internet-connected devices support HTTP, making it simpler to implement than streaming protocols that require the use of specialized servers. Another advantage is that an HLS stream can increase or decrease video quality depending on network conditions without interrupting playback. This is why video quality may get better or worse in the middle of a video as a user is watching it. This feature is known as "adaptive bitrate streaming".
-
-- [WebRTC](https://webrtc.github.io/samples) is an abbrevation of "Web Real Time Communication." The set of standards that comprise WebRTC makes it possible to share data and perform teleconferencing peer-to-peer, without requiring that the user install plug-ins or any other third-party software. The connections are peer-to-peer rather than sent and aggregated by a central location, which means that the video and audio is shared to each device communicating in the conversation. This keeps the communictaion latency very low.
-
 ### FFMPEG.WASM
 WebAssembly enables developers to bring new performant functionality to the web from other languages. [FFmpeg.wasm](https://ffmpegwasm.netlify.app) (WebAssembly / JavaScript port of FFmpeg) is one of a showcasing of the [new functionality](https://web.dev/wasm-libraries/) being made available thanks to WebAssembly. It enables video & audio record, convert and stream right inside browsers. Check browser examples at https://github.com/ffmpegwasm/ffmpeg.wasm/tree/master/examples/browser
 
@@ -310,6 +296,6 @@ const ffmpeg = createFFmpeg({ log: true });
 
 [ffmpeg-online](https://ffmpeg-online.vercel.app) is an online version of ffmpeg based on `ffmpeg.wasm`, which can be used to process audio and video online. The most straightforward example `ffmpeg -i input.mp4 output.avi` is used to convert an input media file to a different format.
 
-[ffmprovisr](https://github.com/amiaopensource/ffmprovisr) is a repository of useful FFmpeg commands. A list of all [recipes](https://github.com/amiaopensource/ffmprovisr/blob/gh-pages/recipes.txt) is provided as well. 
+[ffmprovisr](https://github.com/amiaopensource/ffmprovisr) is a repository of useful FFmpeg commands. A list of all [recipes](https://github.com/amiaopensource/ffmprovisr/blob/gh-pages/recipes.txt) is provided as well.
 
 [Mock Interview Simulator](https://github.com/Tameyer41/liftoff) is an AI-powered interview prep app to practice your tech interview skills. Under the hood, it uses FFmpeg to transcode the raw video into MP3. Then we send the audio directly to be transcribed by OpenAI's Whisper endpoint, and then stream feedback from the edge using OpenAI's gpt-3.5-turbo.
