@@ -5,13 +5,13 @@ slug: swr-swc-msw
 description: ""
 added: "Oct 25 2023"
 tags: [web]
-updatedDate: "Feb 4 2024"
+updatedDate: "Mar 11 2024"
 ---
 
 SWR, SWC, and MSW, three similar names, are always mentioned in the context of web development, but they are totally different things. In this article, we will learn each of them and where they are used.
 
 ## SWR - React Hooks for Data Fetching
-The name “SWR” is derived from `stale-while-revalidate`, a HTTP cache invalidation strategy. SWR is created by the same team behind Next.js. 
+The name “SWR” is derived from `stale-while-revalidate`, a HTTP cache invalidation strategy. SWR is created by the same team behind Next.js.
 
 ```jsx
 import useSWR from 'swr'
@@ -109,7 +109,7 @@ function Bookmarks({ category }) {
 ```
 
 Bugs from the above code:
-1. Race Condition. Network responses can arrive in a different order than you sent them. So if you change the `category` from `books` to `movies` and the response for `movies` arrives before the response for `books`, you'll end up with the wrong data in your component. See https://maxrozen.com/race-conditions-fetching-data-react-with-useeffect
+1. Race Condition. Network responses can arrive in a different order than you sent them. So if you change the `category` from `books` to `movies` and the response for `movies` arrives before the response for `books`, you'll end up with the wrong data in your component. See https://maxrozen.com/race-conditions-fetching-data-react-with-useeffect to know how to fix the `useEffect` race condition.
 2. Both data and error are separate state variables, and they don't get reset when `category` changes. If we check for error first, we'll render the error UI with the old message even though we have valid data. If we check data first, we have the same problem if the second request fails.
 3. If your app is wrapped in `<React.StrictMode>`, React will intentionally call your effect twice in development mode to help you find bugs like missing cleanup functions.
 4. `fetch` doesn't reject on HTTP errors, so you'd have to check for `res.ok` and throw an error yourself.
@@ -119,6 +119,7 @@ With React Query, the above code becomes:
 ```jsx
 function Bookmarks({ category }) {
   const { isLoading, data, error } = useQuery({
+    // Treat parameters as dependencies
     queryKey: ['bookmarks', category],
     queryFn: () =>
       fetch(`${endpoint}/${category}`).then((res) => {
@@ -133,10 +134,7 @@ function Bookmarks({ category }) {
 }
 ```
 
-React Query takes the good parts of Apollo and brings them to REST. It works with any function that returns a Promise and embraces the stale-while-revalidate caching strategy. The library tries to keep your data as fresh as possible while at the same time showing data to the user as early as possible.
-1. Is an async state manager
-2. `staleTime` is your best friend
-3. Treat parameters as dependencies
+React Query, as an async state manager, works with any function that returns a Promise and embraces the stale-while-revalidate caching strategy. The library tries to keep your data as fresh as possible while at the same time showing data to the user as early as possible.
 
 > TanStack Query is a server-state library, responsible for managing asynchronous operations between your server and client. Vuex, Pinia, Zustand, etc. are client-state libraries that can be used to store asynchronous data.
 
@@ -165,13 +163,13 @@ SWC is able to bundle multiple JavaScript or TypeScript files into one. This fea
 
 SWC is now a mature replacement for Babel, which was used in Vite 3.0. Vite 4.0 adds support for SWC. From Vite 4, two plugins are available for React projects with different tradeoffs.
 - `@vitejs/plugin-react` is the default Vite plugin for React projects, which uses esbuild and Babel.
-- `@vitejs/plugin-react-swc` uses SWC to transform your code. *(SWC is a compiler, whereas esbuild is a bundler)*
+- `@vitejs/plugin-react-swc` uses SWC to transform your code.
 
 > 1. SWC is a compiler, whereas esbuild is a bundler. SWC has limited bundling capabilities, so if you're looking for something to traverse your code and generate a single file, esbuild is what you want.
-> 2. `tsup` is the simplest way to bundle your TypeScript libraries with no config, powered by esbuild. It can bundle anything that's supported by Node.js natively, namely `.js`, `.json`, `.mjs`. And TypeScript `.ts`, `.tsx`.
+> 2. `tsup` is the simplest way to bundle your TypeScript libraries with no config, powered by esbuild. It can bundle anything that's supported by Node.js natively, namely `.js`, `.json`, `.mjs`, and TypeScript `.ts`, `.tsx`.
 
 ### Oxc - The JavaScript Oxidation Compiler
-Oxc is building a parser, linter, formatter, transpiler, minifier, resolver ... all written in Rust.
+Oxc is building a parser, linter, formatter, transpiler, minifier, resolver ... all written in Rust. This project shares the same philosophies as Biome. JavaScript tooling could be rewritten in a more performant language.
 
 [Oxlint](https://oxc-project.github.io/docs/guide/usage/linter.html) is a JavaScript linter designed to catch erroneous or useless code without requiring any configurations by default. It is generally available at December 12, 2023.
 
