@@ -4,7 +4,7 @@ title: "Fetch API requests and CORS"
 slug: fetch-api-requests-and-cors
 description: ""
 added: "Aug 9 2020"
-tags: [js]
+tags: [js, web]
 updatedDate: "Jan 13 2024"
 ---
 

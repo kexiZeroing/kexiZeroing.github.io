@@ -4,7 +4,7 @@ title: "Pixel, resolution and fps"
 slug: pixel-resolution-fps
 description: ""
 added: "Oct 15 2021"
-tags: [css]
+tags: [css, web]
 updatedDate: "Feb 29 2024"
 ---
 

@@ -54,6 +54,7 @@
 .content-box {
   display: flex;
   flex-direction: column;
+  line-height: 1.5;
 }
 .sentence-list {
   flex: 1 0 auto;

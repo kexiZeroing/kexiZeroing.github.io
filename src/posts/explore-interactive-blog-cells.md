@@ -4,7 +4,7 @@ title: "Explore interactive blog cells"
 slug: explore-interactive-blog-cells
 description: ""
 added: "Aug 25 2023"
-tags: [code]
+tags: [other]
 ---
 
 [blog-cells](https://github.com/rameshvarun/blog-cells) adds interactive code snippets to any blog or webpage. It's worth a try at here.
