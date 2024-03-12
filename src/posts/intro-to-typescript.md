@@ -77,8 +77,6 @@ See examples:
 
 Run `tsc --noEmit` that tells TypeScript that we just want to check types and not create any output files. If everything in our code is all right, `tsc` exits with no error. `tsc --noEmit --watch` will add a `watch` mode so TypeScript reruns type-checking every time you save a file.
 
-How to run ts files from command line? There is [ts-node](https://github.com/TypeStrong/ts-node) that will compile the code and REPL for node.js: `npx ts-node src/foo.ts`. `tsc` writes js to disk. `ts-node` doesn't need to do that and runs ts on the fly.
-
 > `json` doesn't normally allow comments, but comments are valid in `tsconfig.json`. It's officially supported by TypeScript and VSCode understands it too. What's going on here is [jsonc](https://github.com/microsoft/node-jsonc-parser), or "JSON with JavaScript style comments", a proprietary format used by a bunch of Microsoft products, most notably Typescript and VSCode.
 
 By the way, `jsconfig.json` is a descendant of `tsconfig.json`. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
@@ -364,3 +362,41 @@ const storage = {
  */
 function doStuff(storage) {}
 ```
+
+## Set up a Node server with TypeScript in 2024
+
+```sh
+# install dev dependencies
+npm i -D typescript ts-node @types/node
+
+# initialize TypeScript
+npx tsc --init
+```
+
+```json
+{
+  "name": "my-node-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "node --env-file=.env --watch -r ts-node/register src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=20.6.0"
+  }
+}
+```
+
+> Make sure you’re using Node >=20.6 — it’s required for some of the flags used in this setup. The `--watch` flag was added in Node v18.11.0. The `--env-file` flag was added in Node v20.6.0.
+
+How to run ts files from command line? There is [ts-node](https://github.com/TypeStrong/ts-node) that will compile the code and REPL for node.js: `npx ts-node src/foo.ts`. `tsc` writes js to disk. `ts-node` doesn't need to do that and runs ts on the fly.
+
+`ts-node/register` is used for registering the TypeScript compiler (`ts-node`) to handle the compilation of TypeScript files on the fly. When you run a Node.js application written in TypeScript, the TypeScript code needs to be transpiled into JavaScript before it can be executed by the Node.js runtime. The `ts-node/register` module helps simplify this process by allowing you to execute TypeScript files directly without explicitly precompiling them.
