@@ -17,16 +17,15 @@ order: 3
 - @b0rk wizard zines https://wizardzines.com
 - @EmmaBostian @kvlly ladybug podcast
 - @vaidehijoshi basecs and baseds(distributed system)
-- @devdevcharlie ML for front-end developers
-- @antfu7 about Vue and open source https://github.com/antfu/use
+- @devdevcharlie ML for front-end developers https://charliegerard.dev/projects
+- @antfu7 about Vue and open source
 - @shadeed9 @5t3ph about CSS
 - @taniarascia blog https://www.taniarascia.com/blog
 - @JoshWComeau blog https://www.joshwcomeau.com
 - @TkDodo blog about React Query https://tkdodo.eu/blog/practical-react-query
 - @lydiahallie technology through writing and visualizations
-- @ChromiumDev @Una Chrome DevRel team https://web.dev/blog
+- @Una Chrome DevRel team
 - @rauchg @steventey @leeerob at Vercel about DX
-- @BHolmesDev #WhiteboardTheWeb https://wtw.dev
 - @jlengstorf Learn With Jason https://www.learnwithjason.dev/episodes
 - @asidorenko_ short videos about React/Next.js
 

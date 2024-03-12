@@ -94,10 +94,6 @@ A tiny little drawing app: https://tldraw.com/
 
 Images of source code: https://carbon.now.sh/
 
-App Icon Generator for any platform: https://icon.kitchen/
-
-Doodles-as-A-Service Repo: https://github.com/girliemac/a-picture-is-worth-a-1000-words
-
 Manage node_modules in the system: https://github.com/voidcosmos/npkill
 
 Interactive website with live coding: https://www.strml.net/
@@ -110,6 +106,8 @@ Neal.Fun: https://neal.fun/
 
 HTTP Cats: https://http.cat/
 
+Doodles-as-A-Service Repo: https://github.com/girliemac/a-picture-is-worth-a-1000-words
+
 Github contributions in 3D: https://skyline.github.com/, https://github-town.mornhee.works/
 
 wenyan‑lang: https://wy-lang.org/
@@ -119,8 +117,6 @@ Build your own X: https://github.com/danistefanovic/build-your-own-x
 You Don't Need: https://github.com/you-dont-need/You-Dont-Need
 
 All the Ways to Make a Web Component: https://webcomponents.dev/blog/all-the-ways-to-make-a-web-component/
-
-Code Generator for HTTP Requests: https://www.labnol.org/apps/urlfetch.html
 
 Create README for your open source project: https://readme.so/
 
@@ -141,8 +137,6 @@ Discover the apps everyone is docking about: https://www.dockhunt.com
 Chrome-style tabs in HTML/CSS: https://github.com/adamschwartz/chrome-tabs
 
 The Steve Jobs Archive: https://stevejobsarchive.com
-
-The world’s most satisfying toggle: https://svarden.se/post/the-worlds-most-satisfying-toggle
 
 A web scraping and browser automation library: https://crawlee.dev
 
@@ -199,8 +193,6 @@ Box alignment in Grid and Flexbox: https://ishadeed.com/article/learn-box-alignm
 Understanding Z-Index: https://ishadeed.com/article/understanding-z-index
 
 Digging Into CSS Logical Properties: https://ishadeed.com/article/css-logical-properties
-
-The Guide To Responsive Design In 2023 and Beyond: https://ishadeed.com/article/responsive-design
 
 Basic styles for HTML Elements without classes: https://boltcss.com
 
@@ -310,8 +302,6 @@ The Beginner's Guide to React: https://egghead.io/courses/the-beginner-s-guide-t
 
 Getting Closure on React Hooks by Shawn Wang: https://www.youtube.com/watch?v=KJP1E-Y-xyo
 
-Deconstructing React by Tejas Kumar: https://www.youtube.com/watch?v=f2mMOiCSj5c
-
 When useEffect runs: https://dev.to/cassidoo/when-useeffect-runs-3pf3
 
 All Developer Way Articles about React: https://www.developerway.com/posts?filter=react
@@ -341,8 +331,6 @@ React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.co
 React Server Components from scratch: https://github.com/reactwg/server-components/discussions/5
 
 Learn Next.js course by Vercel: https://nextjs.org/learn
-
-Code snippets for modern user interface techniques: https://buildui.com/recipes
 
 ---
 
