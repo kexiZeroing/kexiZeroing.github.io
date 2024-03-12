@@ -880,7 +880,7 @@ textarea.addEventListener('input', e => e.target.dispatchEvent(eventAwesome));
 ## Promise
 A `Promise` is a proxy for a value not necessarily known when the promise is created. The Promise object represents the eventual completion or failure of an asynchronous operation and its success value or failure reason. Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.
 
-A Promise is in one of these states: `pending`, `fulfilled`, `rejected`. A promise is said to be `settled` if it is either fulfilled or rejected, but not pending. A pending promise can either be fulfilled with a value or rejected with an error. When either of these options happens, the associated handlers queued up by a promise's `then` method are called. Note that **promises are guaranteed to be asynchronous**, so an action for an already "settled" promise will occur only after the stack has cleared and a clock-tick has passed.
+A Promise is in one of these states: `pending`, `fulfilled`, `rejected`. A promise is said to be `settled` if it is either fulfilled or rejected, but not pending. A pending promise can either be fulfilled with a value or rejected with an error. When either of these options happens, the associated handlers queued up by a promise's `then` method are called. Note that **promises are guaranteed to be asynchronous**, so an action for an already "settled" promise will occur only after the stack has cleared and a clock-tick has passed. **Promise executor functions should not be async** (Don't do any awaiting inside the Promise constructor).
 
 ```js
 let p = function() {

@@ -10,11 +10,20 @@ updatedDate: "Feb 5 2024"
 
 A key property of Concurrent React is that rendering is interruptible. With synchronous rendering, once an update starts rendering, nothing can interrupt it until the user can see the result on screen. In a concurrent render, this is not always the case. React may start rendering an update, pause in the middle, then continue later. It may even abandon an in-progress render altogether.
 
-React guarantees that the UI will appear consistent even if a render is interrupted. To do this, it waits to perform DOM mutations until the end, once the entire tree has been evaluated. With this capability, React can prepare new screens in the background without blocking the main thread. This means the UI can respond immediately to user input even if it’s in the middle of a large rendering task, creating a fluid user experience.
+Concurrent React is opt-in — it’s only enabled when you use a concurrent feature. you can gradually start adding concurrent features at your own pace. The new root API in React 18 enables the new concurrent renderer, which allows you to opt-into concurrent features. Continue to read [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide).
 
-Concurrent React is opt-in — it’s only enabled when you use a concurrent feature. you can gradually start adding concurrent features at your own pace.
+```js
+// Before
+import { render } from 'react-dom';
+const container = document.getElementById('app');
+render(<App tab="home" />, container);
 
-> The new root API in React 18 enables the new concurrent renderer, which allows you to opt-into concurrent features. Continue to read [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide).
+// After
+import { createRoot } from 'react-dom/client';
+const container = document.getElementById('app');
+const root = createRoot(container);
+root.render(<App tab="home" />);
+```
 
 ## Transitions
 Consider typing in an input field that filters a list of data. Here, whenever the user types a character, we update the input value and use the new value to search the list and show the results. For large screen updates, this can cause lag on the page while everything renders, making typing or other interactions feel slow and unresponsive. Conceptually, there are two different updates that need to happen. The first update is an urgent update, to change the value of the input field. The second, is a less urgent update to show the results of the search.
@@ -71,7 +80,9 @@ const Component = () => (
 );
 ```
 
-The problem with SSR today is a “waterfall”: fetch data (server) → render to HTML (server) → load code (client) → hydrate (client). Neither of the stages can start until the previous stage has finished for the app. This is why it’s inefficient. React 18 lets you use `<Suspense>` to break down your app into smaller independent units. As a result, your app’s users will see the content sooner and be able to start interacting with it much faster. Read "New Suspense SSR Architecture in React 18": https://github.com/reactwg/react-18/discussions/37
+SSR lets you render your React components on the server into HTML and send it to the user. It's useful because it lets users with worse connections start reading or looking at the content while JavaScript is loading. The problem with SSR today is a “waterfall”: fetch data (server) → render to HTML (server) → load code (client) → hydrate (client). Neither of the stages can start until the previous stage has finished. This is why it’s inefficient.
+ 
+React 18 includes architectural improvements to React SSR performance *(with `renderToPipeableStream` and `<Suspense>`)*. It lets you use `<Suspense>` to break down your app into smaller independent units. As a result, your app’s users will see the content sooner and be able to start interacting with it much faster. When the data for a component is ready on the server, React will send additional HTML into the same stream, as well as a minimal inline `<script>` tag to put that HTML in the “right place”. Read "New Suspense SSR Architecture in React 18": https://github.com/reactwg/react-18/discussions/37
 
 ```js
 import { renderToPipeableStream } from 'react-dom/server';
@@ -91,9 +102,9 @@ app.use('/', (request, response) => {
 });
 ```
 
-1. To opt into streaming HTML on the server, you’ll need to switch from `renderToString` to the new `renderToPipeableStream` method.
-2. Only Suspense-enabled data sources will activate the Suspense component. (Data fetching with Suspense-enabled frameworks like Next.js; Lazy-loading component code with `lazy`)
-3. Suspense does not detect when data is fetched inside an Effect or event handler.
+1. To opt into **streaming HTML** on the server, you’ll need to switch from `renderToString` to the new `renderToPipeableStream` method.
+2. To opt into **selective hydration** on the client, you’ll need to switch to `hydrateRoot` on the client and then start wrapping parts of your app with `<Suspense>`.
+3. Only Suspense-enabled data sources will activate the Suspense component. Server Components integrate with Suspense out of the box.
 
 > Understand Node stream:  
 > The HTTP response object is a writable stream. All streams are instances of `EventEmitter`. They emit events that can be used to read and write data. The `pipe()` function reads data from a readable stream as it becomes available and writes it to a destination writable stream. All that the `pipe` operation does is subscribe to the relevant events on the source and call the relevant functions on the destination. The `pipe` method is the easiest way to consume streams.
@@ -118,8 +129,6 @@ export default function Posts() {
   )
 }
 ```
-
-<img alt="suspense-streaming" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/F842lAqWkAAtmDK.png" width="650">  
 
 ## Suspense and `startTransition`
 These two APIs are designed for different use cases and can absolutely be used together. Read from https://github.com/reactwg/react-18/discussions/94
