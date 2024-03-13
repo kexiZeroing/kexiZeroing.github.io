@@ -5,7 +5,7 @@ slug: notes-on-domain-specific-chatgpt
 description: ""
 added: "Mar 25 2023"
 tags: [AI]
-updatedDate: "June 2 2023"
+updatedDate: "Mar 13 2024"
 ---
 
 ## What are Vector Embeddings?
@@ -260,6 +260,45 @@ for (let i = 0; i < docs.length; i += chunkSize) {
     embeddings,
   );
 }
+```
+
+## An AI of Dan Abramov using RAG (Retrieval Augmented Generation)
+https://github.com/TejasQ/danGPT
+
+1. Turn the query into a vector using the same embeddings model.
+2. Search the vector database for the most similar vectors to the query vector, or vectors "near" the query vector in dimensional space.
+3. Retrieve many original texts from the most similar vectors.
+4. Take those original texts and feed them as context into a generative AI model,such as OpenAI's `gpt-3.5-turbo`.
+5. The generative AI model then generates a response based on the context it was given, prentending to be Dan.
+
+```js
+export const text2vec = async (texts: string[]) => {
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+  const embedding = await openai.embeddings.create({
+    model: "text-embedding-3-small",
+    dimensions: 1024,
+    input: texts,
+  });
+
+  return embedding.data.map((d) => d.embedding);
+};
+
+export const search = async (query: string) => {
+  const astraClient = new AstraDB(
+    process.env.ASTRA_DB_APPLICATION_TOKEN,
+    process.env.ASTRA_DB_API_ENDPOINT
+  );
+  const collection = await astraClient.collection('danGPT');
+  const [$vector] = await text2vec([query]);
+  const results = (
+    await collection
+      .find({}, { sort: { $vector }, limit: 100, includeSimilarity: true })
+      .toArray()
+  ).filter((r) => r.$similarity > 0.7);
+
+  return results;
+};
 ```
 
 ## Vector Store
