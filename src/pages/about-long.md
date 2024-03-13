@@ -4,8 +4,10 @@ Most of the blog posts are used for self learning. Some documents and examples a
 1. The goal is to build a second brain.
 2. The best way to commit something to long-term memory is to periodically review it, gradually increasing the time between reviews.
 
-I admit that I'm not a typical geek who is so smart and addicted to the coding. The curiosity, job, and long-time habit drives me to keep living as a developer which means I need to learn all the time and the bad thing is I need to learn again and again since I would forget what I have learned before. I need to spend a long time doing practical work and solving issues to truly master a skill, to be more specific, reading documents, learning from blogs/videos with taking notes, and using them in daily work.
+I don't fit the stereotype of a genius programmer who lives and breathes code. Instead, my passion lies in the relentless pursuit of understanding and the thrill of exploration. I'm that person who dives deep into documentation, follows blog posts, and watches video tutorials. Sleep and meals take a backseat when I'm in the zone, dissecting problems and piecing together solutions.
 
-I should remember what I have and lower the expectations. Take a relief, I'm just a normal person who wants to be happy, make money, and not feel a void. No one can know everything. I don't need to learn and acquire every aspect, so just keep going at my pace. Learning is not a direct and straight way; Interest, energy, time, and results are always fluctuating along with you.
+But let's be real. I'm not an all-knowing oracle. No one is. And that's okay. I've learned to set realistic expectations. I'm not here to conquer every programming language or memorize every framework. Instead, I focus on what matters: growth, impact, and happiness. Money? Sure, it's essential, but it's not the sole purpose. I want to create, contribute, and connect. And if I occasionally feel that void, I remind myself—it's okay. Take a relief.
 
-Becoming a good engineer is about collecting experience. To experience is to learn, and write about what you learn. The journey of rebuilding my blog with Astro out of curiosity starts...
+I call myself "a lifelong learner". Learning isn't a straight highway; Interest waxes and wanes, energy fluctuates, and time slips through our fingers. But the journey—the messy, imperfect, exhilarating journey—is where the magic truly happens.
+
+Becoming a good engineer is about collecting experience. To experience is to learn, and write about what you learn. The journey of rebuilding my blog with Astro out of curiosity starts here.
