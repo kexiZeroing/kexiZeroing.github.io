@@ -11,11 +11,6 @@ updatedDate: "Jan 13 2024"
 ## Adding Server-Side Rendering
 With SSR, you render your JS on the server into HTML. You serve that HTML to your client so it appears to have fast startup. But you still have to wait for your JS to reach the user before anything can be interactive (hydration). React will render your component tree in memory, but instead of generating DOM nodes for it, it will attach all the logic to the existing HTML. After hydration, SSR can't be used again - it's typically only used for initial loads.
 
-1. Browser sends HTTP request to server to load a page.
-2. Server receives HTTP request and turns React JSX into HTML markup.
-3. Server inserts the markup into a HTML template and sends the HTML response back to the browser.
-4. Browser renders the HTML, downloads the client-side JavaScript bundle, and “hydrates” the HTML.
-
 Let’s create a simple React component App. We will render this component on the server-side and hydrate it on the client-side.
 
 ```js
@@ -132,7 +127,7 @@ export default ClientOnly;
 
 The above code also helps solve the error: "`window` is not defined" in the client component (i.e. render `{ window.navigator.platform }`). You can move the `window` to `useEffect` to access it.
 
-### Understand the "children pattern" from Developer Way
+### Understand the "children pattern"
 React components re-render themselves and all their children when the state is updated. In this case, on every mouse move the state of `MovingComponent` is updated, its re-render is triggered, and as a result, `ChildComponent` will re-render as well.
 
 ```jsx
@@ -195,10 +190,10 @@ const Parent = () => {
 };
 ```
 
-## Adding File-System Based Routing and Data Fetching
+## Add File-System Based Routing and Data Fetching into the server
 Learn from https://www.youtube.com/watch?v=3RzhNYhjVAw&t=460s
 1. server side rendering
-2. server side routing
+2. file based routing
 3. fetch data as early as possible (from client `useEffect` to the server before rendering)
 4. renderToString vs. renderToPipeableStream
 
@@ -225,8 +220,8 @@ pages.forEach((page) => {
     const Component = mod.default;
      
     let props = {};
-    // getServerSideProps
-    // Data Fetching (Server-Side) before rendering
+    // getServerSideProps: Data Fetching (Server-Side) before rendering
+    // export const gSSP = async () => await getStuff();
     if (mod.gSSP) {
       props = await mod.gSSP(req);
     }
@@ -242,6 +237,10 @@ pages.forEach((page) => {
       </body>
       </html>
     `)
+
+    // replace `res.send` with `renderToPipeableStream` to use React concurrent features
+    // const { pipe } = renderToPipeableStream(<Component {...props} />, { ... })
+    // pipe(res)
   });
 });
 
@@ -266,15 +265,15 @@ A common misconception here is that components with `"use client"` only run in b
 > Why invent a whole new wire format?   
 > The goal on the client is to reconstruct the React element tree. It is much easier to accomplish this from this format than from html, where we’d have to parse the HTML to create the React elements. Note that the reconstruction of the React element tree is important, as this allows us to merge subsequent changes to the React tree with minimal commits to the DOM.
 >
-> How is the Next.js App Router related to Server Components?
-> Next.js 13+ introduced the App Router with new features, conventions, and support for React Server Components. Components in the app directory are React Server Components by default. `"use client"` directive used to mark components as Client Components. Server and Client Components can be interleaved in the same component tree, with React handling the merging of both environments.
+> How is the Next.js App Router related to Server Components?  
+> If a page uses server-side rendering, the page HTML is generated on each request. Next.js used to allow us to do so by using `getServerSideProps`, which will be called by the server on every request.
+> 
+> Next.js 13.4 introduced the App Router with new features, conventions, and support for React Server Components. Components in the app directory are React Server Components by default. `"use client"` directive used to mark components as Client Components. Server and Client Components can be interleaved in the same component tree, with React handling the merging of both environments.
 
 Compare for server side rendering and server components:
 - https://github.com/TejasQ/makeshift-next.js/tree/spoiled
 - https://github.com/TejasQ/react-server-components-from-scratch/tree/spoild
 - https://www.joshwcomeau.com/react/server-components
-
-If a page uses server-side rendering, the page HTML is generated on each request. Next.js used to allow us to do so by using `getServerSideProps`, which will be called by the server on every request *(only works at the route level)*. Next.js 13.4 with the "App Router" has a transformative shift for the core of the framework, watch the [talk](https://www.youtube.com/watch?v=5HaX0Q_Do1I) by Lee Robinson.
 
 ```jsx
 // React Components (used in server-side rendering)
