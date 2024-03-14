@@ -190,6 +190,26 @@ const Parent = () => {
 };
 ```
 
+```js
+const PageMemoized = React.memo(Page);
+
+const App = () => {
+  const [state, setState] = useState(1);
+  const onClick = useCallback(() => {
+    console.log('Do something on click');
+  }, []);
+
+  return (
+    // will NOT re-render because onClick is memoized
+    <PageMemoized onClick={onClick} />
+    // WILL re-render because value is not memoized
+    <PageMemoized onClick={onClick} value={[1, 2, 3]} />
+  );
+};
+```
+
+> `useCallback` and `useMemo` for props don’t prevent re-renders by themselves. You can probably remove 90% of all `useMemo` and `useCallback` in your app right now, and the app will be fine and might even become slightly faster.
+
 ## Add File-System Based Routing and Data Fetching into the server
 Learn from https://www.youtube.com/watch?v=3RzhNYhjVAw&t=460s
 1. server side rendering
