@@ -304,7 +304,7 @@ Getting Closure on React Hooks by Shawn Wang: https://www.youtube.com/watch?v=KJ
 
 When useEffect runs: https://dev.to/cassidoo/when-useeffect-runs-3pf3
 
-All Developer Way Articles about React: https://www.developerway.com/posts?filter=react
+All Developer Way Articles about React: https://www.developerway.com
 
 React articles from Josh: https://www.joshwcomeau.com/tutorials/react/
 
@@ -327,8 +327,6 @@ Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/n
 Learn Next.js Server Side Rendering: https://dev.to/skirianov/learn-nextjs-server-side-rendering-by-building-your-own-implementation-41m8
 
 React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.com/watch?v=zMf_xeGPn6s
-
-React Server Components from scratch: https://github.com/reactwg/server-components/discussions/5
 
 Learn Next.js course by Vercel: https://nextjs.org/learn
 

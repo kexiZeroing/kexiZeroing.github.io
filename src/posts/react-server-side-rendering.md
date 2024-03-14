@@ -1,11 +1,11 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "React Server Side Rendering"
-slug: react-server-side-rendering
+title: "React Server Side Rendering and Server Components"
+slug: react-server-side-rendering-and-server-components
 description: ""
 added: "July 8 2023"
 tags: [react]
-updatedDate: "Jan 13 2024"
+updatedDate: "Mar 14 2024"
 ---
 
 ## Adding Server-Side Rendering
@@ -294,6 +294,7 @@ Compare for server side rendering and server components:
 - https://github.com/TejasQ/makeshift-next.js/tree/spoiled
 - https://github.com/TejasQ/react-server-components-from-scratch/tree/spoild
 - https://www.joshwcomeau.com/react/server-components
+- https://github.com/reactwg/server-components/discussions/5
 
 ```jsx
 // React Components (used in server-side rendering)
@@ -365,22 +366,22 @@ app.get("/:path", async (req, res) => {
   const page = await import(
     join(process.cwd(), "dist", "pages", req.params.path)
   );
-  const Component = mod.default;
+  const Component = page.default;
   // `createReactTree` is a method to turn jsx into "a big object" that React can recognize
   // {
-  //   $$typeof: Symbol(react.element),
+  //   $$typeof: Symbol("react.element"),
   //   type: "div",
   //   props: { title: "oh my" },
   //   ...
   // }
   // {
-  //   $$typeof: Symbol(react.element),
+  //   $$typeof: Symbol.for("react.element"),
   //   type: MyComponent  // reference to the MyComponent function
   //   props: { children: "oh my" },
   //   ...
   // }
   // 
-  // https://github.com/TejasQ/react-server-components-from-scratch
+  // https://github.com/TejasQ/react-server-components-from-scratch/blob/spoild/server.tsx#L37
   const clientJsx = await createReactTree(
     <Layout bgColor="white">
       <Component {...req.query} />
@@ -389,17 +390,42 @@ app.get("/:path", async (req, res) => {
 
   const html = `${renderToString(clientJsx)}
     <script>
-    window.__initialMarkup=\`${JSON.stringify(clientJsx, escapeJsx)}\`;
+    window.__INITIAL_CLIENT_JSX_STRING__=\`${JSON.stringify(clientJsx, escapeJsx)}\`;
     </script>
     <script src="/client.js" type="module"></script>`;
   res.end(html);
 });
+```
 
+Note that if we directly send `renderToString(<Component>)` to the client, React will complain *"Error: Objects are not valid as a React child (found: [object Promise])"*. The code doesn't support RSC yet. We need transform JSX into an object that client React can recognize, which the function `createReactTree` does.
+
+```js
 const escapeJsx = (key, value) => {
+  // A Symbol value doesn't "survive" JSON serialization
+  // We're going to substutute `Symbol.for('react.element')` with a special string like "$RE"
   if (value === Symbol.for("react.element")) {
-    return "$";
+    return "$RE";  // Could be arbitrary. I picked RE for React Element.
   }
   return value;
+}
+```
+
+```js
+// We need to hydrate the root with the initial client JSX on the client.
+const root = hydrateRoot(document, getInitialClientJSX());
+
+function getInitialClientJSX() {
+  const clientJSX = JSON.parse(window.__INITIAL_CLIENT_JSX_STRING__, reviveJSX);
+  return clientJSX;
+}
+
+// On the client, we'll replace "$RE" back with `Symbol.for('react.element')`
+function reviveJSX(key, value) {
+  if (value === "$RE") {
+    return Symbol.for("react.element");
+  } else {
+    return value;
+  }
 }
 ```
 
