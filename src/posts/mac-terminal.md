@@ -42,6 +42,9 @@ In the Finder, deleted files are moved to the Trash, which is actually the invis
 There are two commands specific to macOS that connect the clipboard closer to the shell commands. `pbcopy` will take the contents of `stdin` and put them in the clipboard. So anything you pipe into `pbcopy` will end up in the clipboard, so you can paste it into a different place. For example, `cat test.txt | pbcopy` is easier than open, select all, and copy. `pbpaste` is the counterpart to `pbcopy`. You can easily make the clipboard contents visible by typing `pbpaste` as the next command.
 
 > `>` sends stream to a file (overwrite) and `>>` appends stream to a file, e.g., ls > a.txt
+> 
+> `echo "" > a.txt` will still give you a file with one character (a newline.)  
+> `cat /dev/null > a.txt` should clean all contents of a file.
 
 ## The '[' Marks
 Using Terminal you may notice that there is a small gray square brackets before the prompt. They are called 'Marks' and every command that is executed automatically gets marked. You can quickly scroll the Terminal output to previous marks with `Cmd + Up Arrow` and to the next mark with `Cmd + Down Arrow`. You can hide them with 'Hide Marks' from the 'View' menu.

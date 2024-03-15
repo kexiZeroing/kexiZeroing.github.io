@@ -450,6 +450,8 @@ Pi, your personal AI from Inflection: https://hello.pi.ai
 
 Suno is building a future where anyone can make great music: https://www.suno.ai
 
+Run transformers directly in the browser: https://github.com/xenova/transformers.js
+
 ---
 
 ## Machine Learning
