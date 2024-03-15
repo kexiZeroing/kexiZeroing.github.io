@@ -26,6 +26,8 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 - Chains (Summarize, Chatbots, Question Answering)
 - Agents
 
+LangChain makes it easy to prototype LLM applications and Agents. However, delivering LLM applications to production can be deceptively difficult. You will have to iterate on your prompts, chains, and other components to build a high-quality product. [LangSmith](https://blog.langchain.dev/announcing-langsmith) is introduced to help developers close the gap between prototype and production.
+
 ### Examples
 `npm install langchain` We currently support LangChain on Node.js 18 and 19. LangChain is written in TypeScript and provides type definitions for all of its public APIs.
 
@@ -127,9 +129,9 @@ export const run = async () => {
 };
 ```
 
-Agents are like bots/personal assistants that can take actions using external tools based on instructions from the LLM. Agents use an LLM to determine which actions to take and in what order. To initialize an agent in LangChain, you need to provide a list of tools, an LLM, and the name of the agent to use. For example, the agent, `zero-shot-react-description`, consults the ReAct (Reason + Act) framework to select the appropriate tool and relies only on the tool's description.
+By using language models, you can essentially recreate a programmatic entity that has goals and tasks it can execute. Agents are like bots/personal assistants that can take actions using external tools based on instructions from the LLM. Agents use an LLM to determine which actions to take and in what order. To initialize an agent in LangChain, you need to provide a list of tools, an LLM, and the name of the agent to use. For example, the agent, `zero-shot-react-description`, consults the ReAct (Reason + Act) framework to select the appropriate tool and relies only on the tool's description.
 
-LangChain provides the tools you can use out of the box: https://js.langchain.com/docs/modules/agents/tools/integrations/
+LangChain provides the tools you can use out of the box: https://js.langchain.com/docs/integrations/toolkits
 
 ```js
 // agent-basic.ts

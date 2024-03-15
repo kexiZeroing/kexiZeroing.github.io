@@ -116,6 +116,19 @@ You can opt-out of this behavior with the `is:inline` directive. `is:inline` tel
 
 In Astro components, the code in the frontmatter between the `---` fences runs on the server and is not available in the browser. To send variables from the server to the client, we need a way to store our variables and then read them when JavaScript runs in the browser. One way to do this is to use `data-*` attributes to store the value of variables in your HTML output. Scripts can then read these attributes using an element’s `dataset` property once your HTML loads in the browser.
 
+## Astro Remote
+Render remote HTML or Markdown content in Astro with full control over the output.
+
+```astro
+---
+import { Markup, Markdown } from 'astro-remote';
+const { html, markdown } = await fetch('http://my-site.com/api/v1/post').then(res => res.json());
+---
+
+<Markup content={html} />
+<Markdown content={markdown} />
+```
+
 ## Astro Links
 - Astro starter template: https://github.com/surjithctly/astroship
 - A free template using Astro and Tailwind CSS: https://github.com/onwidget/astrowind

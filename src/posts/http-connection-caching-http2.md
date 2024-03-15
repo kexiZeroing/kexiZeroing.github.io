@@ -155,6 +155,8 @@ Web developers invented a technique called `revving`. Infrequently updated files
 - Brief History of HTTP: https://hpbn.co/brief-history-of-http
 - HTTP/2: https://hpbn.co/http2/
 
+In HTTP/1.1, two requests cannot ride together the same TCP connection - it is necessary that the first one ends for the subsequent to begin. 
+
 The primary goals for HTTP/2 are to reduce latency by enabling **full request and response multiplexing**, minimize protocol overhead via efficient **compression of HTTP header fields**, and **add support for request prioritization and server push**. HTTP/2 does not modify the application semantics of HTTP in any way. All the core concepts such as HTTP methods, status codes, URIs, and header fields remain in place. Instead, HTTP/2 modifies how the data is formatted (framed) and transported between the client and server.
 
 > SPDY (pronounced "speedy") is a deprecated open-specification networking protocol that was developed primarily at Google for transporting web content. SPDY manipulates HTTP traffic, with particular goals of reducing web page load latency and improving web security. SPDY was chosen as the basis for HTTP/2, and the core developers of SPDY have been involved in the development of HTTP/2. **SPDY is acting as an experimental branch that was used to test new features and proposals for the HTTP/2 standard**. In early 2015, Google announced its plans to remove support for SPDY in favor of HTTP/2.
