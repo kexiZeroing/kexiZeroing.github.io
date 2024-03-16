@@ -108,13 +108,13 @@ updatedDate: "Apr 05 2023"
 11. Check out dotfiles https://github.com/mathiasbynens/dotfiles
 
 Some references:
-- https://dev.to/swyx/my-new-mac-setup-4ibi
 - https://www.swyx.io/new-mac-setup
 - https://www.taniarascia.com/setting-up-a-brand-new-mac-for-development
 - https://github.com/nicolashery/mac-dev-setup
 - https://github.com/kentcdodds/dotfiles
 - https://github.com/stefanjudis/dotfiles
 - https://github.com/wesbos/dotfiles
+- https://github.com/w3cj/dotfiles
 - https://github.com/antfu/use
 
 ## Moving to zsh

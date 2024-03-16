@@ -55,7 +55,7 @@ type User = z.infer<typeof User>;
 // { username: string }
 ```
 
-Let’s build a schema for our form.
+Sometimes you don't trust the data entering your app. For those cases, you should use Zod. Let’s build a schema for our form.
 
 ```js
 const formSchema = z

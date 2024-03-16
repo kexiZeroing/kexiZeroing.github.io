@@ -436,8 +436,6 @@ Create LlamaIndex App: https://www.npmjs.com/package/create-llama
 
 Get up and running with large language models locally: https://ollama.com
 
-ML-powered speech recognition directly in your browser: https://github.com/xenova/whisper-web
-
 React hook for OpenAI Whisper with speech recorder: https://github.com/chengsokdara/use-whisper
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
@@ -450,7 +448,11 @@ Pi, your personal AI from Inflection: https://hello.pi.ai
 
 Suno is building a future where anyone can make great music: https://www.suno.ai
 
-Run transformers directly in the browser: https://github.com/xenova/transformers.js
+Power your apps with real-time speech-to-text APIs: https://deepgram.com
+
+Run Hugging Face Transformers directly in the browser: https://github.com/xenova/transformers.js
+
+Fully client-side chat over documents: https://github.com/jacoblee93/fully-local-pdf-chatbot
 
 ---
 
