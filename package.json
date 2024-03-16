@@ -11,7 +11,8 @@
     "build": "astro build",
     "postbuild": "pagefind --site dist",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "e2e": "playwright test"
   },
   "dependencies": {
     "@astrojs/mdx": "^2.0.1",
@@ -30,5 +31,9 @@
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
     "shiki": "^0.14.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.11.28"
   }
 }
