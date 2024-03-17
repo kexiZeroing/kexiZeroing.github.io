@@ -87,7 +87,7 @@ In HTTP/1.0, freshness used to be specified by the `Expires` header. However, th
 
 To ensure that the latest versions of resources will always be transferred, it's common practice to make the default `Cache-Control` value include `no-cache`. In addition, if the service implements cookies and the content is personalized for each user, `private` must be given too.
 
-`max-age=0` means that the response is immediately stale, and `must-revalidate` means that it must not be reused without revalidation once it is stale — so, in combination, the semantics seem to be the same as `no-cache`. But now HTTP/1.1-conformant servers are widely deployed, there's no reason to ever use that combination — you should instead just use `no-cache`.
+`max-age=0` means that the response is immediately stale, and `must-revalidate` means that it must not be reused without revalidation once it is stale — so, in combination, the semantics seem to be the same as `no-cache` *(The cached response must be validated by the client before each use, even if fresh)*. But now HTTP/1.1-conformant servers are widely deployed, there's no reason to ever use that combination — you should instead just use `no-cache`.
 
 The `no-cache` directive does not prevent the storing of responses but instead prevents the reuse of responses without revalidation. If you don't want a response stored in any cache, use `no-store`.
 

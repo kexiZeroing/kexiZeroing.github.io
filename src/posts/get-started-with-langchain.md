@@ -373,3 +373,16 @@ while (true) {
   }
 }
 ```
+
+> Use Brave Search API to get search results
+> ```js
+> async function searchEngineForSources(message) {
+>   // langchain/community/tools/brave_search
+>   const loader = new BraveSearch({ apiKey: process.env.BRAVE_SEARCH_API_KEY });
+>
+>   const docs = await loader.call(message, { count: 3 });
+>   // map to { title, link }
+>   const normalizedData = normalizeData(docs);
+>   return await Promise.all(normalizedData.map(fetchPageContent));
+> }
+> ```
