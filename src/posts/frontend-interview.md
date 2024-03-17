@@ -18,6 +18,8 @@ updatedDate: "Feb 09 2023"
 
 1. 假设现在有 20 个异步请求需要发送，但由于某些原因，我们必须将同一时刻的并发请求数量控制在 3 个以内。实现一个并发请求函数，要求最大并发数 maxNum，每当有一个请求返回，就留下一个空位，可以增加新的请求。当所有请求完成后，结果按照 urls 里面的顺序依次输出。
 
+> 当同时发送上千个请求时，浏览器会变的明显卡顿，虽然这样发送可以更快的获取数据，但会带来不好的用户体验，所以一个解决方案是给并发添加最大数量限制。如果是 http1.1，浏览器会有默认的并发限制，并不需要我们处理这个问题，比如 Chrome 中并发数量是 6 个，所以这个问题的成立是建立在 http2 的基础上。
+
 ```js
 const concurrencyRequest = (urls, maxNum) => {
   return new Promise((resolve) => {
@@ -67,7 +69,7 @@ concurrencyRequest(urls, 3).then(res => {
 })
 ```
 
-2. Implement calling click event listener only once without using `{once: true}`.
+1. Implement calling click event listener only once without using `{once: true}`.
 ```js
 function clickOnce(el, cb) {
   const cb2 = () => {

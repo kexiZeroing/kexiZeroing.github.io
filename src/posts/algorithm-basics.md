@@ -854,7 +854,7 @@ var maxSubArraySum = function(nums) {
   let maxSum = nums[0];
 
   for (let i = 0; i < nums.length; i++) {
-    curSum = (a[i] > curSum + a[i]) ? a[i] : curSum + a[i];
+    curSum = (nums[i] > curSum + nums[i]) ? nums[i] : curSum + nums[i];
     if (curSum > maxSum) {
       maxSum = curSum
     }
@@ -906,19 +906,6 @@ var subarraySum = function(nums, k) {
     }
   }
   return res;
-};
-```
-
-Given a non-empty array of integers, every element appears twice except for one. Find that single one. Your algorithm should have a linear runtime complexity and without using extra memory.
-
-```js
-// a xor a === 0; a xor 0 === a
-var singleNumber = function(nums) {
-  let ret = 0;
-  for (let i = 0; i < nums.length; i++) {
-    ret = ret ^ nums[i];
-  }
-  return ret;
 };
 ```
 
@@ -1112,7 +1099,7 @@ var maxDepth = function(root) {
     const cur = queue.shift();
 
     if (cur === null) {
-    	if (queue.length === 0) return depth;
+      if (queue.length === 0) return depth;
       depth++;
     	queue.push(null);
     } else {
