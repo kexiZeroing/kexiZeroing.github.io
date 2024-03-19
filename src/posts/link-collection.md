@@ -48,6 +48,8 @@ Machine Learning for Beginners: https://github.com/microsoft/ML-For-Beginners
 
 Artificial Intelligence for Beginners: https://github.com/microsoft/AI-For-Beginners
 
+Generative AI for Beginners: https://github.com/microsoft/generative-ai-for-beginners
+
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
 Amazon Web Services — a practical guide: https://github.com/open-guides/og-aws

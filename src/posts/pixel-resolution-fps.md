@@ -5,7 +5,7 @@ slug: pixel-resolution-fps
 description: ""
 added: "Oct 15 2021"
 tags: [css, web]
-updatedDate: "Feb 29 2024"
+updatedDate: "Mar 19 2024"
 ---
 
 ## Concept of pixel and resolution
@@ -91,6 +91,11 @@ $("#stop").on("click", function() {
 Tools:
 - Performance monitor stats.js: https://github.com/mrdoob/stats.js
 - Monitor for JS Heap Size memory-stats.js: https://github.com/paulirish/memory-stats.js
+
+## requestIdleCallback
+The `window.requestIdleCallback()` method queues a function to be called during a browser's idle periods. This enables developers to perform background and low priority work on the main event loop, without impacting latency-critical events such as animation and input response. Functions are generally called in first-in-first-out order; however, callbacks which have a timeout specified may be called out-of-order if necessary in order to run them before the timeout elapses.
+
+[main-thread-scheduling](https://github.com/astoilkov/main-thread-scheduling) lets you run computationally heavy tasks on the main thread while ensuring your app's UI doesn't freeze.
 
 ## Animations Overview
 Modern browsers can animate two CSS properties cheaply: `transform` and `opacity`. If you animate anything else, the chances are you're not going to hit a silky smooth 60 frames per second.

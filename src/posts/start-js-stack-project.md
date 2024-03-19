@@ -219,6 +219,7 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
     };
     ```
 6. Install `npm i -D eslint-plugin-prettier eslint-config-prettier`. The first one is used to run prettier as an ESLint rule. The second one is used to to disable ESLint rules that might be conflict with prettier.
+    > Formatting and linting are two separate concerns. Mixing the two can have negative impacts on the performance and understandability of your developer tooling. If your ESLint configuration references `eslint-plugin-prettier`, I strongly recommend you instead enable Prettier separately from ESLint.
 7. Then you have to tell ESLint to use Prettier as a plugin and turn off rules that are unnecessary or might conflict with Prettier:
     ```js
     //.eslintrc.js
