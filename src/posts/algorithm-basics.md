@@ -992,26 +992,68 @@ var search = function(nums, target) {
     const mid = Math.floor((start + end) / 2);
     if (nums[mid] === target) return mid;
 
-    // [start, mid] is ascending order
-    if (nums[mid] > nums[start]) {
-      // target in [start, mid]
-      if (target >= nums[start] && target < nums[mid]) {
-        end = mid - 1;
-      } else {
-        start = mid + 1;
-      }
-    } else {
-      // [mid, end] is ascending order
+    // [mid, end] is ascending order
+    if (nums[mid] < nums[end]) {
       if (target > nums[mid] && target <= nums[end]) {
         start = mid + 1;
       } else {
         end = mid - 1;
       }
     }
+    // [start, mid] is ascending order
+    else {
+      if (target >= nums[start] && target < nums[mid]) {
+        end = mid - 1;
+      } else {
+        start = mid + 1;
+      }
+    }
   }
 
   return -1;
 };
+```
+
+Find the integer square root; Check if a number is the perfect square number.
+
+```js
+function getSquareRoot(num) {
+  let i = 0;
+  let j = num;
+  let ans = -1;
+
+  while (i <= j) {
+    let mid = Math.floor((i + j) / 2);
+    if (mid * mid <= num) {
+      // get a possible answer and continue
+      ans = mid;
+      i = mid + 1;
+    } else {
+      j = mid - 1;
+    }
+  }
+
+  return ans
+}
+
+function checkPerfectSquare(num) {
+  let i = 0;
+  let j = num;
+
+  while (i <= j) {
+    let mid = Math.floor((i + j) / 2);
+    if (mid * mid === num) {
+      return true
+    }
+    if (mid * mid < num) {
+      i = mid + 1 
+    } else {
+      j = mid - 1
+    }
+  }
+
+  return false
+}
 ```
 
 Given a collection of intervals, merge all overlapping intervals. i.e. Input: `[[1,3],[2,6],[8,10],[15,18]]`; Output: `[[1,6],[8,10],[15,18]]`.
