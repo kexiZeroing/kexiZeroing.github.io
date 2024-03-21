@@ -5,7 +5,7 @@ slug: get-started-with-langchain
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
-updatedDate: "Mar 16 2024"
+updatedDate: "Mar 21 2024"
 ---
 
 ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers have released APIs allowing developers to interact directly with these models. And this is where LangChain comes in. LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.
@@ -24,7 +24,7 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 - Indexes (Loaders, Text Splitters, Vectorstores, Retrievers)
 - Memory (Chat Message History)
 - Chains (Summarize, Chatbots, Question Answering)
-- Agents
+- Agents (OpenAI functions, ReAct)
 
 LangChain makes it easy to prototype LLM applications and Agents. However, delivering LLM applications to production can be deceptively difficult. You will have to iterate on your prompts, chains, and other components to build a high-quality product. [LangSmith](https://blog.langchain.dev/announcing-langsmith) is introduced to help developers close the gap between prototype and production.
 
@@ -136,9 +136,33 @@ export const run = async () => {
 };
 ```
 
-By using language models, you can essentially recreate a programmatic entity that has goals and tasks it can execute. Agents are like bots/personal assistants that can take actions using external tools based on instructions from the LLM. Agents use an LLM to determine which actions to take and in what order. To initialize an agent in LangChain, you need to provide a list of tools, an LLM, and the name of the agent to use. For example, the agent, `zero-shot-react-description`, consults the ReAct (Reason + Act) framework to select the appropriate tool and relies only on the tool's description.
+OpenAI’s API is not stateful so each time you sent a request to generate a new chat message, you have to pass back any context that might be necessary to allow the model to answer the query at hand. Gives a chain the ability to remember information from previous interactions. This is useful for chatbots and conversation bots. `ConversationChain` is a simple type of memory that remembers all previous conversations and adds them as context that is passed to the LLM.
 
-LangChain provides the tools you can use out of the box: https://js.langchain.com/docs/integrations/toolkits
+```js
+// memory.ts
+import { OpenAI } from "langchain/llms";
+import { BufferMemory } from "langchain/memory";
+import { ConversationChain } from "langchain/chains";
+
+export const run = async () => {
+  const model = new OpenAI({});
+  // buffer memory remembers previous conversational back and forths directly
+  const memory = new BufferMemory();
+  const chain = new ConversationChain({ llm: model, memory: memory });
+  const firstResponse = await chain.call({ input: "Hello, I'm John." });
+  console.log(firstResponse);
+  // {response: " Hi John! It's nice to meet you. My name is AI. What can I help you with?"}
+  const secondResponse = await chain.call({ input: "What's my name?" });
+  console.log(secondResponse);
+  // {response: ' You said your name is John. Is there anything else you would like to talk about?'}
+};
+```
+
+In chains, a sequence of actions is hardcoded (in code). In agents, a language model is used as a reasoning engine to determine which actions to take and in which order. Agents are like bots/personal assistants that can take actions using external tools based on instructions from the LLM. Agents use an LLM to determine which actions to take and in what order.
+
+To initialize an agent in LangChain, you need to provide a list of tools, an LLM, and the name of the agent to use. For example, the agent, `zero-shot-react-description`, consults the ReAct (Reason + Act) framework to select the appropriate tool and relies only on the tool's description.
+
+> LangChain provides the tools you can use out of the box: https://js.langchain.com/docs/integrations/toolkits
 
 ```js
 // agent-basic.ts
@@ -171,28 +195,6 @@ export const run = async () => {
    *  The number of countries raised to the power of 3
    *  is 157464
    */
-};
-```
-
-OpenAI’s API is not stateful so each time you sent a request to generate a new chat message, you have to pass back any context that might be necessary to allow the model to answer the query at hand. Gives a chain the ability to remember information from previous interactions. This is useful for chatbots and conversation bots. `ConversationChain` is a simple type of memory that remembers all previous conversations and adds them as context that is passed to the LLM.
-
-```js
-// memory.ts
-import { OpenAI } from "langchain/llms";
-import { BufferMemory } from "langchain/memory";
-import { ConversationChain } from "langchain/chains";
-
-export const run = async () => {
-  const model = new OpenAI({});
-  // buffer memory remembers previous conversational back and forths directly
-  const memory = new BufferMemory();
-  const chain = new ConversationChain({ llm: model, memory: memory });
-  const firstResponse = await chain.call({ input: "Hello, I'm John." });
-  console.log(firstResponse);
-  // {response: " Hi John! It's nice to meet you. My name is AI. What can I help you with?"}
-  const secondResponse = await chain.call({ input: "What's my name?" });
-  console.log(secondResponse);
-  // {response: ' You said your name is John. Is there anything else you would like to talk about?'}
 };
 ```
 
@@ -373,16 +375,3 @@ while (true) {
   }
 }
 ```
-
-> Use Brave Search API to get search results
-> ```js
-> async function searchEngineForSources(message) {
->   // langchain/community/tools/brave_search
->   const loader = new BraveSearch({ apiKey: process.env.BRAVE_SEARCH_API_KEY });
->
->   const docs = await loader.call(message, { count: 3 });
->   // map to { title, link }
->   const normalizedData = normalizeData(docs);
->   return await Promise.all(normalizedData.map(fetchPageContent));
-> }
-> ```
