@@ -97,6 +97,10 @@ The `window.requestIdleCallback()` method queues a function to be called during 
 
 [main-thread-scheduling](https://github.com/astoilkov/main-thread-scheduling) lets you run computationally heavy tasks on the main thread while ensuring your app's UI doesn't freeze.
 
+[Scheduling APIs](https://github.com/WICG/scheduling-apis/blob/main/README.md) outlines the motivation for scheduling and controlling prioritized tasks.
+
+> Consider a "search-as-you-type" application. This app needs to be responsive to user input, i.e. users typing in the search-box. At the same time, any animations on the page must be rendered smoothly, and the work for fetching and preparing search results and updating the page must also progress quickly. It is easy for any long running script work to hold up the main thread and cause responsiveness issues for typing, rendering animations, or updating search results.
+
 ## Animations Overview
 Modern browsers can animate two CSS properties cheaply: `transform` and `opacity`. If you animate anything else, the chances are you're not going to hit a silky smooth 60 frames per second.
 

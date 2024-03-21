@@ -8,7 +8,7 @@ tags: [js]
 updatedDate: "Apr 16 2023"
 ---
 
-Chrome has a multi-process architecture and each process is heavily multi-threaded. The **renderer process** is responsible for everything that happens inside of a tab. In a renderer process, the **main thread** is where a browser processes user events and paints. By default, the browser uses a single thread to run all the JavaScript in your page, as well as to perform layout, reflows, and garbage collection. This means that long-running JavaScript functions can block the thread, leading to an unresponsive page and a bad user experience. (Sometimes parts of your JavaScript is handled by worker threads if you use a web worker.)
+Chrome has a multi-process architecture and each process is heavily multi-threaded. The **renderer process** is responsible for everything that happens inside of a tab. In a renderer process, the **main thread** is where a browser processes user events and paints. By default, the browser uses a single thread to run all the JavaScript in your page, as well as to perform layout, reflows, and garbage collection. This means that long-running JavaScript functions can block the thread, leading to an unresponsive page and a bad user experience. Frame drop happens when the main thread is too busy with running our JavaScript code so it doesn’t get the chance to update the UI so the website freezes.
 
 > To open the Chrome Task Manager, click on the three dots icon in the top right corner, then select 'More tools' and you can see 'Task Manager’. With this tool, you can monitor all running processes (CPU, memory, and network usage of each open tab and extension) and stop processes that are not responding. 
 
