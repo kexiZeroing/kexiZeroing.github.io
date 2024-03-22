@@ -80,6 +80,8 @@ It’s recommended to avoid storing any sensitive information in local storage w
 ## Content Security Policy
 Configuring Content Security Policy involves adding the `Content-Security-Policy` HTTP header to a web page and giving it values to control what resources the user agent is allowed to load for that page. If the site doesn't offer the CSP header, browsers likewise use the standard same-origin policy. A properly designed Content Security Policy helps protect a page against a cross-site scripting attack. There are specific directives for a wide variety of types of items, so that each type can have its own policy, including fonts, frames, images, audio and video media, scripts, and workers.
 
+[Helmet](https://github.com/helmetjs/helmet) helps secure Express apps by setting HTTP response headers including `Content-Security-Policy`.
+
 ```
 Content-Security-Policy: default-src 'self'; script-src 'self' cdn.example.com; img-src 'self' img.example.com; style-src 'self';
 ```

@@ -13,7 +13,8 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 - JS/TS Docs: https://js.langchain.com/docs
 - Awesome LangChain: https://github.com/kyrolabs/awesome-langchain
 - Tutorials on building LLM powered applications: https://www.youtube.com/playlist?list=PLqZXAkvF1bPNQER9mLmDbntNfSpzdDIU5
-- Langchain and Pinecone with Node.js: A Quick Start Tutorial: https://github.com/developersdigest/Get-Started-With-Langchain-and-Pinecone-in-Node.js
+- LangChain JS Tutorial: https://www.youtube.com/playlist?list=PL4HikwTaYE0EG379sViZZ6QsFMjJ5Lfwj
+- Flowise AI Tutorial: https://www.youtube.com/playlist?list=PL4HikwTaYE0H7wBxhvQqxYcKOkZ4O3zXh
 
 <img alt="langchain-components" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 
