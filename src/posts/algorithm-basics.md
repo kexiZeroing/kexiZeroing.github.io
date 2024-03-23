@@ -826,15 +826,16 @@ var groupAnagrams = function(strs) {
   for (let i = 0; i < strs.length; i++) {
     const str = strs[i];
     const key = sort(str);
-/**
-  // another way to construct the key
-  let counts = Array(26).fill(0);
-  for (let j = 0; j < str.length; j++) {
-    counts[str[j].charCodeAt(0) - 'a'.charCodeAt(0)]++;
-  }
-  const key = counts.join("");
-**/
-    
+    /**
+      * Another way to construct the key: 
+      * 
+      * const counts = Array(26).fill(0);
+      * for (let j = 0; j < str.length; j++) {
+      *   counts[str[j].charCodeAt(0) - 'a'.charCodeAt(0)]++;
+      * }
+      * const key = counts.join("");
+    **/
+      
     if (!hashTable.has(key)) {
       hashTable.set(key, [str]);
     } else {
@@ -1014,7 +1015,7 @@ var search = function(nums, target) {
 };
 ```
 
-Find the integer square root; Check if a number is the perfect square number.
+a) Find the integer square root; b) Check if a number is the perfect square number.
 
 ```js
 function getSquareRoot(num) {
@@ -1095,37 +1096,6 @@ var maxArea = function(height) {
 };
 ```
 
-Median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value. So the median is the mean of the two middle value. Design a data structure that supports the following two operations:
-- `void addNum(int num)` - Add a integer number from the data stream to the data structure.
-- `double findMedian()` - Return the median of all elements so far.
-
-```js
-// priority queue (implemented in heap, stored in a complete binary tree)
-var MedianFinder = function() {
-    // construct a maxHeap and a minHeap
-    // 1. numbers from maxHeap is smaller than minHeap.
-    // 2. the size of maxHeap is not smaller than minHeap, but only greater than one at most.
-  this.maxHeap = new PriorityQueue((a, b) => b - a);
-  this.minHeap = new PriorityQueue((a, b) => a - b);
-};
-
-MedianFinder.prototype.addNum = function(num) {
-  this.maxHeap.enq(num);
-  this.minHeap.enq(this.maxHeap.deq());  // ensure #1
-  if (this.maxHeap.size() < this.minHeap.size()){  // ensure #2
-    this.maxHeap.enq(this.minHeap.deq());
-  }
-};
-
-MedianFinder.prototype.findMedian = function() {
-  if (this.maxHeap.size() == this.minHeap.size()) {
-    return (this.maxHeap.peek() + this.minHeap.peek()) / 2;
-  } else {
-    return this.maxHeap.peek();
-  }
-};
-```
-
 Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
 
 ```js
@@ -1143,7 +1113,7 @@ var maxDepth = function(root) {
     if (cur === null) {
       if (queue.length === 0) return depth;
       depth++;
-    	queue.push(null);
+      queue.push(null);
     } else {
       if (cur.left) queue.push(cur.left);
       if (cur.right) queue.push(cur.right);	
