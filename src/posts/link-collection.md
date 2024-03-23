@@ -142,8 +142,6 @@ Not just a syntax highlighter. Build code walkthroughs for the web: https://code
 
 Turns data scripts into shareable web apps in minutes: https://streamlit.io
 
-AST explorer: https://astexplorer.net/
-
 Console for mobile browsers: https://github.com/liriliri/eruda
 
 Get an insight into the inner-workings of a given website: https://web-check.xyz
