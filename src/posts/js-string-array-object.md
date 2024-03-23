@@ -322,6 +322,7 @@ console.log(lessWizards);
 console.log(wizards);
 
 // Creates a copy of an array and updates a single value in the array.
+// e.g. You want to copy an array but use a different value for one index.
 let wizards = ['Merlin', 'Ursula', 'Gandalf'];
 let differentWizards = wizards.with(2, 'Radagast');
 

@@ -81,6 +81,7 @@ webpackStart({
 ```
 
 ## Webpack functionality explained by code
+> The bundler will start from that entry file, and it will try to understand which files it depends on. Then, it will try to understand which files its dependencies depend on. It will keep doing that until it figures out about every module in our application, and how they depend on one another. This understanding of a project is called the **dependency graph**.
 
 ```js
 // 调用 webpack 进行模块编译

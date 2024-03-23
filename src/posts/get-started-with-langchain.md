@@ -12,6 +12,7 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 
 - JS/TS Docs: https://js.langchain.com/docs
 - Awesome LangChain: https://github.com/kyrolabs/awesome-langchain
+- Chat with the LangChain JS/TS documentation: https://github.com/langchain-ai/chat-langchainjs
 - Tutorials on building LLM powered applications: https://www.youtube.com/playlist?list=PLqZXAkvF1bPNQER9mLmDbntNfSpzdDIU5
 - LangChain JS Tutorial: https://www.youtube.com/playlist?list=PL4HikwTaYE0EG379sViZZ6QsFMjJ5Lfwj
 - Flowise AI Tutorial: https://www.youtube.com/playlist?list=PL4HikwTaYE0H7wBxhvQqxYcKOkZ4O3zXh

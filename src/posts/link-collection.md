@@ -144,8 +144,6 @@ Turns data scripts into shareable web apps in minutes: https://streamlit.io
 
 AST explorer: https://astexplorer.net/
 
-Zstandard (zstd) - Fast real-time compression algorithm: https://facebook.github.io/zstd/
-
 Console for mobile browsers: https://github.com/liriliri/eruda
 
 Get an insight into the inner-workings of a given website: https://web-check.xyz
@@ -420,7 +418,7 @@ Catching up on the weird world of LLMs: https://simonwillison.net/2023/Aug/3/wei
 
 Vercel AI SDK: https://sdk.vercel.ai/docs
 
-AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel-labs/ai-chatbot
+AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel/ai-chatbot
 
 LangChain + Next.js starter template: https://github.com/langchain-ai/langchain-nextjs-template
 
