@@ -860,16 +860,17 @@ Given a string, find the length of the longest substring without repeating chara
 // slide window
 var lengthOfLongestSubstring = function(s) {
   let max = 0;
-  let slideWindow = [];
+  let windowSet = new Set();
   
-  for (let i = 0; i < s.length; i++) {
-    if (slideWindow.includes(s[i])) {
-      slideWindow.shift();
-      i--;  // need to check this again
-    } else {
-      slideWindow.push(s[i]);
-      max = Math.max(max, slideWindow.length);
+  let i = 0;
+  for (let j = 0; j < s.length; j++) {
+    while (windowSet.has(s[j])) {
+      windowSet.delete(s[i]);
+      i++;
     }
+
+    windowSet.add(s[j]);
+    max = Math.max(max, j - i + 1);
   }
   return max;
 };

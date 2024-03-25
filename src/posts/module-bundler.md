@@ -15,6 +15,8 @@ The bundler will start from the entry file, and it will try to understand which 
 const fs = require('fs');
 const path = require('path');
 const babylon = require('babylon');
+// Babylon has been moved into the main Babel mono-repo as @babel/parser.
+// const parser = require("@babel/parser")
 const traverse = require('@babel/traverse').default;
 const babel = require('@babel/core');
 
