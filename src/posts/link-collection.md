@@ -62,8 +62,6 @@ A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
 Awesome System Design Resources: https://github.com/ashishps1/awesome-system-design-resources
 
-String Matching – What’s behind Ctrl+F: https://www.wild-inter.net/teaching/comp526/04-string-matching
-
 ---
 
 ## Tools and Cool websites
