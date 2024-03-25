@@ -18,7 +18,7 @@ Output:
 - The first occurrence (match) of P in T
 - or NO_MATCH if P does not occur in T
 
-## Brute-force method
+### Brute Force
 ```
 procedure bruteForceSM(T, P)
   for i = 0...n-m-1 do
@@ -36,7 +36,7 @@ Worst possible input:
 - P = aaab, T = aaaaaaaa
 - Worst-case performance: (n - m + 1) * m
 
-## Boyer-Moore Algorithm
+### Boyer-Moore Algorithm
 Let’s check from right to left (starting with the last character in the pattern). If we are lucky, we can eliminate several shifts in one shot.
 
 New rules  
@@ -48,3 +48,5 @@ New rules
 
 <br>
 <img alt="Good suffix" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/good-suffix.png" width="600">
+
+> The preprocessing for the good suffix heuristics is rather difficult to understand and to implement. Therefore, sometimes versions of the Boyer-Moore algorithm are found in which the good suffix heuristics is left away.
