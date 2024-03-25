@@ -876,6 +876,44 @@ var lengthOfLongestSubstring = function(s) {
 };
 ```
 
+Find All Anagrams in a String. Given two strings `s` and `p`, return an array of all the start indices of `p`'s anagrams in `s`. For example, Input: s = "cbaebabacd", p = "abc"; Output: [0,6].
+
+```js
+var findAnagrams = function(s, p) {
+  let res = [];
+  let dict = Array(26).fill(0);
+
+  for (let i = 0; i < p.length; i++) {
+    dict[p.charCodeAt(i) - 'a'.charCodeAt(0)]++;
+  }
+
+  let windowSet = Array(26).fill(0);
+  let i = 0;
+  for (let j = 0; j < s.length; j++) {
+    windowSet[s.charCodeAt(j) - 'a'.charCodeAt(0)]++;
+    if (isSame(windowSet, dict)) {
+      res.push(i);
+    }
+
+    if (j >= p.length - 1) {
+      windowSet[s.charCodeAt(i) - 'a'.charCodeAt(0)]--;
+      i++;
+    }
+  }
+
+  return res;
+}
+
+function isSame(dict1, dict2) {
+  for (let i = 0; i < 26; i++) {
+    if (dict1[i] !== dict2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+```
+
 Given an array of integers and an integer `k`, you need to find the total number of continuous subarrays whose sum equals to `k`. For example, Input: nums = `[1,1,1]`, k = 2; Output: 2
 
 ```js

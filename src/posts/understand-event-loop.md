@@ -5,20 +5,25 @@ slug: understand-the-event-loop
 description: ""
 added: "Aug 26 2020"
 tags: [js]
-updatedDate: "Apr 16 2023"
+updatedDate: "Mar 25 2024"
 ---
 
-Chrome has a multi-process architecture and each process is heavily multi-threaded. The **renderer process** is responsible for everything that happens inside of a tab. In a renderer process, the **main thread** is where a browser processes user events and paints. By default, the browser uses a single thread to run all the JavaScript in your page, as well as to perform layout, reflows, and garbage collection. This means that long-running JavaScript functions can block the thread, leading to an unresponsive page and a bad user experience. Frame drop happens when the main thread is too busy with running our JavaScript code so it doesn’t get the chance to update the UI so the website freezes.
+## Inside look at a browser
+A process can be described as an application's executing program. A thread is the one that lives inside of process and executes any part of its process's program. Chrome has a multi-process architecture and each process is heavily multi-threaded. The **renderer process** is responsible for everything that happens inside of a tab.
 
-> To open the Chrome Task Manager, click on the three dots icon in the top right corner, then select 'More tools' and you can see 'Task Manager’. With this tool, you can monitor all running processes (CPU, memory, and network usage of each open tab and extension) and stop processes that are not responding. 
+In the most simple case, you can imagine each tab has its own renderer process. Because processes have their own private memory space, they often contain copies of common infrastructure. This means more memory usage as they can't be shared the way they would be if they were threads inside the same process. In order to save memory, Chrome puts a limit on how many processes it can spin up. The limit varies depending on how much memory and CPU power your device has, but when Chrome hits the limit, it starts to run multiple tabs from the same site in one process.
 
-Along the main thread there are many other threads spawned by the browser to do useful stuff:
+In a renderer process, the **main thread** is where a browser processes user events and paints. By default, the browser uses a single thread to run all the JavaScript in your page *(sometimes parts of your JavaScript is handled by worker threads if you use a web worker or a service worker)*, as well as to perform layout, reflows, and garbage collection. This means that long-running JavaScript functions can block the thread, leading to an unresponsive page and a bad user experience. Frame drop happens when the main thread is too busy with running our JavaScript code so it doesn’t get the chance to update the UI so the website freezes.
 
-- **Parser Thread:** parses your code in machine-understandable trees.
-- **Statistics collector Thread:** collects data and statistics to discover insights about your code.
-- **Optimizer Thread:** uses the statistics and insights collected by the Statistics collector Thread to make performance optimizations over your code.
-- **Garbage Collector Thread:** removes unconnected JavaScript objects to free up memory using a mark-and-sweep algorithm. 
-- **Rasterizer Thread:** rasterize your graphic into frames.
+Compositor and raster threads are also run inside of a renderer processes to render a page efficiently and smoothly. The benefit of compositing is that it is done without involving the main thread.
+
+Everything outside of a tab is handled by the **browser process**. The browser process has threads like the UI thread which draws buttons and input fields of the browser, the network thread which deals with network stack to receive data from the internet, the storage thread that controls access to the files and more. For example, in the process of a navigation flow, the network thread tells UI thread that the data is ready, UI thread then finds a renderer process to carry on rendering of the web page.
+
+> To open the Chrome Task Manager, click on the three dots icon in the top right corner, then select 'More tools' and you can see 'Task Manager’. With this tool, you can monitor all running processes (CPU, memory, and network usage of each open tab and extension) and stop processes that are not responding.
+>
+> Site Isolation (per-frame renderer processes) is a feature in Chrome that runs a separate renderer process for each cross-site iframe.
+
+## Event loop
 
 <img alt="event-loop" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7ivwcb19zj317a0u0jvw.jpg" width="700" style="display:block; margin:auto">
 
