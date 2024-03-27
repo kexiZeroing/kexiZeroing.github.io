@@ -18,6 +18,8 @@ Output:
 - The first occurrence (match) of P in T
 - or NO_MATCH if P does not occur in T
 
+> The string-searching problem is to find all occurrences of pattern(s) in a text string. The Aho-Corasick string searching algorithm simultaneously finds all occurrences of multiple patterns in one pass through the text. On the other hand, the Boyer-Moore algorithm is understood to be the fastest algorithm for a single pattern.
+
 ### Brute Force
 ```
 procedure bruteForceSM(T, P)

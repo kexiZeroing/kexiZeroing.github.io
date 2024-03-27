@@ -115,6 +115,17 @@ For script tags, **`<script async>`** downloads the file during HTML parsing and
 
 <img alt="JavaScript Loading Priorities" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/addyosmani.com_blog_script-priorities%20(1).png" width="800">
 
+#### APIs to help you assess loading performance in the field
+Navigation Timing measures the speed of requests for HTML documents. Resource Timing measures the speed of requests for document-dependent resources such as CSS, JavaScript, images, and so on.
+
+```js
+// Get Navigation Timing entries:
+performance.getEntriesByType('navigation');
+
+// Get Resource Timing entries:
+performance.getEntriesByType('resource');
+```
+
 Chrome 107 comes with a new `renderBlockingStatus` field on ResourceTiming entries. Use it to find and monitor all the render blocking resources in a page.
 ```js
 // get all resources

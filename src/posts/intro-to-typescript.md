@@ -82,7 +82,7 @@ Run `tsc --noEmit` that tells TypeScript that we just want to check types and no
 By the way, `jsconfig.json` is a descendant of `tsconfig.json`. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
 
 ## Basic Static Types
-TypeScript brings along static types to the JavaScript language, and those **types are evaluated at compile time**. Static types can help warn you of possible errors without having to run the code.
+TypeScript brings along static types to the JavaScript language. **TypeScript's types don't exist at runtime.** They're only used to help you catch errors at compile time.
 
 ```ts
 let isAwesome: boolean = true;
