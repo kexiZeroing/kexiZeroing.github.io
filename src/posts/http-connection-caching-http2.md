@@ -37,9 +37,9 @@ WebSocket is another application level protocol over TCP protocol. A webSocket r
 ### Redirections
 In HTTP, redirection is triggered by a server sending a special redirect response to a request. Redirect responses have status codes that start with `3`, and a `Location` header holding the URL to redirect to. When browsers receive a redirect, they immediately load the new URL provided in the `Location` header. **However, browsers always send a `GET` request to that new URL**.
 
-The `301 (Moved Permanently)` status code indicates that the target resource has been assigned a new permanent URI. A user agent may change the request method from `POST` to `GET` for the subsequent request.
+The `301 (Moved Permanently)` status code indicates that the target resource has been assigned a new permanent URI. The client should always go to the new location. A user agent may change the request method from `POST` to `GET` for the subsequent request.
 
-The `302 (Found)` status code indicates that the target resource resides temporarily under a different URI. A user agent may change the request method from `POST` to `GET` for the subsequent request. If this behavior is undesired, the `307 (Temporary Redirect)` status code can be used instead.
+The `302 (Found)` status code indicates that the target resource resides temporarily under a different URI, and the client should continue requesting the original url. A user agent may change the request method from `POST` to `GET` for the subsequent request. If this behavior is undesired, the `307 (Temporary Redirect)` status code can be used instead.
 
 The `307 (Temporary Redirect)` status code indicates that the target resource resides temporarily under a different URI and the user agent **must not change the request method and post data** if it performs an automatic redirection to that URI.
 

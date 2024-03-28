@@ -5,7 +5,7 @@ slug: server-sent-events-with-examples
 description: ""
 added: "Mar 26 2023"
 tags: [js]
-updatedDate: "Mar 10 2024"
+updatedDate: "Mar 28 2024"
 ---
 
 Ways to implement real-time updates before SSE:
@@ -96,6 +96,24 @@ app.listen(3000, () => console.log('Listening on port 3000...'));
 < id: 1
 < event: status
 < data: {"msg": "hi"}\n\n
+```
+
+With the default browser EventSource API, you can only make GET requests, and you cannot pass in a request body and custom request headers. [fetch-event-source](https://github.com/Azure/fetch-event-source) provides a better API for making Event Source requests.
+
+```js
+import { fetchEventSource } from '@microsoft/fetch-event-source';
+
+const ctrl = new AbortController();
+await fetchEventSource('/api/sse', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    foo: 'bar'
+  }),
+  signal: ctrl.signal,
+});
 ```
 
 ## Server-side streams
