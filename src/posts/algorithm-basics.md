@@ -27,7 +27,6 @@ updatedDate: "Feb 21 2024"
 - [Backtracking](#backtracking)
 - [DP](#dp)
 - [LRU](#lru)
-- [Bloom Filter](#bloom-filter)
 - [Example Problems](#example-problems)
 
 ### Binary Search
@@ -679,52 +678,6 @@ LRUCache.prototype.put = function(key, value) {
     var realHead = this.head.next;
     this.removeNode(realHead);
     this.map.delete(realHead.key)
-  }
-}
-```
-
-### Bloom Filter
-A [bloom filter](https://samwho.dev/bloom-filters/) is a probabilistic data structure that is based on hashing. It is extremely space efficient. When testing if an element is in the bloom filter, false positives are possible. It will either say that an element is definitely not in the set or that it is possible the element is in the set.
-
-```js
-class BloomFilter {
-  constructor(size) {
-    this.size = size;
-    this.bitArray = new Array(size).fill(0);
-  }
-
-  async add(item) {
-    const hashes = await this.getHashes(item);
-    hashes.forEach((hash) => {
-      this.bitArray[Math.abs(hash) % this.size] = 1;
-    });
-  }
-
-  async contains(item) {
-    const hashes = await this.getHashes(item);
-    for (let i = 0; i < hashes.length; i++) {
-      if (this.bitArray[Math.abs(hashes[i]) % this.size] === 0) {
-        return false; // definitely not in set
-      }
-    }
-    return true; // possibly in set
-  }
-
-  async hash(item, algo) {
-    // `TextEncoder` takes a string as input, and returns a Uint8Array containing UTF-8 encoded text
-    const buffer = new TextEncoder().encode(item);
-    const hashBuffer = await crypto.subtle.digest(algo, buffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    // reduce to get a single value
-    const hash = hashArray.reduce((a, b) => a + b, 0);
-    return hash;
-  }
-
-  async getHashes(item) {
-    const sha1 = await this.hash(item, "SHA-1");
-    const sha256 = await this.hash(item, "SHA-256");
-    const sha512 = await this.hash(item, "SHA-512");
-    return [sha1, sha256, sha512];
   }
 }
 ```

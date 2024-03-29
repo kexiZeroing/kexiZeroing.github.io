@@ -278,6 +278,8 @@ Terminals are not just able to display black and white text; they can display co
 > It's a way of encoding arbitrary binary data in ASCII text. Essentially each 6 bits of the input is encoded in a 64-character alphabet. The "standard" alphabet uses A-Z, a-z, 0-9 and + and /, with = as a padding character. There are URL-safe variants.
 > 
 > <img alt="ascii table" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/base64_with_padding.png" width="400">
+> 
+> Base62 are `[0–9][a-z][A-Z]`, which can be used to generate short URLs. Think of the 7-bit short url (e.g. aKc3K4b), and it can be mapped to a decimal integer by using base conversion and vice versa. Practically, we can start with a counter (A large number 100000000000 in base 10 which is `1L9zO9O` in Base62) and increment counter every-time we get request for new short url. This way we will always get a unique short url.
 
 ## Mac terminal prompt's host becomes "bogon"
 When you are doing DNS reverse lookup, the DNS server can give your machine a hostname. Normally your machine uses a router, so it has a IP like `192.168.x.x` in LAN, and this IP will be sent to the DNS server for a reverse lookup, and since it is a reserved IP address, the DNS server returns a hostname as "bogon" *(an illegitimate IP address that falls into a set of IP addresses that have not been officially assigned to an entity by an internet registration institute.)*
