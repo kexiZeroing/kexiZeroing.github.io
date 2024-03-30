@@ -8,6 +8,7 @@ tags: [react, code]
 updatedDate: "Oct 30 2022"
 ---
 
+### Getting Closure on Hooks presented by @swyx
 ```js
 // https://www.youtube.com/watch?v=KJP1E-Y-xyo
 const React = (function() {
@@ -88,4 +89,25 @@ var App = React.render(Component);
   useEffect no dep
   {count: 2, text: "pear"}`
 */
+```
+
+### Higher Order Components
+HOCs are wrapper components that help provide additional functionality to existing components. While hooks probably replaced most of shared logic concerns, there are still use cases where higher-order components could be useful. For example, you want to fire analytics event on every click of every button, dropdown and link everywhere.
+
+```js
+export const withLoggingOnClick = (Component) => {
+  return (props) => {
+    const log = useLoggingFromSomewhere();
+
+    const onClick = () => {
+      // console.info('Log on click something');
+      log('Log on click something');
+      props.onClick();
+    };
+
+    // return original component with all the props
+    // and overriding onClick with our own callback
+    return <Component {...props} onClick={onClick} />;
+  };
+};
 ```

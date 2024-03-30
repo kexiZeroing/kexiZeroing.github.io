@@ -5,6 +5,7 @@ slug: string-matching-whats-behind-ctrl-f
 description: ""
 added: "Mar 24 2024"
 tags: [other]
+updatedDate: "Mar 30 2024"
 ---
 
 When we do search for a string in a notepad file, browser, or database, pattern searching algorithms are used to show the search results. Boyer-Moore String Search is one such pattern searching algorithm, meaning it has large area of practical use.
@@ -51,4 +52,48 @@ New rules
 <br>
 <img alt="Good suffix" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/good-suffix.png" width="600">
 
-> The preprocessing for the good suffix heuristics is rather difficult to understand and to implement. Therefore, sometimes versions of the Boyer-Moore algorithm are found in which the good suffix heuristics is left away.
+The preprocessing for the good suffix heuristics is rather difficult to understand and to implement. Therefore, sometimes versions of the Boyer-Moore algorithm are found in which the good suffix heuristics is left away.
+
+```js
+// A simplified Boyer Moore implementation, using only the bad-character heuristic.
+const ALPHABET_LEN = 256;
+function ord(c) {
+  return c.charCodeAt(0);
+}
+// Bad character table: shift[c] contains the distance from the end of the
+// pattern of the last occurrence of c for each character in the alphabet.
+// If c does not occur in pat, shift[c] = pat.length
+function bad_character_table(pat) {
+  let m = pat.length;
+  let shift = new Array(ALPHABET_LEN).fill(m);
+  for (let i = 0; i < m; i++) {
+    shift[ord(pat[i])] = m - i - 1;
+  }
+  return shift;
+}
+
+function simpleBoyerMoore(pattern, text) {
+  let i,
+      j,
+      matches = [],
+      m = pattern.length,
+      shift = bad_character_table(pattern);
+     
+  i = m - 1;
+  while (i < text.length) {
+    j = m - 1;
+    while (j >= 0 && text[i] === pattern[j]) {
+      i -= 1;
+      j -= 1;
+    }
+    if (j < 0) {
+      matches.push(i + 1);
+      i += m + 1;
+    } else {
+      i += Math.max(m - j, shift[ord(text[i])]);
+    }
+  }
+
+  return matches;
+}
+```
