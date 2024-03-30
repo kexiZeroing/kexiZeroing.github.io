@@ -216,6 +216,8 @@ Across pages view transitions: https://smashing-transitions.netlify.app
 
 CSS Wrapped 2023 from Chrome for Developers: https://developer.chrome.com/blog/css-wrapped-2023
 
+What You Need to Know about Modern CSS: https://frontendmasters.com/blog/what-you-need-to-know-about-modern-css-spring-2024-edition
+
 Compare web animation techniques by bouncing a ball: https://sparkbox.github.io/bouncy-ball
 
 A Friendly Introduction to Spring Physics: https://www.joshwcomeau.com/animation/a-friendly-introduction-to-spring-physics

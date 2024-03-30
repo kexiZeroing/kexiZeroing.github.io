@@ -22,6 +22,8 @@ Bun is a fast, all-in-one toolkit for running, building, testing, and debugging 
 curl -fsSL https://bun.sh/install | bash
 
 bun --version
+
+bun upgrade
 ```
 
 Run `bun init` to scaffold a new project. Let's implements a simple HTTP server with `Bun.serve`.

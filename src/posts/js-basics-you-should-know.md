@@ -1062,6 +1062,27 @@ Promise.any([pErr, pSlow, pFast]).then((value) => {
 });
 ```
 
+`Promise.withResolvers()` method (in ES2023) returns an object containing a new Promise object and two functions to resolve or reject it. The key difference is that the resolution and rejection functions now live in the same scope as the promise itself, instead of being created and used once within the executor.
+
+```js
+function wait(ms) {
+  const { promise, resolve, reject } = Promise.withResolvers();
+  setTimeout(resolve, ms);
+  return promise;
+}
+
+// easy to polyfill in 9 lines
+export function withResolvers() {
+  if (!this) throw new TypeError('Promise.withResolvers must be called on a Promise');
+  const out = {}
+  out.promise = new this((resolve_, reject_) => {
+    out.resolve = resolve_
+    out.reject = reject_
+  })
+  return out
+}
+```
+
 ## async and await
 Async functions can contain zero or more `await` expressions. Await expressions suspend progress through an async function, yielding control and subsequently resuming progress only when an awaited promise-based asynchronous operation is either fulfilled or rejected. **The resolved value of the promise is treated as the return value of the await expression**. 
 
