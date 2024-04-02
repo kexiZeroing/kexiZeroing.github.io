@@ -5,7 +5,7 @@ slug: js-prototype-class
 description: ""
 added: "Aug 4 2020"
 tags: [js]
-updatedDate: "Mar 2 2024"
+updatedDate: "Apr 2 2024"
 ---
 
 ## The prototype chain
@@ -247,4 +247,50 @@ class B extends A {
 
 const a = new A();  // logs "A"
 const b = new B();  // logs "B"
+```
+
+## Proxy and Reflect
+The **Proxy** object enables you to create a proxy for another object, which can intercept and redefine fundamental operations for that object. Proxy objects are commonly used to log property accesses, validate, format, or sanitize inputs, and so on.
+
+Handler functions are sometimes called traps, because they trap calls to the underlying target object. It's important to realize that all interactions with an object eventually boils down to the invocation of one of these internal methods, and that they are all customizable through proxies. 
+
+```
+[[GetPrototypeOf]]    ->	getPrototypeOf()
+[[SetPrototypeOf]]    ->	setPrototypeOf()
+[[IsExtensible]]	    ->  isExtensible()
+[[PreventExtensions]]	-> 	preventExtensions()
+[[GetOwnProperty]]		->  getOwnPropertyDescriptor()
+[[DefineOwnProperty]]	->  defineProperty()
+[[HasProperty]]	      -> 	has()
+[[Get]]	              ->  get()
+[[Set]]		            ->  set()
+[[Delete]]		        ->  deleteProperty()
+[[OwnPropertyKeys]]		->  ownKeys()
+[[Call]]		          ->  apply()
+[[Construct]]	        ->  construct()
+```
+
+The **Reflect** namespace object contains static methods for invoking interceptable JavaScript object internal methods. The methods are the same as those of proxy handlers. All properties and methods of Reflect are static *(just like the Math object)*.
+
+The major use case of Reflect is to provide default forwarding behavior in Proxy handler traps. The Reflect API is used to invoke the corresponding internal method. For example, you create a proxy with a `deleteProperty` trap that intercepts the `[[Delete]]` internal method. `Reflect.deleteProperty()` is used to invoke the default `[[Delete]]` behavior on targetObject directly. You can replace it with `delete`, but using Reflect saves you from having to remember the syntax that each internal method corresponds to.
+
+```js
+const target = {
+  message1: "hello",
+  message2: "everyone",
+};
+
+const handler = {
+  get(target, prop, receiver) {
+    if (prop === "message2") {
+      return "world";
+    }
+    return Reflect.get(...arguments);
+  },
+};
+
+const proxy = new Proxy(target, handler);
+
+console.log(proxy.message1); // hello
+console.log(proxy.message2); // world
 ```
