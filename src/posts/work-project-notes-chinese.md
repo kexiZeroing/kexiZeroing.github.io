@@ -437,6 +437,8 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 
 > 注意 Axios 遇到 302 的返回：重定向直接被浏览器拦截处理，浏览器 redirect 后，被视为 Axios 发起了跨域请求，所以抛异常。Axios 捕获异常，进入 catch 逻辑。
 
+3. 学习并使用 [VueRequest](https://github.com/AttoJS/vue-request)，管理请求状态，支持 SWR、轮询、错误重试、缓存、分页等常用功能。
+
 ### API 版本和 URI 连字符
 API 版本可以放在两个地方: 在 url 中指定 API 的版本，例如 https://example.com/api/v1，这样不同版本的协议解析可以放在不同的服务器上，不用考虑协议兼容性，开发方便，升级也不受影响。另一种是放在 HTTP header 中，url 显得干净，符合 RESTful 惯例，毕竟版本号不属于资源的属性。缺点是需要解析头部，判断返回。
 

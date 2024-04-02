@@ -158,6 +158,8 @@ Sleek Framer UI components: https://drams.framer.website
 
 Remote desktop environment in the browser: https://github.com/HeyPuter/puter
 
+See Core Web Vitals and PageSpeed Insights results simply and easily: https://page-speed.dev
+
 ---
 
 ## CSS related
@@ -289,6 +291,8 @@ PartyKit at ViteConf 2023: https://blog.partykit.io/posts/partykit-at-viteconf
 Typing Animation Library. Enter in any string, and watch it type: https://github.com/mattboldt/typed.js
 
 What PWA Can Do Today: https://whatpwacando.today
+
+OCR PDFs and images directly in your browser: https://tools.simonwillison.net/ocr
 
 ---
 
