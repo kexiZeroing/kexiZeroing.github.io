@@ -1,7 +1,7 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "JavaScript prototype chain and class"
-slug: js-prototype-class
+title: "JavaScript prototype chain, Class and Proxy"
+slug: js-prototype-class-proxy
 description: ""
 added: "Aug 4 2020"
 tags: [js]
@@ -293,4 +293,21 @@ const proxy = new Proxy(target, handler);
 
 console.log(proxy.message1); // hello
 console.log(proxy.message2); // world
+```
+
+```js
+const person = {
+  name: "John Doe",
+  age: 42,
+};
+
+const personProxy = new Proxy(person, {
+  get: (obj, prop) => {
+    console.log(`The value of ${prop} is ${Reflect.get(obj, prop)}`);
+  },
+  set: (obj, prop, value) => {
+    console.log(`Changed ${prop} from ${obj[prop]} to ${value}`);
+    Reflect.set(obj, prop, value);
+  },
+});
 ```
