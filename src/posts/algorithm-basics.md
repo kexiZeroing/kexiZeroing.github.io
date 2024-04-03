@@ -143,19 +143,13 @@ function partition(arr, lo, hi) {
   return i;
 }
 
-function _quickSort(arr, lo, hi) {
+function quickSort(arr, lo, hi) {
   if (lo >= hi) {
     return;
   }
   const pivot = partition(arr, lo, hi);
-  _quickSort(arr, lo, pivot - 1);
-  _quickSort(arr, pivot + 1, hi);
-}
-  
-function quickSort(arr) {
-  const result = arr.slice(0);
-  _quickSort(result, 0, result.length - 1);
-  return result;
+  quickSort(arr, lo, pivot - 1);
+  quickSort(arr, pivot + 1, hi);
 }
 
 // Another way to do the partition with two pointers
@@ -176,6 +170,10 @@ function partition(nums, left, right) {
   return i;
 }
 ```
+
+> 1. Quick sort is an in-place algorithm, but the stack due to recursive calls adds additional storage space proportional to the recursive depth.
+> 
+> 2. It's not recommended to choose the first or last element to be the pivot, your pivot value is always the largest value, and thus every element is less than the pivot. So rather than splitting the array into two roughly equal subarrays, you split it into a single sub array that has only one fewer element than you started with. One way to choose the pivot to avoid this is to pick the pivot randomly. This makes it unlikely to hit the worst case, and so on average will work well.
 
 ### Merge Sort
 
