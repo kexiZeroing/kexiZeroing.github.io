@@ -154,6 +154,7 @@ Web developers invented a technique called `revving`. Infrequently updated files
 ## HTTP/2
 - Brief History of HTTP: https://hpbn.co/brief-history-of-http
 - HTTP/2: https://hpbn.co/http2/
+- Setting up HTTP/2: https://dassur.ma/things/h2setup/
 
 In HTTP/1.1, two requests cannot ride together the same TCP connection - it is necessary that the first one ends for the subsequent to begin. 
 

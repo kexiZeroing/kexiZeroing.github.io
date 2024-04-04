@@ -91,3 +91,16 @@ The above policy permits:
 - Scripts to be loaded from the site's own origin and `cdn.example.com`.
 - Images from the site's own origin and `img.example.com`
 - Styles only from the site's origin.
+
+## HTTP Strict Transport Security (HSTS)
+The HTTP `Strict-Transport-Security` response header informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS.
+
+```
+Strict-Transport-Security: max-age=<expire-time>
+
+The time, in seconds, that the browser should remember that a site is only to be accessed using HTTPS.
+```
+
+For example, you log into a free Wi-Fi access point at an airport and start surfing the web, visiting your online banking service to check your balance and pay a couple of bills. Unfortunately, the access point you're using is actually a hacker's laptop, and they're intercepting your original HTTP request and redirecting you to a clone of your bank's site instead of the real thing. Now your private data is exposed to the hacker.
+
+Strict Transport Security resolves this problem; as long as you've accessed your bank's website once using HTTPS, and the bank's website uses `Strict-Transport-Security` header, your browser will know to automatically use only HTTPS, which prevents hackers from performing this sort of man-in-the-middle attack.

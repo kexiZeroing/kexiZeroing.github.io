@@ -114,6 +114,8 @@ Bugs from the above code:
 3. If your app is wrapped in `<React.StrictMode>`, React will intentionally call your effect twice in development mode to help you find bugs like missing cleanup functions.
 4. `fetch` doesn't reject on HTTP errors, so you'd have to check for `res.ok` and throw an error yourself.
 
+> Remember about potential race conditions whenever you see an `await`. What else could happen while awaiting? After the await, is the result still relevant?
+
 With React Query, the above code becomes:
 
 ```jsx

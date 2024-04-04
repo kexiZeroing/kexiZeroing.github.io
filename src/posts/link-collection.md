@@ -304,11 +304,9 @@ The Beginner's Guide to React: https://egghead.io/courses/the-beginner-s-guide-t
 
 Getting Closure on React Hooks by Shawn Wang: https://www.youtube.com/watch?v=KJP1E-Y-xyo
 
-When useEffect runs: https://dev.to/cassidoo/when-useeffect-runs-3pf3
+Building a Custom React Renderer by Sophie Alpert: https://www.youtube.com/watch?v=CGpMlWVcHok
 
 All Developer Way Articles about React: https://www.developerway.com
-
-React articles from Josh: https://www.joshwcomeau.com/tutorials/react/
 
 Guide to React Rendering Behavior: https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior
 
