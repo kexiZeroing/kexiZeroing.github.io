@@ -495,11 +495,15 @@ At its simplest, the `animation-timeline` property lets us link any keyframe ani
 Next, change `scroll()` to `view()`, which means we can trigger animations when elements enter and exit the viewport. This time 0% is when the element is entering the scroll area and 100% is when it’s about to go out of that scroll area.
 
 ```css
-@supports (animation-timeline: scroll()) {
-  div {
-    animation: spin linear both;
-    animation-timeline: view();
-    animation-range: contain;
-  }
+/* Animate images: https://codepen.io/una/pen/KKYZzJM */
+@keyframes appear {
+  from { opacity: 0; scale: 0.8; }
+  to { opacity: 1; scale: 1; }
+}
+
+img {
+  animation: appear linear both;
+  animation-timeline: view();
+  animation-range: entry 25% cover 50%;
 }
 ```

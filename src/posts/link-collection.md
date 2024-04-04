@@ -294,6 +294,8 @@ What PWA Can Do Today: https://whatpwacando.today
 
 OCR PDFs and images directly in your browser: https://tools.simonwillison.net/ocr
 
+Comlink makes WebWorkers enjoyable: https://github.com/GoogleChromeLabs/comlink
+
 ---
 
 ## React ecosystem

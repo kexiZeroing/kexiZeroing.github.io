@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "June 16 2022"
 tags: [web]
-updatedDate: "Feb 19 2024"
+updatedDate: "Apr 4 2024"
 ---
 
 ## Start a modern web project
@@ -196,60 +196,17 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 > - Using source maps in DevTools: https://www.youtube.com/watch?v=SkUcO4ML5U0
 
 ## Set up Prettier and ESLint
-1. Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
-    ```json
-    // .vscode/settings.json
-    {
-      "editor.defaultFormatter": "esbenp.prettier-vscode",
-      "editor.formatOnSave": true
-    }
-    ```
-2. We can edit some default settings for prettier in settings (`cmd + ,`, then type prettier)
-3. Install eslint and prettier npm packages `npm i -D eslint prettier`. (ESLint only as an npm package does not provide any editor integration, only the CLI executable.)
-4. Run `eslint --init` to create a `eslintrc.json` (or `.js`, `.yml`) config file after install eslint globally `npm i -g eslint` (otherwise need to run `./node_modules/eslint/bin/eslint.js --init`), pick the options as you prefer.
-5. Create a config file for Prettier. Note that the VS Code's prettier plugin may inconsistent with prettier npm package in devDependencies that eslint uses, so we use this config file to help unify the rules.
-    ```js
-    // .prettierrc.js
-    // refer to https://prettier.io/docs/en/options.html
-    module.exports = {
-        trailingComma: "es5",
-        tabWidth: 2,
-        semi: true,
-        singleQuote: true,
-    };
-    ```
-6. Install `npm i -D eslint-plugin-prettier eslint-config-prettier`. The first one is used to run prettier as an ESLint rule. The second one is used to to disable ESLint rules that might be conflict with prettier.
-    > Formatting and linting are two separate concerns. Mixing the two can have negative impacts on the performance and understandability of your developer tooling. If your ESLint configuration references `eslint-plugin-prettier`, I strongly recommend you instead enable Prettier separately from ESLint.
-7. Then you have to tell ESLint to use Prettier as a plugin and turn off rules that are unnecessary or might conflict with Prettier:
-    ```js
-    //.eslintrc.js
-    module.exports = {
-        env: {
-            es6: true,
-            browser: true,
-            es2021: true,
-        },
-        extends: ['airbnb-base', 'prettier'], // ["eslint:recommended"],
-        parserOptions: {
-            ecmaVersion: 12,
-            sourceType: 'module',
-        },
-        rules: {
-            'prettier/prettier': 'error',
-        },
-        plugins: ['prettier'],
-    };
-    ```
-8. Add `eslint src` as a lint script which can be run as `npm run lint`, and it shows eslint errors in the Problems tab. Run `npm run lint -- --fix` to fix errors (if not format on save).
-9. If you joined a project that uses ESLint to manage its code style, you wanted to match the team’s formatting. You can configure VSCode to use the `eslintrc.json` file instead of Prettier.
-    ```json
-    "eslint.format.enable": true,
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    }
-    ```
+Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
 
-<img alt="format & eslint" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a79fd1f2-367d-464d-b6eb-34db4aa17a71.png" width="450" />
+Install npm packages `npm i -D eslint prettier`. ESLint only as an npm package does not provide any editor integration, only the CLI executable. Run `eslint --init` to create a `eslintrc.json` (or `.js`, `.yml`) config file after install eslint globally `npm i -g eslint` (otherwise need to run `./node_modules/eslint/bin/eslint.js --init`), pick the options as you prefer. Add `eslint src` as a lint script which can be run as `npm run lint`, and it shows eslint errors in the Problems tab. Run `npm run lint -- --fix` to fix errors (if not format on save).
+
+Formatting and linting are two separate concerns. Use Prettier for code formatting concerns, and linters for code-quality concerns. Mixing the two can have negative impacts on the performance and understandability of your developer tooling. 
+- `eslint-plugin-prettier` is a legacy plugin developed a long time ago. It runs Prettier as if it were an ESLint rule, applies formatting on `--fix`, and **is not recommended**.
+- `eslint-config-prettier` is the config that turns off all formatting rules. It's recommended by Prettier to be used together with Prettier. You'd still use Prettier itself to actually do the formatting. (Add explicit `yarn prettier --check .` to CI.)
+
+If you don’t use a legacy ESLint shareable config that enables formatting rules, you probably don’t need `eslint-config-prettier`. Adding `eslint-config-prettier` at the end of the "extends" list doesn’t do anything if nothing enabled formatting rules to begin with.
+
+> Back in the day, popular configs such as `eslint-config-airbnb` were often used to enable many rules at once. These configs were popular because they established a well-known, opinionated style guide and set of logical checks on code. Their downside was that they were too opinionated - even enabling formatting rules. *(Read from [You Probably Don't Need eslint-config-prettier or eslint-plugin-prettier](https://www.joshuakgoldberg.com/blog/you-probably-dont-need-eslint-config-prettier-or-eslint-plugin-prettier/))*
 
 ### What is Husky
 While working on an enterprise development team, it is important that all code linting and unit tests are passing before committing code, especially if you are using some form of continuous integration. [Git Hooks](https://githooks.com) are a built-in feature of Git that can execute automatically when certain events occur. **Husky**, as a project, is a very popular npm package that allows custom scripts to be ran against your repository to prevent bad `git commit` and `git push`, which makes commits of fixing lint errors doesn't happen.
