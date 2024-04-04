@@ -5,7 +5,7 @@ slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Feb 23 2024"
+updatedDate: "Apr 4 2024"
 ---
 
 ### 项目是怎么跑起来的
@@ -108,7 +108,39 @@ Webpack 4 also has the concept `url-loader`. It first base64 encodes the file an
 #### HMR (Hot Module Replacement) 
 With `hot` flag, it sets `webpack-dev-server` in hot mode. If we don’t use this it does a full refresh of the page instead of hot module replacement. It also automatically adds the plugin `HotModuleReplacementPlugin`, which adds the “HMR runtime” into your bundle.
 
-`webpack-dev-server` (WDS) also inserts some code in the bundle that we call “WDS client”, because it must tell the client when a file has changed and new code can be loaded. WDS server does this by opening a websocket connection to the WDS client on page load. When the WDS client receives the websocket messages, it tells the HMR runtime to download the new manifest of the new module and the actual code for that module that has changed. Read more at https://blog.jakoblind.no/webpack-hmr
+`webpack-dev-server` (WDS) also inserts some code in the bundle that we call “WDS client”, because it must tell the client when a file has changed and new code can be loaded. WDS server does this by opening a websocket connection to the WDS client on page load. When the WDS client receives the websocket messages, it tells the HMR runtime to download the new manifest of the new module and the actual code for that module that has changed.
+
+```js
+// https://github.com/lmiller1990/build-your-own-vite
+// 1. inject client.js code into the bundle
+// 2. ws connection between client and server
+// 3. server side use `chokidar` to watch the files change and send ws message
+// 4. client dynamically import the updated file
+
+// server.js
+const hmrMiddleware = async (req, res, next) => {
+  if (!req.url.endsWith(".js")) {
+    return next();
+  }
+
+  let client = await fs.readFile(path.join(process.cwd(), "client.js"), "utf8");
+  let content = await fs.readFile(path.join(process.cwd(), req.url), "utf8");
+
+  content = `
+    ${client}
+
+    hmrClient(import.meta)
+
+    ${content}
+  `;
+
+  res.type(".js");
+  res.send(content);
+};
+
+app.use(hmrMiddleware);
+app.use(express.static(process.cwd()));
+```
 
 #### something related to bundling/tree shaking
 1. Every component will get its own scope, and when it imports another module, webpack will check if the required file was already included or not in the bundle.

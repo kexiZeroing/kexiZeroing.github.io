@@ -79,3 +79,21 @@ output：2 4 5 6 8 3 7 1
 ```
 
 You may argue that `setTimeout` should be logged first because a task is run first before clearing the microtask queue. Well, you are right. But, no code runs in JS unless an event has occurred and the event is queued as a task. At the execution of any JS file, the JS engine wraps the contents in a function and associates the function with an event `start`, and add the event to the task queue. After emits the program `start` event, the JavaScript engine pulls that event off the queue, executes the registered handler, and then our program runs.
+
+```js
+// blocks the rendering (freezes the webpage)
+button.addEventListener('click', event => {
+  while (true) {}
+});
+
+// does NOT block the rendering
+function loop() {
+  setTimeout(loop, 0);
+}
+loop();
+
+// blocks the rendering
+(function loop() {
+  Promise.resolve().then(loop);
+})();
+```

@@ -5,7 +5,7 @@ slug: pixel-resolution-fps
 description: ""
 added: "Oct 15 2021"
 tags: [css, web]
-updatedDate: "Mar 19 2024"
+updatedDate: "Apr 4 2024"
 ---
 
 ## Concept of pixel and resolution
@@ -43,7 +43,7 @@ background-image: image-set("cat.png" 1x, "cat-2x.png" 2x);
 ```
 
 ## requestAnimationFrame
-The smoothness of an animation depends on the frame rate of the animation. Frame rate is measured in **frames per second (fps)**. More frames, means more processing, which can often cause skipping. This is what is meant by the term **dropping frames**. Most screens have a refresh rate of 60Hz (`1000ms / 60fps = 16.7ms`), it’s useless to perform a repaint if the screen cannot show it due to its limitations.
+The smoothness of an animation depends on the frame rate of the animation. Frame rate is measured in **frames per second (fps)**. More frames, means more processing, which can often cause skipping. This is what is meant by the term **dropping frames**. Most screens have a refresh rate of 60Hz (`1000ms / 60fps = 16.7ms`), it’s useless to perform a repaint if the screen cannot show it due to its limitations. *By the way, `setTimeout(animFrame, 1000 / 60)` is used in old animation libraries.*
 
 ```js
 // normal refresh rate
@@ -69,23 +69,11 @@ What’s wrong with creating animations using `setTimeout` or `setInterval`? Fir
 `requestAnimationFrame` is a native API for running any type of animation in the browser. (Browser vendors have decided, *“hey, why don’t we just give you an API for that, and we can probably optimize some things for you.”* So it’s a basic API using for animation, whether that be DOM-based styling changes, canvas or WebGL) You don’t need to specify an interval rate, and that all depends on the frame rate of the browser, typically it’s 60fps. **The key difference here is that you are requesting the browser to draw your animation at the next available opportunity, not at a predetermined interval**. It has also been hinted that browsers could choose to optimize performace based on element visibility and battery status, causing animations to stop if the current window is not visible. Using `requestAnimationFrame`, it will group all of your animations into a single repaint, and all the animation code runs before the rendering and painting event.
 
 ```javascript
-var globalID;
+// Does this cause the element to flash for a brief millisecond?
+document.body.appendChild(el)
+el.style.display = 'none'
 
-function repeatOften() {
-  $("<div>").appendTo("body");
-  globalID = requestAnimationFrame(repeatOften);
-}
-
-globalID = requestAnimationFrame(repeatOften);
-
-$("#start").on("click", function() {
-  cancelAnimationFrame(globalID);
-  globalID = requestAnimationFrame(repeatOften);
-});
-
-$("#stop").on("click", function() {
-  cancelAnimationFrame(globalID);
-});
+// No. All this code takes place before a rendering is ever triggered.
 ```
 
 Tools:
