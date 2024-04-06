@@ -108,3 +108,34 @@ function repeat(func, times, ms, immediate) {
 const repeatFunc = repeat(console.log, 4, 3000, true);
 repeatFunc("hello"); 
 ```
+
+4. Implement the render function to convert the virtual dom JSON to real DOM.
+```js
+function render(vnode) {
+  const { tag, props, children } = vnode;
+  const el = document.createElement(tag);
+
+  if (props) {
+    for (const key in props) {
+      const value = props[key];
+      if (key.startsWith("on")) {
+        el.addEventListener(key.slice(2).toLowerCase(), value);
+      } else {
+        el.setAttribute(key, value);
+      }
+    }
+  }
+
+  if (children) {
+    if (typeof children === "string") {
+      el.textContent = children;
+    } else {
+      children.forEach((item) => {
+        el.appendChild(render(item));
+      });
+    }
+  }
+
+  return el;
+}
+```

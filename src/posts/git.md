@@ -161,9 +161,10 @@ For example, I want to change the git user (rewrite history) after push the code
 5. `git commit --amend --reset-author --no-edit` and `git rebase --continue` to confirm and continue your rebase.
 6. `git push --force-with-lease` to overwrite the remote history. (**`--force-with-lease` is safer than `--force`**: If a change that someone else made to the remote branch while you were working on your code, you will not overwrite any remote code.)
 
-Another example, I want to squash my last 3 commits together into one commit: `git reset --soft HEAD~3 && git commit`. The soft reset just re-points HEAD to the last commit that you do not want to squash. Neither the index nor the working tree are touched, leaving the index in the desired state for your new commit.
+Another example, I want to squash my last 3 commits together into one commit.
+- Method 1: `git reset --soft HEAD~3 && git commit`. The soft reset just re-points HEAD to the last commit that you do not want to squash. Neither the index nor the working tree are touched, leaving the index in the desired state for your new commit.
 
-You also can squash all commits from a branch into one commit by `git merge --squash <branch>`.
+- Method 2: `git reset --hard HEAD~3`, where `HEAD@{1}` is where the branch was just before the reset command. Then `git merge --squash HEAD@{1} && git commit`. This way you get the commit message prepopulated with every commit message that you're squashing.
 
 ## git restore and git switch
 `git checkout` is one of the many reasons why newcomers find git confusing, and that is because its effect is context-dependent. In version 2.23 of git, two new commands have been introduced to split the old `git checkout` in two.

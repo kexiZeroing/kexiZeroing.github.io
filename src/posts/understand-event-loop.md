@@ -37,7 +37,7 @@ Objects are allocated in a heap which is just a name to denote a large (mostly u
 A number of powerful functions and interfaces exposed to us by the browser. These web APIs enhance JS and give it the ability to do all the powerful things like Network requests, DOM manipulation, Bluetooth, Location, setTimeout... In case of *callbacks* they will add your callback to the Callback queue, instead, in case of a *then (promise’s method)*, your code will be added to the Job queue.
 
 - **Task Queue**  
-Also known as Callback Queue, which is a list of messages to be processed. Each message has an associated callback function which gets called in order to handle the message.
+Also known as Callback Queue, which is a list of messages to be processed. Each message has an associated callback function which gets called in order to handle the message. Important to remember that when you have a `setTimeout` and a delay, it's not the delay until it gets moved onto the call stack. It's the delay until it gets moved to the task queue.
 
 - **Micro-Task Queue**  
 Also known as Job Queue, which is reserved for promise’s thens. It is a prioritized queue, which means "execute this code later (= asynchronously), but as soon as possible (= before the next Event Loop tick)". After executing every task, the event loop will go to microtask queue and check if something is there and if it is then it will execute all of them.
