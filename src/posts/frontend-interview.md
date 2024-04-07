@@ -6,11 +6,11 @@ description: ""
 added: ""
 top: true
 order: 5
-updatedDate: "Feb 09 2023"
+updatedDate: "Apr 7 2024"
 ---
 
 更全面的准备可以参考:
-- https://febook.hzfe.org/awesome-interview
+- https://hzfe.github.io/awesome-interview
 - https://github.com/Sunny-117/js-challenges
 - https://github.com/lydiahallie/advanced-web-dev-quiz
 
@@ -69,7 +69,45 @@ concurrencyRequest(urls, 3).then(res => {
 })
 ```
 
-1. Implement calling click event listener only once without using `{once: true}`.
+2. Implement `Promise.all` by yourself.
+```js
+Promise._all = function (promises) {
+  return new Promise((resolve, reject) => {
+    let counter = 0;
+    const result = [];
+    for (let i = 0; i < promises.length; i++) {
+      // Use `Promise.resolve(promises[i])` instead of `promises[i].then()`, 
+      // because `promises[i]` could be a non-promise so it won’t have `.then()` method
+      Promise.resolve(promises[i]).then(res => {
+        result[i] = res;
+        counter += 1;
+        if (counter === promises.length) {
+          resolve(result);
+        }
+      }, err => {
+        reject(err);
+      });
+    }
+  });
+};
+
+// Also implement `Promise.resolve` and `Promise.reject`
+Promise._resolve = function (value) {
+  if (value instanceof Promise) {
+    return value;
+  } else {
+    return new Promise((resolve, reject) => {
+      resolve(value);
+    });
+  }
+};
+
+Promise._reject = function (reason) {
+  return new Promise((resolve, reject) => reject(reason));
+}
+```
+
+3. Implement calling click event listener only once without using `{once: true}`.
 ```js
 function clickOnce(el, cb) {
   const cb2 = () => {
@@ -82,7 +120,7 @@ function clickOnce(el, cb) {
 clickOnce($0, () => console.log('click'));
 ```
 
-3. Use setTimeout to invoke a function multiple times in the fixed interval.
+4. Use setTimeout to invoke a function multiple times in the fixed interval.
 ```js
 function repeat(func, times, ms, immediate) {
   let count = 0;
@@ -109,7 +147,7 @@ const repeatFunc = repeat(console.log, 4, 3000, true);
 repeatFunc("hello"); 
 ```
 
-4. Implement the render function to convert the virtual dom JSON to real DOM.
+5. Implement the render function to convert the virtual dom JSON to real DOM.
 ```js
 function render(vnode) {
   const { tag, props, children } = vnode;
