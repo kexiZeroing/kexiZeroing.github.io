@@ -64,9 +64,11 @@ ArrayBuffer object is used to represent generic, fixed-length raw binary data bu
 - **Blob** can become an **ArrayBuffer** using FileReader's `readAsArrayBuffer()` method. **ArrayBuffer** can also become **Blob** by using `new Blob([buffer])`.
 
 ## TypedArray
-A TypedArray object describes an array-like view of an underlying binary data buffer, and you use it to read and write the contents of the buffer. When creating an instance of a TypedArray subclass (e.g. Int8Array), an array buffer is created internally in memory or, if an ArrayBuffer object is given as constructor argument, that ArrayBuffer is used instead. 
+A TypedArray object describes an array-like view of an underlying binary data buffer, and you use it to read and write the contents of the buffer. When creating an instance of a TypedArray subclass (e.g. Int8Array), an array buffer is created internally in memory or, if an ArrayBuffer object is given as constructor argument, that ArrayBuffer is used instead.
 
 A buffer (implemented by the ArrayBuffer object) is an object representing a chunk of data; it has no format to speak of, and offers no mechanism for accessing its contents. In order to access the memory contained in a buffer, you need to use a view. A view provides a context — that is, a data type, starting offset, and number of elements — that turns the data into an actual typed array.
+
+> Typed Arrays were designed by the WebGL standards committee, for performance reasons. Typically Javascript arrays are generic and can hold objects, other arrays and so on - and the elements are not necessarily sequential in memory, like they would be in C. WebGL requires buffers to be sequential in memory, because that's how the underlying C API expects them. If Typed Arrays are not used, passing an ordinary array to a WebGL function requires a lot of work. For performance-sensitive WebGL applications this could cause a big drop in the framerate.
 
 <img alt="typed_arrays" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/typed_arrays.png" width="550" />
 

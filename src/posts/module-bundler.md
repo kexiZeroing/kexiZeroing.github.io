@@ -26,8 +26,9 @@ function createAsset(filename) {
   const content = fs.readFileSync(filename, 'utf-8');
 
   // AST explorer: https://astexplorer.net
-  // @babel/parser, @babel/traverse, @babel/generator
+  // @babel/parser, @babel/traverse, @babel/generator (are all dependencies of @babel/core)
   // Read more: https://vivaxyblog.github.io/2020/01/05/how-babel-is-built.html
+  // and https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation
   const ast = babylon.parse(content, {
     sourceType: 'module',
   });
@@ -61,6 +62,9 @@ function createGraph(entry) {
     asset.mapping = {};
     
     asset.dependencies.forEach((relativePath) => {
+      // The step of figuring out the actual path based on the requested path is called "Resolving".
+      // The Node.js has the detailed step of the module resolving algorithm:
+      // https://nodejs.org/api/modules.html#modules_all_together
       const absolutePath = path.join(dirname, relativePath);
       const child = createAsset(absolutePath);
       asset.mapping[relativePath] = child.id;

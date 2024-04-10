@@ -60,7 +60,7 @@ Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 
 A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
-Awesome System Design Resources: https://github.com/ashishps1/awesome-system-design-resources
+Babel Plugin Handbook: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
 
 ---
 

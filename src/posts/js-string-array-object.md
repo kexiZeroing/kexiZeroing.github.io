@@ -755,3 +755,5 @@ map.forEach(function (val, key) {
 k2 = null;
 wm.get(k2); // undefined
 ```
+
+> `WeakRef` is a similar built-in object, which holds a weak reference to another object, without preventing that object from getting garbage-collected. Correct use of `WeakRef` takes careful thought, and it's best avoided if possible.
