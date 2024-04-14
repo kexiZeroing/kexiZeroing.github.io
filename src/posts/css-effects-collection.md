@@ -5,7 +5,7 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Feb 1 2024"
+updatedDate: "Apr 14 2024"
 ---
 
 > - https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
@@ -505,5 +505,25 @@ img {
   animation: appear linear both;
   animation-timeline: view();
   animation-range: entry 25% cover 50%;
+}
+```
+
+Because Scroll-Driven Animations are only active when there is scrollable overflow, it is possible to use them as a mechanism to detect if an element can scroll or not.
+
+```css
+.container {
+  height: 250px;
+  width: 250px;
+  overflow-y: auto;
+
+  --can-scroll: 0;
+  animation: detect-scroll;
+  animation-timeline: scroll(self);
+}
+
+@keyframes detect-scroll {
+  from, to  {
+    --can-scroll: 1;
+  }
 }
 ```
