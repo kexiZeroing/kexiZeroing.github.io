@@ -436,23 +436,23 @@ Create LlamaIndex App: https://www.npmjs.com/package/create-llama
 
 Get up and running with large language models locally: https://ollama.com
 
-React hook for OpenAI Whisper with speech recorder: https://github.com/chengsokdara/use-whisper
+Fully client-side chat over documents: https://github.com/jacoblee93/fully-local-pdf-chatbot
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
 
 Get started with the Gemini API: https://ai.google.dev/docs
 
+Google AI SDK for JavaScript: https://github.com/google/generative-ai-js
+
 Hugging Chat Assistant (similar to OpenAI GPTs): https://huggingface.co/chat/assistants
 
-Pi, your personal AI from Inflection: https://hello.pi.ai
+Pi, your personal AI from Inflection: https://pi.ai
 
 Suno is building a future where anyone can make great music: https://www.suno.ai
 
 Power your apps with real-time speech-to-text APIs: https://deepgram.com
 
 Run Hugging Face Transformers directly in the browser: https://github.com/xenova/transformers.js
-
-Fully client-side chat over documents: https://github.com/jacoblee93/fully-local-pdf-chatbot
 
 ---
 

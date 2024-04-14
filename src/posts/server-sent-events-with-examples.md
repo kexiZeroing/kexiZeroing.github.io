@@ -131,7 +131,7 @@ serve(async (_) => {
   const body = new ReadableStream({
     start(controller) {
       timerId = setInterval(() => {
-        // Add the message to the stream
+        // Add the message (a chunk) to the stream
         controller.enqueue(msg);
       }, 1000);
     },
@@ -190,6 +190,59 @@ app.get('/completion', (req, res) => {
     });
   })
 })
+```
+
+### Changing the HTML content during streaming
+One of the practices that has many performance benefits is to change the HTML content during streaming. A clear example is React Suspense. The idea is to show empty content (placeholder, skeleton, or spinner) while loading the rest of the HTML. Once the server has the missing content then in streaming-time it changes it. (Browsers are smart enough to execute small JS scripts during streaming.)
+
+Everything is done with a single request and the user instantly sees the HTML and the changes to it without having to make extra requests. In the past years, these requests were made from the client, making this not executed until all the HTML was loaded.
+
+```js
+// Refer to: https://aralroca.com/blog/html-node-streaming
+return new Response(
+  new ReadableStream({
+    async start(controller) {
+      const suspensePromises = []
+
+      controller.enqueue(encoder.encode('<html lang="en">'))
+      controller.enqueue(encoder.encode('<head>'))
+      // Load the code to allow "unsuspense"
+      controller.enqueue(
+        enconder.encode('<script src="unsuspense.js"></script>')
+      )
+      controller.enqueue(encoder.encode('</head>'))
+      controller.enqueue(encoder.encode('<body>'))
+
+      // Add a placeholder (suspense)
+      controller.enqueue(
+        encoder.encode('<div id="suspensed:1">Loading...</div>')
+      )
+
+      // Load the content - without "await"
+      suspensePromises.push(
+        computeExpensiveChunk().then((content) => {
+          // enqueue the real content
+          controller.enqueue(
+            encoder.encode(
+              `<template id="suspensed-content:1">${content}</template>`
+            )
+          )
+          // enqueue the script to replace the suspensed content to the real one
+          controller.enqueue(encoder.encode(`<script>unsuspense('1')</script>`))
+        })
+      )
+
+      controller.enqueue(encoder.encode('<div class="foo">Bar</div>'))
+      controller.enqueue(encoder.encode('</body>'))
+      controller.enqueue(encoder.encode('</html>'))
+
+      // Wait for all suspended content before closing the stream
+      await Promise.all(suspensePromises)
+
+      controller.close()
+    },
+  })
+)
 ```
 
 ## Download streamed data using vanilla JavaScript
