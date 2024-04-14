@@ -52,6 +52,8 @@ Google Chrome’s `web-vitals.js` library has an [experimental soft-nav branch](
 ### Optimize your server
 Instead of just immediately serving a static page on a browser request, many server-side web frameworks need to create the web page dynamically. This could be due to pending results from a database query or because components need to be generated into markup by a UI framework. Many web frameworks that run on the server have performance guidance that you can use to speed up this process.
 
+> The Server Timing API lets you pass request-specific timing data from your server to the browser using response headers. For example, you can indicate how long it took to look up data in a database for a particular request, which can be useful in debugging performance issues caused by slowness on the server. The Server-Timing header can contain one or more metrics, separated by commas (`Server-Timing: db;dur=53, app;dur=47.2`). Each metric has a name, an optional duration, and an optional description. These components are separated by semi-colons.
+
 If the content on your web page is being hosted on a single server, your website will load slower for users that are geographically farther away because their browser requests literally have to travel around the world. Consider [using a CDN](https://web.dev/content-delivery-networks) to ensure that your users never have to wait for network requests to faraway servers.
 
 If your HTML is static and doesn't need to change on every request, **caching** can prevent it from being recreated unnecessarily. Configure reverse proxies to serve cached content or act as a cache server when installed in front of an application server.
