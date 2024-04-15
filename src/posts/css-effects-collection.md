@@ -5,7 +5,7 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Apr 14 2024"
+updatedDate: "Apr 15 2024"
 ---
 
 > - https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
@@ -22,6 +22,7 @@ updatedDate: "Apr 14 2024"
 - [Animation with View Transitions](#animation-with-view-transitions)
 - [Filter and backdrop filter](#filter-and-backdrop-filter)
 - [Scroll-driven animations](#scroll-driven-animations)
+- [Reveal hover effect](#reveal-hover-effect)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -527,3 +528,39 @@ Because Scroll-Driven Animations are only active when there is scrollable overfl
   }
 }
 ```
+
+### Reveal hover effect
+https://codepen.io/t_afif/pen/GRYEZrr
+
+```html
+<img src="https://picsum.photos/seed/picsum/200/200" class="left">
+<img src="https://picsum.photos/seed/picsum/200/200" class="right">
+
+<style>
+img {
+  --s: 200px; /* the image size */
+  
+  width: var(--s);
+  height: var(--s);
+  object-fit: cover;
+  transition: .5s;
+}
+img.left {
+  object-position: right;
+  padding-left: var(--s);
+  background: #542437;
+}
+img.right {
+  object-position: left;
+  padding-right: var(--s);
+  background: #8A9B0F;
+}
+
+img:hover {
+  padding: 0;
+}
+</style>
+```
+
+- `object-position` specifies the alignment of the selected replaced element's contents within the element's box. Areas of the box which aren't covered by the replaced element's object will show the element's background.
+- `box-sizing: border-box` will make the size of the content box equal to 0. In other words, we don’t see the image, but we see the background color since it covers the padding area.
