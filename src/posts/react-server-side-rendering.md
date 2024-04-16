@@ -182,13 +182,11 @@ const Parent = () => {
 };
 ```
 
-```jsx
-const Parent = () => {
-  const child = useMemo(() => <Child />, []);
+`React.memo` is a higher order component that accepts another component as a prop. It will only render the component if there is any change in the props.
 
-  return <div>{child}</div>;
-};
-```
+`useMemo` is used to memoize a calculation result, which focuses on avoiding heavy calculation.
+
+`useCallback` will return a memoized version of the callback that only changes if one of the inputs has changed. This is useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders. Note that `useCallback(fn, deps)` is equivalent to `useMemo(() => fn, deps)`.
 
 ```js
 const PageMemoized = React.memo(Page);
@@ -240,7 +238,7 @@ pages.forEach((page) => {
     const Component = mod.default;
      
     let props = {};
-    // getServerSideProps: Data Fetching (Server-Side) before rendering
+    // getServerSideProps: Data Fetching (Server-Side) before rendering (only works at the page level)
     // export const gSSP = async () => await getStuff();
     if (mod.gSSP) {
       props = await mod.gSSP(req);
@@ -270,7 +268,7 @@ app.listen(3000, () => {
 ```
 
 ## Write React Server Components from Scratch
-Before React Server Components, all React components are “client” components — they are all run in the browser. RSC makes it possible for some components to be rendered by the server, and some components to be rendered by the browser. Server Components are not a replacement for SSR. They render exclusively on the server. Their code isn't included in the JS bundle, and so they never hydrate or re-render.
+Before React Server Components, all React components are “client” components — they are all run in the browser. RSC makes it possible for some components to be rendered by the server, and some components to be rendered by the browser. Server Components are not a replacement for SSR. They render exclusively on the server. Their code isn't included in the JS bundle, and so they never hydrate or re-render. *With only SSR, we haven't been able to do server-exclusive work within our components (e.g. access database), because that same code would re-run in the browser.*
 
 - Server Component: Fetch data; Access backend resources directly; Keep large dependencies on the server.
 - Client Component: Add interactivity and event listeners (`onClick()`); Use State and Lifecycle Effects (`useState()`, `useEffect()`); Use browser-only APIs.

@@ -444,6 +444,8 @@ Get started with the Gemini API: https://ai.google.dev/docs
 
 Google AI SDK for JavaScript: https://github.com/google/generative-ai-js
 
+Generative UI chatbot using the Vercel AI SDK and Google Gemini: https://github.com/vercel-labs/gemini-chatbot
+
 Hugging Chat Assistant (similar to OpenAI GPTs): https://huggingface.co/chat/assistants
 
 Pi, your personal AI from Inflection: https://pi.ai
