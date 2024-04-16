@@ -4,7 +4,7 @@ title: "Unlock the power of Generative UI"
 slug: unlock the power of generative-ui
 description: ""
 added: "Apr 16 2024"
-tags: [AI, web]
+tags: [AI, react]
 ---
 
 The Vercel AI SDK is an open-source library designed to help developers build conversational streaming user interfaces. With the release of the [AI SDK 3.0](https://vercel.com/blog/ai-sdk-3-generative-ui), developers can move beyond plaintext and markdown chatbots to give LLMs rich, component-based interfaces.
@@ -144,7 +144,8 @@ export const AI = createAI({
 
 Let's explain the above code in more detail.
 
-The `render` function is a powerful helper function to create a streamable UIs from an LLM response. - By default, it will stream the text content of the LLM response wrapped with a React Fragment tag. You can also customize the React component streamed for text responses by using the `text` key.
+The `render` function is a powerful helper function to create a streamable UIs from an LLM response.
+- By default, it will stream the text content of the LLM response wrapped with a React Fragment tag. You can also customize the React component streamed for text responses by using the `text` key.
 - It also allows you to map OpenAI-compatible model with Function Calls to React Server Components using the `tools` key. Each tool specified also accepts a nested `render` function for returning React components *(map each tool to a UI component)*. If you use a generator signature, you can `yield` React Nodes and they will be sent as distinct updates to the client. This is very powerful for loading states and agentic, multi-step behaviors.
 
 The AI SDK introduces two new concepts: `AIState` and `UIState`.
@@ -227,6 +228,7 @@ async function handleUserMessage(userInput) {
 
 ### More to explore
 - https://sdk.vercel.ai/docs/concepts/ai-rsc
+- https://chat.vercel.ai/
 - https://gemini.vercel.ai/
 - https://github.com/miurla/morphic
 - https://github.com/krzysztoff1/generative-ui
