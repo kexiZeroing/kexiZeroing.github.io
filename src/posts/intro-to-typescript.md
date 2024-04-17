@@ -13,6 +13,8 @@ updatedDate: "Mar 29 2024"
 > TypeScript allows you to write complex yet elegant code. Some TypeScript users love to explore the possibilities of the type system and love to encode logic at type level. This practice is known as type gymnastics. The community also helps users to learn type gymnastics by creating fun and challenges such as [type challenges](https://github.com/type-challenges/type-challenges).
 >
 > Cheatsheets for experienced React developers getting started with TypeScript: https://react-typescript-cheatsheet.netlify.app
+>
+> Total TypeScript book: https://github.com/total-typescript/total-typescript-book/tree/main/book-content/chapters
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
 

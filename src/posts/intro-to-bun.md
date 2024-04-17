@@ -39,6 +39,8 @@ const server = Bun.serve({
 console.log(`Listening on http://localhost:${server.port} ...`);
 ```
 
+Visit https://bun.sh/guides to checkout a collection of code samples and walkthroughs for performing common tasks with Bun.
+
 ## Runtime
 The bun CLI can be used to execute JavaScript/TypeScript files, `package.json` scripts, and executable packages. Bun supports TypeScript and JSX out of the box. Every file is transpiled on the fly by Bun's fast native transpiler before being executed.
 

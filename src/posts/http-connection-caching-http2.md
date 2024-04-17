@@ -5,7 +5,7 @@ slug: http-connection-caching-http2
 description: ""
 added: "Nov 20 2022"
 tags: [web]
-updatedDate: "Mar 6 2024"
+updatedDate: "Apr 17 2024"
 ---
 
 ## Connection management
@@ -33,6 +33,24 @@ Sockets are an API that most operating systems provide to be able to talk with t
 WebSocket is another application level protocol over TCP protocol. A webSocket runs over a regular socket, but runs its own connection scheme and framing protocol on top of the regular socket.
 
 > You must design your system for scale if you plan to load balance multiple WebSocket servers. Each client connects to one of your servers, where it then opens a persistent WebSocket connection. Because each server has only its own list of connected clients, messages passed to one server must be shared with the other servers somehow. Similarly, when you want to broadcast a message to all clients, all servers must receive and relay it. A typical way to solve this is to store messages in a shared database like Redis or pass messages between servers using a Publish/Subscribe framework like Kafka or RabbitMQ.
+
+The problem with the current WebSocket API is that there is no way to apply backpressure. When messages arrive faster than the `process()` method can handle them, the render process will either fill up memory by buffering those messages, become unresponsive due to 100% CPU usage, or both. Chrome 124 introduces the [WebSocket Stream API](https://developer.chrome.com/docs/capabilities/web-apis/websocketstream). It gives you the power of streams, and web sockets, which means back pressure can be applied without any extra cost. Now if `process()` takes extra time, the next message will only be consumed once the pipeline is ready.
+
+```js
+const wss = new WebSocketStream(WSS_URL);
+const {readable, writable} = await wss.opened;
+const reader = readable.getReader();
+const writer = writable.getWriter();
+
+while (true) {
+  const {value, done} = await reader.read();
+  if (done) {
+    break;
+  }
+  const result = await process(value);
+  await writer.write(result);
+}
+```
 
 ### Redirections
 In HTTP, redirection is triggered by a server sending a special redirect response to a request. Redirect responses have status codes that start with `3`, and a `Location` header holding the URL to redirect to. When browsers receive a redirect, they immediately load the new URL provided in the `Location` header. **However, browsers always send a `GET` request to that new URL**.

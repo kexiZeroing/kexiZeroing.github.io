@@ -177,3 +177,35 @@ function render(vnode) {
   return el;
 }
 ```
+
+6. How to add two big integers in js?
+```js
+function add(A, B) {
+  const AL = A.length
+  const BL = B.length
+  const ML = Math.max(AL, BL)
+
+  let carry = 0, sum = ''
+
+  for (let i = 1; i <= ML; i++) {
+    let a = +A.charAt(AL - i)
+    let b = +B.charAt(BL - i)
+
+    let t = carry + a + b
+    carry = Math.floor(t / 10)
+    t %= 10
+
+    sum = (i === ML && carry)
+      ? carry * 10 + t + sum
+      : t + sum
+  }
+
+  return sum
+}
+```
+
+```js
+const max = BigInt(Number.MAX_SAFE_INTEGER);
+const two = 2n;
+const result = max + two;
+```
