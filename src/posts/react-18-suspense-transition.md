@@ -5,7 +5,7 @@ slug: react-18-suspense-transition
 description: ""
 added: "Oct 7 2023"
 tags: [react]
-updatedDate: "Feb 5 2024"
+updatedDate: "Apr 17 2024"
 ---
 
 A key property of Concurrent React is that rendering is interruptible. With synchronous rendering, once an update starts rendering, nothing can interrupt it until the user can see the result on screen. In a concurrent render, this is not always the case. React may start rendering an update, pause in the middle, then continue later. It may even abandon an in-progress render altogether.
@@ -30,7 +30,7 @@ Consider typing in an input field that filters a list of data. Here, whenever th
 
 Until React 18, all updates were rendered urgently. A transition is a new concept in React to distinguish between urgent and non-urgent updates.
 - Urgent updates reflect direct interaction, like typing, clicking, pressing, and so on.
-- Transition updates transition the UI from one view to another.
+- Transition is a "potential future UI state". It's not committed immediately, it's enqueued.
 
 ```jsx
 import { startTransition } from 'react';
@@ -56,11 +56,49 @@ By default, React 18 still handles updates as urgent. You can use `startTransiti
 What if you want to display something on the search results while waiting for the expensive UI render to finish? For this, we can use the `isPending` flag that comes from the `useTransition` hook.
 
 ```jsx
-import { useTransition } from 'react';
+function App() {
+  const [query, setQuery] = useState('');
+  const [isPending, startTransition] = useTransition();
+  const [deferredQuery, setDeferredQuery] = useState(query);
 
-const [isPending, startTransition] = useTransition();
+  useEffect(() => {
+    // Hi React, schedule this function for later
+    startTransition(() => {
+      setDeferredQuery(query);
+    });
+  }, [query]);
 
-{isPending && <Spinner />}
+  return (
+    <div>
+      <input
+        type="text"
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+      />
+      { isPending ? <Spinner /> : <List q={deferredQuery} /> }
+    </div> 
+  )
+}
+```
+
+`useTransition` returns *isPending* and `useDeferredValue` you can do *value !== deferredValue*:
+```jsx
+function App() {
+  const [query, setQuery] = useState('');
+  // Get a deferred version of that value
+  const deferredQuery = useDeferredValue(query);
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+      />
+      { query !== deferredQuery ? <Spinner /> : <List q={deferredQuery} /> }
+    </div> 
+  )
+}
 ```
 
 ## New Suspense Features 

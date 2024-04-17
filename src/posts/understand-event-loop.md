@@ -97,3 +97,5 @@ loop();
   Promise.resolve().then(loop);
 })();
 ```
+
+> `requestAnimationFrame` on the other hand doesn't suffer from such a direction. Indeed, the monitor's signal is what tells when the event loop must enter the "update the rendering" steps. This signal is not bound to the CPU activity and will work as a stable clock. If at one frame rAF callbacks were late by a few ms, the next frame will just have less time in between, but the flag will be set at regular intervals.
