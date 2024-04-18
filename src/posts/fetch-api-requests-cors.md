@@ -263,8 +263,6 @@ The body of Response allows you to declare what its content type is and how it s
 
 > `Response.body` is a `ReadableStream` of the body contents. [In this example](https://mdn.github.io/dom-examples/streams/simple-pump/) we fetch an image, expose the response's stream using `response.body`, create a reader using `ReadableStream.getReader()`, then enqueue that stream's chunks into a second, custom readable stream — effectively creating an identical copy of the image.
 
-<img alt="readable-stream" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/readable-stream.png" width="700">
-
 ```js
 // An example to fetch image with progress indicator
 // https://github.com/AnthumChris/fetch-progress-indicators
@@ -311,6 +309,50 @@ fetch('https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg')
 .then(data => {
   document.getElementById('img').src = URL.createObjectURL(data);
 })
+```
+
+```js
+// Read stream response
+// https://github.com/lianginx/chatgpt-vue/blob/master/src/views/home.vue
+const { body, status } = await chat(messageList.value);
+if (body) {
+  const reader = body.getReader();
+  await readStream(reader, status);
+}
+
+const readStream = async (reader, status) => {
+  let partialLine = "";
+  const decoder = new TextDecoder("utf-8");
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+
+    const decodedText = decoder.decode(value, { stream: true });
+
+    const chunk = partialLine + decodedText;
+    const newLines = chunk.split(/\r?\n/);
+
+    partialLine = newLines.pop() ?? "";  // the last line of the chunk might be incomplete
+
+    for (const line of newLines) {
+      if (line.length === 0) continue; // ignore empty message
+      if (line.startsWith(":")) continue; // ignore sse comment message
+      if (line === "data: [DONE]") return;
+
+      const json = JSON.parse(line.substring(6)); // start with "data: "
+      const content =
+        status === 200
+          ? json.choices[0].delta.content ?? ""
+          : json.error.message;
+
+      appendLastMessageContent(content);
+    }
+  }
+};
+
+const appendLastMessageContent = (content) =>
+  (messageList.value[messageList.value.length - 1].content += content);
 ```
 
 ## Cross-Origin Resource Sharing
