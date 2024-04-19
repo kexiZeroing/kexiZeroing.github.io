@@ -132,6 +132,11 @@ const completionResponse = await openai.createCompletion({
 })
 ```
 
+> Language models don't see text like you and I, instead they see a sequence of tokens. Byte pair encoding (BPE) is a way of converting text into tokens.
+> - It's reversible and lossless, so you can convert tokens back into the original text.
+> - It compresses the text: the token sequence is shorter than the bytes corresponding to the original text. On average, in practice, each token corresponds to about 4 bytes.
+> - It attempts to let the model see common subwords. For instance, "ing" is a common subword in English, so BPE encodings will often split "encoding" into tokens like "encod" and "ing" (instead of e.g. "enc" and "oding"). Because the model will then see the "ing" token again and again in different contexts, it helps models generalise and better understand grammar.
+
 ### Domain-specific ChatGTP Starter App
 [This starter app](https://github.com/gannonh/gpt3.5-turbo-pgvector) uses embeddings to generate a vector representation of a document, and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which is then used to generate a response. The response is then streamed to the user.
 

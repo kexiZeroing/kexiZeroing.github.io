@@ -76,6 +76,7 @@ See examples:
 - https://github.com/Microsoft/TypeScript-Babel-Starter/blob/master/tsconfig.json
 - https://github.com/vuejs/tsconfig/blob/main/tsconfig.json
 - https://www.totaltypescript.com/tsconfig-cheat-sheet
+- https://deno.com/blog/intro-to-tsconfig
 
 Run `tsc --noEmit` that tells TypeScript that we just want to check types and not create any output files. If everything in our code is all right, `tsc` exits with no error. `tsc --noEmit --watch` will add a `watch` mode so TypeScript reruns type-checking every time you save a file.
 
