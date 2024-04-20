@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ColorScript from "../components/ColorScript.astro";
 import SmallRotation from '../components/SmallRotation.astro';
+import PostComments from "../components/PostComments.astro";
 
 export interface Props {
 	content: {
@@ -59,6 +60,7 @@ const {
 				<hr />
 				<slot />
 			</article>
+			<PostComments />
 		</main>
 		<Footer />
 		<SmallRotation />
