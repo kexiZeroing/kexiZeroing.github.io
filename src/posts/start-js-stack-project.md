@@ -37,7 +37,7 @@ Start with templates:
 A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and MySQL:
 - @clerk/nextjs: add authentication and user management to your Next.js application.
 - prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. You can integrate Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database. The fastest way to get started with Prisma is by following the [Quickstart](https://www.prisma.io/docs/getting-started/quickstart).
-- zustand: one of many state management libraries for React.
+- zustand: one of many state management libraries for React. It's kinda like Redux, but much simpler.
 - react-hot-toast: lightweight notifications for React.
 - lucide-react: implementation of the lucide icon library for react applications.
 - next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the `CldImage` component, social cards, and an upload widget.
@@ -356,6 +356,8 @@ To solve the latency problem, very smart folks came up with the idea of deployin
 > Cloud = a server, somewhere;  
 > Edge = a server, close to you;  
 > Edge functions = serverless functions run at the Edge;
+>
+> Edge functions without the database in the same place aren't providing meaningful improvements. Most data is not globally replicated. So running compute in many regions, which all connect to a us-east database, made no sense.
 
 So what JS engines/runtimes do we have now?
 - Three main engines: V8 (Chromium), SpiderMonkey (Firefox), JavaScriptCore (Safari)

@@ -160,6 +160,8 @@ Remote desktop environment in the browser: https://github.com/HeyPuter/puter
 
 See Core Web Vitals and PageSpeed Insights results simply and easily: https://page-speed.dev
 
+Feature management for developers with GitOps: https://github.com/featurevisor/featurevisor
+
 ---
 
 ## CSS related

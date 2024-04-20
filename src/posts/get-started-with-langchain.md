@@ -304,6 +304,13 @@ export const run = async () => {
 ### How agents work under the hood
 With the Agent model, LLM becomes an orchestrator, taking a question, decomposing it into chunks, then using appropriate tools to pull together an answer.
 
+What is an agent? 
+- Planning: Break down large tasks into smaller, managable subgoals.
+- Memory: Short (e.g. chat history) and long-term (e.g. vector store) memories.
+- Tool use: External APIs for extra information.
+
+ReAct is a very popular implementation of an agent and involves basically the loop of Action-Observation-Thinking to perform tasks. (Planning: Lets LLM choose an action, observe result, think, and choose action again.)
+
 Delving into the LangChain codebase, we find that this orchestration is performed by the following prompt:
 ```
 Answer the following questions as best you can. You have access to the following tools:

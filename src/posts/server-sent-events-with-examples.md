@@ -153,6 +153,8 @@ serve(async (_) => {
 
 `cancel()` method will be called if the app signals that the stream is to be cancelled (e.g. if `ReadableStream.cancel()` is called).
 
+> [eventsource-parser](https://github.com/rexxars/eventsource-parser) is a streaming parser for server-sent events, without any assumptions about how the actual stream of data is retrieved. It simplifies the process of handling SSE data by providing functions to parse and handle the incoming messages.
+
 **How OpenAI uses SSE to stream the results back to the client?**
 1. The client creates an SSE `EventSource` to server endpoint with SSE configured.
 2. The server receives the request and sends a request to OpenAI API using the `stream: true` parameter.

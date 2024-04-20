@@ -14,6 +14,8 @@ Prompt Engineering, also known as In-Context Prompting, refers to methods for ho
 
 **Top_p** - Computes the cumulative probability distribution, and cut off as soon as that distribution exceeds the value of `top_p`. For example, a `top_p` of 0.3 means that only the tokens comprising the top 30% probability mass are considered. If you are looking for exact and factual answers keep this low. If you are looking for more diverse responses, increase to a higher value.
 
+> How does ChatGPT render messages? If you take some time to disect the ChatGPT UI a bit, you’ll notice that it uses Tailwind. More specifically, the ChatGPT response component uses the `prose` HTML class. This class comes from the Tailwind CSS [Typography Plugin](https://github.com/tailwindlabs/tailwindcss-typography) which you can use to add beautiful typographic defaults to any vanilla HTML you don’t control, like HTML rendered from Markdown.
+
 ## Basics of Prompting
 You can achieve a lot with simple prompts, but the quality of results depends on how much information you provide it and how well-crafted it is. A prompt can contain information like the *instruction or question* you are passing to the model and including other details such as *context, inputs, or examples*. You can use these elements to instruct the model better and get better results.
 
