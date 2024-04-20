@@ -1,19 +1,28 @@
 <section class="giscus" style="width: 100%; margin: 2.5rem auto 0;"></section>
 
-<script
-  src="https://giscus.app/client.js"
-  data-repo="kexiZeroing/kexiZeroing.github.io"
-  data-repo-id="R_kgDOH-g4ig"
-  data-category="Blog Post Comments"
-  data-category-id="DIC_kwDOH-g4is4Ce0G3"
-  data-mapping="title"
-  data-strict="0"
-  data-reactions-enabled="1"
-  data-emit-metadata="0"
-  data-input-position="bottom"
-  data-theme="preferred_color_scheme"
-  data-lang="en"
-  data-loading="lazy"
-  crossorigin="anonymous"
-  async
-></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme') || 'light';
+
+    const giscusAttributes = {
+      "src": "https://giscus.app/client.js",
+      "data-repo": "kexiZeroing/kexiZeroing.github.io",
+      "data-repo-id": "R_kgDOH-g4ig",
+      "data-category": "Blog Post Comments",
+      "data-category-id": "DIC_kwDOH-g4is4Ce0G3",
+      "data-mapping": "title",
+      "data-strict": "0",
+      "data-reactions-enabled": "1",
+      "data-emit-metadata": "0",
+      "data-input-position": "bottom",
+      "data-theme": theme,
+      "data-lang": "en",
+      "crossorigin": "anonymous",
+      "async": ""
+    };
+
+    const giscusScript = document.createElement("script");
+    Object.entries(giscusAttributes).forEach(([key, value]) => giscusScript.setAttribute(key, value));
+    document.body.appendChild(giscusScript);
+  });
+ </script>

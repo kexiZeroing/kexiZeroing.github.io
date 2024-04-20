@@ -22,6 +22,7 @@
   // Toggle Theme
   const themeBtn = document.querySelector("#theme-btn");
   const htmlClassList = document.querySelector("html")?.classList;
+  
   themeBtn?.addEventListener("click", function () {
     if (htmlClassList?.contains("theme-dark")) {
       localStorage.setItem("theme", "light");
@@ -30,5 +31,17 @@
       localStorage.setItem("theme", "dark");
       htmlClassList?.add("theme-dark");
     }
+    sendMessage({
+      setConfig: {
+        theme: localStorage.getItem("theme")
+      },
+    });
   });
+
+  // Dynamic change giscus according to the theme 
+  function sendMessage(message) {
+    const iframe = (document.querySelector('iframe.giscus-frame') as HTMLIFrameElement);
+    if (!iframe) return;
+    iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+  }
 </script>

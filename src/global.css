@@ -27,6 +27,7 @@ html {
 }
 
 html.theme-dark {
+  --quote: #7a7a7a;
   --background-color: rgb(47, 55, 65);
   --heading-color: #eee;
   --text-color: #ddd;
