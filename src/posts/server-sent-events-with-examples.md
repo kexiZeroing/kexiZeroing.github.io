@@ -113,6 +113,9 @@ await fetchEventSource('/api/sse', {
     foo: 'bar'
   }),
   signal: ctrl.signal,
+  onopen(response) { },
+  onclose() { },
+  onmessage(message) { },
 });
 ```
 

@@ -5,7 +5,7 @@ slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Apr 4 2024"
+updatedDate: "Apr 22 2024"
 ---
 
 ### 项目是怎么跑起来的
@@ -435,6 +435,8 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 - 加 csrf token，加业务需要的 header
 - 根据不同的错误码做页面跳转
 
+> 注意 Axios 遇到 302 的返回：重定向直接被浏览器拦截处理，浏览器 redirect 后，被视为 Axios 发起了跨域请求，所以抛异常。Axios 捕获异常，进入 catch 逻辑。
+
   ```js
   const handleResponse = (res) => {
     if(res.headers && res.headers['set-auth']) {
@@ -467,7 +469,19 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
   }
   ```
 
-> 注意 Axios 遇到 302 的返回：重定向直接被浏览器拦截处理，浏览器 redirect 后，被视为 Axios 发起了跨域请求，所以抛异常。Axios 捕获异常，进入 catch 逻辑。
+  ```js
+  // Show progress of Axios during request
+  await axios.get('https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg', {
+    onDownloadProgress: progressEvent => {
+      const percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total * 100)
+      setProgress(percentCompleted)
+    }
+  })
+  .then(res => {
+    console.log("All DONE")
+    return res.data
+  })
+  ```
 
 3. 学习并使用 [VueRequest](https://github.com/AttoJS/vue-request)，管理请求状态，支持 SWR、轮询、错误重试、缓存、分页等常用功能。`useRequest` 接收一个 service 函数，service 是一个异步的请求函数，换句话说，还可以使用 axios 来获取数据，然后返回一个 Promise。`useRequest` 会返回 data、loading、error 等，它们的值会根据请求状态和结果进行修改。返回的 run 方法，可以手动触发 service 请求。
 
