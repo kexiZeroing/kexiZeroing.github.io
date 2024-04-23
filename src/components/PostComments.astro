@@ -2,6 +2,8 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    if (location.pathname === '/posts') return;
+
     const theme = localStorage.getItem('theme') || 'light';
 
     const giscusAttributes = {
