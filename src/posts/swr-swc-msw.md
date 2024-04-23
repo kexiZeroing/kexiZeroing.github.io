@@ -88,6 +88,8 @@ function Profile () {
 }
 ```
 
+> [swrv](https://github.com/Kong/swrv) is a port of SWR for Vue, a Vue library for data fetching.
+
 ### React Query
 SWR and React Query (new name: TanStack Query) are the two most popular libraries that can be used to manage data fetching in a React application. SWR is a smaller library that focuses on providing a simple way to fetch and cache data, while React Query is a more comprehensive library that offers a wider range of features.
 

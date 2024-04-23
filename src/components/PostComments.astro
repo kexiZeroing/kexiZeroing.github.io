@@ -2,7 +2,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    if (location.pathname === '/posts') return;
+    if (/\/posts(\/)*$/.test(location.pathname)) return;
 
     const theme = localStorage.getItem('theme') || 'light';
 
