@@ -458,6 +458,8 @@ Power your apps with real-time speech-to-text APIs: https://deepgram.com
 
 Run Hugging Face Transformers directly in the browser: https://github.com/xenova/transformers.js
 
+Groq with LPU provides the fastest speed for AI applications: https://groq.com
+
 ---
 
 ## Machine Learning

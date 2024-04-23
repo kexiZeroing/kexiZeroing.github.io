@@ -69,6 +69,8 @@ concurrencyRequest(urls, 3).then(res => {
 })
 ```
 
+`Promise.all` 用来并发处理异步任务，但是并发数有时候需要限制，多个并发请求可能会对服务端产生压力，[p-limit](https://github.com/sindresorhus/p-limit) 这个库就是用来限制并发数的。核心原理就是在一个循环中，从请求池中取出请求并发送，直到当前并发请求数 current 达到最大并发数或请求池 queue 变为空。对于每个出队的请求，它首先增加 current 的值，然后调用函数来发送请求。当请求完成后，它会减少 current 的值并再次调用出队函数，处理下一个请求。类似的库有很多，可以看看 https://github.com/sindresorhus/promise-fun
+
 2. Implement `Promise.all` by yourself.
 ```js
 Promise._all = function (promises) {
