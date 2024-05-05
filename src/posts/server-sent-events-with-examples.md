@@ -252,7 +252,11 @@ return new Response(
 
 ## Download streamed data using vanilla JavaScript
 
+> Consume Web streams from OpenAI using vanilla JavaScript: https://umaar.com/dev-tips/269-web-streams-openai/
+
 ```js
+const url = "https://api.openai.com/v1/chat/completions";
+const apiKey = `your_api_key_here`;
 // Create an AbortController to control and cancel the fetch request, 
 // when the user hits the stop button.
 const controller = new AbortController();
@@ -278,6 +282,7 @@ const response = await fetch(url, {
 const decoder = new TextDecoder();
 
 // Iterate through the chunks in the response body using `for-await...of`
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of
 for await (const chunk of response.body) {
   const decodedChunk = decoder.decode(chunk);
 

@@ -384,3 +384,5 @@ while (true) {
   }
 }
 ```
+
+> Autonomous agents are self-governing AI systems. AutoGPT is an open-source "AI agent" that, given a goal in natural language, will attempt to achieve it by breaking it into sub-tasks and using the Internet and other tools in an automatic loop. https://www.georgesung.com/ai/autogpt-arch/ is a quick summary about how AutoGPT works.

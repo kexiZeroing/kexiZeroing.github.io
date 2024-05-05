@@ -404,7 +404,7 @@ OpenAI Cookbook: https://github.com/openai/openai-cookbook
 
 Awesome ChatGPT Prompts: https://prompts.chat
 
-Node.js client for the official ChatGPT API: https://github.com/transitive-bullshit/chatgpt-api
+Prompt Engineering Guide: https://github.com/dair-ai/Prompt-Engineering-Guide
 
 An open-source ChatGPT UI: https://github.com/mckaywrigley/chatbot-ui
 
@@ -444,6 +444,8 @@ Create LlamaIndex App: https://www.npmjs.com/package/create-llama
 
 Get up and running with large language models locally: https://ollama.com
 
+Run AI with an API: https://replicate.com
+
 Fully client-side chat over documents: https://github.com/jacoblee93/fully-local-pdf-chatbot
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
@@ -465,6 +467,8 @@ Power your apps with real-time speech-to-text APIs: https://deepgram.com
 Run Hugging Face Transformers directly in the browser: https://github.com/xenova/transformers.js
 
 Groq with LPU provides the fastest speed for AI applications: https://groq.com
+
+Framework for Multi AI Agents Systems: https://github.com/joaomdmoura/crewai
 
 ---
 
