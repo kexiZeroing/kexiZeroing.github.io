@@ -162,6 +162,8 @@ See Core Web Vitals and PageSpeed Insights results simply and easily: https://pa
 
 Feature management for developers with GitOps: https://github.com/featurevisor/featurevisor
 
+Awesome Web Apps that work without login: https://github.com/aviaryan/awesome-no-login-web-apps
+
 ---
 
 ## CSS related
@@ -225,6 +227,8 @@ What You Need to Know about Modern CSS: https://frontendmasters.com/blog/what-yo
 Compare web animation techniques by bouncing a ball: https://sparkbox.github.io/bouncy-ball
 
 A Friendly Introduction to Spring Physics: https://www.joshwcomeau.com/animation/a-friendly-introduction-to-spring-physics
+
+The Collection of CSS-only Shapes: https://css-shape.com
 
 ---
 
@@ -387,6 +391,8 @@ What's New in DevTools (Articles): https://developer.chrome.com/tags/new-in-devt
 What's New in DevTools (Videos): https://www.youtube.com/playlist?list=PLNYkxOF6rcIBDSojZWBv4QJNoT4GNYzQD
 
 Safari Release Notes: https://developer.apple.com/documentation/safari-release-notes/
+
+Firefox release notes: https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases
 
 New to the web platform (every month): https://web.dev/blog/web-platform-01-2024
 

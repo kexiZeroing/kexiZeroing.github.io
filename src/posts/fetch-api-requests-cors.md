@@ -126,6 +126,24 @@ function fetchVideo() {
 }
 ```
 
+You can use `AbortSignal.timeout()` to automatically create the abort signal which will abort after that duration (without the boilerplate of using `AbortController`).
+
+```js
+try {
+  const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+  const result = await res.blob();
+  // …
+} catch (err) {
+  if (err.name === "TimeoutError") {
+    console.error("Timeout: It took more than 5 seconds to get the result.");
+  } else if (err.name === "AbortError") {
+    console.error("Fetch aborted by user action"),
+  } else if (err.name === "TypeError") {
+    console.error("AbortSignal.timeout() method is not supported");
+  }
+}
+```
+
 ### Build on Fetch
 - [wretch](https://github.com/elbywan/wretch) is a tiny wrapper built around fetch.
 - Axios is great *(Axios is based on XMLHttpRequests)*, but a bit large on kb compared to wretch. [Redaxios](https://github.com/developit/redaxios) is a great small alternative to axios.

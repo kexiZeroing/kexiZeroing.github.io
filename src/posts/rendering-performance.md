@@ -17,7 +17,7 @@ Core Web Vitals are the subset of Web Vitals that apply to all web pages, should
 - **First Input Delay (FID)**: measures interactivity. To provide a good user experience, pages should have a FID of 100 milliseconds or less.
 - **Cumulative Layout Shift (CLS)**: measures visual stability. To provide a good user experience, pages should maintain a CLS of 0.1 or less.
 
-[Interaction to Next Paint (INP)](https://web.dev/inp/) is a pending Core Web Vital metric that will replace First Input Delay (FID) in March 2024. INP is a metric that assesses a page's overall responsiveness to user interactions by observing the latency of all click, tap, and keyboard interactions that occur throughout the lifespan of a user's visit to a page.
+[Interaction to Next Paint (INP)](https://web.dev/inp/) is a pending Core Web Vital metric that will replace First Input Delay (FID) in March 2024. INP is a metric that assesses a page's overall responsiveness to user interactions by observing the latency of all click, tap, and keyboard interactions that occur throughout the lifespan of a user's visit to a page. *When reacting to user input, a response slower than `200ms` will be perceived as having to wait.*
 
 While the Core Web Vitals are the critical metrics for understanding and delivering a great user experience, there are other vital metrics as well. For example, the metrics **Time to First Byte (TTFB)** and **First Contentful Paint (FCP)** are both vital aspects of the loading experience.
 - TTFB is a good measure of your server response times and general back-end health, and issues here may have knock-on effects later down the line.

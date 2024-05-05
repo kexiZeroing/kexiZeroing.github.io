@@ -208,4 +208,4 @@ This is also a great way to implement responsive typography. For example, you co
 }
 ```
 
-With the `aspect-ratio` property, as I resize the card, the visual block maintains this 16 x 9 aspect ratio. You can make a square with `1 / 1` ratio, a 2 to 1 ratio with `2 / 1`, and really just anything you need for the image or video to scale with a set size ratio.
+With the `aspect-ratio` property, as I resize the card, the visual block maintains this 16 x 9 aspect ratio. You can make a square with `1 / 1` ratio, a 2 to 1 ratio with `2 / 1`, and really just anything you need for the image or video to scale with a set size ratio. Note that if both a height and width are set on an element, then `aspect-ratio` is ignored.

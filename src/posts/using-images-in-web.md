@@ -112,6 +112,7 @@ Read more about best practices for web images:
 - https://github.com/nucliweb/image-element
 - https://ausi.github.io/respimagelint/docs.html
 - https://web.dev/browser-level-image-lazy-loading
+- https://github.com/lovell/sharp
 
 ### Let the CDN do the work
 Most images on modern websites are hosted on a CDN that can resize images on the fly and deliver them at the edge. Despite this, most web frameworks will still download and resize the image at build time or on your server, rather than using the CDN, or just uses a single source image rather than handling multiple resolutions.

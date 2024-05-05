@@ -5,7 +5,7 @@ slug: using-es-modules
 description: ""
 added: "Aug 12 2020"
 tags: [js]
-updatedDate: "Apr 02 2023"
+updatedDate: "May 5 2024"
 ---
 
 ## ES Modules
@@ -172,3 +172,18 @@ ESM changes a bunch of stuff in JavaScript. Switching the default from CJS to ES
       "import": "./esm/wrapper.js"
    }
    ```
+
+**Updates for Node.js 22:** Support for require()ing ESM graphs is now enabled through experimental flag. We intend to enable it by default in the future to allow package authors to publish ESM-only packages while maintaining support for CJS users, and help the ecosystem migrate to ESM incrementally.
+
+```js
+// Define a module in a file named 'math-utils.mjs'
+export function square(x) {
+  return x ** 2;
+}
+
+// main.js - ​Synchronously require the ES module in a CommonJS file
+// $ node --experimental-require-module main.js
+const mathUtils = require('./math-utils.mjs');
+​
+console.log(mathUtils.square(2));
+```
