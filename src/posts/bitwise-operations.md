@@ -83,3 +83,11 @@ sum += ~t & data[c];
 ```
 
 Arithmetically shift right by 31, it becomes either all ones if it is smaller than 128 or all zeros if it is greater or equal to 128. (0111 -> 0011 -> 0001 -> 0000 or 1000 -> 1100 -> 1110 -> 1111). The second line adds to the sum either `0xFFFFFFFF & data[c]` (so `data[c]`) in the case that `data[c] >= 128`, or `0 & data[c]` (so zero) in the case that `data[c] < 128`.
+
+### How big is 10 MB anyway?
+If you are dealing with characters, it will depend on the charset/encoding.
+- An ASCII character in 8-bit ASCII encoding is 8 bits (1 byte), though it can fit in 7 bits.
+- A Unicode character in UTF-8 encoding is between 8 bits (1 byte) and 32 bits (4 bytes).
+- A Unicode character in UTF-16 encoding is between 16 (2 bytes) and 32 bits (4 bytes), though most of the common characters take 16 bits. This is the encoding used by Windows internally.
+
+What is the average size of JavaScript code downloaded per website? It seems like shipping 10 MB of code is normal now. If we assume that the average code line is about 65 characters, that would mean we are shipping ~150,000 lines of code.
