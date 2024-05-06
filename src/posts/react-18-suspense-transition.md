@@ -101,6 +101,8 @@ function App() {
 }
 ```
 
+If we didn't use `useDeferredValue`, the expensive computation ("List" component here) would run on every keystroke, which could lead to performance issues. By deferring the update of the text value, we ensure that the expensive computation only runs when the text value has stabilized.
+
 ## New Suspense Features 
 Suspense allows you to render a fallback component while a component is waiting for some asynchronous operations.
 

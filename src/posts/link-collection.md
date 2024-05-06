@@ -336,6 +336,8 @@ React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.co
 
 Learn Next.js course by Vercel: https://nextjs.org/learn
 
+React's evolution from Hooks to Concurrent React: https://tigerabrodi.blog/reacts-evolution-from-hooks-to-concurrent-react
+
 ---
 
 ## Vue and Vite ecosystem
