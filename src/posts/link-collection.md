@@ -460,13 +460,9 @@ Hugging Chat Assistant (similar to OpenAI GPTs): https://huggingface.co/chat/ass
 
 Pi, your personal AI from Inflection: https://pi.ai
 
-Suno is building a future where anyone can make great music: https://www.suno.ai
-
 Power your apps with real-time speech-to-text APIs: https://deepgram.com
 
 Run Hugging Face Transformers directly in the browser: https://github.com/xenova/transformers.js
-
-Groq with LPU provides the fastest speed for AI applications: https://groq.com
 
 Framework for Multi AI Agents Systems: https://github.com/joaomdmoura/crewai
 
@@ -488,7 +484,7 @@ Princeton Natural Language Processing: https://princeton-nlp.github.io/cos484
 
 Understanding Large Language Models: https://www.cs.princeton.edu/courses/archive/fall22/cos597G
 
-Stanford CS324 - Advances in Foundation Models: https://stanford-cs324.github.io/winter2023
+Big Data Machine Learning Algorithms: https://yishuai.github.io/bigalgo
 
 Transformers from Scratch: https://e2eml.school/transformers.html
 

@@ -138,7 +138,8 @@ window.performance.getEntriesByType('resource')
 ```
 
 ### The Speculation Rules API
-https://developer.chrome.com/blog/prerender-pages/
+- https://developer.chrome.com/docs/web-platform/prerender-pages
+- https://developer.chrome.com/docs/devtools/application/debugging-speculation-rules
 
 A page can be prerendered in either of two ways, all of which aim to make navigations quicker:
 1. When you type a URL into the Chrome omnibox, Chrome may automatically prerender the page for you, if it has high confidence you will visit that page. (View Chrome's predictions for URLs in the `chrome://predictors` page)
@@ -160,7 +161,7 @@ Developers can insert JSON instructions onto their pages to inform the browser a
 </script>
 ```
 
-Speculation rules can also be used to just prefetch pages, without a full prerender. Unlike the older `<link rel="prefetch">` resource hint which just prefetched to the HTTP cache, documents loaded via speculation rules are processed in the same way that navigations are (but then not rendered) and are held in memory so will be available quicker to the browser once needed.
+Speculation rules can also be used to just prefetch pages, without a full prerender. Unlike the older `<link rel="prefetch">` resource hint which just prefetched to the HTTP disk cache, documents loaded via speculation rules are processed in the same way that navigations are (but then not rendered) and are held in memory so will be available quicker to the browser once needed. *Prefetch speculation rules only prefetch the document, not its subresources.*
 
 ```html
 <script type="speculationrules">
