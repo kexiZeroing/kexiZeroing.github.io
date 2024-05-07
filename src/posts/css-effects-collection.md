@@ -529,6 +529,8 @@ Because Scroll-Driven Animations are only active when there is scrollable overfl
 }
 ```
 
+> ["Unleash the Power of Scroll-Driven Animations"](https://www.youtube.com/playlist?list=PLNYkxOF6rcICM3ttukz9x5LCNOHfWBVnn) from Google is a 10-part video course to learn all about scroll-driven animations.
+
 ### Reveal hover effect
 https://codepen.io/t_afif/pen/GRYEZrr
 

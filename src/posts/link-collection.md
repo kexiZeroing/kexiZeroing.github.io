@@ -360,9 +360,7 @@ Declarative ThreeJS using Vue Components: https://tresjs.org
 
 Unified plugin system for build tools: https://github.com/unjs/unplugin
 
-Auto import APIs on-demand for Vite, Webpack and Rollup: https://github.com/antfu/unplugin-auto-import
-
-On-demand components auto importing for Vue: https://github.com/antfu/unplugin-vue-components
+On-demand components auto importing for Vue: https://github.com/unplugin/unplugin-vue-components
 
 A lightweight, customizable Vue UI library for mobile web apps: https://vant-ui.github.io
 

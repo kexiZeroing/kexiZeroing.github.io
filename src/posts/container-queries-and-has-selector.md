@@ -121,6 +121,19 @@ Use Case 3: We can check the input state like a checkbox or radio button.
 - The difference between `:where()` and `:is()` is that `:where()` always has 0 specificity, whereas `:is()` takes on the specificity of the most specific selector in its arguments.
 - The `:has()` pseudo-class itself doesn’t add any specificity weight to the selector. Like `:is()` and `:not()`, the specificity of `:has()` is equal to the highest specificity selector in the selector list.
 
+```js
+// Specificity is a triple that has three components (A,B,C)
+const compare = (s1, s2) => {
+  if (s1.a === s2.a) {
+    if (s1.b === s2.b) {
+      return s1.c - s2.c;
+    }
+    return s1.b - s2.b;
+  }
+  return s1.a - s2.a;
+};
+```
+
 > A side note: Selectors matching happens from right to left. For example:
 > - The selector `.a .b .c` contains 3 units: `.a`, `.b`, and `.c`. When trying to find matching elements, the browser will first select all `.c` elements and will then check if they have a `.b` parent. If that’s the case, it will then check if that `.b` is a child of a `.a` element.
 > - The selector `.a :is(.b .c)` contains 2 units: `.a`, and `:is(.b .c)`. The first evaluated unit `:is(.b .c)`, which matches the `.c` elements that have a `.b` ancestor. If that’s true, the browser will then continue and check if that matched element – the `.c` – also has a `.a` ancestor.

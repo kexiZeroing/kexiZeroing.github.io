@@ -91,6 +91,8 @@ var App = React.render(Component);
 */
 ```
 
+> More custom hooks explained here: https://github.com/tigerabrodi/50-react-hooks
+
 ### Higher Order Components
 HOCs are wrapper components that help provide additional functionality to existing components. While hooks probably replaced most of shared logic concerns, there are still use cases where higher-order components could be useful. For example, you want to fire analytics event on every click of every button, dropdown and link everywhere.
 

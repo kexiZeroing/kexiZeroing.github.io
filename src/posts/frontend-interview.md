@@ -12,7 +12,7 @@ updatedDate: "Apr 7 2024"
 更全面的准备可以参考:
 - https://hzfe.github.io/awesome-interview
 - https://github.com/Sunny-117/js-challenges
-- https://github.com/lydiahallie/advanced-web-dev-quiz
+- https://github.com/tigerabrodi/data-structures-and-algorithms-javascript
 
 ---
 
