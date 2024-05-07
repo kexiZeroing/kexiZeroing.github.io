@@ -5,7 +5,7 @@ slug: notes-on-domain-specific-chatgpt
 description: ""
 added: "Mar 25 2023"
 tags: [AI]
-updatedDate: "Mar 13 2024"
+updatedDate: "May 7 2024"
 ---
 
 ## What are Vector Embeddings?
@@ -15,9 +15,48 @@ There is something special about vectors that makes them so useful. This represe
 
 <img alt="sentence_embeddings" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hcc5elwuuoj313s0e075k.jpg" width="550" />
 
-We train models to translate objects to vectors. A deep neural network is a common tool for training such models. The resulting embeddings are usually high dimensional (up to two thousand dimensions) and dense (all values are non-zero). For text data, models such as Word2Vec, GloVe, and BERT transform words, sentences, or paragraphs into vector embeddings. Images can be embedded using models such as convolutional neural networks (CNNs).
+We train models to translate objects to vectors. A deep neural network is a common tool for training such models. The resulting embeddings are usually high dimensional (up to two thousand dimensions) and dense (all values are non-zero). For text data, models such as Word2Vec, GloVe (Global Vectors for Word Representation), and BERT transform words, sentences, or paragraphs into vector embeddings. Images can be embedded using models such as convolutional neural networks (CNNs).
 
-> Know more about Text2vec: https://github.com/shibing624/text2vec and a HuggingFace Demo: https://huggingface.co/spaces/shibing624/text2vec
+### Tokens and Embeddings
+Tokens are the basic units of data processed by LLMs. In the context of text, a token can be a word, part of a word (subword), or even a character — depending on the tokenization process.
+
+In the context of GPT-2, each piece of text is represented by the ID of the corresponding token in the final vocabulary. If a word is not in the vocabulary, it’s broken down into smaller tokens that are in the vocabulary. The key point is that the assignment of token IDs is not arbitrary but based on the frequency of occurrence and combination patterns in the language data the model was trained on.
+
+```py
+# Tokens are vectors based on a specific tokenizer.
+
+import tiktoken
+ 
+tokenizer=tiktoken.encoding_for_model("gpt-4")
+ 
+text = "Apple is a fruit"
+ 
+token=tokenizer.encode(text)
+print(token)
+# [27665, 374, 264, 14098]
+ 
+decoded_text = tokenizer.decode(token)
+print(decoded_text)
+# Apple is a fruit
+```
+
+Token IDs are a straightforward numerical representation of tokens. It is a basic form of vectorization. They do not capture any deeper relationships or patterns between the tokens.
+
+Embeddings are advanced vector representations of tokens. They try to capture the most nuance, connections, and semantic meanings between tokens. Each embedding is generally a series of real numbers on a vector space computed by a neural network. They are the “real inputs” of LLMs.
+
+Embeddings are, in fact, a subset of the model’s weights. They are the weights associated with the input layer (in the case of feedforward networks) or the embedding layer (in models like Transformers).
+
+```
+Token IDs: [101, 2009, 1005, 1055, 2058, 7706, 2692, 999, 102]
+Raw tokens: ['[CLS]', 'it', "'", 's', 'over', '900', '##0', '!', '[SEP]']
+Embeddings: tensor([[[ 0.1116,  0.0722,  0.3173,  ..., -0.0635,  0.2166,  0.3236],
+         [-0.4159, -0.5147,  0.5690,  ..., -0.2577,  0.5710,  0.4439],
+         [-0.4893, -0.8719,  0.7343,  ..., -0.3001,  0.6078,  0.3938],
+         ...,
+         [-0.2746, -0.6479,  0.2702,  ..., -0.4827,  0.1755, -0.3939],
+         [ 0.0846, -0.3420,  0.0216,  ...,  0.6648,  0.3375, -0.2893],
+         [ 0.6566,  0.2011,  0.0142,  ...,  0.0786, -0.5767, -0.4356]]])
+```
 
 ## OpenAI’s text embeddings API
 An embedding is a vector (list) of floating point numbers. The distance between two vectors measures their relatedness. Small distances suggest high relatedness and large distances suggest low relatedness.
