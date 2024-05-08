@@ -308,6 +308,8 @@ Comlink makes WebWorkers enjoyable: https://github.com/GoogleChromeLabs/comlink
 
 The Beginner's Guide to React: https://egghead.io/courses/the-beginner-s-guide-to-react or https://www.youtube.com/watch?v=7_x4AuqHxlg
 
+Epic Web React Fundamentals: https://react-fundamentals.epicweb.dev
+
 Getting Closure on React Hooks by Shawn Wang: https://www.youtube.com/watch?v=KJP1E-Y-xyo
 
 Building a Custom React Renderer by Sophie Alpert: https://www.youtube.com/watch?v=CGpMlWVcHok
@@ -418,7 +420,7 @@ Share your wildest ChatGPT conversations with one click: https://sharegpt.com
 
 A chat assistant fine-tuned from LLaMA on user-shared conversations: https://vicuna.lmsys.org
 
-ChartGPT - text to beautiful charts: https://www.chartgpt.dev
+Chatbot Arena - Benchmarking LLMs in the Wild: https://chat.lmsys.org
 
 Interact privately with your documents using LLMs: https://github.com/imartinez/privateGPT
 
@@ -450,7 +452,7 @@ Fully client-side chat over documents: https://github.com/jacoblee93/fully-local
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
 
-Get started with the Gemini API: https://ai.google.dev/docs
+Get started with the Gemini API: https://ai.google.dev/gemini-api/docs
 
 Google AI SDK for JavaScript: https://github.com/google/generative-ai-js
 

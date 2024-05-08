@@ -310,15 +310,15 @@ Your code needs to be hosted on a server. Depending on the size of your code and
 
 Cloud is basically renting out servers and data storage that's owned by someone else (Serverless does not mean there aren't any servers; You still need servers to host and run your code.) Through the cloud provider (AWS, Azure, or Google Cloud), you gain access to resources like storage services, servers, networking, analytics, AI, and more. There are many other benefits: You pay only for what you use. You can easily spin up and use new servers when needed, allowing you to scale quickly. You can deploy applications globally.
 
-> Serverless is just a way of handling how you are using servers. Instead of handling all the infrastructure and server operations yourself you're relying on a cloud provider. *Self-hosted for control, cloud services (may offer free tiers) for uptime.*
-
-There are different families of cloud services.
+Serverless is just a way of handling how you are using servers. Instead of handling all the infrastructure and server operations yourself you're relying on a cloud provider. There are different families of cloud services:
 - **Infrastructure as a service (IaaS)** - Amazon EC2, Digital Ocean
 - **Platform as a service (PaaS)** - Heroku, AWS Elastic Beanstalk
 - **Software as a service (SaaS)** - Dropbox, iCloud, Slack
 - **Function as a service (FaaS)** - AWS Lambda
 
 Serverless functions are an approach to writing back-end code that doesn’t require writing a back-end. In the simplest terms: we write a function using our preferred language, like JavaScript; we send that function to a serverless provider; and then we can call that function just like any API using HTTP methods. These Functions are co-located with your code and part of your Git workflow. You can focus on the business needs and developing a better quality application instead of worrying about the infrastructure and maintenance of a traditional server.
+
+> AWS provides all the necessary building blocks for the modern web. With over 200 services, AWS caters to every aspect of web application infrastructure, including compute, storage, databases, machine learning, and more. Start watching Basic Elements of AWS: https://www.proaws.dev/tutorials/basic-elements-of-aws~hk2qv
 
 ### Netlify functions
 The serverless functions can be run by [Netlify Dev](https://cli.netlify.com/netlify-dev) in the same way they would be when deployed to the cloud. Once you've configured the functions directory in your `netlify.toml`, the functions will be accessible through netlify dev server. e.g. at `http://localhost:8888/.netlify/functions/{function-name}`.
