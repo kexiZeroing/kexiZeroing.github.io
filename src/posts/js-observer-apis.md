@@ -1,13 +1,13 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "JavaScript MutationObserver, IntersectionObserver and ResizeObserver"
-slug: js-mutation-intersection-resize-observer
+title: "JavaScript Observer APIs"
+slug: js-observer-apis
 description: ""
 added: "May 9 2024"
 tags: [js]
 ---
 
-Observers can be helpful to watch certain activities happening in the browser and respond accordingly. For example, we can observe, if a video is displayed within the viewport and enable autoplay, if child element has been added or removed from the parent DOM element, if the size/dimensions of a box element has changed and so on.
+Observers can be helpful to watch certain activities happening in the browser and respond accordingly. For example, we can observe, if child element has been added or removed from the parent DOM element, if a video is displayed within the viewport and enable autoplay, if the size/dimensions of a box element has changed and so on. These are different types of observer APIs in JavaScript.
 
 ## Mutation Observer API
 The `MutationObserver` interface provides the ability to watch for changes being made to the DOM tree.
@@ -46,8 +46,6 @@ observer.disconnect()
 ```
 
 ## Intersection Observer API
-> Implementing intersection detection in the past involved event handlers and loops calling methods like `Element.getBoundingClientRect()` to build up the needed information for every element affected. Since all this code runs on the main thread, even one of these can cause performance problems.
-
 The `IntersectionObserver` interface provides a way to asynchronously observe changes in the intersection of a target element with an ancestor element or with a top-level document's viewport. The ancestor element or viewport is referred to as the root.
 
 The `IntersectionObserver(callback, options)` constructor creates and returns a new `IntersectionObserver` object.
