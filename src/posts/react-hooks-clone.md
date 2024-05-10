@@ -91,7 +91,57 @@ var App = React.render(Component);
 */
 ```
 
-> More custom hooks explained here: https://github.com/tigerabrodi/50-react-hooks
+### Vanilla React useQeury Hook
+```js
+import * as React from "react"
+
+export default function useQuery(url) {
+  const [data, setData] = React.useState(null)
+  const [isLoading, setIsLoading] = React.useState(true)
+  const [error, setError] = React.useState(null)
+
+  React.useEffect(() => {
+    let ignore = false
+
+    const handleFetch = async () => {
+      setData(null)
+      setIsLoading(true)
+      setError(null)
+
+      try {
+        const res = await fetch(url)
+
+        if (ignore) {
+          return 
+        }
+
+        if (res.ok === false) {
+          throw new Error(`A network error occurred.`)
+        }
+
+        const json = await res.json()
+
+        setData(json)
+        setIsLoading(false)
+      } catch (e) {
+        setError(e.message)
+        setIsLoading(false)
+      }
+    }
+
+    handleFetch()
+
+    return () => {
+      ignore = true
+    }
+  }, [url])
+
+  return { data, isLoading, error }
+}
+```
+
+> 1. React Query should be used here in production. And while React Query goes well with data fetching, a better way to describe it is as an async state manager that is also acutely aware of the needs of server state: https://ui.dev/why-react-query
+> 2. More custom hooks explained here: https://github.com/tigerabrodi/50-react-hooks
 
 ### Higher Order Components
 HOCs are wrapper components that help provide additional functionality to existing components. While hooks probably replaced most of shared logic concerns, there are still use cases where higher-order components could be useful. For example, you want to fire analytics event on every click of every button, dropdown and link everywhere.

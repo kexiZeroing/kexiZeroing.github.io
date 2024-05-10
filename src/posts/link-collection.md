@@ -52,7 +52,7 @@ Generative AI for Beginners: https://github.com/microsoft/generative-ai-for-begi
 
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
-Amazon Web Services — a practical guide: https://github.com/open-guides/og-aws
+Explain complex systems using visuals and simple terms: https://github.com/ByteByteGoHq/system-design-101
 
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials
 
@@ -315,8 +315,6 @@ Getting Closure on React Hooks by Shawn Wang: https://www.youtube.com/watch?v=KJ
 Building a Custom React Renderer by Sophie Alpert: https://www.youtube.com/watch?v=CGpMlWVcHok
 
 All Developer Way Articles about React: https://www.developerway.com
-
-Guide to React Rendering Behavior: https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior
 
 Build your own React: https://pomb.us/build-your-own-react
 
