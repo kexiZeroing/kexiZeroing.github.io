@@ -5,7 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "Mar 5 2024"
+updatedDate: "May 12 2024"
 ---
 
 ### package.json and package-lock.json
@@ -214,9 +214,10 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
 - One convention that you may have seen is using a prefix and a colon to group scripts, for example `build:dev` and `build:prod`. This can be helpful to create groups of scripts that are easier to identify by their prefixes.
 - [shx](https://github.com/shelljs/shx) is a wrapper around ShellJS Unix commands, providing an easy solution for simple Unix-like, cross-platform commands in npm package scripts. ShellJS is a portable (Windows/Linux/macOS) implementation of Unix shell commands on top of the Node.js API. `shx` is good for writing one-off commands in npm package scripts (e.g. `"clean": "shx rm -rf out/"`). Run `npm install shx --save-dev` to install it, and run command in either a Unix or Windows command line.
 
-### The rise of supply chain attacks
-Software [supply chain attacks](https://socket.dev/blog/inside-node-modules) occur when an attacker infiltrates a vendor's network and injects malicious code into its software, which that vendor then unknowingly distributes to its customers. Imagine an attacker gets malicious code into a package hosted on npm. From there, the vulnerability spreads to the `node_modules` folders on developer machines, to the build servers, and finally to production systems.
+---
 
-> In October 2021, a hacker advertised on a Russian forum the sale of an npm account that controlled a package with over 7 million weekly downloads. Two weeks later, `ua-parser-js` was compromised, presumably by whoever purchased the password on the hacking forum, and three versions of the package were published containing malware. In just four hours, tens of thousands of users downloaded these versions before the community identified the problem and removed the malicious packages.
-> 
-> Anyone who ran `npm install ua-parser-js` was compromised. Anyone who installed a package that depended on `ua-parser-js` was also compromised. Anyone running npm install without a `package-lock.json` file was compromised. Anyone unlucky enough to update to a new version of `ua-parser-js`, whether manually with `npm update` or through an automated pull request such as from Dependabot, was compromised.
+Despite 'npm scripts' high usage they are not particularly well optimized.
+
+1. By running `cat $(which npm)`, you will find npm CLI is a standard JavaScript file. The only special thing is the first line `#!/usr/bin/env node` which tells your shell the current file can be executed with `node`.
+
+2. Because it's just a js file, we can rely on all the usual ways to generate a profile. My favorite one is node’s `--cpu-prof` argument. Combine that knowledge together and we can generate a profile from an npm script via `node --cpu-prof $(which npm) run myscript`. Loading that profile into [speedscope](https://www.speedscope.app) reveals quite a bit about how npm is structured. The majority of time is spent on loading all the modules that compose the npm cli. The time of the script that we’re running pales in comparison.

@@ -345,6 +345,17 @@ export const search = async (query: string) => {
 };
 ```
 
+> Run a local LLM with Ollama and open-source models: Looking at the specs for the [llama2 7b model](https://ollama.com/library/llama2), I was certain that my M1 Macbook with only 8 GB memory would even run it. But it did, just very slowly.
+> 
+> ```py
+> from langchain_community.llms import Ollama
+>
+> MODEL = "llama2"
+> model = Ollama(model=MODEL)
+> 
+> model.invoke("Tell me a joke")
+> ```
+
 ## Vector Store
 Vector Databases Explained: https://vercel.com/guides/vector-databases
 
