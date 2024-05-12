@@ -24,6 +24,7 @@ In the context of GPT-2, each piece of text is represented by the ID of the corr
 
 ```py
 # Tokens are vectors based on a specific tokenizer.
+# Online playground for OpenAPI tokenizers: https://tiktokenizer.vercel.app
 
 import tiktoken
  
@@ -46,16 +47,14 @@ Embeddings are advanced vector representations of tokens. They try to capture th
 
 Embeddings are, in fact, a subset of the model’s weights. They are the weights associated with the input layer (in the case of feedforward networks) or the embedding layer (in models like Transformers).
 
-```
-Token IDs: [101, 2009, 1005, 1055, 2058, 7706, 2692, 999, 102]
-Raw tokens: ['[CLS]', 'it', "'", 's', 'over', '900', '##0', '!', '[SEP]']
-Embeddings: tensor([[[ 0.1116,  0.0722,  0.3173,  ..., -0.0635,  0.2166,  0.3236],
-         [-0.4159, -0.5147,  0.5690,  ..., -0.2577,  0.5710,  0.4439],
-         [-0.4893, -0.8719,  0.7343,  ..., -0.3001,  0.6078,  0.3938],
-         ...,
-         [-0.2746, -0.6479,  0.2702,  ..., -0.4827,  0.1755, -0.3939],
-         [ 0.0846, -0.3420,  0.0216,  ...,  0.6648,  0.3375, -0.2893],
-         [ 0.6566,  0.2011,  0.0142,  ...,  0.0786, -0.5767, -0.4356]]])
+```py
+from langchain_openai.embeddings import OpenAIEmbeddings
+
+embeddings = OpenAIEmbeddings()
+embedded_query = embeddings.embed_query("Who is Mary's sister?")
+
+print(f"Embedding length: {len(embedded_query)}") # Embedding length: 1536
+print(embedded_query) # [-0.0013594045786472937, -0.03437049808954925, ...]
 ```
 
 ## OpenAI’s text embeddings API

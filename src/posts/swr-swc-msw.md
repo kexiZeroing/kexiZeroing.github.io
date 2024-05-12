@@ -150,6 +150,8 @@ Stale queries are refetched automatically in the background when:
 - The network is reconnected (`refetchOnReconnect`)
 - The query is optionally configured with a refetch interval (`refetchInterval`)
 
+As long as a query is being actively used, the cached data will be kept in memory. What about inactive queries? `gcTime` is the duration until inactive queries will be removed from the cache. This defaults to 5 minutes, which means that if a query is not being used for 5 minutes, the cache for that query will be cleaned up.
+
 ## SWC - Rust-based platform for the Web
 SWC (stands for Speedy Web Compiler) is a super-fast TypeScript / JavaScript compiler written in Rust, and can be used for both compilation and bundling. SWC is 20x faster than babel on a single-core benchmark, 68x faster than babel on a multicore benchmark. 
 

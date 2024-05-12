@@ -5,7 +5,7 @@ slug: get-started-with-langchain
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
-updatedDate: "Mar 21 2024"
+updatedDate: "May 12 2024"
 ---
 
 ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers have released APIs allowing developers to interact directly with these models. And this is where LangChain comes in. LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.
@@ -299,6 +299,54 @@ export const run = async () => {
    * { res: { text: ' Rachel went to Harvard.' } }
    */
 };
+```
+
+### LangChain Expression Language (LCEL)
+LangChain Expression Language is a declarative system designed for easily building multi-step computational chains, from simple prototypes to complex, production-level applications. It simplifies the process of setting up complex computational tasks by allowing users to state “what” outcome is needed rather than detailing “how” to achieve it.
+
+```py
+from langchain_core.output_parsers import StrOutputParser
+from langchain.prompts import ChatPromptTemplate
+
+template = """
+Answer the question based on the context below. If you can't 
+answer the question, reply "I don't know".
+
+Context: {context}
+
+Question: {question}
+"""
+
+prompt = ChatPromptTemplate.from_template(template)
+model = ChatOpenAI(openai_api_key=OPENAI_API_KEY, model="gpt-3.5-turbo")
+parser = StrOutputParser()
+
+chain = prompt | model | parser
+chain.invoke({
+  "context": "Mary's sister is Susana",
+  "question": "Who is Mary's sister?"
+})
+
+```py
+from langchain_community.vectorstores import DocArrayInMemorySearch
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+
+vectorstore = DocArrayInMemorySearch.from_texts(
+  [
+    "Mary's sister is Susana",
+    "John and Tommy are brothers",
+    "Patricia likes white cars",
+    "Pedro's mother is a teacher",
+    "Lucia drives an Audi",
+  ],
+  embedding=embeddings,
+)
+
+retriever = vectorstore.as_retriever()
+setup = RunnableParallel(context=retriever, question=RunnablePassthrough())
+
+chain = setup | prompt | model | parser
+chain.invoke("What color is Patricia's car?")
 ```
 
 ### How agents work under the hood

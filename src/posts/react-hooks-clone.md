@@ -140,7 +140,7 @@ export default function useQuery(url) {
 }
 ```
 
-> 1. React Query should be used here in production. And while React Query goes well with data fetching, a better way to describe it is as an async state manager that is also acutely aware of the needs of server state: https://ui.dev/why-react-query
+> 1. React Query should be used instead: https://ui.dev/why-react-query
 > 2. More custom hooks explained here: https://github.com/tigerabrodi/50-react-hooks
 
 ### Higher Order Components
