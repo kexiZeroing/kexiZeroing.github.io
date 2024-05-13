@@ -88,12 +88,12 @@ The key idea of the Composition API is that, rather than defining a component’
 ```js
 // useCounter.js
 // https://css-tricks.com/how-the-vue-composition-api-replaces-vue-mixins/
-import { ref, computed } from 'vue';
+import { ref, computed } from 'vue'
 export default function () {
-  const count = ref(0);
+  const count = ref(0)
   const double = computed(() => count.value * 2)
   function increment() {
-    count.value++;
+    count.value++
   }
   return {
     count,
@@ -103,19 +103,43 @@ export default function () {
 }
 
 // useEvent composable
-import { onMounted, onBeforeUnmount } from 'vue';
+import { onMounted, onBeforeUnmount } from 'vue'
 export function useEvent = (event, handler, options) => {
   const {
     target = window,
     listener,
-  } = options;
+  } = options
   onMounted(() => {
-    target.addEventListener(event, handler, listener);
-  });
+    target.addEventListener(event, handler, listener)
+  })
   onBeforeUnmount(() => {
-    target.removeEventListener(event, handler, listener);
-  });
-};
+    target.removeEventListener(event, handler, listener)
+  })
+}
+
+// useTimeout composable
+export function useTimeout = (fn, delay, options) => {
+  const immediate = options?.immediate
+  if (immediate) {
+    fn()
+  }
+
+  watchEffect(onCleanup => {
+    if (isRef(delay)) {
+      if (typeof delay.value !== 'number' || delay.value < 0) return
+    } else {
+      if (typeof delay !== 'number' || delay < 0) return
+    }
+    const _deply = unref(delay)
+    const timer = setTimeout(() => {
+      fn()
+    }, _deply)
+
+    onCleanup(() => {
+      clearInterval(timer)
+    })
+  })
+}
 ```
 
 ### Organize your Composition API code

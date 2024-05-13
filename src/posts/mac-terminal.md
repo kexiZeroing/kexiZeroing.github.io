@@ -318,7 +318,7 @@ Open Activity Monitor, you’ll see a column named “Kind”. If the app says �
 |  ----   | ---- |
 | shutdown -h now | 即刻关机 (graceful shutdown)
 | reboot  | 重启
-| arch | 体系结构名称 i386, i486, i586, arm, mips, x86_64(x64 is the abbreviation for x86_64)
+| arch | 体系结构名称 i386, i486, i586, mips, arm64, x86_64(x64 is the abbreviation for x86_64)
 | sysctl -n machdep.cpu.brand_string | 查看 cpu 信息
 | uname -s | 操作系统名称 kernel name
 | hostname | 计算机名
