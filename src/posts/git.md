@@ -140,6 +140,25 @@ I always see this error when I create a new Github repository with a README.md o
 
 `git reflog` doesn't traverse HEAD's ancestry. The reflog is an ordered list of the commits that HEAD has pointed to: **it's the undo history for your repo**. The reflog isn't part of the repo itself (it's stored separately to the commits themselves and it's purely local). If you accidentally reset to an older commit, or rebase wrongly, or any other operation that visually "removes" commits, you can use the reflog to see where you were before and `git reset --hard HEAD@{index}` back to that ref to restore your previous state.
 
+```sh
+## Recover deleted branch
+## Pre-requisite: You have to know your last commit message from your deleted branch.
+git reflog
+# Search for message in the list
+# a901eda HEAD@{18}: commit: <last commit message>
+
+# Now you have two options, either checkout revision or HEAD
+git checkout a901eda 
+# Or
+git checkout HEAD@{18}
+
+# Create branch
+git branch recovered-branch
+
+# You may want to push that back to remote
+git push origin recovered-branch:recovered-branch
+```
+
 ## rename branch
 - Rename the branch while working in this branch: `git branch -m <new name>`; rename from outside the branch: `git branch -m <old name> <new name>`.
 - Using 'master' as the name for the initial branch. This default branch name is subject to change. To configure the initial branch name to use in all of your new repositories, call `git config --global init.defaultBranch <name>`.
