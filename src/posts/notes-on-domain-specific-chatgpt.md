@@ -57,6 +57,16 @@ print(f"Embedding length: {len(embedded_query)}") # Embedding length: 1536
 print(embedded_query) # [-0.0013594045786472937, -0.03437049808954925, ...]
 ```
 
+```js
+import { embed } from 'ai'
+import { openai } from '@ai-sdk/openai'
+
+const { embedding } = await embed({
+  model: openai.embedding('text-embedding-3-small'),
+  value: 'sunny day at the beach',
+})
+```
+
 ## OpenAI’s text embeddings API
 An embedding is a vector (list) of floating point numbers. The distance between two vectors measures their relatedness. Small distances suggest high relatedness and large distances suggest low relatedness.
 

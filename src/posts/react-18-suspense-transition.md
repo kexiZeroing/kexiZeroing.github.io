@@ -101,7 +101,7 @@ function App() {
 }
 ```
 
-If we didn't use `useDeferredValue`, the expensive computation ("List" component here) would run on every keystroke, which could lead to performance issues. By deferring the update of the text value, we ensure that the expensive computation only runs when the text value has stabilized.
+If we didn't use `useDeferredValue`, the expensive computation ("List" component here) would run on every keystroke, which could lead to performance issues. By deferring the update of the text value, we ensure that the expensive computation only runs when the text value has stabilized. *If React gets interrupted by another state change, the important stuff has already been updated. React can abandon the less-important second render, and start work immediately on the more-important part.*
 
 ## New Suspense Features 
 Suspense allows you to render a fallback component while a component is waiting for some asynchronous operations.

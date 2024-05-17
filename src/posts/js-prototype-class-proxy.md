@@ -275,27 +275,6 @@ The **Reflect** namespace object contains static methods for invoking intercepta
 The major use case of Reflect is to provide default forwarding behavior in Proxy handler traps. The Reflect API is used to invoke the corresponding internal method. For example, you create a proxy with a `deleteProperty` trap that intercepts the `[[Delete]]` internal method. `Reflect.deleteProperty()` is used to invoke the default `[[Delete]]` behavior on targetObject directly. You can replace it with `delete`, but using Reflect saves you from having to remember the syntax that each internal method corresponds to.
 
 ```js
-const target = {
-  message1: "hello",
-  message2: "everyone",
-};
-
-const handler = {
-  get(target, prop, receiver) {
-    if (prop === "message2") {
-      return "world";
-    }
-    return Reflect.get(...arguments);
-  },
-};
-
-const proxy = new Proxy(target, handler);
-
-console.log(proxy.message1); // hello
-console.log(proxy.message2); // world
-```
-
-```js
 const person = {
   name: "John Doe",
   age: 42,
@@ -310,4 +289,45 @@ const personProxy = new Proxy(person, {
     Reflect.set(obj, prop, value);
   },
 });
+```
+
+```js
+// time machine
+function createTimeMachine(data, onUpdate) {
+  return new Proxy(
+    {
+      states: [stucturedClone(data)],
+      currentIndex: 0,
+    },
+    {
+      set(target, prop, value) {
+        target.states.push(stucturedClone({
+           ...target.states[target.currentIndex],
+           [prop]: value
+        }))
+        target.currentIndex++
+        onUpdate()
+      },
+
+      get(target, prop) {
+        const currentState = target.states[target.currentIndex]
+        if (prop === 'currentState') {
+          return currentState
+        } else if (prop === 'backward') {
+          return () => {
+            target.currentIndex--
+            onUpdate()
+          }
+        } else if (prop === 'forward') {
+          return () => {
+            target.currentIndex++
+            onUpdate()
+          }
+        } else {
+          return currentState[prop]
+        }
+      }
+    }
+  )
+}
 ```
