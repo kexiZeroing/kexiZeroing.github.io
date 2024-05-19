@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Feb 21 2024"
+updatedDate: "May 19 2024"
 ---
 
 ### TOC
@@ -17,6 +17,7 @@ updatedDate: "Feb 21 2024"
 - [Insertion Sort](#insertion-sort)
 - [Quick Sort](#quick-sort)
 - [Merge Sort](#merge-sort)
+- [Linked List](#linked-list)
 - [Count Sort](#count-sort)
 - [Undo/Redo stacks](#undoredo-stacks)
 - [Shuffle an array](#shuffle-an-array)
@@ -207,6 +208,76 @@ function mergeSort(arr) {
   const right = arr.slice(split, arr.length);
 
   return merge(mergeSort(left), mergeSort(right));
+}
+```
+
+### Linked List
+
+```js
+class ListNode {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+
+// Basic operations for a linked list:
+// 1. Find the middle node of a linked list
+// 2. Check if a linked list has a cycle
+// 3. Reverse a linked list
+
+function getMiddleNode(head) {
+  if (head === null) {
+    return null;
+  }
+
+  let slow = head;
+  let fast = head;
+
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+
+  return slow;
+}
+
+function hasCycle(head) {
+  if (head === null || head.next === null) {
+    return false;
+  }
+
+  let slow = head;
+  let fast = head;
+
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow === fast) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function reverseList(head) {
+  if (head === null || head.next === null) {
+    return head;
+  }
+
+  let current = head;
+  let prev = null;
+
+  while (current !== null) {
+    const next = current.next;
+    current.next = prev;
+    prev = current;
+    current = next;
+  }
+
+  return prev;
 }
 ```
 
@@ -788,23 +859,6 @@ var groupAnagrams = function(strs) {
 };
 ```
 
-Write a program to find the sum of contiguous subarray within a one-dimensional array of numbers that has the largest sum. 
-
-```js
-var maxSubArraySum = function(nums) {
-  let curSum = 0;
-  let maxSum = nums[0];
-
-  for (let i = 0; i < nums.length; i++) {
-    curSum = (nums[i] > curSum + nums[i]) ? nums[i] : curSum + nums[i];
-    if (curSum > maxSum) {
-      maxSum = curSum
-    }
-  }
-  return maxSum;
-}
-```
-
 Given a string, find the length of the longest substring without repeating characters.
 
 ```js
@@ -885,29 +939,6 @@ var subarraySum = function(nums, k) {
     } else {
       map.set(sum, 1);
     }
-  }
-  return res;
-};
-```
-
-Given an array nums of n integers where n > 1, return an array output such that `output[i]` is equal to the product of all the elements of nums except `nums[i]`. i.e. Input: `[1,2,3,4]`; Output: `[24,12,8,6]`. Note: Please solve it without division and in `O(n)`.
-
-```js
-var productExceptSelf = function(nums) {
-  let res = [];
-  let n = nums.length;
-  res[0] = 1;
-  
-  // loop from the start
-  for (let i = 1; i < n; i++) {
-    res[i] = res[i - 1] * nums[i - 1];
-  }
-  
-  // another loop from the end
-  let right = 1;
-  for (let i = n - 1; i >= 0; i--) {
-    res[i] *= right;
-    right *= nums[i];
   }
   return res;
 };

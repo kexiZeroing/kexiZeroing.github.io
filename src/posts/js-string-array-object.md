@@ -638,7 +638,7 @@ The Map object holds key-value pairs and **remembers the original insertion orde
 Object is similar to Map, and Objects have been used as Maps historically; however, there are important differences that make using a Map preferable in certain cases:
 - The keys of an Object are String and Symbol, whereas they can be any value for a Map, including functions, objects, and any primitive.
 - The keys in Map are ordered while keys added to object are not. Thus, when iterating over it, a Map object returns keys in order of insertion.
-- You can get the size of a Map easily with the `size` property, while the number of properties in an Object must be determined manually.
+- You can get the size of a Map easily with the `size` property, while the number of properties in an Object must be determined manually. (A Map is iterable, whereas a objects is not iterable.)
 
 ```js
 var myMap = new Map();
