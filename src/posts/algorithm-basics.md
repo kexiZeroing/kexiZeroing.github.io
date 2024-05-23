@@ -155,20 +155,22 @@ function quickSort(arr, lo, hi) {
 
 // Another way to do the partition with two pointers
 function partition(nums, left, right) {
-  let i = left, j = right;
-  while (i < j) {
-    while (i < j && nums[j] >= nums[left]) {
-      j -= 1;
+  let pivot = nums[left]
+  
+  while (left < right) {
+    while (left < right && nums[right] >= pivot) {
+      right--;
     }
-    while (i < j && nums[i] <= nums[left]) {
-      i += 1;
-    }
+    nums[left] = nums[right];
 
-    this.swap(nums, i, j);
+    while (left < right && nums[left] <= pivot) {
+      left++;
+    }
+    nums[right] = nums[left];
   }
 
-  this.swap(nums, i, left);
-  return i;
+  nums[left] = pivot;
+  return left;
 }
 ```
 
