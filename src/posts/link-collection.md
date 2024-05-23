@@ -302,6 +302,8 @@ OCR PDFs and images directly in your browser: https://tools.simonwillison.net/oc
 
 Comlink makes WebWorkers enjoyable: https://github.com/GoogleChromeLabs/comlink
 
+Web component JS frameworks overview by their syntax and features: https://component-party.dev
+
 ---
 
 ## React ecosystem
@@ -337,6 +339,8 @@ React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.co
 Learn Next.js course by Vercel: https://nextjs.org/learn
 
 React's evolution from Hooks to Concurrent React: https://tigerabrodi.blog/reacts-evolution-from-hooks-to-concurrent-react
+
+Build Your Own React.js in 400 Lines of Code: https://webdeveloper.beehiiv.com/p/build-react-400-lines-code
 
 ---
 

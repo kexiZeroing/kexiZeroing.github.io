@@ -142,6 +142,8 @@ export function useTimeout = (fn, delay, options) => {
 }
 ```
 
+> Each component instance calling `useMouse()` will create its own copies of x and y state so they won't interfere with one another. But if you put those values outside of the composable function, it will persist, like a basic state or store. When you need to access those values later somewhere else, they won't be reset everytime you call the composable.
+
 ### Organize your Composition API code
 We abandon the options API for the composition API, and the idea is not that we write everything the same way as the options API but not having the data/computed/watch options.
 
