@@ -437,21 +437,29 @@ var maxDepth = function(root) {
 
 var minDepth = function(root) {
   if (!root) return 0;
+  
+  const nodeQueue = [root];
+  let depth = 0;
 
-  let queue = [root, null];
-  let depth = 1;
+  while (nodeQueue.length) {
+    const size = nodeQueue.length;
+    depth++;
 
-  while (queue) {
-    const cur = queue.shift();
-    if (cur === null) {
-      if (queue.length === 0) return depth;
-      depth++;
-      queue.push(null);
-    } else {
-      if (cur.left) queue.push(cur.left);
-      if (cur.right) queue.push(cur.right);
+    for (let i = 0; i < size; i++) {
+      const curNode = nodeQueue.shift();
+      // If it's a leaf node, return the depth
+      if (!curNode.left && !curNode.right) {
+        return depth;
+      }
+      if (curNode.left) {
+        nodeQueue.push(curNode.left);
+      }
+      if (curNode.right) {
+        nodeQueue.push(curNode.right);
+      }
     }
   }
+  return depth;
 }
 ```
 
