@@ -393,6 +393,21 @@ var inorderTraversal = function(root) {
   return result;
 };
 
+// Construct binary tree from pre-order and in-order traversal
+var buildTree = function(preorder, inorder) {
+  if (preorder.length === 0) {
+     return null;
+  }
+
+  const root = new TreeNode(preorder[0]);
+  const mid = inorder.indexOf(preorder[0]);
+
+  root.left = buildTree(preorder.slice(1, mid + 1), inorder.slice(0, mid));
+  root.right = buildTree(preorder.slice(mid + 1), inorder.slice(mid + 1));
+
+  return root;
+};
+
 // Level-Order traversal
 var levelOrderTraversal = function(root) {
   if (!root) return [];
@@ -1113,32 +1128,6 @@ var maxArea = function(height) {
     }
   }
   return res;  
-};
-```
-
-Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
-
-```js
-var maxDepth = function(root) {
-  if (!root) return 0;
-  if (!root.left && !root.right) return 1;
-
-  let cur = root;
-  let queue = [root, null];
-  let depth = 1;
-	
-  while (queue) {
-    const cur = queue.shift();
-
-    if (cur === null) {
-      if (queue.length === 0) return depth;
-      depth++;
-      queue.push(null);
-    } else {
-      if (cur.left) queue.push(cur.left);
-      if (cur.right) queue.push(cur.right);	
-    }
-  }
 };
 ```
 
