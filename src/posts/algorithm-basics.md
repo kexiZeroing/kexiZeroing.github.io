@@ -409,30 +409,28 @@ var buildTree = function(preorder, inorder) {
 };
 
 // Level-Order traversal
-var levelOrderTraversal = function(root) {
+var levelOrderTraversal = function(root) {  
   if (!root) return [];
+
+  const nodeQueue = [root];
   let result = [];
-  let queue = [root, null];
-  let levelNodes = [];
 
-  while (queue.length) {
-    const t = queue.shift();
+  while (nodeQueue.length) {
+    const size = nodeQueue.length;
+    const level = [];
 
-    if (t) {
-      levelNodes.push(t.val)
-      if (t.left) {
-        queue.push(t.left);
+    for (let i = 0; i < size; i++) {
+      const curNode = nodeQueue.shift();
+      level.push(curNode.val);
+
+      if (curNode.left) {
+        nodeQueue.push(curNode.left);
       }
-      if (t.right) {
-        queue.push(t.right);
-      }
-    } else {
-      result.push(levelNodes);
-      levelNodes.length = 0 ;
-      if (queue.length > 0) {
-        queue.push(null)
+      if (curNode.right) {
+        nodeQueue.push(curNode.right);
       }
     }
+    result.push(level);
   }
 
   return result;
@@ -1128,6 +1126,40 @@ var maxArea = function(height) {
     }
   }
   return res;  
+};
+```
+
+Given a binary search tree (BST), find the lowest common ancestor node of two given nodes in the BST.
+
+```js
+var lowestCommonAncestor = function(root, p, q) {
+  // (root.val - p.val) * (root.val - q.val) > 0, means p, q at same side
+  // (root.val - p.val) * (root.val - q.val) < 0, means p, q at different side
+  while (root.value - p.value > 0 && root.value - q.value > 0) {
+    if (p.val < root.val) {
+      root = root.left;
+    } else {
+      root = root.right;
+    }
+  }
+  
+  return root;
+};
+```
+
+Given the root of a binary tree, determine if it is a valid binary search tree.
+
+```js
+var isValidBST = function(root) {
+  const helper = (root, min, max) => {
+    if (!root) return true;
+    
+    if (root.val < min || root.val > max) return false;
+    
+    return helper(root.left, min, root.val) && helper(root.right, root.val, max);
+  }
+
+  return helper(root, -Infinity, Infinity);
 };
 ```
 
