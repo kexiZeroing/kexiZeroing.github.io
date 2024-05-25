@@ -130,20 +130,6 @@ function insertionSort(arr) {
 ### Quick Sort
 
 ```js
-function partition(arr, lo, hi) {
-  const pivot = arr[hi];
-  let i = lo;
-  for (let j = lo; j < hi; j++) {
-    if (arr[j] <= pivot) {
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-      i++;
-    }
-  }
-  
-  [arr[i], arr[hi]] = [arr[hi], arr[i]];
-  return i;
-}
-
 function quickSort(arr, lo, hi) {
   if (lo >= hi) {
     return;
@@ -153,7 +139,6 @@ function quickSort(arr, lo, hi) {
   quickSort(arr, pivot + 1, hi);
 }
 
-// Another way to do the partition with two pointers
 function partition(nums, left, right) {
   let pivot = nums[left]
   
@@ -437,22 +422,36 @@ var levelOrderTraversal = function(root) {
 
   return result;
 };
+```
 
-// backtracking with path
-function preOrder(root, path, res) {
-  if (root === null) {
-    return;
+```js 
+// Max and Min depth of Binary Tree
+var maxDepth = function(root) {
+  if (!root) return 0;
+
+  const left = maxDepth(root.left);
+  const right = maxDepth(root.right);
+
+  return Math.max(left, right) + 1;
+}
+
+var minDepth = function(root) {
+  if (!root) return 0;
+
+  let queue = [root, null];
+  let depth = 1;
+
+  while (queue) {
+    const cur = queue.shift();
+    if (cur === null) {
+      if (queue.length === 0) return depth;
+      depth++;
+      queue.push(null);
+    } else {
+      if (cur.left) queue.push(cur.left);
+      if (cur.right) queue.push(cur.right);
+    }
   }
-  path.push(root);
-
-  // i.e. to find the node which has value 7
-  if (root.val === 7) {
-    res.push([...path]);
-  }
-
-  preOrder(root.left, path, res);
-  preOrder(root.right, path, res);
-  path.pop();
 }
 ```
 
@@ -1138,6 +1137,23 @@ var maxDepth = function(root) {
 Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges are all surrounded by water.
 
 ```js
+var numIslands = function(grid) {
+  let count = 0;
+  const rows = grid.length;
+  if (rows === 0) return 0;
+  const cols = grid[0].length;
+  
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      if (grid[i][j] === '1') {
+        dfs(grid, i, j, rows, cols);  
+        count++;
+      }
+    }
+  }
+  return count;
+};
+
 function dfs(grid, i, j, rows, cols) {
   if (i < 0 || j < 0 || i > rows - 1 || j > cols - 1 || grid[i][j] === '0')
     return;
@@ -1149,22 +1165,4 @@ function dfs(grid, i, j, rows, cols) {
   dfs(grid, i - 1, j, rows, cols);
   dfs(grid, i, j - 1, rows, cols);
 }
-
-var numIslands = function(grid) {
-  let count = 0;
-  const rows = grid.length;
-  if (rows === 0) return 0;
-  const cols = grid[0].length;
-  
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      if (grid[i][j] === '1') {
-        // call one dfs to find all the connected area `grid[i][j]` can reach
-        dfs(grid, i, j, rows, cols);  
-        count++;
-      }
-    }
-  }
-  return count;
-};
 ```
