@@ -354,7 +354,6 @@ function shuffleArray(arr) {
 ### Traverse Binary Tree
 
 ```js
-// iterative pre-order and in-order traversal
 var preorderTraversal = function(root) {
   if (root == null) return [];
   let stack = [];
@@ -393,22 +392,22 @@ var inorderTraversal = function(root) {
   return result;
 };
 
-// Construct binary tree from pre-order and in-order traversal
-var buildTree = function(preorder, inorder) {
-  if (preorder.length === 0) {
-     return null;
+var postorderTraversal = function (root) {
+  if (root == null) return [];
+  
+  let result = [];
+  let stack = [root];
+  let cur = null;
+
+  while (stack.length) {
+    cur = stack.pop();
+    result.push(cur.val);
+    cur.left && stack.push(cur.left);
+    cur.right && stack.push(cur.right);
   }
-
-  const root = new TreeNode(preorder[0]);
-  const mid = inorder.indexOf(preorder[0]);
-
-  root.left = buildTree(preorder.slice(1, mid + 1), inorder.slice(0, mid));
-  root.right = buildTree(preorder.slice(mid + 1), inorder.slice(mid + 1));
-
-  return root;
+  return result.reverse();
 };
 
-// Level-Order traversal
 var levelOrderTraversal = function(root) {  
   if (!root) return [];
 
@@ -1175,6 +1174,24 @@ var lowestCommonAncestor = function(root, p, q) {
     }
   }
   
+  return root;
+};
+```
+
+Construct binary tree from pre-order and in-order traversal.
+
+```js
+var buildTree = function(preorder, inorder) {
+  if (preorder.length === 0) {
+     return null;
+  }
+
+  const root = new TreeNode(preorder[0]);
+  const mid = inorder.indexOf(preorder[0]);
+
+  root.left = buildTree(preorder.slice(1, mid + 1), inorder.slice(0, mid));
+  root.right = buildTree(preorder.slice(mid + 1), inorder.slice(mid + 1));
+
   return root;
 };
 ```
