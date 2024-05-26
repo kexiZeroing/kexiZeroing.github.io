@@ -705,6 +705,38 @@ let coinChange = function(coins, amount) {
 };
 ```
 
+```js
+// Given two strings text1 and text2, return the length of their longest common subsequence.
+// Input: text1 = "abcde", text2 = "ace" 
+// Output: 3. The longest common subsequence is "ace" and its length is 3.
+let longestCommonSubsequence = function(text1, text2) {
+  let m = text1.length;
+  let n = text2.length;
+  // dp[i][j] means the LCS of first i characters in text1 and first j characters in text2
+  let dp = Array.from(Array(m + 1), () => Array(n + 1).fill(0));
+  
+  dp[0][0] = 0;
+  for (let i = 0; i <= m; i++) {
+    dp[i][0] = 0;
+  }
+  for (let j = 0; j <= n; j++) {
+    dp[0][j] = 0;
+  }
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (text1[i - 1] === text2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }  
+    }
+  }
+
+  return dp[m][n];
+};
+```
+
 ### LRU
 
 ```js
