@@ -400,6 +400,8 @@ Firefox release notes: https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/
 
 New to the web platform (every month): https://web.dev/blog/web-platform-01-2024
 
+Monitor and track the status of all Web Platform features: https://webstatus.dev
+
 ---
 
 ## Awesome ChatGPT

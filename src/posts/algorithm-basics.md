@@ -972,6 +972,54 @@ function isSame(dict1, dict2) {
 }
 ```
 
+Given a string s, return the longest palindromic substring in s.
+
+```js
+var longestPalindrome = function(s) {
+  let left = 0, right = 0, maxLength = 0;
+
+  const extend = (s, i, j, n) => {
+    while (i >= 0 && j < n && s[i] === s[j]) {
+      if (j - i + 1 > maxLength) {
+        left = i;
+        right = j;
+        maxLength = j - i + 1;
+      }
+
+      i--;
+      j++;
+    }
+  }
+
+  for (let i = 0; i < s.length; i++) {
+    extend(s, i, i, s.length);     // i is the center
+    extend(s, i, i + 1, s.length); // i and i + 1 are the center
+  }
+
+  return s.slice(left, right + 1);
+};
+```
+
+Given an array of integers temperatures represents the daily temperatures, return an array answer such that `answer[i]` is the number of days you have to wait after the `ith` day to get a warmer temperature. If there is no future day for which this is possible, keep `answer[i] == 0` instead.
+
+```js
+var dailyTemperatures = function(temperatures) {
+  let stack = [];
+  let res = new Array(temperatures.length).fill(0);
+
+  for (let i = 0; i < temperatures.length; i++) {
+    while (stack.length > 0 && temperatures[i] > temperatures[stack[stack.length - 1]]) {
+      let preIndex = stack.pop();
+      res[preIndex] = i - preIndex;
+    }
+    // push the index, not the value
+    stack.push(i);
+  }
+
+  return res;  
+};
+```
+
 Given an array of integers and an integer `k`, you need to find the total number of continuous subarrays whose sum equals to `k`. For example, Input: nums = `[1,1,1]`, k = 2; Output: 2
 
 ```js
@@ -1010,21 +1058,6 @@ var containsNearbyDuplicate = function(nums, k) {
     map.set(num, i);
   }
   return false;
-};
-```
-
-Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length. You must do this by modifying the input array in-place.
-
-```js
-var removeDuplicates = function(nums) {
-  let p = 0;
-  for (let q = 0; q < nums.length; q++) {
-    if (nums[q] !== nums[p]) {
-      p++;
-      nums[p] = nums[q]
-    }   
-  }
-  return p + 1;
 };
 ```
 
