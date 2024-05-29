@@ -137,6 +137,8 @@ window.performance.getEntriesByType('resource')
   .forEach(({name}) => console.log(name))
 ```
 
+> `blocking="render"` (added to `<script>` or `<link>`) is a way to mark a resource as required before anything is visually shown to the user. The browser should assign a high priority to any render-blocking resource by default.
+
 ### The Speculation Rules API
 - https://developer.chrome.com/docs/web-platform/prerender-pages
 - https://developer.chrome.com/docs/devtools/application/debugging-speculation-rules

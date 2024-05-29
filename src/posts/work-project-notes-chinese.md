@@ -555,6 +555,13 @@ target.parentNode.scrollTop = target.offsetTop;
 // can also add the css `scroll-behavior: smooth;`
 ```
 
+```js
+export function scrollToDocumentBottom() {
+  const scrollingElement = document.scrollingElement || document.body;
+  scrollingElement.scrollTop = scrollingElement.scrollHeight;
+}
+```
+
 - npmmirror 已内置[支持类似 unpkg cdn 解析能力](https://zhuanlan.zhihu.com/p/633904268)，可以简单理解为访问 unpkg 地址时，在回源服务里面根据 URL 参数，去 npm registry 下载对应的 npm 包，解压后响应对应的文件内容。即只需要遵循约定的 URL 进行访问，即可在页面中加载任意 npm 包里面的文件内容。
   ```
   # 获取目录信息 /${pkg}/${versionOrTag}/files?meta

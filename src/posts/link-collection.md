@@ -472,6 +472,8 @@ Run Hugging Face Transformers directly in the browser: https://github.com/xenova
 
 Framework for Multi AI Agents Systems: https://github.com/joaomdmoura/crewai
 
+A collection of guides and examples for the Gemini API: https://github.com/google-gemini/cookbook
+
 ---
 
 ## Machine Learning

@@ -107,6 +107,8 @@ updatedDate: "May 5 2024"
 
 - In order for the `postion: sticky` element to function correctly, it needs to have at least one of it's `top`, `right`, `left`, or `bottom` placement properties set. Also look for any `overflow` property set on any parents of the element. You can't use `overflow: hidden`, `overflow: auto`, or `overflow: scroll` on the parent of a `position: sticky` element.
 
+- If you are using `visible` for either `overflow-x` or `overflow-y` and something other than `visible` for the other, the `visible` value is interpreted as `auto`. (If one is set to `visible`, and the other to `auto` or `scroll`, then the `visible` is changed to `auto`.)
+
 - Position `fixed` doesn’t work with `transform` CSS property. It happens because transform creates a new coordinate system and your `position: fixed` element becomes fixed to that transformed element.
 
 - Center one and right/left align other element: Grid layout may be the cleanest and most efficient method. There is no need for absolute positioning or flexbox with fake elements.
