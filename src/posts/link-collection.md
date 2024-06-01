@@ -164,6 +164,10 @@ Feature management for developers with GitOps: https://github.com/featurevisor/f
 
 Awesome Web Apps that work without login: https://github.com/aviaryan/awesome-no-login-web-apps
 
+A powerful media downloader with no bullshit: https://cobalt.tools
+
+A high-performance HTTP benchmarking tool written in Golang: https://github.com/six-ddc/plow
+
 ---
 
 ## CSS related
