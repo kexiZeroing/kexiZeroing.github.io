@@ -345,6 +345,7 @@ Open Activity Monitor, you’ll see a column named “Kind”. If the app says �
 | netstat -P tcp | 显示特定传输协议的状态
 | cat /etc/hosts | 管理 IP 地址和主机名之间的映射
 | cat /etc/resolv.conf | DNS 客户机配置文件
+| nohup command & | 使命令永久的在后台执行（不挂断且前台可交互）
 |
 
 System Information Library for Node.js: https://systeminformation.io

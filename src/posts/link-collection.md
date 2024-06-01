@@ -474,6 +474,8 @@ Framework for Multi AI Agents Systems: https://github.com/joaomdmoura/crewai
 
 A collection of guides and examples for the Gemini API: https://github.com/google-gemini/cookbook
 
+Hands on with the Vercel AI SDK: https://github.com/nicoalbanese/ai-sdk-fundamentals
+
 ---
 
 ## Machine Learning

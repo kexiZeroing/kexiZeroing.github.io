@@ -179,8 +179,9 @@ Speculation rules can also be used to just prefetch pages, without a full preren
 ```
 
 > 1. Speculation rules can be statically included in the page's HTML, or dynamically inserted into the page by JavaScript based on application logic.
-> 2. Prerendering does use additional memory and network bandwidth. Be careful not to over-prerender, at a cost of user resources. Only prerender when there is a high likelihood of the page being navigated to.
-> 3. At present, speculation rules are restricted to pages opened within the same tab, but we are working to reduce that restrictions. By default prerender is restricted to same-origin pages.
+> 2. Speculation rules are for full page navigations, not SPAs. SPAs can still benefit for the initial load.
+> 3. Prerendering does use additional memory and network bandwidth. Be careful not to over-prerender, at a cost of user resources. Only prerender when there is a high likelihood of the page being navigated to.
+> 4. At present, speculation rules are restricted to pages opened within the same tab, but we are working to reduce that restrictions. By default prerender is restricted to same-origin pages.
 
 ### The DOMContentLoaded event
 The `DOMContentLoaded` event fires once all of your deferred JavaScript (`<script defer>` and `<script type="module">`) has finished running. It doesn't wait for other things like images, subframes, and async scripts to finish loading. If we want to capture this data more deliberately ourselves, we need to lean on the Navigation Timing API, which gives us access to a suite of milestone timings.
