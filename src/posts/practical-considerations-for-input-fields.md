@@ -1,6 +1,6 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Practical Considerations for Input Fields"
+title: "Practical considerations for Input fields"
 slug: practical-considerations-for-input-fields
 description: ""
 added: "Jun 5 2024"
