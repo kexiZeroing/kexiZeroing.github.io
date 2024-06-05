@@ -1,0 +1,144 @@
+---
+layout: "../layouts/BlogPost.astro"
+title: "Practical Considerations for Input Fields"
+slug: practical-considerations-for-input-fields
+description: ""
+added: "Jun 5 2024"
+tags: [web]
+---
+
+## Dealing with contenteditable elements in Vue
+
+```vue
+<template>
+  <div contenteditable="true" v-html="modelValue" @input="update"></div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const modelValue = ref('')
+
+function update(ev) {
+  modelValue.value = ev.target.innerHTML
+}
+</script>
+```
+
+What's the issue here? Whenever the data is updated, the DOM element refreshes with the "new" data, causing the caret to jump back to the beginning of the `contenteditable` div.
+
+A quick fix is to use `blur` event rather than `input`. So if we know there's any text content change happening between the focus shift, it qualifies as a change event. However, sometimes we need the `input` event to detect user's typing. The key here is we only want Vue to re-render when the input stops. `v-once` directive can help us here to skip subsequent re-renders. Additionally, we need to mutate the editable block's content manually.
+
+```vue
+<template>
+  <div v-once contenteditable="true" v-html="modelValue" @input="update"></div>
+</template>
+
+<script setup>
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: '',
+  },
+})
+
+const emits = defineEmits(['update:modelValue'])
+
+function update(ev) {
+  if (ev.target.innerHTML !== props.modelValue) {
+    this.$emit('update:modelValue', ev.target.innerHTML)
+  } 
+}
+</script>
+```
+
+By the way, elements that are made editable, and therefore interactive, by using the `contenteditable` attribute can be focused.
+
+## Long list filter in React
+
+```jsx
+const hugeList = Array.from({ length: 30000 }, () => Math.random())
+
+export default function App() {
+  const [filter, setFilter] = useState('')
+
+  return (
+    <div className="App">
+      <form>
+        <label>
+          Filter: 
+          <input
+            type="text"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          />
+        </label>
+      </form>
+      <List filter={filter} />
+    </div>
+  )
+}
+
+const List = memo(({ filter }) => (
+  <ul>
+    {hugeList
+      .filter((item) => item.toString().includes(filter))
+      .map((i) => (
+        <li>{i}</li>
+      ))
+    }
+  </ul>
+))
+```
+
+What's the issue here? When you type in the filter, it takes a long time to update. This is the problem with synchronous rendering. Let's opt into concurrent rendering. `useDeferredValue` is a React Hook that lets you defer updating a part of the UI, and the timeout is determined by the React scheduler, not the developer. Which means, if the React has some free cycles, it will update the deferred value, if React is too busy rendering other stuff, it not going to update the deferred value.
+
+```jsx
+export default function App() {
+  const [filter, setFilter] = useState('')
+  const deferredFilter = useDeferredValue(filter)
+
+  return (
+    <div className="App">
+      <form>
+        <label>
+          Filter: 
+          <input
+            type="text"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          />
+        </label>
+      </form>
+      <List filter={deferredFilter} />
+    </div>
+  )
+}
+```
+
+Now we're recomputing the list only when the deferred value changes, so we do it at a more opportune time for performance. To be more specific, during updates, the deferred value will “lag behind” the latest value. In particular, React will first re-render without updating the deferred value, and then try to re-render with the newly received value in the background.
+
+## Styling validation status
+The `:user-valid` and `:user-invalid` pseudo-class selectors are similar to the existing `:valid` and `:invalid` pseudo-classes. Both match a form control based on whether its current value satisfies its validation constraints. However, the advantage of the new `:user-valid` and `:user-invalid` pseudo-classes is that they match a form control only after a user has significantly interacted with the input.
+
+A form control that is required and empty will match `:invalid` even if a user has not started interacting with the page. However, that same form control won't match `:user-invalid` until the user has changed the input and left it in an invalid state.
+
+```css
+input:user-valid {
+  border: 2px solid green;
+}
+
+input:user-valid + span::before {
+  content: "✓";
+  color: green;
+}
+
+input:user-invalid {
+  border: 2px solid red;
+}
+
+input:user-invalid + span::before {
+  content: "✖";
+  color: red;
+}
+```
