@@ -128,6 +128,8 @@ Web based macOS and Windows XP desktop recreation: https://macos-web.app, https:
 
 Windows 11 in React: https://github.com/blueedgetechno/win11React
 
+Windows 95 style UI component library for React: https://github.com/react95-io/React95
+
 Discover the apps everyone is docking about: https://www.dockhunt.com
 
 Chrome-style tabs in HTML/CSS: https://github.com/adamschwartz/chrome-tabs

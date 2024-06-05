@@ -207,7 +207,9 @@ Formatting and linting are two separate concerns. Use Prettier for code formatti
 
 If you don’t use a legacy ESLint shareable config that enables formatting rules, you probably don’t need `eslint-config-prettier`. Adding `eslint-config-prettier` at the end of the "extends" list doesn’t do anything if nothing enabled formatting rules to begin with.
 
-> Back in the day, popular configs such as `eslint-config-airbnb` were often used to enable many rules at once. These configs were popular because they established a well-known, opinionated style guide and set of logical checks on code. Their downside was that they were too opinionated - even enabling formatting rules. *(Read from [You Probably Don't Need eslint-config-prettier or eslint-plugin-prettier](https://www.joshuakgoldberg.com/blog/you-probably-dont-need-eslint-config-prettier-or-eslint-plugin-prettier/))*
+Check out the following resources:
+1. [You Probably Don't Need eslint-config-prettier or eslint-plugin-prettier](https://www.joshuakgoldberg.com/blog/you-probably-dont-need-eslint-config-prettier-or-eslint-plugin-prettier/)
+2. [Reasonable ESLint, Prettier, and TypeScript configs](https://github.com/epicweb-dev/config)
 
 ### What is Husky
 While working on an enterprise development team, it is important that all code linting and unit tests are passing before committing code, especially if you are using some form of continuous integration. [Git Hooks](https://githooks.com) are a built-in feature of Git that can execute automatically when certain events occur. **Husky**, as a project, is a very popular npm package that allows custom scripts to be ran against your repository to prevent bad `git commit` and `git push`, which makes commits of fixing lint errors doesn't happen.
