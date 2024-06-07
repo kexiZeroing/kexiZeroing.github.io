@@ -85,6 +85,11 @@ Mixins have drawbacks:
 
 The key idea of the Composition API is that, rather than defining a component’s functionality as object properties, we define them as JavaScript variables that get returned from a new `setup` function. The clear advantage of the Composition API is that it’s easy to extract logic. It allows Vue to lean on the safeguards built into native JavaScript in order to share code, like passing variables to the composition function, and the module system.
 
+Composition API provides the same level of logic composition capabilities as React Hooks, but with some [important differences](https://vuejs.org/guide/extras/composition-api-faq.html#comparison-with-react-hooks):
+- Composition API calls are also not sensitive to call order and can be conditional.
+- Vue's runtime reactivity system automatically collects reactive dependencies used in computed properties and watchers.
+- No need to manually cache callback functions to avoid unnecessary child updates.
+
 ```js
 // useCounter.js
 // https://css-tricks.com/how-the-vue-composition-api-replaces-vue-mixins/
