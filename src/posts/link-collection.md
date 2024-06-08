@@ -310,6 +310,8 @@ Comlink makes WebWorkers enjoyable: https://github.com/GoogleChromeLabs/comlink
 
 Web component JS frameworks overview by their syntax and features: https://component-party.dev
 
+Javascript audio library for the modern web: https://github.com/goldfire/howler.js
+
 ---
 
 ## React ecosystem
@@ -387,8 +389,6 @@ Integrate Clerk into your Vue application: https://vue-clerk.vercel.app
 Drag and drop components that support Vue2 and Vue3: https://alfred-skyblue.github.io/vue-draggable-plus
 
 Vue.js and Nuxt Tips, Tricks and good practice: https://vuejstips.com
-
-Crafting a Nuxt 3 App from scratch by Daniel Roe: https://www.youtube.com/watch?v=WEaxO4j5lo0
 
 ---
 
