@@ -458,8 +458,6 @@ Create LlamaIndex App: https://www.npmjs.com/package/create-llama
 
 Get up and running with large language models locally: https://ollama.com
 
-Run AI with an API: https://replicate.com
-
 Fully client-side chat over documents: https://github.com/jacoblee93/fully-local-pdf-chatbot
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
