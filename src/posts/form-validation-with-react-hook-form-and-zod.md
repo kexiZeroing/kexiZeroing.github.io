@@ -78,6 +78,8 @@ const formSchema = z
 type FormSchemaType = z.infer<typeof formSchema>;
 ```
 
+> [Valibot](https://github.com/fabian-hiller/valibot) is very similar to Zod, helping you validate data easily using a schema. The biggest difference is the modular design and the ability to reduce the bundle size to a minimum. 
+
 ## Implementing React Hook Form
 Creating forms in React is a complex task. It involves handling all the input states and their changes and validating that input when the form gets submitted. The library [React Hook Form](https://www.react-hook-form.com) comes with a custom hook named `useForm`, which will let us register our inputs, handle the form submission, and handle errors.
 

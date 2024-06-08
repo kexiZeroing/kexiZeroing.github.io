@@ -32,7 +32,6 @@ Start with templates:
 - Awesome Vite: https://github.com/vitejs/awesome-vite
 - A Next.js 13 template for building apps with Radix UI and Tailwind CSS: https://github.com/shadcn-ui/next-template
 - Vercel pre-built solutions: https://vercel.com/templates
-- `create-t3-app` to start a full-stack, typesafe Next.js app *(The T3 Stack)*. It consists of Next.js, tRPC, Tailwind CSS, TypeScript, Prisma, and NextAuth.js: https://create.t3.gg
 
 A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and MySQL:
 - @clerk/nextjs: add authentication and user management to your Next.js application.

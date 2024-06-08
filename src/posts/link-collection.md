@@ -388,6 +388,8 @@ Drag and drop components that support Vue2 and Vue3: https://alfred-skyblue.gith
 
 Vue.js and Nuxt Tips, Tricks and good practice: https://vuejstips.com
 
+Crafting a Nuxt 3 App from scratch by Daniel Roe: https://www.youtube.com/watch?v=WEaxO4j5lo0
+
 ---
 
 ## Browsers related
@@ -476,11 +478,13 @@ Power your apps with real-time speech-to-text APIs: https://deepgram.com
 
 Run Hugging Face Transformers directly in the browser: https://github.com/xenova/transformers.js
 
-Framework for Multi AI Agents Systems: https://github.com/joaomdmoura/crewai
-
 A collection of guides and examples for the Gemini API: https://github.com/google-gemini/cookbook
 
 Hands on with the Vercel AI SDK: https://github.com/nicoalbanese/ai-sdk-fundamentals
+
+AI agent stdlib that works with any LLM and AI SDK: https://github.com/transitive-bullshit/agentic
+
+An AI chatbot in Win95 style: https://wingpt.vercel.app
 
 ---
 
