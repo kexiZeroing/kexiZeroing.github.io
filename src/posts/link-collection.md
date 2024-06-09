@@ -388,6 +388,8 @@ Integrate Clerk into your Vue application: https://vue-clerk.vercel.app
 
 Drag and drop components that support Vue2 and Vue3: https://alfred-skyblue.github.io/vue-draggable-plus
 
+Vue3 wrapper components for smooth-dnd: https://gilnd.github.io/vue3-smooth-dnd
+
 Vue.js and Nuxt Tips, Tricks and good practice: https://vuejstips.com
 
 ---
