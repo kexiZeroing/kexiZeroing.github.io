@@ -486,6 +486,8 @@ AI agent stdlib that works with any LLM and AI SDK: https://github.com/transitiv
 
 An AI chatbot in Win95 style: https://wingpt.vercel.app
 
+Real-time in-browser speech recognition with OpenAI Whisper: https://huggingface.co/spaces/Xenova/realtime-whisper-webgpu
+
 ---
 
 ## Machine Learning
