@@ -337,22 +337,24 @@ Sometimes, you'll want to ignore an error that later down the line gets fixed. I
 ## Adding Type Check to JavaScript
 TypeScript provides code analysis for JavaScript and VS Code gives us TypeScript out of the box (TypeScript language server). With the addition of `//@ts-check` as the very first line in our JavaScript file, TypeScript became active and started to add red lines to code pieces that just don’t make sense.
 
-`JSDoc` is a way to annotate JavaScript code using comments. TypeScript uses this annotations to get more information on our intended types.
+[JSDoc](https://deno.com/blog/document-javascript-package) is a way to annotate JavaScript code using comments. JSDoc comments are any block comments that begin with `/**` and end with `*/` that precede a block of code. The comments can span multiple lines. Each line should start with `*` and should be indented by one space. JSDoc supports a variety of tags that can be used to provide additional information about your symbols, such as `@param` for parameters, `@returns` for the return value, or `@typeParam` for type parameters. TypeScript uses this annotations to get more information on our intended types.
 
 ```js
 // @ts-check
 /**
-* @param {number} numberOne
-* @param {number} numberTwo
-* @returns {number}
-*/
-function addNumbers(numberOne, numberTwo) { return numberOne + numberTwo }
+ * @param {number} numberOne
+ * @param {number} numberTwo
+ * @returns {number}
+ */
+function addNumbers(numberOne, numberTwo) {
+  return numberOne + numberTwo
+}
 
 /**
-* @typedef {Object} ShipStorage 
-* @property {number} max
-* @property {string[]} items 
-*/
+ * @typedef {Object} ShipStorage 
+ * @property {number} max
+ * @property {string[]} items 
+ */
 
 /** @type ShipStorage */
 const storage = {
