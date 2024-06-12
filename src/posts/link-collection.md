@@ -20,8 +20,6 @@ How HTTPS works: https://howhttps.works
 
 Inside look at modern web browser (4 parts): https://developers.google.com/web/updates/2018/09/inside-browser-part1
 
-CS 61B: Data Structures: https://inst.eecs.berkeley.edu/~cs61b/sp20/index.html
-
 Intro to Computer Systems: http://www.cs.cmu.edu/~213/schedule.html
 
 The Missing Semester of Your CS Education: https://missing.csail.mit.edu
@@ -104,7 +102,7 @@ HTTP Cats: https://http.cat/
 
 Doodles-as-A-Service Repo: https://github.com/girliemac/a-picture-is-worth-a-1000-words
 
-Github contributions in 3D: https://skyline.github.com/, https://github-town.mornhee.works/
+Github contributions in 3D: https://skyline.github.com
 
 wenyan‑lang: https://wy-lang.org/
 
@@ -122,8 +120,6 @@ Visual history of your favorite technology: https://www.versionmuseum.com/
 
 Floating Point Math: https://0.30000000000000004.com/  (\`https://${0.1 + 0.2}.com\`)
 
-PPTist: https://github.com/pipipi-pikachu/PPTist
-
 Web based macOS and Windows XP desktop recreation: https://macos-web.app, https://winxp.vercel.app
 
 Windows 11 in React: https://github.com/blueedgetechno/win11React
@@ -137,8 +133,6 @@ Chrome-style tabs in HTML/CSS: https://github.com/adamschwartz/chrome-tabs
 The Steve Jobs Archive: https://stevejobsarchive.com
 
 A web scraping and browser automation library: https://crawlee.dev
-
-Not just a syntax highlighter. Build code walkthroughs for the web: https://codehike.org
 
 Turns data scripts into shareable web apps in minutes: https://streamlit.io
 
@@ -290,8 +284,6 @@ Color palette inspiration site: https://www.happyhues.co
 
 Delightful JavaScript plugins: https://metafizzy.co
 
-A headless, framework-agnostic and extendable rich text editor: https://tiptap.dev/introduction
-
 The next open source file uploader for web browsers: https://uppy.io
 
 Draggable objects: https://www.redblobgames.com/making-of/draggable
@@ -427,8 +419,6 @@ An open-source ChatGPT UI: https://github.com/mckaywrigley/chatbot-ui
 A universal local knowledge base solution: https://github.com/GanymedeNil/document.ai
 
 Local knowledge based ChatGLM with langchain: https://github.com/imClumsyPanda/langchain-ChatGLM
-
-Translate your locale json files: https://github.com/ObservedObserver/chatgpt-i18n
 
 Share your wildest ChatGPT conversations with one click: https://sharegpt.com
 
