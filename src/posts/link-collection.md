@@ -482,6 +482,8 @@ Real-time in-browser speech recognition with OpenAI Whisper: https://huggingface
 
 ## Machine Learning
 
+Gain the skills you need to do independent data science projects: https://www.kaggle.com/learn
+
 Stanford CS229 Machine Learning: https://cs229.stanford.edu
 
 Linear Algebra Review and Reference: https://cs229.stanford.edu/summer2023/cs229-linalg.pdf
