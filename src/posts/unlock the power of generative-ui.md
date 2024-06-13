@@ -227,7 +227,7 @@ async function handleUserMessage(userInput) {
 ```
 
 ### More to explore
-- https://sdk.vercel.ai/docs/concepts/ai-rsc
+- https://sdk.vercel.ai/docs/ai-sdk-rsc
 - https://chat.vercel.ai/
 - https://gemini.vercel.ai/
 - https://github.com/miurla/morphic
