@@ -22,11 +22,6 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 <meta name="title" content={'Blog - ' + title} />
 <meta name="description" content={description} />
 
-<!-- view-transition in Chrome Stable v115 -->
-<!-- This one-liner applies a crossfade effect across your entire site -->
-<!-- https://chriscoyier.net/2023/05/18/early-days-examples-of-view-transitions -->
-<meta name="view-transition" content="same-origin" />
-
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
@@ -41,6 +36,13 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 <meta property="twitter:description" content={description} />
 <meta name="twitter:creator" content="@kdang2020" />
 <meta name="twitter:image" content="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/25599430.jpeg" />
+
+<!-- https://astro.build/blog/future-of-astro-zero-js-view-transitions -->
+<style>
+  @view-transition {
+    navigation: auto; /* enabled! */
+  }
+</style>
 
 <!-- Theme -->
 <script is:inline>

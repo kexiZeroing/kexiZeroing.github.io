@@ -342,6 +342,8 @@ https://codepen.io/bigxixi/pen/abjEMbg
 - Adam Argyle at SeattleJS Conf: https://seattlejs-view-transitions.netlify.app
 - Astro View Transitions Photo Gallery: https://deathbyjavascript.com
 
+> When a view transition occurs between two different documents it is called a cross-document view transition. This is typically the case in multi-page applications (MPA). Chrome 126 enables Cross-Document View Transitions triggered by a same-origin navigation. From now on, you no longer need rearchitect your app to an SPA to use View Transitions.
+
 ```html
 <style>
   body {
