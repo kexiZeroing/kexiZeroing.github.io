@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "Unlock the power of Generative UI"
 slug: unlock the power of generative-ui
 description: ""
-added: "Apr 16 2024"
+added: "Jun 14 2024"
 tags: [AI, react]
 ---
 
@@ -13,6 +13,8 @@ The Vercel AI SDK is an open-source library designed to help developers build co
 2. By using React Server Components, you can now stream UI components directly from LLMs without the need for heavy client-side JavaScript.
 
 > The new APIs in the AI SDK 3.0 rely on React Server Components and React Server Actions which are currently implemented in Next.js. The AI SDK seamlessly integrates interface rendering capabilities through the `ai/rsc` package.
+
+### Server actions
 
 ```js
 import { createAI, getMutableAIState, render } from "ai/rsc";
@@ -152,79 +154,62 @@ The AI SDK introduces two new concepts: `AIState` and `UIState`.
 - `AIState` is a JSON representation of all the context the LLM needs to read. For a chat app, AIState generally stores the textual conversation history between the user and the assistant. `AIState` by default, can be accessed/modified on both Server and Client.
 - `UIState` is what the application uses to display the UI. It is a fully client-side state and can keep data and UI elements returned by the LLM. This state can be anything, but can't be accessed on the server.
 
-The AI state represents the context of the conversation provided to the language model and is often an array of chat messages. Sometimes, like if the user is filling out a form or interacting with a UI element like a slider, you need to update the language models context with the new information. You can mutate the AI state on the client using the `useAIState` hook.
+### Client components
 
-```js
-export default function Page() {
-  const [aiState, setAIState] = useAIState();
- 
-  // Whenever the slider changes, we need to update the local value state
-  // and the history so the LLM also knows what's going on.
-  function onSliderChange(event) {
-    const newValue = Number(event.target.value);
-    setValue(newValue);
- 
-    // Insert a hidden history info to the list.
-    const info = {
-      id,
-      role: "system",
-      content: `[User has changed value to ${newValue}]`,
-    };
- 
-    // If the last AI state already contains an instance of this slider, update it.
-    // If it doesn't exist, append it to history.
-    if (aiState[aiState.length - 1]?.id === id) {
-      setAIState([...aiState.slice(0, -1), info]);
-    } else {
-      setAIState([...aiState, info]);
-    }
-  }
+```jsx
+"use client";
 
-  return ...
-}
-```
+import { useState } from "react";
+import { useActions, useUIState } from "ai/rsc";
+import { nanoid } from "nanoid";
 
-In many cases, the interface you render will need to request updates from the server. For example, a weather app might need to request the latest weather data every 5 minutes, or a button press should execute a search. To accomplish this, you can pass Server Actions to your UI components and call them as needed.
+export default function Home() {
+  const [input, setInput] = useState("");
+  const [conversation, setConversation] = useUIState();
+  const { submitUserMessage } = useActions();
 
-```js
-async function handleUserMessage(userInput) {
-  'use server';
-  // https://sdk.vercel.ai/docs/api-reference/generative-ui/create-streamable-ui
-  const card = createStreamableUI(<Spinner />);
- 
-  async function getCityWeather() {
-    card.update(
-      <>
-        Analyzing...
-        <WeatherCardSkeleton />
-      </>,
-    );
+  return (
+    <div>
+      <div>
+        {conversation.map((message) => (
+          <div key={message.id}>
+            {message.role}: {message.display}
+          </div>
+        ))}
+      </div>
 
-    const res = await callLLM(
-      `Return the city name from the user input: ${userInput}`,
-    );
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          setInput("");
+          setConversation((currentConversation) => [
+            ...currentConversation,
+            { id: nanoid(), role: "user", display: input },
+          ]);
 
-    const temperature = await getCityTemperature(res.city);
-    card.done(
-      <>
-        Here's the weather of {res.city}:
-        <WeatherCard
-          city={res.city}
-          temperature={temperature}
-          refreshAction={async () => {
-            'use server';
-            return getCityTemperature(res.city);
+          const message = await submitUserMessage(input);
+
+          setConversation((currentConversation) => [
+            ...currentConversation,
+            message,
+          ]);
+        }}
+      >
+        <input
+          type="text"
+          value={input}
+          onChange={(event) => {
+            setInput(event.target.value);
           }}
         />
-      </>,
-    ); 
-  }
- 
-  getCityWeather();
-
-  return ...
+        <button>Send Message</button>
+      </form>
+    </div>
+  );
 }
 ```
+
+There is a [13 minute video](https://www.youtube.com/watch?v=UDm-hvwpzBI) on how to build LLM applications through the new Vercel AI SDK.
 
 ### More to explore
 - https://sdk.vercel.ai/docs/ai-sdk-rsc
