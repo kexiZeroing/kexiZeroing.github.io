@@ -582,6 +582,25 @@ console.log(date.toLocaleString('en-US', options));
 // Thursday, December 20, 2012
 ```
 
+The native `Intl` API can present dates in highly elaborate formats.
+
+```js
+const date = new Date(2024, 3, 29, 5, 30, 20);
+const opts = { day: 'numeric', year: 'numeric' };
+
+Intl.DateTimeFormat('en-US', { ...opts, month: 'long' }).format(date);
+// April 29, 2024
+
+Intl.DateTimeFormat('en-US', { ...opts, month: 'short' }).format(date);
+// Apr 29, 2024
+
+Intl.DateTimeFormat('en-US', { minute: '2-digit', second: '2-digit', hour: 'numeric' }).format(date);
+// 5:30:20 AM
+
+Intl.DateTimeFormat('en-US', { minute: '2-digit', second: '2-digit', hour: '2-digit' }).format(date);
+// 05:30:20 AM
+```
+
 ## encodeURI() and encodeURIComponent()
 `encodeURI` and `encodeURIComponent` are used to encode URI by replacing each instance of certain characters by escape sequences representing the UTF-8 encoding of the character.
 

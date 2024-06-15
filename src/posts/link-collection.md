@@ -476,7 +476,11 @@ AI agent stdlib that works with any LLM and AI SDK: https://github.com/transitiv
 
 An AI chatbot in Win95 style: https://wingpt.vercel.app
 
+A Webapp that uses RAG to interact with a PDF directly in the browser: https://pdf.nico.dev
+
 Real-time in-browser speech recognition with OpenAI Whisper: https://huggingface.co/spaces/Xenova/realtime-whisper-webgpu
+
+High-Performance In-Browser LLM Inference Engine: https://github.com/mlc-ai/web-llm
 
 ---
 

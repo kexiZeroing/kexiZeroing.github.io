@@ -182,8 +182,8 @@ For example, I want to change the git user (rewrite history) after push the code
 
 > To fixup a commit:
 > ```sh
-> git commit --fixup a0b1c2d3
-> git rebase -i --autosquash a0b1c2d3~1
+> git commit --fixup a0b1c2d3  # The new commit message will start with "fixup!" followed by the message of the original commit.
+> git rebase -i --autosquash a0b1c2d3~1  # Clean up the history by combining the fixup commit with the original commit.
 > ```
 
 Another example, I want to squash my last 3 commits together into one commit.
