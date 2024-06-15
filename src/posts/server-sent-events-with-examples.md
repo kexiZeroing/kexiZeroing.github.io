@@ -98,7 +98,9 @@ app.listen(3000, () => console.log('Listening on port 3000...'));
 < data: {"msg": "hi"}\n\n
 ```
 
-With the default browser EventSource API, you can only make GET requests, and you cannot pass in a request body and custom request headers. [fetch-event-source](https://github.com/Azure/fetch-event-source) provides a better API for making Event Source requests.
+With the default browser EventSource API, you can only make GET requests, and you cannot pass in a request body and custom request headers.
+- [fetch-event-source](https://github.com/Azure/fetch-event-source) provides a better API for making Event Source requests.
+- [fetch-event-stream](https://github.com/lukeed/fetch-event-stream) allows any HTTP method and built with native Web Streams API.
 
 ```js
 import { fetchEventSource } from '@microsoft/fetch-event-source';
