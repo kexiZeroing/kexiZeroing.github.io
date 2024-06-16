@@ -1,10 +1,11 @@
 ---
 layout: "../layouts/BlogPost.astro"
 title: "Unlock the power of Generative UI"
-slug: unlock the power of generative-ui
+slug: unlock-the-power-of-generative-ui
 description: ""
-added: "Jun 14 2024"
+added: "Apr 16 2024"
 tags: [AI, react]
+updatedDate: "Jun 14 2024"
 ---
 
 The Vercel AI SDK is an open-source library designed to help developers build conversational streaming user interfaces. With the release of the [AI SDK 3.0](https://vercel.com/blog/ai-sdk-3-generative-ui), developers can move beyond plaintext and markdown chatbots to give LLMs rich, component-based interfaces.

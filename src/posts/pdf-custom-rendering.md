@@ -8,7 +8,7 @@ tags: [code]
 updatedDate: "June 30 2023"
 ---
 
-When it comes to the Web, almost every modern browser supports viewing of PDF documents natively. But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership.
+When it comes to the Web, almost every modern browser supports viewing of PDF documents natively *(the simplest way to embed a PDF into a web page is to use the `<object type="application/pdf">` tag.)* But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership.
 
 [PDF.js](https://github.com/mozilla/pdf.js), created by Mozilla Labs, which can render PDF documents in your browser. Most importantly, you as a developer have full control over rendering the PDF document’s pages as per your requirements. But integrating it isn’t as straightforward as it might seem. There is little documentation available on how to integrate certain features like rendering text-layers or annotations, and supporting password protected files.
 
