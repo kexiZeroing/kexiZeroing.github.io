@@ -47,7 +47,9 @@ scores = model.predict([
 # => array([0.9998173 , 0.01312432], dtype=float32)
 ```
 
-[Sentence Transformers](https://www.sbert.net) (a.k.a. SBERT) is the go-to Python module for accessing, using, and training state-of-the-art text and image embedding models. It can be used to compute embeddings using Sentence Transformer models (bi-encoder) or to calculate similarity scores using Cross-Encoder models: https://www.sbert.net/docs/quickstart.html
+[Sentence Transformers](https://www.sbert.net) (a.k.a. SBERT) is the go-to Python module for accessing, using, and training state-of-the-art text and image embedding models. It can be used to compute embeddings using Sentence Transformer models (bi-encoder) or to calculate similarity scores using Cross-Encoder models.
+
+> Beyond the Basics of Retrieval for Augmenting Generation: https://parlance-labs.com/talks/rag/ben.html
 
 ## Cohere Rerank API
 At a high level, a rerank API is a language model which analyzes documents and reorders them based on their relevance to a given query. Cohere offers an API for reranking documents: https://cohere.com/blog/rerank
