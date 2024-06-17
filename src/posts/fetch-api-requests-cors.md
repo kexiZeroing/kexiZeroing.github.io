@@ -26,6 +26,8 @@ The `fetch()` method takes one mandatory argument, the path to the resource you 
 - **mode**: The mode you want to use for the request, e.g., `cors`, `no-cors`, or `same-origin`. (`cors` is default)
 - **credentials**: The request credentials you want to use for the request, e.g., `omit`, `same-origin`, or `include`. To automatically send cookies for the current domain, this option must be provided. (`same-origin` is default)
 
+In addition, the `keepalive` option can be used to allow the request to outlive the page. Fetch with the `keepalive` flag is a replacement for the `Navigator.sendBeacon()` API.
+
 ```javascript
 async function postData(url = '', data = {}) {
   const response = await fetch(url, {
