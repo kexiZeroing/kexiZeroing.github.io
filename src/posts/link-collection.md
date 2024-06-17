@@ -258,13 +258,13 @@ Box-shadow: https://neumorphism.io
 
 Beautiful hand-crafted SVG icons: https://heroicons.com
 
-Guide users through a tour of your app: https://shepherdjs.dev
-
 Drive user's focus across the page: https://driverjs.com
 
 Split an element by words, characters, children and more: https://splitting.js.org
 
 Lightweight fuzzy-search library: https://fusejs.io
+
+Tiny and powerful in-memory JavaScript full-text search engine: https://github.com/lucaong/minisearch
 
 Create full screen pages fast and simple: https://github.com/alvarotrigo/fullPage.js
 
