@@ -110,6 +110,7 @@ const videoSourceBuffer = myMediaSource
   .addSourceBuffer('video/mp4; codecs="avc1.64001e"');
 
 // 2. download and add our audio/video to the SourceBuffers
+// fragmented mp4 (the advantage of fragmented MP4 is its ability to support DASH)
 fetch("http://server.com/audio.mp4").then(function(response) {
   return response.arrayBuffer();
 }).then(function(audioData) {
@@ -163,11 +164,11 @@ fetchSegment("http://server.com/video/segment0.mp4")
 
 Many video players have an “auto quality” feature, where the quality is automatically chosen depending on the user’s network and processing capabilities. This behavior is also enabled thanks to the concept of media segments. On the server-side, the segments are actually encoded in multiple qualities, and a web player will then automatically choose the right segments to download as the network or CPU conditions change.
 
-> The most common transport protocols used in a web context: 
-> - HLS (HTTP Live Streaming): Developed by Apple and used by Twitch. The HLS manifest is called the playlist and is in the m3u8 format *(which are m3u playlist files, encoded in UTF-8)*.
-> - DASH (Dynamic Adaptive Streaming over HTTP): Used by YouTube, Netflix or Amazon Prime Video and many others. DASH manifest is called the Media Presentation Description (or MPD).
->
-> For both HLS and DASH, players can adapt to the different renditions in real-time on a segment-by-segment basis.
+The most common transport protocols used in a web context: 
+- HLS (HTTP Live Streaming): Developed by Apple and used by Twitch. The HLS manifest is called the playlist and is in the m3u8 format *(which are m3u playlist files, encoded in UTF-8)*.
+- DASH (Dynamic Adaptive Streaming over HTTP): Used by YouTube, Netflix or Amazon Prime Video and many others. DASH manifest is called the Media Presentation Description (or MPD).
+
+For both HLS and DASH, players can adapt to the different renditions in real-time on a segment-by-segment basis.
 
 ```
 ./audio/
@@ -190,6 +191,8 @@ Many video players have an “auto quality” feature, where the quality is auto
         ├── segment1.mp4
         └── segment2.mp4
 ```
+
+> A regular MP4 video usually has a single *moov* chunk describing the video and a single *mdat* chunk containing the video. You wouldn’t be able to play a part of the video without having access to the whole video. Fragmented MP4 solves this issue, allowing us to split an MP4 video into segments. The first initialization segment contains the chunk describing the video. What follows are the media segments, each having a separate chunks containing a portion of the video which can be played on its own.
 
 ## Video Glossary
 **[FFMPEG](https://ffmpeg.org)** stands for Fast Forward Moving Picture Experts Group. It is a free and open source software project that offers many tools for video and audio processing. It's designed to run on a command line interface, and has many different libraries and programs to manipulate and handle video files. Most video programs include FFMPEG as a part of the video processing pipeline. *(FFmpeg powers all online video - Youtube, Facebook, Instagram, Disney+, Netflix etc, all run FFmpeg underneath.)*
