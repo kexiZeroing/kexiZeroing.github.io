@@ -5,7 +5,7 @@ slug: screen-and-webcam-recording
 description: ""
 added: "Oct 14 2022"
 tags: [web]
-updatedDate: "June 21 2023"
+updatedDate: "Jun 21 2023"
 ---
 
 Let's explore how far browser technology has come in the way of screen sharing and recording, and attempt to create a tool that would allow us to quickly create short-form technical video content. All of this is powered by browser APIs using no external services. The original article is [here](https://formidable.com/blog/2022/screen-webcam-mixing-recording).

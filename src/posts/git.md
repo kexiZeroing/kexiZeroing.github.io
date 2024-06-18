@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "Git knowledge that not clear to me"
 slug: git-knowledge-not-clear
 description: ""
-added: "June 19 2022"
+added: "Jun 19 2022"
 tags: [system]
 updatedDate: "Feb 27 2024"
 ---

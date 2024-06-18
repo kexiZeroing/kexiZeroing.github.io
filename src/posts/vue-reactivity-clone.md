@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "Vue reactivity clone"
 slug: vue-reactivity-clone
 description: ""
-added: "June 18 2023"
+added: "Jun 18 2023"
 tags: [vue, code]
 updatedDate: "Mar 7 2024"
 ---

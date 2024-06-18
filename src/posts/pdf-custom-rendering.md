@@ -5,7 +5,7 @@ slug: pdf-custom-rendering
 description: ""
 added: "Nov 6 2022"
 tags: [code]
-updatedDate: "June 30 2023"
+updatedDate: "Jun 30 2023"
 ---
 
 When it comes to the Web, almost every modern browser supports viewing of PDF documents natively *(the simplest way to embed a PDF into a web page is to use the `<object type="application/pdf">` tag.)* But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership.

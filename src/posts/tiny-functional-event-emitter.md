@@ -5,7 +5,7 @@ slug: tiny-functional-event-emitter
 description: ""
 added: "May 31 2023"
 tags: [code]
-updatedDate: "June 7 2023"
+updatedDate: "Jun 7 2023"
 ---
 
 [Mitt](https://github.com/developit/mitt) is a tiny 200b functional event emitter / pubsub.

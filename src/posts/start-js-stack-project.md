@@ -3,9 +3,9 @@ layout: "../layouts/BlogPost.astro"
 title: "Start a Javascript stack project"
 slug: start-js-stack-project
 description: ""
-added: "June 16 2022"
+added: "Jun 16 2022"
 tags: [web]
-updatedDate: "Apr 4 2024"
+updatedDate: "Jun 18 2024"
 ---
 
 ## Start a modern web project
@@ -75,7 +75,14 @@ export const loader = async ({ params }: LoaderArgs) => {
 
 > An `invariant` function from [tiny-invariant](https://github.com/alexreardon/tiny-invariant) takes a value, and if the value is falsy then the invariant function will throw. If the value is truthy, then the function will not throw.
 
-### module and require in Node.js 
+### Using Lightning CSS
+[Lightning CSS](https://lightningcss.dev) is an extremely fast CSS parser, transformer, and minifier written in Rust. It lets you use modern CSS features and future syntax today. Features such as CSS nesting, custom media queries, high gamut color spaces, logical properties, and new selector features are automatically converted to more compatible syntax based on your browser targets. Lightning CSS is used by Vite, and soon by Tailwind and Next.js. Tools like `postcss` and `autoprefixer` are being replaced by faster, all-in-one Rust toolchains.
+
+It can be used as a library from JavaScript or Rust, or from a standalone CLI. It can also be wrapped as a plugin in other build tools, and it is built into Parcel out of the box. For example, as a standalone CLI, it can be used to compile, minify, and bundle CSS files: `lightningcss --minify --bundle --targets 'defaults' input.css -o output.css`.
+
+CSS Modules are a small but impactful enhancement on top of vanilla CSS. A CSS Module is a CSS file where all class names and animation names are scoped locally by default. They treat the classes defined in each file as unique. Each class name or identifier is renamed to include a unique hash, and a mapping is exported to JavaScript to allow referencing them. CSS Modules are available in almost every [modern bundler and framework](https://github.com/css-modules/css-modules/blob/master/docs/get-started.md).
+
+### `module` and `require` in Node.js 
 **Node.js treats each JavaScript file as a separate module and encloses the entire code within a function wrapper**: `(function(exports, require, module, __filename, __dirname) {})`. The five parameters — `exports`, `require`, `module`, `__filename`, `__dirname` are available inside each module. Even if you define a global variable in a module using `let` or `const` keywords, the variables are scoped locally to the module rather than being scoped globally.
 
 The `module` parameter refers to the object representing the current module and `exports` is a key of the `module` object which is also an object. `module.exports` is used for defining stuff that can be exported by a module. `exports` parameter and `module.exports` are the same unless you reassign `exports` within your module.
@@ -129,12 +136,6 @@ module.exports = {
   ]
 }
 ```
-
-[Lightning CSS](https://lightningcss.dev) is an extremely fast CSS parser, transformer, and minifier written in Rust. It lets you use modern CSS features and future syntax today. Features such as CSS nesting, custom media queries, high gamut color spaces, logical properties, and new selector features are automatically converted to more compatible syntax based on your browser targets. Lightning CSS includes a standalone CLI that can be used to compile, minify, and bundle CSS files: `lightningcss --minify --bundle --targets 'defaults' input.css -o output.css`.
-
-- Transpiling modern CSS syntax to support older browsers, including vendor prefixing and syntax lowering.
-- Supports bundling dependencies referenced by CSS `@import` rules into a single output file.
-- Optimize your CSS to make it smaller.
 
 ### What is core-js
 `core-js` is the most popular and the most universal polyfill of the JavaScript standard library, which provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.
@@ -288,8 +289,6 @@ Examples:
 2. [Vaul](https://github.com/emilkowalski/vaul) is an unstyled drawer component for React that can be used as a Dialog replacement on tablet and mobile devices.
 
 Then it leaves us with the decision about how to style things. This is where [shadcn/ui](https://ui.shadcn.com) comes into the picture. It's not a component library, but more of a code registry where you can copy/paste/modify the code to your content. It's built with Tailwind and Radix. `shadcn/ui` is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn-ui add card`, making it even more convenient to use.
-
-Another common way for styling is using CSS Modules. Next.js has built-in support for CSS Modules using the `.module.css` extension. CSS Modules locally scope CSS by automatically creating a unique class name. This allows you to use the same class name in different files without worrying about collisions.
 
 ### Design system examples
 A design system is an ever evolving collection of reusable components, guided by rules that ensure consistency and speed, by being the single source of truth for any product development.
