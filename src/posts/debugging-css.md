@@ -122,9 +122,12 @@ updatedDate: "May 5 2024"
   ```css
   header {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    /* The `grid-column-gap` property was renamed to `column-gap` in CSS3 */
-    grid-column-gap: 10px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+  .left-text, .right-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   ```
 
