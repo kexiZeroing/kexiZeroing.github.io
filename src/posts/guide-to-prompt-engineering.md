@@ -5,7 +5,7 @@ slug: a-guide-to-prompt-engineering
 description: ""
 added: "Apr 5 2023"
 tags: [AI]
-updatedDate: "May 6 2024"
+updatedDate: "Jun 27 2024"
 ---
 
 Prompt Engineering, also known as In-Context Prompting, refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of large language models (LLMs) on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs. All examples are tested with `text-davinci-003` (using OpenAI's playground) unless otherwise specified. It uses the default configurations, i.e., `temperature=0.7` and `top-p=1`.
@@ -204,6 +204,48 @@ Output:
 > Finally, you ate 1 apple, so you would remain with 10 apples.
 
 It's impressive that this simple prompt is effective at this task. This is particularly useful where you don't have too many examples to use in the prompt.
+
+Another interesting translation example from [Baoyu's blog](https://baoyu.io/blog/ai/when-to-use-multi-agent-systems-or-cot) also uses CoT.
+
+- 使用一个 Prompt 中的多步骤
+  ```
+  请按照直译、反思和意译的步骤，翻译下面这句话：
+  She was born with a silver spoon in her mouth.
+  ```
+
+- 使用多个智能体
+  ```
+  # 直译智能体
+
+  请翻译这句话：
+  She was born with a silver spoon in her mouth.
+
+  # 反思智能体
+
+  <SOURCE_TEXT>
+  She was born with a silver spoon in her mouth.
+  </SOURCE_TEXT>
+  <TRANSLATION>
+  她出生时嘴里含着银勺子。
+  </TRANSLATION>
+  请检查上面的翻译，反思其中存在的问题，输出仅包含问题列表。
+
+  # 意译智能体
+
+  <SOURCE_TEXT>
+  She was born with a silver spoon in her mouth.
+  </SOURCE_TEXT>
+  <TRANSLATION>
+  她出生时嘴里含着银勺子。
+  </TRANSLATION>
+  <EXPERT_SUGGESTIONS>
+  1. 翻译缺乏成语和习语的文化背景，未能传达原文中的隐含意义。
+  2. 直译“银勺子”可能在中文中显得生硬，不自然。
+  3. 翻译没有体现出“生来富裕”这一含义，仅描述了物理现象。
+  </EXPERT_SUGGESTIONS>
+
+  请根据直译和反思的结果，重新意译，并输出最终翻译结果，不包含任何其他信息。
+  ```
 
 ### Prompt Debiasing
 Depending on their distribution and order within the prompt, exemplars may bias LLM outputs.
