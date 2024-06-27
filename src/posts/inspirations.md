@@ -8,6 +8,7 @@ top: true
 order: 3
 ---
 
+## People
 - @cassidoo @sarah_edo career development and spirits
 - @kentcdodds @dan_abramov about React
 - @stefanjudis dev reources and TIL
