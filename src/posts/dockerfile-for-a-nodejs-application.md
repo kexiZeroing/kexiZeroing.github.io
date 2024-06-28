@@ -152,3 +152,30 @@ Let's say you have an app which you have containerized (Monoliths were broken in
 - **Deployments**: You would never create individual pods to serve your application. Why? Because that would mean if the traffic suddenly increases, your Pod will run out of resources, and you will face downtime. Instead, you create a bunch of identical pods. If one of these pods goes down or the traffic increases and you need more pods, Kubernetes will bring up more pods. The deployment controller does this management of multiple similar pods when you create a Deployment object.
 
 - **Ingress Controller**: Kubernetes Ingress is an API object that manages external users’ access to services in a Kubernetes cluster by providing routing rules. This external request is frequently made using HTTPS/HTTP. You can easily set up rules for traffic routing with Ingress without having to create a bunch of Load Balancers or expose each service on the node.
+
+**Horizontal Pod Autoscaling (HPA)** is a crucial feature in Kubernetes that enables automatic adjustment of the number of running pods based on observed CPU or memory utilization. The key components of HPA: 
+- The Metrics Server collects and serves container resource metrics, playing a pivotal role in HPA functionality.
+- The Autoscaler uses the metrics provided by the Metrics Server to make decisions about scaling the number of pod replicas.
+
+This is how Kubernetes HPA work, the metric server sends metrics of resource consumption to HPA and based on the rules you have defined in HPA manifest file, this object decides to scale up or down the pods. For example, the below HPA configuration will monitor the CPU utilization of the `my-app-deployment` deployment. It will ensure that the number of replicas is scaled between 1 and 3 based on the average CPU utilization, maintaining it around 50%.
+
+```yaml
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: my-app-deployment
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+```
