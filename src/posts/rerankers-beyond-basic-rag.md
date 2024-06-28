@@ -5,6 +5,7 @@ slug: rerankers-beyond-basic-rag
 description: ""
 added: "Jun 16 2024"
 tags: [AI]
+updatedDate: "Jun 28 2024"
 ---
 
 There is more to RAG than putting documents into a vector DB and adding an LLM on top. That can work, but it won't always. We are performing a semantic search across many text documents, however, the retrieval may return relevant information below our `top_k` cutoff. The metric we would measure here is **recall**, which measures how many relevant documents are retrieved out of the total number of relevant documents in the dataset. We may hack the metric and get perfect recall by returning everything.
@@ -51,8 +52,35 @@ scores = model.predict([
 
 > Beyond the Basics of Retrieval for Augmenting Generation: https://parlance-labs.com/talks/rag/ben.html
 
-## Cohere Rerank API
-At a high level, a rerank API is a language model which analyzes documents and reorders them based on their relevance to a given query. Cohere offers an API for reranking documents: https://cohere.com/blog/rerank
+## Rerank API
+At a high level, a rerank API is a language model which analyzes documents and reorders them based on their relevance to a given query.
+
+JinaAI Reranker (1 million free tokens): https://jina.ai/reranker
+
+```
+curl https://api.jina.ai/v1/rerank \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer jina_api_key_here" \
+  -d '{
+  "model": "jina-reranker-v2-base-multilingual",
+  "query": "Organic skincare products for sensitive skin",
+  "documents": [
+    "Organic skincare for sensitive skin with aloe vera and chamomile.",
+    "New makeup trends focus on bold colors and innovative techniques",
+    "Bio-Hautpflege für empfindliche Haut mit Aloe Vera und Kamille",
+    "Neue Make-up-Trends setzen auf kräftige Farben und innovative Techniken",
+    "Cuidado de la piel orgánico para piel sensible con aloe vera y manzanilla",
+    "Las nuevas tendencias de maquillaje se centran en colores vivos y técnicas innovadoras",
+    "针对敏感肌专门设计的天然有机护肤产品",
+    "新的化妆趋势注重鲜艳的颜色和创新的技巧",
+    "敏感肌のために特別に設計された天然有機スキンケア製品",
+    "新しいメイクのトレンドは鮮やかな色と革新的な技術に焦点を当てています"
+  ],
+  "top_n": 3
+}'
+```
+
+Cohere offers an API for reranking documents: https://cohere.com/blog/rerank
 
 ```js
 import { CohereRerank } from "@langchain/cohere";
