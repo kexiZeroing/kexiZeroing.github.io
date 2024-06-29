@@ -33,7 +33,7 @@ It's important to note that cross-encoders require a pair of "items" for every i
 
 **Cross-encoders are more accurate than bi-encoders but they don't scale well, so using them to re-order a shortened list returned by semantic search is the ideal use case.** Bi-Encoders are used whenever you need a sentence embedding in a vector space for efficient comparison. Cross-Encoders would be the wrong choice for these application: Clustering 10,000 sentence with CrossEncoders would require computing similarity scores for about 50 Million sentence combinations, which takes about 65 hours. With a Bi-Encoder, you compute the embedding for each sentence, which takes only 5 seconds.
 
-> MS MARCO Passage Retrieval is a large dataset with real user queries from Bing search engine with annotated relevant text passages.
+[Sentence Transformers](https://www.sbert.net) (a.k.a. SBERT) is the go-to Python module for accessing, using, and training state-of-the-art text and image embedding models. It can be used to compute embeddings using Sentence Transformer models (bi-encoder) or to calculate similarity scores using Cross-Encoder models.
 
 ```py
 # https://www.sbert.net/docs/cross_encoder/pretrained_models.html
@@ -48,9 +48,7 @@ scores = model.predict([
 # => array([0.9998173 , 0.01312432], dtype=float32)
 ```
 
-[Sentence Transformers](https://www.sbert.net) (a.k.a. SBERT) is the go-to Python module for accessing, using, and training state-of-the-art text and image embedding models. It can be used to compute embeddings using Sentence Transformer models (bi-encoder) or to calculate similarity scores using Cross-Encoder models.
-
-> Beyond the Basics of Retrieval for Augmenting Generation: https://parlance-labs.com/talks/rag/ben.html
+> MS MARCO Passage Retrieval is a large dataset with real user queries from Bing search engine with annotated relevant text passages.
 
 ## Rerank API
 At a high level, a rerank API is a language model which analyzes documents and reorders them based on their relevance to a given query.
