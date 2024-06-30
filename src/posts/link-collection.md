@@ -134,8 +134,6 @@ The Steve Jobs Archive: https://stevejobsarchive.com
 
 A web scraping and browser automation library: https://crawlee.dev
 
-Turns data scripts into shareable web apps in minutes: https://streamlit.io
-
 Console for mobile browsers: https://github.com/liriliri/eruda
 
 Get an insight into the inner-workings of a given website: https://web-check.xyz
@@ -446,7 +444,7 @@ How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr
 
 An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
 
-Create LlamaIndex App: https://www.npmjs.com/package/create-llama
+LlamaIndex.TS offers the core features of LlamaIndex for popular runtimes like Node.js: https://github.com/run-llama/LlamaIndexTS
 
 Get up and running with large language models locally: https://ollama.com
 

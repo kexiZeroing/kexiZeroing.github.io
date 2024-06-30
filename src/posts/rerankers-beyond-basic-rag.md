@@ -78,6 +78,8 @@ curl https://api.jina.ai/v1/rerank \
 }'
 ```
 
+> The Reranker API allows input of a query-doc list and outputs directly the reranked top-k results. This means that, in theory, one could build a search or recommendation system using solely the Reranker—eliminating the need for BM25, embeddings, vector databases, or any pipelines, thus achieving end-to-end functionality.
+
 Cohere offers an API for reranking documents: https://cohere.com/blog/rerank
 
 ```js

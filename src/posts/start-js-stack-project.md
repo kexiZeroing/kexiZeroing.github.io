@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "Jun 16 2022"
 tags: [web]
-updatedDate: "Jun 18 2024"
+updatedDate: "Jun 30 2024"
 ---
 
 ## Start a modern web project
@@ -32,6 +32,7 @@ Start with templates:
 - Awesome Vite: https://github.com/vitejs/awesome-vite
 - A Next.js 13 template for building apps with Radix UI and Tailwind CSS: https://github.com/shadcn-ui/next-template
 - Vercel pre-built solutions: https://vercel.com/templates
+- Cloudflare workers: https://github.com/cloudflare/workers-sdk
 
 A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and MySQL:
 - @clerk/nextjs: add authentication and user management to your Next.js application.
@@ -137,8 +138,12 @@ module.exports = {
 }
 ```
 
-### What is core-js
-`core-js` is the most popular and the most universal polyfill of the JavaScript standard library, which provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.
+### Polyfills and Transpilers
+When Babel compiles your code, what it's doing is taking your syntax and running it through various syntax transforms in order to get browser compatible syntax. What it's not doing is adding any new JavaScript primitives or any properties you may need to the browser's global namespace. One way you can think about it is that when you compile your code, you're transforming it. When you add a polyfill, you're adding new functionality to the browser. For example, Babel can transform `arrow functions` into regular functions, so, they can be compiled. However, there's nothing Babel can do to transform `Promises` or `Math.trunc` into native syntax that browsers understand, so they need to be polyfilled.
+
+With syntax transforms, I recommend `babel-preset-env`. For polyfills, the most popular one is `core-js`.
+
+`core-js` provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.
 
 `core-js` is used by most of the popular websites. We can check it using `window['__core-js_shared__'].versions`, see details at https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md
 

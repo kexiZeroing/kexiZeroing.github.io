@@ -5,7 +5,10 @@ slug: how-semantic-image-search-works
 description: ""
 added: "Jun 27 2024"
 tags: [AI, code]
+updatedDate: "Jun 30 2024"
 ---
+
+## Image search with embed metadata
 
 Vercel recently shipped an open-source ai-powered image search app. The general idea here is to generate the metadata for the images we want to index using LLMs, and store them as embeddings in a vector database. So that when someone does a query, we would convert it into an embed and do a cosine similarity search.
 
@@ -237,3 +240,11 @@ export const findSimilarContent = async (description) => {
   return similarGuides;
 };
 ```
+
+## Image Embeddings 101
+Embeddings are different from images in their raw form. An image file contains RGB data that says exactly what color each pixel is. Embeddings encode information that represents the contents of an image. Embeddings are calculated by computer vision models which are usually trained with large datasets of pairs of text and image. The goal of such a model is to build an "understanding" of the relationship between images and text.
+
+- CLIP (Contrastive Language-Image Pretraining) is a multimodal embedding model developed by OpenAI and released in 2019. CLIP was trained using over 400 million pairs of images and text.
+- ImageBind, a new embedding model released in 2023 by Meta Research, is pioneering an approach to AI embeddings that allows you to encode information across many different modalities, from images to text to audio to depth information.
+
+The text embedding and image embedding are both calculated by an embedding model. You can compare text and image embeddings to see how similar text is to an image. You can save embeddings in a vector database to run efficient searches between image and text embeddings. This efficient searching enables you to build a semantic image search engine.

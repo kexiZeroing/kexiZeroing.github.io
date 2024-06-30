@@ -5,7 +5,7 @@ slug: notes-on-domain-specific-chatgpt
 description: ""
 added: "Mar 25 2023"
 tags: [AI]
-updatedDate: "May 7 2024"
+updatedDate: "Jun 30 2024"
 ---
 
 ## What are Vector Embeddings?
@@ -360,6 +360,15 @@ export const search = async (query: string) => {
 ## Vector Store
 Vector Databases Explained: https://vercel.com/guides/vector-databases
 
-[Chroma](https://docs.trychroma.com) provides a vector store and embedding database that can run seamlessly during local development to power the applications. [Faiss](https://github.com/facebookresearch/faiss) is a library for efficient similarity search and clustering of dense vectors. Both Chroma and FAISS are easy to work with locally.
-
 <img alt="vectorstore" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hd08amw1npj30u00z9djx.jpg" width="700">
+
+### Indexing
+Several algorithms can facilitate the creation of a vector index. Their common goal is to enable fast querying by creating a data structure that can be traversed quickly. They will commonly transform the representation of the original vector into a compressed form to optimize the query process.
+
+1. Random Projection is to project the high-dimensional vectors to a lower-dimensional space using a random projection matrix. We calculate the dot product of the input vectors and the matrix, which results in a fewer dimensions than our original vectors but still preserves their similarity.
+
+2. Product Quantization takes the original vector, breaks it up into smaller chunks, simplifies the representation of each chunk by creating a representative “code” for each chunk, and then puts all the chunks back together.
+
+3. Locality-Sensitive Hashing is a technique for indexing in the context of an approximate nearest-neighbor search. It maps similar vectors into “buckets” using a set of hashing functions. To find the nearest neighbors for a given query vector, we use the same hashing functions. The query vector is hashed to a particular table and then compared with the other vectors in that same table to find the closest matches.
+
+4. HNSW (Hierarchical Navigable Small World) creates a hierarchical, tree-like structure where each node of the tree represents a set of vectors. The edges between the nodes represent the similarity between the vectors. The algorithm starts by creating a set of nodes, each with a small number of vectors. The algorithm then examines the vectors of each node and draws an edge between that node and the nodes that have the most similar vectors to the one it has. When we query an HNSW index, it uses this graph to navigate through the tree, visiting the nodes that are most likely to contain the closest vectors to the query vector.
