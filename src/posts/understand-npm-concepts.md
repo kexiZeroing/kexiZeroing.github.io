@@ -110,12 +110,20 @@ You can configure npm to resolve your dependencies across multiple registries.
 # fix a bug in one of your dependencies
 vim node_modules/some-package/brokenFile.js
 
-# run `patch-package` to create a .patch file
+# it will create a folder called `patches` in the root dir of your app. 
+# Inside will be a `.patch` file, which is a diff between normal old package and your fixed version
 npx patch-package some-package
 
 # commit the patch file to share the fix with your team
 git add patches/some-package+3.14.15.patch
 git commit -m "fix brokenFile.js in some-package"
+```
+
+```js
+// package.json
+"scripts": {
+  "postinstall": "patch-package"
+}
 ```
 
 ### npm and npx
