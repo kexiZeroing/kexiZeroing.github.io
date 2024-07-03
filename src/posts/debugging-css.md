@@ -147,6 +147,8 @@ updatedDate: "May 5 2024"
   }
   ```
 
+  > There’s a lot of advantages to grid, like `minmax()`/`repeat()` functions. Grid is also required for any 2D layout as flex can’t handle that, and it tends to be better when you have more intentionally defined values for rows and/or columns. Also, you get the `fr` unit which is really handy.
+
 - Have you ever wondered why padding is inconsistent above and below text elements? Each font has a different `line-height` and that comes with a different spacing above and below the text. To fix that, we can add a fake element next to the button’s TextNode, and when a pseudo-element is placed next to it, we can use `vertical-align: middle` to center both. This is a much better solution than setting the different top and bottom spacing values.
 
   ```css
