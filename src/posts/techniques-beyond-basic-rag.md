@@ -54,7 +54,7 @@ scores = model.predict([
 ### Rerank API
 At a high level, a rerank API is a language model which analyzes documents and reorders them based on their relevance to a given query.
 
-JinaAI Reranker (1 million free tokens): https://jina.ai/reranker
+1. JinaAI Reranker (1 million free tokens): https://jina.ai/reranker
 
 ```
 curl https://api.jina.ai/v1/rerank \
@@ -81,7 +81,7 @@ curl https://api.jina.ai/v1/rerank \
 
 > The Reranker API allows input of a query-doc list and outputs directly the reranked top-k results. This means that, in theory, one could build a search or recommendation system using solely the Reranker—eliminating the need for BM25, embeddings, vector databases, or any pipelines, thus achieving end-to-end functionality.
 
-Cohere offers an API for reranking documents: https://cohere.com/blog/rerank
+2. Cohere offers an API for reranking documents: https://cohere.com/blog/rerank
 
 ```js
 import { CohereRerank } from "@langchain/cohere";
@@ -131,6 +131,8 @@ console.log(rerankedDocuments);
 ]
  */
 ```
+
+3. Mixedbread AI reranking: https://www.mixedbread.ai/docs/quick-start
 
 ## Query Transformation
 The main idea behind the Query Transformation is that transform the user query in a way that the LLM can correctly answer the question. For instance, if the user asks an ambiguous question, our RAG retriever might retrieve incorrect documents based on the embeddings that are not very relevant to answer the user question, leading the LLM to hallucinate answers.
