@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "Functional programming jargon"
 slug: fp-jargon
 description: ""
-added: "Jul 24 2022"
+added: "July 24 2022"
 tags: [other]
 updatedDate: "Nov 10 2022"
 ---

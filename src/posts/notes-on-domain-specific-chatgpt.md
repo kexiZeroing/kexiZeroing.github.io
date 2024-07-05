@@ -355,8 +355,6 @@ export const search = async (query: string) => {
 };
 ```
 
-> Run a local LLM with Ollama and open-source models: Looking at the specs for the [llama2 7b model](https://ollama.com/library/llama2), I was certain that my M1 Macbook with only 8 GB memory would even run it. But it did, just very slowly. The easiest approach to interacting with LLMs using Ollama is via the CLI `ollama run <MODEL_NAME>`.
-
 ## Vector Database
 - Vector Databases Explained: https://vercel.com/guides/vector-databases
 - What is a Vector Database: https://www.pinecone.io/learn/vector-database

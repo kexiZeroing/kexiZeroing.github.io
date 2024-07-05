@@ -3,7 +3,7 @@ layout: "../layouts/BlogPost.astro"
 title: "The end of localhost"
 slug: the-end-of-localhost
 description: ""
-added: "Jul 10 2022"
+added: "July 10 2022"
 tags: [system]
 updatedDate: "Feb 17 2023"
 ---

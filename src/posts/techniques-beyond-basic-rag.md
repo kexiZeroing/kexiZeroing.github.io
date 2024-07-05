@@ -5,7 +5,7 @@ slug: techniques-beyond-basic-rag
 description: ""
 added: "Jun 16 2024"
 tags: [AI]
-updatedDate: "Jul 2 2024"
+updatedDate: "July 2 2024"
 ---
 
 ## Reranking

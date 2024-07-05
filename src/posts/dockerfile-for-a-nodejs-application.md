@@ -5,7 +5,7 @@ slug: dockerfile-for-a-nodejs-application
 description: ""
 added: "Mar 12 2023"
 tags: [devops]
-updatedDate: "Feb 1 2024"
+updatedDate: "July 5 2024"
 ---
 
 Docker is the most popular container technology tool. It is a tool used for building, running, and deploying containerized applications. An application’s code, libraries, tools, dependencies, and other files are all contained in a Docker image; when a user executes an image, it turns into a container. Docker-compose is a tool that accepts a YAML file that specifies a cross container application and automates the creation and removal of all those containers without the need to write several docker commands for each one.
@@ -151,7 +151,57 @@ Let's say you have an app which you have containerized (Monoliths were broken in
 
 - **Deployments**: You would never create individual pods to serve your application. Why? Because that would mean if the traffic suddenly increases, your Pod will run out of resources, and you will face downtime. Instead, you create a bunch of identical pods. If one of these pods goes down or the traffic increases and you need more pods, Kubernetes will bring up more pods. The deployment controller does this management of multiple similar pods when you create a Deployment object.
 
+- **Services**: A Kubernetes Service is an abstraction layer that describes a logical group of Pods and allows for external traffic exposure, load balancing, and service discovery for such Pods.
+
 - **Ingress Controller**: Kubernetes Ingress is an API object that manages external users’ access to services in a Kubernetes cluster by providing routing rules. This external request is frequently made using HTTPS/HTTP. You can easily set up rules for traffic routing with Ingress without having to create a bunch of Load Balancers or expose each service on the node.
+
+Let's look at an example. The Kubernetes configuration file (`deployment.yaml`) contains two parts because it defines two separate Kubernetes resources. Deployment manages the application instances (pods). Service manages network access to those instances.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-hello-world
+spec:
+  # how many pods
+  replicas: 2
+  # which Pods to manage
+  selector:
+    matchLabels:
+      app: nodejs-hello-world
+  # describe the pod that will be created
+  template:
+    metadata:
+      labels:
+        app: nodejs-hello-world
+    spec:
+      containers:
+      - name: nodejs-hello-world
+        image: your-docker-username/nodejs-hello-world:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-hello-world-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 3000
+  selector:
+    app: nodejs-hello-world
+```
+
+> Deployment manages the desired state of your application. Service provides a stable network endpoint to access those containers. The key to their interaction is the label selector. The Deployment defines labels for its Pods in the template section, and the Service uses a selector to choose which Pods to route traffic to.
+> 
+> Example Workflow:
+> a. Deployment creates Pods with specific labels.
+> b. Service is created with a selector matching those labels.
+> c. Clients send requests to the Service.
+> d. Service routes each request to one of the Pods managed by the Deployment.
+> e. If Pods are added/removed, the Service's routing table updates automatically.
 
 **Horizontal Pod Autoscaling (HPA)** is a crucial feature in Kubernetes that enables automatic adjustment of the number of running pods based on observed CPU or memory utilization. The key components of HPA: 
 - The Metrics Server collects and serves container resource metrics, playing a pivotal role in HPA functionality.

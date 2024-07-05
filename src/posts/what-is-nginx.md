@@ -78,8 +78,6 @@ Typically the types of functions the gateway may provide may include:
 - security filtering, checking the content on incoming messages for attacks.
 - traffic routing, sending traffic to different endpoints in your own infrastructure depending on the sender or the request.
 
-<img alt="gateway" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/e6c9d24ely1h61oh00uc2j20tq14y42a.jpg" width="500" >
-
 API Gateway and Load Balancer are two different things. Load Balancer works at protocol or socket level (eg. tcp, http, or port 3306 etc). Its job is to balance the incoming traffic by distributing it to the destinations with various logics. It doesn't offer features such as authorization checks, authentication of requests etc.
 
 ### Nginx and Ingress
