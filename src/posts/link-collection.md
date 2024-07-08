@@ -480,6 +480,8 @@ A Webapp that uses RAG to interact with a PDF directly in the browser: https://p
 
 High-Performance In-Browser LLM Inference Engine: https://github.com/mlc-ai/web-llm
 
+Fast AI voice assistant: https://github.com/ai-ng/swift
+
 ---
 
 ## Machine Learning

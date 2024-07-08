@@ -1,13 +1,14 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "A Dockerfile for a NodeJS application"
-slug: dockerfile-for-a-nodejs-application
+title: "A basic Dockerfile and Intro to Kubernetes"
+slug: basic-dockerfile-and-kubernetes
 description: ""
 added: "Mar 12 2023"
 tags: [devops]
-updatedDate: "July 5 2024"
+updatedDate: "July 8 2024"
 ---
 
+## A Dockerfile for a NodeJS application
 Docker is the most popular container technology tool. It is a tool used for building, running, and deploying containerized applications. An application’s code, libraries, tools, dependencies, and other files are all contained in a Docker image; when a user executes an image, it turns into a container. Docker-compose is a tool that accepts a YAML file that specifies a cross container application and automates the creation and removal of all those containers without the need to write several docker commands for each one.
 
 This is a valid Dockerfile for a NodeJS application. But we can improve it a lot.
@@ -140,7 +141,9 @@ Dockerfile
 .git
 ```
 
-### Intro to Kubernetes
+> Kaniko is a tool that enables building container images from a Dockerfile inside a Kubernetes cluster without requiring a Docker daemon. Kaniko builds container images by parsing the Dockerfile and executing each command within a container isolated from the host environment. Instead of using a Docker daemon, Kaniko simulates the Docker builder by providing its own implementations of Docker commands like ADD, COPY, RUN, etc.
+
+## Intro to Kubernetes
 Let's say you have an app which you have containerized (Monoliths were broken into microservices). So you run a bunch of containers to serve your app to users. But how do you manage these different containers? This is where K8s comes to the rescue. Kubernetes is a container orchestration tool for managing production-ready containerized workloads and services that allows for declarative setup as well as automation.
 
 - **Pods**: A pod is a collection of one or more containers with common storage and network resources, as well as a set of rules for how the containers should be run. It is the smallest deployable unit that Kubernetes allows you to create and manage. Each pod has a unique IP address assigned to it. While you can't ping this IP address from outside the cluster, you can ping from within your Kubernetes cluster.
