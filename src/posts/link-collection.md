@@ -54,6 +54,8 @@ Explain complex systems using visuals and simple terms: https://github.com/ByteB
 
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials
 
+Total TypeScript Essentials: https://www.totaltypescript.com/books/total-typescript-essentials
+
 Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 
 A year-end celebration of fundamental web technologies: https://12daysofweb.dev
@@ -340,6 +342,10 @@ React's evolution from Hooks to Concurrent React: https://tigerabrodi.blog/react
 
 Build Your Own React.js in 400 Lines of Code: https://webdeveloper.beehiiv.com/p/build-react-400-lines-code
 
+Zero-dependency and lightweight React implementation: https://github.com/MarufZak/react-simplified
+
+Modern UI components to build your React app: https://dotui.org
+
 ---
 
 ## Vue and Vite ecosystem
@@ -481,6 +487,8 @@ A Webapp that uses RAG to interact with a PDF directly in the browser: https://p
 High-Performance In-Browser LLM Inference Engine: https://github.com/mlc-ai/web-llm
 
 Fast AI voice assistant: https://github.com/ai-ng/swift
+
+Starter project for the Vercel AI SDK RAG guide: https://github.com/vercel/ai-sdk-rag-starter
 
 ---
 
