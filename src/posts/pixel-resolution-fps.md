@@ -103,10 +103,6 @@ When you animate something on a page that has already loaded these steps have to
 
 By placing the things that will be animated or transitioned onto a new layer, the browser only needs to repaint those items and not everything else. Browsers will often make good decisions about which items should be placed on a new layer, but you can manually force layer creation with the `will-change` property. However, creating new layers should be done with care because each layer uses memory.
 
-> You can make layers visible in DevTools in two ways:
-> 1. Enable “Layer Borders” in DevTool’s “Rendering” tab so you can see orange borders around elements that are on a separate layer.
-> 2. Check out the “Layers” tab in DevTools to get a real-time and interactive view of all layers on the current page.
-
 **Hardware acceleration** is a general term for offloading CPU processes onto another dedicated piece of hardware. In the world of CSS transitions, transforms, and animations, it implies that we’re offloading the process onto the GPU, and hence speeding it up. This occurs by pushing the element to a layer of its own, where it can be rendered independently while undergoing its animation.
 
 1. Hardware-accelerated layer compositing is enabled in the browser.
@@ -114,8 +110,9 @@ By placing the things that will be animated or transitioned onto a new layer, th
 3. The element has been given its own compositing layer. (it may be forced by using a "go faster" hack like `transform: translate3d`)
 
 > More knowledge about GPU:
-> 1. The Graphic Processing Unit (GPU) is an electronic subsystem within a computer that was originally specialized for processing graphics. However, in the past 10 years, it has evolved towards a more flexible architecture allowing developers to implement many types of algorithms, not just render 3D graphics. These capabilities are referred to as GPU Compute, and using a GPU as a coprocessor for general-purpose scientific computing is called general-purpose GPU (GPGPU) programming.
-> 2. The Chrome team is thrilled to announce that WebGPU is now available by default in Chrome 113, which allows high-performance 3D graphics and data-parallel computation on the web. See https://developer.chrome.com/blog/webgpu-release/
+> 1. GPUs (Graphical Processing Units) were originally designed to accelerate rendering of images, 2D, and 3D graphics. However, due to their capability of performing many parallel operations, their utility extends beyond that to applications such as deep learning. GPUs prioritize having a large number of cores to achieve a higher level of parallelism.
+> 2. Imagine you want to add two vectors, a simple implementation iterates over the vector, adding each pair of elements on each iteration sequentially. But the addition of the *ith* pair of elements does not rely on any other pair. So, what if we could execute these operations concurrently, adding all of the pairs of elements in parallel? That’s when the GPUs come into action. Modern GPUs can run millions of threads simultaneously, enhancing performance of these mathematical operations on massive vectors.
+> 3. The Chrome team is thrilled to announce that WebGPU is now available by default in Chrome 113, which allows high-performance 3D graphics and data-parallel computation on the web. See https://developer.chrome.com/blog/webgpu-release/
 
 ## Best practice for font units
 - `1px` is equal to whatever the browser is treating as a single pixel (even if it’s not literally a pixel on the hardware screen).

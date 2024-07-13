@@ -176,7 +176,7 @@ const protect = async (req, res, next) => {
 ```
 
 ### Multi-factor authentication
-MFA is when a user is required to input more than just a password to authenticate.
+MFA is when a user is required to input more than just a password to authenticate. For example, Two factor authentication (2FA) requires users to enter a code from another device in addition to their username and password. The device is the second "factor" (in addition to the password) that is used to verify the user's identity. With this, even if an attacker were able to determine a user's password, they wouldn't be able to log in without also having access to the user's phone. This makes it much harder for an attacker to gain access to a user's account.
 
 - Time-based one-time passwords (TOTP): Standard TOTP uses an authenticator app, usually installed on the user's mobile device, to generate a code for the user. Each user has a secret key. Using that secret and the current time, the authenticator app can generate a new OTP.
 
