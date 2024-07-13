@@ -54,6 +54,8 @@ Instead of hitting the up arrow several times, you can also use `Ctrl + R` and s
 
 Once you have recalled a command and want to edit it, you will have to move the cursor. You can use `Option + Left/Right Arrow` to move word by word. You can use `Ctrl + A` to jump to the beginning of the line and `Ctrl + E` to jump to the end. `Ctrl + U` will clear the entire current line. `Ctrl + W` delete the word before the cursor. And you can option-click with the mouse pointer on a character in the command line to move the cursor there.
 
+> Readline is a GNU library that gets a line from a user with editing. The bash shell is probably the most famous readline user (when you use `Ctrl+R` to search your history in bash, that feature actually comes from readline), but there are TONS of programs that use it – for example psql, irb, python3, etc.
+
 The configuration for the prompt is stored in the `PS1` environment variable. You can see the default value by `echo $PS1`.
 
 ## Escaping Characters

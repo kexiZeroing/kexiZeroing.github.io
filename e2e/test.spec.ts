@@ -3,7 +3,9 @@ import { test, expect } from '@playwright/test';
 // VSCode Testing -> Record new
 test.describe('My Blog', () => {
   test('should load page', async ({ page }) => {
-    await page.goto('https://kexizeroing.github.io/');
+    // by default, `page.goto()` waits for the load event.
+    // https://www.checklyhq.com/blog/why-page-goto-is-slowing-down-your-playwright-test
+    await page.goto('https://kexizeroing.github.io/', { waitUntil: 'domcontentloaded' });
     
     await expect(page.getByRole('link', { name: 'Home' })).toHaveClass(/active/);
   });
