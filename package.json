@@ -17,12 +17,17 @@
   "dependencies": {
     "@astrojs/mdx": "^2.0.1",
     "@astrojs/react": "^3.0.7",
+    "@astrojs/tailwind": "^5.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "astro": "^4.0.6",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "crawlee": "^3.6.1",
     "express": "^4.18.2",
     "image-size": "^1.0.2",
+    "lucide-react": "^0.408.0",
     "markdown-it": "^13.0.1",
     "node-fetch": "^3.3.1",
     "pagefind": "^1.0.3",
@@ -30,7 +35,10 @@
     "react": "^18.2.0",
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
-    "shiki": "^0.14.3"
+    "shiki": "^0.14.3",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss": "^3.4.4",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@playwright/test": "^1.42.1",
