@@ -1,14 +1,24 @@
 ---
 import '@/tw-styles/globals.css'
-import { Button } from "@/shadcn-components/ui/button"
+import { Button } from "@/components/ui/button"
+
+import { CalendarDemo } from "@/components/shadcn-ui-demo/CalendarDemo"
+import { AlertDialogDemo } from "@/components/shadcn-ui-demo/AlertDialogDemo"
 ---
 
-<html lang="en">
+<html lang="en" class="p-2">
 	<head>
 		<title>Shadcn UI</title>
 	</head>
-	<body class="p-4">
+	<body>
 		<Button>Click Me</Button>
+
+		<div class="mt-5">
+			<CalendarDemo client:load />
+		</div>
+		<div class="mt-5">
+			<AlertDialogDemo client:load />
+		</div>
 	</body>
 </html>
 
