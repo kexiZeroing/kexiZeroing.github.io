@@ -5,12 +5,20 @@ slug: basic-dockerfile-and-kubernetes
 description: ""
 added: "Mar 12 2023"
 tags: [devops]
-updatedDate: "July 8 2024"
+updatedDate: "July 14 2024"
 ---
 
-## A Dockerfile for a NodeJS application
-Docker is the most popular container technology tool. It is a tool used for building, running, and deploying containerized applications. An application’s code, libraries, tools, dependencies, and other files are all contained in a Docker image; when a user executes an image, it turns into a container. Docker-compose is a tool that accepts a YAML file that specifies a cross container application and automates the creation and removal of all those containers without the need to write several docker commands for each one.
+## Docker concepts
+Docker is the most popular container technology tool. It is a tool used for building, running, and deploying containerized applications. An application’s code, libraries, tools, dependencies, and other files are all contained in a Docker image; when a user executes an image, it turns into a container.
 
+Docker Engine is the core product of Docker, including its daemon (dockerd) as well as its CLI (docker).
+- Docker Daemon is the background service running on the host that manages building, running and distributing Docker containers. The daemon is the process that runs in the operating system which clients talk to.
+- Docker Client is the command line tool that allows the user to interact with the daemon.
+- Docker desktop is using a Linux virtual machine behind the scenes for running regular docker daemon. Docker Desktop can be used either on it’s own or as a complementary tool to the CLI.
+
+Docker-compose is a tool that accepts a YAML file that specifies a cross container application and automates the creation and removal of all those containers without the need to write several docker commands for each one.
+
+## A Dockerfile for a NodeJS application
 This is a valid Dockerfile for a NodeJS application. But we can improve it a lot.
 
 ```dockerfile
