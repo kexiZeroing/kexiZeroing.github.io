@@ -302,7 +302,7 @@ Comlink makes WebWorkers enjoyable: https://github.com/GoogleChromeLabs/comlink
 
 Web component JS frameworks overview by their syntax and features: https://component-party.dev
 
-Javascript audio library for the modern web: https://github.com/goldfire/howler.js
+Open Source Tailwind components tailored for your AI and GPT: https://github.com/LangbaseInc/langui
 
 ---
 
@@ -489,6 +489,8 @@ High-Performance In-Browser LLM Inference Engine: https://github.com/mlc-ai/web-
 Fast AI voice assistant: https://github.com/ai-ng/swift
 
 Starter project for the Vercel AI SDK RAG guide: https://github.com/vercel/ai-sdk-rag-starter
+
+Build AI apps locally that can do document Q&A: https://github.com/ykhli/local-ai-stack
 
 ---
 
