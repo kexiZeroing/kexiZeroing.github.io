@@ -37,6 +37,7 @@ Start with templates:
 A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and MySQL:
 - @clerk/nextjs: add authentication and user management to your Next.js application.
 - prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. You can integrate Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database. The fastest way to get started with Prisma is by following the [Quickstart](https://www.prisma.io/docs/getting-started/quickstart).
+- [Neon](https://neon.tech) is a serverless Postgres platform, *Neon is to PostgreSQL as PlanetScale is to MySQL*. Neon provides a generous free tier, making it a good fit for small applications and hobby projects. (PlanetScale has made the decision to stop offering the Hobby tier.)
 - zustand: one of many state management libraries for React. It's kinda like Redux, but much simpler.
 - react-hot-toast: lightweight notifications for React.
 - lucide-react: implementation of the lucide icon library for react applications.
@@ -44,7 +45,6 @@ A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and
 - @tanstack/react-table: headless UI for building powerful tables & datagrids for React. ([@tanstack/react-query](https://tanstack.com/query/latest/docs) is more popular.)
 - recharts: chart library to help you to write charts in React.
 - stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
-- react-quill: a React component that wraps Quill.js for both rich text editor and preview (with `readonly` props).
 - @mux/mux-node is a Mux API wrapper for Node projects to post a video. Note that this package uses Mux access tokens and secret keys and is intended to be used in server-side code only. Also add @mux/mux-player-react to integrate [Mux](https://docs.mux.com) player into your web application.
 - react-confetti: create a confetti effect to celebrate the accomplishment of particular steps in an application.
 
