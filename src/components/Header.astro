@@ -38,7 +38,7 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 		<HeaderLink class="header-link" href="/posts">Posts</HeaderLink>
 		<HeaderLink class="header-link" href="/pictures">Pictures</HeaderLink>
 		<HeaderLink class="header-link" href="https://twitter.com/kdang2020" target="_blank">𝕏</HeaderLink>
-		<HeaderLink class="header-link" id="readResume">Resume</HeaderLink>
+		<HeaderLink class="header-link" href="/resume" id="readResume">Resume</HeaderLink>
 
 		<ThemeToggle />
 
@@ -145,14 +145,16 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 </style>
 
 <script is:inline>
-	document.querySelector('#readResume').addEventListener('click', () => {
+	document.querySelector('#readResume').addEventListener('click', (ev) => {
+		ev.preventDefault()
+		
 		// pdfjs not work in these platforms
 		const isMobile = /Mobile/.test(navigator.userAgent)
 		const isSafari = /Safari/.test(navigator.userAgent) && /Version/.test(navigator.userAgent)
 		if (isMobile || isSafari) {
 			window.open('https://registry.jsonresume.org/kexiZeroing', '_blank')
 		} else {
-			location.href = '/resume'
+			window.open('/resume', '_blank')
 		}
 	})
 
