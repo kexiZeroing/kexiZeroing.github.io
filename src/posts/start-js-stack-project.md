@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "Jun 16 2022"
 tags: [web]
-updatedDate: "Jun 30 2024"
+updatedDate: "July 16 2024"
 ---
 
 ## Start a modern web project
@@ -20,8 +20,6 @@ npm create vite@latest my-vue-app -- --template vue
 npx create-next-app@latest my-app --typescript --tailwind --eslint
 
 npx shadcn-ui@latest init
-
-npx shadcn-ui@latest add button
 ```
 
 ```
@@ -195,8 +193,6 @@ One more thing, Chrome DevTools parses the [x_google_ignoreList](https://develop
 }
 ```
 
-<img alt="source-map-ignore" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/sourcemap-ignore.png" width="500" />
-
 > Learn source maps from Google Chrome Developers
 > - What are source maps: https://web.dev/articles/source-maps
 > - Using source maps in DevTools: https://www.youtube.com/watch?v=SkUcO4ML5U0
@@ -227,25 +223,6 @@ Install husky `npm i -D husky` and have a "husky" section in the `package.json` 
         "pre-commit": "npm run lint && npm run test",
         "pre-push": "npm test"
     }
-}
-```
-
-## Deployment a Node.js App with the frontend
-Setup an Ubuntu server, install Node.js, and deploy the app with PM2 process manager and Nginx. This [GitHub gist](https://gist.github.com/bradtraversy/b8b72581ddc940e0a41e0bc09172d91b) explains how to deploy to linode and all of the setup steps.
-
-```
-sudo npm install -g pm2
-pm2 start backend/server.js
-
-sudo apt install nginx
-
-location / {
-  proxy_pass http://localhost:5000;
-  proxy_http_version 1.1;
-  proxy_set_header Upgrade $http_upgrade;
-  proxy_set_header Connection 'upgrade';
-  proxy_set_header Host $host;
-  proxy_cache_bypass $http_upgrade;
 }
 ```
 
