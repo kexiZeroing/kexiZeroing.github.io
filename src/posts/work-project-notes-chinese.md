@@ -86,9 +86,9 @@ chunks: 'all' | 'initial' | 'async':
 - `initial` means only statically imported modules; `async` means only dynamically imported modules.
 
 #### resolve
-- extensions 数组，在 import 不带文件后缀时，webpack 会自动带上后缀去尝试访问文件是否存在，默认值 `['.js', '.json', '.wasm']`
-- mainFiles 设置解析目录时要使用的文件名，默认值 `['index']`
-- alias 配置别名，把导入路径映射成一个新的导入路径，比如 `"@": path.join(__dirname, 'src')`
+- extensions 数组，在 import 不带文件后缀时，webpack 会自动带上后缀去尝试访问文件是否存在，默认值 `['.js', '.json', '.wasm']`.
+- mainFiles 数组，the filename to be used while resolving directories, defaults to `['index']`.
+- alias 配置别名，把导入路径映射成一个新的导入路径，比如 `"@": path.join(__dirname, 'src')`.
 - modules 数组，tell webpack what directories should be searched when resolving modules, 默认值 `['node_modules']`，即从 node_modules 目录下寻找。
 
 #### css-loader and style-loader
@@ -288,7 +288,7 @@ output: {
 }
 ```
 
-#### 配置 babel-loader 不编译引入的 sdk 文件
+#### 配置 babel-loader 选择性编译引入的 sdk 文件
 Transpiling is an expensive process and many projects have thousands of lines of code imported in that babel would need to run over. Your `node_modules` should already be runnable without transpiling and there are simple ways to exclude your `node_modules` but transpile any code that needs it.
 ```js
 {
@@ -327,7 +327,7 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 有些 url 请求是后端直出页面返回 html，通过类似 `render_to_response(template, data)` 的方法，将数据打到模板中，模板里会引用 `xx/static/js` 路径下的 js 文件，这些 js 使用 require 框架，导入需要的其他 js 文件或 tpl 模板，再结合业务逻辑使用 underscore 的 template 方法（`_.template(xx)`）可以将 tpl 渲染为 html，然后被 jquery `.html()` 方法插入到 DOM 中。
 
 - 请求 `/web?old=1` 后端会返回 html 扫码登录页面，这里面有一个 `/static/vue/login.js?_dt=xxxxx`，里面有登录和加载网页版首页的逻辑，这样就会展示出 h5 中的页面，其中的 iframe 可以嵌套任意 pc 或 h5 中的页面（只要有路由支持），这个 iframe 的链接自然也可以被单独访问。
-- h5 发起的第一次页面请求是走服务器，后端返回一个模板 html，这里面有一个 app 元素是 Vue 挂载的地方，前端通过一个老的 vue router API `router.start(App, 'app')` 创建 vue 实例并进行挂载（https://github.com/vuejs/vue-router/blob/1.0/docs/en/api/start.md），这之后才会被前端路由接管。而且这个 html 只能在手机端访问（根据 ua），否则会跳到 web 端的逻辑。
+- h5 发起的第一次页面请求是走服务器，后端返回一个模板 html，这里面有一个 app 元素是 Vue 挂载的地方，前端通过一个老的 vue router API `router.start(App, 'app')` 创建 vue 实例并进行挂载 (https://github.com/vuejs/vue-router/blob/1.0/docs/en/api/start.md)，这之后才会被前端路由接管。而且这个 html 只能在手机端访问（根据 ua），否则会跳到 web 端的逻辑。
 
 ```py
 # urls.py
