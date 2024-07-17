@@ -16,7 +16,7 @@ The `fetch()` method takes one mandatory argument, the path to the resource you 
 > At the heart of Fetch are the Interface abstractions of HTTP [Request](https://developer.mozilla.org/en-US/docs/Web/API/Request), [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response), and [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers), along with a `fetch()` method for initiating asynchronous resource requests.
 
 - The Promise returned from `fetch()` **won’t reject on HTTP error status even if the response is an HTTP 404 or 500**. Instead, it will resolve normally and only reject on network failure or if anything prevented the request from completing. So a `then()` handler must check the `Response.ok` or `Response.status` properties.
-- `fetch()` won’t send cookies, unless you set the credentials in init option. To cause browsers to send credentials in a cross-origin call, add `credentials: 'include'`.
+- To make a fetch request with cookies, set the credentials in init option. `credentials: 'include'` means always include credentials, even cross-origin. If a cookie's SameSite attribute is set to `Strict` or `Lax`, then the cookie will not be sent cross-site, even if credentials is set to include.
 - CORS mode is enabled by default in `fetch()`.
 
 ### Init options
