@@ -5,7 +5,7 @@ slug: work-project-notes-chinese
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Apr 22 2024"
+updatedDate: "Jult 17 2024"
 ---
 
 ### 项目是怎么跑起来的
@@ -490,10 +490,10 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
   })
   ```
 
-3. 学习并使用 [VueRequest](https://github.com/AttoJS/vue-request)，管理请求状态，支持 SWR、轮询、错误重试、缓存、分页等常用功能。`useRequest` 接收一个 service 函数，service 是一个异步的请求函数，换句话说，还可以使用 axios 来获取数据，然后返回一个 Promise。`useRequest` 会返回 data、loading、error 等，它们的值会根据请求状态和结果进行修改。返回的 run 方法，可以手动触发 service 请求。
+3. 使用 [VueRequest](https://github.com/AttoJS/vue-request)，管理请求状态，支持 SWR、轮询、错误重试、缓存、分页等常用功能。`useRequest` 接收一个 service 函数，service 是一个异步的请求函数，换句话说，还可以使用 axios 来获取数据，然后返回一个 Promise。`useRequest` 会返回 data、loading、error 等，它们的值会根据请求状态和结果进行修改。返回的 run 方法，可以手动触发 service 请求。
 
 ### API 版本和 URI 连字符
-API 版本可以放在两个地方: 在 url 中指定 API 的版本，例如 https://example.com/api/v1，这样不同版本的协议解析可以放在不同的服务器上，不用考虑协议兼容性，开发方便，升级也不受影响。另一种是放在 HTTP header 中，url 显得干净，符合 RESTful 惯例，毕竟版本号不属于资源的属性。缺点是需要解析头部，判断返回。
+API 版本可以放在两个地方: 在 url 中指定 API 的版本，例如 `example.com/api/v1`，这样不同版本的协议解析可以放在不同的服务器上，不用考虑协议兼容性，开发方便，升级也不受影响。另一种是放在 HTTP header 中，url 显得干净，符合 RESTful 惯例，毕竟版本号不属于资源的属性。缺点是需要解析头部，判断返回。
 
 URI 中尽量使用连字符 `-` 代替下划线 `_` 的使用，连字符用来分割 URI 中出现的单词，提高 URI 的可读性。下划线会和链接的样式冲突重叠。URI 是对大小写敏感的，为了避免歧义，我们尽量用小写字符。但主机名（Host）和协议名（Scheme）对大小写是不敏感的。
 
@@ -522,50 +522,43 @@ https://app-dev-tools.netlify.app
 - Vue parent component will wait for its children to mount before it mounts its own template to the DOM. The order should be: parent created -> child created -> child mounted -> parent mouted.
 
 - Sometimes I need to detect whether a click happens inside or outside of a particular element.
-```js
-window.addEventListener('mousedown', e => {
-  // Get the element that was clicked
-  const clickedEl = e.target;
+  ```js
+  window.addEventListener('mousedown', e => {
+    // Get the element that was clicked
+    const clickedEl = e.target;
 
-  // `el` is the element you're detecting clicks outside of
-  // https://developer.mozilla.org/en-US/docs/Web/API/Node/contains
-  if (el.contains(clickedEl)) {
-    // Clicked inside of `el`
-  } else {
-    // Clicked outside of `el`
-  }
-});
-```
+    // `el` is the element you're detecting clicks outside of
+    // https://developer.mozilla.org/en-US/docs/Web/API/Node/contains
+    if (el.contains(clickedEl)) {
+      // Clicked inside of `el`
+    } else {
+      // Clicked outside of `el`
+    }
+  });
+  ```
 
 - Change the style of `:before` pseudo-elements using JS. (It's not possible to directly access pseudo-elements with JS as they're not part of the DOM.)
-```js
-let style = document.querySelector('.foo').style;
-style.setProperty('--background', 'red');
-```
-```css
-.foo::before {
-  background: var(--background);
-  content: '';
-  display: block;
-  width: 200px;
-  height: 200px;
-}
-```
+  ```js
+  let style = document.querySelector('.foo').style;
+  style.setProperty('--background', 'red');
+  ```
+  ```css
+  .foo::before {
+    background: var(--background);
+    content: '';
+    display: block;
+    width: 200px;
+    height: 200px;
+  }
+  ```
 
 - The default behavior of `scrollIntoView()` is that the top of the element will be aligned to the top of the visible area of the scrollable ancestor. If it shifts the complete page, you could either call it with the parameter `false` to indicate that it should aligned to the bottom of the ancestor or just use `scrollTop` instead of `scrollIntoView()`.
-```js
-let target = document.getElementById("target");
-target.parentNode.scrollTop = target.offsetTop;
+  ```js
+  let target = document.getElementById("target");
+  target.parentNode.scrollTop = target.offsetTop;
 
-// can also add the css `scroll-behavior: smooth;`
-```
-
-```js
-export function scrollToDocumentBottom() {
-  const scrollingElement = document.scrollingElement || document.body;
-  scrollingElement.scrollTop = scrollingElement.scrollHeight;
-}
-```
+  // can also add the css `scroll-behavior: smooth;`
+  ```
 
 - If several listeners are attached to the same element for the same event type, they are called in the order in which they were added. If `stopImmediatePropagation()` is invoked during one such call, no remaining listeners will be called.
 
