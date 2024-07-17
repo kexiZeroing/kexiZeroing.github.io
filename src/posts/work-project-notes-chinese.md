@@ -513,7 +513,7 @@ https://kentcdodds.com/blog/make-your-own-dev-tools
 https://app-dev-tools.netlify.app
 
 ### 日常开发 Tips and Tricks
-- The `input` event is fired every time the value of the element changes. This is unlike the `change` event, which only fires when the value is committed, such as by pressing the enter key or selecting a value from a list of options.
+- The `input` event is fired every time the value of the element changes. This is unlike the `change` event, which only fires when the value is committed, such as by pressing the enter key or selecting a value from a list of options. Note that `onChange` in React behaves like the browser `input` event. *(in React it is idiomatic to use `onChange` instead of `onInput`)*
 
 - The order in which the events are fired: `mousedown` --> `mouseup` --> `click`. When you add a `blur` event, it is actually fired before the `mouseup` event and after the `mousedown` event of the button. Refer to https://codepen.io/mudassir0909/full/qBjvzL
 
