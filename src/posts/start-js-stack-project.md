@@ -10,19 +10,20 @@ updatedDate: "July 16 2024"
 
 ## Start a modern web project
 
-```
+```sh
+# `npm create` is an alias for `npm init`
 npm create vite@latest
 
 npm create vite@latest my-vue-app -- --template vue
 ```
 
-```
+```sh
 npx create-next-app@latest my-app --typescript --tailwind --eslint
 
 npx shadcn-ui@latest init
 ```
 
-```
+```sh
 npx nuxi@latest init my-app
 ```
 

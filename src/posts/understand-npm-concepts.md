@@ -5,7 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "May 12 2024"
+updatedDate: "July 17 2024"
 ---
 
 ### package.json and package-lock.json
@@ -71,13 +71,13 @@ verify();
 
 **devDependencies** are dependencies you only need during development, like compilers that take your code and compile it into javascript, test frameworks or documentation generators. They are not installed transitively (if A depends on B dev-depends on C, npm install on A will install B only). *Example: grunt, your project uses grunt to build itself*.
 
-**peerDependencies** are dependencies that your project hooks into, or modifies, in the parent project, usually a plugin for some other library. It is just intended to be a check, making sure that the project that will depend on your project has a dependency on the project you hook into. So if you make a plugin C that adds functionality to library B, then someone making a project A will need to have a dependency on B if they have a dependency on C. They are not installed, they are only checked for. *Example: your project adds functionality to grunt and can only be used on projects that use grunt*.
+- The `npm install` command will install both *devDependencies* and *dependencies*. With the `--production` flag or when the `NODE_ENV` environment variable is set to production `NODE_ENV=production npm install`, npm will not install modules listed in devDependencies.
 
-The `npm install` command will install both *devDependencies* and *dependencies*. With the `--production` flag or when the `NODE_ENV` environment variable is set to production `NODE_ENV=production npm install`, npm will not install modules listed in devDependencies.
+- Using the `npm uninstall --no-save` will tell npm not to remove the package from your `package.json` or `package-lock.json` files.
 
-In npm versions 3 through 6, `peerDependencies` were not automatically installed, and would raise a warning if an invalid version of the peer dependency was found in the tree. **As of npm v7, `peerDependencies` are installed by default.** If your dependency contains some `peerDependencies` that conflict with the root project's dependency, run `npm install --legacy-peer-deps` to tell npm to ignore peer deps and proceed with the installation anyway.
+**peerDependencies** are dependencies that your project hooks into, or modifies, in the parent project, usually a plugin for some other library. It is just intended to be a check, making sure that the project that will depend on your project has a dependency on the project you hook into. So if you make a plugin C that adds functionality to library B, then someone making a project A will need to have a dependency on B if they have a dependency on C. *Example: your project adds functionality to grunt and can only be used on projects that use grunt*.
 
-Using the `npm uninstall --no-save` will tell npm not to remove the package from your `package.json` or `package-lock.json` files.
+In npm versions 3 through 6, `peerDependencies` were not automatically installed, and would raise a warning if an invalid version of the peer dependency was found in the tree. **As of npm v7, `peerDependencies` are installed by default.** (npm has a shortcut where it automatically install mandatory peer dependencies even if the parent package does not depend on them.) If your dependency contains some `peerDependencies` that conflict with the root project's dependency, run `npm install --legacy-peer-deps` to tell npm to ignore peer deps and proceed with the installation anyway.
 
 > `@npmcli/arborist` is the library that calculates dependency trees and manages the `node_modules` folder hierarchy for the npm command line interface. It's used in some tools like [npm-why](https://github.com/amio/npm-why) to help identify why a package has been installed.
 >
@@ -135,7 +135,7 @@ Have you ever run into a situation where you want to try some CLI tool, but it�
 
 npm will cache the packages in the directory `~/.npm/_npx`. The whole point of npx is that you can run the packages without installing them somewhere permanent. So I wouldn't use that cache location for anything. I wouldn't be surprised if cache entries were cleared from time to time. I don't know what algorithm, if any, npx uses for time-based cache invalidation.
 
-You can find the `npm-debug.log` file in your `.npm` directory. To find your `.npm` directory, use `npm config get cache`. **(It is located in ~/.npm so shared accross nodejs versions that nvm installed.)** The default location of the logs directory is a directory named `_logs` inside the npm cache. 
+You can find the `npm-debug.log` file in your `.npm` directory. To find your `.npm` directory, use `npm config get cache`. *(It is located in ~/.npm so shared accross nodejs versions that nvm installed.)* The default location of the logs directory is a directory named `_logs` inside the npm cache. 
 
 ### npm init and exec
 `npm init <initializer>` can be used to set up a npm package. `initializer` in this case is an npm package named `create-<initializer>`, which will be installed by `npm exec`. The init command is transformed to a corresponding `npm exec` operation like `npm init foo` -> `npm exec create-foo`. Another example is `npm init react-app myapp`, which is same as `npx create-react-app myapp`. If the initializer is omitted (by just calling `npm init`), init will fall back to legacy init behavior. It will ask you a bunch of questions, and then write a `package.json` for you. You can also use `-y/--yes` to skip the questionnaire altogether.
@@ -168,7 +168,7 @@ Traditionally, npm installed dependencies in a flat `node_modules` folder. On th
 
 <br>
 
-Since v16.13, Node.js is shipping [Corepack](https://github.com/nodejs/corepack/blob/main/README.md) for managing package managers. In practical terms, Corepack lets you use Yarn, npm, and pnpm without having to install them. Run `corepack enable pnpm` to install the required pnpm binaries on your path.
+> Since v16.13, Node.js is shipping [Corepack](https://github.com/nodejs/corepack/blob/main/README.md) for managing package managers. In practical terms, Corepack lets you use Yarn, npm, and pnpm without having to install them. Run `corepack enable pnpm` to install the required pnpm binaries on your path.
 
 ### npm scripts
 npm scripts are a set of built-in and custom scripts defined in the `package.json` file. Their goal is to provide a simple way to execute repetitive tasks.
@@ -226,10 +226,6 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
 - One convention that you may have seen is using a prefix and a colon to group scripts, for example `build:dev` and `build:prod`. This can be helpful to create groups of scripts that are easier to identify by their prefixes.
 - [shx](https://github.com/shelljs/shx) is a wrapper around ShellJS Unix commands, providing an easy solution for simple Unix-like, cross-platform commands in npm package scripts. ShellJS is a portable (Windows/Linux/macOS) implementation of Unix shell commands on top of the Node.js API. `shx` is good for writing one-off commands in npm package scripts (e.g. `"clean": "shx rm -rf out/"`). Run `npm install shx --save-dev` to install it, and run command in either a Unix or Windows command line.
 
----
-
-Despite 'npm scripts' high usage they are not particularly well optimized.
-
+Despite "npm scripts" high usage they are not particularly well optimized.
 1. By running `cat $(which npm)`, you will find npm CLI is a standard JavaScript file. The only special thing is the first line `#!/usr/bin/env node` which tells your shell the current file can be executed with `node`.
-
 2. Because it's just a js file, we can rely on all the usual ways to generate a profile. My favorite one is node’s `--cpu-prof` argument. Combine that knowledge together and we can generate a profile from an npm script via `node --cpu-prof $(which npm) run myscript`. Loading that profile into [speedscope](https://www.speedscope.app) reveals quite a bit about how npm is structured. The majority of time is spent on loading all the modules that compose the npm cli. The time of the script that we’re running pales in comparison.
