@@ -324,6 +324,8 @@ A collection of React hooks from the ui.dev team: https://usehooks.com
 
 React hook library, ready to use, written in Typescript: https://github.com/juliencrn/usehooks-ts
 
+50 react hooks from scratch: https://github.com/tigerabrodi/50-react-hooks
+
 How styled-components works: https://medium.com/styled-components/how-styled-components-works-618a69970421
 
 Start developing websites like it's 2025: https://react2025.com
