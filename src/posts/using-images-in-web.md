@@ -103,8 +103,7 @@ The `srcset` defines the set of images we will allow the browser to choose betwe
 
 The browser will look at its device width and work out which media condition in the `sizes` list is the first one to be true (`sizes` is not needed for different resolutions). We’re telling the browser what size the image will be in relation to the size of the viewport. And we can tell the browser how that relationship changes as the size of the viewport changes.
 
-> 1. In each comma-separated item, the first value is a media condition. The second value is a length, which can be absolute or relative. When there is no media condition listed, the length is assumed to be a default value.
-> 2. The read-only property `currentSrc` in the `<img>` element lets you determine which image from the set of provided images was selected by the browser.
+> The read-only property `currentSrc` in the `<img>` element lets you determine which image from the set of provided images was selected by the browser.
 
 `<picture>` allows browsers to skip images they do not recognize, you can include images in your order of preference. **The browser selects the first one it supports**. The features — `srcset/sizes/<picture>` — are all supported in modern desktop and mobile browsers (including Microsoft's Edge browser, although not Internet Explorer.)
 
@@ -115,6 +114,47 @@ Read more about best practices for web images:
 - https://github.com/lovell/sharp
 
 ### Let the CDN do the work
-Most images on modern websites are hosted on a CDN that can resize images on the fly and deliver them at the edge. Despite this, most web frameworks will still download and resize the image at build time or on your server, rather than using the CDN, or just uses a single source image rather than handling multiple resolutions.
+Most images on modern websites are hosted on a CDN that can resize images on the fly and deliver them at the edge.
 
 The library [unpic-img](https://github.com/ascorbic/unpic-img) detects the image CDN, and then uses the CDN's URL API to resize and format images. It then generates the correct srcset and sizes attributes for the image. It uses new features built into modern browsers to handle lazy loading, fetch priority and decoding. It also uses pure CSS to handle responsive resizing of images, preserving aspect ratio and avoiding layout shift.
+
+It turns this:
+```js
+import { Image } from "@unpic/react";
+
+function MyComponent() {
+  return (
+    <Image
+      src="https://cdn.shopify.com/static/sample-images/bath_grande_crop_center.jpeg"
+      layout="constrained"
+      width={800}
+      height={600}
+      alt="Shopify"
+    />
+  );
+}
+```
+into this:
+
+```html
+<img
+  alt="Shopify"
+  loading="lazy"
+  decoding="async"
+  sizes="(min-width: 800px) 800px, 100vw"
+  srcset="
+    https://cdn.shopify.com/static/sample-images/bath.jpeg?crop=center&amp;width=1600&amp;height=2133 1600w,
+    https://cdn.shopify.com/static/sample-images/bath.jpeg?crop=center&amp;width=1280&amp;height=1707 1280w,
+    https://cdn.shopify.com/static/sample-images/bath.jpeg?crop=center&amp;width=1080&amp;height=1440 1080w,
+    ...
+  "
+  src="https://cdn.shopify.com/static/sample-images/bath.jpeg?width=800&amp;height=600&amp;crop=center"
+  style="
+    object-fit: cover;
+    max-width: 800px;
+    max-height: 600px;
+    aspect-ratio: 1.33333 / 1;
+    width: 100%;
+  "
+/>
+```
