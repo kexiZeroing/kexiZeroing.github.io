@@ -14,9 +14,8 @@ The bundler will start from the entry file, and it will try to understand which 
 // https://www.youtube.com/watch?v=Gc9-7PBqOC8
 const fs = require('fs');
 const path = require('path');
-const babylon = require('babylon');
-// Babylon has been moved into the main Babel mono-repo as @babel/parser.
-// const parser = require("@babel/parser")
+// @babel/parser, @babel/traverse, @babel/generator (are all dependencies of @babel/core)
+const parser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const babel = require('@babel/core');
 
@@ -26,10 +25,9 @@ function createAsset(filename) {
   const content = fs.readFileSync(filename, 'utf-8');
 
   // AST explorer: https://astexplorer.net
-  // @babel/parser, @babel/traverse, @babel/generator (are all dependencies of @babel/core)
   // Read more: https://vivaxyblog.github.io/2020/01/05/how-babel-is-built.html
   // and https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation
-  const ast = babylon.parse(content, {
+  const ast = parser.parse(content, {
     sourceType: 'module',
   });
 
