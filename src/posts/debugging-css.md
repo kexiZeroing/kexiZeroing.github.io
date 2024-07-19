@@ -58,6 +58,8 @@ updatedDate: "May 5 2024"
   }
   ```
 
+  > `getBoundingClientRect` returns a `DOMRect` object which is the smallest rectangle which contains the entire element, including its padding and border-width. The left, top, right, bottom, x, y, width, and height properties describe the position and size of the overall rectangle in pixels. Properties other than width and height are relative to the top-left of the viewport.
+
 - A long word or link can easily cause horizontal overflow (scrolling). The solution is to use `overflow-wrap: break-word`. It’s worth mentioning that the property has been renamed from `word-wrap` to `overflow-wrap`.
 
 - Flexbox doesn’t wrap by default, thus may cause horizontal scrolling. Always make sure to add `flex-wrap: wrap`. By default, flexbox stretch its child items to make them equal in height if the direction is set to `row`, and it makes them equal in width if the direction is set to `column`.
@@ -162,7 +164,7 @@ updatedDate: "May 5 2024"
 
 - A dialog is a component in a web page or app that usually contains an action or some task to perform. Dialogs have a role of `dialog`, which the browser will assign automatically for you when you use the `<dialog>` element. You can also create dialogs with ARIA: apply `role="dialog"` to an element like `<div>`. If it is a modal dialog, add `aria-modal="true"` when it shows, and remove it when it is dismissed. Dialogs can be modal (when shown with `dialog.showModal()`) or non modal (when shown with `dialog.show()`). When `<dialog>`s are modal, the browser will treat the content outside of the dialog as inert, and prevent keyboard focus from reaching web content outside of the dialog. If a `<dialog>` is not modal, the other content is not treated as inert. Browsers will close modal dialogs when users press `Escape`. Non-modal dialogs don't get this default behaviour, developers can add it where it makes sense. Check out the [slides](https://talks.hiddedevries.nl/G9mATs/slides) about how to build dialogs and popovers.
 
-- CSS `unset` will remove all properties set directly on the matched element, and revert to inheriting from the cascade - like a parent element or `<body>` (if the property naturally inherits from its parent); `inherit` is pretty straight-forward that inherits all defined properties from its parent element. `revert` will set the property to the user agent stylesheet value — AKA the default browser style. `initial` is the nuclear option. This will set the value back to the element’s CSS specification value, which means it’s gonna remove the style all together.
+- CSS `unset` will remove all properties set directly on the matched element, and revert to inheriting from the cascade - like a parent element or `<body>` (if the property naturally inherits from its parent); `inherit` is pretty straight-forward that inherits all defined properties from its parent element. `revert` will set the property to the user agent stylesheet value — AKA the default browser style. `initial` is the nuclear option. This will reset a CSS property as if no CSS rules had been written for that value, which means it’s gonna remove the style all together.
 
   ```html
   <!-- What color is the <p> tag’s text? -->
@@ -211,14 +213,6 @@ updatedDate: "May 5 2024"
   ```
 
   <img alt="stack-elements-with-grid" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/stack-elements-grid.png" width="650" />
-
-- An easy way to add a gradient overlay above an existing background. The `border-image` property is set to use a linear gradient as the border image, and the `fill` value specifies that the image should fill the entire border area without being sliced.
-
-  ```css
-  .overlay {
-    border-image: fill 0 linear-gradient(#0003, #000);
-  }
-  ```
 
 - 8-digit hex notation (#RRGGBBAA): The first 6 digits are interpreted identically to the 6-digit notation. The last pair of digits, interpreted as a hexadecimal number, specifies the alpha channel of the color, where `00` represents a fully transparent color and `ff` represent a fully opaque color. Btw, 4-digit notation (#RGBA) is a shorter variant of the 8-digit notation. If there is only one number, it is duplicated: `1` means `11`, `c` means `cc`.
 
