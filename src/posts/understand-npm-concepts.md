@@ -79,6 +79,8 @@ verify();
 
 In npm versions 3 through 6, `peerDependencies` were not automatically installed, and would raise a warning if an invalid version of the peer dependency was found in the tree. **As of npm v7, `peerDependencies` are installed by default.** (npm has a shortcut where it automatically install mandatory peer dependencies even if the parent package does not depend on them.) If your dependency contains some `peerDependencies` that conflict with the root project's dependency, run `npm install --legacy-peer-deps` to tell npm to ignore peer deps and proceed with the installation anyway.
 
+**optionalDependencies** are dependencies that are not essential for the primary functionality of a package but are beneficial for providing additional features. Let’s say you have a dependency that may be used, but you would like the package manager to proceed if it cannot be found or fails to install. In that case, you can add those dependencies in the `optionalDependencies` object. A good use case for `optionalDependencies` is if you have a dependency that won’t necessarily work on every machine. But you should have a fallback plan in case the installation fails.
+
 > `@npmcli/arborist` is the library that calculates dependency trees and manages the `node_modules` folder hierarchy for the npm command line interface. It's used in some tools like [npm-why](https://github.com/amio/npm-why) to help identify why a package has been installed.
 >
 > Arborist - the npm tree doctor: `npx @npmcli/arborist --help`
