@@ -85,15 +85,6 @@ If you know that a particular resource should be prioritized, use `<link rel="pr
 <link rel="preload" as="script" href="script.js">
 <link rel="preload" as="style" href="style.css">
 <link rel="preload" as="image" href="img.png">
-
-<!-- use `crossorigin` to ensure CORS because font requests are CORS requests -->
-<link
-  rel="preload"
-  href="/path/to/font.woff2"
-  as="font"
-  type="font/woff2"
-  crossorigin
-/>
 ```
 
 Another one, `<link rel="prefetch">` is a low priority resource hint that allows the browser to fetch resources in the background (idle time) that might be needed later, and store them in the browser's cache. It is helpful when you know you’ll need that resource on a subsequent page, and you want to cache it ahead of time. Prefetching can be achieved through the use of resource hints such as `rel=prefetch` or `rel=preload`, via libraries such as [quicklink](https://github.com/GoogleChromeLabs/quicklink) or [Guess.js](https://github.com/guess-js/guess). *(Before visitors click on a link, they hover over that link. Between these two events, 200 ms to 300 ms usually pass by. [InstantClick](http://instantclick.io) makes use of that time to preload the page, so that the page is already there when you click.)*
@@ -102,7 +93,7 @@ Another one, `<link rel="prefetch">` is a low priority resource hint that allows
 
 Resource hints like `preconnect` and `dns-prefetch` are executed as the browser sees fit. The `preload`, on the other hand, is mandatory for the browser. Modern browsers are already pretty good at prioritizing resources, that's why it's important to use `preload` sparingly and only preload the most critical resources.
 
-The `fetchpriority` attribute (available in Chrome 101 or later) is a hint and not a directive. Fetch Priority can also complement `preload`. Include the `fetchpriority` attribute when preloading several resources of the same type and you're clear about which is most important.
+The `fetchpriority` attribute (available in Chrome 101 or later) is a hint and not a directive. Fetch Priority can also complement `preload`. Include the `fetchpriority` attribute when preloading several resources of the same type and you're clear about which is most important. **The browser assigns a high priority to any render-blocking resource by default.**
 
 > Summary:
 > - Warm connections to origins: `rel=preconnect`. Don’t preconnect Too Many Origins.
@@ -116,29 +107,6 @@ For images loading, the `decoding=async` attribute of the `<img>` is one of the 
 For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. The good thing about defer is that you can guarantee the order of the script execution. *When you have both async and defer, `async` takes precedence and the script will be async.* @addyosmani has a good summary about [JavaScript Loading Priorities in Chrome](https://addyosmani.com/blog/script-priorities).
 
 <img alt="JavaScript Loading Priorities" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/addyosmani.com_blog_script-priorities%20(1).png" width="800">
-
-#### Optimize long tasks
-The main thread can only process one task at a time. Any task that takes longer than 50 milliseconds is a long task. When a user attempts to interact with a page when there are many long tasks, the user interface will feel unresponsive. To prevent the main thread from being blocked for too long, you can break up a long task into several smaller ones.
-
-1. One method developers have used to break up tasks into smaller ones involves `setTimeout()`. With this technique, you pass the function to `setTimeout()`. This postpones execution of the callback into a separate task, even if you specify a timeout of 0.
-```js
-function yieldToMain () {
-  return new Promise(resolve => {
-    setTimeout(resolve, 0);
-  });
-}
-
-// Loop over the tasks:
-while (tasks.length > 0) {
-  const task = tasks.shift();
-  task();
-
-  // Yield to the main thread
-  await yieldToMain();
-}
-```
-
-2. One proposed addition to the scheduler API is `scheduler.yield()`, an API specifically designed for yielding to the main thread in the browser.
 
 #### APIs to help you assess loading performance in the field
 Navigation Timing measures the speed of requests for HTML documents. Resource Timing measures the speed of requests for document-dependent resources such as CSS, JavaScript, images, and so on.
@@ -159,8 +127,6 @@ window.performance.getEntriesByType('resource')
   .filter(({renderBlockingStatus}) => renderBlockingStatus === 'blocking')
   .forEach(({name}) => console.log(name))
 ```
-
-> `blocking="render"` (added to `<script>` or `<link>`) is a way to mark a resource as required before anything is visually shown to the user. The browser should assign a high priority to any render-blocking resource by default.
 
 ### The Speculation Rules API
 - https://developer.chrome.com/docs/web-platform/prerender-pages
@@ -209,9 +175,9 @@ Speculation rules can also be used to just prefetch pages, without a full preren
 ### The DOMContentLoaded event
 The `DOMContentLoaded` event fires once all of your deferred JavaScript (`<script defer>` and `<script type="module">`) has finished running. It doesn't wait for other things like images, subframes, and async scripts to finish loading. If we want to capture this data more deliberately ourselves, we need to lean on the Navigation Timing API, which gives us access to a suite of milestone timings.
 
-- The `DOMContentLoaded` as measured and emitted by the Navigation Timing API is actually referred to as `domContentLoadedEventStart`, you need `window.performance.timing.domContentLoadedEventStart`.
+- The `DOMContentLoaded` as measured and emitted by the Navigation Timing API is actually referred to as `domContentLoadedEventStart`.
 - `domContentLoadedEventEnd` event captures the time at which all JS wrapped in a `DOMContentLoaded` event listener has finished running.
-- `domInteractive` is the event immediately before `domContentLoadedEventStart`. This is the moment the browser has finished parsing all synchronous DOM work: your HTML and all blocking scripts it encountered on the way. Basically, the browser is now at the `</html>` tag. The browser is ready to run your deferred JavaScript.
+- `domInteractive` is the event immediately before `domContentLoadedEventStart`. This is the moment the browser has finished parsing all synchronous DOM work. Basically, the browser is now at the `</html>` tag and ready to run your deferred JavaScript.
 
 ```js
 window.addEventListener('load', (event) => {

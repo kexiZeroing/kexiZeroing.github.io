@@ -84,6 +84,8 @@ output：2 4 5 6 8 3 7 1
 
 You may argue that `setTimeout` should be logged first because a task is run first before clearing the microtask queue. Well, you are right. But, no code runs in JS unless an event has occurred and the event is queued as a task. At the execution of any JS file, the JS engine wraps the contents in a function and associates the function with an event `start`, and add the event to the task queue. After emits the program `start` event, the JavaScript engine pulls that event off the queue, executes the registered handler, and then our program runs.
 
+Any task that takes longer than 50 milliseconds is a long task. When a user attempts to interact with a page when there are many long tasks, the user interface will feel unresponsive. To prevent the main thread from being blocked for too long, you can break up a long task into several smaller ones. One method developers have used to break up tasks into smaller ones involves `setTimeout()`. With this technique, you pass the function to `setTimeout()`. This postpones execution of the callback into a separate task, even if you specify a timeout of 0.
+
 ```js
 // blocks the rendering (freezes the webpage)
 button.addEventListener('click', event => {
@@ -102,4 +104,19 @@ loop();
 })();
 ```
 
-> `requestAnimationFrame` on the other hand doesn't suffer from such a direction. Indeed, the monitor's signal is what tells when the event loop must enter the "update the rendering" steps. This signal is not bound to the CPU activity and will work as a stable clock. If at one frame rAF callbacks were late by a few ms, the next frame will just have less time in between, but the flag will be set at regular intervals.
+```js
+function yieldToMain () {
+  return new Promise(resolve => {
+    setTimeout(resolve, 0);
+  });
+}
+
+// Loop over the tasks:
+while (tasks.length > 0) {
+  const task = tasks.shift();
+  task();
+
+  // Yield to the main thread
+  await yieldToMain();
+}
+```
