@@ -89,7 +89,6 @@ For the normal `man` page, this special display mode is actually controlled by t
 > - `tail` show the last part of the file.
 > - `tail -f` show the text appended to the file as the file grows.
 > - `less` show contents of file one screen at a time. (`more` is an old utility, just use `less` and forget about `more`)
-> - `file` helps determine the type of a file. The command doesn't take the file extension into account, and instead runs a series of tests to discover the type of file data.
 
 ## grep
 Searches for pattern in files and prints each line that matches the input pattern `grep -<options> <pattern> <filenames>`
@@ -120,7 +119,7 @@ Linux/Unix considers everything as a file and `lsof` is a command meaning "list 
 > `kill -9` command sends a kill signal to terminate any process immediately when attached with a PID or a processname. It is a forceful way to kill/terminate a or set of processes. `kill -9 <pid> / <processname>` sends SIGKILL (9) — Kill signal. This signal cannot be handled (caught), ignored or blocked. Hence, this immediately kill the process without any handling and this can create zombies process.
 
 ## bash_profile and bashrc
-There are two user level files which `bash` may run when a bash shell starts. `~/.bash_profile` and `~/.bashrc`. The usual convention is that `.bash_profile` will be executed at login shells, i.e. when you ssh into a remote host, it will ask you for user name and password to log in, so it is a login shell. But when you open a terminal, it does not ask for login and you will just get a command prompt. In other versions of Unix or Linux, this will not run the `.bash_profile` but `.bashrc`. The underlying idea is that the `.bash_profile` should be run only when you login, and the `.bashrc` for every new interactive shell. However, Terminal on macOS does not follow this convention. When Terminal opens a new window, it will run `.bash_profile`. (Other third-party terminal applications on macOS may follow the precedent set by the Terminal or not.)
+There are two user level files which `bash` may run when a bash shell starts. `~/.bash_profile` and `~/.bashrc`. The usual convention is that `.bash_profile` will be executed at login shells, i.e. when you ssh into a remote host, it will ask you for user name and password to log in, so it is a login shell. But when you open a terminal, it does not ask for login and you will just get a command prompt. In other versions of Unix or Linux, this will not run the `.bash_profile` but `.bashrc`. The underlying idea is that the `.bash_profile` should be run only when you login, and the `.bashrc` for every new interactive shell. However, Terminal on macOS does not follow this convention. When Terminal opens a new window, it will run `.bash_profile`.
 
 - When you are living mostly on macOS and the Terminal, you can create a `.bash_profile`, ignore all the special cases and be happy.
 - If you want to have an approach that is more resilient to other terminal applications and might work across Unix/Linux platforms, put your configuration in `.bashrc` and source `.bashrc` from `.bash_profile`.
@@ -147,7 +146,7 @@ Every script you want to run from the command line should have a shebang as the 
 There are environments where you cannot predict the absolute path of a given tool. For example the bash v3.2 shell on macOS is installed by default in `/bin/bash`. Users can also download and install bash version 4.4 onto their computers. The location for the the bash 4 is usually at `/usr/local/bin/bash`. Since `/usr/local/bin` is the first item of the default `PATH` on macOS, the newer bash 4 will be chosen before the built-in bash 3.2 when the user types bash into their shell. When you use the absoute path to `/bin/bash` in a shebang, you are ensuring that the provided built-in version of bash will be used. However, there are cases where you want scripts to be run with the user’s preferred tool, rather than a set path. In this case you can use `#!/usr/bin/env bash`, which will determine the preferred bash tool in the user’s environment and use that to interpret the script.
 
 ## sh and source
-When you call `sh`, you initiate a fork (sub-process) that runs a new session of `/bin/sh`, which is usually a symbolic link to bash. If you launch it using `./test.sh`, the first line `#!/bin/sh` would be detected, then it would be exactly the same as `/bin/sh ./test.sh`. (`chmod +x test.sh` to make the script executable). It executes shell scripts in a new shell process, so any variables which are assigned will disappear after the script is done. `. test.sh` or `source test.sh` will run the commands in the current shell (source is a synonym for dot).
+When you call `sh`, you initiate a fork (sub-process) that runs a new session of `/bin/sh`, which is usually a symbolic link to bash. If you launch it using `./test.sh`, the first line `#!/bin/sh` would be detected, then it would be exactly the same as `/bin/sh ./test.sh`. (`chmod +x test.sh` to make the script executable). It executes shell scripts in a new shell process, so any variables which are assigned will disappear after the script is done. `. test.sh` or `source test.sh` will run the commands in the current shell **(`source` is a synonym for dot)**.
 
 Similarly, we can tell the OS to always execute a file with node using `#!/usr/bin/env node`. Here we use the `env` program to find the node’s path because it’s usually in a more dynamic place, depending on your OS or node version manager.
 
@@ -241,8 +240,6 @@ Users that have `/bin/bash` as their default shell on Catalina will see a prompt
 
 The first change you will see in zsh is that the prompt looks different. zsh uses the `%` character as the default prompt (of course you can change that). zsh derives from the Bourne family of shells. Because of this common ancestry, it behaves very similar in day-to-day use. There is an entire eco-system of configuration tools and themes called `oh-my-zsh` which is very popular.
 
-> It's not cool if you don’t display some Git status information in your prompt. Zsh ships with a framework for getting information from version control systems, called `vcs_info`. It populates a variable for you. This variable can then be used inside your prompt to print information. Learn how to [customize your zsh prompt](https://dev.to/cassidoo/customizing-my-zsh-prompt-3417).
-
 ## Hard Links and Symbolic Links
 Underneath the file system, files are represented by inodes. A file in the file system is basically a link to an inode. When you delete a file, it removes the link to the underlying inode. The inode is only deleted when all links to the inode have been deleted. A hard link (`ln <source> <target>`) creates another file with a link to the same underlying inode. If the real copy is deleted, the link still works because it accesses the underlying data which the real copy was accessing.
 
@@ -329,14 +326,11 @@ Open Activity Monitor, you’ll see a column named “Kind”. If the app says �
 | last | ⽤户登录⽇志
 | uptime | 系统运⾏时间、⽤户数、负载
 | env | 系统的环境变量
-| cal 2022 | 年日历
 | ifconfig \| grep inet | IP 地址
 | ps -ax | 系统中运行的进程 (include processes not initiated by users through a terminal)
 | ps -ax \| grep "Visual Studio Code" | combining `grep` with a pipe
 | top | 动态显示 cpu /内存/进程等情况
-| df -h | 磁盘使⽤情况及挂载点
 | du -sh /dir | 指定某个⽬录的⼤⼩
-| du -sh */ | sort -hr | 所有路径按照大小排序
 | groups | 查看所在用户组
 | find /dir -name *.bin | 在指定⽬录搜索文件
 | cat -n file1 | 查看内容并标示⾏数
@@ -344,10 +338,9 @@ Open Activity Monitor, you’ll see a column named “Kind”. If the app says �
 | grep foo hello.txt | 在⽂件中查找关键词
 | grep ^foo hello.txt | 查找以 foo 开头的内容
 | python3 -m http.server 8080 | 快速启动 http 服务
-| netstat -P tcp | 显示特定传输协议的状态
 | cat /etc/hosts | 管理 IP 地址和主机名之间的映射
 | cat /etc/resolv.conf | DNS 客户机配置文件
-| nohup command & | 使命令永久的在后台执行（不挂断且前台可交互）
+| nohup ping baidu.com & | 使命令永久的在后台执行（不挂断且前台可交互）
 |
 
 System Information Library for Node.js: https://systeminformation.io
