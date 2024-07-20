@@ -11,7 +11,7 @@ updatedDate: "Mar 25 2024"
 ## Inside look at a browser
 A process can be described as an application's executing program. A thread is the one that lives inside of process and executes any part of its process's program. Chrome has a multi-process architecture and each process is heavily multi-threaded. The **renderer process** is responsible for everything that happens inside of a tab.
 
-In the most simple case, you can imagine each tab has its own renderer process. Because processes have their own private memory space, they often contain copies of common infrastructure. This means more memory usage as they can't be shared the way they would be if they were threads inside the same process. In order to save memory, Chrome puts a limit on how many processes it can spin up. The limit varies depending on how much memory and CPU power your device has, but when Chrome hits the limit, it starts to run multiple tabs from the same site in one process.
+In the most simple case, you can imagine each tab has its own renderer process. Because processes have their own private memory space, they often contain copies of common infrastructure. In order to save memory, Chrome puts a limit on how many processes it can spin up. The limit varies depending on how much memory and CPU power your device has, but when Chrome hits the limit, it starts to run multiple tabs from the same site in one process.
 
 In a renderer process, the **main thread** is where a browser processes user events and paints. By default, the browser uses a single thread to run all the JavaScript in your page *(sometimes parts of your JavaScript is handled by worker threads if you use a web worker or a service worker)*, as well as to perform layout, reflows, and garbage collection. This means that long-running JavaScript functions can block the thread, leading to an unresponsive page and a bad user experience. Frame drop happens when the main thread is too busy with running our JavaScript code so it doesn’t get the chance to update the UI so the website freezes.
 
@@ -47,6 +47,10 @@ Takes care of tasks to be done before every screen update or repaints. This proc
 
 - **Event Loop**  
 The Event Loop is a constantly running process and it has one simple job — to monitor the Call Stack and the Queues. If the Call Stack is empty, it will take the first event from the queue and push it to the Call Stack. Node.js and Chrome do not use the same event loop implementation. Chrome/Chromium uses `libevent`, while Node.js uses `libuv`. Check out [A Complete Visual Guide to Understanding the Node.js Event Loop](https://www.builder.io/blog/visual-guide-to-nodejs-event-loop).
+
+  > libuv's name and logo stand for "Unicorn Velociraptor", where:
+  > - U or Unicorn is a reference to universal and multi-platform.
+  > - V or Velociraptor is a reference to velocity and high-performance.
 
 **The difference between the task queue and the microtask queue is simple but very important:**
 - When executing tasks from the task queue, the runtime executes each task that is in the queue at the moment a new iteration of the event loop begins. Tasks added to the queue after the iteration begins will not run until the next iteration.

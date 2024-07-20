@@ -304,6 +304,8 @@ Web component JS frameworks overview by their syntax and features: https://compo
 
 Open Source Tailwind components tailored for your AI and GPT: https://github.com/LangbaseInc/langui
 
+Converting any layout you have to drag-to-swap layout: https://github.com/TahaSh/swapy
+
 ---
 
 ## React ecosystem

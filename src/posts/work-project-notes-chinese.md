@@ -562,6 +562,16 @@ https://app-dev-tools.netlify.app
 
 - If several listeners are attached to the same element for the same event type, they are called in the order in which they were added. If `stopImmediatePropagation()` is invoked during one such call, no remaining listeners will be called.
 
+- To detect if a user has their keyboard's caps lock turn on, we'll employ KeyboardEvent's `getModifierState` method (which returns the current state of the specified modifier key, `true` if the modifier is active):
+  ```js
+  document.querySelector('input[type=password]').addEventListener('keyup', function (keyboardEvent) {
+    const capsLockOn = keyboardEvent.getModifierState('CapsLock');
+    if (capsLockOn) {
+      // Warn the user that their caps lock is on
+    }
+  });
+  ```
+ 
 - npmmirror 已内置[支持类似 unpkg cdn 解析能力](https://zhuanlan.zhihu.com/p/633904268)，可以简单理解为访问 unpkg 地址时，在回源服务里面根据 URL 参数，去 npm registry 下载对应的 npm 包，解压后响应对应的文件内容。即只需要遵循约定的 URL 进行访问，即可在页面中加载任意 npm 包里面的文件内容。
   ```
   # 获取目录信息 /${pkg}/${versionOrTag}/files?meta
