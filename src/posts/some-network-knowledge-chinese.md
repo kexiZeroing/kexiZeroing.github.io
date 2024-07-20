@@ -60,9 +60,3 @@ Shadowsocks 的出现是一个拐点，它把代理服务器拆分成 server 端
 - 浏览器、邮件、文件传输都是在应用层；Shadowsocks、V2Ray 等 Socks5 类型的代理都是在会话层，所以可以代理应用层的数据；游戏数据是直接通过传输层协议 TCP 和 UDP 进行通讯的，不经过会话层，所以正常情况下 Socks5 是不能代理游戏通讯数据的（即使开了全局代理）；PING、TRACE 这些 ICMP 指令都是在网络层，也不通过 Socks5 代理转发；而主流的 VPN 协议都是在数据链路层，近乎所有的流量都可以被 VPN 代理。
 
 > Hosting in China does not immediately correlate to a faster, more performant website. This is because commonly used libraries, tools, and development practices, are incompatible with the Chinese internet framework. You can [test them from China](https://www.chinafy.com/tools/global-speed-test) to see what happens, and read about the Chinafy process: [How Chinafy Works](https://www.chinafy.com/how-chinafy-works).
-
-> 应用部署在 Vercel 之后会自动生成一个以 `vercel.app` 为后缀的域名，但同时也支持自定义域名。我们可以在国内服务商购买域名，然后配合 Cloudflare 的域名解析，将在 Vercel 上部署的自带域名代理到自己购买的域名，这样就可以在国内访问 Vercel 应用了。
-> 1. 阿里云/腾讯云购买域名
-> 2. 在 Cloudflare 上添加站点，生成 DNS 地址。添加 CNAME 解析 重定向到 `vercel.app` 的域名
-> 3. 在阿里云/腾讯云的域名管理中，修改 DNS 解析为 Cloudflare 上生成的地址
-> 4. 把自己的应用在 Vercel 上部署，并添加上自定义域名
