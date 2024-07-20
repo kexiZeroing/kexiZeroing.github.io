@@ -32,9 +32,8 @@ updatedDate: "Apr 05 2023"
     > - `cask` is no longer a `brew` command. When you want to install a Cask, just do `brew install` or `brew install --cask` instead of `brew cask install`
     > - install an package behind a proxy: `ALL_PROXY=127.0.0.1:7890 brew install <package>`
 
-5. Catalina comes with `zsh` as the default shell. Install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) and check the `.zshrc` file.
-   - `robbyrussell` is the default theme, and you can change to use [spaceship prompt](https://github.com/spaceship-prompt/spaceship-prompt) theme.
-   - show the current shell `echo $SHELL`; list all shells `cat /etc/shells`; change the current shell `chsh -s /bin/zsh`.
+5. Catalina comes with `zsh` as the default shell. Install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) and check the `.zshrc` file. 
+    - `robbyrussell` is the default theme, and you can change to use [spaceship prompt](https://github.com/spaceship-prompt/spaceship-prompt) theme. The configuration for the prompt is stored in the `PS1` environment variable. You can see the default value by `echo $PS1`.
   
     > 'unable to access error': Something is blocking the connection to github. It is likely some kind of firewall, either on your machine or in your network. If it works with a browser on same machine then the browser is probably using a proxy and you need to configure git to use this proxy too.
     > - check if your git uses proxy: `git config --global http.proxy`

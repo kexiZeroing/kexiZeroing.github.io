@@ -20,6 +20,8 @@ A shell protects the user from the dangerous, complicated parts of the system an
 
 Many Unix and Unix-like systems have `sh` as well as bash and other shells available. `sh` goes back to the very early UNIX shells. `sh` has survived because it serves as the lowest common standard for shell scripting. These standards are defined in the POSIX specification. When you have to build scripts that need to run across many different flavors and versions of Unix where you cannot rely on bash being present, then conforming to `sh` might be necessary. (bash is also POSIX compliant, but it has more features). As a macOS administrator you should always choose `/bin/bash` over `/bin/sh`. You can check all the available shells in macOS `cat /etc/shells`, show the current shell being used `echo $SHELL`, and use `chsh -s /bin/zsh` to change the current interactive shell.
 
+> POSIX (Portable Operating System Interface) is a family of standards, specified by the IEEE, to clarify and make uniform the application programming interfaces provided by Unix operating systems. When you write your programs to rely on POSIX standards, you can be pretty sure to be able to port them easily among a large family of Unix derivatives.
+
 ## Finding Commands
 All commands are files in the file system. They have a special file setting which makes them executable, so the system can interpret it as commands. If you want to know where a given command resides, you can use the `which` command. When you enter a command without a path such as `ls`, bash will start looking for the command executable in `/usr/local/bin`, then in `/usr/bin`, and then in `/bin` (defined in `PATH`). When it finds an executable `ls`, stop looking and execute that.
 
@@ -55,8 +57,6 @@ Instead of hitting the up arrow several times, you can also use `Ctrl + R` and s
 Once you have recalled a command and want to edit it, you will have to move the cursor. You can use `Option + Left/Right Arrow` to move word by word. You can use `Ctrl + A` to jump to the beginning of the line and `Ctrl + E` to jump to the end. `Ctrl + U` will clear the entire current line. `Ctrl + W` delete the word before the cursor. And you can option-click with the mouse pointer on a character in the command line to move the cursor there.
 
 > Readline is a GNU library that gets a line from a user with editing. The bash shell is probably the most famous readline user (when you use `Ctrl+R` to search your history in bash, that feature actually comes from readline), but there are TONS of programs that use it – for example psql, irb, python3, etc.
-
-The configuration for the prompt is stored in the `PS1` environment variable. You can see the default value by `echo $PS1`.
 
 ## Escaping Characters
 The escape character in bash is the backslash `\`. A character that follows a backslash will be treated with no special meaning. For a directory named `Project (Old & New)`, you would type `cd Project\ \(Old\ \&\ New\)`. Since escaping characters can make the path quite unreadable, you can also place the name in single quotes `cd 'Project (Old & New)'`. Any character in single quotes is used as is, with no special function. (you cannot use single quotes when the filename contains a single quote). Tab-completion will escape spaces and other nasty characters automatically.
