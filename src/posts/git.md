@@ -5,7 +5,7 @@ slug: git-knowledge-not-clear
 description: ""
 added: "Jun 19 2022"
 tags: [system]
-updatedDate: "Feb 27 2024"
+updatedDate: "July 20 2024"
 ---
 
 ## helpful links
@@ -136,7 +136,7 @@ Run `git show` to show the changes made in the most recent commit, which is equi
 I always see this error when I create a new Github repository with a README.md or a LICENSE file, then pull it to a local repository at the first time. `git pull origin main --allow-unrelated-histories` should fix it, which force the merge to happen.
 
 ## git log and git reflog
-`git log` (often use `git log --pretty=oneline`) shows the current HEAD and its ancestry. That is, it prints the commit HEAD points to, then its parent, its parent, and so on. It traverses back through the repo's ancestry by recursively looking up each commit's parent. Btw, `git log --full-history -- src/path/to/file.js` helps you find the final version of a deleted file.
+`git log` (often use `git log --pretty=oneline`) shows the current HEAD and its ancestry. That is, it prints the commit HEAD points to, then its parent, its parent, and so on. It traverses back through the repo's ancestry by recursively looking up each commit's parent.
 
 `git reflog` doesn't traverse HEAD's ancestry. The reflog is an ordered list of the commits that HEAD has pointed to: **it's the undo history for your repo**. The reflog isn't part of the repo itself (it's stored separately to the commits themselves and it's purely local). If you accidentally reset to an older commit, or rebase wrongly, or any other operation that visually "removes" commits, you can use the reflog to see where you were before and `git reset --hard HEAD@{index}` back to that ref to restore your previous state.
 
@@ -180,11 +180,12 @@ For example, I want to change the git user (rewrite history) after push the code
 5. `git commit --amend --reset-author --no-edit` and `git rebase --continue` to confirm and continue your rebase.
 6. `git push --force-with-lease` to overwrite the remote history. (**`--force-with-lease` is safer than `--force`**: If a change that someone else made to the remote branch while you were working on your code, you will not overwrite any remote code.)
 
-> To fixup a commit:
-> ```sh
-> git commit --fixup a0b1c2d3  # The new commit message will start with "fixup!" followed by the message of the original commit.
-> git rebase -i --autosquash a0b1c2d3~1  # Clean up the history by combining the fixup commit with the original commit.
-> ```
+To fixup a commit:
+```sh
+git commit --fixup a0b1c2d3  # The new commit message will start with "fixup!" followed by the message of the original commit.
+
+git rebase -i --autosquash a0b1c2d3~1  # Clean up the history by combining the fixup commit with the original commit.
+```
 
 Another example, I want to squash my last 3 commits together into one commit.
 - Method 1: `git reset --soft HEAD~3 && git commit`. The soft reset just re-points HEAD to the last commit that you do not want to squash. Neither the index nor the working tree are touched, leaving the index in the desired state for your new commit.
@@ -223,14 +224,6 @@ After committing several times, you realize that you need to create `.gitignore`
 - Use `git push origin v1.1.0` to push a particular tag, or `git push --tags` if you want to push all tags.
 - `git push origin :tagname` to delete a remote tag, and if you also need to delete the local tag, use `git tag --delete tagname`.
 
-## command auto correct
-If you mistype a command, git helpfully tries to figure out what you meant, but it still refuses to do it. If you set `help.autocorrect` to 1, Git will actually run this command for you. (If you set it to 50, Git will give you 5 seconds to change your mind before executing the autocorrected command.)
-
-```
-[help]
-    autocorrect = 50
-```
-
 ## update your GitHub fork
 You cannot push code to repositories that you don’t own. So instead, you make your own copy of the repository by “forking” it. You are then free to make any changes you wish to your repository.
 
@@ -250,15 +243,6 @@ You can use the environment variables `GIT_COMMITTER_DATE` and `GIT_AUTHOR_DATE`
 Show commits more recent or older than a specific date:
 - `git log --since="yesterday"`
 - `git log --since="2023-01-30T09:00:00" --until="2023-01-30T18:00:00"`
-
-## GitHub protocol comparison
-- plain Git, aka `git://github.com/`, does not add security beyond what Git itself provides. The server is not verified and you cannot push over it. Now Github permanently disabled the [unencrypted Git protocol](https://github.blog/changelog/2022-03-15-removed-unencrypted-git-protocol-and-certain-ssh-keys/).
-
-- HTTPS, aka `https://github.com/`, will always verify the server automatically, using certificate authorities. Uses password authentication for pushing, and still allows anonymous pull. If you have two-factor authentication enabled, you will use a personal access token instead of your regular password.
-
-- HTTP, aka `http://github.com/`, doesn't work with GitHub anymore.
-
-- SSH, aka `git@github.com:` or `ssh://git@github.com/`, uses public-key authentication. You have to generate a keypair, then add it to your GitHub account. Authentication is needed for all connections, so you always need a GitHub account – even to pull or clone.
 
 ## Organize multiple Git identities
 One awesome feature of the `.gitconfig` file is that you can conditionally include other config files. For every identity, you keep a separate gitconfig file and include it in the main `~/.gitconfig`. See an example: https://garrit.xyz/posts/2023-10-13-organizing-multiple-git-identities
