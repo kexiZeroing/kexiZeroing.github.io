@@ -5,7 +5,7 @@ slug: image-add-watermark
 description: ""
 added: "Dec 1 2022"
 tags: [code]
-updatedDate: "Dec 01 2022"
+updatedDate: "July 21 2024"
 ---
 
 Image watermarking is the process of placing an overlay text on top of the original image, usually in one of the corners. The first approach shown below is primarily based on the HTML5 `<canvas>` element while the second one uses [watermark.js](https://brianium.github.io/watermarkjs) library, which requires just a few lines of code.
@@ -83,6 +83,12 @@ Image watermarking is the process of placing an overlay text on top of the origi
   </script>
 </body>
 ```
+
+The `HTMLCanvasElement.toDataURL()` method returns a data URL containing a representation of the image. The desired file format *(`image/png`, `image/jpeg` or `image/webp`)* and image quality *(a number between 0 and 1 indicating the image quality)* may be specified. If the file format is not specified, then the data will be exported as `image/png`.
+
+> Data URLs, URLs prefixed with the `data:` scheme, allow content creators to embed small files inline in documents. They are composed of four parts: a prefix (`data:`), a MIME type, an optional base64 token if non-textual, and the data itself: `data:[<mediatype>][;base64],<data>`
+> 
+> `toDataURL()` encodes the whole image in an in-memory string. For larger images, this can have performance implications, and may even overflow browsers' URL length limit when assigned to `HTMLImageElement.src`. You should generally prefer `HTMLCanvasElement.toBlob()` instead, in combination with `URL.createObjectURL()`.
 
 ```js
 // Use the library `watermark.js` in the browser.
