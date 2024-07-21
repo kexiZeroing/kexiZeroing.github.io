@@ -5,7 +5,7 @@ slug: http-connection-caching-http2
 description: ""
 added: "Nov 20 2022"
 tags: [web]
-updatedDate: "Apr 17 2024"
+updatedDate: "July 21 2024"
 ---
 
 ## Connection management
@@ -13,7 +13,9 @@ HTTP mostly relies on TCP for its transport protocol, providing a connection bet
 
 The original model of HTTP, and the default one in HTTP/1.0, is **short-lived connections**. Each HTTP request is completed on its own connection; this means a TCP handshake happens before each HTTP request, and these are serialized.
 
-A **persistent connection**, also called keep-alive connection, remains open for a period of time, and can be reused for several requests, saving the need for a new TCP handshake. To put it simply, the HTTP server doesn't close the TCP connection after each response but waits some time if some other HTTP request will come over it too. The connection will not stay open forever: idle connections are closed after some time (a server may use the `Keep-Alive` header to specify a minimum time the connection should be kept open). If the client doesn't send anything over TCP connection, then a timeout will close the connection; client will of course notice this and will send request through another TCP connection if needed. In HTTP/1.1, persistence is the default, and the connection header is no longer needed.
+A **persistent connection**, also called keep-alive connection, remains open for a period of time, and can be reused for several requests, saving the need for a new TCP handshake. To put it simply, the HTTP server doesn't close the TCP connection after each response but waits some time if some other HTTP request will come over it too. The connection will not stay open forever: idle connections are closed after some time. *For example, Nginx `keepalive_timeout` is the time where the server will keep an idle connection open. If you send a request and then do nothing on this connection, the server will shutdown the connection at 75s after your previous request.* In HTTP/1.1, persistence is the default and the connection header is no longer needed, unless the client explicitly asks the server to close the connection by including a `Connection: close` header in its request, or the server decides to includes a `Connection: close` header in its response.
+
+Connection headers are prohibited in HTTP/2 and HTTP/3.
 
 ### Domain sharding
 In HTTP/1.x, the browser naively queue all HTTP requests on the client, sending one after another over a single, persistent connection. However, this is too slow. Hence, the browser vendors are left with no other choice than to **open multiple TCP sessions in parallel**. How many? In practice, most modern browsers, both desktop and mobile, open up to six connections per host. *(The higher the limit, the higher the client and server overhead, but at the additional benefit of higher request parallelism. Six connections per host is simply a safe middle ground.)*
@@ -34,7 +36,7 @@ WebSocket is another application level protocol over TCP protocol. A webSocket r
 
 > You must design your system for scale if you plan to load balance multiple WebSocket servers. Each client connects to one of your servers, where it then opens a persistent WebSocket connection. Because each server has only its own list of connected clients, messages passed to one server must be shared with the other servers somehow. Similarly, when you want to broadcast a message to all clients, all servers must receive and relay it. A typical way to solve this is to store messages in a shared database like Redis or pass messages between servers using a Publish/Subscribe framework like Kafka or RabbitMQ.
 
-The problem with the current WebSocket API is that there is no way to apply backpressure. When messages arrive faster than the `process()` method can handle them, the render process will either fill up memory by buffering those messages, become unresponsive due to 100% CPU usage, or both. Chrome 124 introduces the [WebSocket Stream API](https://developer.chrome.com/docs/capabilities/web-apis/websocketstream). It gives you the power of streams, and web sockets, which means back pressure can be applied without any extra cost. Now if `process()` takes extra time, the next message will only be consumed once the pipeline is ready.
+The problem with the current WebSocket API is that there is no way to apply backpressure. When messages arrive faster than the `process()` method can handle them, the render process will either fill up memory by buffering those messages or become unresponsive due to 100% CPU usage. Chrome 124 introduces the [WebSocket Stream API](https://developer.chrome.com/docs/capabilities/web-apis/websocketstream). It gives you the power of streams, which means back pressure can be applied without any extra cost. Now if `process()` takes extra time, the next message will only be consumed once the pipeline is ready.
 
 ```js
 const wss = new WebSocketStream(WSS_URL);
@@ -124,9 +126,7 @@ Before the expiration time, the resource is fresh; after the expiration time, th
 
 In short, by adding `Cache-Control: no-cache` to the response along with `Last-Modified` and `ETag`, the client will receive a `200 OK` response if the requested resource has been updated, or will otherwise receive a `304 Not Modified` response if the requested resource has not been updated.
 
-> Read from the Chromium projects, the HTTP Cache is the module that receives HTTP requests and decides when and how to fetch data from the Disk Cache or from the network. The cache lives in the browser process, as part of the network stack. It should not be confused with Blink's in-memory cache, which lives in the renderer process and it's tightly coupled with the resource loader.
-
-You are looking for [cachified](https://github.com/epicweb-dev/cachified), which wraps virtually everything that can store by key to act as cache with ttl/max-age, stale-while-revalidate, parallel fetch protection and type-safety support.
+[cachified](https://github.com/epicweb-dev/cachified) is a simple API to make your app faster. It wraps virtually everything that can store by key to act as cache with ttl/max-age, stale-while-revalidate, parallel fetch protection and type-safety support.
 
 ```ts
 import { LRUCache } from 'lru-cache';
