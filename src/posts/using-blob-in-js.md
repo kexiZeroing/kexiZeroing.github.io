@@ -63,6 +63,23 @@ ArrayBuffer object is used to represent generic, fixed-length raw binary data bu
 - An **ArrayBuffer** can be manipulated by using TypedArrays and DataView, whereas **Blob** is immutable.
 - **Blob** can become an **ArrayBuffer** using FileReader's `readAsArrayBuffer()` method. **ArrayBuffer** can also become **Blob** by using `new Blob([buffer])`.
 
+```js
+const blob = new Blob(['abc'], { type: 'text/plain' });
+
+// readAsArrayBuffer, an event-based API
+let reader = new FileReader();
+reader.onload = (evt) => {
+  console.log(evt.target.result);
+};
+reader.readAsArrayBuffer(blob);
+
+// `arrayBuffer()` returns a Promise that resolves with the contents of the blob 
+// as binary data contained in an ArrayBuffer.
+blob.arrayBuffer().then((buffer) => {
+  console.log(buffer);
+})
+```
+
 ## TypedArray
 A TypedArray object describes an array-like view of an underlying binary data buffer, and you use it to read and write the contents of the buffer. When creating an instance of a TypedArray subclass (e.g. Int8Array), an array buffer is created internally in memory or, if an ArrayBuffer object is given as constructor argument, that ArrayBuffer is used instead.
 
