@@ -64,18 +64,22 @@ ArrayBuffer object is used to represent generic, fixed-length raw binary data bu
 - **Blob** can become an **ArrayBuffer** using FileReader's `readAsArrayBuffer()` method. **ArrayBuffer** can also become **Blob** by using `new Blob([buffer])`.
 
 ```js
-const blob = new Blob(['abc'], { type: 'text/plain' });
+const blobText = new Blob(['abc'], { type: 'text/plain' });
 
 // readAsArrayBuffer, an event-based API
 let reader = new FileReader();
 reader.onload = (evt) => {
   console.log(evt.target.result);
 };
-reader.readAsArrayBuffer(blob);
+reader.readAsArrayBuffer(blobText);
 
-// `arrayBuffer()` returns a Promise that resolves with the contents of the blob 
+// readAsArrayBuffer - the `result` property contains an ArrayBuffer representing the file's data.
+// readAsDataURL - the `result` property contains the data as a `data:URL` representing the file's data as a base64 encoded string.
+// readAsText - the `result` property contains the contents of the file as a text string.
+
+// `arrayBuffer()` method of the Blob returns a Promise that resolves with the contents of the blob 
 // as binary data contained in an ArrayBuffer.
-blob.arrayBuffer().then((buffer) => {
+blobText.arrayBuffer().then((buffer) => {
   console.log(buffer);
 })
 ```
