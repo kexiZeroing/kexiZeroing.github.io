@@ -79,7 +79,7 @@ export default function mitt(all = new Map()) {
         });
       }
     }
-	};
+  };
 }
 
 

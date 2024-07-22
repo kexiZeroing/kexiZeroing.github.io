@@ -25,7 +25,7 @@ If you load an video, the metadata allows the browser to map a time code to a by
 Look at this process in detail:
 
 ```
-1. send request, read the onflight response header, close connection when range support detected
+1. send a normal request. By reading the response header from stream, Chrome find the server side supports range, then abort the connection and start sending range requests.
 
 Chrome                                            Server
 +------------------------+    ------------>       +-------------------------------------+           
@@ -52,14 +52,6 @@ Chrome                                         Server
 **Note that the data being sent from the server is only a small chunk, even though the `Range` header has value “bytes=0-”.** Chrome and FireFox ask for ranges like `bytes=300-`, can server side return a smaller-range part, other than part from offset 300 to end of file? The answer is yes. When you play the video, browser will send range request for remaining bytes. Both Chrome and FireFox send range request using byte range (i.e `bytes=1867776-`) with last-byte-pos value absent. (The server sends TCP Keep-Alive to keep this TCP connection connected.)
 
 If you skip ahead in the video, the browser will cancel the currently on-going response for the video content. It will then use the the video file’s metadata to map your desired new position to a byte offset and use it for a new range request (`byte=offset-`). When the buffer is full and the browser stops the server from sending more data, the request is technically still on-going, just no data is being sent.
-
-> Some notes about compatibility issues especially on iOS:
-> 1. A `<video>` element can use the `play()` method to automatically play without user gestures only when it contains no audio tracks or has its muted property set to true.
-> 2. Mobile Safari will not download any part of the video file until it gets a user interaction (i.e. some kind of touch event). Once it starts playing, the `loadedmetadata` event will fire, and you can do what you want.
-> 3. On iPhone, `<video playsinline>` elements will be allowed to play inline, and will not automatically enter fullscreen mode when playback begins. `<video>` elements without `playsinline` attributes will continue to require fullscreen mode for playback on iPhone.
-> 4. Just treat `loadedmetadata` as an iOS specific `canplay` event as iOS does not seem to trigger `canplay` on its own.
-> 5. The `play` event is fired when the `paused` property is changed from `true` to `false`, as a result of the `play` method, but that's no guarantee that the video will actually start playing. The `play` method returns a Promise which is resolved when playback has been successfully started.
-> 6. HTTP servers hosting media files for iOS must support byte-range requests, which iOS uses to perform random access in media playback. The Safari browser is only asking for the first 2 bytes to be returned from the server initially: `Range: bytes=0-1`.
 
 ## MP4 and WebM
 MP4 and WebM formats are what we would call pseudo-streaming or "progressive download”. These formats do not support adaptive bitrate streaming (adjusts video quality based on network conditions). If you have ever taken an HTML video element and added a "src” attribute that points to an mp4, most players will progressively download the file. The good thing about progressive downloads is that you don’t have to wait for the player to download the entire file before you start watching. You can click play and start watching while the file is being downloaded in the background. Most players will also allow you to drag the playhead to specific places in the video timeline and the player will use byte-range requests to estimate which part of the file you are attempting to seek. What makes MP4 and WebM playback problematic is the lack of adaptive bitrate support. Every user who watches your content must have enough bandwidth available to download the file faster than it can playback the file.
