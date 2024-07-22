@@ -20,12 +20,14 @@ Besides HTTP 206 status code, the server should respond with a `Content-Range` h
 ## How videos load in browsers
 By default when using video html tag, the `Range` header with value `bytes=0-` is sent. The client can know whether HTTP partial content is available by checking if the HTTP response header `Accept-Ranges: bytes` is included.
 
-If you load an video, the metadata allows the browser to map a time code to a byte offset in the file. I assume to look up the start and size of the footer data. (If the metadata is placed at the end of the file, it then sends another range request for the footer of the file.) Now that the browser knows the dimension, duration and other important data about the video, it can show the player controls and make a new request to buffer up the video data. *It’s worth noting that MP4 can actually have the necessary metadata at the start, which will save you a round trip and will make your MP4 play earlier.*
+If you load an video, the metadata allows the browser to map a time code to a byte offset in the file. It assumes to look up the start and the footer data. (If the metadata is placed at the end of the file, it then sends another range request for the footer of the file.) Now that the browser knows the duration and other important data about the video, it can show the player controls and make a new request to buffer up the video data. *It’s worth noting that MP4 can actually have the necessary metadata at the start, which will save you a round trip and will make your MP4 play earlier.*
 
 Look at this process in detail:
 
 ```
-1. send a normal request. By reading the response header from stream, Chrome find the server side supports range, then abort the connection and start sending range requests.
+1. send a normal request. By reading the response header from stream,
+   Chrome find the server side supports range, then abort the connection
+   and start sending range requests.
 
 Chrome                                            Server
 +------------------------+    ------------>       +-------------------------------------+           
@@ -84,7 +86,7 @@ HTTP Live Streaming sends audio and video as a series of small files, called med
 
 <img alt="blob-url-video" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/12643918-81ad-47c1-8ea2-45205d1f23a9.png" width="500">
 
-All those websites actually still use the video tag. But instead of simply setting a video file in the src attribute, they make use of much more powerful web APIs, the Media Source Extensions (more often shortened to just “MSE”). Complex web-compatible video players are all based on MediaSource and [SourceBuffer](https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer).
+All those websites actually still use the video tag. But instead of simply setting a video file in the `src` attribute, they make use of much more powerful web APIs, the Media Source Extensions (more often shortened to just “MSE”). Complex web-compatible video players are all based on MediaSource and [SourceBuffer](https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer).
 
 Those “extensions” add the MediaSource object to JavaScript. As its name suggests, this will be the source of the video, or put more simply, this is the object representing our video’s data. The `URL.createObjectURL` API allows creating an URL, which will actually refer not to a resource available online, but directly to a JavaScript object created on the client.
 
