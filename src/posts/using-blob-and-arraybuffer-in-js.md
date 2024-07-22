@@ -1,7 +1,7 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Using Blob in JavaScript"
-slug: using-blob-in-js
+title: "Using Blob and ArrayBuffer in JavaScript"
+slug: using-blob-and-arraybuffer-in-js
 description: ""
 added: "Nov 18 2022"
 tags: [js]
