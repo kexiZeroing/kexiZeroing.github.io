@@ -5,13 +5,13 @@ slug: learn-from-advent-of-vue-2022
 description: ""
 added: "Dec 27 2022"
 tags: [vue]
-updatedDate: "Mar 7 2024"
+updatedDate: "July 22 2024"
 ---
 
 ### Code Structure
 Use the template https://stackblitz.com/edit/vue3-vite-starter to start.
 
-In a Vue component, `<script setup>` can be used alongside normal `<script>` using the options API. It works because the `<script setup>` block is compiled into the component's `setup()` function, [check out the docs](https://vuejs.org/api/sfc-script-setup.html#usage-alongside-normal-script)
+In a Vue component, `<script setup>` can be used alongside normal `<script>` using the options API. It works because the `<script setup>` block is compiled into the component's `setup()` function. A normal `<script>` may be needed, for example, we need to run side effects or create objects that should only execute once in module scope (outside the `export default {}`).
 
 Components using `<script setup>` are closed by default - i.e. the public instance of the component will not expose any of the bindings declared inside `<script setup>`. To explicitly expose properties, use the `defineExpose` compiler macro.
 
@@ -36,9 +36,11 @@ const { count } = toRefs(props);
 const even = computed(() => (count.value % 2 === 0 ? 'even' : 'odd'));
 ```
 
-> What is the difference between ref, toRef and toRefs: https://stackoverflow.com/questions/66585688/what-is-the-difference-between-ref-toref-and-torefs
+> What is the difference between `ref`, `toRef` and `toRefs`:
 >
-> I was wondering why `toRef` exists since you can just do `const fooRef = ref(state.foo)`, but that creates a disconnected ref; any changes to it only update fooRef's dependencies. But using `toRef` keeps the original connection.
+> - The idea of using `ref` is to wrap a non-object variable inside a reactive object.
+> - `toRef` converts a single reactive object property to a ref that maintains its connection with the parent object: `const fooRef = toRef(state, 'foo')`.
+> - `toRefs` is a utility method used for destructing a reactive object and convert all its properties to ref: `toRefs(state)`.
 
 Adding deep reactivity to a large object can cost you a lot of performance, you can optimize the reactivity in your app by using `shallowRef`. Here reactivity is only triggered when the `value` of the `ref` itself is changed, but modifying any of the nested properties won’t trigger anything.
 
@@ -77,7 +79,7 @@ state.value = { count: 2 }
 > Similar idea to "Copy JSX? Create a component. Copy logic? Create a hook."
 
 **How the Vue Composition API replaces Vue Mixins?**  
-Normally, a Vue component is defined by a JavaScript object with various properties representing the functionality we need — things like `data`, `methods`, `computed`, and so on. When we want to share the same properties between components, we can extract the common properties into a separate module. Now we can add this mixin to any consuming component by assigning it to the `mixin` config property. At runtime, Vue will merge the properties of the component with any added mixins.
+Normally, a Vue component is defined by a JavaScript object with various properties representing the functionality we need — things like `data`, `methods`, `computed`, and so on. When we want to share the same properties between components, we can extract the common properties into a separate module. Then we can add this mixin to any consuming component by assigning it to the `mixin` config property. At runtime, Vue will merge the properties of the component with any added mixins.
 
 Mixins have drawbacks: 
 1. Naming collisions. What happens if they both share a property with the same name?
@@ -129,6 +131,8 @@ export function useTimeout = (fn, delay, options) => {
     fn()
   }
 
+  // The effect function receives a function that can be used to register a cleanup callback.
+  // The cleanup callback will be called right before the next time the effect is re-run.
   watchEffect(onCleanup => {
     if (isRef(delay)) {
       if (typeof delay.value !== 'number' || delay.value < 0) return
@@ -197,12 +201,6 @@ function useMessage(input) {
   }
 }
 ```
-
-### Raido Player
-https://github.com/Advent-Of-Vue/xmas-radio  
-https://silly-horse-5344a8.netlify.app
-
-Use [useMediaControls](https://vueuse.org/core/usemediacontrols), [useCycleList](https://vueuse.org/core/usecyclelist), [onKeyStroke](https://vueuse.org/core/onkeystroke) composables from VueUse.
 
 ### Custom Directives
 
