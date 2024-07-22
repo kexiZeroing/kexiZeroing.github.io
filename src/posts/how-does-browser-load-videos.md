@@ -191,6 +191,26 @@ For both HLS and DASH, players can adapt to the different renditions in real-tim
 ## Video Glossary
 **[FFMPEG](https://ffmpeg.org)** stands for Fast Forward Moving Picture Experts Group. It is a free and open source software project that offers many tools for video and audio processing. It's designed to run on a command line interface, and has many different libraries and programs to manipulate and handle video files. Most video programs include FFMPEG as a part of the video processing pipeline. *(FFmpeg powers all online video - Youtube, Facebook, Instagram, Disney+, Netflix etc, all run FFmpeg underneath.)*
 
+WebAssembly enables developers to bring new performant functionality to the web from other languages. [FFmpeg.wasm](https://ffmpegwasm.netlify.app) (WebAssembly / JavaScript port of FFmpeg) is one of a showcasing of the [new functionality](https://web.dev/wasm-libraries/) being made available thanks to WebAssembly. It enables video & audio record, convert and stream right inside browsers. There are two components inside `ffmpeg.wasm`: `@ffmpeg/ffmpeg` and `@ffmpeg/core`. `@ffmpeg/ffmpeg` contains kind of a wrapper to handle the complexity of loading core and calling low-level APIs. `@ffmpeg/core` contains WebAssembly code which is transpiled from original FFmpeg C code with minor modifications.
+
+```js
+// AVI to MP4 Demo
+import { writeFile } from 'fs/promises';
+import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+
+const ffmpeg = createFFmpeg({ log: true });
+
+(async () => {
+  await ffmpeg.load();
+  ffmpeg.FS('writeFile', 'test.avi', await fetchFile('./test.avi'));
+  await ffmpeg.run('-i', 'test.avi', 'test.mp4');
+  await fs.promises.writeFile('./test.mp4', ffmpeg.FS('readFile', 'test.mp4'));
+  process.exit(0);
+})();
+```
+
+> [ffmpeg-online](https://ffmpeg-online.vercel.app) is an online version of ffmpeg based on `ffmpeg.wasm`, which can be used to process audio and video online. The most straightforward example `ffmpeg -i input.mp4 output.avi` is used to convert an input media file to a different format.
+
 A **[codec](https://api.video/what-is/codec)** is a hardware or software tool that is used to compress (and decompress) video files. Codec is a blend of coder/decoder. Common video codecs include h.264, h.265, VP8, VP9 and AV1.
 
 **VOD(Video on Demand)** is videos that can be accessed on viewer request. Unlike live streaming, VODs are prerecorded programs. With VOD, viewers can watch content they enjoy as frequently as they like. They can also pause, rewind, and view additional content that was not previously available. Streaming is one of two ways to access Video On Demand. The other way is to permanently download video files to a device’s memory. VOD systems typically distribute media using internet connections, so good bandwidth is important for best results for viewers. Popular platforms include Netflix, Hulu, Disney, Amazon Prime Video and many others.
