@@ -27,19 +27,33 @@ updatedDate: "Jult 17 2024"
 - 路由中加载组件的方式为 `component: () => import('@/views/About.vue')` 可以做到 code-splitting，这样会单独产出一个文件名为 `About.[hash].js` 的 chunk 文件，路由被访问时才会被加载。
 
 ### Vue 项目
-Vue npm 包有不同的 Vue.js 构建版本，可以在 `node_modules/vue/dist` 中看到它们，大致包括完整版、编译器（编译template）、运行时版本、UMD 版本（通过 `<script>` 标签直接用在浏览器中）、CommonJS 版本（用于很老的打包工具）、ES Module 版本（有两个，分别用于现代打包工具和浏览器 `<script type="module">` 引入）。总的来说，Runtime + Compiler 版本是包含编译代码的，可以把编译过程放在运行时做，如果需要在客户端编译模板 (比如传入一个字符串给 template 选项)，就需要加上编译器的完整版。Runtime 版本不包含编译代码，需要借助 webpack 的 `vue-loader` 事先把 `*.vue` 文件内的模板编译成 `render` 函数，在最终打好的包里实际上是不需要编译器的，只用运行时版本即可。
+Vue npm 包有不同的 Vue.js 构建版本，可以在 `node_modules/vue/dist` 中看到它们，大致包括完整版、编译器（编译template）、运行时版本、UMD 版本（通过 `<script>` 标签直接用在浏览器中）、CommonJS 版本（用于很老的打包工具）、ES Module 版本。总的来说，Runtime + Compiler 版本是包含编译代码的，可以把编译过程放在运行时做，如果需要在客户端编译模板 (比如传入一个字符串给 template 选项)，就需要加上编译器的完整版。Runtime 版本不包含编译代码，需要借助 webpack 的 `vue-loader` 事先把 `*.vue` 文件内的模板编译成 `render` 函数，在最终打好的包里实际上是不需要编译器的，只用运行时版本即可。
+- Standalone build: includes both the compiler and the runtime.
+- Runtime only build: since it doesn't include the compiler, you need to either pre-compiled templates in a compile step, or manually written render functions. The npm package will export this build by default, since when consuming Vue from npm, you will likely be using a compilation step (with Webpack), during which vue-loader will perform the template pre-compilation.
 
 ```js
-// 需要编译器
+// Using Runtime + Compiler
 new Vue({
-  template: '<div>{{ hi }}</div>'
+  el: '#app',
+  router,                  
+  template: '<App/>',                                     
+  components: { App }        
 })
 
-// 不需要编译器
-new Vue({
-  render (h) {
-    return h('div', this.hi)
+// build/webpack.base.conf.js
+resolve: {
+  alias: {
+    'vue$': 'vue/dist/vue.esm.js',
   }
+}
+```
+
+```js
+// Using Runtime-only
+new Vue({
+  el: '#app',
+  router,
+  render: h => h(App)
 })
 ```
 

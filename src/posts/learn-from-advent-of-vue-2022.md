@@ -139,13 +139,13 @@ export function useTimeout = (fn, delay, options) => {
     } else {
       if (typeof delay !== 'number' || delay < 0) return
     }
-    const _deply = unref(delay)
+    const _delay = unref(delay)
     const timer = setTimeout(() => {
       fn()
-    }, _deply)
+    }, _delay)
 
     onCleanup(() => {
-      clearInterval(timer)
+      clearTimeout(timer)
     })
   })
 }
@@ -335,12 +335,6 @@ export function useCheckboxToggle() {
 
 ### Render function
 When using the render function instead of templates, you'll be using the `h` function a lot (`hyperscript` - "JavaScript that produces HTML"). It creates a virtual node, an object that Vue uses internally to track updates and what it should be rendering. These render functions are essentially what is happening "under the hood" when Vue compiles your single file components to be run in the browser.
-
-> Vue provides different "builds" optimized for different use cases.
-> - Build files that start with `vue.runtime.*` are runtime-only builds: they do not include the compiler. When using these builds, all templates must be pre-compiled via a build step.
-> - Build files that do not include `.runtime` are full builds: they include the compiler and support compiling templates directly in the browser. 
-> 
-> Our default tooling setups use the runtime-only build since all templates in SFCs are pre-compiled. (When using `vue-loader`, templates inside `*.vue` files are pre-compiled into JavaScript at build time.) If, for some reason, you need in-browser template compilation even with a build step, you can do so by configuring the build tool to alias `vue` to `vue/dist/vue.esm-bundler.js` instead.
 
 ```vue
 <script>
