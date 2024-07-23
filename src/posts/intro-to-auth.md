@@ -102,16 +102,12 @@ console.log(decoded);
 
 In practice, when a user wants to log in, the app sends an request to the authorization server. The user’s credentials are verified by the authorization server, and if everything checks out, the authorization server issues an ID token to the application. The client application then decodes the ID token (which is a JWT) and verifies it. This includes validating the signature, and we must also verify the claims. Once we’ve established the authenticity of the ID token, the user is authenticated. We also now have access to the identity claims and know who this user is.
 
-> Check out a practical example that shows session based authentication through cookies in the Next.js App Router: https://github.com/balazsorban44/auth-poc-next
-> 
-> [next-auth](https://github.com/vercel/next.js/tree/canary/examples/auth) is a complete open-source authentication solution for Next.js applications.
-
 ### Accessing APIs with Access Tokens
 Access tokens are used for granting access to resources. Unlike ID tokens, access tokens have no defined format. They do not have to be (and aren’t necessarily) JWT. However, many identity solutions use JWTs for access tokens because the format enables validation.
 
 Access tokens are opaque to the client. They can change at any time. They should have short expiration times, so a user may frequently get new ones. *Refresh tokens are used to obtain a renewed access token without having to re-authenticate the user.* The client application should never contain code that relies on the contents of the access token.
 
-The app sends an authorization request to the authorization server, requesting an access token to call an API. Then when our app wants to interact with the API, we attach the access token to the request header (Authorization header with the Bearer Token). This token has some important information in it, such as:
+The app sends an authorization request to the authorization server, requesting an access token to call an API. Then when our app wants to interact with the API, we attach the access token to the request header *(Authorization header with the Bearer Token)*. This token has some important information in it, such as:
 - sub: (my MyCalApp user ID)
 - aud: MyCalAppAPI (audience stating this token is intended for the MyCalApp API)
 - scope: `write:events` (scope saying HireMe123 has permission to use the API to write events to my calendar)

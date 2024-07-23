@@ -46,6 +46,7 @@ A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and
 - stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
 - @mux/mux-node is a Mux API wrapper for Node projects to post a video. Note that this package uses Mux access tokens and secret keys and is intended to be used in server-side code only. Also add @mux/mux-player-react to integrate [Mux](https://docs.mux.com) player into your web application.
 - react-confetti: create a confetti effect to celebrate the accomplishment of particular steps in an application.
+- [next-auth](https://github.com/vercel/next.js/tree/canary/examples/auth) is a complete open-source authentication solution for Next.js applications.
 
 > Why Next.js written by @leeerob: I never need to write separate backends for projects I want to create. I can build my entire project with Next.js. I never have to worry about bundler, compiler, or frontend infrastructure. I'm able to use the latest React features, which I personally find to have a great developer experience. Next.js provides a bunch of components that help me keep my site fast.
 
