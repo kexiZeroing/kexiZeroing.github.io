@@ -58,6 +58,8 @@ export function signal(initialValue) {
   const s = () => r.value
   s.set = value => { r.value = value }
   s.update = updater => { r.value = updater(r.value) }
+  // `triggerRef` is used to force trigger effects that depends on a shallow ref.
+  // It is used after making deep mutations to the inner value of a shallow ref.
   s.mutate = mutator => { mutator(r.value); triggerRef(r) }
   return s
 }
@@ -182,4 +184,6 @@ Vue 2 reactivity caveats: Since Vue 2 performs the getter/setter conversion proc
 1. It cannot detect property addition or deletion.
 2. It cannot detect the changes to an array when you directly set an item with the index.
 
-To work around this, you can use `Vue.set(object, propertyName, value)` method instead. *(`this.$set` instance method is an alias to the global `Vue.set`)*
+>  Vue wraps an observed array’s mutation methods (`push`, `pop`, `unshift`, `shift`, etc) so they will trigger view updates.
+
+To work around this, you can use `Vue.set(object, propertyName, value)` method instead. (`this.$set` instance method is an alias to the global `Vue.set`)
