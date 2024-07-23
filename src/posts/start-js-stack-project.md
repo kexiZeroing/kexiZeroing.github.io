@@ -272,9 +272,68 @@ Examples:
 1. The video [So You Think You Can Build A Dropdown?](https://www.youtube.com/watch?v=lY-RQjWeweo) is diving deep into the complexities of designing and building a fully-accessible dropdown menu.
 2. [Vaul](https://github.com/emilkowalski/vaul) is an unstyled drawer component for React that can be used as a Dialog replacement on tablet and mobile devices.
 
-Then it leaves us with the decision about how to style things. This is where [shadcn/ui](https://ui.shadcn.com) comes into the picture. It's not a component library, but more of a code registry where you can copy/paste/modify the code to your content. It's built with Tailwind and Radix. `shadcn/ui` is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn-ui add card`, making it even more convenient to use.
+Then it leaves us with the decision about how to style things. This is where [shadcn/ui](https://ui.shadcn.com) comes into the picture. It's not a component library, but more of a code registry where you can copy/paste/modify the code to your content. It's built with Tailwind and Radix. `shadcn/ui` is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn-ui add card`, making it even more convenient to use. Here is a component demo page: https://kexizeroing.github.io/shadcn-ui
 
-Here is a component demo page: https://kexizeroing.github.io/shadcn-ui
+To understand shadcn/ui, first we need to know what does `cva (class-variance-authority)` do. It basically is a function, that allows us to define variants for the element we want to style. A simple variant definition has a name and a list of possible values, each with a list of classes that should apply.
+
+```jsx
+// Using `cva` to handle our variant's classes
+import { cva } from "class-variance-authority";
+ 
+const buttonVariants = cva(["font-semibold", "border", "rounded"], {
+  variants: {
+    intent: {
+      primary: [
+        "bg-blue-500",
+        "text-white",
+        "border-transparent",
+        "hover:bg-blue-600",
+      ],
+      secondary: [
+        "bg-white",
+        "text-gray-800",
+        "border-gray-400",
+        "hover:bg-gray-100",
+      ],
+    },
+    size: {
+      small: ["text-sm", "py-1", "px-2"],
+      medium: ["text-base", "py-2", "px-4"],
+    },
+  },
+  defaultVariants: {
+    intent: "primary",
+    size: "medium",
+  },
+});
+ 
+buttonVariants();
+// => "font-semibold border rounded bg-blue-500 text-white border-transparent hover:bg-blue-600 text-base py-2 px-4"
+ 
+buttonVariants({ intent: "secondary", size: "small" });
+// => "font-semibold border rounded bg-white text-gray-800 border-gray-400 hover:bg-gray-100 text-sm py-1 px-2"
+```
+
+[clsx](https://github.com/lukeed/clsx) is used in `cva`. It is a utility for constructing `className` strings conditionally.
+
+```js
+import clsx from 'clsx';
+
+clsx('foo', true && 'bar', 'baz');
+//=> 'foo bar baz'
+
+clsx({ foo:true, bar:false, baz:isTrue() });
+//=> 'foo baz'
+
+clsx({ foo:true }, { bar:false }, null, { '--foobar':'hello' });
+//=> 'foo --foobar'
+
+clsx(['foo', 0, false, 'bar']);
+//=> 'foo bar'
+
+clsx(['foo'], ['', 0, false, 'bar'], [['baz', [['hello'], 'there']]]);
+//=> 'foo bar baz hello there'
+```
 
 ### Design system examples
 A design system is an ever evolving collection of reusable components, guided by rules that ensure consistency and speed, by being the single source of truth for any product development.

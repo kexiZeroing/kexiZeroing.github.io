@@ -5,7 +5,7 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Mar 29 2024"
+updatedDate: "July 23 2024"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
@@ -333,6 +333,59 @@ function loadFile<Formats extends URLObject>(fileFormats: Formats, format: keyof
 When you actually want to ignore an error, you'll be tempted to use `@ts-ignore`. It works similarly to `@ts-expect-error`, except for one thing: it won't error if it doesn't find an error.
 
 Sometimes, you'll want to ignore an error that later down the line gets fixed. If you're using `@ts-ignore`, it'll just ignore the fact that the error is gone. But with `@ts-expect-error`, you'll actually get a hint that the directive is now safe to remove. So if you're choosing between them, pick `@ts-expect-error`.
+
+## Building the Validation Schema with Zod
+[Zod](https://github.com/colinhacks/zod) is a TypeScript-first schema declaration and validation library. With Zod, you declare a validator once and Zod will automatically infer the static TypeScript type. It's easy to compose simpler types into complex data structures.
+
+```js
+import { z } from "zod";
+
+// creating a schema for strings
+const mySchema = z.string();
+
+// parsing
+mySchema.parse("tuna"); // => "tuna"
+mySchema.parse(12); // => throws ZodError
+
+// "safe" parsing (doesn't throw error if validation fails)
+mySchema.safeParse("tuna"); // => { success: true; data: "tuna" }
+mySchema.safeParse(12); // => { success: false; error: ZodError }
+
+const User = z.object({
+  username: z.string(),
+});
+
+User.parse({ username: "Ludwig" });
+
+// extract the inferred type
+type User = z.infer<typeof User>;
+// { username: string }
+```
+
+Sometimes you don't trust the data entering your app. For those cases, you should use Zod. Let’s build a schema for a form.
+
+```js
+const formSchema = z
+  .object({
+    username: z.string().min(1, "Username is required").max(100),
+    email: z.string().email("Invalid email address").min(1, "Email is required"),
+    password: z
+      .string()
+      .min(1, "Password is required")
+      .min(8, "Password must have more than 8 characters"),
+    confirmPassword: z.string().min(1, "Password confirmation is required"),
+  })
+  // Zod lets you provide custom validation logic via refinements.
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"], // path of error
+    message: "Passwords do not match",
+});
+
+// We can use this type to tell `react-hook-form` what our data should look like.
+type FormSchemaType = z.infer<typeof formSchema>;
+```
+
+> [Valibot](https://github.com/fabian-hiller/valibot) is very similar to Zod, helping you validate data easily using a schema. The biggest difference is the modular design and the ability to reduce the bundle size to a minimum. 
 
 ## Adding Type Check to JavaScript
 TypeScript provides code analysis for JavaScript and VS Code gives us TypeScript out of the box (TypeScript language server). With the addition of `//@ts-check` as the very first line in our JavaScript file, TypeScript became active and started to add red lines to code pieces that just don’t make sense.
