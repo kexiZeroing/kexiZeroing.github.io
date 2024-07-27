@@ -5,14 +5,12 @@ slug: vue-reactivity-clone
 description: ""
 added: "Jun 18 2023"
 tags: [vue, code]
-updatedDate: "Mar 7 2024"
+updatedDate: "July 27 2024"
 ---
 
 In a reactive programming context, dependency tracking is a technique used to automatically update computations that depend on some input data when that data changes. In order for dependency tracking to work, the reactive framework needs to know which computations depend on which data. This is typically done by wrapping the data in reactive objects or variables that the framework can monitor for changes. When a piece of data changes, the framework can then notify any computations that depend on that data and trigger a re-evaluation of those computations.
 
 Reactive data can be broadly thought of as data that causes some intended side effect when accessed or modified. By default, JavaScript isn’t reactive.
-
-> Patterns for Reactivity with Modern Vanilla JavaScript: https://frontendmasters.com/blog/vanilla-javascript-reactivity
 
 ```js
 let framework = 'Vue'
@@ -79,8 +77,8 @@ let activeEffect = null
 let dep = new Set()
 
 function track(target, key) {
-  // in reality, get the dep from depsMap of targetMap
   if (activeEffect) {
+    // in reality, get the dep from depsMap of targetMap
     dep.add(activeEffect)
   }
 }
@@ -92,13 +90,11 @@ function trigger(target, key) {
 function reactive(target) {
   const handler = {
     get(target, key, receiver) {
-      // return target[key]
       const result = Reflect.get(target, key, receiver)
       track(target, key)
       return result
     },
     set(target, key, value, receiver) {
-      // target[key] = value
       const result = Reflect.set(target, key, value, receiver)
       trigger(target, key)
       return result
@@ -109,12 +105,13 @@ function reactive(target) {
 
 function effect(fn) {
   activeEffect = fn
-  if (activeEffect) activeEffect()
+  activeEffect()
   activeEffect = null
 }
 
 let product = reactive({ price: 10, quantity: 4 })
 let total = 0
+
 // watcher
 effect(() => {
   total = product.price * product.quantity
@@ -168,9 +165,13 @@ Object.keys(product).forEach(key => {
 function watcher(fn) {
   target = fn
   target()
+  // ensures that each watcher only collects the dependencies it directly uses
   target = null
 }
 
+// 1. update computed properties
+// 2. trigger watch callbacks 
+// 3. creates a watcher for the component's render function
 watcher(() => {
   total = product.price * product.quantity
   console.log('total changed ', total)
@@ -184,6 +185,6 @@ Vue 2 reactivity caveats: Since Vue 2 performs the getter/setter conversion proc
 1. It cannot detect property addition or deletion.
 2. It cannot detect the changes to an array when you directly set an item with the index.
 
->  Vue wraps an observed array’s mutation methods (`push`, `pop`, `unshift`, `shift`, etc) so they will trigger view updates.
+> Vue wraps an observed array’s mutation methods (`push`, `pop`, `unshift`, `shift`, etc) so they will trigger view updates.
 
 To work around this, you can use `Vue.set(object, propertyName, value)` method instead. (`this.$set` instance method is an alias to the global `Vue.set`)
