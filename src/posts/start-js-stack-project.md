@@ -363,6 +363,13 @@ Serverless is just a way of handling how you are using servers. Instead of handl
 
 Serverless functions are an approach to writing back-end code that doesn’t require writing a back-end. In the simplest terms: we write a function using our preferred language, like JavaScript; we send that function to a serverless provider; and then we can call that function just like any API using HTTP methods. These Functions are co-located with your code and part of your Git workflow. You can focus on the business needs and developing a better quality application instead of worrying about the infrastructure and maintenance of a traditional server.
 
+An intro to AWS for front-end developers:
+1. *s3* – This is just setting up a basic S3 bucket for web hosting static assets.
+2. *cf-s3* – This adds a Cloudfront distribution in front of the S3 bucket to implement edge caching of static assets.
+3. *lambda* – This adds a simple Lambda with function URL to handle backend calls for the site.
+4. *api-gateway* – This assumes you'll have a larger backend than a single function that you'd like to put behind an API Gateway with logical endpoints.
+5. *dynamodb* – This adds a data backend stored in DynamoDB that provides data through the Lambda to the site.
+
 > AWS provides all the necessary building blocks for the modern web. With over 200 services, AWS caters to every aspect of web application infrastructure, including compute, storage, databases, machine learning, and more. Start watching Basic Elements of AWS: https://www.proaws.dev/tutorials/basic-elements-of-aws~hk2qv
 
 ### Netlify functions

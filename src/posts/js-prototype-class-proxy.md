@@ -143,6 +143,23 @@ Public static fields are useful when you want a field to exist only once per cla
 Static methods are not directly accessible using `this` keyword from non-static methods. You need to call them using the class name: `CLASSNAME.STATIC_METHOD_NAME()` or by calling the method as a property of the constructor: `this.constructor.STATIC_METHOD_NAME()`.
 
 ```js
+class Singleton {
+  constructor() {
+    if (Singleton.instance) {
+      return Singleton.instance;
+    }
+    this.value = Math.random();
+    Singleton.instance = this;
+    return this;
+  }
+
+  getValue() {
+    return this.value;
+  }
+}
+```
+
+```js
 class ClassWithStaticField {
   static staticField = 'static field';
 
