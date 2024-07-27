@@ -169,11 +169,9 @@ app.use(express.static(process.cwd()));
     > - import { camelCase } from "lodash-es"
     > - import * as _ from "lodash-es"
 
-4. Packages with side effects cannot be properly eliminated, even when completely unreachable. Use the `"sideEffects"` property in `package.json` to denote which files in your project are "pure" and therefore safe to prune if unused.
-
     ```js
     // babel.config.js
-    // Keeping Babel from transpiling ES6 modules to CommonJS modules
+    // keep Babel from transpiling ES6 modules to CommonJS modules
     export default {
       presets: [
         [
@@ -183,7 +181,21 @@ app.use(express.static(process.cwd()));
         ]
       ]
     }
+
+    // if you're using Webpack and `babel-loader`
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          type: 'module'
+        }
+      }
+    }
     ```
+
+4. The `sideEffects` property of `package.json` declares whether a module has side effects on import. When side effects are present, unused modules and unused exports may not be tree shaken due to the limitations of static analysis.
 
 #### webpack-bundle-analyzer（检查打包体积）
 It will create an interactive treemap visualization of the contents of all your bundles when you build the application. There are two ways to configure webpack bundle analyzer in a webpack project. Either as a plugin or using the command-line interface. 
