@@ -5,7 +5,7 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Apr 15 2024"
+updatedDate: "July 27 2024"
 ---
 
 > - https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
@@ -395,9 +395,15 @@ https://codepen.io/argyleink/pen/jOQKdeW
 ### Filter and backdrop filter
 [backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) has the same effect as [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter), with one notable difference — backdrop filters apply only to areas behind the element instead of to the element and its children. Filters, on the other hand, apply directly to the element and its children, and don’t affect anything behind the element.
 
-<img alt="filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a9f0c5e0-6f17-4068-b481-17bfac204791.png" width="500">
+<figure>
+  <img alt="filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a9f0c5e0-6f17-4068-b481-17bfac204791.png" width="500">
+  <figcaption>filter example</figcaption>
+</figure>
 
-<img alt="backdrop-filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/t0635k.png" width="500">
+<figure>
+  <img alt="backdrop-filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/t0635k.png" width="500">
+  <figcaption>backdrop-filter example</figcaption>
+</figure>
 
 ```html
 <div class="parent">
@@ -461,7 +467,7 @@ img {
 }
 ```
 
-Because Scroll-Driven Animations are only active when there is scrollable overflow, it is possible to use them as a mechanism to detect if an element can scroll or not.
+Because scroll-driven animations are only active when there is scrollable overflow, it is possible to use them as a mechanism to detect if an element can scroll or not.
 
 ```css
 .container {
@@ -496,6 +502,7 @@ img {
   
   width: var(--s);
   height: var(--s);
+  box-sizing: border-box;
   object-fit: cover;
   transition: .5s;
 }
@@ -516,5 +523,6 @@ img:hover {
 </style>
 ```
 
-- `object-position` specifies the alignment of the selected replaced element's contents within the element's box. Areas of the box which aren't covered by the replaced element's object will show the element's background.
+- `object-fit` property is used to specify how an `<img>` should be resized to fit its container. `fill` is default, which means the image is resized to fill the given dimension.
+- `object-position` is used together with `object-fit` to specify how an `<img>` should be positioned with x/y coordinates inside its "own content box".
 - `box-sizing: border-box` will make the size of the content box equal to 0. In other words, we don’t see the image, but we see the background color since it covers the padding area.

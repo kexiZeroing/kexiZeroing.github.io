@@ -128,7 +128,7 @@ pre > code {
 blockquote {
   background: var(--quote);
   color: var(--black);
-  padding: 2px 0px 2px 20px;
+  padding: 2px 10px 2px 20px;
   margin: 0px;
   font-style: italic;
 }
@@ -140,6 +140,13 @@ button {
   border: none;
   background-color: transparent;
   padding: 0;
+}
+figure {
+  margin: 0; 
+}
+figcaption {
+  font-size: 13px;
+  font-style: italic;
 }
 h1 {
   font-weight: bold;
