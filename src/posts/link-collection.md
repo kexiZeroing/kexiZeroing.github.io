@@ -164,6 +164,8 @@ A powerful media downloader with no bullshit: https://cobalt.tools
 
 A high-performance HTTP benchmarking tool written in Golang: https://github.com/six-ddc/plow
 
+An initiative to improve JS packages performance: https://e18e.dev
+
 ---
 
 ## CSS related
@@ -495,6 +497,8 @@ Fast AI voice assistant: https://github.com/ai-ng/swift
 Starter project for the Vercel AI SDK RAG guide: https://github.com/vercel/ai-sdk-rag-starter
 
 Build AI apps locally that can do document Q&A: https://github.com/ykhli/local-ai-stack
+
+Anthropic's educational courses: https://github.com/anthropics/courses
 
 ---
 

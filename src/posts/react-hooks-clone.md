@@ -91,7 +91,12 @@ var App = React.render(Component);
 */
 ```
 
-### Vanilla React useQeury Hook
+### Vanilla React data fetching
+If you're going to fetch in `useEffect()`, you should at least make sure that you're handling:
+- Loading states
+- Error handling (rejections & HTTP error codes)
+- Race conditions & cancellation
+
 ```js
 import * as React from "react"
 
