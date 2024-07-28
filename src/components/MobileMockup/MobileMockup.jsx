@@ -26,6 +26,7 @@ const MobileMockup = () => {
             <p>- I'm a great developer, but I still need to Google how to restart my new iPhone. I did manage to take a few screenshots of my home screen in the process.</p>
             <p>- Social media cares more about what's hot and being talked about instead of what can actually get you a job.</p>
             <p>- A goal without a plan is just a wish.</p>
+            <p>- There are no solutions, only tradeoffs.</p>
           </div>
         </main>
       </div>

@@ -5,7 +5,7 @@ slug: get-started-with-langchain
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
-updatedDate: "May 12 2024"
+updatedDate: "July 28 2024"
 ---
 
 ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers have released APIs allowing developers to interact directly with these models. And this is where LangChain comes in. LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.
@@ -435,5 +435,14 @@ while (true) {
 ```
 
 > Autonomous agents are self-governing AI systems. AutoGPT is an open-source "AI agent" that, given a goal in natural language, will attempt to achieve it by breaking it into sub-tasks and using the Internet and other tools in an automatic loop. https://www.georgesung.com/ai/autogpt-arch/ is a quick summary about how AutoGPT works.
->
-> LLM Powered Autonomous Agents: https://lilianweng.github.io/posts/2023-06-23-agent
+
+### Run open-source LLMs locally on your computer 
+1. Ollama + OpenWebUI
+   - https://github.com/kexiZeroing/langchain-llamaindex-ollama
+   - https://github.com/open-webui/open-webui
+
+2. LM Studio
+  - https://lmstudio.ai
+
+3. GPT4All
+  - https://github.com/nomic-ai/gpt4all
