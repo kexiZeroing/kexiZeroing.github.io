@@ -5,22 +5,21 @@ slug: get-started-with-langchain
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
-updatedDate: "July 28 2024"
+updatedDate: "July 29 2024"
 ---
 
-ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers have released APIs allowing developers to interact directly with these models. And this is where LangChain comes in. LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications.
+LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications. LangChain makes it easy to prototype LLM applications and Agents.
 
 - JS/TS Docs: https://js.langchain.com/docs
 - Awesome LangChain: https://github.com/kyrolabs/awesome-langchain
 - Chat with the LangChain JS/TS documentation: https://github.com/langchain-ai/chat-langchainjs
 - Tutorials on building LLM powered applications: https://www.youtube.com/playlist?list=PLqZXAkvF1bPNQER9mLmDbntNfSpzdDIU5
 - LangChain JS Tutorial: https://www.youtube.com/playlist?list=PL4HikwTaYE0EG379sViZZ6QsFMjJ5Lfwj
-- Flowise AI Tutorial: https://www.youtube.com/playlist?list=PL4HikwTaYE0H7wBxhvQqxYcKOkZ4O3zXh
-- Chat LangChain: https://chat.langchain.com
+
+### Components: Building Blocks of LangChain
 
 <img alt="langchain-components" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 
-### Components: Building Blocks of LangChain
 - Schema (Text, Messages, Documents)
 - Models (LLMs, Chat Models, Text Embedding Models)
 - Prompts (Prompt Templates, Example Selectors, Output Parse)
@@ -29,8 +28,6 @@ ChatGPT isn’t the only way to interact with LLMs. OpenAI and other providers h
 - Chains (Summarize, Chatbots, Question Answering)
 - Agents (OpenAI functions, ReAct)
 
-LangChain makes it easy to prototype LLM applications and Agents. However, delivering LLM applications to production can be deceptively difficult. You will have to iterate on your prompts, chains, and other components to build a high-quality product. [LangSmith](https://blog.langchain.dev/announcing-langsmith) is introduced to help developers close the gap between prototype and production.
-
 ### LangChain and LlamaIndex
 LlamaIndex is a remarkable data framework aimed at helping you build applications with LLMs by providing essential tools that facilitate data ingestion, structuring, retrieval, and integration with various application frameworks.
 
@@ -38,11 +35,15 @@ There are similarities between LIamaIndex and LangChain in their functionalities
 
 However, each of them has its unique areas of focus. LangChain, with its extensive list of features, casts a wider net, concentrating on the use of chains and agents to connect with external APIs. On the other hand, LlamaIndex has a narrower focus shining in the area of data indexing and document retrieval. LIamaIndex and LangChain aren’t mutually exclusive. In fact, you can use both in your LLM applications. You can use both LlamaIndex’s data loader and query engine and LangChain’s agents. 
 
-### Examples
-`npm install langchain` We currently support LangChain on Node.js 18 and 19. LangChain is written in TypeScript and provides type definitions for all of its public APIs.
+### Examples of using LangChain
+The LangChain libraries themselves are made up of several different packages.
+- `@langchain/core`: Base abstractions and LangChain Expression Language.
+- `@langchain/community`: Third party integrations.
+- `langchain`: Chains, agents, and retrieval strategies that make up an application's cognitive architecture.
+
+> The packages and APIs are subject to change. Below code examples are writen in early versions. Be sure to refer to the LangChainJS documentation for more details on specific functionalities.
 
 ```js
-// basic_call.ts
 import { OpenAI } from "langchain/llms";
 
 export const run = async () => {
@@ -161,7 +162,7 @@ export const run = async () => {
 };
 ```
 
-In chains, a sequence of actions is hardcoded (in code). In agents, a language model is used as a reasoning engine to determine which actions to take and in which order. Agents are like bots/personal assistants that can take actions using external tools based on instructions from the LLM. Agents use an LLM to determine which actions to take and in what order.
+In agents, a language model is used as a reasoning engine to determine which actions to take and in which order. Agents are like bots/personal assistants that can take actions using external tools based on instructions from the LLM. Agents use an LLM to determine which actions to take and in what order.
 
 To initialize an agent in LangChain, you need to provide a list of tools, an LLM, and the name of the agent to use. For example, the agent, `zero-shot-react-description`, consults the ReAct (Reason + Act) framework to select the appropriate tool and relies only on the tool's description.
 
@@ -198,28 +199,6 @@ export const run = async () => {
    *  The number of countries raised to the power of 3
    *  is 157464
    */
-};
-```
-
-Embeddings are vector representations of text that computers can understand, analyze, and compare.
-
-```js
-// embeddings.ts
-import { OpenAIEmbeddings } from "langchain/embeddings";
-
-export const run = async () => {
-  /* Embed query from the user */
-  const embeddings = new OpenAIEmbeddings();
-  const res = await embeddings.embedQuery("Hello world");
-  console.log("query vector", res);
-
-  /* Embed documents (converts your text/data to numbers) */
-  const documentRes = await embeddings.embedDocuments([
-    "Hello world",
-    "Bye bye",
-  ]);
-  console.log({ documentRes });
-  //
 };
 ```
 
@@ -442,7 +421,7 @@ while (true) {
    - https://github.com/open-webui/open-webui
 
 2. LM Studio
-  - https://lmstudio.ai
+   - https://lmstudio.ai
 
 3. GPT4All
-  - https://github.com/nomic-ai/gpt4all
+   - https://github.com/nomic-ai/gpt4all
