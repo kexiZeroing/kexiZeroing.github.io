@@ -337,3 +337,47 @@ export const search = async (query: string) => {
 Several algorithms can facilitate the creation of a vector index. Their goal is to enable fast querying by creating a data structure that can be traversed quickly. They will commonly transform the representation of the original vector into a compressed form to optimize the query process.
 
 HNSW (Hierarchical Navigable Small World) creates a hierarchical, tree-like structure where each node of the tree represents a set of vectors. The edges between the nodes represent the similarity between the vectors. The algorithm starts by creating a set of nodes, each with a small number of vectors. The algorithm then examines the vectors of each node and draws an edge between that node and the nodes that have the most similar vectors to the one it has. When we query an HNSW index, it uses this graph to navigate through the tree, visiting the nodes that are most likely to contain the closest vectors to the query vector.
+
+## Techniques beyond basic RAG
+There is more to RAG than putting documents into a vector DB and adding an LLM on top. That can work, but it won’t always. The retrieval may return relevant information below our `top_k` cutoff. The metric we would measure here is **recall**, which measures how many relevant documents are retrieved out of the total number of relevant documents in the dataset. LLM recall degrades as we put more tokens in the context window.
+
+A **reranking** model — also known as a cross-encoder — is a type of model that, given a query and document pair, will output a similarity score. We use this score to reorder the documents by relevance to our query. Search engineers have used rerankers in two-stage retrieval systems for a long time. In these two-stage systems, a first-stage model (an embedding model / bi-encoder) retrieves a set of relevant documents from a larger dataset. Then, a second-stage model (the reranker) is used to rerank those documents retrieved by the first-stage model. Note that rerankers are slow, and retrievers are fast.
+
+1. bi-encoders must compress all of the possible meanings of a document into a single vector — meaning we lose information. Additionally, bi-encoders have no context on the query because we don’t know the query until we receive it (we create embeddings before user query time).
+2. A cross-encoder is a type of neural network architecture used in NLP tasks, particularly in the context of sentence or text pair classification. Its purpose is to evaluate and provide a single score for a pair of input sentences, indicating the relationship or similarity between them. Cross-encoders are more accurate than bi-encoders but they don’t scale well, so using them to re-order a shortened list returned by semantic search is the ideal use case.
+
+```py
+# https://www.sbert.net/docs/cross_encoder/pretrained_models.html
+from sentence_transformers import CrossEncoder
+import torch
+
+model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2", default_activation_function=torch.nn.Sigmoid())
+scores = model.predict([
+    ("How many people live in Berlin?", "Berlin had a population of 3,520,031 registered inhabitants in an area of 891.82 square kilometers."),
+    ("How many people live in Berlin?", "Berlin is well known for its museums."),
+])
+# => array([0.9998173 , 0.01312432], dtype=float32)
+```
+
+### Rerank APIs
+- JinaAI Reranker (1 million free tokens): https://jina.ai/reranker
+- Cohere offers an API for reranking documents: https://cohere.com/blog/rerank
+
+### Query Transformation
+```py
+multi_query_prompt = ChatPromptTemplate.from_template(
+  """
+  You are an intelligent assistant. Your task is to generate 5 questions based on the provided question in different wording and different perspectives to retrieve relevant documents from a vector database. By generating multiple perspectives on the user question, your goal is to help the user overcome some of the limitations of the distance-based similarity search. Provide these alternative questions separated by newlines. Original question: {question}
+  """
+)
+
+decompostion_prompt = ChatPromptTemplate.from_template(
+  """
+  You are a helpful assistant that can break down complex questions into simpler parts. \n
+  Your goal is to decompose the given question into multiple sub-questions that can be answerd in isolation to answer the main question in the end. \n
+  Provide these sub-questions separated by the newline character. \n
+  Original question: {question}\n
+  Output (3 queries): 
+  """
+)
+```
