@@ -5,12 +5,12 @@ slug: react-18-suspense-transition
 description: ""
 added: "Oct 7 2023"
 tags: [react]
-updatedDate: "Apr 17 2024"
+updatedDate: "July 30 2024"
 ---
 
 A key property of Concurrent React is that rendering is interruptible. With synchronous rendering, once an update starts rendering, nothing can interrupt it until the user can see the result on screen. In a concurrent render, this is not always the case. React may start rendering an update, pause in the middle, then continue later. It may even abandon an in-progress render altogether.
 
-Concurrent React is opt-in — it’s only enabled when you use a concurrent feature. you can gradually start adding concurrent features at your own pace. The new root API in React 18 enables the new concurrent renderer, which allows you to opt-into concurrent features. Continue to read [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide).
+Concurrent React is opt-in — it’s only enabled when you use a concurrent feature. The new root API in React 18 enables the new concurrent renderer, which allows you to opt-into concurrent features. Continue to read [How to Upgrade to React 18](https://react.dev/blog/2022/03/08/react-18-upgrade-guide).
 
 ```js
 // Before
@@ -81,7 +81,8 @@ function App() {
 }
 ```
 
-`useTransition` returns *isPending* and `useDeferredValue` you can do *value !== deferredValue*:
+We can also use `useDeferredValue` for the query used in rendering the list, allowing React to prioritize more urgent input changes over re-rendering the list. `useTransition` returns *isPending* and `useDeferredValue` you can do *value !== deferredValue*.
+
 ```jsx
 function App() {
   const [query, setQuery] = useState('');
@@ -101,12 +102,12 @@ function App() {
 }
 ```
 
-If we didn't use `useDeferredValue`, the expensive computation ("List" component here) would run on every keystroke, which could lead to performance issues. By deferring the update of the text value, we ensure that the expensive computation only runs when the text value has stabilized. *If React gets interrupted by another state change, the important stuff has already been updated. React can abandon the less-important second render, and start work immediately on the more-important part.*
+If we didn't use `useDeferredValue`, the expensive computation ("List" component here) would run on every keystroke, which could lead to performance issues. By deferring the update of the text value, we ensure that the expensive computation only runs when the text value has stabilized.
 
 ## New Suspense Features 
 Suspense allows you to render a fallback component while a component is waiting for some asynchronous operations.
 
-Suspense (React 16) on the client. It would throw an error when used in SSR. Suspense and code-splitting using `React.lazy` were not compatible with SSR, until React 18.
+Suspense is used on the client in React 16, but it would throw an error when used in SSR. Suspense and code-splitting using `React.lazy` were not compatible with SSR, until React 18.
 
 ```jsx
 import React, { lazy, Suspense } from 'react';

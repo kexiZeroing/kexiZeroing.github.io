@@ -4,6 +4,7 @@ title: "Practical considerations for Input fields"
 slug: practical-considerations-for-input-fields
 description: ""
 added: "Jun 5 2024"
+updatedDate: "July 30 2024"
 tags: [web]
 ---
 
@@ -96,6 +97,7 @@ What's the issue here? When you type in the filter, it takes a long time to upda
 ```jsx
 export default function App() {
   const [filter, setFilter] = useState('')
+  // Used to defer updating a part of the UI.
   const deferredFilter = useDeferredValue(filter)
 
   return (
@@ -118,12 +120,64 @@ export default function App() {
 
 Now we're recomputing the list only when the deferred value changes, so we do it at a more opportune time for performance. To be more specific, during updates, the deferred value will “lag behind” the latest value. In particular, React will first re-render without updating the deferred value, and then try to re-render with the newly received value in the background.
 
-<figure>
-  <video width="650" controls muted>
-    <source src="https://github.com/kexiZeroing/blog-images/raw/main/xmsi0wSKa3DHqz9i.mp4">
-  </video>
-  <figcaption>useTransition in React made by @asidorenko_</figcaption>
-</figure>
+A similar scenario uses `useTransition` hook. Both `useDeferredValue` and `useTransition` hooks are part of React's Concurrent Features and are designed to help manage expensive updates.
+- `useTransition`: Primarily for handling state updates that cause expensive re-renders.
+- `useDeferredValue`: For deferring the render of less important parts of the UI.
+
+```jsx
+// An example written by @asidorenko_
+export default function Page() {
+  const [tab, setTab] = useState(1)
+
+  return (
+    <>
+      <div>
+        <TabButton onClick={() => setTab(1)}>Tab 1</TabButton>
+        <TabButton onClick={() => setTab(2)}>Tab 2</TabButton>
+        <TabButton onClick={() => setTab(3)}>Tab 3</TabButton>
+      </div>
+      { tab === 1 && <Tab1 /> }
+      { tab === 2 && <Tab2 /> }
+      { tab === 3 && <Tab3 /> }
+    </>
+  )
+}
+
+function SlowComponent() {
+  let startTime = performance.now()
+  while (performance.now() - startTime < 10)
+  return <li>Slow component</li>
+}
+
+function Tab2() {
+  const items = []
+  for (let i = 0; i < 100; i++) {
+    items.push(<SlowComponent key={i} />)
+  }
+  return <ul>{items}</ul>
+}
+
+function TabButton({ children, isActive, onClick }) {
+  // Used to mark updates as non-urgent.
+  const [isPending, startTransition] = useTransition()
+
+  return (
+    <button
+      className={cn(
+        isActive && "text-pink-500",
+        isPending && "opacity-50"
+      )}
+      onClick={() => {
+        startTransition(() => {
+          onClick()
+        })
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+```
 
 ## Styling validation status
 The `:user-valid` and `:user-invalid` pseudo-class selectors are similar to the existing `:valid` and `:invalid` pseudo-classes. Both match a form control based on whether its current value satisfies its validation constraints. However, the advantage of the new `:user-valid` and `:user-invalid` pseudo-classes is that they match a form control only after a user has significantly interacted with the input.
