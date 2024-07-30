@@ -118,10 +118,19 @@ export default function App() {
 
 Now we're recomputing the list only when the deferred value changes, so we do it at a more opportune time for performance. To be more specific, during updates, the deferred value will “lag behind” the latest value. In particular, React will first re-render without updating the deferred value, and then try to re-render with the newly received value in the background.
 
+<figure>
+  <video width="650" controls muted>
+    <source src="https://github.com/kexiZeroing/blog-images/raw/main/xmsi0wSKa3DHqz9i.mp4">
+  </video>
+  <figcaption>useTransition in React made by @asidorenko_</figcaption>
+</figure>
+
 ## Styling validation status
 The `:user-valid` and `:user-invalid` pseudo-class selectors are similar to the existing `:valid` and `:invalid` pseudo-classes. Both match a form control based on whether its current value satisfies its validation constraints. However, the advantage of the new `:user-valid` and `:user-invalid` pseudo-classes is that they match a form control only after a user has significantly interacted with the input.
 
 A form control that is required and empty will match `:invalid` even if a user has not started interacting with the page. However, that same form control won't match `:user-invalid` until the user has changed the input and left it in an invalid state.
+
+> `:user-valid` and `:user-invalid` are available in all three browser engines (Chrome 119+)
 
 ```css
 input:user-valid {
