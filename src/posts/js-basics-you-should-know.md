@@ -896,6 +896,20 @@ textarea.addEventListener('input', e => e.target.dispatchEvent(eventAwesome));
 > - Use the `once` option in `addEventListener()` if you need to fire a callback only once.
 > - Use `AbortController()` if you have a series of listeners you’d like to imperatively remove at once, or if you just like the syntax.
 
+```js
+const button = document.getElementById('button');
+const controller = new AbortController();
+const { signal } = controller;
+
+button.addEventListener(
+  'click', 
+  () => console.log('clicked!'), 
+  { signal }
+);
+
+controller.abort();
+```
+
 ## Promise
 A `Promise` is a proxy for a value not necessarily known when the promise is created. The Promise object represents the eventual completion or failure of an asynchronous operation and its success value or failure reason. Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.
 
