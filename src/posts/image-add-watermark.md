@@ -10,6 +10,8 @@ updatedDate: "July 21 2024"
 
 Image watermarking is the process of placing an overlay text on top of the original image, usually in one of the corners. The first approach shown below is primarily based on the HTML5 `<canvas>` element while the second one uses [watermark.js](https://brianium.github.io/watermarkjs) library, which requires just a few lines of code.
 
+## Use HTML Canvas 
+
 ```html
 <body>
   <h1>Add Watermark to Image</h1>
@@ -33,7 +35,7 @@ Image watermarking is the process of placing an overlay text on top of the origi
     const originalImage = new Image();
 
     fileInput.addEventListener("change", async (e) => {
-      const [file] = fileInput.files;
+      const file = e.target.files[0];
       originalImage.src = await fileToDataUri(file);
     });
 
@@ -89,6 +91,30 @@ The `HTMLCanvasElement.toDataURL()` method returns a data URL containing a repre
 > Data URLs, URLs prefixed with the `data:` scheme, allow content creators to embed small files inline in documents. They are composed of four parts: a prefix (`data:`), a MIME type, an optional base64 token if non-textual, and the data itself: `data:[<mediatype>][;base64],<data>`
 > 
 > `toDataURL()` encodes the whole image in an in-memory string. For larger images, this can have performance implications, and may even overflow browsers' URL length limit when assigned to `HTMLImageElement.src`. You should generally prefer `HTMLCanvasElement.toBlob()` instead, in combination with `URL.createObjectURL()`.
+
+### Add custom cropper
+```js
+// https://advanced-cropper.github.io/vue-advanced-cropper/
+<Cropper
+  class="cropper"
+  :src="imageSrc"
+  ref="cropperRef"
+/>
+
+const handleCropSubmit = () => {  
+  const { canvas } = cropperRef.value.getResult();
+  if (canvas) {
+    canvas.toBlob((blob) => {
+      if (blob) {
+        const file = new File([blob], 'cropped-image.png', { type: 'image/png' });
+        handleFileUpload(file);
+      }
+    }, 'image/png');
+  }
+};
+```
+
+## Use third-party library
 
 ```js
 // Use the library `watermark.js` in the browser.
