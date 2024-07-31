@@ -545,6 +545,8 @@ https://app-dev-tools.netlify.app
 
 - Reading content with `textContent` is much faster than `innerText`. The `insertAdjacentHTML` method is much faster than `innerHTML` because it doesn’t have to destroy the DOM first before inserting.
 
+- HTML files input change event doesn't fire upon selecting the same file. You can put `this.value = null` at the end of the `onchange` event, which will reset the input's value and trigger the `onchange` event again.
+
 - If we are appending each list item to the DOM as we create it, this is inefficient because the DOM is updated each time we append a new list item. Instead, we can create a document fragment using `document.createDocumentFragment()` and append all of the list items to the fragment. Then, we can append the fragment to the DOM. This way, the DOM is only updated once.
 
 - Vue parent component will wait for its children to mount before it mounts its own template to the DOM. The order should be: parent created -> child created -> child mounted -> parent mouted.

@@ -98,18 +98,22 @@ The `HTMLCanvasElement.toDataURL()` method returns a data URL containing a repre
 <Cropper
   class="cropper"
   :src="imageSrc"
+  :stencil-props="{
+    aspectRatio: 16 / 9
+  }"
   ref="cropperRef"
 />
 
 const handleCropSubmit = () => {  
-  const { canvas } = cropperRef.value.getResult();
+  const { canvas } = cropperRef.value.getResult()
   if (canvas) {
     canvas.toBlob((blob) => {
       if (blob) {
-        const file = new File([blob], 'cropped-image.png', { type: 'image/png' });
+        // new File(fileBits, fileName, options)
+        const file = new File([blob], 'cropped-image.png', { type: 'image/png' })
         handleFileUpload(file);
       }
-    }, 'image/png');
+    }, 'image/png')
   }
 };
 ```
