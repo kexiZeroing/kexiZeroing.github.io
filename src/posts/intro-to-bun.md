@@ -5,7 +5,7 @@ slug: intro-to-bun
 description: ""
 added: "Jan 22 2024"
 tags: [web]
-updatedDate: "Jan 28 2024"
+updatedDate: "Jan 31 2024"
 ---
 
 Bun is a fast, all-in-one toolkit for running, building, testing, and debugging JavaScript and TypeScript, from a single file to a full-stack application. The goal of Bun is to run most of the world's server-side JavaScript and provide tools to improve performance, reduce complexity, and multiply developer productivity.
@@ -66,6 +66,14 @@ Bun aims for complete Node.js API compatibility. Most npm packages intended for 
 
 Bun has native support for CommonJS and ES modules. If the target module is an ES Module, `require` returns the module namespace object (equivalent to `import * as`). If the target module is a CommonJS module, `require` returns the `module.exports` object as in Node.js. You can use `import` or `require` in the same file—they both work, all the time.
 
+```js
+// You can `require()` any file or package, even .ts or .mjs files.
+// You can `import` any file or package, even .cjs files.
+import { hello } from "./hello.ts";
+import { stuff } from "./my-commonjs.cjs";
+const { bar } = require("./bar.mjs");
+```
+
 ## HTTP server
 To start a high-performance HTTP server with a clean API, the recommended approach is `Bun.serve`.
 
@@ -100,6 +108,8 @@ The `import.meta` object is a way for a module to access information about itsel
 import.meta.dir;   // => "/path/to/project"
 import.meta.file;  // => "file.ts"
 import.meta.path;  // => "/path/to/project/file.ts"
+import.meta.url;   // => "file:///path/to/project/file.ts"
+
 import.meta.env;   // An alias to `process.env`
 ```
 
@@ -182,6 +192,7 @@ Bun is another JavaScript runtime. Hono also works on Bun.
 Hono is a server-side lightweight web framework similar to Express but with modern features. It supports a ton of different server runtimes, including Deno, Bun, Cloudflare Workers, Node.js, and more.
 
 ```sh
+# create a new project with a `create-<template>` npm package
 bun create hono my-app
 
 cd my-app
@@ -229,6 +240,7 @@ app.get('/', (c) => {
 const port = parseInt(process.env.PORT!) || 3000
 console.log(`Running at http://localhost:${port}`)
 
+// export default app
 export default {
   port,
   fetch: app.fetch
