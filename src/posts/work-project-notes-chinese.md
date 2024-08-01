@@ -57,7 +57,7 @@ new Vue({
 })
 ```
 
-> Vue 是如何被编译的中文博客系列：https://juejin.cn/column/7340830470463242278
+> Vue 是如何被编译的详细介绍：https://vue-compiler.iamouyang.cn/template/baseCompile.html
 
 Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本。
 - [create-vite](https://github.com/vitejs/vite/tree/main/packages/create-vite) 是 Vite 官方推荐的一个脚手架工具，可以创建基于 Vite 的不同技术栈基础模板。`npm create vite` 可创建一个基于 Vite 的基础空项目。

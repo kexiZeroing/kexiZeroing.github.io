@@ -103,6 +103,30 @@ const observer = new IntersectionObserver(
 )
 ```
 
+With the help of `IntersectionObserver` (and tricky usage of `top: -1px`), we can detect when a sticky element gets pinned.
+
+```js
+const el = document.querySelector(".myElement")
+const observer = new IntersectionObserver( 
+  ([e]) => e.target.classList.toggle("is-pinned", e.intersectionRatio < 1),
+  { threshold: [1] }
+);
+
+observer.observe(el);
+```
+```css
+.myElement {
+  position: sticky;
+  top: -1px;
+}
+```
+
+Initially, the element scrolls normally with the page content. When the element reaches the top of the viewport, the `position: sticky` and `top: -1px` CSS properties make it stick there. At the exact moment it starts to stick, the `IntersectionObserver` detects that it's no longer fully visible (because its top edge is now out of view), and adds the "is-pinned" class.
+
+1. The first argument is a callback function that runs when the observed element's visibility changes. It uses destructuring to get the first (and only) entry `e` from the entries array.
+2. `classList.toggle()` adds the class "is-pinned" if the second argument is true, and removes it if false.
+3. `e.intersectionRatio < 1` checks if the element is fully visible. If it's not (ratio < 1), it returns true.
+
 ## Resize Observer API
 The Resize Observer API provides a performant mechanism by which we can monitor an element for changes to its size, with notifications being delivered to the observer each time the size changes.
 
