@@ -5,11 +5,11 @@ slug: react-server-side-rendering-and-server-components
 description: ""
 added: "July 8 2023"
 tags: [react]
-updatedDate: "July 31 2024"
+updatedDate: "Aug 1 2024"
 ---
 
 ## Adding Server-Side Rendering
-With SSR, you render your JS on the server into HTML. You serve that HTML to your client so it appears to have fast startup. But you still have to wait for your JS to reach the user before anything can be interactive (hydration). React will render your component tree in memory, but instead of generating DOM nodes for it, it will attach all the logic to the existing HTML. After hydration, SSR can't be used again - it's typically only used for initial loads.
+SSR focuses on initial page load, sending pre-rendered HTML to the client that must then be hydrated with downloaded JavaScript before it behaves as a typical React app. SSR also only happens one time: when directly navigating to a page.
 
 Let’s create a simple React component App. We will render this component on the server-side and hydrate it on the client-side.
 
@@ -265,6 +265,8 @@ app.listen(3000, () => {
 });
 ```
 
+> The HTML file is broken into chunks and streamed, so the browser can paint the UI quickly, without having to wait for all the content in the `<script>` tag.
+
 ## Write React Server Components from Scratch
 Before React Server Components, all React components are “client” components — they are all run in the browser. RSC makes it possible for some components to be rendered by the server, and some components to be rendered by the browser. Server Components are not a replacement for SSR. They render exclusively on the server. Their code isn't included in the JS bundle, and so they never hydrate or re-render. With only SSR, we haven't been able to do server-exclusive work within our components (e.g. access database), because that same code would re-run in the browser.
 
@@ -323,7 +325,7 @@ const Breeds = ({ initialBreeds }) => {
 
 export default Breeds;
 
-// This code only runs on the server
+// This code only runs on the server (and only works at the route level)
 export const gSSP = async () => {
   const data = await getStuff();
   return {
@@ -334,6 +336,9 @@ export const gSSP = async () => {
 
 ```jsx
 // React Server Components, notice the difference from above
+
+// The big difference is that we've never before had a way 
+// to run server-exclusive code inside our components.
 import React from "react";
 
 const List = async () => {
@@ -354,6 +359,8 @@ const List = async () => {
 
 export default List;
 ```
+
+Besides a `<script>` tag that loads up the JS bundle (client components used in our application), we also tells React “Hey, I know you're missing the server components code, but don't worry: here's what it rendered”.
 
 ```jsx
 app.get("/:path", async (req, res) => {
@@ -423,7 +430,7 @@ function reviveJSX(key, value) {
 }
 ```
 
-Must read about React Server Components: 
+Must-read articles on React Server Components: 
 - https://www.joshwcomeau.com/react/server-components
 - https://github.com/reactwg/server-components/discussions/5
 
