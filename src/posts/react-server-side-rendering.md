@@ -5,7 +5,7 @@ slug: react-server-side-rendering-and-server-components
 description: ""
 added: "July 8 2023"
 tags: [react]
-updatedDate: "Mar 14 2024"
+updatedDate: "July 31 2024"
 ---
 
 ## Adding Server-Side Rendering
@@ -90,9 +90,9 @@ ReactDOM.hydrate(<App />, document.getElementById('ssr-app'));
 ### React hydration error
 While rendering your application, there was a difference between the React tree that was pre-rendered from the server and the React tree that was rendered during the first render in the browser (hydration).
 
-When the React app runs on the client for the first time, it builds up a mental picture of what the DOM should look like, by mounting all of your components. Then it squints at the DOM nodes already on the page, and tries to fit the two together. By rendering something different depending on whether we're within the server-side render or not, we're hacking the system. We're rendering one thing on the server, but then telling React to expect something else on the client.
+When the React app runs on the client for the first time, it builds up a mental picture of what the DOM should look like, by mounting all of your components. Then it squints at the DOM nodes already on the page, and tries to fit the two together. We're rendering one thing on the server, but then telling React to expect something else on the client.
 
-To avoid issues, we need to ensure that the hydrated app matches the original HTML. When the React app adopts the DOM during hydration, `useEffect` hasn't been called yet, and so we're meeting React's expectation. (And immediately after this comparison, we trigger a re-render, and this allows React to do a proper reconciliation. It'll notice that there's some new content to render here.)
+To avoid issues, we need to ensure that the hydrated app matches the original HTML. When the React app adopts the DOM during hydration, `useEffect` hasn't been called yet, and so we're meeting React's expectation. Immediately after this comparison, we trigger a re-render, and this allows React to do a proper reconciliation. It'll notice that there's some new content to render here.
 
 ```tsx
 'use client';
@@ -124,8 +124,6 @@ const ClientOnly: React.FC<ClientOnlyProps> = ({
 
 export default ClientOnly;
 ```
-
-The above code also helps solve the error: "`window` is not defined" in the client component (i.e. render `{ window.navigator.platform }`). You can move the `window` to `useEffect` to access it.
 
 ### Understand the "children pattern"
 React components re-render themselves and all their children when the state is updated. In this case, on every mouse move the state of `MovingComponent` is updated, its re-render is triggered, and as a result, `ChildComponent` will re-render as well.
@@ -268,7 +266,7 @@ app.listen(3000, () => {
 ```
 
 ## Write React Server Components from Scratch
-Before React Server Components, all React components are “client” components — they are all run in the browser. RSC makes it possible for some components to be rendered by the server, and some components to be rendered by the browser. Server Components are not a replacement for SSR. They render exclusively on the server. Their code isn't included in the JS bundle, and so they never hydrate or re-render. *With only SSR, we haven't been able to do server-exclusive work within our components (e.g. access database), because that same code would re-run in the browser.*
+Before React Server Components, all React components are “client” components — they are all run in the browser. RSC makes it possible for some components to be rendered by the server, and some components to be rendered by the browser. Server Components are not a replacement for SSR. They render exclusively on the server. Their code isn't included in the JS bundle, and so they never hydrate or re-render. With only SSR, we haven't been able to do server-exclusive work within our components (e.g. access database), because that same code would re-run in the browser.
 
 - Server Component: Fetch data; Access backend resources directly; Keep large dependencies on the server.
 - Client Component: Add interactivity and event listeners (`onClick()`); Use State and Lifecycle Effects (`useState()`, `useEffect()`); Use browser-only APIs.
@@ -291,8 +289,6 @@ A common misconception here is that components with `"use client"` only run in b
 Compare for server side rendering and server components:
 - https://github.com/TejasQ/makeshift-next.js/tree/spoiled
 - https://github.com/TejasQ/react-server-components-from-scratch/tree/spoild
-- https://www.joshwcomeau.com/react/server-components
-- https://github.com/reactwg/server-components/discussions/5
 
 ```jsx
 // React Components (used in server-side rendering)
@@ -426,6 +422,10 @@ function reviveJSX(key, value) {
   }
 }
 ```
+
+Must read about React Server Components: 
+- https://www.joshwcomeau.com/react/server-components
+- https://github.com/reactwg/server-components/discussions/5
 
 ## What are Server Actions
 React Server Actions allow you to run asynchronous code directly on the server. They eliminate the need to create API endpoints to mutate your data. Instead, you write asynchronous functions that execute on the server and can be invoked from your Client or Server Components.
