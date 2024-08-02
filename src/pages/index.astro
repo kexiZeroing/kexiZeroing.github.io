@@ -64,6 +64,9 @@ import { Content as HireMe } from './hire-me.md';
 		
 		<script is:inline>
 			document.querySelector('.toggler').addEventListener('click', (ev) => {
+				if (ev.target.tagName.toUpperCase() !== 'BUTTON') {
+					return
+				}
 				document.querySelector('.toggler button.active').classList.remove('active')
 				document.querySelector('.bio.show').classList.remove('show')
 
