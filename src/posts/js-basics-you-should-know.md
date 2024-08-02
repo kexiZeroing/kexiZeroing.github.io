@@ -1124,6 +1124,24 @@ Async functions can contain zero or more `await` expressions. Await expressions 
 - The `await` keyword is only valid inside async functions.
 - Use of `async / await` enables the use of ordinary `try / catch` blocks around asynchronous code.
 
+For example, this function returns a promise, and that promise resolves to the string "Hello world".
+```js
+async function greeting() {
+  return "Hello world"
+}
+```
+
+Now you should understand why the below code will throw an error. The `useEffect` hook isn't expecting us to return a promise. It expects us to return either nothing or a cleanup function. A quick fix is to create a separate async function within our effect.
+
+```js
+React.useEffect(async () => {
+  const url = `${API}/get-profile?id=${userId}`
+  const res = await fetch(url)
+  const json = await res.json()
+  setUser(json)
+}, [userId])
+```
+
 ```js
 // wait 1 second
 // await new Promise(resolve => setTimeout(resolve, 1000));

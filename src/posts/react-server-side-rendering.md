@@ -180,7 +180,7 @@ const Parent = () => {
 };
 ```
 
-`React.memo` is a higher order component that accepts another component as a prop. It will only render the component if there is any change in the props.
+`React.memo` is a higher order component that accepts another component as a prop. It will only render the component if there is any change in the props. *(Hey React, I know that this component is pure. You don't need to re-render it unless its props change.)*
 
 `useMemo` is used to memoize a calculation result, which focuses on avoiding heavy calculation.
 
