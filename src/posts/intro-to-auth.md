@@ -20,7 +20,7 @@ Once you were logged into HireMe123, HireMe123 would ask you for your MyCalApp l
 This approach relied on sharing a user’s personal credentials from one app with a completely different app, and this is not good. HireMe123 had the same amount of access that you did, because they used your credentials to gain that access. It meant that HireMe123 could read all your calendar events, delete events, modify your calendar settings, etc.
 
 ### Enter OAuth
-OAuth is not an authentication spec. OAuth deals with delegated authorization. Remember that authentication is about verifying the identity of a user. Authorization deals with granting or denying access to resources. OAuth 2.0 grants access to applications on the behalf of users without exposing credentials.
+**OAuth is not an authentication spec. OAuth deals with delegated authorization.** Remember that authentication is about verifying the identity of a user. Authorization deals with granting or denying access to resources. OAuth 2.0 grants access to applications on the behalf of users without exposing credentials.
 
 An authorization server is a set of endpoints to interact with the user and issue tokens, which can limit access to its API when called by third party clients without the risks of sharing login information or providing too much access.
 
@@ -115,6 +115,8 @@ The app sends an authorization request to the authorization server, requesting a
 Remember when granting consent to allow HireMe123 to use the user’s privileges to access MyCalApp? HireMe123 could ask for a variety of different scopes, for example: `write:events`, `read:events`, `write:settings`, `read:settings`. Scopes are for delegated permissions for an application. It is possible to add different scopes to individual users if your authorization server provides Role-Based Access Control (RBAC).
 
 > The client, in OAuth terminology, is the component that makes requests to the resource server, in your case, the client is the server of a web application (NOT the browser). Therefore, the access token should be stored on the web application server only. It should not be exposed to the browser, and it doesn't need to, because the browser never makes any direct requests to the resource server. It talks to the web application server instead, which in turn makes requests to the resource server using the access token.
+>
+> Example code to create an OAuth client by implementing Login with Google using TypeScript and Express: https://github.com/Alex-Yakubovsky/walkthroughs/blob/main/oauth-client-walkthrough/index.ts
 
 ### Summary of ID Tokens and Access Tokens
 ID tokens are JSON web tokens meant for use by the application only. For example, if there's an app that uses Google to log in users and to sync their calendars, Google sends an ID token to the app that includes information about the user. The app then parses the token's contents and uses the information (including details like name and profile picture) to customize the user experience. Be sure to validate ID tokens before using the information it contains.

@@ -270,6 +270,7 @@ app.listen(3000, () => {
 async function renderJSXToHTML(jsx) {
   if (typeof jsx === "string" || typeof jsx === "number") {
     // This is a string. Escape it and put it into HTML directly.
+    // https://github.com/component/escape-html
     return escapeHtml(jsx);
   } else if (jsx == null || typeof jsx === "boolean") {
     // This is an empty node. Don't emit anything in HTML for it.
