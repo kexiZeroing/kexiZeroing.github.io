@@ -191,6 +191,9 @@ Array(7);          // array of 7 empty slots
 Array(1, 2, 3);    // [1, 2, 3]
 ```
 
+> 1. `Array()` can be called with or without `new`. Both create a new Array instance.
+> 2. The `length` property of an array is a 32-bit unsigned integer, which limits the maximum number of entries an array can have, which is `Math.pow(2, 32) - 1`.
+
 ### Array.prototype.fill()
 The fill method takes up to three arguments `value`, `start` and `end`. The start and end arguments are optional with default values of 0 and the length of the this object. `fill()` is intentionally generic, it does not require that its `this` value be an Array object.
 
