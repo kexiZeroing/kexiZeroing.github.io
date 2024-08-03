@@ -101,6 +101,8 @@ Prompt:
 > Question: What ...?  
 > Answer:
 
+When your prompts involve multiple components like context, instructions, and examples, XML tags can be a game-changer. Use tags like `<instructions>`, `<example>`, and `<formatting>` to clearly separate different parts of your prompt. Combine XML tags with other techniques like multi-shot prompting (`<examples>`) or chain of thought (`<thinking>`, `<answer>`). This creates super-structured, high-performance prompts.
+
 For harder use cases, just providing instructions won't be enough. This is where you need to think more about the context and the different elements you can use in a prompt. Other elements you can provide are input data or examples.
 
 Prompt:

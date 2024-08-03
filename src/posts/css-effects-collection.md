@@ -223,7 +223,8 @@ https://codepen.io/rikanutyy/pen/PEJBxX
 ```
 
 ### Color Palettes
-Builds a wide gamut color palette with okLCH and inspects color with devtools. Check out https://www.youtube.com/watch?v=6aCsAMgwnjE
+- Build a wide gamut color palette with okLCH and inspects color with devtools: https://www.youtube.com/watch?v=6aCsAMgwnjE
+- Create a custom palette: https://www.radix-ui.com/colors/custom
 
 <img alt="okLCH Color Palettes" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1he4xakrh5qj30tg0ka0ts.jpg" width="500">
 

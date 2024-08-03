@@ -181,6 +181,8 @@ const completionResponse = await openai.createCompletion({
 })
 ```
 
+> [sqlite-vec](https://alexgarcia.xyz/blog/2024/sqlite-vec-stable-release/index.html) is a SQLite extension written purely in C with no dependencies, runs anywhere SQLite runs. It will provide custom SQL functions and virtual tables for fast vector search, as well as other tools and utilities for working with vectors.
+
 ### Domain-specific ChatGTP Starter App
 [This starter app](https://github.com/gannonh/gpt3.5-turbo-pgvector) uses embeddings to generate a vector representation of a document, and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which is then used to generate a response. The response is then streamed to the user.
 

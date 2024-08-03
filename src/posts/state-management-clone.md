@@ -70,3 +70,63 @@ store.dispatch({
   payload: 1
 })
 ```
+
+### Zustand and XState Store
+
+```js
+import { create } from 'zustand'
+
+type State = {
+  count: number
+}
+
+type Actions = {
+  increment: (qty: number) => void
+  decrement: (qty: number) => void
+}
+
+const useCountStore = create<State & Actions>((set) => ({
+  count: 0,
+  increment: (qty: number) => set((state) => ({
+    count: state.count + qty
+  })),
+  decrement: (qty: number) => set((state) => ({
+    count: state.count - qty
+  })),
+}));
+
+const Component = () => {
+  const count = useCountStore((state) => state.count);
+  const increment = useCountStore((state) => state.increment);
+  const decrement = useCountStore((state) => state.decrement);
+  // ...
+}
+```
+
+```js
+import { createStore } from '@xstate/store';
+import { useSelector } from '@xstate/store/react';
+
+const store = createStore(
+  // context
+  {
+    count: 0
+  },
+  // transitions
+  {
+    increment: (context, { qty }: { qty: number }) => ({
+      count: context.count + qty;
+    }),
+    decrement: (context, { qty }: { qty: number }) => ({
+      count: context.count - qty;
+    })
+  }
+);
+
+const Component = () => {
+  const count = useSelector(store, (state) => state.context.count);
+  const increment = (qty) => store.send({ type: 'increment', qty });
+  const decrement = (qty) => store.send({ type: 'decrement', qty });
+  // ...
+}
+```

@@ -246,6 +246,21 @@ type User = ReturnType<typeof createUser>
 type Param = Parameters<typeof createUser>
 ```
 
+```tsx
+// https://www.totaltypescript.com/react-component-props-type-helper
+import { ComponentProps } from "react"
+
+type ButtonProps = ComponentProps<"button">
+// "button" | "submit" | "reset" | undefined
+type ButtonPropsType = ButtonProps["type"]
+
+type MyDivProps = ComponentProps<"div"> & {
+  myProp: string
+}
+
+type MyCompProps = ComponentProps<typeof MyComp>
+```
+
 In TypeScript, every function has a return type. If we don’t explicitly type or infer, the return type is by default `void`, and `void` is a keyword in JavaScript returning `undefined`.
 
 **Declaration merging for interfaces** means we can declare an interface at separate positions with different properties, and TypeScript combines all declarations and merges them into one. You use `declare` to let TypeScript know that the variable exists, even though it's not declared in the code.

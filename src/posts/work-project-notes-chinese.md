@@ -535,15 +535,16 @@ URI 中尽量使用连字符 `-` 代替下划线 `_` 的使用，连字符用来
 > 3. 添加加速域名后，需要在 DNS 解析服务商处，添加一条 CNAME 记录，将加速域名唯一解析到 CNAME 域名，记录生效后该域名所有的请求都将转向 CDN 节点，达到加速效果。CNAME 域名将会解析到具体哪个节点 IP 地址，将由 CDN 的调度系统综合多个条件来决定。
 
 ### 开发自己的调试工具
-https://kentcdodds.com/blog/make-your-own-dev-tools  
-https://app-dev-tools.netlify.app
+- https://kentcdodds.com/blog/make-your-own-dev-tools
+- https://app-dev-tools.netlify.app
+- https://github.com/coryhouse/switchboard
 
 ### 日常开发 Tips and Tricks
 - The `input` event is fired every time the value of the element changes. This is unlike the `change` event, which only fires when the value is committed, such as by pressing the enter key or selecting a value from a list of options. Note that `onChange` in React behaves like the browser `input` event. *(in React it is idiomatic to use `onChange` instead of `onInput`)*
 
 - The order in which the events are fired: `mousedown` --> `mouseup` --> `click`. When you add a `blur` event, it is actually fired before the `mouseup` event and after the `mousedown` event of the button. Refer to https://codepen.io/mudassir0909/full/qBjvzL
 
-- Reading content with `textContent` is much faster than `innerText`. The `insertAdjacentHTML` method is much faster than `innerHTML` because it doesn’t have to destroy the DOM first before inserting.
+- Reading content with `textContent` is much faster than `innerText` *(`innerText` had the overhead of checking to see if the element was visible or not yet)*. The `insertAdjacentHTML` method is much faster than `innerHTML` because it doesn’t have to destroy the DOM first before inserting.
 
 - HTML files input change event doesn't fire upon selecting the same file. You can put `this.value = null` at the end of the `onchange` event, which will reset the input's value and trigger the `onchange` event again.
 
