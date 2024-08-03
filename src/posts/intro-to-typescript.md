@@ -5,14 +5,12 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "July 23 2024"
+updatedDate: "Aug 3 2024"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
 >
 > TypeScript allows you to write complex yet elegant code. Some TypeScript users love to explore the possibilities of the type system and love to encode logic at type level. This practice is known as type gymnastics. The community also helps users to learn type gymnastics by creating fun and challenges such as [type challenges](https://github.com/type-challenges/type-challenges).
->
-> Cheatsheets for experienced React developers getting started with TypeScript: https://react-typescript-cheatsheet.netlify.app
 >
 > Total TypeScript book: https://github.com/total-typescript/total-typescript-book/tree/main/book-content/chapters
 
@@ -70,7 +68,9 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
 
 `target` tells TS which ES specification you want the transpiled code to support. Whatever you choose for `target` affects the default value of `lib` which in turn tells TS what type definitions to include in your project. If you need any extra polyfill in your project, `lib` is how to make TS happy about it. For example, you need to support IE11 but also you would like to use promises. IE11 supports ES5, but promises is an ES6 feature. You import a promises polyfill, but TS is still giving an error. Now you just need to tell TypeScript that your code will target ES5 (`"target": "es5"`) and it's safe to use promises in the codebase: `"lib": ["dom", "es5", "es2015.promise"]`.
 
-> In addition to the base functionality of ES2015/ES6, ES2020 adds support for dynamic imports, and `import.meta` while ES2022 further adds support for top level await. `ESNext` is a dynamic name that refers to whatever the next version is at the time of writing. ESNext features are more correctly called proposals, because, by definition, the specification has not been finalized yet.
+`module` is a setting with a bunch of different options. But really, there are only two modern options. `NodeNext` tells TypeScript that your code will be run by Node.js. And `Preserve` tells TypeScript that an external bundler will handle the bundling.
+
+> In `ESNext` you aren’t allowed to write `import Foo = require("foo")` because we assume there is no `require`. **`module: "ESNext"` is required with `moduleResolution: "bundler"`**. In `NodeNext`, we know that a given module might be an ES module or it might be a CJS module, based on its file extension(`mjs`, `.cjs`) and/or the `type` field in the nearest`package.json` file.
 
 See examples:
 - https://github.com/Microsoft/TypeScript-Babel-Starter/blob/master/tsconfig.json
