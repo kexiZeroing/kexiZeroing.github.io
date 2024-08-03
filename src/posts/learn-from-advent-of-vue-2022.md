@@ -249,6 +249,46 @@ fullName.value = 'Michael Thiessen';
 console.log(lastName.value);      // 'Thiessen'
 ```
 
+### Slots in Vue
+
+```vue
+<template>
+  <div class="named-slot">
+    <h2><slot name="title">default</slot></h2>
+    <slot></slot>
+  </div>
+
+  <div class="scoped-slot">
+    <h2><slot>default</slot></h2>
+    <slot name="display" :number="likeCount" :message="message"></slot>
+    <button type="button" @click="handleClick">Like</button>
+  </div>
+</template>
+```
+
+```vue
+<template>
+  <SlotsNamed>
+    <template #title>
+      <span>My Title</span>
+    </template>
+    <template #default>
+      <p>Put me in, coach!</p>
+    </template>
+  </SlotsNamed>
+
+  <SlotsScoped>
+    <template #default>
+      <span>My Likes</span>
+    </template>
+    <template #display="{ number, message }">
+      <p>{{ number }}</p>
+      <p>{{ message }}</p>
+    </template>
+  </SlotsScoped>
+</template>
+```
+
 ### Renderless Components
 Renderless components can be an alternative to composables when finding ways to design reusable logic in your Vue apps. As you might guess, they don't render anything. Instead, they handle all the logic inside a script section and then expose properties through a scoped slot.
 
