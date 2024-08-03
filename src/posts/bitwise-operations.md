@@ -91,3 +91,12 @@ If you are dealing with characters, it will depend on the charset/encoding.
 - A Unicode character in UTF-16 encoding is between 16 (2 bytes) and 32 bits (4 bytes), though most of the common characters take 16 bits. This is the encoding used by Windows internally.
 
 What is the average size of JavaScript code downloaded per website? It seems like shipping 10 MB of code is normal now. If we assume that the average code line is about 65 characters, that would mean we are shipping ~150,000 lines of code.
+
+### What is Unicode and UTF-8?
+Every letter in every alphabet is assigned a magic number by the Unicode consortium which is written like `U+0639`. This magic number is called a code point. The U+ means “Unicode” and the numbers are hexadecimal. `U+0639` is the Arabic letter Ain. The English letter A would be `U+0041`. *English text which rarely used code points above `U+007F`.* You can find them all visiting the [Unicode web site](https://home.unicode.org). Unicode corresponds to code points, just numbers. We haven’t yet said anything about how to store this in memory or represent it. That’s where encodings come in.
+
+It does not make sense to have a string without knowing what encoding it uses. If there’s no equivalent for the Unicode code point you’re trying to represent in the encoding you’re trying to represent it in, you usually get a little question mark: ? or �
+
+**U**nicode **T**ransformation **F**ormat **8**-bit is a variable-width encoding that can represent every character in the Unicode character set. It was designed for backward compatibility with ASCII and to avoid the complications of endianness and byte order marks in UTF-16 and UTF-32. In UTF-8, every code point from 0-127 is stored in a single byte. Only code points 128 and above are stored using 2, 3, in fact, up to 6 bytes.
+
+The MIME character set attribute for UTF-8 is `UTF-8`. Character sets are case-insensitive, so `utf-8` is equally valid.
