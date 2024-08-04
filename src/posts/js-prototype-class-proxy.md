@@ -5,13 +5,13 @@ slug: js-prototype-class-proxy
 description: ""
 added: "Aug 4 2020"
 tags: [js]
-updatedDate: "Apr 2 2024"
+updatedDate: "Aug 4 2024"
 ---
 
 ## The prototype chain
 JavaScript is a bit confusing for developers experienced in class-based languages like Java or C++, as it is dynamic and does not provide a class implementation (the `class` keyword is introduced in ES2015, but is syntactical sugar, JavaScript remains prototype-based).
 
-When it comes to inheritance, JavaScript only has one construct: objects. Each object has a private property which holds a link to another object called its **prototype**. That prototype object has a prototype of its own, and so on until an object is reached with `null` as its prototype. By definition, `null` has no prototype, and acts as the final link in this prototype chain.
+Each JavaScript object has a private property which holds a link to another object called its **prototype**. That prototype object has a prototype of its own, and so on until an object is reached with `null` as its prototype. By definition, `null` has no prototype, and acts as the final link in this prototype chain.
 
 When trying to access a property of an object, the property will not only be sought on the object but on the prototype of the object, the prototype of the prototype, and so on until either a property with a matching name is found or the end of the prototype chain is reached.
 
@@ -76,7 +76,7 @@ JavaScript classes are primarily syntactical sugar over existing prototype-based
 
 Classes are in fact "special functions", and just as you can define function expressions and function declarations, the class syntax also includes class expressions and class declarations. An important difference between function declarations and class declarations is that function declarations are hoisted and class declarations are not.
 
-The constructor method is a special method for creating and initializing an object created with a class. There can only be one special method with the name "constructor" in a class. A constructor can use the `super` keyword to call the constructor of the parent class. If you do not specify a constructor method, a default constructor is used.
+The constructor method is a special method for creating and initializing an object created with a class. There can only be one special method with the name "constructor" in a class. If you do not specify a constructor method, a default constructor is used. JavaScript doesn’t allow class constructors to be `async`, so we have to do any async actions outside of a constructor.
 
 ```js
 // class declaration
@@ -181,8 +181,6 @@ console.log(ClassWithStaticField.staticField);
 ClassWithStaticField.staticMethod(); 
 ```
 
-> JavaScript doesn’t allow class constructors to be `async`. We have to do any async actions outside of a constructor. Static class methods can help with this.
-
 ### Class getter and setter
 Add methods prefixed with `get` or `set` to create a getter and setter, which are executed based on what you are doing: accessing the variable, or modifying its value. If you only have a getter, the property cannot be set; If you only have a setter, you can change the value but not access it.
 
@@ -210,7 +208,7 @@ console.log(circle.area);
 ```
 
 ### Class inheritance
-A class can extend another class or extend traditional function-based "classes". The `super` keyword is used to reference the parent class. Private fields are not inherited by subclasses. To fix this, you can add a getter method to the Parent class that returns the value of the private field.
+A class can extend another class or extend traditional function-based "classes". The `super` keyword is used to reference the parent class. Private fields are not inherited by subclasses. To fix this, you can add a getter method to the parent class that returns the value of the private field.
 
 ```js
 class Square extends Polygon {
@@ -269,25 +267,48 @@ const b = new B();  // logs "B"
 ## Proxy and Reflect
 The **Proxy** object enables you to create a proxy for another object, which can intercept and redefine fundamental operations for that object. Proxy objects are commonly used to log property accesses, validate, format, or sanitize inputs, and so on.
 
-Handler functions are sometimes called traps, because they trap calls to the underlying target object. It's important to realize that all interactions with an object eventually boils down to the invocation of one of these internal methods, and that they are all customizable through proxies. 
+Handler functions are sometimes called traps, because they trap calls to the underlying target object. *A trap is used to intercept an operation on an object — it provides a custom implementation for an object internal method.* It's important to realize that all interactions with an object eventually boils down to the invocation of one of these internal methods, and that they are all customizable through proxies.
 
-```
-[[GetPrototypeOf]]    ->	getPrototypeOf()
-[[SetPrototypeOf]]    ->	setPrototypeOf()
-[[IsExtensible]]	    ->  isExtensible()
-[[PreventExtensions]]	-> 	preventExtensions()
-[[GetOwnProperty]]		->  getOwnPropertyDescriptor()
-[[DefineOwnProperty]]	->  defineProperty()
-[[HasProperty]]	      -> 	has()
-[[Get]]	              ->  get()
-[[Set]]		            ->  set()
-[[Delete]]		        ->  deleteProperty()
-[[OwnPropertyKeys]]		->  ownKeys()
-[[Call]]		          ->  apply()
-[[Construct]]	        ->  construct()
+| Internal Method       | Corresponding Trap          |
+|-----------------------|-----------------------------|
+| [[GetPrototypeOf]]    | getPrototypeOf()            |
+| [[SetPrototypeOf]]    | setPrototypeOf()            |
+| [[IsExtensible]]      | isExtensible()              |
+| [[PreventExtensions]] | preventExtensions()         |
+| [[GetOwnProperty]]    | getOwnPropertyDescriptor()  |
+| [[DefineOwnProperty]] | defineProperty()            |
+| [[HasProperty]]       | has()                       |
+| [[Get]]               | get()                       |
+| [[Set]]               | set()                       |
+| [[Delete]]            | deleteProperty()            |
+| [[OwnPropertyKeys]]   | ownKeys()                   |
+| [[Call]]              | apply()                     |
+| [[Construct]]         | construct()                 |
+
+```js
+const p = new Proxy(
+  {},
+  {
+    ownKeys(target) {
+      console.log("called");
+      return ["a", "b", "c"];
+    },
+    has(target, prop) {
+      console.log(`called: ${prop}`);
+      return true;
+    },
+  },
+);
+
+console.log(Object.getOwnPropertyNames(p));
+// "called"
+// [ 'a', 'b', 'c' ]
+console.log("a" in p);
+// "called: a"
+// true
 ```
 
-The **Reflect** namespace object contains static methods for invoking interceptable JavaScript object internal methods. The methods are the same as those of proxy handlers. All properties and methods of Reflect are static *(just like the Math object)*.
+The **Reflect** namespace object contains static methods for invoking interceptable JavaScript object internal methods. The methods are the same as those of proxy handlers. Unlike most global objects, Reflect is not a constructor. You cannot use it with the `new` operator or invoke the Reflect object as a function. All properties and methods of Reflect are static.
 
 The major use case of Reflect is to provide default forwarding behavior in Proxy handler traps. The Reflect API is used to invoke the corresponding internal method. For example, you create a proxy with a `deleteProperty` trap that intercepts the `[[Delete]]` internal method. `Reflect.deleteProperty()` is used to invoke the default `[[Delete]]` behavior on targetObject directly. You can replace it with `delete`, but using Reflect saves you from having to remember the syntax that each internal method corresponds to.
 
@@ -304,6 +325,10 @@ const personProxy = new Proxy(person, {
   set: (obj, prop, value) => {
     console.log(`Changed ${prop} from ${obj[prop]} to ${value}`);
     Reflect.set(obj, prop, value);
+  },
+  deleteProperty(obj, prop) {
+    console.log("Deleting property:", prop);
+    return Reflect.deleteProperty(obj, prop);
   },
 });
 ```

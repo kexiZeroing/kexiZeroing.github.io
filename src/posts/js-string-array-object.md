@@ -283,7 +283,7 @@ const arr2 = [1, 2, [3, 4, [5, 6]]];
 arr2.flat();  // [1, 2, 3, 4, [5, 6]]
 
 const arr3 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
-arr4.flat(Infinity);  // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+arr3.flat(Infinity);  // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 // deep level flatten use recursion
 // [].concat([1,[2,3]]) returns [1,[2,3]]  
@@ -644,7 +644,7 @@ Object.is(NaN, 0/0);  // true
 ```
 
 ## Map and Set
-The Map object holds key-value pairs and **remembers the original insertion order of the keys**. Any value (both objects and primitive values) may be used as either a key or a value.
+The Map object holds key-value pairs and remembers the original insertion order of the keys. Any value (both objects and primitive values) may be used as either a key or a value.
 
 Object is similar to Map, and Objects have been used as Maps historically; however, there are important differences that make using a Map preferable in certain cases:
 - The keys of an Object are String and Symbol, whereas they can be any value for a Map, including functions, objects, and any primitive.
