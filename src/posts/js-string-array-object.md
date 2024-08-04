@@ -331,7 +331,6 @@ function badEmptyCheck(value) {
 }
 badEmptyCheck(new Object());  // true
 badEmptyCheck(new String());  // true 
-badEmptyCheck(new Number());  // true
 badEmptyCheck(new Array());   // true
 
 function goodEmptyCheck(value) {
@@ -339,7 +338,6 @@ function goodEmptyCheck(value) {
 }
 badEmptyCheck(new Object());  // true
 badEmptyCheck(new String());  // false 
-badEmptyCheck(new Number());  // false
 badEmptyCheck(new Array());   // false
 ```
 
@@ -549,7 +547,7 @@ JavaScript calls `valueOf()` to convert an object to a primitive value. You rare
 ```
 
 ### Object.assign()
-Copy the values of all enumerable and own properties from one or more source objects to a target object and return the target object. If the source value is a reference to an object, it only copies that reference value (shallow copy). Properties in the target object will be overwritten by properties in the sources if they have the same key.
+Copy all enumerable own properties from one or more source objects to a target object and return the modified target object. If the source value is a reference to an object, it only copies that reference value (shallow copy). Properties in the target object will be overwritten by properties in the sources if they have the same key.
 
 ```js
 var obj = { a: 1 };
@@ -563,14 +561,18 @@ var o3 = { c: 3 };
 var obj = Object.assign(o1, o2, o3);
 console.log(obj); // { a: 1, b: 2, c: 3 }
 console.log(o1);  // { a: 1, b: 2, c: 3 }
+obj === o1; // true
 ```
 
 ### Object.create()
-It creates a new object, using an existing object as the prototype of the newly created object. Be aware of that using `Object.keys()` on an object created via `Object.create()` will result in an empty array being returned.
+It creates a new object, using an existing object as the prototype of the newly created object.
 
 ```js
 const o1 = Object.create({});   // create a normal object
+
 const o2 = Object.create(null); // create a totally empty object (without prototype)
+// Is equivalent to:
+o2 = { __proto__: null };
 
 "first is: " + o1  // "first is: [object Object]"
 "second is: " + o2 // throws error: Cannot convert object to primitive value
@@ -598,6 +600,29 @@ Rectangle.prototype.constructor = Rectangle;
 var rect = new Rectangle();
 rect instanceof Rectangle  // true
 rect instanceof Shape      // true
+
+// ** In modern code, the class syntax should be preferred in any case.**
+```
+
+### Object.freeze()
+Freezing an object prevents extensions *(An object is extensible if new properties can be added to it)* and makes existing properties non-writable and non-configurable. A frozen object can no longer be changed: new properties cannot be added, existing properties cannot be removed, their enumerability, configurability, writability, or value cannot be changed, and the object's prototype cannot be re-assigned. `freeze()` returns the same object that was passed into the function. It does not create a frozen copy.
+
+The result of calling `Object.freeze(obj)` only applies to the immediate properties of object itself (freeze is shallow).
+
+```js
+const obj = {
+  prop() {},
+  foo: "bar",
+};
+
+const o = Object.freeze(obj);
+
+o === obj; // true
+obj.foo = "quux"; // silently does nothing
+obj.quaxxor = "the friendly duck";  // silently doesn't add the property
+
+// Attempted changes through Object.defineProperty, throw a TypeError in strict mode.
+Object.defineProperty(obj, "foo", { value: "eit" });
 ```
 
 ### Object.is()
@@ -713,12 +738,18 @@ Array.from(mySet2)
 
 // intersection
 var intersection = new Set([...set1].filter(x => set2.has(x)));
+
+// Newly available 2024
+const odds = new Set([1, 3, 5, 7, 9]);
+const squares = new Set([1, 4, 9]);
+
+console.log(odds.intersection(squares)); // Set(2) { 1, 9 }
+console.log(odds.difference(squares)); // Set(3) { 3, 5, 7 }
+console.log(odds.union(squares)); // Set(6) { 1, 3, 5, 7, 9, 4 }
 ```
 
 ### WeakMap
-> Normally, the garbage collector would collect this object and remove it from memory. However, because our Map is holding a reference, it'll never be garbage collected, causing a memory leak. Here’s where we can use the WeakMap type.
-
-Every key of a WeakMap is an object. Primitive data types as keys are not allowed. WeakMap allows garbage collector to do its task but not Map. There is no such thing as a list of WeakMap keys, they are just references to another objects. After removing the key from the memory we can still access it inside the map. At the same time removing the key of WeakMap removes it from weakmap as well by reference.
+An object's presence as a key in a WeakMap does not prevent the object from being garbage collected. Every key of a WeakMap is an object. Primitive data types as keys are not allowed. WeakMap allows garbage collector to do its task but not Map. There is no such thing as a list of WeakMap keys, they are just references to another objects.
 
 In WeakMaps, references to key objects are held "weakly", which means that they do not prevent garbage collection when there would be no other reference to the object. Because of references being weak, you cannot iterate over its keys or values, cannot clear all items (no clear method), cannot check its size (no size property).
 
@@ -741,5 +772,3 @@ map.forEach(function (val, key) {
 k2 = null;
 wm.get(k2); // undefined
 ```
-
-> `WeakRef` is a similar built-in object, which holds a weak reference to another object, without preventing that object from getting garbage-collected. Correct use of `WeakRef` takes careful thought, and it's best avoided if possible.
