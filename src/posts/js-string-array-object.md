@@ -5,13 +5,27 @@ slug: js-string-array-object
 description: ""
 added: "Aug 6 2020"
 tags: [js]
-updatedDate: "Feb 28 2024"
+updatedDate: "Aug 4 2024"
 ---
 
 ## String
  
-### string primitives and String objects
-Note that JavaScript distinguishes between String objects and primitive string values (The same is true of Boolean and Numbers). In contexts where a method is to be invoked on a primitive string or a property lookup occurs, JavaScript will automatically wrap the string primitive and call the method or perform the property lookup. A String object can always be converted to its primitive counterpart with the `valueOf()` method.
+### String primitives and String objects
+Note that JavaScript distinguishes between String objects and primitive string values (The same is true of Boolean and Numbers). String literals and strings returned from `String` calls in a non-constructor context (called without using the `new` keyword) are primitive strings. In contexts where a method is to be invoked on a primitive string or a property lookup occurs, JavaScript will automatically wrap the string primitive and call the method or perform the property lookup on the wrapper object instead.
+
+A String object can always be converted to its primitive counterpart with the `valueOf()` method.
+
+```js
+const strPrim = "foo";
+const strPrim2 = String(1);
+const strObj = new String(strPrim);  // You should rarely use String as a constructor
+
+console.log(typeof strPrim);  // "string"
+console.log(typeof strPrim2); // "string"
+console.log(typeof strObj);   // "object"
+
+console.log(strObj.valueOf());
+```
 
 ### Template literals (Template strings)
 ```js
@@ -115,7 +129,7 @@ function replacer(match, p1, p2, p3, offset, string) {
 - Object.prototype.toString.call(value) === '[object Array]'
 - value instanceof Array
 
-Note that `value instanceof Array` evaluates to `false` when value is an array created in a different iframe than the Array constructor function (v is instance of thatFrame.contentWindow.Array)
+> Note that `value instanceof Array` evaluates to `false` when value is an array created in a different iframe than the Array constructor function (it is an instance of `thatFrame.contentWindow.Array`).
 
 ```js
 ({}).toString.call([]);   // '[object Array]'
@@ -157,8 +171,8 @@ JSON.stringify(function(){}) // undefined
 JSON.stringify([undefined, function(){}, () => {}])  // "[null, null, null]"
 ```
 
-### Array-like object
-An Object which has a length property of a non-negative integer, and usually some indexed properties. You can actually just use Array's `slice` function to convert it into a standard JavaScript array. **The `slice` function is intentionally generic;** it does not require that its `this` value be an Array object, so it works on anything that has a length property, which `arguments` conveniently does.
+### Array-like objects
+In practice, such object is expected to actually have a `length` property and to have indexed elements in the range `0` to `length - 1`. You can actually just use Array's `slice` function to convert it into a standard JavaScript array. **The `slice` function is intentionally generic;** it does not require that its `this` value be an Array object, so it works on anything that has a length property. Many DOM objects are array-like — for example, `NodeList` and `HTMLCollection`. The `arguments` object is also array-like.
 
 ```js
 Array.prototype.slice.call(obj);  // same as [].slice.call(obj)
@@ -177,7 +191,7 @@ Array.from([1, 2, 3], x => x + x);  // [2, 4, 6]
 
 // Since the array is initialized with `undefined` on each position,
 // the value of `v` below will be `undefined`
-Array.from({length: 5}, (v, i) => i);  // [0, 1, 2, 3, 4]
+Array.from({ length: 5 }, (v, i) => i);  // [0, 1, 2, 3, 4]
 ```
 
 ### Array.of()
@@ -193,6 +207,7 @@ Array(1, 2, 3);    // [1, 2, 3]
 
 > 1. `Array()` can be called with or without `new`. Both create a new Array instance.
 > 2. The `length` property of an array is a 32-bit unsigned integer, which limits the maximum number of entries an array can have, which is `Math.pow(2, 32) - 1`.
+> 3. Arrays can contain "empty slots" (not the same as slots filled with the value `undefined`), which are called sparse arrays.
 
 ### Array.prototype.fill()
 The fill method takes up to three arguments `value`, `start` and `end`. The start and end arguments are optional with default values of 0 and the length of the this object. `fill()` is intentionally generic, it does not require that its `this` value be an Array object.
@@ -210,6 +225,7 @@ arr[0].hi = "hi"; // [{ hi: "hi" }, { hi: "hi" }, { hi: "hi" }]
 ### Array.prototype.find()
 ```js
 arr.find(callback(element[, index[, array]])[, thisArg])
+arr.findIndex(callback(element[, index[, array]])[, thisArg])
 
 const array1 = [5, 12, 8, 130, 44];
 const found = array1.find(element => element > 10);  // 12
@@ -228,13 +244,6 @@ const result = inventory.find( ({ name }) => name === 'cherries' );
 - If the array has only one element and no initialValue was provided, or if initialValue is provided but the array is empty, the solo value would be returned without calling callback.
 
 ```js
-arr.forEach(callback(currentValue [, index [, array]])[, thisArg]);
-
-// thisArg (Optional), value to use as `this` when executing callback
-[1,2,3].forEach(function(){console.log(this)})  // window
-[1,2,3].forEach(function(){console.log(this)}, {a: 1})  // {a: 1}
-[1,2,3].forEach(() => console.log(this), {a: 1})  // window
-
 arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])
 
 // implement map using reduce
@@ -298,42 +307,16 @@ arr1.flatMap(x => x.split(" "));
 - The time and space complexity of the sort cannot be guaranteed as it depends on the implementation.
 - Since ECMAScript 2019, the specification dictates that `Array.prototype.sort` is stable. All major JavaScript engines now implement a stable Array sort.
 
-### New JS Array methods
-```js
-let wizards = ['Merlin', 'Ursula', 'Gandalf'];
-let reverseWizards = wizards.toReversed();
+### Newly available array methods
+`Array.prototype.at()` takes an integer value and returns the item at that index. Negative integers count back from the last item in the array.
 
-// logs ["Gandalf", "Ursula", "Merlin"]
-console.log(reverseWizards);
-// logs ["Merlin", "Ursula", "Gandalf"]
-console.log(wizards);
+`Array.prototype.with(index, value)` changes the value of a given index in the array, returning a new array with the element at the given index replaced with the given value. *The empty slots in the source array will be replaced with `undefined` in the new array.*
 
-let wizards = ['Merlin', 'Ursula of the Sea', 'Gandalf the Gray'];
-let sortedWizards = wizards.toSorted();
+`Array.prototype.toReversed()` returns a new array with the elements in reversed order.
 
-// logs ['Gandalf the Gray', 'Merlin', 'Ursula of the Sea']
-console.log(sortedWizards);
-// logs ['Merlin', 'Ursula of the Sea', 'Gandalf the Gray']
-console.log(wizards);
+`Array.prototype.toSorted()` returns a new array with the elements sorted in ascending order.
 
-let wizards = ['Merlin', 'Ursula', 'Gandalf', 'Radagast'];
-let lessWizards = wizards.toSpliced(2, 1);
-
-// logs ['Merlin', 'Ursula', 'Radagast']
-console.log(lessWizards);
-// logs ['Merlin', 'Ursula', 'Gandalf', 'Radagast']
-console.log(wizards);
-
-// Creates a copy of an array and updates a single value in the array.
-// e.g. You want to copy an array but use a different value for one index.
-let wizards = ['Merlin', 'Ursula', 'Gandalf'];
-let differentWizards = wizards.with(2, 'Radagast');
-
-// logs ['Merlin', 'Ursula', 'Radagast']
-console.log(differentWizards);
-// logs ['Merlin', 'Ursula', 'Gandalf']
-console.log(wizards);
-```
+`Array.prototype.toSpliced(start, deleteCount, ...)` returns a new array with some elements removed or replaced at a given index, rather than modifying the original array.
 
 ## Object
 
