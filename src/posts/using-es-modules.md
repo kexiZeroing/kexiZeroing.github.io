@@ -5,7 +5,7 @@ slug: using-es-modules
 description: ""
 added: "Aug 12 2020"
 tags: [js]
-updatedDate: "May 5 2024"
+updatedDate: "Aug 4 2024"
 ---
 
 ## ES Modules
@@ -121,6 +121,27 @@ import('./modules/square.js').then((Module) => {
   square1.draw();
   square1.reportArea();
 })
+```
+
+### Import Attributes
+The Import Attributes proposal, formerly known as Import Assertions, adds an inline syntax for module import statements to pass on more information alongside the module specifier. The initial application for such attributes will be to support additional types of modules in a common way across JavaScript environments, starting with JSON modules.
+
+```js
+// Executes JS if it responds with a JavaScript MIME type (e.g. `text/javascript`)
+import data from 'https://evil.com/data.json';
+```
+
+File extensions can’t be used to make a module type determination because they aren’t a reliable indicator of content type on the web. On the web, there is a widespread [mismatch between file extension and the HTTP Content Type header](https://github.com/tc39/proposal-import-attributes/blob/master/content-type-vs-file-extension.md).
+
+When a developer wants to import a JSON module, they must use an import assertion to specify that it’s supposed to be JSON. The import will fail if the MIME type received from the network doesn’t match the expected type.
+
+```js
+// https://github.com/tc39/proposal-import-attributes
+// Status: Stage 3
+import json from "./foo.json" with { type: "json" };
+
+// dynamic import
+import("foo.json", { with: { type: "json" } })
 ```
 
 ### Import maps

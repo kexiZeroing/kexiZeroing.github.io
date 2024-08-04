@@ -68,6 +68,8 @@ Babel Plugin Handbook: https://github.com/jamiebuilds/babel-handbook/blob/master
 
 Chrome urls: [chrome://chrome-urls](chrome://chrome-urls/)
 
+Let Me DuckDuckGo That For You: https://lmddgtfy.net
+
 A collective list of free APIs: https://github.com/public-apis/public-apis
 
 Console Utilities API reference: https://developer.chrome.com/docs/devtools/console/utilities/
@@ -418,7 +420,7 @@ Monitor and track the status of all Web Platform features: https://webstatus.dev
 
 ---
 
-## Awesome ChatGPT
+## Awesome LLMs
 
 OpenAI Cookbook: https://github.com/openai/openai-cookbook
 
@@ -501,6 +503,8 @@ Starter project for the Vercel AI SDK RAG guide: https://github.com/vercel/ai-sd
 Build AI apps locally that can do document Q&A: https://github.com/ykhli/local-ai-stack
 
 Anthropic's educational courses: https://github.com/anthropics/courses
+
+An Open Course on LLMs taught by practitioners: https://hamel.dev/blog/posts/course
 
 ---
 
