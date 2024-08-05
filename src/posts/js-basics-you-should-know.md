@@ -548,59 +548,6 @@ console.log(foo.someFooProp?.toUpperCase() ?? "not available"); // "HI"
 console.log(foo.someBarProp?.toUpperCase() ?? "not available"); // "not available"
 ```
 
-## Date toLocaleString
-With the syntax `toLocaleString(locales, options)`, the `locales` and `options` arguments customize the behavior of the function and let applications specify the language whose formatting conventions should be used.
-
-> Date uses the system time on the client computer where this javascript is executed. So if you change the date/time on the client computer it will send the new value.
-
-```js
-// returns the number of milliseconds since January 1, 1970, 00:00:00 UTC
-const date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
-
-// US English uses month-day-year order and 12-hour time with AM/PM
-console.log(date.toLocaleString('en-US'));
-// "12/20/2012, 11:00:00 AM"
-
-// British English uses day-month-year order and 24-hour time without AM/PM
-console.log(date.toLocaleString('en-GB'));
-// "20/12/2012, 11:00:00"
-
-const enUS = date.toLocaleString('en-US', {
-  hour: '2-digit',
-  minute: '2-digit',
-});
-console.log(enUS); // 11:00 AM
-
-// Request a weekday along with a long date
-const options = {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-};
-console.log(date.toLocaleString('en-US', options));
-// Thursday, December 20, 2012
-```
-
-The native `Intl` API can present dates in highly elaborate formats.
-
-```js
-const date = new Date(2024, 3, 29, 5, 30, 20);
-const opts = { day: 'numeric', year: 'numeric' };
-
-Intl.DateTimeFormat('en-US', { ...opts, month: 'long' }).format(date);
-// April 29, 2024
-
-Intl.DateTimeFormat('en-US', { ...opts, month: 'short' }).format(date);
-// Apr 29, 2024
-
-Intl.DateTimeFormat('en-US', { minute: '2-digit', second: '2-digit', hour: 'numeric' }).format(date);
-// 5:30:20 AM
-
-Intl.DateTimeFormat('en-US', { minute: '2-digit', second: '2-digit', hour: '2-digit' }).format(date);
-// 05:30:20 AM
-```
-
 ## encodeURI() and encodeURIComponent()
 `encodeURI` and `encodeURIComponent` are used to encode URI by replacing each instance of certain characters by escape sequences representing the UTF-8 encoding of the character.
 
