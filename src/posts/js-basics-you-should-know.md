@@ -233,6 +233,7 @@ Firstly convert both operands to primitive values, and try `valueOf()` followed 
 In the case of `{}`, it first tries to call `valueOf` on the object but that returns `{}`. Since `typeof {} === "object"`, it then calls `toString` and gets `"[object Object]"`. In the case of `[]`, calling `valueOf` returns `[]`, and since `typeof [] === "object"`, it calls `toString` and the return value of `Array.prototype.toString()` on an empty array is an empty string.
 
 Another example is `{} > []`, because we get `"[object Object]" > ""`.
+
 > Why you get an error when you attempt to run `{} > []` in the browser? **Block statements are evaluated before expressions**, so when the interpreter sees curly braces when not in an expression context, it interprets them as a block rather than an object literal. The way to force the interpreter to see `{}` as an object literal instead of as a block is to wrap it in parentheses.
 
 ## this, globalThis and binding
@@ -586,8 +587,17 @@ JSON.stringify(null);                 // 'null'
 JSON.stringify({ x: 5, y: 6, toJSON(){ return this.x + this.y; } });
 // '11'
 
-// The replacer array indicate the names of the properties that should be included in the result
+// The replacer parameter can be either a function or an array.
 const foo = {foundation: 'Mozilla', model: 'box', week: 45, month: 7};
+
+JSON.stringify(foo, (key, value) => {
+  if (typeof value === "string") {
+    return undefined;
+  }
+  return value;
+});
+// '{"week": 45, "month": 7}'
+
 JSON.stringify(foo, ['week', 'month']);  
 // '{"week": 45, "month": 7}'
 
@@ -608,6 +618,9 @@ JSON.parse('{}');              // {}
 JSON.parse('true');            // true
 JSON.parse('[1, 5, "false"]'); // [1, 5, "false"]
 JSON.parse('null');            // null
+
+JSON.parse('{"foo": 1}');
+JSON.parse("{\"foo\": 1}");
 
 JSON.parse('{"p": 5}', (key, value) =>
   typeof value === 'number' ? value * 2 : value
