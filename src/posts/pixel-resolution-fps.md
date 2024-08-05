@@ -42,6 +42,13 @@ primarily based on pixel density of the screen and image type.
 background-image: image-set("cat.png" 1x, "cat-2x.png" 2x);
 ```
 
+### Viewport meta tag
+The browser's viewport is the area of the window in which web content can be seen. When we started surfing the internet using tablets and mobile phones, fixed size web pages were too large to fit the viewport.
+
+Some mobile devices render pages in a virtual viewport, which is usually wider than the screen, and then shrink the rendered result down so it can all be seen at once. Users can then zoom and pan to look more closely at different areas of the page. For example, if a mobile screen has a width of 640px, pages might be rendered with a virtual viewport of 980px, and then it will be shrunk down to fit into the 640px space. This virtual viewport is a way to make non-mobile-optimized sites in general look better on narrow screen devices.
+
+The viewport meta tag allows you to tell the mobile browser what size this virtual viewport should be. A typical mobile-optimized site contains something like `<meta name="viewport" content="width=device-width, initial-scale=1" />`.
+
 ## requestAnimationFrame
 The smoothness of an animation depends on the frame rate of the animation. Frame rate is measured in **frames per second (fps)**. More frames, means more processing, which can often cause skipping. This is what is meant by the term **dropping frames**. Most screens have a refresh rate of 60Hz (`1000ms / 60fps = 16.7ms`), it’s useless to perform a repaint if the screen cannot show it due to its limitations. *By the way, `setTimeout(animFrame, 1000 / 60)` is used in old animation libraries.*
 

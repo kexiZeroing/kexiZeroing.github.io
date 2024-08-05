@@ -1095,25 +1095,21 @@ Promise.any([pErr, pSlow, pFast]).then((value) => {
 });
 ```
 
-`Promise.withResolvers()` method (in ES2023) returns an object containing a new Promise object and two functions to resolve or reject it. The key difference is that the resolution and rejection functions now live in the same scope as the promise itself, instead of being created and used once within the executor.
-
+Promise with the concurrency control: https://github.com/sindresorhus/promise-fun
 ```js
-function wait(ms) {
-  const { promise, resolve, reject } = Promise.withResolvers();
-  setTimeout(resolve, ms);
-  return promise;
-}
+import pMap from 'p-map';
 
-// easy to polyfill in 9 lines
-export function withResolvers() {
-  if (!this) throw new TypeError('Promise.withResolvers must be called on a Promise');
-  const out = {}
-  out.promise = new this((resolve_, reject_) => {
-    out.resolve = resolve_
-    out.reject = reject_
-  })
-  return out
-}
+const urls = [
+	'https://sindresorhus.com',
+	'https://avajs.dev',
+	'https://github.com',
+	...
+];
+
+const mapper = url => fetchStats(url); //=> Promise
+
+const result = await pMap(urls, mapper, {concurrency: 5});
+console.log(result);
 ```
 
 ## async and await

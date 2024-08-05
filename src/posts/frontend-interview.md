@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 5
-updatedDate: "Apr 7 2024"
+updatedDate: "Aug 5 2024"
 ---
 
 更全面的准备可以参考:
@@ -69,9 +69,7 @@ concurrencyRequest(urls, 3).then(res => {
 })
 ```
 
-`Promise.all` 用来并发处理异步任务，但是并发数有时候需要限制，多个并发请求可能会对服务端产生压力，[p-limit](https://github.com/sindresorhus/p-limit) 这个库就是用来限制并发数的。核心原理就是在一个循环中，从请求池中取出请求并发送，直到当前并发请求数 current 达到最大并发数或请求池 queue 变为空。对于每个出队的请求，它首先增加 current 的值，然后调用函数来发送请求。当请求完成后，它会减少 current 的值并再次调用出队函数，处理下一个请求。类似的库有很多，可以看看 https://github.com/sindresorhus/promise-fun
-
-2. Implement `Promise.all` by yourself.
+2. Implement `Promise.all` and `Promise.resolve` by yourself.
 ```js
 Promise._all = function (promises) {
   return new Promise((resolve, reject) => {
@@ -93,7 +91,6 @@ Promise._all = function (promises) {
   });
 };
 
-// Also implement `Promise.resolve` and `Promise.reject`
 Promise._resolve = function (value) {
   if (value instanceof Promise) {
     return value;
@@ -103,13 +100,71 @@ Promise._resolve = function (value) {
     });
   }
 };
+```
 
-Promise._reject = function (reason) {
-  return new Promise((resolve, reject) => reject(reason));
+3. 列表转成树形结构
+
+```js
+let list = [
+  { id: 1, name: 'node1', pid: 0 },
+  { id: 2, name: 'node2', pid: 1 },
+  { id: 3, name: 'node3', pid: 1 },
+  { id: 4, name: 'node4', pid: 3 },
+  { id: 5, name: 'node5', pid: 4 },
+  { id: 6, name: 'node6', pid: 0 },
+]
+
+function listToTree(list) {
+  const map = {}
+  const roots = []
+
+  list.forEach(item => {
+    map[item.id] = { ...item, children: [] }
+  })
+
+  list.forEach(item => {
+    if (item.pid === 0) {
+      roots.push(map[item.id])
+    } else {
+      if (map[item.pid]) {
+        map[item.pid].children.push(map[item.id])
+      }
+    }
+  })
+
+  return roots
 }
 ```
 
-3. Implement calling click event listener only once without using `{once: true}`.
+4. Implement `debounce` and `throttle`.
+```js
+function debounce(fn, time) {
+  let timer = null
+
+  return (...args) => {
+    if (timer) {
+      clearTimeout(timer)
+      timer = null
+    }
+    timer = setTimeout(() => {
+      fn(...args)
+    }, time)
+  }
+}
+
+function throttle(fn, delay) {
+  let currentTime = Date.now()
+
+  return (...args) => {
+    if (Date.now() - currentTime > delay) {
+      fn(...args)
+      currentTime = Date.now()
+    }
+  }
+}
+```
+
+5. Implement calling click event listener only once without using `{once: true}`.
 ```js
 function clickOnce(el, cb) {
   const cb2 = () => {
@@ -122,34 +177,33 @@ function clickOnce(el, cb) {
 clickOnce($0, () => console.log('click'));
 ```
 
-4. Use setTimeout to invoke a function multiple times in the fixed interval.
+6. Use `setTimeout` to invoke a function multiple times in the fixed interval.
 ```js
 function repeat(func, times, ms, immediate) {
   let count = 0;
 
-  function inner(...args) {
-    count++;  
-    if (count === 1 && immediate) {
-      func.call(null, ...args);
+  return function inner(...args) { 
+    if (count === 0 && immediate) {
+      func(...args);
+      count++; 
     }
     if (count >= times) {
       return;
     }
     setTimeout(() => {
-      inner.call(null, ...args);
-      func.call(null, ...args);
+      func(...args);
+      count++;
+      inner(...args);
     }, ms);
   }
-  
-  return inner;
 }
 
 // test
 const repeatFunc = repeat(console.log, 4, 3000, true);
-repeatFunc("hello"); 
+repeatFunc("hello");
 ```
 
-5. Implement the render function to convert the virtual dom JSON to real DOM.
+7. Implement the render function to convert the virtual dom JSON to real DOM.
 ```js
 function render(vnode) {
   const { tag, props, children } = vnode;
@@ -180,7 +234,7 @@ function render(vnode) {
 }
 ```
 
-6. How to add two big integers in js?
+8. How to add two big integers in js?
 ```js
 function add(A, B) {
   const AL = A.length
@@ -204,10 +258,4 @@ function add(A, B) {
 
   return sum
 }
-```
-
-```js
-const max = BigInt(Number.MAX_SAFE_INTEGER);
-const two = 2n;
-const result = max + two;
 ```
