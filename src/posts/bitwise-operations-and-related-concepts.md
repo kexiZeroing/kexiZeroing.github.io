@@ -1,7 +1,7 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Bitwise operations"
-slug: bitwise-operations
+title: "Bitwise operations and related concepts"
+slug: bitwise-operations-and-related-concepts
 description: ""
 added: "Sep 5 2020"
 tags: [other]

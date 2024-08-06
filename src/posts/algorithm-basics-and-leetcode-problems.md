@@ -1,12 +1,12 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Algorithm Basics"
-slug: algorithm-basics
+title: "Algorithm basics and LeetCode problems"
+slug: algorithm-basics-and-leetcode-problems
 description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "May 19 2024"
+updatedDate: "Aug 6 2024"
 ---
 
 ### TOC
@@ -28,7 +28,7 @@ updatedDate: "May 19 2024"
 - [Backtracking](#backtracking)
 - [DP](#dp)
 - [LRU](#lru)
-- [Example Problems](#example-problems)
+- [LeetCode Problems](#leetcode-problems)
 
 ### Binary Search
 
@@ -804,7 +804,7 @@ LRUCache.prototype.put = function(key, value) {
 }
 ```
 
-### Example Problems
+### LeetCode Problems
 
 Given a non-empty array of integers, return the `k` most frequent elements.
 
@@ -1169,6 +1169,35 @@ var merge = function(intervals) {
     }
   }
   return intervals.filter(q => q); // fiter to pass undefined value
+};
+```
+
+Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
+
+```js
+var trap = function(height) {
+  // two pointers
+  let i = 0;
+  let j = height.length - 1;
+  // maximum height encountered from the left and right
+  // ("walls" that can potentially trap water)
+  let left = height[0];
+  let right = height[j];
+  let sum = 0;
+
+  while (i < j) {
+    if (left <= right) {
+      // this is the water trapped above the current bar
+      sum += left - height[i];
+      i++;
+      left = Math.max(left, height[i]);
+    } else {
+      sum += right - height[j];
+      j--;
+      right = Math.max(right, height[j]);
+    }
+  }
+  return sum;
 };
 ```
 
