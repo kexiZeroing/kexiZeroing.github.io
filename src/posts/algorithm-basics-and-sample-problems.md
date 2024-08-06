@@ -681,6 +681,29 @@ let rob = function(nums) {
 
   return dp[nums.length - 1];
 };
+
+// All houses at this place are arranged in a circle.
+let rob2 = function(nums) {
+  const len = nums.length;
+  if (len === 1) return nums[0];
+  if (len === 2) return Math.max(nums[0], nums[1]);
+  
+  return Math.max(robRange(nums, 1, len), robRange(nums, 0, len - 1));
+
+  function robRange(nums, start, end) {
+    const n = end - start;
+
+    const dp = new Array(n);
+    dp[0] = nums[start];
+    dp[1] = Math.max(nums[start], nums[start + 1]);
+    
+    for (let i = 2; i < n; i++) {
+      dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[start + i]);
+    }
+    
+    return dp[n - 1];
+  };
+};
 ```
 
 ```js
@@ -1219,6 +1242,34 @@ var maxArea = function(height) {
     }
   }
   return res;  
+};
+```
+
+Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+
+```js
+var permute = function(nums) {
+  const result = [];
+  const path = [];
+  const used = new Array(nums.length).fill(false);
+
+  function backtrack() {
+    if (path.length === nums.length) {
+      result.push([...path]);
+      return;
+    }
+    for (let i = 0; i < nums.length; i++) {
+      if (used[i]) continue;
+      path.push(nums[i]);
+      used[i] = true;
+      backtrack();
+      path.pop();
+      used[i] = false;
+    }
+  }
+
+  backtrack();
+  return result;
 };
 ```
 

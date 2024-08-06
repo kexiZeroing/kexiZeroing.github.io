@@ -203,6 +203,8 @@ updatedDate: "May 5 2024"
   </style>
   ```
 
+  > Children of parents with `min-height` can't inherit the height property. The easiest workaround is to add `height: 1px;` to the parent. Alternatively you may set `min-height: inherit;` to the child. 
+
 - Stop re-inventing the wheel and just use `<button>` to create a button. If you're worried about default button styles, use `all: unset`. This one line of CSS will strip all default browser styles so you can apply your own.
 
 - Sometimes the web page looks strangely inflated on mobile landscape devices. The reason is that Mobile Safari increases the default font-size when you switch a website from portrait to landscape. The way to control this font-size inflation is with the `-webkit-text-size-adjust` property, which you can set to a percentage which to increase the text size to at the most, to `auto` for default behavior or to `none` to prevent zooming text in. Setting it to `100%` is equivalent to `none`.
