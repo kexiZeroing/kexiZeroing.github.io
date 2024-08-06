@@ -25,7 +25,6 @@ updatedDate: "Aug 6 2024"
 - [Graph DFS](#graph-dfs)
 - [Graph BFS](#graph-bfs)
 - [Heap](#heap)
-- [Backtracking](#backtracking)
 - [DP](#dp)
 - [LRU](#lru)
 - [Sample Problems](#sample-problems)
@@ -616,30 +615,6 @@ MinHeap.prototype.bubbleDown = function () {
     }
     this.swap(smallerIndex, index);
     index = smallerIndex;
-  }
-}
-```
-
-### Backtracking
-
-```js
-function permute(nums) {
-  let result = []
-  backtracking(result, [], nums) 
-  return result
-}
-
-const backtracking = (result, current, nums) => {
-  if (current.length === nums.length) {
-    result.push([...current])
-  } else {
-    for (let i = 0; i < nums.length; i++) {
-      if (current.includes(nums[i])) continue
-      
-      current.push(nums[i])
-      backtracking(result, current, nums)
-      current.pop()
-    }
   }
 }
 ```
@@ -1269,6 +1244,28 @@ var permute = function(nums) {
   }
 
   backtrack();
+  return result;
+};
+```
+
+Given an integer array nums of unique elements, return all possible subsets.
+
+```js
+var subsets = function(nums) {
+  const result = [];
+  const subset = [];
+  
+  function backtrack(start) {
+    result.push([...subset]);
+    
+    for (let i = start; i < nums.length; i++) {
+      subset.push(nums[i]);
+      backtrack(i + 1);
+      subset.pop();
+    }
+  }
+  
+  backtrack(0);
   return result;
 };
 ```
