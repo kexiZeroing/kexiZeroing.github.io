@@ -1,7 +1,7 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Algorithm basics and LeetCode problems"
-slug: algorithm-basics-and-leetcode-problems
+title: "Algorithm basics and sample problems"
+slug: algorithm-basics-and-sample-problems
 description: ""
 added: ""
 top: true
@@ -28,7 +28,7 @@ updatedDate: "Aug 6 2024"
 - [Backtracking](#backtracking)
 - [DP](#dp)
 - [LRU](#lru)
-- [LeetCode Problems](#leetcode-problems)
+- [Sample Problems](#sample-problems)
 
 ### Binary Search
 
@@ -804,7 +804,7 @@ LRUCache.prototype.put = function(key, value) {
 }
 ```
 
-### LeetCode Problems
+### Sample Problems
 
 Given a non-empty array of integers, return the `k` most frequent elements.
 
