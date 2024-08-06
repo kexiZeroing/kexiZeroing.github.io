@@ -1165,50 +1165,45 @@ async function parallel() {
 ## What is a JavaScript test
 
 ```js
-// math.js
-const sum = (a, b) => a + b
-const subtract = (a, b) => a - b
+import { assert, describe, expect, it } from 'vitest'
 
-module.exports = {sum, subtract}
+describe('suite name', () => {
+  it('foo', () => {
+    assert.equal(Math.sqrt(4), 2)
+  })
 
-// test.js
-const {sum, subtract} = require('./math')
-
-test('sum adds numbers', () => {
-  const result = sum(3, 7)
-  const expected = 10
-  expect(result).toBe(expected)
+  it('bar', () => {
+    expect(1 + 1).eq(2)
+  })
 })
-
-test('subtract subtracts numbers', () => {
-  const result = subtract(7, 3)
-  const expected = 4
-  expect(result).toBe(expected)
-})
-
-function test(title, callback) {
-  try {
-    callback()
-    console.log(`✓ ${title}`)
-  } catch (error) {
-    console.error(`✕ ${title}`)
-    console.error(error)
-  }
-}
-
-function expect(actual) {
-  return {
-    toBe(expected) {
-      if (actual !== expected) {
-        throw new Error(`${actual} is not equal to ${expected}`)
-      }
-    },
-  }
-}
 ```
 
-Instead of building our own framework, [Jest](https://jestjs.io) is a JavaScript testing framework built on top of Jasmine and maintained by Meta. It works out of the box for most JavaScript projects.
+```js
+import { expect, test } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import { userEvent } from '@testing-library/user-event'
+import Link from '../components/Link.jsx'
 
-- Jest finds tests, runs the tests, and determines whether the tests passed or failed. Additionally, it offers functions for test suites, test cases, and assertions.
-- Vitest is a popular alternative to Jest, especially when being used in Vite. It also comes with a test runner, test suites (describe-block), test cases (it-block), and assertions (e.g. expect).
+test('Link changes the state when hovered', async () => {
+  render(
+    <Link page="http://antfu.me">Anthony Fu</Link>,
+  )
+
+  const link = screen.getByText('Anthony Fu')
+
+  expect(link).toHaveAccessibleName('Link is normal')
+
+  await userEvent.hover(link)
+
+  expect(link).toHaveAccessibleName('Link is hovered')
+
+  await userEvent.unhover(link)
+
+  expect(link).toHaveAccessibleName('Link is normal')
+})
+```
+
+- [Jest](https://jestjs.io) is a JavaScript testing framework built on top of Jasmine and maintained by Meta. It works out of the box for most JavaScript projects. Jest finds tests, runs the tests, and determines whether the tests passed or failed. Additionally, it offers functions for test suites, test cases, and assertions.
+- [Vitest](https://vitest.dev) is a popular alternative to Jest, especially when being used in Vite. It also comes with a test runner, test suites (describe-block), test cases (it-block), and assertions (expect).
 - [React Testing Library](https://github.com/testing-library/react-testing-library) is not a test runner. It provides virtual DOMs for testing React components. If you are using create-react-app, Jest and React Testing Library comes by default with the installation. Enzyme and React Testing Library are two similar things and alternatives to each other.
+- [Playwright](https://github.com/microsoft/playwright) enables reliable end-to-end testing for modern web apps. It allows testing Chromium, Firefox and WebKit with a single API. Playwright is built to enable cross-browser web automation. Headless execution is supported for all browsers on all platforms.
