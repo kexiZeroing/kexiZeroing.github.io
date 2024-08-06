@@ -5,7 +5,7 @@ slug: js-basics-you-should-know
 description: ""
 added: "Aug 3 2020"
 tags: [js]
-updatedDate: "Mar 2 2024"
+updatedDate: "Aug 6 2024"
 ---
 
 > You can read this post together with [JavaScript Questions](https://github.com/lydiahallie/javascript-questions) created by @lydiahallie to test how well you know JavaScript.
@@ -887,7 +887,6 @@ p().then(function(value) {
 const promiseA = new Promise((resolve, reject) => {
   resolve(777);
 });
-// At this point, "promiseA" is already settled
 promiseA.then(val => console.log("asynchronous logging has val:", val));
 console.log("immediate logging");
 ```
@@ -964,7 +963,7 @@ Promise.all([p1, p2, p3]).then(values => {
   console.log(values);  // [3, 1337, "foo"] 
 });
 
-function loadImg(src){
+function loadImg(src) {
   return new Promise((resolve, reject) => {
     let img = document.createElement('img');
     img.src = src;
@@ -973,8 +972,8 @@ function loadImg(src){
   })
 }
 
-function showImgs(imgs){
-  imgs.forEach(function(img){
+function showImgs(imgs) {
+  imgs.forEach(function(img) {
     document.body.appendChild(img)
   })
 }
@@ -1058,10 +1057,10 @@ Promise with the concurrency control: https://github.com/sindresorhus/promise-fu
 import pMap from 'p-map';
 
 const urls = [
-	'https://sindresorhus.com',
-	'https://avajs.dev',
-	'https://github.com',
-	...
+  'https://sindresorhus.com',
+  'https://avajs.dev',
+  'https://github.com',
+  ...
 ];
 
 const mapper = url => fetchStats(url); //=> Promise
@@ -1070,10 +1069,96 @@ const result = await pMap(urls, mapper, {concurrency: 5});
 console.log(result);
 ```
 
+Implement a basic JavaScript Promise class from scratch, including the ability to resolve, reject, and chain promises using `.then()` and `.catch()` methods.
+
+```js
+class MyPromise {
+  constructor(executor) {
+    this.state = 'pending';
+    this.value = undefined;
+    this.callbacks = [];
+
+    const resolve = (value) => {
+      if (this.state === 'pending') {
+        this.state = 'fulfilled';
+        this.value = value;
+        this.callbacks.forEach(callback => this._handleCallback(callback));
+      }
+    };
+
+    const reject = (reason) => {
+      if (this.state === 'pending') {
+        this.state = 'rejected';
+        this.value = reason;
+        this.callbacks.forEach(callback => this._handleCallback(callback));
+      }
+    };
+
+    try {
+      executor(resolve, reject);
+    } catch (error) {
+      reject(error);
+    }
+  }
+
+  _handleCallback(callback) {
+    const { onFulfilled, onRejected, resolve, reject } = callback;
+
+    if (this.state === 'fulfilled') {
+      if (typeof onFulfilled === 'function') {
+        try {
+          const result = onFulfilled(this.value);
+          resolve(result);
+        } catch (error) {
+          reject(error);
+        }
+      } else {
+        resolve(this.value);
+      }
+    } else if (this.state === 'rejected') {
+      if (typeof onRejected === 'function') {
+        try {
+          const result = onRejected(this.value);
+          resolve(result);
+        } catch (error) {
+          reject(error);
+        }
+      } else {
+        reject(this.value);
+      }
+    }
+  }
+
+  then(onFulfilled, onRejected) {
+    return new MyPromise((resolve, reject) => {
+      const callback = { onFulfilled, onRejected, resolve, reject };
+      
+      if (this.state === 'pending') {
+        this.callbacks.push(callback);
+      } else {
+        this._handleCallback(callback);
+      }
+    });
+  }
+
+  catch(onRejected) {
+    return this.then(null, onRejected);
+  }
+
+  static resolve(value) {
+    return new MyPromise(resolve => resolve(value));
+  }
+
+  static reject(reason) {
+    return new MyPromise((_, reject) => reject(reason));
+  }
+}
+```
+
 ## async and await
 Async functions can contain zero or more `await` expressions. Await expressions suspend progress through an async function, yielding control and subsequently resuming progress only when an awaited promise-based asynchronous operation is either fulfilled or rejected. **The resolved value of the promise is treated as the return value of the await expression**. 
 
-- Async functions always return a promise. If the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise.
+- **Async functions always return a promise**. If the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise.
 - You can use await with any function which returns a promise. The function you're awaiting doesn't need to be async necessarily.
 - The `await` keyword is only valid inside async functions.
 - Use of `async / await` enables the use of ordinary `try / catch` blocks around asynchronous code.

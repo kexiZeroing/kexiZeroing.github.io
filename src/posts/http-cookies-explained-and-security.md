@@ -79,6 +79,8 @@ A common technique for preventing XSS vulnerabilities is "escaping". The purpose
 A good test string is `>'>"><img src=x onerror=alert(0)>`. If your application doesn't correctly escape this string, you will see an alert and will know that something went wrong. [The Big List of Naughty Strings](https://github.com/minimaxir/big-list-of-naughty-strings) is a list of strings which have a high probability of causing issues when used as user-input data.
 
 > We do not recommend that you manually escape user-supplied data. Instead, we strongly recommend that you use a templating system or web development framework that provides context-aware auto-escaping. If this is impossible for your website, use existing libraries (e.g., [DOMPurify](https://github.com/cure53/DOMPurify), [escape-html](https://github.com/component/escape-html)) that are known to work, and apply them consistently to all user-supplied data.
+>
+> For example in Vue, whether using templates or render functions, content is automatically escaped. [vue-dompurify-html](https://github.com/LeSuisse/vue-dompurify-html/tree/main/packages/vue-dompurify-html) is a "safe" replacement for the `v-html` directive. The HTML code is sanitized with DOMPurify before being interpreted.
 
 It’s recommended to avoid storing any sensitive information in local storage where authentication would be assumed. You can trivially read all data stored in local storage with `Object.entries(localStorage)`. This means if your website is vulnerable to XSS attacks, where a third party can run arbitrary scripts, your users’ tokens can be easily stolen. Cookies, on the other hand, can’t be read by client-side JS if you add the `HttpOnly` flag.
 

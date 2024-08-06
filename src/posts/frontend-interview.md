@@ -102,7 +102,7 @@ Promise._resolve = function (value) {
 };
 ```
 
-3. 列表转成树形结构
+3. Convert a list of objects into a tree.
 
 ```js
 let list = [
