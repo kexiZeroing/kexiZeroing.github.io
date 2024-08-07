@@ -7,7 +7,7 @@ added: "Aug 7 2024"
 tags: [code]
 ---
 
-This is a text version of [Tejas Kumar's video, "How to run MySQL locally and query it with Express"](https://www.youtube.com/watch?v=lnmldUslD1U).
+This is a text version of Tejas Kumar's video, ["How to run MySQL locally and query it with Express"](https://www.youtube.com/watch?v=lnmldUslD1U).
 
 ```sh
 # allowing MySQL to start without a root password
@@ -76,9 +76,31 @@ import { PrismaClient } from "@prisma/client";
 const app = express();
 const client = new PrismaClient();
 
-app.get("/", async (req, res) => {
+app.use(express.json());
+
+app.get("/todos", async (req, res) => {
   const todos = await client.todos.findMany();
   res.json(todos);
+});
+
+app.get("/todos/:id", async (req, res) => {
+  const { id } = req.params;
+  const todo = await client.todos.findUnique({
+    where: { id: parseInt(id) },
+  });
+  if (todo) {
+    res.json(todo);
+  } else {
+    res.status(404).json({ error: "Todo not found" });
+  }
+});
+
+app.post("/todos", async (req, res) => {
+  const { label } = req.body;
+  const newTodo = await client.todos.create({
+    data: { label },
+  });
+  res.status(201).json(newTodo);
 });
 
 app.listen(3000, () => {
