@@ -473,3 +473,5 @@ npx tsc --init
 How to run ts files from command line? There is [ts-node](https://github.com/TypeStrong/ts-node) that will compile the code and REPL for node.js: `npx ts-node src/foo.ts`. `tsc` writes js to disk. `ts-node` doesn't need to do that and runs ts on the fly.
 
 `ts-node/register` is used for registering the TypeScript compiler (`ts-node`) to handle the compilation of TypeScript files on the fly. When you run a Node.js application written in TypeScript, the TypeScript code needs to be transpiled into JavaScript before it can be executed by the Node.js runtime. The `ts-node/register` module helps simplify this process by allowing you to execute TypeScript files directly without explicitly precompiling them.
+
+> Run JS/TS file on Node.js using Vite's resolvers and transformers: `npx vite-node index.ts`. [vite-node](https://www.npmjs.com/package/vite-node) is the engine that powers Vitest and Nuxt 3 Dev SSR. It supports ESM & TypeScript out of the box.

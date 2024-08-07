@@ -192,8 +192,8 @@ Use `multipart/form-data` when your form includes any `<input type="file">` elem
 
     ```js
     app.use(express.json());
-    // Parsing the URL-encoded data with the `querystring` library (when false) or the `qs` library (when true).
-    // To be simple,`querystring` cannot parse nested object.
+    // Parsing the URL-encoded data with the `querystring` library (when false) or the `qs` library (when true). To be simple,`querystring` cannot parse nested object.
+    // test the differences: https://stackblitz.com/edit/node-xa27zd?file=index.js
     app.use(express.urlencoded({ extended: false }));
     ```
 
