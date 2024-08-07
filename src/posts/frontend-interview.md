@@ -234,7 +234,32 @@ function render(vnode) {
 }
 ```
 
-8. How to add two big integers in js?
+8. Implement the functionality of `lodash.get`.
+```js
+// _.get(object, path, [defaultValue])
+function get(obj, path, defaultValue = undefined) {
+  const keys = Array.isArray(path) ? path : path.split('.');
+  let result = obj;
+  
+  for (const key of keys) {
+    if (result == null || typeof result !== 'object') {
+      return defaultValue;
+    }
+    result = result[key];
+  }
+  
+  return result === undefined ? defaultValue : result;
+}
+
+// test
+const obj = { a: { b: { c: 42 } } };
+console.log(get(obj, 'a.b.c')); // 42
+console.log(get(obj, ['a', 'b', 'c'])); // 42
+console.log(get(obj, 'a.b.d', 'default')); // 'default'
+console.log(get(obj, 'x.y.z', 'not found')); // 'not found'
+```
+
+9.  How to add two big integers in js?
 ```js
 function add(A, B) {
   const AL = A.length

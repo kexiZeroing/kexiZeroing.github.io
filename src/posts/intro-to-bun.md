@@ -246,3 +246,5 @@ export default {
   fetch: app.fetch
 };
 ```
+
+> Hono supports TypeScript as a first-class. One of Hono’s unique features is its [RPC](https://hono.dev/docs/guides/rpc) capability, which allows the server and client to share specifications using TypeScript types. This is something other frameworks don’t typically offer.

@@ -286,6 +286,8 @@ Handler functions are sometimes called traps, because they trap calls to the und
 | [[Construct]]         | construct()                 |
 
 ```js
+// The target object can be any sort of object,
+// including a native array, a function, or even another proxy.
 const p = new Proxy(
   {},
   {
