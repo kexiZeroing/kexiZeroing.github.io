@@ -5,7 +5,7 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Aug 3 2024"
+updatedDate: "Aug 8 2024"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
@@ -342,6 +342,33 @@ type URLObject = {
 function loadFile<Formats extends URLObject>(fileFormats: Formats, format: keyof Formats)
 ```
 
+### Declaring global variables
+If you try to access `window.__INITIAL_DATA__` in a TypeScript file, the compiler will produce a type error because it can't find a definition of the `__INITIAL_DATA__` property anywhere.
+
+```ts
+// Example comes from https://mariusschulz.com/blog/declaring-global-variables-in-typescript
+type InitialData = {
+  userID: string;
+};
+
+// 1. Declare a global variable using the `declare var` syntax
+// declare a global variable in the global scope 
+declare global {
+  var __INITIAL_DATA__: InitialData;
+}
+
+// or create a `globals.d.ts` file
+declare var __INITIAL_DATA__: InitialData;
+
+
+// 2. Augment the window interface
+declare global {
+  interface Window {
+    __INITIAL_DATA__: InitialData;
+  }
+}
+```
+
 ### How to use @ts-expect-error
 `@ts-expect-error` lets you specify that an error will occur on the next line of the file, which is helpful letting us be sure that an error will occur. If `@ts-expect-error` doesn't find an error, it will source an error itself *(Unused '@ts-expect-error' directive)*.
 
@@ -470,8 +497,6 @@ npx tsc --init
 
 > Make sure you’re using Node >=20.6 — it’s required for some of the flags used in this setup. The `--watch` flag was added in Node v18.11.0. The `--env-file` flag was added in Node v20.6.0.
 
-How to run ts files from command line? There is [ts-node](https://github.com/TypeStrong/ts-node) that will compile the code and REPL for node.js: `npx ts-node src/foo.ts`. `tsc` writes js to disk. `ts-node` doesn't need to do that and runs ts on the fly.
-
-`ts-node/register` is used for registering the TypeScript compiler (`ts-node`) to handle the compilation of TypeScript files on the fly. When you run a Node.js application written in TypeScript, the TypeScript code needs to be transpiled into JavaScript before it can be executed by the Node.js runtime. The `ts-node/register` module helps simplify this process by allowing you to execute TypeScript files directly without explicitly precompiling them.
+How to run ts files from command line? There is [ts-node](https://github.com/TypeStrong/ts-node) that will compile the code and REPL for node.js: `npx ts-node src/foo.ts`. `tsc` writes js to disk. `ts-node` doesn't need to do that and runs ts on the fly. But it's not typechecking your code. So we recommend to type check your code first with `tsc` and then run it with `ts-node` before shipping it.
 
 > Run JS/TS file on Node.js using Vite's resolvers and transformers: `npx vite-node index.ts`. [vite-node](https://www.npmjs.com/package/vite-node) is the engine that powers Vitest and Nuxt 3 Dev SSR. It supports ESM & TypeScript out of the box.

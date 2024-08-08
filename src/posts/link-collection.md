@@ -30,7 +30,7 @@ Modern JavaScript-based web development: https://fullstackopen.com
 
 Bash Commands and Tips: https://dev.to/awwsmm/101-bash-commands-and-tips-for-beginners-to-experts-30je
 
-Learn Node.js: https://nodejs.dev/en/learn
+Learn Node.js: https://nodejs.org/en/learn
 
 Learn Node.js by building a backend framework: https://github.com/ishtms/learn-nodejs-hard-way
 

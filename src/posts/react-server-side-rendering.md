@@ -517,6 +517,7 @@ function reviveJSX(key, value) {
 Must-read articles on React Server Components: 
 - https://www.joshwcomeau.com/react/server-components
 - https://github.com/reactwg/server-components/discussions/5
+- https://www.youtube.com/watch?v=ozI4V_29fj4
 
 ## What are Server Actions
 React Server Actions allow you to run asynchronous code directly on the server. They eliminate the need to create API endpoints to mutate your data. Instead, you write asynchronous functions that execute on the server and can be invoked from your Client or Server Components.

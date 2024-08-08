@@ -1,12 +1,14 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Run MySQL locally and query it with Express"
-slug: run-mysql-locally-and-query-it-with-express
+title: "Run MySQL locally and manipulate Node.js files"
+slug: run-mysql-locally-and-manipulate-nodejs-files
 description: ""
 added: "Aug 7 2024"
 tags: [code]
+updatedDate: "Aug 8 2024"
 ---
 
+## Run MySQL locally and query it with Express
 This is a text version of Tejas Kumar's video, ["How to run MySQL locally and query it with Express"](https://www.youtube.com/watch?v=lnmldUslD1U).
 
 ```sh
@@ -106,4 +108,57 @@ app.post("/todos", async (req, res) => {
 app.listen(3000, () => {
   console.log("Server started on http://localhost:3000");
 });
+```
+
+## Manipulate Node.js files
+The `node:fs` module enables interacting with the file system in a way modeled on standard POSIX functions. You can either use the callback APIs or use the promise-based APIs.
+
+```js
+import fs from 'node:fs/promises';
+try {
+  const stats = await fs.stat('/Users/joe/test.txt');
+  stats.isFile(); // true
+  stats.isDirectory(); // false
+  stats.isSymbolicLink(); // false
+  stats.size; // 1024000 //= 1MB
+} catch (err) {
+  console.log(err);
+}
+```
+
+```js
+import fs from 'node:fs';
+fs.readFile('/Users/joe/test.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log(data);
+});
+
+import fs from 'node:fs/promises';
+try {
+  const data = await fs.readFile('/Users/joe/test.txt', { encoding: 'utf8' });
+  console.log(data);
+} catch (err) {
+  console.log(err);
+}
+```
+
+```js
+const fs = require('node:fs/promises');
+try {
+  const content = 'Some content!';
+  await fs.writeFile('/Users/joe/test.txt', content);
+} catch (err) {
+  console.log(err);
+}
+
+const fs = require('node:fs/promises');
+try {
+  const content = 'Some content!';
+  await fs.appendFile('/Users/joe/test.txt', content);
+} catch (err) {
+  console.log(err);
+}
 ```
