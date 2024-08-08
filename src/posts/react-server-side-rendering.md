@@ -519,7 +519,7 @@ Must-read articles on React Server Components:
 - https://github.com/reactwg/server-components/discussions/5
 - https://www.youtube.com/watch?v=ozI4V_29fj4
 
-## What are Server Actions
+## React Server Actions
 React Server Actions allow you to run asynchronous code directly on the server. They eliminate the need to create API endpoints to mutate your data. Instead, you write asynchronous functions that execute on the server and can be invoked from your Client or Server Components.
 
 An advantage of invoking a Server Action within a Server Component is progressive enhancement - forms work even if JavaScript is disabled on the client.
@@ -538,3 +538,84 @@ export default function Page() {
 ```
 
 Behind the scenes, Server Actions create a POST API endpoint. This is why you don't need to create API endpoints manually when using Server Actions. *(Server actions let us put our API endpoint back into the component boundary in the same way that server components let us move `getServerSideProps` into the component boundary.)*
+
+## React 19 `useActionState` and `useFormStatus`
+React 19 has a built-in mechanism for handling forms called "actions". Below example from [Shruti Kapoor's video](https://www.youtube.com/watch?v=ExZUdkfu-KE) shows how to convert a form from React 18 to React 19.
+
+- There’s no need to add `event.preventDefault` because that’s handled for us by React.
+- The `action` is automatically treated as a transition.
+- We can hook into the pending state of this action using `useFormStatus`.
+- React manages errors and race conditions to ensure our form’s state is always correct.
+
+```js
+// React 18
+function App() {
+  const [name, setName] = useState("");
+  const [isPending, setIsPending] = useState("");
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setIsPending(true);
+    setTimeout(() => {
+      // call API
+      setIsPending(false);
+    }, [1000]);
+  };
+
+  return (
+    <form>
+      <input type="text" name="name" onChange={handleChange} />
+      { isPending ? <p>{"Loading"}</p> : <p> Hello in React 18 {name}</p> }
+      <button onClick={handleSubmit} disabled={isPending}>
+        Update
+      </button>
+    </form>
+  );
+}
+```
+
+```js
+// React 19
+function RenderName({ name }) {
+  // https://react.dev/reference/react-dom/hooks/useFormStatus
+  // The `useFormStatus` hook only returns status information for a parent <form>
+  const { pending } = useFormStatus();
+  return <div>{pending ? "Loading" : `Hello in React 19 ${name}` }</div>;
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button type="submit" disabled={pending}>
+      Update
+    </button>
+  );
+}
+
+function App() {
+  // https://react.dev/reference/react/useActionState
+  // You pass `useActionState` an existing form action function as well as an initial state,
+  // and it returns a new action that you use in your form, along with the latest form state.
+  // The latest form state is also passed to the function that you provided.
+  const [state, formAction] = useActionState(submitFormAction, { name: "" });
+
+  return (
+    <form action={formAction}>
+      <input type="text" name="inputName" />
+      <RenderName name={state?.name} />
+      <SubmitButton /> 
+    </form>
+  );
+}
+
+// actions.js
+export const submitFormAction = async (previousState, formData) => {
+  const name = formData.get("name");
+  await new Promise((res) => setTimeout(res, 1000));
+  return { ...previousState, name: name };
+};
+```
