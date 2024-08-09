@@ -621,6 +621,8 @@ URI 中尽量使用连字符 `-` 代替下划线 `_` 的使用，连字符用来
   3. 与 HTML 元素不同的是，Fetch API 的 mode 的默认值是 cors；当你发送一个状态为 no-cors 的跨域请求，会发现返回的 response body 是空，也就是说，虽然请求成功，但仍然无法访问返回的资源。
   4. Unlike classic scripts, module scripts (`<script type="module"`>) require the use of the CORS protocol for cross-origin fetching.
 
+- 防止重复提交：前端防抖，按钮点击后立即禁用。后端接口幂等性设计。
+
 ### 桌面端 Electron 的本地构建过程
 Electron是一个集成项目，允许开发者使用前端技术开发桌面端应用。其中 **Chromium 基础能力**可以让应用渲染 HTML 页面，执行页面的 JS 脚本，让应用可以在 Cookie 或 LocalStorage 中存取数据。Electron 还继承了 Chromium 的多进程架构，分一个主进程和多个渲染进程，主进程进行核心的调度启动，不同的 GUI 窗口独立渲染，做到进程间的隔离，进程与进程之间实现了 IPC 通信。**Node.js 基础能力**可以让开发者读写本地磁盘的文件，通过 socket 访问网络，创建和控制子进程等。**Electron 内置模块**可以支持创建操作系统的托盘图标，访问操作系统的剪切板，获取屏幕信息，发送系统通知，收集崩溃报告等。
 

@@ -5,7 +5,7 @@ slug: http-connection-caching-http2
 description: ""
 added: "Nov 20 2022"
 tags: [web]
-updatedDate: "July 21 2024"
+updatedDate: "Aug 9 2024"
 ---
 
 ## Connection management
@@ -16,6 +16,17 @@ The original model of HTTP, and the default one in HTTP/1.0, is **short-lived co
 A **persistent connection**, also called keep-alive connection, remains open for a period of time, and can be reused for several requests, saving the need for a new TCP handshake. To put it simply, the HTTP server doesn't close the TCP connection after each response but waits some time if some other HTTP request will come over it too. The connection will not stay open forever: idle connections are closed after some time. *For example, Nginx `keepalive_timeout` is the time where the server will keep an idle connection open. If you send a request and then do nothing on this connection, the server will shutdown the connection at 75s after your previous request.* In HTTP/1.1, persistence is the default and the connection header is no longer needed, unless the client explicitly asks the server to close the connection by including a `Connection: close` header in its request, or the server decides to includes a `Connection: close` header in its response.
 
 Connection headers are prohibited in HTTP/2 and HTTP/3.
+
+### HTTP pipelining
+**Head of Line blocking** in HTTP terms is often referring to the fact that each client has a limited number of connections to a server and doing a new request over one of those connections has to wait for the ones to complete before it can fire it off.
+
+By default, HTTP requests are issued sequentially. HTTP/1.1 introduced the concept of pipelining so you could send more requests while you were waiting. It allows multiple HTTP requests to be sent over a single TCP connection without waiting for the corresponding responses.
+
+- Non-idempotent requests such as POST should not be pipelined.
+- HTTP pipelining was disabled or not implemented in modern browsers.
+- This technique has been superseded by multiplexing, that is used by HTTP/2.
+
+> HTTP/2 does however still suffer from another kind of HOL, namely on the TCP level. One lost packet in the TCP stream makes all streams wait until that packet is re-transmitted and received. This HOL is being addressed with the QUIC protocol. HTTP/3 is being done over QUIC instead of TCP.
 
 ### Domain sharding
 In HTTP/1.x, the browser naively queue all HTTP requests on the client, sending one after another over a single, persistent connection. However, this is too slow. Hence, the browser vendors are left with no other choice than to **open multiple TCP sessions in parallel**. How many? In practice, most modern browsers, both desktop and mobile, open up to six connections per host. *(The higher the limit, the higher the client and server overhead, but at the additional benefit of higher request parallelism. Six connections per host is simply a safe middle ground.)*

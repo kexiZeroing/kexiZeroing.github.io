@@ -10,6 +10,8 @@ updatedDate: "Jun 30 2023"
 
 When it comes to the Web, almost every modern browser supports viewing of PDF documents natively *(the simplest way to embed a PDF into a web page is to use the `<object type="application/pdf">` tag.)* But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership.
 
+> You can deeplink to a specific PDF page by appending `#page=X` to your URL, where X is a placeholder for the page you want to link to.
+
 [PDF.js](https://github.com/mozilla/pdf.js), created by Mozilla Labs, which can render PDF documents in your browser. Most importantly, you as a developer have full control over rendering the PDF document’s pages as per your requirements. But integrating it isn’t as straightforward as it might seem. There is little documentation available on how to integrate certain features like rendering text-layers or annotations, and supporting password protected files.
 
 `pdf.js` and `pdf.worker.js` are two main files required by PDF.js, which contain methods to fetch, parse and render a PDF document. `pdf.js` is the main library, which essentially has methods to fetch a PDF document from some URL. PDF.js relies heavily on Web Workers to provide a performance boost by moving CPU-heavy operations, like parsing and rendering, off of the main thread.
