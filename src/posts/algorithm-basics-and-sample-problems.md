@@ -1120,16 +1120,16 @@ function getSquareRoot(num) {
 
   while (i <= j) {
     let mid = Math.floor((i + j) / 2);
-    if (mid * mid <= num) {
-      // get a possible answer and continue
-      ans = mid;
+    if (mid * mid === num) {
+      return mid;
+    } else if (mid * mid < num) {
       i = mid + 1;
     } else {
       j = mid - 1;
     }
   }
 
-  return ans
+  return ans;
 }
 
 function checkPerfectSquare(num) {
@@ -1139,16 +1139,16 @@ function checkPerfectSquare(num) {
   while (i <= j) {
     let mid = Math.floor((i + j) / 2);
     if (mid * mid === num) {
-      return true
+      return true;
     }
     if (mid * mid < num) {
-      i = mid + 1 
+      i = mid + 1;
     } else {
-      j = mid - 1
+      j = mid - 1;
     }
   }
 
-  return false
+  return false;
 }
 ```
 
@@ -1174,28 +1174,26 @@ Given n non-negative integers representing an elevation map where the width of e
 
 ```js
 var trap = function(height) {
-  // two pointers
-  let i = 0;
-  let j = height.length - 1;
-  // maximum height encountered from the left and right
-  // ("walls" that can potentially trap water)
-  let left = height[0];
-  let right = height[j];
-  let sum = 0;
+  const stack = [];
+  let res = 0;
 
-  while (i < j) {
-    if (left <= right) {
-      // this is the water trapped above the current bar
-      sum += left - height[i];
-      i++;
-      left = Math.max(left, height[i]);
-    } else {
-      sum += right - height[j];
-      j--;
-      right = Math.max(right, height[j]);
+  for (let i = 0; i < height.length; i++) {
+    const curH = height[i];
+    while (stack.length && curH > height[stack[stack.length - 1]]) {
+      const preIndex = stack.pop();
+
+      if (stack.length) {
+        // i -> right boundary
+        // stack[stack.length - 1] -> left boundary
+        const heightVal = Math.min(height[stack[stack.length - 1]], curH) - height[preIndex];
+        const length = i - stack[stack.length - 1] - 1;
+        res += heightVal * length;
+      }
     }
+    stack.push(i);
   }
-  return sum;
+
+  return res;
 };
 ```
 
@@ -1225,27 +1223,28 @@ Given an array nums of distinct integers, return all the possible permutations. 
 ```js
 var permute = function(nums) {
   const result = [];
-  const path = [];
-  const used = new Array(nums.length).fill(false);
-
-  function backtrack() {
+    
+  function backtrack(path) {
     if (path.length === nums.length) {
       result.push([...path]);
       return;
     }
+    
     for (let i = 0; i < nums.length; i++) {
-      if (used[i]) continue;
-      path.push(nums[i]);
-      used[i] = true;
-      backtrack();
+      const num = nums[i];
+      if (path.includes(num)) continue;
+      path.push(num);
+      backtrack(path);
       path.pop();
-      used[i] = false;
     }
   }
-
-  backtrack();
+    
+  backtrack([]);
   return result;
 };
+
+// Time complexity: O(n!)
+// Space complexity: O(n)
 ```
 
 Given an integer array nums of unique elements, return all possible subsets.
@@ -1274,9 +1273,11 @@ Given a binary search tree (BST), find the lowest common ancestor node of two gi
 
 ```js
 var lowestCommonAncestor = function(root, p, q) {
+  // If root is the LCA node, p and q should be at different side
+
   // (root.val - p.val) * (root.val - q.val) > 0, means p, q at same side
   // (root.val - p.val) * (root.val - q.val) < 0, means p, q at different side
-  while (root.value - p.value > 0 && root.value - q.value > 0) {
+  while ((root.val - p.val) * (root.val - q.val) > 0) {
     if (p.val < root.val) {
       root = root.left;
     } else {
@@ -1284,24 +1285,6 @@ var lowestCommonAncestor = function(root, p, q) {
     }
   }
   
-  return root;
-};
-```
-
-Construct binary tree from pre-order and in-order traversal.
-
-```js
-var buildTree = function(preorder, inorder) {
-  if (preorder.length === 0) {
-     return null;
-  }
-
-  const root = new TreeNode(preorder[0]);
-  const mid = inorder.indexOf(preorder[0]);
-
-  root.left = buildTree(preorder.slice(1, mid + 1), inorder.slice(0, mid));
-  root.right = buildTree(preorder.slice(mid + 1), inorder.slice(mid + 1));
-
   return root;
 };
 ```
@@ -1319,6 +1302,25 @@ var isValidBST = function(root) {
   }
 
   return helper(root, -Infinity, Infinity);
+};
+```
+
+Construct binary tree from pre-order and in-order traversal.
+
+```js
+var buildTree = function(preorder, inorder) {
+  if (preorder.length === 0) {
+    return null;
+  }
+
+  const root = new TreeNode(preorder[0]);
+  const mid = inorder.indexOf(preorder[0]);
+
+  // the # of elements in the left subtree is the same in both traversals
+  root.left = buildTree(preorder.slice(1, mid + 1), inorder.slice(0, mid));
+  root.right = buildTree(preorder.slice(mid + 1), inorder.slice(mid + 1));
+
+  return root;
 };
 ```
 
