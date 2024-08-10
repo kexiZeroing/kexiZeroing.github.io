@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Aug 6 2024"
+updatedDate: "Aug 10 2024"
 ---
 
 ### TOC
@@ -18,7 +18,6 @@ updatedDate: "Aug 6 2024"
 - [Quick Sort](#quick-sort)
 - [Merge Sort](#merge-sort)
 - [Linked List](#linked-list)
-- [Count Sort](#count-sort)
 - [Undo/Redo stacks](#undoredo-stacks)
 - [Shuffle an array](#shuffle-an-array)
 - [Traverse Binary Tree](#traverse-binary-tree)
@@ -264,29 +263,6 @@ function reverseList(head) {
   }
 
   return prev;
-}
-```
-
-### Count Sort
-
-```js
-function countSort(arr, min, max) {
-  let i = min, j = 0, count = [];
-
-  for (i; i <= max; i++) {
-    count[i] = 0;
-  }
-  for (i = 0; i < arr.length; i++) {
-    count[arr[i]] += 1;
-  }
-  for (i = min; i <= max; i++) {
-    while (count[i] > 0) {
-      arr[j] = i;
-      j++;
-      count[i]--;
-    }
-  }
-  return arr;
 }
 ```
 
