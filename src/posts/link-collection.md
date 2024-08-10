@@ -310,6 +310,8 @@ Open Source Tailwind components tailored for your AI and GPT: https://github.com
 
 Converting any layout you have to drag-to-swap layout: https://github.com/TahaSh/swapy
 
+Drag and drop for any experience on any tech stack: https://github.com/atlassian/pragmatic-drag-and-drop
+
 ---
 
 ## React ecosystem

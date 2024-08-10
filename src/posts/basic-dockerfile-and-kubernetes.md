@@ -16,6 +16,8 @@ Docker Engine is the core product of Docker, including its daemon (dockerd) as w
 - Docker Client is the command line tool that allows the user to interact with the daemon.
 - Docker desktop is using a Linux virtual machine behind the scenes for running regular docker daemon. Docker Desktop can be used either on it’s own or as a complementary tool to the CLI.
 
+The build context is the set of files and directories that are accessible to the Docker engine when building an image. When you run a `docker build` command, Docker sends the content of the specified context directory (and its subdirectories) to the Docker daemon. This context forms the scope within which the `COPY` and `ADD` instructions operate.
+
 Docker-compose is a tool that accepts a YAML file that specifies a cross container application and automates the creation and removal of all those containers without the need to write several docker commands for each one.
 
 ## A Dockerfile for a NodeJS application
@@ -50,6 +52,8 @@ WORKDIR /usr/src/app
 3. COPY our `package.json` and `package-lock.json` files separate from the source code. Docker images are cached at each layer. When building an image, Docker steps through the instructions in the Dockerfile, executing each in the order specified. As each instruction is examined, Docker looks for an existing image in its cache that it can reuse, rather than creating a new, duplicate image. This way, `RUN npm install` is only re-executed if the `package.json` or `package-lock.json` files have changed.
 
 > For the `ADD` and `COPY` instructions, the contents of each file in the image are examined and a checksum is calculated for each file. Aside from the `ADD` and `COPY` commands, just the command string itself is used to find a match. Once the cache is invalidated, all subsequent Dockerfile commands generate new images and the cache isn’t used.
+>
+> In addition to copying local files and directories from the build context (which `COPY` supports), `ADD` handles URL references and extract archives. For most use cases, `COPY` is the better choice due to its simplicity and security.
 
 ```dockerfile
 FROM node:19.7.0-bullseye-slim

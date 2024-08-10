@@ -164,11 +164,20 @@ function uniq(a) {
 - JSON.parse(JSON.stringify(arr))  // deep clone
 - structuredClone(arr)  // deep clone, works across the latest browser versions
 
-Note that `JSON.parse(JSON.stringify(arr))` depends upon JSON, it also inherits its limitations. `undefined`, `Function`, and `Symbol` are not valid JSON values. If any such values are encountered during the stringify conversion, they are either omitted (when found in an object) or changed to `null` (when found in an array).
+Note that `JSON.parse(JSON.stringify(arr))` depends upon JSON, it also inherits its limitations. `undefined`, `Function`, and `Symbol` are not valid JSON values. If any such values are encountered during the stringify conversion, they are either omitted (when found in an object) or changed to `null` (when found in an array). Btw, Dates will be turned into strings, Sets and Maps would be converted to empty objects.
 
 ```js
 JSON.stringify(function(){}) // undefined
 JSON.stringify([undefined, function(){}, () => {}])  // "[null, null, null]"
+
+const obj = {
+  set: new Set([1,2]),
+  map: new Map([
+    ["a", 1],
+    ["b", 2],
+  ])
+}
+JSON.stringify(obj) // '{"set":{},"map":{}}'
 ```
 
 ### Array-like objects
