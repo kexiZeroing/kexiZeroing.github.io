@@ -70,21 +70,6 @@ function bubbleSort(nums) {
     }
   }
 }
-
-function bubbleSortWithFlag(nums) {
-  for (let i = nums.length - 1; i > 0; i--) {
-    let flag = false;
-    for (let j = 0; j < i; j++) {
-      if (nums[j] > nums[j + 1]) {
-        let tmp = nums[j];
-        nums[j] = nums[j + 1];
-        nums[j + 1] = tmp;
-        flag = true;
-      }
-    }
-    if (!flag) break;
-  }
-}
 ```
 
 ### Selection Sort
@@ -159,7 +144,7 @@ function partition(nums, left, right) {
 
 > 1. Quick sort is an in-place algorithm, but the stack due to recursive calls adds additional storage space proportional to the recursive depth.
 > 
-> 2. It's not recommended to choose the first or last element to be the pivot, your pivot value is always the largest value, and thus every element is less than the pivot. So rather than splitting the array into two roughly equal subarrays, you split it into a single sub array that has only one fewer element than you started with. One way to choose the pivot to avoid this is to pick the pivot randomly. This makes it unlikely to hit the worst case, and so on average will work well.
+> 2. It's not recommended to choose the first or last element to be the pivot, your pivot value is always the largest value on already sorted or nearly sorted arrays. So rather than splitting the array into two roughly equal subarrays, you split it into a single sub array that has only one fewer element than you started with. One way to choose the pivot to avoid this is to pick the pivot randomly. This makes it unlikely to hit the worst case, and so on average will work well.
 
 ### Merge Sort
 
