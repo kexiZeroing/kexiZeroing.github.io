@@ -23,6 +23,7 @@ updatedDate: "Aug 10 2024"
 - [Traverse Binary Tree](#traverse-binary-tree)
 - [Graph DFS](#graph-dfs)
 - [Graph BFS](#graph-bfs)
+- [Union Find](#union-find)
 - [Heap](#heap)
 - [DP](#dp)
 - [LRU](#lru)
@@ -491,6 +492,52 @@ function bfs(startingNodeKey, visitFn) {
 }
 ```
 
+### Union Find
+
+```js
+// Find: determine which subset a given element belongs to.
+// Union: merge two disjoint sets to a single disjoint set.
+class DisjointSet {
+  constructor(n) {
+    this.parent = new Array(n);
+    this.rank = new Array(n);
+    this.init();
+  }
+
+  init() {
+    for (let i = 0; i < this.n; i++) {
+      this.parent[i] = i;
+      this.rank[i] = 0;
+    }
+  }
+
+  find(u) {
+    if (this.parent[u] !== u) {
+      this.parent[u] = this.find(this.parent[u]);
+    }
+    return this.parent[u];
+  }
+
+  union(u, v) {
+    let rootU = this.find(u);
+    let rootV = this.find(v);
+
+    if (rootU === rootV) return;
+
+    // Union by rank
+    // Ensure that smaller trees are always attached to larger trees.
+    if (this.rank[rootU] < this.rank[rootV]) {
+      this.parent[rootU] = rootV;
+    } else if (this.rank[rootU] > this.rank[rootV]) {
+      this.parent[rootV] = rootU;
+    } else {
+      this.parent[rootV] = rootU;
+      this.rank[rootU]++;
+    }
+  }
+}
+```
+
 ### Heap
 
 ```js
@@ -675,14 +722,6 @@ let longestCommonSubsequence = function(text1, text2) {
   // 2. X[m-1] != Y[n-1] -> max(LCS(Xm-1, Yn), LCS(Xm, Yn-1))
   let dp = Array.from(Array(m + 1), () => Array(n + 1).fill(0));
   
-  dp[0][0] = 0;
-  for (let i = 0; i <= m; i++) {
-    dp[i][0] = 0;
-  }
-  for (let j = 0; j <= n; j++) {
-    dp[0][j] = 0;
-  }
-
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
       if (text1[i - 1] === text2[j - 1]) {
@@ -749,11 +788,11 @@ LRUCache.prototype.get = function(key) {
 }
 
 LRUCache.prototype.put = function(key, value) {
-  var node = this.map.get(key);
+  let node = this.map.get(key);
   if (node) {
     this.removeNode(node);
   }
-  var newNode = new DLLNode(key, value);
+  let newNode = new DLLNode(key, value);
   this.addNode(newNode);
   this.map.set(key, newNode);
 
@@ -1319,3 +1358,69 @@ function dfs(grid, i, j, rows, cols) {
   dfs(grid, i, j - 1, rows, cols);
 }
 ```
+
+Best Time to Buy and Sell Stock. You are given an array prices where `prices[i]` is the price of a given stock on the `ith` day.
+
+```js
+// only one transaction
+var maxProfit = function(prices) {
+  let min = prices[0];
+  let maxProfit = 0;
+
+  for (let i = 0; i < prices.length; i++) {
+    if (prices[i] < min) {
+      min = prices[i];
+    } else if (prices[i] - min > maxProfit) {
+      maxProfit = prices[i] - min;
+    }
+  }
+  return maxProfit;
+};
+
+// multiple transactions (greedy)
+var maxProfit = function(prices) {
+  let maxProfit = 0;
+    
+  for (let i = 1; i < prices.length; i++) {
+    if (prices[i] > prices[i - 1]) {
+      maxProfit += prices[i] - prices[i - 1];
+    }
+  }
+  return maxProfit;
+};
+
+// multiple transactions but with transaction fee for each one
+var maxProfit = function(prices, fee) {
+  // dp[i] represents two states
+  // 1. dp[i][0]: max profit on day i if you hold a stock.
+  // 2. dp[i][1]: max profit on day i if you do not hold a stock.
+  let dp = Array.from(Array(prices.length), () => Array(2).fill(0));
+  dp[0][0] = 0 - prices[0];
+  dp[0][1] = 0;
+
+  for (let i = 1; i < prices.length; i++) {
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] - prices[i]);
+    dp[i][1] = Math.max(dp[i - 1][0] + prices[i] - fee, dp[i - 1][1]);
+  }
+
+  return dp[prices.length - 1][1];
+};
+
+// After you sell your stock, you cannot buy stock on the next day
+var maxProfit = function(prices) {
+  // dp[i][0]: Holding a stock after day i.
+  // dp[i][1]: Not holding a stock after day i without entering a cooldown.
+  // dp[i][2]: Just sold a stock on day i.
+  // dp[i][3]: In a cooldown after selling stock.
+  let dp = Array.from(Array(prices.length), () => Array(4).fill(0));
+  dp[0][0] = -prices[0];
+
+  for (let i = 1; i < prices.length; ++i) {
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] - prices[i], dp[i - 1][3] - prices[i]);
+    dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][3]);
+    dp[i][2] = dp[i - 1][0] + prices[i];
+    dp[i][3] = dp[i - 1][2];
+  }
+
+  return Math.max(dp[prices.length - 1][1], dp[prices.length - 1][2], dp[prices.length - 1][3]);
+};
