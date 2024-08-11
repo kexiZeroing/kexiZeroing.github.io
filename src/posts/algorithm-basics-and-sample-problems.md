@@ -806,6 +806,47 @@ LRUCache.prototype.put = function(key, value) {
 
 ### Sample Problems
 
+Given an integer array nums, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`. Notice that the solution set must not contain duplicate triplets.
+
+```js
+var threeSum = function(nums) {
+  let res = [];
+  nums.sort((a, b) => a - b);
+  
+  for (let i = 0; i < nums.length; i++) {
+    if (i > 0 && nums[i] === nums[i-1]) {
+      continue;
+    }
+        
+    let j = i + 1;
+    let k = nums.length - 1;
+
+    while (j < k) {
+      let total = nums[i] + nums[j] + nums[k];
+
+      if (total === 0) {
+        res.push([nums[i], nums[j], nums[k]]);
+        // remove the duplicate result
+        while (nums[j] === nums[j+1] && j < k) {
+          j++;
+        }
+        while (nums[k] === nums[k-1] && j < k) {
+          k--;
+        }
+        j++;
+        k--;
+      } else if (total > 0) {
+        k--;
+      } else {
+        j++;
+      }
+    }
+  }
+
+  return res;
+};
+```
+
 Given a non-empty array of integers, return the `k` most frequent elements.
 
 ```js
@@ -1000,6 +1041,27 @@ var longestPalindrome = function(s) {
 };
 ```
 
+Given an array nums of size n, return the majority element. The majority element is the element that appears more than `⌊n / 2⌋` times. (assume it always exists)
+
+```js
+var majorityElement = function(nums) {
+  let count = 0;
+  let candidate = 0;
+
+  for (let num of nums) {
+    if (count === 0) {
+      candidate = num;
+    }
+    if (num === candidate) {
+      count += 1;
+    } else {
+      count -= 1;
+    }
+  }
+  return candidate;
+};
+```
+
 Given an array of integers temperatures represents the daily temperatures, return an array answer such that `answer[i]` is the number of days you have to wait after the `ith` day to get a warmer temperature. If there is no future day for which this is possible, keep `answer[i] == 0` instead.
 
 ```js
@@ -1045,6 +1107,31 @@ var subarraySum = function(nums, k) {
 };
 ```
 
+Given an array of positive integers arr, return the sum of all possible odd-length subarrays of arr.
+
+```js
+var sumOddLengthSubarrays = function(arr) {
+  let ans = 0;
+  // preSum[i] stores the sum of elements from index 0 to i-1.
+  // if arr = [1, 2, 3], then preSum will be [0, 1, 3, 6].
+  let preSum = Array(arr.length + 1).fill(0);
+
+  for (let i = 0; i < arr.length; i++) {
+    preSum[i + 1] = preSum[i] + arr[i];
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 1; j <= arr.length; j += 2) {
+      if (i + j - 1 < arr.length) {
+        ans += preSum[i + j] - preSum[i];
+      }
+    }
+  }
+
+  return ans;
+};
+```
+
 Given an array of integers and an integer `k`, find out whether there are two distinct indices `i` and `j` in the array such that `nums[i] = nums[j]` and the absolute difference between `i` and `j` is at most `k`.
 
 ```js
@@ -1076,6 +1163,29 @@ var moveZeroes = function(nums) {
   for(let i = index; i < nums.length; i++) {
     nums[i] = 0;
   }
+};
+```
+
+Given an integer array containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed. Flowers cannot be planted in adjacent plots.
+
+```js
+var canPlaceFlowers = function(flowerbed, n) {
+  for (let i = 0; i < flowerbed.length && n > 0;) {
+    if (flowerbed[i] === 1) {
+      i += 2;
+    }
+    // current position is empty
+    else if (i === flowerbed.length - 1 || flowerbed[i + 1] === 0) {
+      n--;
+      i += 2;
+    }
+    // current position is empty but the next position has a flower
+    else {
+      i += 3;
+    }
+  }
+
+  return n <= 0;
 };
 ```
 
