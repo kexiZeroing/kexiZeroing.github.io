@@ -629,12 +629,12 @@ let rob2 = function(nums) {
   function robRange(nums, start, end) {
     const n = end - start;
 
-    const dp = new Array(n);
+    const dp = Array(n).fill(0);
     dp[0] = nums[start];
     dp[1] = Math.max(nums[start], nums[start + 1]);
     
     for (let i = 2; i < n; i++) {
-      dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[start + i]);
+      dp[i] = Math.max(dp[i - 2] + nums[start + i], dp[i - 1]);
     }
     
     return dp[n - 1];
@@ -671,6 +671,8 @@ let longestCommonSubsequence = function(text1, text2) {
   let m = text1.length;
   let n = text2.length;
   // dp[i][j] means the LCS of first i characters in text1 and first j characters in text2
+  // 1. X[m-1] == Y[n-1] -> LCS(Xm-1，Yn-1)
+  // 2. X[m-1] != Y[n-1] -> max(LCS(Xm-1, Yn), LCS(Xm, Yn-1))
   let dp = Array.from(Array(m + 1), () => Array(n + 1).fill(0));
   
   dp[0][0] = 0;
