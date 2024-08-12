@@ -1563,6 +1563,34 @@ function dfs(grid, i, j, rows, cols) {
 }
 ```
 
+You are given an `m x n` binary matrix grid. An island is a group of 1's connected 4-directionally. The area of an island is the number of cells with a value 1. Return the maximum area of an island in grid.
+
+```js
+var maxAreaOfIsland = function(grid) {
+  let n = grid.length;
+  let m = grid[0].length;
+  let ans = 0;
+  
+  function dfs(i, j) {
+    if (i < 0 || j < 0 || i > n-1 || j > m-1 || !grid[i][j]) {
+      return 0;
+    }
+    grid[i][j] = 0;
+    
+    return 1 + dfs(i-1, j) + dfs(i, j-1) + dfs(i+1, j) + dfs(i, j+1);
+  }
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      if (grid[i][j]) {
+        ans = Math.max(ans, dfs(i, j));
+      }
+    }
+  }
+  return ans;
+};
+```
+
 Best Time to Buy and Sell Stock. You are given an array prices where `prices[i]` is the price of a given stock on the `ith` day.
 
 ```js
