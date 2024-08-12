@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Aug 10 2024"
+updatedDate: "Aug 12 2024"
 ---
 
 ### TOC
@@ -1159,7 +1159,6 @@ Given an array of integers nums and an integer k. A continuous subarray is calle
 var numberOfSubarrays = function(nums, k) {
   // `count[3] = 2` means there are 2 positions where we've encountered exactly 3 odd numbers.
   let count = Array(nums.length + 1).fill(0);
-  // one way of having zero odd numbers
   count[0] = 1;
   let oddCount = 0;
   let result = 0;
@@ -1212,6 +1211,34 @@ var moveZeroes = function(nums) {
 };
 ```
 
+Given a non-empty array of integers nums, the degree of this array is defined as the maximum frequency of any one of its elements. Your task is to find the smallest possible length of a subarray of nums, that has the same degree as nums.
+
+```js
+var findShortestSubArray = function(nums) {
+  let firstOccurrence = new Map();
+  let lastOccurrence = new Map();
+  let frequencyMap = new Map();
+
+  nums.forEach((num, index) => {
+    if (firstOccurrence.get(num) === undefined) {
+      firstOccurrence.set(num, index);
+    }
+    lastOccurrence.set(num, index);
+    frequencyMap.set(num, (frequencyMap.get(num) || 0) + 1);
+  });
+
+  let ans = nums.length;
+  let degree = Math.max(...frequencyMap.values());
+
+  for (let [num, frequency] of frequencyMap) {
+    if (frequency === degree) {
+      ans = Math.min(ans, lastOccurrence.get(num) - firstOccurrence.get(num) + 1);
+    }
+  }
+  return ans;
+};
+```
+
 Given an integer array containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed. Flowers cannot be planted in adjacent plots.
 
 ```js
@@ -1232,6 +1259,27 @@ var canPlaceFlowers = function(flowerbed, n) {
   }
 
   return n <= 0;
+};
+```
+
+You are given an integer array nums. Each element in the array represents your maximum jump length at that position. Return true if you can reach the last index, or false otherwise.
+
+```js
+var canJump = function(nums) {
+  // Greedy algorithm
+  if (nums.length === 0) return false;
+
+  let reachable = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    if (i > reachable) {
+      return false;
+    }
+    if (i + nums[i] > reachable) {
+      reachable = i + nums[i];
+    }
+  }
+
+  return true;
 };
 ```
 
