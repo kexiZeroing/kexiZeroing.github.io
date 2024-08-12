@@ -4,7 +4,7 @@ title: "Practical considerations for Input fields"
 slug: practical-considerations-for-input-fields
 description: ""
 added: "Jun 5 2024"
-updatedDate: "July 30 2024"
+updatedDate: "Aug 12 2024"
 tags: [web]
 ---
 
@@ -176,6 +176,62 @@ function TabButton({ children, isActive, onClick }) {
       {children}
     </button>
   )
+}
+```
+
+## Next.js Input search
+The search input has a 200ms debounce. After 200ms of inactivity, the form submits, updating the URL state with `?q={search}`. The Server Component reads `searchParams` and queries the database. On form submission, a React transition starts, allowing us to read the pending status with `useFormStatus` to display an inline loading state.
+
+```js
+'use client';
+
+import Form from 'next/form';
+import { useFormStatus } from 'react-dom';
+import { useDebouncedCallback } from 'use-debounce';
+import { useEffect, useRef } from 'react';
+import { Input } from '@/components/ui/input';
+
+export function Search({ query }: { query: string }) {
+  let formRef = useRef<HTMLFormElement | null>(null);
+
+  let handleInputChange = useDebouncedCallback((e) => {
+    e.preventDefault();
+    formRef.current?.requestSubmit();
+  }, 200);
+
+  useEffect(() => {
+    formRef.current?.querySelector('input')?.focus();
+  }, []);
+
+  return (
+    <Form
+      ref={formRef}
+      action="/"
+    >
+      <label htmlFor="search">
+        Search
+      </label>
+      <Input
+        onChange={handleInputChange}
+        type="text"
+        name="q"
+        id="search"
+        placeholder="Search..."
+        defaultValue={query}
+      />
+      <LoadingIcon />
+    </Form>
+  );
+}
+
+function LoadingIcon() {
+  let { pending } = useFormStatus();
+
+  return pending ? (
+    <div>
+      <span>Loading...</span>
+    </div>
+  ) : null;
 }
 ```
 

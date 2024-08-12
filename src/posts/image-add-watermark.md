@@ -92,6 +92,26 @@ The `HTMLCanvasElement.toDataURL()` method returns a data URL containing a repre
 > 
 > `toDataURL()` encodes the whole image in an in-memory string. For larger images, this can have performance implications, and may even overflow browsers' URL length limit when assigned to `HTMLImageElement.src`. You should generally prefer `HTMLCanvasElement.toBlob()` instead, in combination with `URL.createObjectURL()`.
 
+Additionally, we want to convert the `dataURL` we receive from the drawing canvas to a `Blob`, then the `Blob` to a `File` with the file name and type specified.
+
+```js
+async function save(dataURL: string) {
+  const blob = await fetch(dataURL).then(res => res.blob())
+  const file = new File([blob], `drawing.jpg`, { type: 'image/jpeg' })
+
+  const form = new FormData()
+  form.append('drawing', file)
+
+  // Upload the file to the server
+  await $fetch('/api/upload', {
+    method: 'POST',
+    body: form
+  })
+  .then(() => navigateTo('/'))
+  .catch((err) => alert(err.data?.message || err.message))
+}
+```
+
 ### Add custom cropper
 ```js
 // https://advanced-cropper.github.io/vue-advanced-cropper/
