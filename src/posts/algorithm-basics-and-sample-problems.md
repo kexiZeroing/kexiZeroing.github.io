@@ -286,6 +286,9 @@ class UndoRedoManager {
     }
   }
 }
+
+// Oops.js: Add powerful undo/redo capabilities to your app
+// https://github.com/HeyPuter/Oops.js
 ```
 
 ### Shuffle an array
@@ -953,6 +956,26 @@ var groupAnagrams = function(strs) {
 };
 ```
 
+Given two strings `ransomNote` and `magazine`, return true if `ransomNote` can be constructed by using the letters from `magazine` and false otherwise.
+
+```js
+var canConstruct = function(ransomNote, magazine) {
+  let cnt = Array(26).fill(0);
+  for (let c of magazine) {
+    cnt[c.charCodeAt(0) - 'a'.charCodeAt(0)]++;
+  }
+
+  for (let c of ransomNote) {
+    cnt[c.charCodeAt(0) - 'a'.charCodeAt(0)]--;
+
+    if (cnt[c.charCodeAt(0) - 'a'.charCodeAt(0)] < 0) {
+      return false;
+    }
+  }
+  return true;
+};
+```
+
 Given a string, find the length of the longest substring without repeating characters.
 
 ```js
@@ -1121,14 +1144,37 @@ var sumOddLengthSubarrays = function(arr) {
   }
 
   for (let i = 0; i < arr.length; i++) {
-    for (let j = 1; j <= arr.length; j += 2) {
-      if (i + j - 1 < arr.length) {
-        ans += preSum[i + j] - preSum[i];
-      }
+    for (let j = 1; i + j <= arr.length; j += 2) {
+      ans += preSum[i + j] - preSum[i];
     }
   }
 
   return ans;
+};
+```
+
+Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it. Return the number of nice sub-arrays.
+
+```js
+var numberOfSubarrays = function(nums, k) {
+  // `count[3] = 2` means there are 2 positions where we've encountered exactly 3 odd numbers.
+  let count = Array(nums.length + 1).fill(0);
+  // one way of having zero odd numbers
+  count[0] = 1;
+  let oddCount = 0;
+  let result = 0;
+
+  for (const num of nums) {
+    if (num % 2 === 1) {
+      oddCount += 1;
+    }
+    if (oddCount >= k) {
+      result += count[oddCount - k];
+    }
+
+    count[oddCount]++;
+  }
+  return result;
 };
 ```
 
