@@ -12,6 +12,8 @@ tags: [other]
 - MySQL (1995)
 - SQLite (2000)
 
+> SQLite is a software library that provides a relational database management system. If you have a Mac, sqlite3 should be available on there. https://github.com/kexiZeroing/node-sqlite-app
+
 The Relational Model is usually denoted using `LIKES (DRINKER, COFFEE)`
 
 <img alt="relation model" src="https://raw.gitmirror.com/kexiZeroing/blog-images/e267d5c748689a64a58514b9c6776a4499eff478/BD61-413F-89E1-3A76798F04B1.png" width="500">
