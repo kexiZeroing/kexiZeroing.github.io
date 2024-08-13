@@ -129,9 +129,10 @@ const handleCropSubmit = () => {
   if (canvas) {
     canvas.toBlob((blob) => {
       if (blob) {
+        console.log('file size:', blob.size / 1024 + 'KB')
         // new File(fileBits, fileName, options)
         const file = new File([blob], 'cropped-image.png', { type: 'image/png' })
-        handleFileUpload(file);
+        handleFileUpload(file)
       }
     }, 'image/png')
   }

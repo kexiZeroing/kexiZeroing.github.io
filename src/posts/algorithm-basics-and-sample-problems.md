@@ -1591,6 +1591,30 @@ var maxAreaOfIsland = function(grid) {
 };
 ```
 
+Given an integer array nums, return the length of the longest strictly increasing subsequence. For example, `[10,9,2,5,3,7,101,18]`'s longest increasing subsequence is `[2,3,7,101]`.
+
+```js
+var lengthOfLIS = function(nums) {
+  if (nums.length === 0) {
+    return 0;
+  }
+  // dp[i] represents the length of the LIS ending at index i
+  let dp = Array(nums.length).fill(1);
+  let maxLength = 1;
+
+  for (let i = 1; i < nums.length; i++) {
+    // iterate index before i
+    for (let j = 0; j < i; j++) {
+      if (nums[j] < nums[i]) {
+        dp[i] = Math.max(dp[i], dp[j] + 1);
+      }
+    }
+    maxLength = Math.max(maxLength, dp[i]);
+  }
+  return maxLength;
+};
+```
+
 Best Time to Buy and Sell Stock. You are given an array prices where `prices[i]` is the price of a given stock on the `ith` day.
 
 ```js
