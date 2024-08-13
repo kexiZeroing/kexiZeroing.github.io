@@ -166,8 +166,6 @@ A powerful media downloader with no bullshit: https://cobalt.tools
 
 A high-performance HTTP benchmarking tool written in Golang: https://github.com/six-ddc/plow
 
-An initiative to improve JS packages performance: https://e18e.dev
-
 ---
 
 ## CSS related
@@ -311,6 +309,8 @@ Open Source Tailwind components tailored for your AI and GPT: https://github.com
 Converting any layout you have to drag-to-swap layout: https://github.com/TahaSh/swapy
 
 Drag and drop for any experience on any tech stack: https://github.com/atlassian/pragmatic-drag-and-drop
+
+Leaflet extension for various free tile providers: https://github.com/leaflet-extras/leaflet-providers
 
 ---
 
@@ -504,7 +504,7 @@ Starter project for the Vercel AI SDK RAG guide: https://github.com/vercel/ai-sd
 
 Build AI apps locally that can do document Q&A: https://github.com/ykhli/local-ai-stack
 
-Anthropic's educational courses: https://github.com/anthropics/courses
+Semantic Image Search with Vercel AI SDK: https://github.com/vercel-labs/semantic-image-search
 
 An Open Course on LLMs taught by practitioners: https://hamel.dev/blog/posts/course
 
