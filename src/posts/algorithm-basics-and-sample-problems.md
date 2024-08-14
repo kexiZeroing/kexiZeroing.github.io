@@ -32,28 +32,26 @@ updatedDate: "Aug 12 2024"
 ### Binary Search
 
 ```js
-const binarySearch = (array, target) => {
-  let startIndex = 0;
-  let endIndex = array.length - 1;
+const binarySearch = (nums, target) => {
+  let left = 0;
+  let right = nums.length - 1;
 
-  while(startIndex <= endIndex) {
+  while (left <= right) {
     // parseInt(i + (j - i) / 2)
-    let middleIndex = Math.floor((startIndex + endIndex) / 2);
-    if(target === array[middleIndex]) {
-      return middleIndex;
-    }
-    if(target > array[middleIndex]) {
-      startIndex = middleIndex + 1;
-    }
-    if(target < array[middleIndex]) {
-      endIndex = middleIndex - 1;
+    let mid = Math.floor((left + right) / 2);
+
+    if (nums[mid] === target) {
+      return mid;
+    } else if (nums[mid] > target) {
+      right = mid - 1;
+    } else {
+      left = mid + 1;
     }
   }
-  
+
   // If the target is not found,
-  // `startIndex` points to the first element that is greater than the target
-  // `endIndex` points to the last element that is less than the target
-  return -1;
+  // return the index where it would be if it were inserted in order.
+  return left;
 }
 ```
 
@@ -998,6 +996,27 @@ var lengthOfLongestSubstring = function(s) {
 };
 ```
 
+Given an array of positive integers nums and a positive integer target, return the minimal length of a subarray whose sum is greater than or equal to target.
+
+```js
+var minSubArrayLen = function(target, nums) {
+  let minLength = Infinity;
+  let sum = 0;
+  let left = 0;
+
+  for (let right = 0; right < nums.length; right++) {    
+    sum += nums[right];
+
+    while (sum >= target) {
+      minLength = Math.min(minLength, right - left + 1);
+      sum -= nums[left];
+      left++;
+    }
+  }
+  return minLength === Infinity ? 0 : minLength;
+};
+```
+
 Find All Anagrams in a String. Given two strings `s` and `p`, return an array of all the start indices of `p`'s anagrams in `s`. For example, Input: s = "cbaebabacd", p = "abc"; Output: [0,6].
 
 ```js
@@ -1082,6 +1101,33 @@ var majorityElement = function(nums) {
     }
   }
   return candidate;
+};
+```
+
+Given a string containing just the characters '(' and ')', return the length of the longest valid parentheses substring.
+
+```js
+var longestValidParentheses = function(s) {
+  let stack = [];
+  let maxLength = 0;
+  let start = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === '(') {
+      stack.push(i);
+    } else {
+      if (stack.length === 0) {
+        start = i + 1;
+      } else {
+        stack.pop();
+        if (stack.length === 0) {
+          maxLength = Math.max(maxLength, i - start + 1);
+        } else {
+          maxLength = Math.max(maxLength, i - stack[stack.length - 1]);
+        }
+      }
+    }
+  }
 };
 ```
 
