@@ -248,6 +248,26 @@ function reverseList(head) {
 
   return prev;
 }
+
+// fast pointer moves forward `n` steps first,
+// then fast and slow pointers move forward together
+// until the fast pointer reaches the end of the linked list.
+function removeNthFromEnd(head, n) {
+  let dummy = new ListNode(0, head);
+  let fast = dummy;
+  let slow = dummy;
+
+  while (n--) {
+    fast = fast.next;
+  }
+  while (fast.next) {
+    slow = slow.next;
+    fast = fast.next;
+  }
+  
+  slow.next = slow.next.next;
+  return dummy.next;
+}
 ```
 
 ### Undo/Redo stacks
@@ -1131,6 +1151,33 @@ var longestValidParentheses = function(s) {
 };
 ```
 
+Given an integer array nums, return an array answer such that `answer[i]` is equal to the product of all the elements of nums except `nums[i]`.
+
+```js
+var productExceptSelf = function(nums) {
+  let n = nums.length;
+  let output =[];
+
+  let leftProducts =[];
+  let rightProducts =[];
+  leftProducts[0] = 1;
+  rightProducts[n - 1] = 1;
+
+  for (let i = 1; i < n; i++) {
+    leftProducts[i] = leftProducts[i - 1] * nums[i - 1];
+  }
+
+  for (let i = n - 2; i >= 0; i--) {
+    rightProducts[i] = rightProducts[i + 1] * nums[i + 1];
+  }
+
+  for (let i = 0; i < n; i++) {
+    output[i] = leftProducts[i] * rightProducts[i];
+  }
+  return output;
+};
+```
+
 Given an array of integers temperatures represents the daily temperatures, return an array answer such that `answer[i]` is the number of days you have to wait after the `ith` day to get a warmer temperature. If there is no future day for which this is possible, keep `answer[i] == 0` instead.
 
 ```js
@@ -1257,6 +1304,27 @@ var moveZeroes = function(nums) {
 };
 ```
 
+Given an integer array nums, find the subarray with the largest sum, and return its sum.
+
+```js
+var maxSubArray = function(nums) {
+  let sum = 0;
+  let max = -Infinity;
+
+  for (let i = 0; i < nums.length; i++) {
+    sum += nums[i];
+    max = Math.max(max, sum);
+
+    // It's better to start a fresh subarray from the next element
+    // rather than carrying forward a negative sum.
+    if (sum < 0) {
+      sum = 0;
+    }
+  }
+  return max;
+};
+```
+
 Given a non-empty array of integers nums, the degree of this array is defined as the maximum frequency of any one of its elements. Your task is to find the smallest possible length of a subarray of nums, that has the same degree as nums.
 
 ```js
@@ -1359,6 +1427,30 @@ var search = function(nums, target) {
   }
 
   return -1;
+};
+```
+
+You are given an m x n integer matrix. Each row is sorted in non-decreasing order. The first integer of each row is greater than the last integer of the previous row. Given an integer target, return true if target is in matrix or false otherwise.
+
+```js
+var searchMatrix = function(matrix, target) {
+  let left = 0; 
+  let right = matrix.length - 1;
+  let mid;
+
+  while (left <= right) {
+    mid = Math.floor((left + right ) / 2);
+    if (target >= matrix[mid][0] && target <= matrix[mid][matrix[mid].length - 1]) {
+      break;
+    }
+    if (target > matrix[mid][0]) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+
+  return binarySearch(matrix[mid], target);
 };
 ```
 
