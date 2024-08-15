@@ -418,7 +418,18 @@ var levelOrderTraversal = function(root) {
 };
 ```
 
-```js 
+```js
+// Invert a binary tree
+function invertTree(root) {
+  if (root === null) return root;
+  
+  [root.left, root.right] = [root.right, root.left];
+  invertTree(root.left);
+  invertTree(root.right);
+  
+  return root;
+}
+
 // Max and Min depth of Binary Tree
 var maxDepth = function(root) {
   if (!root) return 0;
@@ -1148,6 +1159,28 @@ var longestValidParentheses = function(s) {
       }
     }
   }
+};
+```
+
+Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence. Take `[10, 4, 20, 1, 3, 2]` as an example, the longest consecutive elements sequence is `[1, 2, 3, 4]`.
+
+```js
+var longestConsecutive = function(nums) {
+  let numSet = new Set(nums);
+  let longest = 0;
+
+  for (let n of nums) {
+    // check if n starts a new sequence
+    if (!numSet.has(n - 1)) {
+      let length = 1;
+
+      while (numSet.has(n + length)) {
+        length++;
+      }
+      longest = Math.max(longest, length);
+    }
+  }
+  return longest;
 };
 ```
 
