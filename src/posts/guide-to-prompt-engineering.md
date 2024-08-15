@@ -256,6 +256,9 @@ The order of exemplars can also cause bias. For example, a prompt that has rando
 
 ### Jailbreak the Model
 <img alt="prompt-jailbreak" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/wk5lfd.png" width="700">
+<br>
+
+JAILBREAK PROMPTS FOR ALL MAJOR AI MODELS: https://github.com/elder-plinius/L1B3RT45
 
 ### Prompt Injections
 Prompt engineering can be used not only to improve performance but also the reliability of response from a safety perspective. Prompt injections aim to find vulnerabilities in LLMs.

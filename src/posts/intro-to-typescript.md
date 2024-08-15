@@ -12,7 +12,7 @@ updatedDate: "Aug 8 2024"
 >
 > TypeScript allows you to write complex yet elegant code. Some TypeScript users love to explore the possibilities of the type system and love to encode logic at type level. This practice is known as type gymnastics. The community also helps users to learn type gymnastics by creating fun and challenges such as [type challenges](https://github.com/type-challenges/type-challenges).
 >
-> Total TypeScript book: https://github.com/total-typescript/total-typescript-book/tree/main/book-content/chapters
+> [create-typescript-app](https://github.com/JoshuaKGoldberg/create-typescript-app) is a one-stop-shop solution to set up a new repository with comprehensive, configurable, opinionated TypeScript tooling.
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
 
@@ -427,7 +427,11 @@ const formSchema = z
 type FormSchemaType = z.infer<typeof formSchema>;
 ```
 
-> [Valibot](https://github.com/fabian-hiller/valibot) is very similar to Zod, helping you validate data easily using a schema. The biggest difference is the modular design and the ability to reduce the bundle size to a minimum. 
+> [Valibot](https://github.com/fabian-hiller/valibot) is very similar to Zod, helping you validate data easily using a schema. The biggest difference is the modular design and the ability to reduce the bundle size to a minimum.
+>
+> JSON Schema is a declarative language for defining structure and constraints for JSON data.
+> - Zod to JSON Schema: https://github.com/StefanTerdell/zod-to-json-schema
+> - JSON Schema to Zod: https://github.com/StefanTerdell/json-schema-to-zod
 
 ## Adding Type Check to JavaScript
 TypeScript provides code analysis for JavaScript and VS Code gives us TypeScript out of the box (TypeScript language server). With the addition of `//@ts-check` as the very first line in our JavaScript file, TypeScript became active and started to add red lines to code pieces that just don’t make sense.

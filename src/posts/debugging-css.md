@@ -16,7 +16,7 @@ updatedDate: "May 5 2024"
 
 - When an element has a `position` value of `absolute`, it becomes a block-level element by default. This means that adding `inline-block` or `block` as the display type won’t affect it at all.
 
-- The `<p>` element represents a paragraph. It cannot contain block-level elements (including `<p>` itself).
+- The `<p>` element represents a paragraph. It cannot contain block-level elements including `<p>` itself. For example, `<p><div>hello</div></p>` will be parsed as `<p></p><div>hello</div><p></p>` in Chrome. *(Invalid HTML will be fixed by the browser)*
 
 - When you apply a `float` to an element with a display type of `flex` or `inline-flex`, it won’t affect the element at all.
 
