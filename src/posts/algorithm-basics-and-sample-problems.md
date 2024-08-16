@@ -1220,6 +1220,30 @@ var dailyTemperatures = function(temperatures) {
 };
 ```
 
+The next greater element of x in an array is the first greater element that is to the right of x in the same array. You are given two distinct arrays, where nums1 is a subset of nums2. For each `0 <= i < nums1.length`, find the index j such that `nums1[i] == nums2[j]` and determine the next greater element of `nums2[j]` in nums2. If there is no next greater element, then the answer for this query is -1.
+
+```js
+var nextGreaterElement = function(nums1, nums2) {
+  // key is a number from nums2
+  // value is its next greater number
+  let map = new Map();
+  let stack = [];
+
+  for (let num of nums2) {
+    while (stack.length && num > stack[stack.length - 1]) {
+      map.set(stack.pop(), num);
+    }
+    stack.push(num);
+  }
+
+  for (let i = 0; i < nums1.length; i++) {
+    nums1[i] = map.has(nums1[i]) ? map.get(nums1[i]) : -1;
+  }
+
+  return nums1;
+};
+```
+
 Given an array of integers and an integer `k`, you need to find the total number of continuous subarrays whose sum equals to `k`. For example, Input: nums = `[1,1,1]`, k = 2; Output: 2
 
 ```js
@@ -1416,6 +1440,36 @@ var canJump = function(nums) {
   }
 
   return true;
+};
+```
+
+There are n gas stations along a circular route. Your car costs `cost[i]` of gas to travel from the ith station to its next station. You begin the journey with an empty tank at one of the gas stations. Return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1.
+
+```js
+var canCompleteCircuit = function(gas, cost) {
+  // gas:  [1, 2, 3, 4, 5]
+  // cost: [3, 4, 5, 1, 2]
+  // First, can we know if a solution exists?
+  // If `sum of gas - sum of cost < 0`, there is no way to complete a round trip.
+
+  let totalTank = 0;
+  let currentTank = 0;
+  let start = 0;
+
+  for (let i = 0; i < gas.length; i++) {
+    const netCost = gas[i] - cost[i];
+    totalTank += netCost;
+    currentTank += netCost;
+
+    if (currentTank < 0) {
+      start = i + 1;
+      currentTank = 0;
+    }
+  }
+  return totalTank < 0 ? -1 : start;
+
+  // The key insight here is that if you can't reach a station j from station i, 
+  // you also can't reach it from any station between i and j.
 };
 ```
 
