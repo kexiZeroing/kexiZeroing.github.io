@@ -93,6 +93,8 @@ In a typical application built with webpack, there are three main types of code:
 #### optimization.splitChunks
 It is necessary to differentiate between **Code Splitting** and **splitChunks**. Code splitting is a feature native to Webpack, which uses the `import('package')` statement to move certain modules to a new Chunk. SplitChunks is essentially a further splitting of the Chunks produced by code splitting.
 
+> Code splitting also has some drawbacks. There’s a delay between loading the entry point chunk (e.g., the top-level app with the client-side router) and loading the initial page (e.g., home). The way to improve this is by injecting a small script in the head of the HTML, when executed, it preloads the necessary files for the current path by manually adding them to the HTML page as link `rel="preload"`.
+
 After code splitting, many Chunks will be created, and each Chunk will correspond to one ChunkGroup. SplitChunks is essentially splitting Chunk into more Chunks to form a group and to load groups together, for example, under HTTP/2, a Chunk could be split into a group of 20 Chunks for simultaneous loading.
 
 chunks: 'all' | 'initial' | 'async':  

@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Aug 12 2024"
+updatedDate: "Aug 16 2024"
 ---
 
 ### TOC
@@ -359,16 +359,16 @@ var inorderTraversal = function(root) {
   if (root == null) return [];
   let result = [];
   let stack = [];
-  let pointerNode = root;
+  let current = root;
 
-  while (stack.length > 0 || pointerNode !== null) {
-    if (pointerNode !== null) {
-      stack.push(pointerNode);
-      pointerNode = pointerNode.left;
+  while (stack.length > 0 || current !== null) {
+    if (current !== null) {
+      stack.push(current);
+      current = current.left;
     } else {
-      pointerNode = stack.pop();
-      result.push(pointerNode.val);
-      pointerNode = pointerNode.right;
+      current = stack.pop();
+      result.push(current.val);
+      current = current.right;
     }
   }
   return result;
@@ -419,17 +419,6 @@ var levelOrderTraversal = function(root) {
 ```
 
 ```js
-// Invert a binary tree
-function invertTree(root) {
-  if (root === null) return root;
-  
-  [root.left, root.right] = [root.right, root.left];
-  invertTree(root.left);
-  invertTree(root.right);
-  
-  return root;
-}
-
 // Max and Min depth of Binary Tree
 var maxDepth = function(root) {
   if (!root) return 0;
@@ -1666,6 +1655,20 @@ var lowestCommonAncestor = function(root, p, q) {
 };
 ```
 
+Given the root of a binary tree, invert the tree, and return its root.
+
+```js
+var invertTree = function(root) {
+  if (root === null) return root;
+  
+  [root.left, root.right] = [root.right, root.left];
+  invertTree(root.left);
+  invertTree(root.right);
+  
+  return root;
+};
+```
+
 Given the root of a binary tree, determine if it is a valid binary search tree.
 
 ```js
@@ -1698,6 +1701,61 @@ var buildTree = function(preorder, inorder) {
   root.right = buildTree(preorder.slice(mid + 1), inorder.slice(mid + 1));
 
   return root;
+};
+```
+
+Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
+
+```js
+var kthSmallest = function(root, k) {
+  // BST -> in-order traversal
+  let n = 0;
+  let stack = [];
+  let current = root;
+
+  while (stack.length > 0 || current) {
+    while (current) {
+      stack.push(current);
+      current = current.left;
+    }
+
+    current = stack.pop();
+    n++;
+    if (n === k) {
+      return current.val;
+    }
+    current = current.right;
+  }
+};
+```
+
+Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+```js
+var rightSideView = function(root) {
+  if (!root) return [];
+
+  let result = [];
+  let queue = [root];
+  while (queue.length) {
+    let levelSize = queue.length;
+
+    for (let i = 0; i < levelSize; i++) {
+      let node = queue.shift();
+
+      if (i === levelSize - 1) {
+        result.push(node.val);
+      }
+
+      if (node.left) {
+        queue.push(node.left);
+      }
+      if (node.right) {
+        queue.push(node.right);
+      }
+    }
+  }
+  return result;
 };
 ```
 
