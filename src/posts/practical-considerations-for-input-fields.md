@@ -4,7 +4,7 @@ title: "Practical considerations for Input fields"
 slug: practical-considerations-for-input-fields
 description: ""
 added: "Jun 5 2024"
-updatedDate: "Aug 12 2024"
+updatedDate: "Aug 17 2024"
 tags: [web]
 ---
 
@@ -179,59 +179,154 @@ function TabButton({ children, isActive, onClick }) {
 }
 ```
 
-## Next.js Input search
-The search input has a 200ms debounce. After 200ms of inactivity, the form submits, updating the URL state with `?q={search}`. The Server Component reads `searchParams` and queries the database. On form submission, a React transition starts, allowing us to read the pending status with `useFormStatus` to display an inline loading state.
+## React 19 `useActionState` and `useFormStatus`
+React 19 has a built-in mechanism for handling forms called "actions". Below example from [Shruti Kapoor's video](https://www.youtube.com/watch?v=ExZUdkfu-KE) shows how to convert a form from React 18 to React 19.
+
+- There’s no need to add `event.preventDefault` because that’s handled for us by React.
+- The `action` is automatically treated as a transition.
+- We can hook into the pending state of this action using `useFormStatus`.
+- React manages errors and race conditions to ensure our form’s state is always correct.
 
 ```js
-'use client';
+// React 18
+function App() {
+  const [name, setName] = useState("");
+  const [isPending, setIsPending] = useState("");
 
-import Form from 'next/form';
-import { useFormStatus } from 'react-dom';
-import { useDebouncedCallback } from 'use-debounce';
-import { useEffect, useRef } from 'react';
-import { Input } from '@/components/ui/input';
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
 
-export function Search({ query }: { query: string }) {
-  let formRef = useRef<HTMLFormElement | null>(null);
-
-  let handleInputChange = useDebouncedCallback((e) => {
-    e.preventDefault();
-    formRef.current?.requestSubmit();
-  }, 200);
-
-  useEffect(() => {
-    formRef.current?.querySelector('input')?.focus();
-  }, []);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setIsPending(true);
+    setTimeout(() => {
+      // call API
+      setIsPending(false);
+    }, [1000]);
+  };
 
   return (
-    <Form
-      ref={formRef}
-      action="/"
-    >
-      <label htmlFor="search">
-        Search
-      </label>
-      <Input
-        onChange={handleInputChange}
-        type="text"
-        name="q"
-        id="search"
-        placeholder="Search..."
-        defaultValue={query}
-      />
-      <LoadingIcon />
-    </Form>
+    <form>
+      <input type="text" name="name" onChange={handleChange} />
+      { isPending ? <p>{"Loading"}</p> : <p> Hello in React 18 {name}</p> }
+      <button onClick={handleSubmit} disabled={isPending}>
+        Update
+      </button>
+    </form>
+  );
+}
+```
+
+```js
+// React 19
+function RenderName({ name }) {
+  // https://react.dev/reference/react-dom/hooks/useFormStatus
+  // The `useFormStatus` hook only returns status information for a parent <form>
+  const { pending } = useFormStatus();
+  return <div>{pending ? "Loading" : `Hello in React 19 ${name}` }</div>;
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button type="submit" disabled={pending}>
+      Update
+    </button>
   );
 }
 
-function LoadingIcon() {
-  let { pending } = useFormStatus();
+function App() {
+  // https://react.dev/reference/react/useActionState
+  // You pass `useActionState` an existing form action function as well as an initial state,
+  // and it returns a new action that you use in your form, along with the latest form state.
+  // The latest form state is also passed to the function that you provided.
+  const [state, formAction] = useActionState(submitFormAction, { name: "" });
 
-  return pending ? (
-    <div>
-      <span>Loading...</span>
-    </div>
-  ) : null;
+  return (
+    <form action={formAction}>
+      <input type="text" name="inputName" />
+      <RenderName name={state?.name} />
+      <SubmitButton /> 
+    </form>
+  );
+}
+
+// actions.js
+'use server';
+
+export const submitFormAction = async (previousState, formData) => {
+  const name = formData.get("name");
+  await new Promise((res) => setTimeout(res, 1000));
+  return { ...previousState, name: name };
+};
+```
+
+There is another example from React Conf 2024 displaying a message box, which is progressively enhanced with React 19 features. **The main functionality of the form works without JavaScript**.
+
+```js
+// https://www.youtube.com/watch?v=X9cw4VczYVg
+export default function MessageInput({ userId }) {
+  const [state, submitMessageAction] = useActionState(submitMessage, {
+    success: false,
+  });
+
+  useEffect(() => {
+    if (state.error) {
+      toast.error(state.error);
+    }
+  }, [state.error, state.timestamp]);
+
+  return (
+    <>
+      <form action={submitMessageAction} className="flex flex-col gap-2 p-6">
+        <input
+          autoComplete="off"
+          required
+          minLength={1}
+          name="content"
+          className="italic outline-none"
+          placeholder="Type a message..."
+        />
+        <input type="hidden" name="userId" value={userId} />
+        {/* get pending status using `useFormStatus()` inside the button component */}
+        <SubmitButton>Send</SubmitButton>
+      </form>
+    </>
+  );
+}
+
+export async function submitMessage(_prevState, formData) {
+  // z.object({
+  //   content: z.string().min(1, {
+  //     message: 'Content must be at least 1 characters long',
+  //   }),
+  //   createdById: z.string().uuid({
+  //     message: 'Invalid user ID',
+  //   }),
+  // });
+  const result = messageSchema.safeParse({
+    content: formData.get('content'),
+    createdById: formData.get('userId'),
+  });
+
+  if (!result.success) {
+    return {
+      error: 'Invalid message!',
+      success: false,
+      timestamp: new Date(),
+    };
+  }
+
+  await prisma.message.create({
+    data: result.data,
+  });
+
+  revalidatePath('/');
+
+  return {
+    success: true,
+  };
 }
 ```
 

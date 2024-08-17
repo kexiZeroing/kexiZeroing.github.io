@@ -5,7 +5,7 @@ slug: js-observer-apis
 description: ""
 added: "May 9 2024"
 tags: [js]
-updatedDate: "July 31 2024"
+updatedDate: "Aug 17 2024"
 ---
 
 Observers can be helpful to watch certain activities happening in the browser and respond accordingly. For example, we can observe, if child element has been added or removed from the parent DOM element, if a video is displayed within the viewport and enable autoplay, if the size/dimensions of a box element has changed and so on. These are different types of observer APIs in JavaScript.
@@ -44,6 +44,37 @@ observer.observe(targetNode, config)
 
 // Later, you can stop observing
 observer.disconnect()
+```
+
+```js
+// Message box: automatically scroll to the bottom of the container
+export default function AutomaticScroller({ children, className }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const mutationObserver = new MutationObserver(async () => {
+      if (ref.current) {
+        ref.current.scroll({ behavior: 'smooth', top: ref.current.scrollHeight });
+      }
+    });
+
+    if (ref.current) {
+      mutationObserver.observe(ref.current, {
+        childList: true,
+      });
+
+      return () => {
+        mutationObserver.disconnect();
+      };
+    }
+  }, [ref]);
+
+  return (
+    <div ref={ref} className={className}>
+      {children}
+    </div>
+  );
+}
 ```
 
 ## Intersection Observer API
