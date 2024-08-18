@@ -1427,9 +1427,8 @@ You are given an integer array nums. Each element in the array represents your m
 ```js
 var canJump = function(nums) {
   // Greedy algorithm
-  if (nums.length === 0) return false;
-
   let reachable = nums[0];
+
   for (let i = 1; i < nums.length; i++) {
     if (i > reachable) {
       return false;
@@ -1536,7 +1535,6 @@ a) Find the integer square root; b) Check if a number is the perfect square numb
 function getSquareRoot(num) {
   let i = 0;
   let j = num;
-  let ans = -1;
 
   while (i <= j) {
     let mid = Math.floor((i + j) / 2);
@@ -1549,7 +1547,7 @@ function getSquareRoot(num) {
     }
   }
 
-  return ans;
+  return -1;
 }
 
 function checkPerfectSquare(num) {
@@ -1577,6 +1575,7 @@ Given a collection of intervals, merge all overlapping intervals. i.e. Input: `[
 ```js
 var merge = function(intervals) {
   intervals.sort((a, b) => a[0] - b[0]);
+
   for (let i = 0; i < intervals.length - 1; i++) {
     const cur = intervals[i];
     const next = intervals[i + 1];
@@ -1727,6 +1726,7 @@ Given the root of a binary tree, determine if it is a valid binary search tree.
 
 ```js
 var isValidBST = function(root) {
+  // Check range of each node
   const helper = (root, min, max) => {
     if (!root) return true;
     
@@ -1818,9 +1818,9 @@ Given a 2d grid map of '1's (land) and '0's (water), count the number of islands
 ```js
 var numIslands = function(grid) {
   let count = 0;
-  const rows = grid.length;
+  let rows = grid.length;
   if (rows === 0) return 0;
-  const cols = grid[0].length;
+  let cols = grid[0].length;
   
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
@@ -1834,8 +1834,9 @@ var numIslands = function(grid) {
 };
 
 function dfs(grid, i, j, rows, cols) {
-  if (i < 0 || j < 0 || i > rows - 1 || j > cols - 1 || grid[i][j] === '0')
+  if (i < 0 || j < 0 || i > rows - 1 || j > cols - 1 || grid[i][j] === '0') {
     return;
+  }
 
   grid[i][j] = '0';
 
