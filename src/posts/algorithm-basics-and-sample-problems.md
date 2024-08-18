@@ -516,45 +516,37 @@ function bfs(startingNodeKey, visitFn) {
 ### Union Find
 
 ```js
-// Find: determine which subset a given element belongs to.
-// Union: merge two disjoint sets to a single disjoint set.
 class DisjointSet {
-  constructor(n) {
-    this.parent = new Array(n);
-    this.rank = new Array(n);
-    this.init();
+  constructor(size) {
+    this.parent = Array.from({ length: size }, (_, index) => index);
+    this.rank = Array(size).fill(1);
   }
 
-  init() {
-    for (let i = 0; i < this.n; i++) {
-      this.parent[i] = i;
-      this.rank[i] = 0;
+  find(x) {
+    if (this.parent[x] !== x) {
+      this.parent[x] = this.find(this.parent[x]);
+    }
+    return this.parent[x];
+  }
+
+  union(x, y) {
+    const rootX = this.find(x);
+    const rootY = this.find(y);
+
+    if (rootX !== rootY) {
+      if (this.rank[rootX] > this.rank[rootY]) {
+        this.parent[rootY] = rootX;
+      } else if (this.rank[rootX] < this.rank[rootY]) {
+        this.parent[rootX] = rootY;
+      } else {
+        this.parent[rootY] = rootX;
+        this.rank[rootX] += 1;
+      }
     }
   }
 
-  find(u) {
-    if (this.parent[u] !== u) {
-      this.parent[u] = this.find(this.parent[u]);
-    }
-    return this.parent[u];
-  }
-
-  union(u, v) {
-    let rootU = this.find(u);
-    let rootV = this.find(v);
-
-    if (rootU === rootV) return;
-
-    // Union by rank
-    // Ensure that smaller trees are always attached to larger trees.
-    if (this.rank[rootU] < this.rank[rootV]) {
-      this.parent[rootU] = rootV;
-    } else if (this.rank[rootU] > this.rank[rootV]) {
-      this.parent[rootV] = rootU;
-    } else {
-      this.parent[rootV] = rootU;
-      this.rank[rootU]++;
-    }
+  connected(x, y) {
+    return this.find(x) === this.find(y);
   }
 }
 ```
@@ -690,19 +682,18 @@ let rob = function(nums) {
 let rob2 = function(nums) {
   const len = nums.length;
   if (len === 1) return nums[0];
-  if (len === 2) return Math.max(nums[0], nums[1]);
   
-  return Math.max(robRange(nums, 1, len), robRange(nums, 0, len - 1));
+  // the first house and the last house cannot be robbed together
+  return Math.max(robRange(nums.slice(0, -1)), robRange(nums.slice(1)));
 
-  function robRange(nums, start, end) {
-    const n = end - start;
-
+  function robRange(range) {
+    const n = range.length;
     const dp = Array(n).fill(0);
-    dp[0] = nums[start];
-    dp[1] = Math.max(nums[start], nums[start + 1]);
+    dp[0] = range[0];
+    dp[1] = Math.max(range[0], range[1]);
     
     for (let i = 2; i < n; i++) {
-      dp[i] = Math.max(dp[i - 2] + nums[start + i], dp[i - 1]);
+      dp[i] = Math.max(dp[i - 2] + range[i], dp[i - 1]);
     }
     
     return dp[n - 1];
