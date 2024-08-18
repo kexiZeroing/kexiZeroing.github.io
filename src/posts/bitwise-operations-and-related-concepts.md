@@ -92,6 +92,8 @@ If you are dealing with characters, it will depend on the charset/encoding.
 
 What is the average size of JavaScript code downloaded per website? It seems like shipping 10 MB of code is normal now. If we assume that the average code line is about 65 characters, that would mean we are shipping ~150,000 lines of code.
 
+Systems based on powers of 10 use standard SI prefixes (kilo, mega, giga, ...) and their corresponding symbols (k, M, G, ...). Systems based on powers of 2, however, might use binary prefixes (kibi, mebi, gibi, ...) and their corresponding symbols (Ki, Mi, Gi, ...).
+
 ### What is Unicode and UTF-8?
 Every letter in every alphabet is assigned a magic number by the Unicode consortium which is written like `U+0639`. This magic number is called a code point. The U+ means “Unicode” and the numbers are hexadecimal. `U+0639` is the Arabic letter Ain. The English letter A would be `U+0041`. *English text which rarely used code points above `U+007F`.* You can find them all visiting the [Unicode web site](https://home.unicode.org). Unicode corresponds to code points, just numbers. We haven’t yet said anything about how to store this in memory or represent it. That’s where encodings come in.
 

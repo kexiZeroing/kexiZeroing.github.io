@@ -37,6 +37,7 @@ A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and
 - @clerk/nextjs: add authentication and user management to your Next.js application.
 - prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. You can integrate Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database. The fastest way to get started with Prisma is by following the [Quickstart](https://www.prisma.io/docs/getting-started/quickstart).
 - [Neon](https://neon.tech) is a serverless Postgres platform, *Neon is to PostgreSQL as PlanetScale is to MySQL*. Neon provides a generous free tier, making it a good fit for small applications and hobby projects. (PlanetScale has made the decision to stop offering the Hobby tier.)
+- [Upstash](https://upstash.com) is a serverless data platform with Redis, Kafka and Vector Database APIs.
 - zustand: one of many state management libraries for React. It's kinda like Redux, but much simpler.
 - react-hot-toast: lightweight notifications for React.
 - lucide-react: implementation of the lucide icon library for react applications.
