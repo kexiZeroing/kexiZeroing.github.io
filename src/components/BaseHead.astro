@@ -35,7 +35,7 @@ const { title, description, image = '/og-image.jpg' } = Astro.props;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta name="twitter:creator" content="@kdang2020" />
-<meta name="twitter:image" content="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/25599430.jpeg" />
+<meta name="twitter:image" content={new URL(image, Astro.url)} />
 
 <!-- https://astro.build/blog/future-of-astro-zero-js-view-transitions -->
 <style>
