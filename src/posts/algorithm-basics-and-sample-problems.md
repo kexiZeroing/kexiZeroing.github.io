@@ -1679,6 +1679,49 @@ var subsets = function(nums) {
 };
 ```
 
+Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s. Input: `s = "aab"`. Output: `[["a","a","b"],["aa","b"]]`
+
+```js
+var partition = function(s) {
+  const res = [];
+  const part = [];
+
+  function backtrack(i) {
+    if (i === s.length) {
+      res.push([...part]);
+      return;
+    }
+
+    for (let j = i; j < s.length; j++) {
+      // print i, j, part here: 
+      // 0 0 []
+      // 1 1 ['a']
+      // 2 2 ['a', 'a']
+      // 1 2 ['a']
+      // 0 1 []
+      // 2 2 ['aa']
+      // 0 2 []
+      if (isPalindrome(s, i, j)) {
+        part.push(s.slice(i, j + 1));
+        backtrack(j + 1);
+        part.pop();
+      }
+    }
+  }
+  backtrack(0);
+  return res;
+};
+
+function isPalindrome(s, l, r) {
+  while (l < r) {
+    if (s[l] !== s[r]) return false;
+    l++;
+    r--;
+  }
+  return true;
+}
+```
+
 Given a binary search tree (BST), find the lowest common ancestor node of two given nodes in the BST.
 
 ```js
