@@ -1142,6 +1142,22 @@ var longestValidParentheses = function(s) {
 };
 ```
 
+Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, return an empty string "".
+
+```js
+var longestCommonPrefix = function(strs) {
+  strs.sort();
+
+  for (let i = 0; i < strs[0].length; i++) {
+    if (strs[0][i] !== strs[strs.length - 1][i]){
+      return strs[0].slice(0, i);
+    } 
+  }
+
+  return strs[0];
+};
+```
+
 Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence. Take `[10, 4, 20, 1, 3, 2]` as an example, the longest consecutive elements sequence is `[1, 2, 3, 4]`.
 
 ```js
@@ -1753,6 +1769,21 @@ var invertTree = function(root) {
   invertTree(root.right);
   
   return root;
+};
+```
+
+Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+
+```js
+var hasPathSum = function(root, targetSum) {
+	if (root === null) {
+    return false;
+  }
+	if (root.val == targetSum && (root.left === null && root.right === null)) {
+    return true;
+  }
+
+	return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
 };
 ```
 
