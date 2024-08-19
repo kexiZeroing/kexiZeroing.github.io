@@ -1,3 +1,3 @@
-export const SITE_TITLE = 'Kexi Dang';
-export const SITE_DESCRIPTION = 'Kexi\'s blog, Software Engineer, 微信公众号：一切都在成长中';
+export const SITE_TITLE = 'Kexi\'s blog';
+export const SITE_DESCRIPTION = 'I\'m Kexi, a software engineer passionate about web development, using my blog to document and share my learning journey.';
 export const SITE_TITLE_MOBILE = 'Kexi\'s blog';
