@@ -168,10 +168,6 @@ Traditionally, npm installed dependencies in a flat `node_modules` folder. On th
 
 <img alt="pnpm" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7aw9ablr4j30vm0u0q5z.jpg" width="650" />
 
-<br>
-
-> Since v16.13, Node.js is shipping [Corepack](https://github.com/nodejs/corepack/blob/main/README.md) for managing package managers. In practical terms, Corepack lets you use Yarn, npm, and pnpm without having to install them. Run `corepack enable pnpm` to install the required pnpm binaries on your path.
-
 ### npm scripts
 npm scripts are a set of built-in and custom scripts defined in the `package.json` file. Their goal is to provide a simple way to execute repetitive tasks.
 

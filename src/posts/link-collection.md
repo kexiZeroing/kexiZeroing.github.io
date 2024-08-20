@@ -12,6 +12,8 @@ order: 2
 
 baseCS: https://github.com/vaidehijoshi/basecs-series
 
+Stanford CS 106B Lectures: https://www.youtube.com/playlist?list=PL-h0BZdG_K4mfItKR5nUChmnuus-q-Tbc
+
 Web Security: https://web.stanford.edu/class/cs253
 
 How DNS works: https://howdns.works
@@ -20,7 +22,7 @@ How HTTPS works: https://howhttps.works
 
 Inside look at modern web browser (4 parts): https://developers.google.com/web/updates/2018/09/inside-browser-part1
 
-Intro to Computer Systems: http://www.cs.cmu.edu/~213/schedule.html
+Intro to Computer Systems: https://www.cs.cmu.edu/afs/cs/academic/class/15213-f19/www/schedule.html
 
 The Missing Semester of Your CS Education: https://missing.csail.mit.edu
 

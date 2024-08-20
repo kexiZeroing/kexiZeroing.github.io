@@ -174,6 +174,36 @@ SWC is now a mature replacement for Babel, which was used in Vite 3.0. Vite 4.0 
 > 1. SWC is a compiler, whereas esbuild is a bundler. SWC has limited bundling capabilities, so if you're looking for something to traverse your code and generate a single file, esbuild is what you want.
 > 2. `tsup` is the simplest way to bundle your TypeScript libraries with no config, powered by esbuild. It can bundle anything that's supported by Node.js natively, namely `.js`, `.json`, `.mjs`, and TypeScript `.ts`, `.tsx`.
 
+### JSX transformation with SWC
+
+```js
+// npm install @swc/core @swc/cli --save-dev
+
+const { transformFileSync } = require('@swc/core');
+const fs = require('fs');
+const path = require('path');
+
+const inputFilePath = path.join(__dirname, 'example.jsx');
+const outputFilePath = path.join(__dirname, 'example.js');
+
+const output = transformFileSync(inputFilePath, {
+  jsc: {
+    parser: {
+      syntax: 'ecmascript',
+      jsx: true
+    },
+    transform: {
+      react: {
+        runtime: 'classic', // use React.createElement
+      }
+    }
+  }
+});
+
+fs.writeFileSync(outputFilePath, output.code);
+console.log('Transformation complete. Output written to example.js');
+```
+
 ### Oxc - The JavaScript Oxidation Compiler
 Oxc is building a parser, linter, formatter, transpiler, minifier, resolver ... all written in Rust. This project shares the same philosophies as Biome. JavaScript tooling could be rewritten in a more performant language.
 

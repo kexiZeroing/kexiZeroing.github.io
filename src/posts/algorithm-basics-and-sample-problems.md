@@ -1660,7 +1660,7 @@ var permute = function(nums) {
       const num = nums[i];
       if (path.includes(num)) continue;
       path.push(num);
-      backtrack(path);
+      backtrack(path);  // console.log(`backtrack(${path});`)
       path.pop();
     }
   }
