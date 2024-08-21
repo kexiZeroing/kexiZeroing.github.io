@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 5
-updatedDate: "Aug 5 2024"
+updatedDate: "Aug 21 2024"
 ---
 
 更全面的准备可以参考:
@@ -259,7 +259,7 @@ console.log(get(obj, 'a.b.d', 'default')); // 'default'
 console.log(get(obj, 'x.y.z', 'not found')); // 'not found'
 ```
 
-9.  How to add two big integers in js?
+9. How to add two big integers in js?
 ```js
 function add(A, B) {
   const AL = A.length
@@ -283,4 +283,51 @@ function add(A, B) {
 
   return sum
 }
+```
+
+10. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
+
+```js
+const app = { middlewares: [] };
+
+app.use = (fn) => {
+  app.middlewares.push(fn);
+};
+
+app.compose = function() {
+  // Your code goes here
+}
+
+app.use(next => {
+  console.log(1);
+  next();
+  console.log(2);
+});
+app.use(next => {
+  console.log(3);
+  next();
+  console.log(4);
+});
+app.use(next => {
+  console.log(5);
+  next();
+  console.log(6);
+});
+
+app.compose();  // Logs: 1, 3, 5, 6, 4, 2
+```
+
+```js
+const compose = (middlewares) => {
+  return () => {
+    const dispatch = (i) => {
+      const fn = middlewares[i];
+      if (!fn) return;
+      fn(() => dispatch(i + 1));
+    };
+    dispatch(0);
+  };
+};
+
+app.compose = compose(app.middlewares);
 ```

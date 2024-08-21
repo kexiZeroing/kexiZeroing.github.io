@@ -11,6 +11,11 @@ updatedDate: "Aug 4 2024"
 ## ES Modules
 While Node.js has been using the CommonJS standard for years and there are a number of JavaScript libraries and frameworks that enable module usage, the browser never had a module system. A module system must be first standardized by ECMAScript and then implemented by the browser. The good news is that modern browsers have started to support module functionality natively, and the use of native JavaScript modules is dependent on the *import* and *export* statements. **The import and export statements cannot be used in embedded scripts unless such script has a `type="module"`**.
 
+> History of module formats:
+> 1. **AMD (Asynchronous Module Definition):** This is primarily considered a browser-specific module format. Its key feature is asynchronous module loading, with modules wrapped in a `define()` call. It requires a dedicated loader to run, with RequireJS being the most commonly used one back in the day.
+> 2. **CJS (CommonJS):** This is the most common module format in the Node.js environment and was originally the only natively supported format in Node.js. It uses `module` and `exports`.
+> 3. **UMD (Universal Module Definition):** Since AMD and CJS are incompatible with each other, but developers wanted a single codebase to work in both browser and Node.js, UMD was created. UMD wraps the module in an IIFE and includes logic to check for `define`, `module`, and other variables for compatibility.
+
 ### Exporting module features
 The first thing you need to do to get access to module features is export them. This is done using the `export` statement. The easiest way to use it is to place it in front of any items you want exported out of the module. A more convenient way of exporting all the items is to use a single `export` statement at the end of your module file, followed by a comma-separated list of the features you want to export wrapped in curly braces. You can **export functions, var, let, const, and classes**. They need to be top-level items; you can't use export inside a function.
 

@@ -58,6 +58,8 @@ async function charTypeWriter() {
 }
 
 async function wordTypeWriter() {
+  // https://www.techonthenet.com/js/language_tags.php
+  // zh_Hans: Chinese in simplified script (=zh, zh-Hans, zh-CN, zh-Hans-CN)
   const wordStream = toWord({ locale: 'zh-Hans' })(textStream);
 
   for await (const word of wordStream) {
