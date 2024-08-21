@@ -373,6 +373,11 @@ An intro to AWS for front-end developers:
 
 > AWS provides all the necessary building blocks for the modern web. With over 200 services, AWS caters to every aspect of web application infrastructure, including compute, storage, databases, machine learning, and more. Start watching Basic Elements of AWS: https://www.proaws.dev/tutorials/basic-elements-of-aws~hk2qv
 
+### Fully hosted and self hosting solutions
+In a fully hosted solution, the service provider takes care of hosting the software, managing servers, databases, scaling, and maintaining the infrastructure. Users don’t have to worry about setting up or managing the backend infrastructure. Examples: Google Workspace (formerly G Suite), Shopify, Slack.
+
+In a self-hosted solution, the user is responsible for installing, configuring, and maintaining the software on their own servers or infrastructure. Users have full control over the environment. Examples: WordPress, GitLab.
+
 ### Netlify functions
 The serverless functions can be run by [Netlify Dev](https://cli.netlify.com/netlify-dev) in the same way they would be when deployed to the cloud. Once you've configured the functions directory in your `netlify.toml`, the functions will be accessible through netlify dev server. e.g. at `http://localhost:8888/.netlify/functions/{function-name}`.
 

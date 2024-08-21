@@ -146,6 +146,16 @@ try {
 }
 ```
 
+```js
+// `AbortSignal.any()`: will abort whichever is sooner
+const req = await fetch('/api/data', {
+  signal: AbortSignal.any([
+    AbortSignal.timeout(2000),
+    controller.signal
+  ])
+});
+```
+
 ### Build on Fetch
 - [wretch](https://github.com/elbywan/wretch) is a tiny wrapper built around fetch.
 - Axios is great *(Axios is based on XMLHttpRequests)*, but a bit large on kb compared to wretch. [Redaxios](https://github.com/developit/redaxios) is a great small alternative to axios.
