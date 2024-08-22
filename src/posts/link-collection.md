@@ -508,7 +508,9 @@ Build AI apps locally that can do document Q&A: https://github.com/ykhli/local-a
 
 Semantic Image Search with Vercel AI SDK: https://github.com/vercel-labs/semantic-image-search
 
-An Open Course on LLMs taught by practitioners: https://hamel.dev/blog/posts/course
+Anthropic's educational courses: https://github.com/anthropics/courses
+
+Open source Claude Artifacts – built with Llama 3.1: https://llamacoder.together.ai
 
 ---
 

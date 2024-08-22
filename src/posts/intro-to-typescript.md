@@ -195,6 +195,7 @@ dog = {
 };
 
 // Union Type (a type can be one of multiple types, type A = X | Y)
+// Narrow down the types of values: typeof, truthiness, instanceof...
 const sayHappyBirthday = (name: string | null) => {
   if (name === null) {
     console.log('Happy birthday!');

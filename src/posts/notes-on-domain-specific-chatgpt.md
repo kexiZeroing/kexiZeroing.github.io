@@ -225,7 +225,6 @@ async function getDocuments(urls: string[]) {
   for (const url of urls) {
     const response = await fetch(url);
     const html = await response.text();
-    // https://github.com/cheeriojs/cheerio
     const $ = cheerio.load(html);
     const articleText = $("body").text();
 

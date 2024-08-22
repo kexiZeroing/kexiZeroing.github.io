@@ -147,3 +147,52 @@ const babelTransformWithPlugin = (code) => {
 **Sandpack** is a component toolkit for creating live-running code editing experiences, powered by the online bundler used on CodeSandbox. https://sandpack.codesandbox.io
 
 **WebContainers** are a browser-based runtime for executing Node.js applications and operating system commands, entirely inside your browser tab. https://webcontainers.io
+
+```jsx
+import { Sandpack } from "@codesandbox/sandpack-react";
+
+const SandpackExample = () => {
+  const files = {
+    "/App.js": `
+import React from 'react';
+
+export default function App() {
+  return (
+    <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.4' }}>
+      <h1>Hello Sandpack!</h1>
+      <p>Start editing to see some magic happen!</p>
+    </div>
+  );
+}
+`,
+    "/index.js": `
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+`,
+  };
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Sandpack Example</h1>
+      <Sandpack
+        options={{
+          showNavigator: true,
+          editorHeight: 400,
+          showTabs: true,
+        }}
+        files={files}
+        theme="dark"
+        template="react"
+      />
+    </div>
+  );
+};
+```
