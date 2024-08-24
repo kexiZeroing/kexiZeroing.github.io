@@ -153,53 +153,6 @@ With syntax transforms, I recommend `babel-preset-env`. For polyfills, the most 
 
 **Live Reload** refreshes the entire app when a file changes. For example, if you were four links deep into your navigation and saved a change, live reloading would restart the app and load the app back to the initial route. **Hot Reload** only refreshes the files that were changed without losing the state of the app. (Webpack's **Hot Module Replacement** replaces the modules that have been modified on the fly without reloading the entire page). The advantage of this is that it doesn't lose your app state, e.g. your inputs on your form fields, your currently selected tab.
 
-### Source Map
-Once you've compiled and minified your code, normally alongside it will exist a sourceMap file(`file.js.map`). **It helps us with debugging transformed code in its original form**. The bundler will add a source map location comment `//# sourceMappingURL=/path/to/file.js.map` at the end of every generated bundle, which is required to signify to the browser devtools that a source map is available. Another type of source map is inline which has a base64 data URL like `# sourceMappingURL=data:application/json;base64,xxx...`
-
-In development all the source files have associated source maps, but we would not want to ship source maps to our production servers.
-- Source maps are usually large; they could be several hundreds of KBs even after compression.
-- We may not want to share the original source code of our application with the users.
-
-[source-map-explorer](https://github.com/danvk/source-map-explorer) can be used to analyze and debug space usage through source maps. It shows you a treemap visualization to help you debug where all the code is coming from. Note that use your production builds to inspect bundle size with `source-map-explorer` to ensure you’re previewing optimized code.
-
-```sh
-npm install -g source-map-explorer
-# Default behavior - write HTML to a temp file and open it in your browser
-source-map-explorer bundle.min.js
-
-# Write output in specific formats to a file
-source-map-explorer bundle.min.js --html result.html
-source-map-explorer bundle.min.js --json result.json
-
-# Get help
-source-map-explorer -h
-```
-
-<img alt="source-map-explorer" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008i3skNly1gx2pz85jf1j31lf0u07aa.jpg" width="800" />
-
-One more thing, Chrome DevTools parses the [x_google_ignoreList](https://developer.chrome.com/articles/x-google-ignore-list) field in source maps to help improve developer debugging experience (to filter out generated code and let web developers focus only on the code they author.)
-
-```js
-/* demo.js.map */
-{
-  "version": 3,
-  "mappings": "AAAAA, ..." 
-  "sources": [
-    "app.js",
-    "components/Button.ts",
-    "node_modules/.../framework.js",
-    "node_modules/.../library.js",
-    ...
-  ],
-  "x_google_ignoreList": [2, 3],
-  ...
-}
-```
-
-> Learn source maps from Google Chrome Developers
-> - What are source maps: https://web.dev/articles/source-maps
-> - Using source maps in DevTools: https://www.youtube.com/watch?v=SkUcO4ML5U0
-
 ## Set up Prettier and ESLint
 Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
 

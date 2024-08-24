@@ -124,43 +124,6 @@ Webpack 4 also has the concept `url-loader`. It first base64 encodes the file an
 - `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.
 - Want to access `webpack-dev-server` from the mobile in local network: run `webpack-dev-server` with `--host 0.0.0.0`, which lets the server listen for requests from the network (all IP addresses on the local machine), not just localhost. But Chrome won't access `http://0.0.0.0:8089` (Safari can open). It's not the IP, it just means it is listening on all the network interfaces, so you can use any IP the host has.
 
-#### HMR (Hot Module Replacement) 
-With `hot` flag, it sets `webpack-dev-server` in hot mode. If we don’t use this it does a full refresh of the page instead of hot module replacement. It also automatically adds the plugin `HotModuleReplacementPlugin`, which adds the “HMR runtime” into your bundle.
-
-`webpack-dev-server` (WDS) also inserts some code in the bundle that we call “WDS client”, because it must tell the client when a file has changed and new code can be loaded. WDS server does this by opening a websocket connection to the WDS client on page load. When the WDS client receives the websocket messages, it tells the HMR runtime to download the new manifest of the new module and the actual code for that module that has changed.
-
-```js
-// https://github.com/lmiller1990/build-your-own-vite
-// 1. inject client.js code into the bundle
-// 2. ws connection between client and server
-// 3. server side use `chokidar` to watch the files change and send ws message
-// 4. client dynamically import the updated file
-
-// server.js
-const hmrMiddleware = async (req, res, next) => {
-  if (!req.url.endsWith(".js")) {
-    return next();
-  }
-
-  let client = await fs.readFile(path.join(process.cwd(), "client.js"), "utf8");
-  let content = await fs.readFile(path.join(process.cwd(), req.url), "utf8");
-
-  content = `
-    ${client}
-
-    hmrClient(import.meta)
-
-    ${content}
-  `;
-
-  res.type(".js");
-  res.send(content);
-};
-
-app.use(hmrMiddleware);
-app.use(express.static(process.cwd()));
-```
-
 #### something related to bundling/tree shaking
 1. Every component will get its own scope, and when it imports another module, webpack will check if the required file was already included or not in the bundle.
 2. Webpack v5 comes with the latest `terser-webpack-plugin` out of the box. `optimization.minimize` is set to `true` by default, telling webpack to minimize the bundle using the `TerserPlugin`.
