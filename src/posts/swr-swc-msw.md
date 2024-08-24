@@ -121,21 +121,36 @@ Bugs from the above code:
 With React Query, the above code becomes:
 
 ```jsx
-function Bookmarks({ category }) {
-  const { isLoading, data, error } = useQuery({
-    // Treat parameters as dependencies
+const useBookmarks = (category) => {
+  return useQuery({
     queryKey: ['bookmarks', category],
-    queryFn: () =>
-      fetch(`${endpoint}/${category}`).then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch')
-        }
-        return res.json()
-      }),
-  })
+    queryFn: async () => {
+      const response = await fetch(`${endpoint}/${category}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch');
+      }
+      return response.json();
+    },
+  });
+};
 
-  // Return JSX based on data and error state
-}
+const Bookmarks = ({ category }) => {
+  const { isLoading, data, error } = useBookmarks(category);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  
+  return (
+    <div>
+      <h2>{category} Bookmarks</h2>
+      <ul>
+        {data.map((bookmark) => (
+          <li key={bookmark.id}>{bookmark.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 ```
 
 React Query, as an async state manager, works with any function that returns a Promise and embraces the stale-while-revalidate caching strategy. The library tries to keep your data as fresh as possible while at the same time showing data to the user as early as possible.

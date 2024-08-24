@@ -4,7 +4,7 @@ title: "Demystifying HMR and Source Maps"
 slug: demystifying-hmr-and-source-maps
 description: ""
 added: "Aug 24 2024"
-tags: [code]
+tags: [web, code]
 ---
 
 ## Hot Module Replacement
