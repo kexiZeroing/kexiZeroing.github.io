@@ -166,7 +166,12 @@ git push origin recovered-branch:recovered-branch
 ## change the most recent commit message after push
 `git commit --amend` brings up the editor with the last commit message and lets you edit the message. You can use `-m` if you want to wipe out the old message and use a new one: `git commit --amend -m "new commit message"`. And then when you push, do `git push --force-with-lease <repository> <branch>`.
 
+## make empty commits
+`git commit --allow-empty -m 'trigger build'` allows you to trigger a commit with no content, skipping the error you would usually see that says you have nothing staged. This trick is especially useful when you need to kick off a CI run or even a production deployment without having to push arbitrary code.
+
 Btw, you can add a commit subject and description as follows: `git commit -m "subject line" -m "longer description"`.
+
+You can easily insert emojis into commit messages provided you know them by name. You can reference the [Gitmoji](https://gitmoji.dev) cheatsheet to pick a relevant emoji, and insert it as text in your commit message.
 
 ## rewrite history: squash commit, fixup and autosquash
 - https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
