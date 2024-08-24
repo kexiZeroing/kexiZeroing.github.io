@@ -165,22 +165,6 @@ Here's an example of a source map:
 }
 ```
 
-> Source maps support custom extension fields that start with an `x_` prefix. Chrome DevTools parses the `x_google_ignoreList` field in source maps to filter out generated code and let web developers focus only on the code they author.
-
-> ```js
-> {
->  "version": 3,
->  "mappings": "AAAAA, ..." 
->  "sources": [
->    "app.js",
->    "components/Button.ts",
->    "node_modules/.../framework.js",
->    "node_modules/.../library.js",
->    ...
->  ],
->  "x_google_ignoreList": [2, 3],
-> }
-
 The most important part of a source map is the `mappings` field. It uses encoded strings to map lines and locations in the compiled file to the corresponding original file.
 
 ```
@@ -204,4 +188,21 @@ You can view this mapping using a source map visualizer like [source-map-visuali
 - Generated code: The word `const` starts at position 65 in the compressed content.
 - Original code: The word `const` starts at line 2 and column 2 in the original content.
 
-Unfortunately, source mappings aren't always as complete as you need them to be. For example, a variable can be optimized away during the build process. In this case, when you debug the code, developer tools might not be able to infer and display the actual value.
+> Source mappings aren't always as complete as you need them to be. For example, a variable can be optimized away during the build process. In this case, when you debug the code, developer tools might not be able to infer and display the actual value.
+
+Source maps support custom extension fields that start with an `x_` prefix. Chrome DevTools parses the `x_google_ignoreList` field in source maps to filter out generated code and let web developers focus only on the code they author.
+
+```js
+{
+  "version": 3,
+  "mappings": "AAAAA, ..." 
+  "sources": [
+    "app.js",
+    "components/Button.ts",
+    "node_modules/.../framework.js",
+    "node_modules/.../library.js",
+    ...
+  ],
+  "x_google_ignoreList": [2, 3],
+}
+```

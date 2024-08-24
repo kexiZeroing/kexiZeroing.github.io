@@ -5,7 +5,7 @@ slug: swr-swc-msw
 description: ""
 added: "Oct 25 2023"
 tags: [web]
-updatedDate: "Mar 11 2024"
+updatedDate: "Aug 24 2024"
 ---
 
 SWR, SWC, and MSW, three similar names, are always mentioned in the context of web development, but they are totally different things. In this article, we will learn each of them and where they are used.
@@ -153,11 +153,43 @@ const Bookmarks = ({ category }) => {
 };
 ```
 
+```jsx
+// besides `useQuery`, there's also `useMutation`
+function App() {
+  const postQuery = useQuery({
+    queryKey: ['post'],
+    queryFn: () => fetch(...).then(res => res.json()),
+  })
+
+  const newPostMutation = useMutation({
+    mutationFn: async (newTitle) => {
+      const response = await fetch(...)
+      return response.json()
+    },
+    onSuccess: (data) => {
+      // update the cache
+      queryClient.invalidateQueries(['post'])
+    }
+  })
+
+  return (
+    <div>
+      { postQuery.data.map(post => <div key={post.id}>{post.title}</div>) }
+      <button
+        disabled={newPostMutation.isLoading}
+        onClick={() => newPostMutation.mutate('My new post')}>
+        Create new
+      </button>
+    </div>
+  )
+}
+```
+
 React Query, as an async state manager, works with any function that returns a Promise and embraces the stale-while-revalidate caching strategy. The library tries to keep your data as fresh as possible while at the same time showing data to the user as early as possible.
 
 > TanStack Query is a server-state library, responsible for managing asynchronous operations between your server and client. Vuex, Pinia, Zustand, etc. are client-state libraries that can be used to store asynchronous data.
 
-`staleTime` is the duration until a query transitions from fresh to stale. As long as the query is fresh, data will always be read from the cache only - no network request will happen. If the query is stale (which per default is: instantly), you will still get data from the cache, but a background refetch can happen.
+`staleTime` is the duration until a query transitions from fresh to stale. As long as the query is fresh, data will always be read from the cache only - no network request will happen. If the query is stale (which per default is: instantly), **you will still get data from the cache, but a background refetch can happen**.
 
 Stale queries are refetched automatically in the background when:
 - Its corresponding component mounts (`refetchOnMount`)
