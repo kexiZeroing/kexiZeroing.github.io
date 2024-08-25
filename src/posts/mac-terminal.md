@@ -184,7 +184,7 @@ This is also valid: bar
 $ echo 'Here is the content of: $foo'
 Here is the content of: $foo
 
-# Command substitution
+# Command substitution: $(command) is equal to command's stdout
 $ foo=$(echo bar)
 $ echo "\$foo is $foo, but this gives us the same result: $(echo $foo)"
 $foo is bar, but this gives us the same result: bar
@@ -196,7 +196,7 @@ $ echo $foo
 ```
 
 ## Bash Conditionals
-There are some commands designed specifically to test things and return an exit status based on what they find. The first such command is `test` (also known as `[`). A more advanced version is `[[`. `[[` is much like `[`, but it offers far more versatility. Read `man test` for more information.
+There are some commands designed specifically to test things and return an exit status based on what they find. The first such command is `test` (also known as `[`, `/usr/bin/[` is a program that evaluate statements). A more advanced version is `[[`. `[[` is much like `[`, but it offers far more versatility. Read `man test` for more information.
 
 ```sh
 # Comparing numbers

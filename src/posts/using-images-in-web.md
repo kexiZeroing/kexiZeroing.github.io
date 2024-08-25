@@ -5,7 +5,7 @@ slug: using-images-in-web
 description: ""
 added: "Oct 12 2021"
 tags: [web]
-updatedDate: "Feb 26 2024"
+updatedDate: "Aug 25 2024"
 ---
 
 ## Image file types
@@ -157,4 +157,35 @@ into this:
     width: 100%;
   "
 />
+```
+
+### Universal lazy loading for placeholder images
+[unlazy](https://unlazy.byjohann.dev) is intended to be used with the `loading="lazy"` attribute alongside (blurry) placeholder images. If you have a pre-generated blurry placeholder image, use the `src` attribute to specify it. Otherwise, you can use a BlurHash or ThumbHash to generate a placeholder image on the fly.
+
+```html
+<img
+  loading="lazy"
+  src="blurry placeholder ..."
+  data-srcset="image.png"
+  data-sizes="auto"
+>
+
+<img
+  data-src="image.jpg"
+  data-thumbhash="1QcSHQRnh493V4dIh4eXh1h4kJUI"
+>
+```
+
+```js
+import { lazyLoad } from 'unlazy'
+
+// Client-side lazily load all `img[loading="lazy"]` images
+lazyLoad()
+
+
+// Server-Side ThumbHash Decoding
+import { createPngDataUri } from 'unlazy/thumbhash'
+
+const thumbhash = '1QcSHQRnh493V4dIh4eXh1h4kJUI'
+const pngDataUri = createPngDataUri(thumbhash)
 ```
