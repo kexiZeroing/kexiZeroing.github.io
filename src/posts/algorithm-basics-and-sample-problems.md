@@ -1185,10 +1185,10 @@ Given an integer array nums, return an array answer such that `answer[i]` is equ
 ```js
 var productExceptSelf = function(nums) {
   let n = nums.length;
-  let output =[];
+  let output = [];
 
-  let leftProducts =[];
-  let rightProducts =[];
+  let leftProducts = [];
+  let rightProducts = [];
   leftProducts[0] = 1;
   rightProducts[n - 1] = 1;
 
@@ -1276,6 +1276,31 @@ var subarraySum = function(nums, k) {
 };
 ```
 
+Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it. Return the number of nice sub-arrays.
+
+```js
+var numberOfSubarrays = function(nums, k) {
+  let oddCount = 0;
+  let result = 0;
+  let count = new Map();
+  // key is the count of odd numbers encountered so far 
+  // value is the # of times we've encountered that particular count of odd numbers.
+  count.set(0, 1);
+
+  for (const num of nums) {
+    if (num % 2 === 1) {
+      oddCount += 1;
+    }
+    if (oddCount >= k && count.has(oddCount - k)) {
+      result += count.get(oddCount - k);
+    }
+
+    count.set(oddCount, (count.get(oddCount) || 0) + 1);
+  }
+  return result;
+};
+```
+
 Given an array of positive integers arr, return the sum of all possible odd-length subarrays of arr.
 
 ```js
@@ -1296,30 +1321,6 @@ var sumOddLengthSubarrays = function(arr) {
   }
 
   return ans;
-};
-```
-
-Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it. Return the number of nice sub-arrays.
-
-```js
-var numberOfSubarrays = function(nums, k) {
-  // `count[3] = 2` means there are 2 positions where we've encountered exactly 3 odd numbers.
-  let count = Array(nums.length + 1).fill(0);
-  count[0] = 1;
-  let oddCount = 0;
-  let result = 0;
-
-  for (const num of nums) {
-    if (num % 2 === 1) {
-      oddCount += 1;
-    }
-    if (oddCount >= k) {
-      result += count[oddCount - k];
-    }
-
-    count[oddCount]++;
-  }
-  return result;
 };
 ```
 
