@@ -1777,14 +1777,14 @@ Given the root of a binary tree and an integer targetSum, return true if the tre
 
 ```js
 var hasPathSum = function(root, targetSum) {
-	if (root === null) {
+  if (root === null) {
     return false;
   }
-	if (root.val == targetSum && (root.left === null && root.right === null)) {
+  if (root.val === targetSum && (root.left === null && root.right === null)) {
     return true;
   }
-
-	return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+  
+  return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
 };
 ```
 
@@ -1794,7 +1794,7 @@ Given the root of a binary tree, determine if it is a valid binary search tree.
 var isValidBST = function(root) {
   // Check range of each node
   const helper = (root, min, max) => {
-    if (!root) return true;
+    if (root === null) return true;
     
     if (root.val < min || root.val > max) return false;
     
