@@ -82,6 +82,9 @@ export const loader = async ({ params }: LoaderArgs) => {
 
 **Tailwind** uses a compiler to generate only the classes used. So while the utility CSS framework contains many possible class names, only the classes used will be included in the single, compiled CSS file. Tailwind classes are just utilities for normal CSS that adhere to a design system. You can mix and match Tailwind with CSS Modules.
 
+> 1. Tailwind CSS is incredibly performance focused and aims to produce the smallest CSS file possible by only generating the CSS you are actually using in your project.
+> 2. The way Tailwind scans your source code for classes is intentionally very simple — we don’t actually parse or execute any of your code in the language it’s written in, we just use regular expressions to extract every string that could possibly be a class name. (Don’t construct class names dynamically)
+
 **CSS-in-JS libraries** which require runtime JavaScript are not currently supported in Server Components. Using CSS-in-JS with newer React features like Server Components and Streaming requires library authors to support the latest version of React.
 
 [Lightning CSS](https://lightningcss.dev) is an extremely fast CSS parser, transformer, and minifier written in Rust. It lets you use modern CSS features and future syntax today. Features such as CSS nesting, custom media queries, high gamut color spaces, logical properties, and new selector features are automatically converted to more compatible syntax based on your browser targets. Lightning CSS is used by Vite, and soon by Tailwind and Next.js. Tools like `postcss` and `autoprefixer` are being replaced by faster, all-in-one Rust toolchains.
@@ -291,6 +294,27 @@ clsx(['foo', 0, false, 'bar']);
 
 clsx(['foo'], ['', 0, false, 'bar'], [['baz', [['hello'], 'there']]]);
 //=> 'foo bar baz hello there'
+```
+
+Combining `clsx` with `tailwind-merge` allows us to conditionally join Tailwind CSS classes in classNames together without style conflicts.
+- `clsx` is generally used to conditionally apply a given className.
+- `tailwind-merge` overrides conflicting Tailwind CSS classes and keeps everything else untouched.
+
+```js
+import { clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs))
+}
+
+<button className={cn(
+  "bg-blue-500 py-2 px-4",
+  className,
+  {
+    "bg-green-500": condition
+  }
+)}>
 ```
 
 ### Design system examples
