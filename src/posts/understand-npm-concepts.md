@@ -5,7 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "July 17 2024"
+updatedDate: "Aug 26 2024"
 ---
 
 ### package.json and package-lock.json
@@ -25,6 +25,35 @@ updatedDate: "July 17 2024"
 > - `exports`, modern entry points, more flexible
 
 <img alt="package-code-entries" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/package-code-entries.png" width="700" />
+
+#### Read [How To Create An NPM Package](https://www.totaltypescript.com/how-to-create-an-npm-package) by Total TypeScript
+
+Create a `package.json` with:
+- `files` is an array of files that should be included when people install your package. In this case, we're including the `dist` folder. `README.md`, `package.json` and `LICENSE` are included by default.
+- `type` is set to `module` to indicate that your package uses ECMAScript modules, not CommonJS modules.
+
+[@arethetypeswrong/cli](https://github.com/arethetypeswrong/arethetypeswrong.github.io) is a tool that checks if your package exports are correct. Add a script `"check-exports": "attw --pack ."` to check if all exports from your package are correct.
+
+Add a `main` field to your package.json with `"main": "dist/index.js"`, and our package is compatible with systems running ESM.
+
+```
+npm run check-exports
+┌───────────────────┬──────────────────────────────┐
+│                   │ "tt-package-demo"            │
+├───────────────────┼──────────────────────────────┤
+│ node10            │ 🟢                           │
+├───────────────────┼──────────────────────────────┤
+│ node16 (from CJS) │ ⚠️ ESM (dynamic import only) │
+├───────────────────┼──────────────────────────────┤
+│ node16 (from ESM) │ 🟢 (ESM)                     │
+├───────────────────┼──────────────────────────────┤
+│ bundler           │ 🟢                           │
+└───────────────────┴──────────────────────────────┘
+```
+
+If you want to publish both CJS and ESM code, you can use `tsup`. This is a tool built on top of esbuild that compiles your TypeScript code into both formats. We'll now be running `tsup` to compile our code instead of `tsc`.
+
+Add an `exports` field to your `package.json`, which tells programs consuming your package how to find the CJS and ESM versions of your package. In this case, we're pointing folks using `import` to `dist/index.js` and folks using `require` to `dist/index.cjs`. Run `check-exports` again, everything is green.
 
 ### npm install and npm ci
 `npm install` reads `package.json` to create a list of dependencies and uses `package-lock.json` to inform which versions of these dependencies to install. If a dependency is not in `package-lock.json` it will be added by `npm install`.

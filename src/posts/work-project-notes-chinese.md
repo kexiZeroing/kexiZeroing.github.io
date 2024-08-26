@@ -228,57 +228,6 @@ If that doesn't help, make sure the module you are trying to import is tracked b
 
 > Above was created in the days before Vue shipped with TypeScript out of the box. Now the best path to get started is through the official CLI.
 
-#### Bundling your library with Webpack
-So far everything should be the same as bundling an application, and here comes the different part – we need to expose exports from the entry point through `output.library` option.
-
-- As a library author, we want it to be compatible in different environments. `type: 'umd'` exposes your library under all the module definitions, allowing it to work with CommonJS, AMD, and as global variable.
-- If your library uses dependencies like `lodash`, we'd prefer to treat it as a peer dependency. This can be done using the `externals` configuration, which means the library expects it to be available in the consumer's environment.
-- Also add the path to your generated bundle as the package's `main` field in the `package.json`.
-
-> - AMD: short for Asynchronous Module Definition, fetches modules asynchronously and was designed to be used in browsers.
-> - CommonJS: abbreviated CJS, fetches modules synchronously and was designed for server-side (Node supports it by default).
-> - UMD: is an abbreviation of Universal Module Definition. Its name (universal) derives from the fact that it works on both the front-end and back-end.
-> - ES6 modules: ES6 finally implements a built-in module system for JS. The format provides an import and export syntax that new JavaScript developers are likely more familiar with than AMD or CJS.
-
-```js
-// export components in the entry file index.js
-export * from './components/xxx'
-```
-
-```js
-output: {
-  filename: "library-starter.js",
-  path: path.resolve(__dirname, "dist"),
-  library: {
-    name: 'MyLibrary', // Specify a name for the library.
-    type: 'umd',       // Configure how the library will be exposed.
-    export: 'default', // Access without using `.default` 
-  },
-  globalObject: "this"  // To make UMD build available on both browsers and Node.js
-},
-```
-
-```js
-// use Rollup is easier for bundling component library
-// "main": "dist/index.js"
-// "module": "dist/index.es.js"
-{
-  input: './src/index.js',
-  output: [
-    {
-      file: 'dist/index.js',
-      format: 'cjs',
-    },
-    {
-      file: 'dist/index.es.js',
-      format: 'es',
-      exports: 'named',
-    }
-  ],
-  plugins: [...]
-}
-```
-
 #### 配置 babel-loader 选择性编译引入的 sdk 文件
 Transpiling is an expensive process and many projects have thousands of lines of code imported in that babel would need to run over. Your `node_modules` should already be runnable without transpiling and there are simple ways to exclude your `node_modules` but transpile any code that needs it.
 ```js

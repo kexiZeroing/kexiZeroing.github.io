@@ -5,7 +5,7 @@ slug: js-basics-you-should-know
 description: ""
 added: "Aug 3 2020"
 tags: [js]
-updatedDate: "Aug 6 2024"
+updatedDate: "Aug 26 2024"
 ---
 
 > You can read this post together with [JavaScript Questions](https://github.com/lydiahallie/javascript-questions) created by @lydiahallie to test how well you know JavaScript.
@@ -224,6 +224,7 @@ Object.prototype.toString.call(new Map())     // '[object Map]'
 - `Number.MAX_SAFE_INTEGER` is the largest integer which can be used safely in calculations, for example, `Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2` is true. Any integer larger than `Number.MAX_SAFE_INTEGER` cannot always be represented in memory accurately and will be a double-precision floating point approximation of the value.
 - With the introduction of `BigInt`, you can operate with numbers beyond the `Number.MAX_SAFE_INTEGER`. A `BigInt` is created by appending `n` to the end of an integer or by calling the constructor.
 - The `Number.isFinite()` static method determines whether the passed value is a finite number — that is neither positive Infinity, negative Infinity, nor NaN.
+- `Number.isInteger()` returns true if the given value is an integer, otherwise return false. If the value is NaN or Infinity, return false.
 
 > Tweet IDs are big numbers, bigger than `2^53`. The Twitter API now returns them as both integers and strings, so that in Javascript you can just use the string ID, but if you tried to use the integer version in JS, things would go very wrong. This particular issue doesn’t happen in Python, because Python has integers. Read more about [Examples of floating point problems](https://jvns.ca/blog/2023/01/13/examples-of-floating-point-problems/).
 
@@ -621,6 +622,28 @@ var p1 = encodeURIComponent("http://example.org/?a=12&b=55")
 // Then you may create the URL you need
 var url = "http://example.net/?param1=" + p1 + "&param2=99";
 // http://example.net/?param1=http%3A%2F%2Fexample.org%2F%Ffa%3D12%26b%3D55&param2=99
+```
+
+```js
+// Real use case: handles URL redirection for login
+let nextParam = location.pathname;
+if (location.search) {
+  nextParam += location.search;
+}
+location.href = '/web/?next=' + encodeURIComponent(nextParam) + '&type=3';
+
+// after login in `/web` page
+let $next = GetQueryString('next')
+if (GetQueryString('type') && $next) {
+  $next = decodeURIComponent($next);
+
+  if ($next.indexOf('?') > -1) {
+    $next += '&date=' + Date.now()
+  } else {
+    $next += '?date=' + Date.now()
+  }
+  location.href = location.origin + $next
+}
 ```
 
 ## JSON stringify and parse 

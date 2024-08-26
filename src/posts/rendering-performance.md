@@ -189,6 +189,10 @@ window.addEventListener('load', (event) => {
   console.log('`defer`ed code duration: ' + (timings.domContentLoadedEventStart - timings.domInteractive + 'ms'));
   console.log('`DOMContentLoaded`- wrapped code duration: ' + (timings.domContentLoadedEventEnd - timings.domContentLoadedEventStart + 'ms'));
 });
+
+// PerformanceTiming is deprecated
+// Use the PerformanceNavigationTiming interface instead
+performance.getEntriesByType('navigation')[0]
 ```
 
 ### Best practices for fonts
