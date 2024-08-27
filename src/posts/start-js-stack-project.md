@@ -308,6 +308,8 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
 
+// twMerge -> condition && "bg-green-500"
+// clsx -> { "bg-green-500": condition }
 <button className={cn(
   "bg-blue-500 py-2 px-4",
   className,

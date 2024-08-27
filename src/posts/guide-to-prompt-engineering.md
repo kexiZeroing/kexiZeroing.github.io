@@ -325,6 +325,8 @@ When you make an API call with these additions, we check if the designated parts
 
 Place static content (system instructions, context, tool definitions) at the beginning of your prompt. Mark the end of the reusable content for caching using the `cache_control` parameter. The cache has a 5-minute lifetime, refreshed each time the cached content is used.
 
+> Anthropic published the system prompts for their user-facing chat-based LLM systems - Claude 3 Haiku, Claude 3 Opus and Claude 3.5 Sonnet - as part of their documentation: https://docs.anthropic.com/en/release-notes/system-prompts
+
 ## Chrome built-in AI
 With built-in AI, your website or web application can perform AI-powered tasks without needing to deploy or manage its own AI models.
 

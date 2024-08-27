@@ -512,6 +512,8 @@ Anthropic's educational courses: https://github.com/anthropics/courses
 
 Open source Claude Artifacts – built with Llama 3.1: https://llamacoder.together.ai
 
+Find the best cursor rules for your framework and language: https://cursor.directory
+
 ---
 
 ## Machine Learning
