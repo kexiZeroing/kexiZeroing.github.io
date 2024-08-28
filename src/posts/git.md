@@ -229,6 +229,18 @@ After committing several times, you realize that you need to create `.gitignore`
 - Use `git push origin v1.1.0` to push a particular tag, or `git push --tags` if you want to push all tags.
 - `git push origin :tagname` to delete a remote tag, and if you also need to delete the local tag, use `git tag --delete tagname`.
 
+## git lfs
+GitHub limits the size of files allowed in repositories. If you attempt to add or update a file that is larger than 50 MiB, you will receive a warning from Git. GitHub blocks files larger than 100 MiB. To track files beyond this limit, you must use Git Large File Storage (Git LFS). Git LFS handles large files by storing references to the file in the repository, but not the actual file itself.
+
+```sh
+brew install git-lfs
+git lfs install
+
+git lfs track "*.psd"
+
+git lfs help
+```
+
 ## update your GitHub fork
 You cannot push code to repositories that you don’t own. So instead, you make your own copy of the repository by “forking” it. You are then free to make any changes you wish to your repository.
 
