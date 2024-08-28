@@ -1,7 +1,7 @@
 ---
-import '@/tw-styles/globals.css'
-import { Button } from "@/components/ui/button"
+import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
 
+import { Button } from "@/components/ui/button"
 import { ModeToggle } from '@/components/shadcn-ui-demo/ModeToggle'
 import { CalendarDemo } from "@/components/shadcn-ui-demo/CalendarDemo"
 import { AlertDialogDemo } from "@/components/shadcn-ui-demo/AlertDialogDemo"
@@ -30,41 +30,36 @@ import { TableDemo } from "@/components/shadcn-ui-demo/TableDemo"
 	}
 </script>
 
-<html lang="en" class="px-4 pb-4">
-	<head>
-		<title>Expirement with shadcn/ui</title>
-	</head>
-	<body>
-		<header class="px-4 flex justify-between items-center border-b h-[54px] sticky top-0 bg-white dark:bg-slate-950">
-			<h1 class="text-lg font-bold text-slate-900 dark:text-white">Astro with shadcn/ui components</h1>
-			<ModeToggle client:load />
-		</header>
+<PlaygroundLayout title="Shadcn UI Playground">
+	<header class="px-4 flex justify-between items-center border-b h-[54px] sticky top-0 z-10 bg-white dark:bg-slate-950">
+		<h1 class="text-lg font-bold text-slate-900 dark:text-white">Astro with shadcn/ui components</h1>
+		<ModeToggle client:load />
+	</header>
+
+	<main class="flex flex-col gap-6 px-4 py-4">
+		<div class="flex gap-2 mt-5">
+			<Button>Click Me</Button>
+			<Button variant='outline'>Click Me</Button>
+			<Button variant='custom'>Click Me</Button>
+			<Button variant='secondary'>Click Me</Button>
+			<Button variant='danger'>Click Me</Button>
+			<Button variant='ghost'>Click Me</Button>
+		</div>
 		
-		<main class="flex flex-col gap-6">
-			<div class="flex gap-2 mt-5">
-				<Button>Click Me</Button>
-				<Button variant='outline'>Click Me</Button>
-				<Button variant='custom'>Click Me</Button>
-				<Button variant='secondary'>Click Me</Button>
-				<Button variant='danger'>Click Me</Button>
-				<Button variant='ghost'>Click Me</Button>
-			</div>
-			
-			<CalendarDemo client:load />
+		<CalendarDemo client:load />
 
-			<div class="max-w-32">
-				<AlertDialogDemo client:load />
-			</div>
+		<div class="max-w-32">
+			<AlertDialogDemo client:load />
+		</div>
 
-			<SelectDemo client:load />
+		<SelectDemo client:load />
 
-			<RadioGroupDemo client:load />
+		<RadioGroupDemo client:load />
 
-			<CheckboxDemo client:load />
+		<CheckboxDemo client:load />
 
-			<div class="w-[500px]" >
-				<TableDemo />
-			</div>
-		</main>
-	</body>
-</html>
+		<div class="w-[500px]" >
+			<TableDemo />
+		</div>
+	</main>
+</PlaygroundLayout>

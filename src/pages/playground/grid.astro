@@ -1,0 +1,10 @@
+---
+import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+import ColorGrid from '@/components/playground/ColorGrid'
+---
+
+<PlaygroundLayout title="Color Grid Playground">
+  <div class="w-full h-full overflow-hidden grid place-items-center">
+    <ColorGrid client:load />
+  </div>
+</PlaygroundLayout>
