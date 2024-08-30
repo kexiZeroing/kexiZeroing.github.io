@@ -48,6 +48,13 @@ Vite only support ES Modules, and parsing the native ES Modules means it will re
 > - CopyWebpackPlugin -> vite-plugin-static-copy
 > - DefinePlugin -> define()
 
+### Issues with Vite
+https://github.com/vitejs/vite/discussions/13697#discussioncomment-10241433
+
+When I use Vite on a real world large web app, we encounter a poor experience: page reloading is extremely slow, and using the network panel in Devtool may result in freezing for several minutes.
+
+Vite's current unbundle mechanism is not suitable for large web app development, as it reloads a large number of code files and generates numerous requests on every page refresh. While Vite has Dependency Pre-Bundling to solve third-party dependency issues, for large web app, our own codebase is also substantial. When a page has 500 source files simultaneously, the development experience becomes terrible.
+
 ## Features
 
 ### NPM Dependency Resolving

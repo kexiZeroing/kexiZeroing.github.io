@@ -127,6 +127,12 @@ Access tokens are used to inform an API that the bearer of the token has been au
 
 *(above picture comes from https://auth0.com/blog/id-token-access-token-what-is-the-difference)*
 
+### What is SSO (Single Sign On)
+To put it simply, it’s the enterprise equivalent of the “Login with Google” or “Login with Facebook” buttons we see in apps around the internet. We register an account initially in Google or Facebook and use that account to login to other apps like Spotify, Netflix, Zoom etc. We do this to avoid maintaining multiple username/passwords. Similarly, enterprises maintain a single user management system and employees use their corporate account to login to third-party services like Salesforce, Workday, etc without creating separate accounts or remembering multiple passwords. This is called SSO and SAML (Security Assertion Markup Language) is the de facto enterprise SSO solution.
+
+- Identity Provider (IdP): This server is responsible for authenticating the user and passing the user details such as email address, name, department etc to the Service Provider. Popular identity providers are Azure AD, Auth0, G Suite etc.
+- Service Provider (SP): This is the application that trusts the IdP and wants to use it for authentication. Examples: Salesforce, Workday, $YOUR_AWESOME_APP etc.
+
 ### How to securely store JWTs
 A JWT needs to be stored in a safe place inside the user’s browser. If you store it inside local storage, it’s accessible by any script inside your page. This is as bad as it sounds; an XSS attack could give an external attacker access to the token.
 

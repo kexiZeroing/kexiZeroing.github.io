@@ -234,6 +234,8 @@ A Friendly Introduction to Spring Physics: https://www.joshwcomeau.com/animation
 
 The Collection of CSS-only Shapes: https://css-shape.com
 
+Styling Tables the Modern CSS Way: https://piccalil.li/blog/styling-tables-the-modern-css-way
+
 ---
 
 ## FE dev resources
