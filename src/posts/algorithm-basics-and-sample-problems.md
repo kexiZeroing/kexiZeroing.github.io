@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Aug 16 2024"
+updatedDate: "Aug 30 2024"
 ---
 
 ### TOC
@@ -177,6 +177,31 @@ function mergeSort(arr) {
   const right = arr.slice(split, arr.length);
 
   return merge(mergeSort(left), mergeSort(right));
+}
+```
+
+Count the number of reverse pairs in an array using the merge sort algorithm. A reverse pair is a pair of numbers (i, j) where `i < j` and `nums[i] > nums[j]`.
+
+```js
+function merge(arr1, arr2, count = 0) {
+  const merged = [];
+  let i = 0;
+  let j = 0;
+  
+  while (i < arr1.length && j < arr2.length) {
+    if (arr1[i] <= arr2[j]) {
+      merged.push(arr1[i]);
+      i++;
+    } else {
+      merged.push(arr2[j]);
+      j++;
+      // Count reverse pairs
+      count += arr1.length - i;
+    }
+  }
+
+  merged.push(...arr1.slice(i), ...arr2.slice(j));
+  return merged;
 }
 ```
 
@@ -1066,6 +1091,31 @@ function isSame(dict1, dict2) {
 }
 ```
 
+You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. Each time the sliding window moves right by one position. Return an array of max number in sliding window. 
+
+```js
+var maxSlidingWindow = function(nums, k) {
+  let q = [];  // stores *indices*
+  let res = [];
+
+  for (let i = 0; i < nums.length; i++) {
+    while (nums[i] >= nums[q[q.length - 1]]) {
+      q.pop();
+    }
+    q.push(i);
+
+    // remove first element if it's outside the window
+    if (q[0] === i - k) {
+      q.shift();
+    }
+    if (i >= k - 1) {
+      res.push(nums[q[0]]);
+    }
+  }
+  return res;
+};
+```
+
 Given a string s, return the longest palindromic substring in s.
 
 ```js
@@ -1139,6 +1189,32 @@ var longestValidParentheses = function(s) {
       }
     }
   }
+};
+```
+
+Given a string s containing only three types of characters: '(', ')' and '\*', return true if s is valid. '\*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string "".
+
+```js
+var checkValidString = function(s) {
+  // the min and max # of open parentheses that must be matched
+  let leftMin = 0, leftMax = 0;
+
+  for (let c of s) {
+    if (c === '(') {
+      leftMin++;
+      leftMax++;
+    } else if (c === ')') {
+      leftMin--;
+      leftMax--;
+    } else {
+      leftMin--;
+      leftMax++;
+    }
+    if (leftMax < 0) return false;
+    if (leftMin < 0) leftMin = 0; // '*' can be treated as empty string
+  }
+  
+  return leftMin === 0; 
 };
 ```
 
