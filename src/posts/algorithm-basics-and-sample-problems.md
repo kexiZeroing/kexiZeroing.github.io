@@ -2017,6 +2017,68 @@ var maxAreaOfIsland = function(grid) {
 };
 ```
 
+Given two words, `beginWord` and `endWord`, and a dictionary `wordList`, return the number of words in the shortest transformation sequence from `beginWord` to `endWord`, or 0 if no such sequence exists. Every adjacent pair of words differs by a single letter.
+
+```js
+var ladderLength = function(beginWord, endWord, wordList) {
+  let wordSet = new Set(wordList)
+  let queue = [beginWord];
+  let steps = 1;
+  
+  // bfs
+  while (queue.length) {
+    // words in the same "level"
+    let n = queue.length;
+    for (let i = 0; i < n; i++) {
+      let word = queue.shift();
+      if (word === endWord) {
+        return steps;
+      }
+      
+      for (let j = 0; j < word.length; j++) {
+        // replace the char with letters from [a - z]
+        for (let k = 0; k < 26; k++) {
+          let newWord = word.slice(0, j) + String.fromCharCode(k + 97) + word.slice(j + 1);
+          if (wordSet.has(newWord)) {
+            queue.push(newWord);
+            wordSet.delete(newWord);
+          }
+        }
+      }
+    }
+    
+    steps++;
+  }
+
+  return 0;    
+};
+```
+
+The message is decoded via the following mapping: `"1" -> 'A'` ... `"26" -> 'Z'`. There are many different ways you can decode the message because some codes are contained in other codes ("2" and "5" vs "25"). Given a string s containing only digits, return the number of ways to decode it.
+
+```js
+var numDecodings = function (s) {
+  let dp = Array(s.length + 1).fill(0);
+  // there is only one way to decode an empty string
+  dp[0] = 1;
+  if (s[0] !== '0') {
+    dp[1] = 1;
+  } else {
+    return 0;
+  }
+
+  for (let i = 2; i <= s.length; i++) {
+    if (s[i - 1] !== '0') {
+      dp[i] += dp[i - 1];
+    }
+    if (s[i - 2] === '1' || (s[i - 2] === '2' && s[i - 1] <= '6')) {
+      dp[i] += dp[i - 2];
+    }
+  }
+  return dp[s.length];
+};
+```
+
 Given an integer array nums, return the length of the longest strictly increasing subsequence. For example, `[10,9,2,5,3,7,101,18]`'s longest increasing subsequence is `[2,3,7,101]`.
 
 ```js
