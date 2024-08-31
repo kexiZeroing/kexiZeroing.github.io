@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Aug 30 2024"
+updatedDate: "Aug 31 2024"
 ---
 
 ### TOC
@@ -1234,6 +1234,44 @@ var longestCommonPrefix = function(strs) {
 };
 ```
 
+Given an unsorted integer array nums. Return the smallest positive integer that is not present in nums.
+
+```js
+var firstMissingPositive = function(nums) {
+  const numSet = new Set(nums.filter(num => num > 0)); 
+  let i = 1;
+  
+  while (numSet.has(i)) {
+    i++;
+  }
+  return i;
+};
+
+// use O(1) space
+var firstMissingPositive = function(nums) {
+  const swap = (arr, i, j) => {
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  };
+  const n = nums.length;
+
+  // The answer lies within the range [1, n+1]
+  // Place each positive integer i at index i-1 if possible
+  for (let i = 0; i < n; i++) {
+    while (nums[i] > 0 && nums[i] <= n && nums[i] !== nums[nums[i] - 1]) {
+      swap(nums, i, nums[i] - 1);
+    }
+  }
+    
+  for (let i = 0; i < n; i++) {
+    if (nums[i] !== i + 1) {
+      return i + 1;
+    }
+  }
+  // If all positive integers from 1 to n are present, return n + 1
+  return n + 1;
+};
+```
+
 Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence. Take `[10, 4, 20, 1, 3, 2]` as an example, the longest consecutive elements sequence is `[1, 2, 3, 4]`.
 
 ```js
@@ -1772,47 +1810,31 @@ var subsets = function(nums) {
 };
 ```
 
-Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s. Input: `s = "aab"`. Output: `[["a","a","b"],["aa","b"]]`
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. A mapping of digits to letters (just like on the telephone buttons) is `2->abc` ... `9->wxyz`.
 
 ```js
-var partition = function(s) {
-  const res = [];
-  const part = [];
+var letterCombinations = function(digits) {
+  if (digits.length === 0) {
+    return [];
+  }
 
-  function backtrack(i) {
-    if (i === s.length) {
-      res.push([...part]);
+  const phone_map = ["abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
+  const output = [];
+  backtrack("", digits, phone_map, output);
+  return output;
+
+  function backtrack(combination, next_digits, phone_map, output) {
+    if (next_digits.length === 0) {
+      output.push(combination);
       return;
     }
 
-    for (let j = i; j < s.length; j++) {
-      // print i, j, part here: 
-      // 0 0 []
-      // 1 1 ['a']
-      // 2 2 ['a', 'a']
-      // 1 2 ['a']
-      // 0 1 []
-      // 2 2 ['aa']
-      // 0 2 []
-      if (isPalindrome(s, i, j)) {
-        part.push(s.slice(i, j + 1));
-        backtrack(j + 1);
-        part.pop();
-      }
+    const letters = phone_map[next_digits[0] - '2'];
+    for (const letter of letters) {
+      backtrack(combination + letter, next_digits.slice(1), phone_map, output);
     }
   }
-  backtrack(0);
-  return res;
 };
-
-function isPalindrome(s, l, r) {
-  while (l < r) {
-    if (s[l] !== s[r]) return false;
-    l++;
-    r--;
-  }
-  return true;
-}
 ```
 
 Given a binary search tree (BST), find the lowest common ancestor node of two given nodes in the BST.
