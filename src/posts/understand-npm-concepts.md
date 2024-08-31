@@ -55,6 +55,8 @@ If you want to publish both CJS and ESM code, you can use `tsup`. This is a tool
 
 Add an `exports` field to your `package.json`, which tells programs consuming your package how to find the CJS and ESM versions of your package. In this case, we're pointing folks using `import` to `dist/index.js` and folks using `require` to `dist/index.cjs`. Run `check-exports` again, everything is green.
 
+> [npm-esm-vs-cjs](https://github.com/wooorm/npm-esm-vs-cjs) has the data on the share of ESM vs CJS on the public npm registry. By August 2024, close to 1 in 4 of the popular npm packages contains ESM: ESM-only (12.1%) or dual (11.5%).
+
 ### npm install and npm ci
 `npm install` reads `package.json` to create a list of dependencies and uses `package-lock.json` to inform which versions of these dependencies to install. If a dependency is not in `package-lock.json` it will be added by `npm install`.
 

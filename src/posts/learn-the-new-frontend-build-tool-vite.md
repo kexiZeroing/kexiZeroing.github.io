@@ -51,7 +51,7 @@ Vite only support ES Modules, and parsing the native ES Modules means it will re
 ### Issues with Vite
 https://github.com/vitejs/vite/discussions/13697#discussioncomment-10241433
 
-When I use Vite on a real world large web app, we encounter a poor experience: page reloading is extremely slow, and using the network panel in Devtool may result in freezing for several minutes.
+The page load speed for large web apps is the bottleneck in Vite's development experience. This bottleneck isn't related to HMR or slow Vite compilation speeds—both of these are already fast enough. The underlying cause is Vite's mechanism of sending ES modules directly to the browser.
 
 Vite's current unbundle mechanism is not suitable for large web app development, as it reloads a large number of code files and generates numerous requests on every page refresh. While Vite has Dependency Pre-Bundling to solve third-party dependency issues, for large web app, our own codebase is also substantial. When a page has 500 source files simultaneously, the development experience becomes terrible.
 

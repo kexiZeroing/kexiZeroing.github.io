@@ -5,7 +5,7 @@ slug: a-guide-to-prompt-engineering
 description: ""
 added: "Apr 5 2023"
 tags: [AI]
-updatedDate: "Aug 10 2024"
+updatedDate: "Aug 31 2024"
 ---
 
 Prompt Engineering refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of LLMs on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs.
@@ -246,6 +246,15 @@ Another interesting translation example from [Baoyu's blog](https://baoyu.io/blo
 
   请根据直译和反思的结果，重新意译，并输出最终翻译结果，不包含任何其他信息。
   ```
+
+### Avoiding Hallucinations
+A way to reduce hallucinations on long documents is to make Claude gather evidence first. In this case, we tell Claude to first extract relevant quotes, then base its answer on those quotes.
+
+```
+<question>What was Matterport's subscriber base on the precise date of May 31, 2020?</question>
+
+Please read the below document. Then, in <scratchpad> tags, pull the most relevant quote from the document and consider whether it answers the user's question or whether it lacks sufficient detail. Then write a brief numerical answer in <answer> tags.
+```
 
 ### Prompt Debiasing
 Depending on their distribution and order within the prompt, exemplars may bias LLM outputs.

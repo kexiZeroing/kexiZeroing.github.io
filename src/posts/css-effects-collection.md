@@ -5,7 +5,7 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "July 27 2024"
+updatedDate: "Aug 31 2024"
 ---
 
 > - https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
@@ -23,6 +23,7 @@ updatedDate: "July 27 2024"
 - [Filter and backdrop filter](#filter-and-backdrop-filter)
 - [Scroll-driven animations](#scroll-driven-animations)
 - [Reveal hover effect](#reveal-hover-effect)
+- [Rotating highlight effect](#rotating-highlight-effect)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -527,3 +528,66 @@ img:hover {
 - `object-fit` property is used to specify how an `<img>` should be resized to fit its container. `fill` is default, which means the image is resized to fill the given dimension.
 - `object-position` is used together with `object-fit` to specify how an `<img>` should be positioned with x/y coordinates inside its "own content box".
 - `box-sizing: border-box` will make the size of the content box equal to 0. In other words, we don’t see the image, but we see the background color since it covers the padding area.
+
+### Rotating highlight effect
+It creates an animated button with a rotating highlight effect around its border. Conic gradients are employed to generate the rotating highlight and the `@property` rule defines a custom property for rotation.
+
+https://codepen.io/wesbos/pen/PoraMVV
+
+```html
+<button>
+  <div class="fancy"></div>
+  <span class="text">Download For Free</span>
+</button>
+
+<style>
+  @property --rotate {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  button {
+    --blue: #0173ff;
+    --radius: 50px;
+    --rotate: 0deg;
+    border-radius: var(--radius);
+    background: var(--blue);
+    color: white;
+    border: 0;
+    position: relative;
+    
+    .fancy {
+      position: absolute;
+      inset: 0;
+      &:before {
+        content: "";
+        background: conic-gradient(
+          from var(--rotate),
+          transparent 0%,
+          white 5%,
+          transparent 10%
+        );
+        position: absolute;
+        inset: 0;
+        animation: rotate 1s linear infinite;
+      }
+      &:after {
+        content: "";
+        background: var(--blue);
+        position: absolute;
+        inset: 2px;
+        border-radius: calc(var(--radius) - 2px);
+      }
+    }
+    .text {
+      position: relative;
+    }
+  }
+  @keyframes rotate {
+    to {
+      --rotate: 360deg;
+    }
+  }
+</style>
+```

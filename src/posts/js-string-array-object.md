@@ -634,6 +634,24 @@ obj.quaxxor = "the friendly duck";  // silently doesn't add the property
 Object.defineProperty(obj, "foo", { value: "eit" });
 ```
 
+```js
+// protect against prototype pollution
+[
+  Object,
+  Object.prototype,
+  Function,
+  Function.prototype,
+  Array,
+  Array.prototype,
+  String,
+  String.prototype,
+  Number,
+  Number.prototype,
+  Boolean,
+  Boolean.prototype,
+].forEach(Object.freeze);
+```
+
 ### Object.is()
 It determines whether two values are the same value. The only difference between `Object.is()` and `===` is in their treatment of signed zeros and NaN values.
 

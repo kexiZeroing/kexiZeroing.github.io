@@ -175,6 +175,15 @@ console.log(await getUserById(1));
 // Cache timed out, `getFreshValue` got invoked to fetch a fresh copy of the user
 ```
 
+### Refresh behaviors in Chrome
+- Enter from the address bar and press Enter key: You tell the browser to navigate to some page and apply normal resource caching behavior just like clicking a link.
+
+- Normal reload (`F5`): This will use the cache but revalidate everything during page load, looking for "304 Not Modified" responses.
+
+- Hard reload (`ctrl + F5`): Don't use anything in the cache and force the browser do re-download when making the request.
+
+- Empty Cache and Hard Reload: Right-click on the Network requests in DevTools, select "Clear browser cache" and then reload the page.
+
 ### Revved resources
 They are some resources that would benefit the most from caching, but this makes them very difficult to update. This is typical of the resources included and linked from each web pages: JavaScript and CSS files change infrequently, but when they change you want them to be updated quickly.
 
