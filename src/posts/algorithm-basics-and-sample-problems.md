@@ -1116,6 +1116,63 @@ var maxSlidingWindow = function(nums, k) {
 };
 ```
 
+Given two strings s1 and s2, return true if s2 contains a permutation of s1 (one of s1's permutations is the substring of s2).
+
+```js
+var checkInclusion = function(s1, s2) {
+  let len1 = s1.length;
+  let len2 = s2.length;
+  if (len1 > len2) return false;
+  let count = Array(26).fill(0);
+
+  for (let i = 0; i < len1; i++) {
+    // 97 -> 'a'.charCodeAt(0)
+    count[s1.charCodeAt(i) - 97]++;
+    count[s2.charCodeAt(i) - 97]--;
+  }
+  if (count.every(i => i === 0)) {
+    return true;
+  }
+
+  for (let i = len1; i < len2; i++) {
+    count[s2.charCodeAt(i) - 97]--;
+    // the character leaving the window, always maintaining a window of size `len1`
+    count[s2.charCodeAt(i-len1) - 97]++;
+    if (count.every(e => e === 0)) {
+      return true;
+    }
+  }
+  return false;
+};
+```
+
+You are given a string s and an integer k. You can choose any character of the string and change it to any other character. You can perform this operation at most k times. Return the length of the longest substring containing the same letter you can get after performing the above operations.
+
+```js
+var characterReplacement = function(s, k) {
+  let left = 0;
+  let maxCharCount = 0;
+  let visited = {};
+
+  for (let right = 0; right < s.length; right++) {
+    let char = s[right];
+    visited[char] = (visited[char] || 0) + 1;
+
+    maxCharCount = Math.max(maxCharCount, visited[char]);
+
+    // right - left + 1: current window size
+    // # of char in the window that are different from the most frequent character
+    if (right - left + 1 - maxCharCount > k) {
+      visited[s[left]]--;
+      left++;
+      // moving left does not make our current window shorter
+    }
+  }
+
+  return s.length - left;
+};
+```
+
 Given a string s, return the longest palindromic substring in s.
 
 ```js
@@ -1709,6 +1766,30 @@ var merge = function(intervals) {
   }
   return intervals.filter(q => q); // fiter to pass undefined value
 };
+```
+
+Given an array of meeting time intervals consisting of start and end times, find the minimum number of conference rooms required. For example, Given `[[0, 30],[5, 10],[15, 20]]`, return 2.
+
+```js
+var minMeetingRooms = function(intervals) {
+  if (intervals.length === 0) return 0;
+  intervals.sort((a, b) => a[0] - b[0]);
+  
+  let rooms = [intervals[0][1]];
+  
+  for (let i = 1; i < intervals.length; i++) {
+    // check if it can reuse the existing room
+    if (intervals[i][0] >= rooms[0]) {
+      rooms[0] = intervals[i][1];
+    } else {
+      rooms.push(intervals[i][1]);
+    }
+
+    // mock PriorityQueue to find the earliest ending time
+    rooms.sort((a, b) => a - b);
+  }
+  return rooms.length;
+}
 ```
 
 Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
