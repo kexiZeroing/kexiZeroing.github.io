@@ -422,3 +422,45 @@ function trigger(dep) {
   dep.forEach(effect => effect());
 }
 ```
+
+13. Check if an object has circular references.
+
+```js
+// `JSON.stringify` throws if one attempts to encode an object with circular references.
+function hasCircularReference(obj) {
+  try {
+    JSON.stringify(obj);
+    return false;
+  } catch (e) {
+    return true;
+  }
+}
+
+// use `WeakSet`
+// 1. don’t need to worry about cleaning up the references manually.
+// 2. O(1) time complexity.
+// 3. specifically designed to store objects.
+function hasCircularReference(obj) {
+  const seenObjects = new WeakSet();
+
+  function detect(obj) {
+    if (obj && typeof obj === 'object') {
+      if (seenObjects.has(obj)) {
+        return true;
+      }
+      seenObjects.add(obj);
+
+      for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          if (detect(obj[key])) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  return detect(obj);
+}
+```

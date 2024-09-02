@@ -69,9 +69,8 @@ Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本。
 ### 一些 webpack 的配置
 - Webpack 5 boilerplate: https://github.com/taniarascia/webpack-boilerplate
 - Create App: https://createapp.dev/webpack
-- Professional front-end template: https://github.com/h5bp/html5-boilerplate
-- A case study of CSR with Webpack setup: https://github.com/theninthsky/client-side-rendering
 - Webpack articles: https://blog.jakoblind.no/tags/webpack
+- Geektime webpack course: https://github.com/cpselvis/geektime-webpack-course
 
 #### filename and chunkFilename
 - `filename` 是对应于 entry 里面的输入文件，经过打包后输出文件的名称。`chunkFilename` 指未被列在 entry 中，却又需要被打包出来的 chunk 文件的名称（non-initial chunk files），一般是要懒加载的代码。
