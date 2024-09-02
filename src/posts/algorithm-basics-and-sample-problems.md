@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Aug 31 2024"
+updatedDate: "Sep 2 2024"
 ---
 
 ### TOC
@@ -1173,6 +1173,31 @@ var characterReplacement = function(s, k) {
 };
 ```
 
+You are given a string s. We want to partition the string into as many parts as possible so that each letter appears in at most one part. Return a list of the size of these parts.
+
+```js
+var partitionLabels = function(s) {
+  let last = Array(26).fill(-1);
+  let partitions = [];
+  let left = 0;
+  let end = 0;
+  
+  // lastIndexOf
+  for (let i = 0; i < s.length; i++) {
+    last[s.charCodeAt(i) - 'a'.charCodeAt(0)] = i;
+  }
+  
+  for (let i = 0; i < s.length; i++) {
+    end = Math.max(end, last[s.charCodeAt(i) - 'a'.charCodeAt(0)]);
+    if (i === end) {
+      partitions.push(i - left + 1);
+      left = i + 1;
+    }
+  }
+  return partitions;
+};
+```
+
 Given a string s, return the longest palindromic substring in s.
 
 ```js
@@ -1419,6 +1444,32 @@ var nextGreaterElement = function(nums1, nums2) {
   }
 
   return nums1;
+};
+```
+
+Given string num representing a non-negative integer num, and an integer k, return the smallest possible integer after removing k digits from num.
+
+```js
+var removeKdigits = function(num, k) {
+  let stack = [];
+  for (let c of num) {
+    while (stack.length && k > 0 && c < stack[stack.length-1]) {
+      stack.pop();
+      k--;
+    }
+    stack.push(c);
+  }
+
+  while (stack.length && k > 0) {
+    stack.pop();
+    k--;
+  }
+  // remove all the leading zeros
+  while (stack.length && stack[0] === '0') {
+    stack.shift();
+  }
+
+  return stack.join('') || "0";  
 };
 ```
 
@@ -2118,6 +2169,48 @@ var maxAreaOfIsland = function(grid) {
   }
   return ans;
 };
+```
+
+Given an m x n grid of characters board and a string word, return true if word exists in the grid. The word can be constructed from letters of sequentially adjacent cells (horizontally or vertically).
+
+```js
+var exist = function(board, word) {
+  let m = board.length;
+  let n = board[0].length;
+  let visited = Array.from(Array(m), () => Array(n).fill(false));
+  
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      if (backtrack(board, word, i, j, 0, visited))
+        return true;
+    }
+  }
+  return false;
+};
+
+// k is the current position in the word
+function backtrack(board, word, i, j, k, visited) {
+  let m = board.length;
+  let n = board[0].length;
+  
+  if (k === word.length) {
+    return true;
+  }
+  
+  if (i < 0 || i >= m || j < 0 || j >= n || visited[i][j] || board[i][j] !== word.charAt(k)) {
+    return false;
+  }
+
+  visited[i][j] = true;
+  if (backtrack(board, word, i + 1, j, k + 1, visited) ||
+      backtrack(board, word, i - 1, j, k + 1, visited) ||
+      backtrack(board, word, i, j + 1, k + 1, visited) ||
+      backtrack(board, word, i, j - 1, k + 1, visited))
+      return true;
+
+  visited[i][j] = false;
+  return false;
+}
 ```
 
 Given two words, `beginWord` and `endWord`, and a dictionary `wordList`, return the number of words in the shortest transformation sequence from `beginWord` to `endWord`, or 0 if no such sequence exists. Every adjacent pair of words differs by a single letter.
