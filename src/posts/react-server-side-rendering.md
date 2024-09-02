@@ -265,50 +265,6 @@ app.listen(3000, () => {
 });
 ```
 
-```js
-// function that turns your JSX to an HTML string written by Dan Abramov
-async function renderJSXToHTML(jsx) {
-  if (typeof jsx === "string" || typeof jsx === "number") {
-    // This is a string. Escape it and put it into HTML directly.
-    // https://github.com/component/escape-html
-    return escapeHtml(jsx);
-  } else if (jsx == null || typeof jsx === "boolean") {
-    // This is an empty node. Don't emit anything in HTML for it.
-    return "";
-  } else if (Array.isArray(jsx)) {
-    const childHtmls = await Promise.all(
-      jsx.map((child) => renderJSXToHTML(child))
-    );
-    return childHtmls.join("");
-  } else if (typeof jsx === "object") {
-    // Check if this object is a React JSX element (e.g. <div />).
-    if (jsx.$$typeof === Symbol.for("react.element")) {
-      if (typeof jsx.type === "string") {
-        let html = "<" + jsx.type;
-        for (const propName in jsx.props) {
-          if (jsx.props.hasOwnProperty(propName) && propName !== "children") {
-            html += " ";
-            html += propName;
-            html += "=";
-            html += escapeHtml(jsx.props[propName]);
-          }
-        }
-        html += ">";
-        html += await renderJSXToHTML(jsx.props.children);
-        html += "</" + jsx.type + ">";
-        return html;
-      } else if (typeof jsx.type === "function") {
-        // Call the component with its props, and turn its returned JSX into HTML.
-        const Component = jsx.type;
-        const props = jsx.props;
-        const returnedJsx = await Component(props);
-        return renderJSXToHTML(returnedJsx);
-      }
-    }
-  };
-}
-```
-
 ## Write React Server Components from Scratch
 Before React Server Components, all React components are “client” components — they are all run in the browser. RSC makes it possible for some components to be rendered by the server, and some components to be rendered by the browser. Server Components are not a replacement for SSR. They render exclusively on the server. Their code isn't included in the JS bundle, and so they never hydrate or re-render. With only SSR, we haven't been able to do server-exclusive work within our components (e.g. access database), because that same code would re-run in the browser.
 

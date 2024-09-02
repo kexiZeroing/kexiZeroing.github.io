@@ -448,6 +448,10 @@ URI 中尽量使用连字符 `-` 代替下划线 `_` 的使用，连字符用来
 > 2. 加速域名是接入 CDN 用于加速、终端用户实际访问的域名。CNAME 域名是 CDN 生成的，当您在阿里云 CDN 控制台添加加速域名后，系统会为加速域名分配一个 `*.*kunlun*.com` 形式的 CNAME 域名。
 > 3. 添加加速域名后，需要在 DNS 解析服务商处，添加一条 CNAME 记录，将加速域名唯一解析到 CNAME 域名，记录生效后该域名所有的请求都将转向 CDN 节点，达到加速效果。CNAME 域名将会解析到具体哪个节点 IP 地址，将由 CDN 的调度系统综合多个条件来决定。
 
+### 秒杀系统设计
+- https://github.com/resumejob/How-to-design-a-spike-system
+- https://github.com/sunshineshu/-How-to-design-a-spike-system/blob/master/SUMMARY.md
+
 ### 开发自己的调试工具
 - https://kentcdodds.com/blog/make-your-own-dev-tools
 - https://app-dev-tools.netlify.app

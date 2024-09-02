@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 5
-updatedDate: "Aug 21 2024"
+updatedDate: "Sep 2 2024"
 ---
 
 更全面的准备可以参考:
@@ -53,7 +53,7 @@ const concurrencyRequest = (urls, maxNum) => {
     }
 
     const times = Math.min(maxNum, urls.length);
-    for(let i = 0; i < times; i++) {
+    for (let i = 0; i < times; i++) {
       request();
     }
   })
@@ -277,7 +277,7 @@ function add(A, B) {
     t %= 10
 
     sum = (i === ML && carry)
-      ? carry * 10 + t + sum
+      ? (carry * 10 + t) + sum
       : t + sum
   }
 
@@ -330,4 +330,95 @@ const compose = (middlewares) => {
 };
 
 app.compose = compose(app.middlewares);
+```
+
+11. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
+
+```js
+// written by Dan Abramov
+// {
+//   $$typeof: Symbol("react.element"),
+//   type: "div",
+//   props: { children: "Hello" },
+// }
+async function renderJSXToHTML(jsx) {
+  if (typeof jsx === "string" || typeof jsx === "number") {
+    // This is a string. Escape it and put it into HTML directly.
+    return escapeHtml(jsx);
+  } else if (jsx == null || typeof jsx === "boolean") {
+    // This is an empty node. Don't emit anything in HTML for it.
+    return "";
+  } else if (Array.isArray(jsx)) {
+    const childHtmls = await Promise.all(
+      jsx.map((child) => renderJSXToHTML(child))
+    );
+    return childHtmls.join("");
+  } else if (typeof jsx === "object") {
+    // Check if this object is a React JSX element.
+    if (jsx.$$typeof === Symbol.for("react.element")) {
+      if (typeof jsx.type === "string") {
+        let html = "<" + jsx.type;
+        for (const propName in jsx.props) {
+          if (jsx.props.hasOwnProperty(propName) && propName !== "children") {
+            html += " ";
+            html += propName;
+            html += "=";
+            html += escapeHtml(jsx.props[propName]);
+          }
+        }
+        html += ">";
+        html += await renderJSXToHTML(jsx.props.children);
+        html += "</" + jsx.type + ">";
+        return html;
+      } else if (typeof jsx.type === "function") {
+        // Call the component with its props, and turn its returned JSX into HTML.
+        const Component = jsx.type;
+        const props = jsx.props;
+        const returnedJsx = await Component(props);
+        return renderJSXToHTML(returnedJsx);
+      }
+    }
+  };
+}
+```
+
+12. Implement a simplified version of Vue reactivity system.
+
+```js
+let activeEffect = null;
+
+function reactive(target) {
+  const depsMap = new Map();
+
+  const handler = {
+    get(target, key, receiver) {
+      if (!depsMap.has(key)) {
+        depsMap.set(key, new Set());
+      }
+      const dep = depsMap.get(key);
+      track(dep);
+      return Reflect.get(target, key, receiver);
+    },
+    set(target, key, value, receiver) {
+      const result = Reflect.set(target, key, value, receiver);
+      if (depsMap.has(key)) {
+        const dep = depsMap.get(key);
+        trigger(dep);
+      }
+      return result;
+    }
+  };
+
+  return new Proxy(target, handler);
+}
+
+function track(dep) {
+  if (activeEffect) {
+    dep.add(activeEffect);
+  }
+}
+
+function trigger(dep) {
+  dep.forEach(effect => effect());
+}
 ```
