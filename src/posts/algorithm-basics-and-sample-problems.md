@@ -1473,6 +1473,25 @@ var removeKdigits = function(num, k) {
 };
 ```
 
+Given an array of integers nums, calculate the pivot index of this array. The pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right.
+
+```js
+var pivotIndex = function(nums) {
+  let total = nums.reduce((a, b) => a + b, 0);
+  let leftTotal = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    let rightTotal = total - leftTotal - nums[i];
+    if (rightTotal === leftTotal) {
+      return i;
+    }
+
+    leftTotal += nums[i];
+  }
+  return -1;    
+};
+```
+
 Given an array of integers and an integer `k`, you need to find the total number of continuous subarrays whose sum equals to `k`. For example, Input: nums = `[1,1,1]`, k = 2; Output: 2
 
 ```js
@@ -1756,6 +1775,42 @@ var searchMatrix = function(matrix, target) {
   }
 
   return binarySearch(matrix[mid], target);
+};
+```
+
+Given an array of integers nums sorted in non-decreasing order, find the starting and ending position of a given target value. If target is not found in the array, return [-1, -1].
+
+```js
+var searchRange = function(nums, target) {
+  const binarySearch = (nums, target, isSearchingLeft) => {
+    let left = 0;
+    let right = nums.length - 1;
+    // index of either the leftmost or rightmost occurrence of the target
+    let idx = -1;
+    
+    while (left <= right) {
+      let mid = Math.floor((left + right) / 2);
+      
+      if (nums[mid] > target) {
+        right = mid - 1;
+      } else if (nums[mid] < target) {
+        left = mid + 1;
+      } else {
+        idx = mid;
+        if (isSearchingLeft) {
+          right = mid - 1;
+        } else {
+          left = mid + 1;
+        }
+      }
+    }
+    return idx;
+  };
+  
+  let left = binarySearch(nums, target, true);
+  let right = binarySearch(nums, target, false);
+  
+  return [left, right];    
 };
 ```
 

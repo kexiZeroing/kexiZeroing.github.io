@@ -74,6 +74,10 @@ These attacks are possible because web browsers send authentication tokens autom
 ### Cross-site scripting
 Cross-site scripting (XSS) is a security bug that can affect websites. This bug can allow an attacker to add their own malicious JavaScript code onto the HTML pages displayed to the users. The vulnerabilities most often happen when user input is sent to the server, and the server responds back to the user by displaying a page that includes the user input without validation. XSS also can occur entirely in the client-side without data being sent back and forth between the client and server.
 
+- Attackers exploit user inputs that aren’t properly sanitized, inserting scripts into web pages.
+- Such scripts can access sensitive data like cookies or session tokens, leading to potential session hijacking.
+- The attack can alter the webpage’s Document Object Model (DOM).
+
 A common technique for preventing XSS vulnerabilities is "escaping". The purpose of character and string escaping is to make sure that every part of a string is interpreted as a string primitive, not as a control character or code. Escape certain characters (like `<`, `>`, `&`, and `"`) with HTML entity to prevent them being executed.
 
 A good test string is `>'>"><img src=x onerror=alert(0)>`. If your application doesn't correctly escape this string, you will see an alert and will know that something went wrong. [The Big List of Naughty Strings](https://github.com/minimaxir/big-list-of-naughty-strings) is a list of strings which have a high probability of causing issues when used as user-input data.
