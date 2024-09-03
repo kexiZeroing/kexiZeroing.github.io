@@ -274,6 +274,46 @@ function reverseList(head) {
   return prev;
 }
 
+// Reverse nodes in k-Group
+// [1,2,3,4,5], k = 2 -> [2,1,4,3,5]
+// [1,2,3,4,5], k = 3 -> [3,2,1,4,5]
+function reverseKGroup(head, k) {
+  if (k === 1) return head;
+  
+  let dummy = new ListNode(0);
+  dummy.next = head;
+  let prevGroupTail = dummy;
+  
+  while (head) {
+    let groupStart = head;
+    let groupEnd = getGroupEnd(head, k);
+      
+    // If we don't have k nodes left
+    if (!groupEnd) break;
+    
+    let nextGroupStart = groupEnd.next;
+    reverseList(groupStart, nextGroupStart);
+    
+    // Connect the reversed group
+    prevGroupTail.next = groupEnd;
+    groupStart.next = nextGroupStart;
+    
+    prevGroupTail = groupStart;
+    head = nextGroupStart;
+  }
+  
+  return dummy.next;
+};
+
+// helper function to get the end of the group
+function getGroupEnd(head, k) {
+  while (head && k > 1) {
+    head = head.next;
+    k--;
+  }
+  return head;
+}
+
 // fast pointer moves forward `n` steps first,
 // then fast and slow pointers move forward together
 // until the fast pointer reaches the end of the linked list.
@@ -2419,3 +2459,4 @@ var maxProfit = function(prices) {
 
   return Math.max(dp[prices.length - 1][1], dp[prices.length - 1][2], dp[prices.length - 1][3]);
 };
+```
