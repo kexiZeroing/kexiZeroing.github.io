@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Sep 2 2024"
+updatedDate: "Sep 4 2024"
 ---
 
 ### TOC
@@ -18,7 +18,7 @@ updatedDate: "Sep 2 2024"
 - [Quick Sort](#quick-sort)
 - [Merge Sort](#merge-sort)
 - [Linked List](#linked-list)
-- [Undo/Redo stacks](#undoredo-stacks)
+- [Stacks](#stacks)
 - [Shuffle an array](#shuffle-an-array)
 - [Traverse Binary Tree](#traverse-binary-tree)
 - [Graph DFS](#graph-dfs)
@@ -335,7 +335,31 @@ function removeNthFromEnd(head, n) {
 }
 ```
 
-### Undo/Redo stacks
+### Stacks
+
+```js
+// Implement Queue using Stacks
+class MyQueue {
+  constructor() {
+    this.s1 = [];
+    this.s2 = [];
+  }
+
+  push(x) {
+    while (this.s1.length > 0) {
+      this.s2.push(this.s1.pop());
+    }
+    this.s1.push(x);
+    while (this.s2.length > 0) {
+      this.s1.push(this.s2.pop());
+    }
+  }
+
+  pop() {
+    return this.s1.pop();
+  }
+}
+```
 
 ```js
 class UndoRedoManager {
@@ -369,9 +393,6 @@ class UndoRedoManager {
     }
   }
 }
-
-// Oops.js: Add powerful undo/redo capabilities to your app
-// https://github.com/HeyPuter/Oops.js
 ```
 
 ### Shuffle an array
@@ -1986,6 +2007,40 @@ var maxArea = function(height) {
 };
 ```
 
+The next permutation of an array of integers is the next lexicographically greater permutation of its integer. If such arrangement is not possible, the array must be rearranged as the lowest possible order.
+
+```js
+var nextPermutation = function(nums) {
+  // Find the first pair from the right where nums[i] < nums[i+1]
+  let i;
+  for (i = nums.length - 2; i >= 0; i--) {
+    if (nums[i] < nums[i + 1]) {
+      break;
+    }
+  }
+
+  if (i >= 0) {
+    // Find the first number on the right side of nums[i] that is greater than nums[i]
+    let j;
+    for (j = nums.length - 1; j > i; j--) {
+      if (nums[j] > nums[i]) {
+        break;
+      }
+    }
+    [nums[i], nums[j]] = [nums[j], nums[i]];
+  }
+
+  // The subarray to the right of 'i' is guaranteed to be in descending order
+  reverse(nums, i + 1, nums.length - 1);
+}
+
+function reverse(nums, start, end) {
+  for (let left = start, right = end; left < right; left++, right--) {
+    [nums[left], nums[right]] = [nums[right], nums[left]];
+  }
+}
+```
+
 Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
 
 ```js
@@ -2458,5 +2513,39 @@ var maxProfit = function(prices) {
   }
 
   return Math.max(dp[prices.length - 1][1], dp[prices.length - 1][2], dp[prices.length - 1][3]);
+};
+```
+
+You are given k identical eggs and you have access to a building with n floors labeled from 1 to n. There exists a floor f such that any egg dropped at a floor higher than f will break, and any egg dropped at or below floor f will not break.
+
+```js
+var superEggDrop = function(k, n) {
+  // dp[i][j] represents the minimum # of attempts needed with i eggs and j floors
+  let dp = Array.from({ length: k + 1 }, () => Array.from({ length: n + 1 }, (_, i) => i));
+  dp[0] = Array(n + 1).fill(0);
+    
+  for (let egg = 2; egg <= k; egg++) {
+    for (let flr = 2; flr <= n; flr++) {
+      let low = 1, high = flr;
+      let result = flr; // the worst-case need to try
+
+      while (low < high) {
+        let mid = Math.floor((low + high) / 2);
+        // the # of attempts needed in worst-case
+        let left = dp[egg - 1][mid - 1]; // egg breaks
+        let right = dp[egg][flr - mid];  // egg doesn't break
+          
+        result = Math.min(result, 1 + Math.max(left, right));
+        
+        // We're trying to minimize `Math.max(left, right)`
+        if (left === right) break;
+        else if (left < right) low = mid + 1;
+        else high = mid - 1;
+      }
+
+      dp[egg][flr] = result;
+    }
+  }
+  return dp[k][n];
 };
 ```
