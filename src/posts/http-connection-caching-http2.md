@@ -92,6 +92,8 @@ When visiting an HTTPS page in Google Chrome, the browser alerts you to mixed co
 
 Content security policy (CSP) is a multi-purpose browser feature that you can use to manage mixed content at scale. The `upgrade-insecure-requests` CSP directive instructs the browser to upgrade insecure URLs before making network requests. As with browser automatic upgrading, if the resource is not available over HTTPS, the upgraded request fails and the resource is not loaded. This maintains the security of your page.
 
+> The HTTP Strict-Transport-Security response header (often abbreviated as `HSTS`) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. This is more secure than simply configuring a HTTP to HTTPS (301) redirect on your server, where the initial HTTP connection is still vulnerable to a man-in-the-middle attack.
+
 ## HTTP caching
 The HTTP cache stores a response associated with a request and reuses the stored response for subsequent requests. Proper operation of the cache is critical to the health of the system.
 

@@ -123,6 +123,20 @@ Webpack 4 also has the concept `url-loader`. It first base64 encodes the file an
 - `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.
 - Want to access `webpack-dev-server` from the mobile in local network: run `webpack-dev-server` with `--host 0.0.0.0`, which lets the server listen for requests from the network (all IP addresses on the local machine), not just localhost. But Chrome won't access `http://0.0.0.0:8089` (Safari can open). It's not the IP, it just means it is listening on all the network interfaces, so you can use any IP the host has.
 
+#### difference between `--watch` and `--hot`
+- `webpack --watch`: watch for the file changes and compile again when the source files changes. `webpack-dev-server` uses webpack's watch mode by default.
+- `webpack-dev-server --hot`: add the HotModuleReplacementPlugin to the webpack configuration, which will allow you to only reload the component that is changed instead of doing a full page refresh.
+
+  ```js
+  watchOptions: {
+    ignored: /node_modules/,
+    // 监听到变化发生后会等 300ms 再去执行，默认300ms
+    aggregateTimeout: 300,
+    // 判断文件是否发生变化是通过不停询问系统指定文件有没有变化实现的，默认每秒 1000 次
+    poll: 1000,
+  }
+  ```
+
 #### something related to bundling/tree shaking
 1. Every component will get its own scope, and when it imports another module, webpack will check if the required file was already included or not in the bundle.
 2. Webpack v5 comes with the latest `terser-webpack-plugin` out of the box. `optimization.minimize` is set to `true` by default, telling webpack to minimize the bundle using the `TerserPlugin`.
@@ -444,8 +458,9 @@ URI 中尽量使用连字符 `-` 代替下划线 `_` 的使用，连字符用来
 
 > 阿里云 CDN 在全球拥有 3200+ 节点。中国内地拥有 2300+ 节点，覆盖 31 个省级区域。
 > 1. CDN 节点是指与最终接入用户之间具有较少中间环节的网络节点，对最终接入用户有相对于源站而言更好的响应能力和连接速度。当节点没有缓存用户请求的内容时，节点会返回源站获取资源数据并返回给用户。阿里云 CDN 的源站可以是对象存储OSS、函数计算、自有源站（IP、源站域名）。
-> 2. 加速域名是接入 CDN 用于加速、终端用户实际访问的域名。CNAME 域名是 CDN 生成的，当您在阿里云 CDN 控制台添加加速域名后，系统会为加速域名分配一个 `*.*kunlun*.com` 形式的 CNAME 域名。
-> 3. 添加加速域名后，需要在 DNS 解析服务商处，添加一条 CNAME 记录，将加速域名唯一解析到 CNAME 域名，记录生效后该域名所有的请求都将转向 CDN 节点，达到加速效果。CNAME 域名将会解析到具体哪个节点 IP 地址，将由 CDN 的调度系统综合多个条件来决定。
+> 2. 默认情况下将使用 OSS 的 Bucket 地址作为 HOST 地址（如 `***.oss-cn-hangzhou.aliyuncs.com`）。如果源站 OSS Bucket 绑定了自定义域名（如 `origin.developer.aliyundoc.com`），则需要配置回源 HOST 为自定义域名。
+> 3. 加速域名即网站域名、是终端用户实际访问的域名。CNAME 域名是 CDN 生成的，当您在阿里云 CDN 控制台添加加速域名后，系统会为加速域名分配一个 `*.*kunlun*.com` 形式的 CNAME 域名。
+> 4. 添加加速域名后，需要在 DNS 解析服务商处，添加一条 CNAME 记录，将加速域名的 DNS 解析记录指向 CNAME 域名，记录生效后该域名所有的请求都将转向 CDN 节点，达到加速效果。CNAME 域名将会解析到具体哪个节点 IP 地址，将由 CDN 的调度系统综合多个条件来决定。
 
 ### 秒杀系统设计
 - https://github.com/resumejob/How-to-design-a-spike-system
