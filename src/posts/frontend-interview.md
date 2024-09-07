@@ -177,7 +177,19 @@ function clickOnce(el, cb) {
 clickOnce($0, () => console.log('click'));
 ```
 
-6. Use `setTimeout` to invoke a function multiple times in the fixed interval.
+6. Implement the `bind` function by yourself.
+
+```js
+Function.prototype.myBind = function(context, ...args1) {
+  const fn = this;
+  
+  return function(...args2) {
+    return fn.apply(context, [...args1, ...args2]);
+  };
+};
+```
+
+7. Use `setTimeout` to invoke a function multiple times in the fixed interval.
 ```js
 function repeat(func, times, ms, immediate) {
   let count = 0;
@@ -203,7 +215,7 @@ const repeatFunc = repeat(console.log, 4, 3000, true);
 repeatFunc("hello");
 ```
 
-7. Implement the render function to convert the virtual dom JSON to real DOM.
+8. Implement the render function to convert the virtual dom JSON to real DOM.
 ```js
 function render(vnode) {
   const { tag, props, children } = vnode;
@@ -234,7 +246,7 @@ function render(vnode) {
 }
 ```
 
-8. Implement the functionality of `lodash.get`.
+9. Implement the functionality of `lodash.get`.
 ```js
 // _.get(object, path, [defaultValue])
 function get(obj, path, defaultValue = undefined) {
@@ -259,7 +271,7 @@ console.log(get(obj, 'a.b.d', 'default')); // 'default'
 console.log(get(obj, 'x.y.z', 'not found')); // 'not found'
 ```
 
-9. How to add two big integers in js?
+10. How to add two big integers in js?
 ```js
 function add(A, B) {
   const AL = A.length
@@ -285,7 +297,7 @@ function add(A, B) {
 }
 ```
 
-10. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
+11. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
 
 ```js
 const app = { middlewares: [] };
@@ -332,7 +344,7 @@ const compose = (middlewares) => {
 app.compose = compose(app.middlewares);
 ```
 
-11. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
+12. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
 
 ```js
 // written by Dan Abramov
@@ -382,7 +394,7 @@ async function renderJSXToHTML(jsx) {
 }
 ```
 
-12. Implement a simplified version of Vue reactivity system.
+13. Implement a simplified version of Vue reactivity system.
 
 ```js
 let activeEffect = null;
@@ -423,7 +435,7 @@ function trigger(dep) {
 }
 ```
 
-13. Check if an object has circular references.
+14. Check if an object has circular references.
 
 ```js
 // `JSON.stringify` throws if one attempts to encode an object with circular references.
