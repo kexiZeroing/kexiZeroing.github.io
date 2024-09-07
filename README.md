@@ -9,3 +9,4 @@ https://kexizeroing.github.io
 - A "Pictures" page contains all the images in all posts. Use [image-size](https://github.com/image-size/image-size) to detect image dimensions and [PhotoSwipe](https://photoswipe.com) to preview.
 - [Giscus](https://giscus.app) is a comment system powered by GitHub Discussions that allows visitors to leave comments and reactions on any website via GitHub.
 - Experiment with [shadcn/ui](https://ui.shadcn.com) at `/shadcn-ui` page.
+- Use [PostHog](https://posthog.com) for tracking and product analytics.
