@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Sep 4 2024"
+updatedDate: "Sep 8 2024"
 ---
 
 ### TOC
@@ -1160,12 +1160,13 @@ var maxSlidingWindow = function(nums, k) {
   let res = [];
 
   for (let i = 0; i < nums.length; i++) {
-    while (nums[i] >= nums[q[q.length - 1]]) {
+    while (q.length && nums[i] >= nums[q[q.length - 1]]) {
       q.pop();
     }
     q.push(i);
 
     // remove first element if it's outside the window
+    // `i - k + 1` is the left most element of current window
     if (q[0] === i - k) {
       q.shift();
     }
@@ -1198,7 +1199,7 @@ var checkInclusion = function(s1, s2) {
   for (let i = len1; i < len2; i++) {
     count[s2.charCodeAt(i) - 97]--;
     // the character leaving the window, always maintaining a window of size `len1`
-    count[s2.charCodeAt(i-len1) - 97]++;
+    count[s2.charCodeAt(i - len1) - 97]++;
     if (count.every(e => e === 0)) {
       return true;
     }
@@ -1230,6 +1231,7 @@ var characterReplacement = function(s, k) {
     }
   }
 
+  // the size of the final valid window
   return s.length - left;
 };
 ```
@@ -1350,14 +1352,16 @@ var checkValidString = function(s) {
       leftMin--;
       leftMax--;
     } else {
-      leftMin--;
-      leftMax++;
+      leftMin--;  // treating as ')'
+      leftMax++;  // treating as '('
     }
     if (leftMax < 0) return false;
-    if (leftMin < 0) leftMin = 0; // '*' can be treated as empty string
+    // we must have seen '*' earlier in the string
+    // use '*' to balance the excess of closing parentheses
+    if (leftMin < 0) leftMin = 0;
   }
   
-  return leftMin === 0; 
+  return leftMin === 0;
 };
 ```
 
@@ -1395,9 +1399,8 @@ var firstMissingPositive = function(nums) {
   const swap = (arr, i, j) => {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   };
-  const n = nums.length;
 
-  // The answer lies within the range [1, n+1]
+  let n = nums.length;
   // Place each positive integer i at index i-1 if possible
   for (let i = 0; i < n; i++) {
     while (nums[i] > 0 && nums[i] <= n && nums[i] !== nums[nums[i] - 1]) {

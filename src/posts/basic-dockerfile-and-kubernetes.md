@@ -170,7 +170,9 @@ Let's say you have an app which you have containerized (Monoliths were broken in
 
 - **Ingress Controller**: Kubernetes Ingress is an API object that manages external users’ access to services in a Kubernetes cluster by providing routing rules. This external request is frequently made using HTTPS/HTTP. You can easily set up rules for traffic routing with Ingress without having to create a bunch of Load Balancers or expose each service on the node.
 
-> The Illustrated Children's Guide to Kubernetes: https://www.cncf.io/phippy/the-childrens-illustrated-guide-to-kubernetes/
+> Learning resources:
+> - The Illustrated Children's Guide to Kubernetes: https://www.cncf.io/phippy/the-childrens-illustrated-guide-to-kubernetes/
+> - Kubernetes Essentials IBM lightboarding video: https://www.youtube.com/playlist?list=PLOspHqNVtKABAVX4azqPIu6UfsPzSu2YN
 
 Let's look at an example. The Kubernetes configuration file (`deployment.yaml`) contains two parts because it defines two separate Kubernetes resources. Deployment manages the application instances (pods). Service manages network access to those instances.
 
