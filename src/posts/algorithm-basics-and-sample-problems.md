@@ -2212,23 +2212,26 @@ Given the root of a binary search tree, and an integer k, return the kth smalles
 ```js
 var kthSmallest = function(root, k) {
   // BST -> in-order traversal
-  let n = 0;
   let stack = [];
   let current = root;
+  let count = 0;
 
-  while (stack.length > 0 || current) {
-    while (current) {
+  while (stack.length > 0 || current !== null) {
+    if (current !== null) {
       stack.push(current);
       current = current.left;
+    } else {
+      current = stack.pop();
+      count++;
+        
+      if (count === k) {
+        return current.val;
+      }
+      
+      current = current.right;
     }
-
-    current = stack.pop();
-    n++;
-    if (n === k) {
-      return current.val;
-    }
-    current = current.right;
-  }
+  } 
+  return null; // If k is greater than the number of nodes in the BST
 };
 ```
 
@@ -2334,7 +2337,7 @@ var exist = function(board, word) {
   
   for (let i = 0; i < m; i++) {
     for (let j = 0; j < n; j++) {
-      if (backtrack(board, word, i, j, 0, visited))
+      if (dfs(board, word, i, j, 0, visited))
         return true;
     }
   }
@@ -2342,7 +2345,7 @@ var exist = function(board, word) {
 };
 
 // k is the current position in the word
-function backtrack(board, word, i, j, k, visited) {
+function dfs(board, word, i, j, k, visited) {
   let m = board.length;
   let n = board[0].length;
   
@@ -2350,15 +2353,15 @@ function backtrack(board, word, i, j, k, visited) {
     return true;
   }
   
-  if (i < 0 || i >= m || j < 0 || j >= n || visited[i][j] || board[i][j] !== word.charAt(k)) {
+  if (i < 0 || i > m-1 || j < 0 || j > n-1 || visited[i][j] || board[i][j] !== word.charAt(k)) {
     return false;
   }
 
   visited[i][j] = true;
-  if (backtrack(board, word, i + 1, j, k + 1, visited) ||
-      backtrack(board, word, i - 1, j, k + 1, visited) ||
-      backtrack(board, word, i, j + 1, k + 1, visited) ||
-      backtrack(board, word, i, j - 1, k + 1, visited))
+  if (dfs(board, word, i + 1, j, k + 1, visited) ||
+      dfs(board, word, i - 1, j, k + 1, visited) ||
+      dfs(board, word, i, j + 1, k + 1, visited) ||
+      dfs(board, word, i, j - 1, k + 1, visited))
       return true;
 
   visited[i][j] = false;
