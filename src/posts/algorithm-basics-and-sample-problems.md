@@ -479,15 +479,15 @@ var postorderTraversal = function (root) {
 var levelOrderTraversal = function(root) {  
   if (!root) return [];
 
-  const nodeQueue = [root];
+  let nodeQueue = [root];
   let result = [];
 
   while (nodeQueue.length) {
-    const size = nodeQueue.length;
-    const level = [];
+    let size = nodeQueue.length;
+    let level = [];
 
     for (let i = 0; i < size; i++) {
-      const curNode = nodeQueue.shift();
+      let curNode = nodeQueue.shift();
       level.push(curNode.val);
 
       if (curNode.left) {
@@ -696,7 +696,7 @@ MinHeap.prototype.add = function (item) {
 
 // remove the minimum element and need to keep the heap order
 MinHeap.prototype.poll = function () {
-  var item = this.items[0];
+  let item = this.items[0];
   this.items[0] = this.items[this.items.length - 1];
   this.items.pop();
   this.bubbleDown();
@@ -704,7 +704,7 @@ MinHeap.prototype.poll = function () {
 }
 
 MinHeap.prototype.bubbleUp = function () {
-  var index = this.items.length - 1;
+  let index = this.items.length - 1;
   while (this.parent(index) && this.parent(index) > this.items[index]) {
     this.swap(this.parentIndex(index), index);
     index = this.parentIndex(index);
@@ -712,15 +712,14 @@ MinHeap.prototype.bubbleUp = function () {
 }
 
 MinHeap.prototype.bubbleDown = function () {
-  var index = 0;
-  while (this.leftChild(index) &&
-      (this.leftChild(index) < this.items[index] ||
-      this.rightChild(index) < this.items[index])) {
-    var smallerIndex = this.leftChildIndex(index);
-    if (this.rightChild(index) && this.rightChild(index) < this.items[smallerIndex]) {
+  let index = 0;
+  while (this.leftChild(index)) {
+    let smallerIndex = this.leftChildIndex(index);
+    if (this.rightChild(index) && this.rightChild(index) < this.leftChild(index)) {
       smallerIndex = this.rightChildIndex(index);
     }
-    this.swap(smallerIndex, index);
+    if (this.items[index] <= this.items[smallerIndex]) break;
+    this.swap(index, smallerIndex);
     index = smallerIndex;
   }
 }
@@ -788,7 +787,7 @@ let rob2 = function(nums) {
 ```
 
 ```js
-// Compute the fewest number of coins that you need to make up that amount.
+// Compute the fewest number of coins that you need to make up that amount. You have an infinite number of each kind of coin.
 let coinChange = function(coins, amount) {
   if (amount === 0) {
     return 0;
@@ -798,6 +797,7 @@ let coinChange = function(coins, amount) {
 
   for (let i = 1; i < dp.length; i++) {
     for (let j = 0; j < coins.length; j++) {
+      // e.g. dp[11] = min(dp[10], dp[9], dp[6]) + 1
       if (i - coins[j] >= 0) {
         dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
       }
@@ -805,32 +805,6 @@ let coinChange = function(coins, amount) {
   }
 
   return dp[dp.length - 1] === Number.MAX_VALUE ? -1 : dp[dp.length - 1];
-};
-```
-
-```js
-// Given two strings text1 and text2, return the length of their longest common subsequence.
-// Input: text1 = "abcde", text2 = "ace" 
-// Output: 3. The longest common subsequence is "ace" and its length is 3.
-let longestCommonSubsequence = function(text1, text2) {
-  let m = text1.length;
-  let n = text2.length;
-  // dp[i][j] means the LCS of first i characters in text1 and first j characters in text2
-  // 1. X[m-1] == Y[n-1] -> LCS(Xm-1，Yn-1)
-  // 2. X[m-1] != Y[n-1] -> max(LCS(Xm-1, Yn), LCS(Xm, Yn-1))
-  let dp = Array.from(Array(m + 1), () => Array(n + 1).fill(0));
-  
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      if (text1[i - 1] === text2[j - 1]) {
-        dp[i][j] = dp[i - 1][j - 1] + 1;
-      } else {
-        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-      }  
-    }
-  }
-
-  return dp[m][n];
 };
 ```
 
@@ -2452,6 +2426,30 @@ var lengthOfLIS = function(nums) {
     maxLength = Math.max(maxLength, dp[i]);
   }
   return maxLength;
+};
+```
+
+Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0. For example, text1 = "abcde", text2 = "ace", then the longest common subsequence is "ace" and its length is 3.
+
+```js
+var longestCommonSubsequence = function(text1, text2) {
+  let m = text1.length;
+  let n = text2.length;
+  // dp[i][j] means the LCS of first i characters in text1 and first j characters in text2
+  // 1. X[m-1] == Y[n-1] -> LCS(Xm-1，Yn-1)
+  // 2. X[m-1] != Y[n-1] -> max(LCS(Xm-1, Yn), LCS(Xm, Yn-1))
+  let dp = Array.from(Array(m + 1), () => Array(n + 1).fill(0));
+  
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (text1[i - 1] === text2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }  
+    }
+  }
+  return dp[m][n];
 };
 ```
 
