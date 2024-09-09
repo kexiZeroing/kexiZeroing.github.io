@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Sep 8 2024"
+updatedDate: "Sep 9 2024"
 ---
 
 ### TOC
@@ -122,28 +122,22 @@ function quickSort(arr, lo, hi) {
 }
 
 function partition(nums, left, right) {
-  let pivot = nums[left]
-  
-  while (left < right) {
-    while (left < right && nums[right] >= pivot) {
-      right--;
+  let pivot = nums[right];
+  let i = left;
+  for (let j = left; j < right; j++) {
+    if (nums[j] <= pivot) {
+      swap(nums, i, j);
+      i++;
     }
-    nums[left] = nums[right];
-
-    while (left < right && nums[left] <= pivot) {
-      left++;
-    }
-    nums[right] = nums[left];
   }
-
-  nums[left] = pivot;
-  return left;
+  swap(nums, i, right);
+  return i;
 }
 ```
 
 > 1. Quick sort is an in-place algorithm, but the stack due to recursive calls adds additional storage space proportional to the recursive depth.
 > 
-> 2. It's not recommended to choose the first or last element to be the pivot, your pivot value is always the largest value on already sorted or nearly sorted arrays. So rather than splitting the array into two roughly equal subarrays, you split it into a single sub array that has only one fewer element than you started with. One way to choose the pivot to avoid this is to pick the pivot randomly. This makes it unlikely to hit the worst case, and so on average will work well.
+> 2. It's not recommended to choose the first or last element to be the pivot, your pivot value is always the largest value on already sorted or nearly sorted arrays. So rather than splitting the array into two roughly equal subarrays, you split it into a single sub array that has only one fewer element than you started with. One way to choose the pivot to avoid this is to pick the pivot randomly *(or choose the median of the first, middle and last element)*. This makes it unlikely to hit the worst case, and so on average will work well.
 
 ### Merge Sort
 
@@ -166,7 +160,7 @@ function merge(arr1, arr2) {
   merged.push(...arr1.slice(i), ...arr2.slice(j));
   return merged;
 }
-  
+
 function mergeSort(arr) {
   if (arr.length < 2) {
     return arr.slice(0);
@@ -272,46 +266,6 @@ function reverseList(head) {
   }
 
   return prev;
-}
-
-// Reverse nodes in k-Group
-// [1,2,3,4,5], k = 2 -> [2,1,4,3,5]
-// [1,2,3,4,5], k = 3 -> [3,2,1,4,5]
-function reverseKGroup(head, k) {
-  if (k === 1) return head;
-  
-  let dummy = new ListNode(0);
-  dummy.next = head;
-  let prevGroupTail = dummy;
-  
-  while (head) {
-    let groupStart = head;
-    let groupEnd = getGroupEnd(head, k);
-      
-    // If we don't have k nodes left
-    if (!groupEnd) break;
-    
-    let nextGroupStart = groupEnd.next;
-    reverseList(groupStart, nextGroupStart);
-    
-    // Connect the reversed group
-    prevGroupTail.next = groupEnd;
-    groupStart.next = nextGroupStart;
-    
-    prevGroupTail = groupStart;
-    head = nextGroupStart;
-  }
-  
-  return dummy.next;
-};
-
-// helper function to get the end of the group
-function getGroupEnd(head, k) {
-  while (head && k > 1) {
-    head = head.next;
-    k--;
-  }
-  return head;
 }
 
 // fast pointer moves forward `n` steps first,
@@ -497,6 +451,12 @@ var levelOrderTraversal = function(root) {
         nodeQueue.push(curNode.right);
       }
     }
+
+    // Reverse the order for zigzag pattern
+    // if (!isLeftToRight) {
+    //   level.reverse();
+    // }
+    // isLeftToRight = !isLeftToRight;
     result.push(level);
   }
 

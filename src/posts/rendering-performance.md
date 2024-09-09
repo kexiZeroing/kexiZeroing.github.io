@@ -5,7 +5,7 @@ slug: rendering-performance
 description: ""
 added: "Oct 16 2021"
 tags: [web]
-updatedDate: "Jun 13 2024"
+updatedDate: "Sep 9 2024"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
@@ -194,6 +194,16 @@ window.addEventListener('load', (event) => {
 // Use the PerformanceNavigationTiming interface instead
 performance.getEntriesByType('navigation')[0]
 ```
+
+### Back/forward cache
+bfcache has been supported in both Firefox and Safari for many years. Since Chrome version 96, bfcache is enabled for all users across desktop and mobile. bfcache is an in-memory cache that stores a complete snapshot of a page (including the JavaScript heap) as the user is navigating away. With the entire page in memory, the browser can quickly restore it if the user decides to return.
+
+1. If a page contains embedded iframes, then the iframes themselves are not eligible for the bfcache. For example, if you navigate to another page within an iframe, but then go back, the browser will go "back" within the iframe rather than in the main frame, but the back navigation within the iframe won't use the bfcache.
+2. Because bfcache works with browser-managed navigations, it doesn't work for "soft navigations" within a single-page app.
+3. The `pageshow` event fires right after the `load` event when the page is initially loading and any time the page is restored from bfcache. The `pageshow` event has a `persisted` property, which is true if the page was restored from bfcache and false otherwise.
+4. The most important way to optimize for bfcache in all browsers is to never use the `unload` event. This event is extremely unreliable. In most browsers, especially on mobile, the code often won't run and it has a negative impact on a site's performance, by preventing the usage of bfcache. Use the `pagehide` event instead.
+5. Any pages using `Cache-Control: no-store` won't be eligible for bfcache.
+6. When a page is put into the bfcache, it pauses all scheduled JavaScript tasks and resumes them when the page is taken out of the cache. If your page has open IndexedDB connection, in-progress fetch, or open WebSocket connection, we strongly recommend closing connections during the `pagehide` and reopen or reconnect to those APIs during the `pageshow` event when the page is restored from the bfcache.
 
 ### Best practices for fonts
 

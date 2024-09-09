@@ -376,3 +376,4 @@ if ('IntersectionObserver' in window) {
 - https://github.com/bytedance/xgplayer
 - https://github.com/DIYgod/DPlayer
 - https://github.com/sampotts/plyr
+- https://github.com/muxinc/media-chrome

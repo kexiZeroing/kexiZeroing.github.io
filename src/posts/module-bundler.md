@@ -121,6 +121,8 @@ module.exports = {
 };
 ```
 
+> Babel Plugin Handbook: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
+
 Below is an example of a Webpack plugin: a BannerPlugin. This plugin adds a banner or comment to the top of each generated file. It's simple but demonstrates how Webpack plugins interact with the compilation process.
 
 The `apply` method is Webpack's way of registering a plugin and giving it access to the `compiler` object. Webpack calls `apply` during the initialization phase, before the build process begins, allowing the plugin to set up event hooks and modify the build as necessary.

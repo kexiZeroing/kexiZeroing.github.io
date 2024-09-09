@@ -62,8 +62,6 @@ Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 
 A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
-Babel Plugin Handbook: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
-
 ---
 
 ## Tools and Cool websites
