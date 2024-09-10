@@ -16,7 +16,7 @@ updatedDate: "Aug 8 2024"
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
 
-Every time you write JavaScript in e.g. VS Code, TypeScript runs behind the curtains and gives you information on built-in APIs. In fact, a lot of people think that they can live without TypeScript because JavaScript support is so fantastic in modern editors. Guess what’s, it has always been TypeScript. *(In VS Code, open a `.ts` file, `Cmd+Shift+P` enter "Select TypeScript Version" to check. If you select "Use Workspace Version", the setting is written to `.vscode/settings.json`.)*
+Every time you write JavaScript in e.g. VS Code, TypeScript runs behind the curtains and gives you information on built-in APIs. In fact, a lot of people think that they can live without TypeScript because JavaScript support is so fantastic in modern editors. Guess what’s, it has always been TypeScript. *In VS Code, open a `.ts` file, `Cmd+Shift+P` enter "Select TypeScript Version" to check. There is a "Use VS Code's Version" and "Use Workspace Version" (this is from node_modules).*
 
 ## Setting up TypeScript
 To start off, the TypeScript compiler will need to be installed in order to convert TypeScript files into JavaScript files. To do this, TypeScript can either be installed globally or only available at the project level.
