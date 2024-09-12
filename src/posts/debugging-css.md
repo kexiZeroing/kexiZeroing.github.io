@@ -222,7 +222,7 @@ updatedDate: "May 5 2024"
 
 - Before Chrome 118, font sizes smaller than 10px or so were not rendered as specified, but rounded up if the language was Arabic, Farsi, Japanese, Korean, Thai, Simplified or Traditional Chinese. Developers needed workarounds to render small text, for example by using the `transform` property. From Chrome 118, this limit is ended for all languages, making the seven languages match the rest.
 
-- Less absolute positioning with modern CSS. For example, when we have a card that contains text over an image, we often use `position: absolute` to place the content over the image. This is no longer needed with CSS grid.
+- Less absolute positioning with modern CSS. For example, when we have a card that contains text over an image, we often use `position: absolute` to place the content over the image. This is no longer needed with CSS grid. `grid-area: 1 / -1;` *(interpreted as `grid-area: 1 / -1 / auto / auto`)* places the element on the first row and makes it span all the way to the last column. It's a common way to make an element stretch across an entire row or column in a grid layout.
 
   ```css
   /* By default, CSS grid will create rows automatically based on the content. */
@@ -236,6 +236,9 @@ updatedDate: "May 5 2024"
     grid-column: 1/2;  /* we can also use `grid-area: 1/-1` */
     grid-row: 1/2;
   }
+
+  /* grid-area: 2 / 1 / 2 / 4; */
+  /* grid-row-start / grid-column-start / grid-row-end / grid-column-end
   ```
 
   <img alt="stack-elements-with-grid" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/stack-elements-grid.png" width="650" />

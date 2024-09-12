@@ -24,6 +24,7 @@ updatedDate: "Aug 31 2024"
 - [Scroll-driven animations](#scroll-driven-animations)
 - [Reveal hover effect](#reveal-hover-effect)
 - [Rotating highlight effect](#rotating-highlight-effect)
+- [The Periodic Table](#the-periodic-table)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -590,4 +591,24 @@ https://codepen.io/wesbos/pen/PoraMVV
     }
   }
 </style>
+```
+
+### The Periodic Table
+https://dev.to/madsstoumann/the-periodic-table-in-css-3lmm
+
+```css
+ol {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(18, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+li {
+  &:nth-of-type(2) { grid-column: 18; } /* pushed to the last column */
+}
+
+/* filter */
+body:has(#alk:checked) li:not(.alk) { 
+  opacity: 0.2;
+}
 ```

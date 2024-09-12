@@ -189,7 +189,24 @@ Function.prototype.myBind = function(context, ...args1) {
 };
 ```
 
-7. Use `setTimeout` to invoke a function multiple times in the fixed interval.
+7. Implement the deep clone method.
+```js
+function deepClone(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+  let copy = Array.isArray(obj) ? [] : {};
+  
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      copy[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key];
+    }
+  }
+  return copy;
+}
+```
+
+8. Use `setTimeout` to invoke a function multiple times in the fixed interval.
 ```js
 function repeat(func, times, ms, immediate) {
   let count = 0;
@@ -215,7 +232,7 @@ const repeatFunc = repeat(console.log, 4, 3000, true);
 repeatFunc("hello");
 ```
 
-8. Implement the render function to convert the virtual dom JSON to real DOM.
+9. Implement the render function to convert the virtual dom JSON to real DOM.
 ```js
 function render(vnode) {
   const { tag, props, children } = vnode;
@@ -246,7 +263,7 @@ function render(vnode) {
 }
 ```
 
-9. Implement the functionality of `lodash.get`.
+10. Implement the functionality of `lodash.get`.
 ```js
 // _.get(object, path, [defaultValue])
 function get(obj, path, defaultValue = undefined) {
@@ -271,7 +288,7 @@ console.log(get(obj, 'a.b.d', 'default')); // 'default'
 console.log(get(obj, 'x.y.z', 'not found')); // 'not found'
 ```
 
-10. How to add two big integers in js?
+11. How to add two big integers in js?
 ```js
 function add(A, B) {
   const AL = A.length
@@ -297,7 +314,7 @@ function add(A, B) {
 }
 ```
 
-11. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
+12. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
 
 ```js
 const app = { middlewares: [] };
@@ -344,7 +361,7 @@ const compose = (middlewares) => {
 app.compose = compose(app.middlewares);
 ```
 
-12. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
+13. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
 
 ```js
 // written by Dan Abramov
@@ -394,7 +411,7 @@ async function renderJSXToHTML(jsx) {
 }
 ```
 
-13. Implement a simplified version of Vue reactivity system.
+14. Implement a simplified version of Vue reactivity system.
 
 ```js
 let activeEffect = null;
@@ -435,7 +452,7 @@ function trigger(dep) {
 }
 ```
 
-14. Check if an object has circular references.
+15. Check if an object has circular references.
 
 ```js
 // `JSON.stringify` throws if one attempts to encode an object with circular references.

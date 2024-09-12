@@ -1271,6 +1271,8 @@ async function parallel() {
 > Concurrency is when two or more tasks can start, run, and complete in overlapping time periods. It doesn't necessarily mean they'll ever be running at the same instant. For example, multitasking on a single-core machine. Parallelism is when tasks literally run at the same time, e.g., on a multicore processor.
 
 ### `for await...of`
+The `for await..of` loop is a handy tool when working with asynchronous operations. It allows us to iterate over the results of promises or asynchronous generators in a more readable and intuitive way.
+
 When a `for await...of` loop iterates over an iterable, it first gets the iterable's `[Symbol.asyncIterator]()` method and calls it, which returns an async iterator. If it does not exist, it then looks for an `[Symbol.iterator]()` method, which returns a sync iterator. The sync iterator returned is then wrapped into an async iterator by wrapping every object returned from the `next()` method into a resolved or rejected promise. The loop then repeatedly calls the final async iterator's `next()` method and awaits the returned promise, producing the sequence of values to be assigned to variable.
 
 - `for await...of` works on both sync and async iterables, while `for...of` only works on sync iterables.
