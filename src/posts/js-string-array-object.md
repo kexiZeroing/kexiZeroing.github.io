@@ -122,6 +122,25 @@ function replacer(match, p1, p2, p3, offset, string) {
 'abc123#$'.replace(/([^\d]*)(\d*)([^\w]*)/, replacer); // abc-123-#$
 ```
 
+### Avoid string comparisons
+Javascript makes it easy to hide the real cost of string comparisons. If you need to compare strings in C, you’d use the `strcmp(a, b)` function. Javascript uses `===` instead, so you don’t see the `strcmp`. But it’s there, and a string comparison will usually require comparing each of the characters in the string with the ones in the other string; string comparison is O(n). With the advent of TypeScript this should be easily avoidable, as enums are integers by default.
+
+Integers are usually passed by value in JS engines, whereas strings are always passed as pointers, and memory accesses are expensive.
+
+```ts
+// No
+enum Position {
+  TOP    = 'TOP',
+  BOTTOM = 'BOTTOM',
+}
+
+// Yes
+enum Position {
+  TOP,    // = 0
+  BOTTOM, // = 1
+}
+```
+
 ## Array
 
 ### Check if the variable is an array
