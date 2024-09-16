@@ -646,7 +646,9 @@ if (GetQueryString('type') && $next) {
 }
 ```
 
-## JSON stringify and parse 
+## JSON stringify and parse
+`JSON.stringify(value, replacer, space)` converts a value to the JSON notation that the value represents, optionally replacing values if a replacer function is specified or optionally including only the specified properties if a replacer array is specified.
+
 - If the value has a `toJSON()` method, it's responsible to define what data will be serialized.
 - `Boolean`, `Number`, and `String` objects are converted to the corresponding primitive values.
 - The default conversion from an object to string is `"[object Object]"`, which uses `toString()` method in the object. 

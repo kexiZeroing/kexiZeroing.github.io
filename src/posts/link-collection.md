@@ -22,6 +22,8 @@ How HTTPS works: https://howhttps.works
 
 Inside look at modern web browser (4 parts): https://developers.google.com/web/updates/2018/09/inside-browser-part1
 
+Populating the page - how browsers work: https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work
+
 Intro to Computer Systems: https://www.cs.cmu.edu/afs/cs/academic/class/15213-f19/www/schedule.html
 
 The Missing Semester of Your CS Education: https://missing.csail.mit.edu
