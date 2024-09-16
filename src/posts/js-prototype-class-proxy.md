@@ -181,6 +181,22 @@ console.log(ClassWithStaticField.staticField);
 ClassWithStaticField.staticMethod(); 
 ```
 
+```js
+class LogLevel {
+  static Debug = 0;
+  static Info = 1;
+  static Warn = 2;
+  static Error = 3;
+  static Critical = 4;
+
+  static assert(log_level) {
+    if (![LogLevel.Debug, LogLevel.Info, LogLevel.Warn, LogLevel.Error, LogLevel.Critical].includes(log_level)) {
+      throw new Error(`log_level must be an instance of LogLevel. Unsupported param ${JSON.stringify(log_level)}`);
+    }
+  }
+}
+```
+
 ### Class getter and setter
 Add methods prefixed with `get` or `set` to create a getter and setter, which are executed based on what you are doing: accessing the variable, or modifying its value. If you only have a getter, the property cannot be set; If you only have a setter, you can change the value but not access it.
 

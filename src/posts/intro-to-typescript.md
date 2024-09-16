@@ -247,6 +247,10 @@ type TodoPreview = Pick<Todo, "title" | "completed">
 type User = ReturnType<typeof createUser>
 // collect all arguments from a function in a tuple
 type Param = Parameters<typeof createUser>
+
+// define an object with index
+type Data1 = Record<string, unknown>
+type Data2 = { [key in string]: unknown }
 ```
 
 ```tsx

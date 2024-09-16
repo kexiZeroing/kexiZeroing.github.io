@@ -145,6 +145,8 @@ export const AI = createAI({
 });
 ```
 
+> Update: `render` has been deprecated in favor of [streamUI](https://sdk.vercel.ai/docs/ai-sdk-rsc/streaming-react-components). Similar to AI SDK Core APIs (like `streamText` and `streamObject`), streamUI provides a single function to call a model and allow it to respond with React Server Components.
+
 Let's explain the above code in more detail.
 
 The `render` function is a powerful helper function to create a streamable UIs from an LLM response.

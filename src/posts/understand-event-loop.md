@@ -5,7 +5,7 @@ slug: understand-the-event-loop
 description: ""
 added: "Aug 26 2020"
 tags: [js]
-updatedDate: "Mar 25 2024"
+updatedDate: "Sep 16 2024"
 ---
 
 ## Inside look at a browser
@@ -120,3 +120,22 @@ while (tasks.length > 0) {
   await yieldToMain();
 }
 ```
+
+`scheduler.yield()` *(in Chrome 129)* provides a method for yielding control to the browser, which can be used to break up long tasks. Awaiting the promise returned by `scheduler.yield()` causes the current task to yield, continuing in a new browser task. This can be useful when you want to ensure that your JavaScript code doesn't block the main thread and negatively impact the user experience.
+
+- With `scheduler.yield`, the continuation of work is placed at the front of the task queue.
+- With `setTimeout`, the continuation of work is placed at the end of the task queue.
+
+```js
+async function blocksInChunks() {
+  // Blocks for 500ms, then yields to the browser scheduler
+  blockMainThread(500);
+
+  await scheduler.yield(); // The browser scheduler can run other tasks at this point
+
+  // Blocks for another 500ms and returns
+  blockMainThread(500);
+}
+```
+
+> The api and implementation is the result of a multi year collab effort between (meta) the react team and (google) chrome, and underpins react’s concurrent mode. Now being implemented in browsers as a standard.
