@@ -380,6 +380,8 @@ The Event interface represents an event which takes place in the DOM. An event c
 
 Unlike "native" events, which are fired by the DOM and invoke event handlers **asynchronously** via the event loop, **`dispatchEvent()` invokes event handlers synchronously**. All applicable event handlers will execute and return before the code continues on after the call to `dispatchEvent()`.
 
+`isTrusted` is a read-only property that is only set to true if the event was dispatched by the user agent, which means that it was triggered by the user, such as a copy event triggered by the user pressing `Cmd + C`. This is in contrast to a synthetic event programmatically dispatched via `dispatchEvent()`, where `e.isTrusted` is false.
+
 Events can be created with the `Event` constructor. This constructor is supported in most modern browsers. To add more data to the event object, the `CustomEvent` interface exists and the `detail` property can be used to pass custom data.
 
 ```js
@@ -1188,11 +1190,16 @@ Async functions can contain zero or more `await` expressions. Await expressions 
 - The `await` keyword is only valid inside async functions.
 - Use of `async / await` enables the use of ordinary `try / catch` blocks around asynchronous code.
 
-For example, this function returns a promise, and that promise resolves to the string "Hello world".
 ```js
-async function greeting() {
-  return "Hello world"
+// Helper buddy for removing async/await try/catch
+function safeAwait(promise) {
+  return promise.then(data => {
+    if (data instanceof Error) return [data]
+    return [null, data]
+  }).catch(err => [err])
 }
+
+// const [ err, data ] = await safeAwait(myPromise())
 ```
 
 Now you should understand why the below code will throw an error. The `useEffect` hook isn't expecting us to return a promise. It expects us to return either nothing or a cleanup function. A quick fix is to create a separate async function within our effect.

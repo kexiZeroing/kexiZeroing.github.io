@@ -215,8 +215,7 @@ export default function Home() {
 There is a [13 minute video](https://www.youtube.com/watch?v=UDm-hvwpzBI) on how to build LLM applications through the new Vercel AI SDK.
 
 ### More to explore
-- https://sdk.vercel.ai/docs/ai-sdk-rsc
 - https://chat.vercel.ai/
-- https://gemini.vercel.ai/
 - https://github.com/miurla/morphic
 - https://github.com/krzysztoff1/generative-ui
+- https://github.com/TejasQ/gen-ui

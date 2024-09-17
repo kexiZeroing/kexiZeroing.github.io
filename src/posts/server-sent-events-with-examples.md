@@ -158,6 +158,8 @@ serve(async (_) => {
 });
 ```
 
+`TextEncoder.encode()` is used to convert a string of text into a sequence of bytes using a specific encoding. It is used with APIs that expect encoded text. `TextDecoder` is the counterpart to `TextEncoder`. It's used to convert a sequence of bytes back into a string of text, like reading text from binary data sources.
+
 `start(controller)` method is called immediately when the object is constructed. It aims to get access to the stream source, and do anything else required to set up the stream functionality. The `controller` parameter passed to this method can be used to control the stream's state and internal queue. 
 
 `cancel()` method will be called if the app signals that the stream is to be cancelled (e.g. if `ReadableStream.cancel()` is called).
