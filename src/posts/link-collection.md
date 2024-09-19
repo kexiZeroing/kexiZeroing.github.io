@@ -316,6 +316,8 @@ Drag and drop for any experience on any tech stack: https://github.com/atlassian
 
 Leaflet extension for various free tile providers: https://github.com/leaflet-extras/leaflet-providers
 
+Modular data visualization framework: https://github.com/f5/unovis
+
 ---
 
 ## React ecosystem
@@ -403,6 +405,8 @@ Drag and drop components that support Vue2 and Vue3: https://alfred-skyblue.gith
 Vue3 wrapper components for smooth-dnd: https://gilnd.github.io/vue3-smooth-dnd
 
 Vue.js and Nuxt Tips, Tricks and good practice: https://vuejstips.com
+
+A type safe router for vuejs: https://github.com/kitbagjs/router
 
 ---
 

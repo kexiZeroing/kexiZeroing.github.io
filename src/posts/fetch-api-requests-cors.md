@@ -128,7 +128,18 @@ function fetchVideo() {
 }
 ```
 
-You can use `AbortSignal.timeout()` to automatically create the abort signal which will abort after that duration (without the boilerplate of using `AbortController`).
+```js
+const controller = new AbortController()
+
+controller.signal.addEventListener('abort', () => {
+  console.log(controller.signal.reason) // "user cancellation"
+})
+
+// Provide a custom reason to this abort.
+controller.abort('user cancellation')
+```
+
+You can use `AbortSignal.timeout()` to automatically create the abort signal which will abort after that duration. No need to create an `AbortController` if all you want is to cancel a request after it exceeds a timeout.
 
 ```js
 try {
@@ -276,6 +287,8 @@ console.log(myHeaders.get('X-Custom-Header')); // ['ProcessThisImmediately', 'An
 myHeaders.delete('X-Custom-Header');
 console.log(myHeaders.get('X-Custom-Header')); // null
 ```
+
+> `Content-Length` header indicates the size of the message body, in bytes. `Buffer.byteLength()` returns the byte length of those elements (a character can take up more than one byte).
 
 A fetch metadata request header like `Sec-Fetch-Dest`, `Sec-Fetch-Mode`, `Sec-Fetch-Site` provides additional information about the context from which the request originated. These headers are prefixed with `Sec-`, and hence have [forbidden header names](https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name). As such, they cannot be modified from JavaScript.
 

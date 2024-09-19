@@ -103,6 +103,8 @@ link.addEventListener('click', () => {
 })
 ```
 
+Arrow functions are not free. When arrow functions are defined as class methods/properties, a new function object is created for each instance of the class. Most of the time, the decision between using arrow functions or regular methods in classes comes down to semantics and specific requirements around `this` binding. Unless we're in a very performance-critical scenario or creating a vast number of instances, the difference is likely negligible.
+
 ## Closure
 Lexical scoping describes how a parser resolves variable names when functions are nested. The word "lexical" refers to the fact that lexical scoping uses the location where a variable is declared within the source code to determine where that variable is available. Nested functions have access to variables declared in their outer scope.
 
@@ -425,6 +427,28 @@ button.addEventListener(
 );
 
 controller.abort();
+```
+
+```js
+useEffect(() => {
+  const controller = new AbortController()
+
+  window.addEventListener('resize', handleResize, {
+    signal: controller.signal,
+  })
+  window.addEventListener('hashchange', handleHashChange, {
+    signal: controller.signal,
+  })
+  window.addEventListener('storage', handleStorageChange, {
+    signal: controller.signal,
+  })
+
+  return () => {
+    // Calling `.abort()` removes ALL event listeners
+    // associated with `controller.signal`.
+    controller.abort()
+  }
+}, [])
 ```
 
 ## Destructuring assignments
