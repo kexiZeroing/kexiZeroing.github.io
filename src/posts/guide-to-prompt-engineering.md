@@ -5,7 +5,7 @@ slug: a-guide-to-prompt-engineering
 description: ""
 added: "Apr 5 2023"
 tags: [AI]
-updatedDate: "Sep 16 2024"
+updatedDate: "Sep 21 2024"
 ---
 
 Prompt Engineering refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of LLMs on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs.
@@ -246,6 +246,12 @@ Another interesting translation example from [Baoyu's blog](https://baoyu.io/blo
 
   请根据直译和反思的结果，重新意译，并输出最终翻译结果，不包含任何其他信息。
   ```
+
+### Prefill Claude's response for greater output control
+When using Claude, you have the ability to guide its responses by prefilling the `Assistant` message. Your API request doesn't have to end with a 'user' turn. You can include an 'assistant' turn at the end of the messages array, and Claude will then start its response as if it already output the text you prefilled. This technique allows you to direct Claude’s actions, skip preambles, enforce specific formats like JSON or XML, and even help Claude maintain character consistency in role-play scenarios.
+
+- Prefilling `{` forces Claude to directly output the JSON object.
+- Prefilling a bracketed `[ROLE_NAME]` can remind Claude stay in character.
 
 ### Prompt tips for OpenAI’s new o1
 OpenAI's latest release, o1, unlocks new reasoning capabilities, but there’s a catch: prompts should be fundamentally different than the way you prompt GPT-3 and GPT-4, due to the new Chain-of-Thought architecture.

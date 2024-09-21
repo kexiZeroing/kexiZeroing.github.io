@@ -5,7 +5,7 @@ slug: bitwise-operations-and-related-concepts
 description: ""
 added: "Sep 5 2020"
 tags: [other]
-updatedDate: "Nov 13 2022"
+updatedDate: "Sep 21 2024"
 ---
 
 ### Two's complement
@@ -95,10 +95,16 @@ What is the average size of JavaScript code downloaded per website? It seems lik
 Systems based on powers of 10 use standard SI prefixes (kilo, mega, giga, ...) and their corresponding symbols (k, M, G, ...). Systems based on powers of 2, however, might use binary prefixes (kibi, mebi, gibi, ...) and their corresponding symbols (Ki, Mi, Gi, ...).
 
 ### What is Unicode and UTF-8?
-Every letter in every alphabet is assigned a magic number by the Unicode consortium which is written like `U+0639`. This magic number is called a code point. The U+ means “Unicode” and the numbers are hexadecimal. `U+0639` is the Arabic letter Ain. The English letter A would be `U+0041`. *English text which rarely used code points above `U+007F`.* You can find them all visiting the [Unicode web site](https://home.unicode.org). Unicode corresponds to code points, just numbers. We haven’t yet said anything about how to store this in memory or represent it. That’s where encodings come in.
+Every letter in every alphabet is assigned a magic number by the Unicode consortium which is written like `U+0639`. This magic number is called a code point. The U+ means “Unicode” and the numbers are hexadecimal. `U+0639` is the Arabic letter Ain. The English letter A would be `U+0041`. *English text which rarely used code points above `U+007F`.* You can see each code point by pasting text in   https://unicode.run. How big is Unicode? Currently, the largest defined code point is `0x10FFFF`. That gives us a space of about 1.1 million code points. About 170,000, or 15%, are currently defined. An additional 11% are reserved for private use. The rest, about 800,000 code points, are not allocated at the moment. They could become characters in the future.
 
-It does not make sense to have a string without knowing what encoding it uses. If there’s no equivalent for the Unicode code point you’re trying to represent in the encoding you’re trying to represent it in, you usually get a little question mark: ? or �
+Unicode corresponds to code points, just numbers. We haven’t yet said anything about how to store this in memory or represent it. That’s where encodings come in. **Encoding is how we store code points in memory.** It does not make sense to have a string without knowing what encoding it uses. If there’s no equivalent for the Unicode code point you’re trying to represent in the encoding you’re trying to represent it in, you usually get a little question mark: ? or �
 
-**U**nicode **T**ransformation **F**ormat **8**-bit is a variable-width encoding that can represent every character in the Unicode character set. It was designed for backward compatibility with ASCII and to avoid the complications of endianness and byte order marks in UTF-16 and UTF-32. In UTF-8, every code point from 0-127 is stored in a single byte. Only code points 128 and above are stored using 2, 3, in fact, up to 6 bytes.
+The simplest possible encoding for Unicode is UTF-32. It simply stores code points as 32-bit integers. So `U+1F4A9` becomes `00 01 F4 A9`, taking up four bytes. Any other code point in UTF-32 will also occupy four bytes. Since the highest defined code point is `U+10FFFF`, any code point is guaranteed to fit.
 
-The MIME character set attribute for UTF-8 is `UTF-8`. Character sets are case-insensitive, so `utf-8` is equally valid.
+**U**nicode **T**ransformation **F**ormat **8**-bit is a variable-width encoding that can represent every character in the Unicode character set. It was designed for backward compatibility with ASCII and to avoid the complications of endianness and byte order marks in UTF-16 and UTF-32. In UTF-8, every code point from 0-127 is stored in a single byte. Only code points 128 and above are stored using 2, 3, in fact, up to 6 bytes. *English is encoded with 1 byte, Cyrillic, Latin European languages, Hebrew and Arabic need 2, and Chinese, Japanese, Korean, other Asian languages, and Emoji need 3 or 4.* The MIME character set attribute for UTF-8 is `UTF-8`. Character sets are case-insensitive, so `utf-8` is equally valid.
+
+What’s "🤦🏼‍♂️".length? This string that contains one graphical unit consists of 5 Unicode scalar values.
+
+<img alt="unicode-string" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/unicode-encoding.png" width="550" />
+
+Different languages use different internal string representations and report length in whatever units they store. For example, JavaScript (and Java) strings have UTF-16 semantics, so the string occupies 7 code units.

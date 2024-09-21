@@ -64,6 +64,8 @@ Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 
 A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
+B-trees and database indexes: https://planetscale.com/blog/btrees-and-database-indexes
+
 ---
 
 ## Tools and Cool websites
@@ -362,7 +364,7 @@ Zero-dependency and lightweight React implementation: https://github.com/MarufZa
 
 Modern UI components to build your React app: https://dotui.org
 
-Develop, test, and share your React components faster: https://github.com/tajo/ladle
+Type-safe search params state manager for Next.js: https://nuqs.47ng.com
 
 ---
 
@@ -521,6 +523,8 @@ Anthropic's educational courses: https://github.com/anthropics/courses
 Open source Claude Artifacts – built with Llama 3.1: https://llamacoder.together.ai
 
 Find the best cursor rules for your framework and language: https://cursor.directory
+
+Internal Knowledge Base Preview: https://github.com/vercel-labs/ai-sdk-preview-internal-knowledge-base
 
 ---
 
