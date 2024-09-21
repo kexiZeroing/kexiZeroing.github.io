@@ -128,6 +128,15 @@ window.performance.getEntriesByType('resource')
   .forEach(({name}) => console.log(name))
 ```
 
+### Common misconceptions about how to optimize LCP
+For most pages on the web, the LCP element is an image. It's natural then to assume that the best way to improve LCP is to optimize your LCP image. However, when we started looking at field performance data for users in Chrome, we found that image download time is almost never the bottleneck. Instead, other parts of LCP are a much bigger problem.
+
+LCP sub-part breakdown: Time to First Byte -> Resource load delay -> Resource load duration -> Element render delay 
+
+1. There is not a lot of time being spent in image load duration. In fact, it's the shortest LCP sub-part, in all LCP buckets. The load duration is longer for poor-LCP origins compared to good-LCP origins, but that's still not where time is largely being spent.
+2. For at least half of the origins with poor LCP, the TTFB of 2,270 milliseconds alone nearly guarantees that the LCP can't be faster than the 2.5 second "good" threshold.
+3. The median site with poor LCP spends almost four times as long waiting to start downloading the LCP image as it does actually downloading it.
+
 ### The Speculation Rules API
 - https://developer.chrome.com/docs/web-platform/prerender-pages
 - https://developer.chrome.com/docs/devtools/application/debugging-speculation-rules

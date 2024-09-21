@@ -230,6 +230,21 @@ Object.prototype.toString.call(new Map())     // '[object Map]'
 
 > Tweet IDs are big numbers, bigger than `2^53`. The Twitter API now returns them as both integers and strings, so that in Javascript you can just use the string ID, but if you tried to use the integer version in JS, things would go very wrong. This particular issue doesn’t happen in Python, because Python has integers. Read more about [Examples of floating point problems](https://jvns.ca/blog/2023/01/13/examples-of-floating-point-problems/).
 
+### Deal with floating point number precision
+The crux of the problem is that numbers are represented in IEEE 754 standard as a whole number times a power of two; rational numbers (such as 0.1) whose denominator is not a power of two cannot be exactly represented.
+
+You need to replace equality tests with comparisons that allow some amount of tolerance. Do not do `if (x == y) { ... }`. Instead do `if (abs(x - y) < myToleranceValue) { ... }`.
+
+`toPrecision()` returns a string representing this number to the specified number of significant digits.
+
+```js
+const fixNumber = num => Number(num.toPrecision(15));
+
+// fixNumber(0.3 - 0.1) => 0.2
+// fixNumber(0.0003 - 0.0001) => 0.0002
+// fixNumber(0.57 * 100) => 57
+```
+
 ### Why `[] + {}` is `"[object Object]"`
 Firstly convert both operands to primitive values, and try `valueOf()` followed by `toString()`. If either of them is a string, do `String(a) + String(b)`, otherwise do `Number(a) + Number(b)`.
 
