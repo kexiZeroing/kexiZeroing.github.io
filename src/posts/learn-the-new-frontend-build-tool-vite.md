@@ -67,6 +67,8 @@ Vite's current unbundle mechanism is not suitable for large web app development,
 - Only performs transpilation on `.ts` files and does NOT perform type checking. It assumes type checking is taken care of by your IDE and build process. For production builds, you can run `tsc --noEmit` in addition to Vite's build command. During development, use [vite-plugin-checker](https://github.com/fi3ework/vite-plugin-checker) if you prefer having type errors directly reported in the browser.
 - Vite uses esbuild to transpile TypeScript into JavaScript which is about 20~30x faster than vanilla `tsc`.
 
+> While Vite and other tools handle the actual transpilation of TypeScript to JavaScript, they don't provide type checking out of the box. This means that you could introduce errors into your code and Vite would continue running the dev server without telling you. Fortunately, we can configure TypeScript's CLI to allow for type checking without interfering with our other tools. By setting `noEmit` to true, this makes TypeScript act more like a linter than a transpiler.
+
 ### CSS
 - Importing `.css` files will inject its content to the page via a `<style>` tag with HMR support.
 - Vite is pre-configured to support CSS `@import` inlining via `postcss-import`.
