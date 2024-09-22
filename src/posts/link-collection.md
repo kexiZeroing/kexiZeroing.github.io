@@ -22,8 +22,6 @@ How HTTPS works: https://howhttps.works
 
 Inside look at modern web browser (4 parts): https://developers.google.com/web/updates/2018/09/inside-browser-part1
 
-Populating the page - how browsers work: https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work
-
 Intro to Computer Systems: https://www.cs.cmu.edu/afs/cs/academic/class/15213-f19/www/schedule.html
 
 The Missing Semester of Your CS Education: https://missing.csail.mit.edu
@@ -35,8 +33,6 @@ Modern JavaScript-based web development: https://fullstackopen.com
 Bash Commands and Tips: https://dev.to/awwsmm/101-bash-commands-and-tips-for-beginners-to-experts-30je
 
 Learn Node.js: https://nodejs.org/en/learn
-
-Learn Node.js by building a backend framework: https://github.com/ishtms/learn-nodejs-hard-way
 
 Docker Guide: https://www.robertcooper.me/docker-guide
 
@@ -54,8 +50,6 @@ Generative AI for Beginners: https://github.com/microsoft/generative-ai-for-begi
 
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
-Explain complex systems using visuals and simple terms: https://github.com/ByteByteGoHq/system-design-101
-
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials
 
 Total TypeScript Essentials: https://www.totaltypescript.com/books/total-typescript-essentials
@@ -65,6 +59,8 @@ Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
 B-trees and database indexes: https://planetscale.com/blog/btrees-and-database-indexes
+
+MySQL isolation levels and how they work: https://planetscale.com/blog/mysql-isolation-levels-and-how-they-work
 
 ---
 
