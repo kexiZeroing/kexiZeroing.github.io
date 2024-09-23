@@ -284,7 +284,21 @@ async function fetchData(): Promise<number> {
 
 **Declaration merging for interfaces** means we can declare an interface at separate positions with different properties, and TypeScript combines all declarations and merges them into one. You use `declare` to let TypeScript know that the variable exists, even though it's not declared in the code.
 
-**Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, `any` and `unknown` are top types). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all and is used for situations that should never occur.
+**Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, which is a safe type). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all and is used for situations that should never occur.
+
+`any` doesn't really fit into our definition of 'wide' and 'narrow' types. It breaks the type system. It's not really a type at all - it's a way of opting out of TypeScript's type checking.
+
+```
+                    unknown
+       /        /     |      \       \       \
+      /        /      |       \       \       \
+{ a: string } string number boolean null undefined
+       |        |       |       | 
+       |      'wow'    123     true 
+       |        |       |       | 
+       \________\_______\_______\____/______/
+                    never
+```
 
 **Value Types**: We can narrow down primitive types to values.
 ```ts

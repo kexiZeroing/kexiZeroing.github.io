@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 5
-updatedDate: "Sep 2 2024"
+updatedDate: "Sep 23 2024"
 ---
 
 更全面的准备可以参考:
@@ -491,5 +491,66 @@ function hasCircularReference(obj) {
   }
 
   return detect(obj);
+}
+```
+
+16. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
+
+```js
+// https://gist.github.com/simonw/209b46563b520d1681a128c11dd117bc
+async function* sseStreamIterator(apiUrl, requestBody) {
+  const response = await fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+    },
+    body: JSON.stringify(requestBody),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const reader = response.body.getReader();
+  // `TextDecoder` is needed to convert the binary data (Uint8Array) into string.
+  const decoder = new TextDecoder();
+  let buffer = '';
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    // `stream: true` keeps that partial character in an internal buffer, not incorrectly decoded.
+    buffer += decoder.decode(value, { stream: true });
+    const events = buffer.split(/\r\n\r\n/);
+    // the last element which might be an incomplete event is removed
+    // Partial data is stored in the buffer and completed with data from the next chunk.
+    buffer = events.pop() || '';
+
+    for (const event of events) {
+      // could include multiple fields per event like id:, event:, in addition to the data: field.
+      const lines = event.split(/\r\n/);
+      const parsedEvent = {};
+
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const dataContent = line.slice(6);
+          try {
+            parsedEvent.data = JSON.parse(dataContent);
+          } catch (error) {
+            parsedEvent.data = null;
+            parsedEvent.data_raw = dataContent;
+          }
+        } else if (line.includes(': ')) {
+          const [key, value] = line.split(': ', 2);
+          parsedEvent[key] = value;
+        }
+      }
+
+      if (Object.keys(parsedEvent).length > 0) {
+        yield parsedEvent;
+      }
+    }
+  }
 }
 ```
