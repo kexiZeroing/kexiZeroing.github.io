@@ -316,6 +316,8 @@ Leaflet extension for various free tile providers: https://github.com/leaflet-ex
 
 Modular data visualization framework: https://github.com/f5/unovis
 
+Common MPA myths and what I’ve learned about them: https://htmx.org/essays/you-cant
+
 ---
 
 ## React ecosystem

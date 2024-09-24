@@ -126,6 +126,8 @@ document.body.appendChild(link);
 
 ## Buffers in Node.js
 In Node.js, buffers are a special type of object that can store raw binary data. A buffer represents a chunk of memory allocated in your computer. Once set, the size of a buffer cannot be changed. A buffer stores bytes.
+- Buffer is just data—buffer. A bunch of data.
+- Blob is almost a File. Blob wraps a buffer. It's a container with metadata, like the MIME type.
 
 Node.js exposes the Buffer class in the global scope. With this API, you get a series of functions and abstractions to manipulate raw binaries. A buffer in Node.js looks like this:
 

@@ -202,6 +202,22 @@ function useMessage(input) {
 }
 ```
 
+It is possible to have two script sections within a Vue Single File component: one with the `setup` attribute and one without. One of reasons for this is exporting types or data that are tightly tied to the component but could be useful elsewhere.
+
+```vue
+<!-- UserProfileComponent -->
+<script lang="ts">
+export interface UserProfile{
+  username: string,
+  // etc...
+}
+</script>
+
+<script setup lang="ts">
+defineProps<UserProfile>()
+</script>
+```
+
 ### Custom Directives
 
 ```html

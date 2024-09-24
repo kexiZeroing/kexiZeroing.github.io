@@ -1,11 +1,11 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Run MySQL locally and manipulate Node.js files"
-slug: run-mysql-locally-and-manipulate-nodejs-files
+title: "Run MySQL locally and some Node.js operations"
+slug: run-mysql-locally-and-some-nodejs-operations
 description: ""
 added: "Aug 7 2024"
 tags: [code]
-updatedDate: "Aug 8 2024"
+updatedDate: "Sep 24 2024"
 ---
 
 ## Run MySQL locally and query it with Express
@@ -180,4 +180,27 @@ try {
 } catch (err) {
   console.log(err);
 }
+```
+
+## Memory Usage in Node.js (V8)
+- RSS (Resident Set Size): Total memory allocated for the Node.js process, including all parts of the memory: code, stack, and heap.
+- Heap: Memory allocated for JavaScript objects.
+- External: Memory used by C++ objects that are linked to JavaScript objects. This memory is managed outside the V8 heap.
+- Array Buffers: Memory allocated for ArrayBuffer objects, which are used to store fixed-length binary data.
+
+```js
+console.log('Initial Memory Usage:', process.memoryUsage());
+
+setInterval(() => {
+  const memoryUsage = process.memoryUsage();
+  console.log(`RSS: ${memoryUsage.rss}`);
+}, 1000);
+
+// Initial Memory Usage: {
+//   rss: 38502400,
+//   heapTotal: 4702208,
+//   heapUsed: 2559000,
+//   external: 1089863,
+//   arrayBuffers: 10515
+// }
 ```
