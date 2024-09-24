@@ -234,6 +234,8 @@ The Collection of CSS-only Shapes: https://css-shape.com
 
 Styling Tables the Modern CSS Way: https://piccalil.li/blog/styling-tables-the-modern-css-way
 
+Visual design rules you can safely follow every time: https://anthonyhobday.com/sideprojects/saferules
+
 ---
 
 ## FE dev resources
@@ -315,8 +317,6 @@ Drag and drop for any experience on any tech stack: https://github.com/atlassian
 Leaflet extension for various free tile providers: https://github.com/leaflet-extras/leaflet-providers
 
 Modular data visualization framework: https://github.com/f5/unovis
-
-Common MPA myths and what I’ve learned about them: https://htmx.org/essays/you-cant
 
 ---
 

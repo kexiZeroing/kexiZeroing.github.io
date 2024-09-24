@@ -5,11 +5,8 @@ slug: css-effects-collection
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Aug 31 2024"
+updatedDate: "Sep 24 2024"
 ---
-
-> - https://css-tip.com has a wide collection of CSS tips and tricks, which is a good place to keep up to date with the new CSS features.
-> - https://anthonyhobday.com/sideprojects/saferules/ includes some visual design rules you can safely follow every time.
 
 ### TOC
 - [TOC](#toc)
@@ -24,6 +21,7 @@ updatedDate: "Aug 31 2024"
 - [Scroll-driven animations](#scroll-driven-animations)
 - [Reveal hover effect](#reveal-hover-effect)
 - [Rotating highlight effect](#rotating-highlight-effect)
+- [Glass folder effect](#glass-folder-effect)
 - [The Periodic Table](#the-periodic-table)
 
 ### Rainbow Artword
@@ -589,6 +587,47 @@ https://codepen.io/wesbos/pen/PoraMVV
     to {
       --rotate: 360deg;
     }
+  }
+</style>
+```
+
+### Glass folder effect
+<img alt="Glass-folder-effect" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/glass-folder.png" width="200">
+
+```html
+<div class="folder">
+  <img src="https://picsum.photos/seed/picsum/200/200" />
+</div>
+
+<style>
+  img {
+    border-radius: 10px;
+    box-shadow: 0 2px 15px #333;
+    transition: all 0.2s;
+    margin-top: -30%;
+  }
+  .folder {
+    display: inline-block;
+    background: #007eaf;
+    transition: all 0.2s;
+    box-shadow: 0 2px 15px #333;
+    padding: 30px;
+    border-radius: 10px;
+    position: relative;
+    margin-top: 30%;
+  }
+  .folder:hover img {
+    translate: 0 -50px;
+  }
+  .folder::after {
+    box-shadow: 0 2px 5px #3334 inset;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;      
+    content: '';
+    position: absolute;
+    background: #019eda44;
+    inset: 20% 0 0;
+    backdrop-filter: blur(8px);
   }
 </style>
 ```

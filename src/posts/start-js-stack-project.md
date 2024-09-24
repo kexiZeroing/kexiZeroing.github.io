@@ -212,7 +212,7 @@ https://www.builder.io/blog/debug-nodejs
 
 Launch your Node.js process using the `--inspect-brk` flag (`node server.js --inspect-brk`). Now, open up any Edge or Chrome dev tools window and click the little green Node.js logo button. A new instance of DevTools will open and connect to the node process.
 
-> Node.js 20.6.0 now supports reading `.env` files with the `--env-file` flag. You'll no longer need the `dotenv` package. Also supports passing runtime flags like `--inspect` and `--watch`. Example from @wesbos:  
+> Node.js 20.6.0 now supports reading `.env` files with the `--env-file` flag. You'll no longer need the `dotenv` package *([dotenvx](https://github.com/dotenvx/dotenvx) is a better dotenv from the creator of dotenv.)* Also supports passing runtime flags like `--inspect` and `--watch`. Example from @wesbos:  
 > <img alt="node-env" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/F5WdyiKXEAAY7So.jpeg" width="600" />
 
 ## Introducing the Backend For Frontend

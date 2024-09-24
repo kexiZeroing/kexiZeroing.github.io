@@ -5,7 +5,7 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Sep 22 2024"
+updatedDate: "Sep 24 2024"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
@@ -185,17 +185,6 @@ type Animal = {
 };
 let dog: Animal;
 
-// Inline Annotations
-let dog: {
-  kind: string;
-  weight: number;
-};
-
-dog = {
-  kind: 'mammal',
-  weight: 10,
-};
-
 // Union Type (a type can be one of multiple types, type A = X | Y)
 // Narrow down the types of values: typeof, truthiness, instanceof...
 const sayHappyBirthday = (name: string | null) => {
@@ -215,6 +204,20 @@ type Employee = {
   companyId: string;
 };
 let person: Student & Employee;
+
+// Interfaces are faster than type intersections.
+// Merge incompatible types
+interface User1 {
+  age: number;
+};
+type User2 = {
+  age: string;
+};
+
+type User = User1 & User2;  // => never
+interface User extends User1 {  // raise an error 
+  age: string;
+}
 
 // `typeof` operator takes any object and extracts the shape of it.
 const defaultOrder = {
@@ -248,9 +251,15 @@ type User = ReturnType<typeof createUser>
 // collect all arguments from a function in a tuple
 type Param = Parameters<typeof createUser>
 
-// define an object with index
-type Data1 = Record<string, unknown>
-type Data2 = { [key in string]: unknown }
+// Index signatures for dynamic keys
+interface AlbumAwards {
+  [iCanBeAnything: string]: boolean;
+}
+const albumAwards: {
+  [index: string]: boolean;
+} = {};
+// more concise way
+const albumAwards: Record<string, boolean> = {};
 ```
 
 ```tsx
@@ -281,8 +290,6 @@ async function fetchData(): Promise<number> {
 // const data = await fetchData();
 // type test = Expect<Equal<typeof data, number>>;
 ```
-
-**Declaration merging for interfaces** means we can declare an interface at separate positions with different properties, and TypeScript combines all declarations and merges them into one. You use `declare` to let TypeScript know that the variable exists, even though it's not declared in the code.
 
 **Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, which is a safe type). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all and is used for situations that should never occur.
 
@@ -396,6 +403,8 @@ declare global {
   }
 }
 ```
+
+Interfaces in TypeScript have an odd property. When multiple interfaces with the same name in the same scope are created, TypeScript automatically merges them. This is known as declaration merging. This is very different from `type`, which would give you an error if you tried to declare the same type twice.
 
 ### How to use @ts-expect-error
 `@ts-expect-error` lets you specify that an error will occur on the next line of the file, which is helpful letting us be sure that an error will occur. If `@ts-expect-error` doesn't find an error, it will source an error itself *(Unused '@ts-expect-error' directive)*.
