@@ -7,6 +7,13 @@ import { createHighlighter } from 'shiki';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+console.log('import.meta.url:', import.meta.url);
+// --> file:///home/users/projects/example.js
+console.log('__filename:', __filename);
+// --> /home/users/projects/example.js
+console.log('__dirname:', __dirname);
+// --> /home/users/projects
+
 async function main() {
   const highlighter = await createHighlighter({
     themes: ['nord'],
