@@ -154,6 +154,17 @@ In common module systems, such as CommonJS, or a module bundler like webpack, th
 
 Now many web developers are using JavaScript's native module syntax, but combining it with bare import specifiers, making their code unable to run on the web without per-application, ahead-of-time modification. We'd like to solve that, and bring these benefits to the web.
 
+When importing modules in scripts, if you don't use the `type=importmap` feature, then each module must be imported using a module specifier that is either an absolute or relative URL.
+
+```js
+import { name as squareName, draw } from "./shapes/square.js";
+import { name as circleName } from "https://example.com/shapes/circle.js";
+
+// import from CDN, and no need for a build step
+// https://www.skypack.dev
+import React from 'https://cdn.skypack.dev/react'
+```
+
 [This proposal](https://github.com/WICG/import-maps) allows control over what URLs get fetched by JavaScript `import` statements. This allows "bare import specifiers", such as `import moment from "moment"`, to work. The mechanism for doing this is via an *import map* which can be used to control the resolution of module specifiers generally.
 
 Today, `import moment from "moment"` throws, as such bare specifiers are reserved *(specifier needs to start with the character `/`, `./`, `../`)*. By supplying the browser with the following import map, the above would act as if you had written `import moment from "/node_modules/moment/src/moment.js"`.
