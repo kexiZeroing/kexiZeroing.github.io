@@ -524,6 +524,8 @@ Find the best cursor rules for your framework and language: https://cursor.direc
 
 Internal Knowledge Base Preview: https://github.com/vercel-labs/ai-sdk-preview-internal-knowledge-base
 
+React Components for AI Chat: https://github.com/Yonom/assistant-ui
+
 ---
 
 ## Machine Learning

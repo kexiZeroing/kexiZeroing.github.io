@@ -398,6 +398,9 @@ import { h } from 'vue'
 
 export default {
   render() {
+    // The first argument is either an HTML element name or a component
+    // The second argument is a list of props, attributes, and event handlers
+    // The third argument is either a string for a text node or an array of children VNodes
     return h("div", {}, [
       h("h1", {}, "Render Functions are awesome"),
       h("p", {class: 'text-blue-400'}, "Some text")
