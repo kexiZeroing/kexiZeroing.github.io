@@ -370,7 +370,7 @@ Modern UI components to build your React app: https://dotui.org
 
 Type-safe search params state manager for Next.js: https://nuqs.47ng.com
 
-The extended Shadcn UI library: https://shadcn-extension.vercel.app
+React and the Vanishing Network: https://vanishing-network.epicreact.dev
 
 ---
 
