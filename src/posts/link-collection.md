@@ -62,6 +62,8 @@ B-trees and database indexes: https://planetscale.com/blog/btrees-and-database-i
 
 MySQL isolation levels and how they work: https://planetscale.com/blog/mysql-isolation-levels-and-how-they-work
 
+A Beginner’s Guide to the True Order of SQL Operations: https://blog.jooq.org/a-beginners-guide-to-the-true-order-of-sql-operations
+
 ---
 
 ## Tools and Cool websites
@@ -165,6 +167,8 @@ Awesome Web Apps that work without login: https://github.com/aviaryan/awesome-no
 A powerful media downloader with no bullshit: https://cobalt.tools
 
 A high-performance HTTP benchmarking tool written in Golang: https://github.com/six-ddc/plow
+
+Netlify Celebrates 5 Million Developers | 3D Game: https://5-million-devs.netlify.com
 
 ---
 
@@ -318,6 +322,8 @@ Leaflet extension for various free tile providers: https://github.com/leaflet-ex
 
 Modular data visualization framework: https://github.com/f5/unovis
 
+Image comparison slider to compare images before and after: https://github.com/sneas/img-comparison-slider
+
 ---
 
 ## React ecosystem
@@ -363,6 +369,8 @@ Zero-dependency and lightweight React implementation: https://github.com/MarufZa
 Modern UI components to build your React app: https://dotui.org
 
 Type-safe search params state manager for Next.js: https://nuqs.47ng.com
+
+The extended Shadcn UI library: https://shadcn-extension.vercel.app
 
 ---
 

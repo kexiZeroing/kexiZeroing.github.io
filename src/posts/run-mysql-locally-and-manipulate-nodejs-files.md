@@ -184,7 +184,8 @@ try {
 
 ## Memory Usage in Node.js (V8)
 - RSS (Resident Set Size): Total memory allocated for the Node.js process, including all parts of the memory: code, stack, and heap.
-- Heap: Memory allocated for JavaScript objects.
+- Heap Total: Memory allocated for JavaScript objects. This is the total size of the allocated heap.
+- Heap Used: Memory actually used by the JavaScript objects. This shows how much of the heap is currently in use.
 - External: Memory used by C++ objects that are linked to JavaScript objects. This memory is managed outside the V8 heap.
 - Array Buffers: Memory allocated for ArrayBuffer objects, which are used to store fixed-length binary data.
 

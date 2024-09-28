@@ -248,6 +248,10 @@ var arr = Array(3).fill({}) // [{}, {}, {}];
 arr[0].hi = "hi"; // [{ hi: "hi" }, { hi: "hi" }, { hi: "hi" }]
 
 [].fill.call({ length: 3 }, 4);  // {0: 4, 1: 4, 2: 4, length: 3}
+
+// compare with Array.from
+const array = Array.from({ length: 3 }, () => ({}));
+array[0].hi = "hi"; // [{ hi: "hi" }, {}, {}]
 ```
 
 ### Array.prototype.find()

@@ -261,6 +261,22 @@ function render(vnode) {
 
   return el;
 }
+
+/**
+ * Parse a string of HTML or XML to a DOM tree.
+ * @param {string} [html] String containing HTML or XML to be parsed.
+ * @returns {DocumentFragment} Object containing Node structure of HTML/XML parsed.
+ */
+const parse = (html) => {
+  const element = document.createElement('template');
+  if (html !== undefined) {
+    element.innerHTML = html;
+  }
+  return element.content;
+};
+
+parse('Some <em>awesome</em> markup <img src="explosion.gif">');
+// returns DocumentFragment(4) [ #text, em, #text, img ]
 ```
 
 10. Implement the functionality of `lodash.get`.
