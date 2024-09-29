@@ -64,6 +64,8 @@ MySQL isolation levels and how they work: https://planetscale.com/blog/mysql-iso
 
 A Beginner’s Guide to the True Order of SQL Operations: https://blog.jooq.org/a-beginners-guide-to-the-true-order-of-sql-operations
 
+Falsehoods programmers believe in: https://github.com/kdeldycke/awesome-falsehood
+
 ---
 
 ## Tools and Cool websites

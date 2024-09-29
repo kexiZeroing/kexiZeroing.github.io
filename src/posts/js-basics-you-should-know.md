@@ -5,7 +5,7 @@ slug: js-basics-you-should-know
 description: ""
 added: "Aug 3 2020"
 tags: [js]
-updatedDate: "Aug 26 2024"
+updatedDate: "Sep 29 2024"
 ---
 
 > You can read this post together with [JavaScript Questions](https://github.com/lydiahallie/javascript-questions) created by @lydiahallie to test how well you know JavaScript.
@@ -231,11 +231,23 @@ Object.prototype.toString.call(new Map())     // '[object Map]'
 > Tweet IDs are big numbers, bigger than `2^53`. The Twitter API now returns them as both integers and strings, so that in Javascript you can just use the string ID, but if you tried to use the integer version in JS, things would go very wrong. This particular issue doesn’t happen in Python, because Python has integers. Read more about [Examples of floating point problems](https://jvns.ca/blog/2023/01/13/examples-of-floating-point-problems/).
 
 ### Deal with floating point number precision
-The crux of the problem is that numbers are represented in IEEE 754 standard as a whole number times a power of two; rational numbers (such as 0.1) whose denominator is not a power of two cannot be exactly represented.
+Avoiding Integers and Floats for Monetary Values:
+- **Floats:** Using floats for monetary values is risky because of the inherent imprecision of floating-point arithmetic. Since floats are represented in binary, some decimal values can't be accurately represented, which leads to small rounding errors.
+- **Integers:** While integers avoid the precision issue of floats, they are not ideal unless you are consistently working with values like cents (e.g., 100 = $1.00). This approach requires converting back and forth between dollars and cents, which can introduce unnecessary complexity.
 
-You need to replace equality tests with comparisons that allow some amount of tolerance. Do not do `if (x == y) { ... }`. Instead do `if (abs(x - y) < myToleranceValue) { ... }`.
+1. Using Decimals. Decimals represent exact decimal numbers, avoiding the imprecision that floats can introduce. Many programming languages have libraries or data types (e.g., Python’s `decimal.Decimal`, Java’s `BigDecimal`) that offer this precision. JavaScript does not natively support decimals, but third-party libraries like `decimal.js` offer arbitrary-precision decimal support. Decimals are stored differently from floats. They store numbers as base-10 (decimal) fractions. They typically store three components: *Mantissa*, *Exponent*, and *Sign*, that preserves its exact value without converting to binary.
 
-`toPrecision()` returns a string representing this number to the specified number of significant digits.
+```
+Example Decimal Storage: Let's say you store the number `123.45` as a decimal:
+
+Mantissa: 12345
+Exponent: -2
+Sign: Positive
+```
+
+2. You need to replace equality tests with comparisons that allow some amount of tolerance. Do not do `if (x == y) { ... }`. Instead do `if (abs(x - y) < myToleranceValue) { ... }`.
+
+3. `toPrecision()` returns a string representing this number to the specified number of significant digits.
 
 ```js
 const fixNumber = num => Number(num.toPrecision(15));

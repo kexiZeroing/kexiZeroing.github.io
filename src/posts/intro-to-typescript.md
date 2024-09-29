@@ -5,7 +5,7 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Sep 24 2024"
+updatedDate: "Sep 29 2024"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
@@ -70,7 +70,11 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
 
 `module` is a setting with a bunch of different options. But really, there are only two modern options. `NodeNext` tells TypeScript that your code will be run by Node.js. And `Preserve` tells TypeScript that an external bundler will handle the bundling.
 
-> In `ESNext` you aren’t allowed to write `import Foo = require("foo")` because we assume there is no `require`. **`module: "ESNext"` is required with `moduleResolution: "bundler"`**. In `NodeNext`, we know that a given module might be an ES module or it might be a CJS module, based on its file extension(`mjs`, `.cjs`) and/or the `type` field in the nearest`package.json` file.
+1. In `ESNext` you aren’t allowed to write `import Foo = require("foo")` because we assume there is no `require`. **`module: "ESNext"` is required with `moduleResolution: "bundler"`**. In `NodeNext`, we know that a given module might be an ES module or it might be a CJS module, based on its file extension(`mjs`, `.cjs`) and/or the `type` field in the nearest`package.json` file.
+2. Relative import paths [need explicit file extensions in ES imports](https://www.totaltypescript.com/relative-import-paths-need-explicit-file-extensions-in-ecmascript-imports) when `--moduleResolution` is `node16` or `nodenext`. (The Node spec requires that you use `.js` file extensions for all imports and exports.)
+3. `--allowImportingTsExtensions` allows TypeScript files to import each other with a TypeScript-specific extension like `.ts`, `.mts`, or `.tsx`. This flag is only allowed when `--noEmit` is enabled. The expectation here is that your resolver (e.g. your bundler, a runtime, or some other tool) is going to make these imports between `.ts` files work.
+
+> Most bundlers let you omit the file extension when importing files. But TS rules like `moduleResolution: NodeNext` force you to specify the file extension. This can feel really weird when you're working in `.ts` files, but writing `.js` on your imports. Why do we need to do it? Well, it's the spec. It's how it was designed. TS is forcing you to do the right thing. But if you want to go back to the old style, then specify `moduleResolution: Bundler` and bundle your code with a tool like esbuild. ——Matt Pocock
 
 See examples:
 - https://github.com/Microsoft/TypeScript-Babel-Starter/blob/master/tsconfig.json
