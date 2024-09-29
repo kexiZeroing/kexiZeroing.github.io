@@ -23,6 +23,7 @@ updatedDate: "Sep 24 2024"
 - [Rotating highlight effect](#rotating-highlight-effect)
 - [Glass folder effect](#glass-folder-effect)
 - [The Periodic Table](#the-periodic-table)
+- [Selection menu](#selection-menu)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -650,4 +651,34 @@ li {
 body:has(#alk:checked) li:not(.alk) { 
   opacity: 0.2;
 }
+```
+
+### Selection menu
+https://codepen.io/chriscoyier/pen/eYBQamQ
+
+```html
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+<template><span id="control"></span></template>
+
+<script>
+  let control = document.importNode(document.querySelector('template').content, true).childNodes[0];
+  control.addEventListener('pointerdown', oncontroldown, false);
+
+  document.querySelector('p').onpointerup = () => {
+    let selection = document.getSelection(), text = selection.toString();
+    if (text !== "") {
+      let rect = selection.getRangeAt(0).getBoundingClientRect();
+      control.style.top = `calc(${rect.top}px - 48px)`;
+      control.style.left = `calc(${rect.left}px + calc(${rect.width}px / 2) - 40px)`;
+      document.body.appendChild(control);
+    }
+  }
+  document.onpointerdown = () => {	
+    let control = document.querySelector('#control');
+    if (control !== null) {
+      control.remove();
+      document.getSelection().removeAllRanges();
+    }
+  }
+</script>
 ```
