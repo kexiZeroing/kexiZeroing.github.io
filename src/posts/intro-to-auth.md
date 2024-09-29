@@ -5,7 +5,7 @@ slug: intro-to-auth
 description: ""
 added: "Nov 28 2022"
 tags: [web]
-updatedDate: "Feb 6 2024"
+updatedDate: "Sep 29 2024"
 ---
 
 > If you’ve ever signed in to a website using your Google/LinkedIn/GitHub account, that website was likely using OAuth. This post is my learning notes from the article [Authorization and Authentication for Everyone](https://maida.kim/2020/07/authorization-and-authentication-for-everyone) written by @KimMaida.
@@ -127,12 +127,6 @@ Access tokens are used to inform an API that the bearer of the token has been au
 
 *(above picture comes from https://auth0.com/blog/id-token-access-token-what-is-the-difference)*
 
-### What is SSO (Single Sign On)
-To put it simply, it’s the enterprise equivalent of the “Login with Google” or “Login with Facebook” buttons we see in apps around the internet. We register an account initially in Google or Facebook and use that account to login to other apps like Spotify, Netflix, Zoom etc. We do this to avoid maintaining multiple username/passwords. Similarly, enterprises maintain a single user management system and employees use their corporate account to login to third-party services like Salesforce, Workday, etc without creating separate accounts or remembering multiple passwords. This is called SSO and SAML (Security Assertion Markup Language) is the de facto enterprise SSO solution.
-
-- Identity Provider (IdP): This server is responsible for authenticating the user and passing the user details such as email address, name, department etc to the Service Provider. Popular identity providers are Azure AD, Auth0, G Suite etc.
-- Service Provider (SP): This is the application that trusts the IdP and wants to use it for authentication. Examples: Salesforce, Workday, $YOUR_AWESOME_APP etc.
-
 ### How to securely store JWTs
 A JWT needs to be stored in a safe place inside the user’s browser. If you store it inside local storage, it’s accessible by any script inside your page. This is as bad as it sounds; an XSS attack could give an external attacker access to the token.
 
@@ -178,6 +172,17 @@ const protect = async (req, res, next) => {
   }
 };
 ```
+
+### What is SSO (Single Sign On)
+Sooner or later web development teams face one problem: you have developed an application at domain X and now you want your new deployment at domain Y to use the same login information as the other domain. In fact, you want more: you want users who are already logged-in at domain X to be already logged-in at domain Y. This is what SSO is all about.
+
+SSO is an **authentication** method that allows users to authenticate once with a centralized Identity Provider (IdP) and gain access to multiple apps. OAuth is not SSO. OAuth is an authorization protocol.
+- You should use SSO when you want to authenticate users via a centralized identity provider. Users can log into an IdP and gain access to all the apps and services connected to that IdP without repeatedly authenticating with each.
+- You should use OAuth when you want to access or modify data in another service on behalf of a user.
+
+Different SSO protocols share session information in different ways, but the essential concept is the same: there is a central domain, through which authentication is performed, and then the session is shared with other domains in some way.
+
+**Central authentication service**, or CAS, is a SSO protocol that allows websites to authenticate users. When a user attempts to access a web application that requires authentication, they are initially redirected to the CAS server for authentication. If authenticated, a service ticket is attached to the URL. When a user accesses another web application, the authentication is handled on the back end, and the user does not even have to be involved. Once the user signs in to the centralized authentication system, a cookie or system data is set to indicate authentication status without need for re-authentication multiple times in the same session.
 
 ### Multi-factor authentication
 MFA is when a user is required to input more than just a password to authenticate. For example, Two factor authentication (2FA) requires users to enter a code from another device in addition to their username and password. The device is the second "factor" (in addition to the password) that is used to verify the user's identity. With this, even if an attacker were able to determine a user's password, they wouldn't be able to log in without also having access to the user's phone. This makes it much harder for an attacker to gain access to a user's account.
