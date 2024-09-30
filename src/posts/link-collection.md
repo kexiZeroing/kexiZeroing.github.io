@@ -326,6 +326,8 @@ Modular data visualization framework: https://github.com/f5/unovis
 
 Image comparison slider to compare images before and after: https://github.com/sneas/img-comparison-slider
 
+CSS Custom Highlight API: https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API
+
 ---
 
 ## React ecosystem
@@ -535,6 +537,8 @@ Find the best cursor rules for your framework and language: https://cursor.direc
 Internal Knowledge Base Preview: https://github.com/vercel-labs/ai-sdk-preview-internal-knowledge-base
 
 React Components for AI Chat: https://github.com/Yonom/assistant-ui
+
+Using LLMs to reverse minified Javascript: https://thejunkland.com/blog/using-llms-to-reverse-javascript-minification
 
 ---
 

@@ -29,6 +29,7 @@ order: 3
 - @rauchg @steventey @leeerob at Vercel about DX
 - @jlengstorf Learn With Jason https://www.learnwithjason.dev/episodes
 - @asidorenko_ short videos about React/Next.js
+- @simonw blog https://simonwillison.net
 
 ## Learn from mistakes
 1. Make a mistake 
