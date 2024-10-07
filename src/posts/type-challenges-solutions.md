@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 6
-updatedDate: "Sep 30 2024"
+updatedDate: "Oct 7 2024"
 ---
 
 Implement the built-in `Pick<T, K>` generic without using it. Constructs a type by picking the set of properties K from T.
@@ -140,10 +140,29 @@ type If<C extends boolean, T, F> = C extends undefined | null
   : (C extends true ? T : F)
 ```
 
-Implement the `Array.concat` function in the type system. A type takes the two arguments. The output should be a new array that includes inputs in ltr order.
+Implement the JavaScript `Array.concat` function in the type system. A type takes the two arguments. The output should be a new array that includes inputs in ltr order.
 
 ```ts
 type Result = Concat<[1], [2]>; // expected to be [1, 2]
 // solution
 type Concat<T extends unknown[], U extends unknown[]> = [...T, ...U];
+```
+
+Implement the JavaScript `Array.includes` function in the type system. A type takes the two arguments. The output should be a boolean true or false.
+
+```ts
+// expected to be `false`
+type isFruit = Includes<['apple', 'banana', 'orange'], 'dog'> // expected to be `false`
+
+// solution
+type Includes<T extends unknown[], U> = U extends T[number] ? true : false;
+```
+
+Implement the generic version of `Array.push`.
+
+```ts
+type Result = Push<[1, 2], "3">; // [1, 2, '3']
+
+// solution
+type Push<T extends unknown[], U> = [...T, U];
 ```

@@ -172,6 +172,8 @@ A high-performance HTTP benchmarking tool written in Golang: https://github.com/
 
 Netlify Celebrates 5 Million Developers | 3D Game: https://5-million-devs.netlify.com
 
+VoidZero - Unified Toolchain for JavaScript: https://github.com/voidzero-dev
+
 ---
 
 ## CSS related
@@ -328,6 +330,8 @@ Image comparison slider to compare images before and after: https://github.com/s
 
 CSS Custom Highlight API: https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API
 
+Highlight your plaintext via Shiki: https://github.com/KazariEX/plain-shiki
+
 ---
 
 ## React ecosystem
@@ -376,6 +380,8 @@ Type-safe search params state manager for Next.js: https://nuqs.47ng.com
 
 React and the Vanishing Network: https://vanishing-network.epicreact.dev
 
+UI Library for Design Engineers: https://github.com/magicuidesign/magicui
+
 ---
 
 ## Vue and Vite ecosystem
@@ -419,6 +425,8 @@ Vue3 wrapper components for smooth-dnd: https://gilnd.github.io/vue3-smooth-dnd
 Vue.js and Nuxt Tips, Tricks and good practice: https://vuejstips.com
 
 A type safe router for vuejs: https://github.com/kitbagjs/router
+
+Enhance Vue ecosystem with libraries and tools: https://github.com/unovue
 
 ---
 

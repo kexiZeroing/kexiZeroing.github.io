@@ -1,11 +1,11 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "React hooks clone"
-slug: react-hooks-clone
+title: "React hooks clone and related concepts"
+slug: react-hooks-clone-and-related-concepts
 description: ""
 added: "Sep 12 2020"
 tags: [react, code]
-updatedDate: "Oct 30 2022"
+updatedDate: "Oct 7 2024"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -165,3 +165,17 @@ export const withLoggingOnClick = (Component) => {
   };
 };
 ```
+
+### What's new in React 17+
+React 17:
+- https://legacy.reactjs.org/blog/2020/10/20/react-v17.html
+
+React 18:
+- https://react.dev/blog/2022/03/29/react-v18
+- https://www.youtube.com/watch?v=Z-NCLePa2x8
+- https://www.youtube.com/watch?v=ytudH8je5ko
+
+React 19:
+- https://react.dev/blog/2024/04/25/react-19
+- https://shrutikapoor.dev/posts/react-react19
+- https://www.youtube.com/watch?v=AJOGzVygGcY
