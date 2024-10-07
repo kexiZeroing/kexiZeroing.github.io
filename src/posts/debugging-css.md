@@ -248,3 +248,15 @@ updatedDate: "May 5 2024"
 - `text-underline-offset` sets the offset distance of an underline text decoration line from its original position. All browsers support this property. Note that it is not part of the `text-decoration` shorthand.
 
 - The `white-space` CSS property sets how white space inside an element is handled. By default, the sequences of white space are collapsed. Newline characters in the source are handled the same as other white space. Use `white-space: pre-wrap;` to preserve spaces, tabs, and new lines.
+
+- If your `--css-var` holds a space `--toggler: ;`, then it can be added to anything without changing the value. If your `--css-var` holds initial `--toggler: initial;` (or was never defined), then it can be added to anything to force-fallback when referenced.
+
+  ```css
+  --toggler: ;
+  --red-if-toggler: var(--toggler) red;
+  background: var(--red-if-toggler, green); /* will be red! */
+
+  --toggler: initial;
+  --red-if-toggler: var(--toggler) red;
+  background: var(--red-if-toggler, green); /* will be green! */
+  ```

@@ -145,6 +145,12 @@ export default function useQuery(url) {
 }
 ```
 
+### You Might Not Need an Effect
+> Whenever you think of writing `useEffect`, the only sane thing is to NOT do it. Instead, go to the react docs and re-read the page about why you don't need an effect. You really don't. -@TkDodo
+
+- https://react.dev/learn/you-might-not-need-an-effect
+- https://eslint-react.xyz/docs/rules/hooks-extra-no-direct-set-state-in-use-effect
+
 ### Higher Order Components
 HOCs are wrapper components that help provide additional functionality to existing components. While hooks probably replaced most of shared logic concerns, there are still use cases where higher-order components could be useful. For example, you want to fire analytics event on every click of every button, dropdown and link everywhere.
 
