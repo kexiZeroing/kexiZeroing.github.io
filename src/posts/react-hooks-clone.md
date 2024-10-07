@@ -106,7 +106,7 @@ export default function useQuery(url) {
   const [error, setError] = React.useState(null)
 
   React.useEffect(() => {
-    let ignore = false
+    let ignore = false  // isCancelled
 
     const handleFetch = async () => {
       setData(null)
@@ -148,8 +148,11 @@ export default function useQuery(url) {
 ### You Might Not Need an Effect
 > Whenever you think of writing `useEffect`, the only sane thing is to NOT do it. Instead, go to the react docs and re-read the page about why you don't need an effect. You really don't. -@TkDodo
 
+When developing an application in React 18+, you may encounter an issue where the `useEffect` hook is being run twice on mount. This occurs because since React 18, when you are in development, your application is being run in StrictMode by default. In Strict Mode, React will try to simulate the behavior of mounting, unmounting, and remounting a component to help developers uncover bugs during testing. *From the user’s perspective, visiting a page shouldn’t be different from visiting it, clicking a link, and then pressing Back. React verifies that your components don’t break this principle by remounting them once in development.* In most cases, it should be fine to leave your code as-is, since the `useEffect` will only run once in production.
+
 - https://react.dev/learn/you-might-not-need-an-effect
 - https://eslint-react.xyz/docs/rules/hooks-extra-no-direct-set-state-in-use-effect
+- https://www.youtube.com/watch?v=bGzanfKVFeU
 
 ### Higher Order Components
 HOCs are wrapper components that help provide additional functionality to existing components. While hooks probably replaced most of shared logic concerns, there are still use cases where higher-order components could be useful. For example, you want to fire analytics event on every click of every button, dropdown and link everywhere.
