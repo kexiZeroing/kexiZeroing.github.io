@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 6
-updatedDate: "Oct 7 2024"
+updatedDate: "Oct 8 2024"
 ---
 
 Implement the built-in `Pick<T, K>` generic without using it. Constructs a type by picking the set of properties K from T.
@@ -55,6 +55,21 @@ todo.description = "barFoo"; // Error: cannot reassign a readonly property
 type MyReadonly<T> = {
   readonly [P in keyof T]: T[P]
 }
+```
+
+Implement a generic `MyReadonly2<T, K>` which takes two type arguments T and K. K specify the set of properties of T that should set to readonly. When K is not provided, it should make all properties readonly, just like the normal `Readonly<T>`.
+
+```ts
+// step 1. intersection of both types
+type MyReadonly2<T, K> = Omit<T, K> & { readonly [P in K]: T[P] };
+
+// step 2. set a constraint on K
+type MyReadonly2<T, K extends keyof T> = Omit<T, K> & { readonly [P in K]: T[P] };
+
+// step 3. when K is not set at all (K to be “all the keys from T”)
+type MyReadonly2<T, K extends keyof T = keyof T> = Omit<T, K> & {
+  readonly [P in K]: T[P];
+};
 ```
 
 Given an array, transform to an object type and the key/value must in the given array.
@@ -158,11 +173,59 @@ type isFruit = Includes<['apple', 'banana', 'orange'], 'dog'> // expected to be 
 type Includes<T extends unknown[], U> = U extends T[number] ? true : false;
 ```
 
-Implement the generic version of `Array.push`.
+Implement the generic version of `Array.push` and `Array.unshift()`.
 
 ```ts
-type Result = Push<[1, 2], "3">; // [1, 2, '3']
+type Result = Push<[1, 2], "3">;  // [1, 2, '3']
+type Result = Unshift<[1, 2], 0>; // [0, 1, 2]
 
 // solution
 type Push<T extends unknown[], U> = [...T, U];
+type Unshift<T extends unknown[], U> = [U, ...T];
+```
+
+Implement the built-in `Parameters<T>` generic without using it.
+
+```ts
+const foo = (arg1: string, arg2: number): void => {...}
+type FunctionParamsType = MyParameters<typeof foo> // expected [string, number]
+
+// solution
+type MyParameters<T> = T extends (...args: infer P) => any ? P : never;
+```
+
+Implement the built-in `ReturnType<T>` generic without using it.
+
+```ts
+const fn = (v: boolean) => {
+  if (v) return 1;
+  else return 2;
+};
+type a = MyReturnType<typeof fn>; // should be "1 | 2"
+
+// solution
+type MyReturnType<T> = T extends (...args: any[]) => infer P ? P : never
+```
+
+Implement the built-in `Omit<T, K>` generic without using it. Constructs a type by picking all properties from T and then removing K.
+
+```ts
+interface Todo {
+  title: string;
+  description: string;
+  completed: boolean;
+}
+
+type TodoPreview = MyOmit<Todo, "description" | "title">;
+
+const todo: TodoPreview = {
+  completed: false,
+};
+
+// solution
+// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html#key-remapping-in-mapped-types
+// 1. a mapped type can create new object types: type Options<T> = { [P in keyof T]: T[P] };
+// 2. re-map keys (`as`) in mapped types to create new keys, or filter out keys
+// 3. filter out keys by producing never
+type MyOmit<T, K> = { [P in keyof T as P extends K ? never : P]: T[P] };
 ```
