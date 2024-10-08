@@ -32,6 +32,22 @@ export class Square {}
 export { name, draw, reportArea, reportPerimeter };
 ```
 
+A module can also "relay" values exported from other modules without the hassle of writing two separate import/export statements. This is often useful when creating a single module concentrating various exports from various modules (usually called a "barrel module").
+
+```js
+export { default as function1, function2 } from "bar.js";
+// Which is comparable to a combination of import and export
+import { default as function1, function2 } from "bar.js";
+export { function1, function2 };
+
+// Barrel file is a module that only re-export other modules
+export { x } from "mod";
+export { x as v } from "mod";
+export * as ns from "mod";
+```
+
+There is also `export * from "mod"`, although there's no `import * from "mod"`. This re-exports all named exports from `mod` as the named exports of the current module, but the default export of mod is not re-exported.
+
 ### Importing features into script
 Once you've exported some features out of your module, you need to import them into your script to be able to use them. Use the `import` statement, followed by a comma-separated list of the features you want to import **wrapped in curly braces**, followed by the keyword `from`, followed by the path to the module file. Once you've imported the features into your script, you can use them just like they were defined inside the same file.
 

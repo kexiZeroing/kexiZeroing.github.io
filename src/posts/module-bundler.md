@@ -121,7 +121,8 @@ module.exports = {
 };
 ```
 
-> Babel Plugin Handbook: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
+> - Babel Plugin Handbook: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
+> - Write Code to Rewrite Your Code using jscodeshift: https://www.toptal.com/javascript/write-code-to-rewrite-your-code
 
 Below is an example of a Webpack plugin: a BannerPlugin. This plugin adds a banner or comment to the top of each generated file. It's simple but demonstrates how Webpack plugins interact with the compilation process.
 

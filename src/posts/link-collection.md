@@ -66,6 +66,8 @@ A Beginner’s Guide to the True Order of SQL Operations: https://blog.jooq.org/
 
 Falsehoods programmers believe in: https://github.com/kdeldycke/awesome-falsehood
 
+ASTs for Beginners by Kent C. Dodds: https://www.youtube.com/watch?v=CFQBHy8RCpg
+
 ---
 
 ## Tools and Cool websites
@@ -177,6 +179,8 @@ VoidZero - Unified Toolchain for JavaScript: https://github.com/voidzero-dev
 Utilities to work with PDFs in Node.js, browser and workers: https://github.com/unjs/unpdf
 
 The web-platform-tests Interop project: https://github.com/web-platform-tests/interop
+
+Code transformer based on AST but providing a more intuitive API: https://github.com/thx/gogocode
 
 ---
 
