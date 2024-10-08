@@ -94,6 +94,8 @@ What is the average size of JavaScript code downloaded per website? It seems lik
 
 Systems based on powers of 10 use standard SI prefixes (kilo, mega, giga, ...) and their corresponding symbols (k, M, G, ...). Systems based on powers of 2, however, might use binary prefixes (kibi, mebi, gibi, ...) and their corresponding symbols (Ki, Mi, Gi, ...).
 
+Btw, the median web page is [2.2MB](https://httparchive.org/reports/page-weight?lens=top10k&start=2018_09_15&end=latest&view=list#bytesTotal) (2.6MB on desktop).
+
 ### What is Unicode and UTF-8?
 Every letter in every alphabet is assigned a magic number by the Unicode consortium which is written like `U+0639`. This magic number is called a code point. The U+ means “Unicode” and the numbers are hexadecimal. `U+0639` is the Arabic letter Ain. The English letter A would be `U+0041`. *English text which rarely used code points above `U+007F`.* You can see each code point by pasting text in   https://unicode.run. How big is Unicode? Currently, the largest defined code point is `0x10FFFF`. That gives us a space of about 1.1 million code points. About 170,000, or 15%, are currently defined. An additional 11% are reserved for private use. The rest, about 800,000 code points, are not allocated at the moment. They could become characters in the future.
 

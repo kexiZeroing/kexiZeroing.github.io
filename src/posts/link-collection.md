@@ -174,6 +174,8 @@ Netlify Celebrates 5 Million Developers | 3D Game: https://5-million-devs.netlif
 
 VoidZero - Unified Toolchain for JavaScript: https://github.com/voidzero-dev
 
+Utilities to work with PDFs in Node.js, browser and workers: https://github.com/unjs/unpdf
+
 ---
 
 ## CSS related
@@ -331,6 +333,8 @@ Image comparison slider to compare images before and after: https://github.com/s
 CSS Custom Highlight API: https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API
 
 Highlight your plaintext via Shiki: https://github.com/KazariEX/plain-shiki
+
+A headless UI library that works for a wide range of JS frameworks: https://github.com/chakra-ui/ark
 
 ---
 
@@ -546,7 +550,9 @@ Internal Knowledge Base Preview: https://github.com/vercel-labs/ai-sdk-preview-i
 
 React Components for AI Chat: https://github.com/Yonom/assistant-ui
 
-Using LLMs to reverse minified Javascript: https://thejunkland.com/blog/using-llms-to-reverse-javascript-minification
+Introducing the Realtime API: https://openai.com/index/introducing-the-realtime-api
+
+Improve performance and UX for client-side AI: https://web.dev/articles/client-side-ai-performance
 
 ---
 
