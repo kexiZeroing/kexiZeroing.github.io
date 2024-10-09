@@ -182,6 +182,16 @@ SSO is an **authentication** method that allows users to authenticate once with 
 
 Different SSO protocols share session information in different ways, but the essential concept is the same: there is a central domain, through which authentication is performed, and then the session is shared with other domains in some way.
 
+1. You try to log in to YouTube, and the application redirects you to the Identity Provider (IDP) for authentication.
+2. The IDP (Google) checks your credentials and confirms your identity. It creates a new session for you on its server and sets a session cookie in your browser.
+3. The IDP also creates a token for YouTube—a small piece of data that contains information about your identity.
+4. Your browser grabs the token and presents it to YouTube.
+5. YouTube checks the token, and if it is valid, lets you in.
+6. Then you want to access Google Drive, and the application redirects you to the IDP.
+7. The IDP recognizes that you are still logged in because you have the session cookie. It doesn't need to ask for your credentials.
+8. Instead, the IDP generates a new token for Drive.
+9. Your browser grabs the token and presents it to Google Drive. If the token is valid, Drive lets you in.
+
 **Central authentication service**, or CAS, is a SSO protocol that allows websites to authenticate users. When a user attempts to access a web application that requires authentication, they are initially redirected to the CAS server for authentication. If authenticated, a service ticket is attached to the URL. When a user accesses another web application, the authentication is handled on the back end, and the user does not even have to be involved. Once the user signs in to the centralized authentication system, a cookie or system data is set to indicate authentication status without need for re-authentication multiple times in the same session.
 
 ### Multi-factor authentication

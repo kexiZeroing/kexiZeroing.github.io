@@ -211,7 +211,9 @@ const ffmpeg = createFFmpeg({ log: true });
 
 > [ffmpeg-online](https://ffmpeg-online.vercel.app) is an online version of ffmpeg based on `ffmpeg.wasm`, which can be used to process audio and video online. The most straightforward example `ffmpeg -i input.mp4 output.avi` is used to convert an input media file to a different format.
 
-A **[codec](https://api.video/what-is/codec)** is a hardware or software tool that is used to compress (and decompress) video files. Codec is a blend of coder/decoder. Common video codecs include h.264, h.265, VP8, VP9 and AV1.
+A **[codec](https://api.video/what-is/codec)** is a hardware or software tool that is used to compress (and decompress) video files. Codec is a blend of coder/decoder. Common video codecs include h.264, h.265, VP8, VP9 and AV1. An efficient codec can deliver high-quality video at lower bitrates.
+
+The **bitrate** of a file is measured by the number of bits being transmitted over a period of time. For video it is typically measured in kilobytes per second (kbps) or megabytes per second (mbps). Video bitrate is often confused with video resolution terms like 720p, 1080p, 4K, etc. Video resolution is the number of pixels that make up an image on your screen; video bitrate is the amount of information per second in video. A higher bitrate results in better quality but also larger file sizes. 
 
 **VOD(Video on Demand)** is videos that can be accessed on viewer request. Unlike live streaming, VODs are prerecorded programs. With VOD, viewers can watch content they enjoy as frequently as they like. They can also pause, rewind, and view additional content that was not previously available. Streaming is one of two ways to access Video On Demand. The other way is to permanently download video files to a device’s memory. VOD systems typically distribute media using internet connections, so good bandwidth is important for best results for viewers. Popular platforms include Netflix, Hulu, Disney, Amazon Prime Video and many others.
 
