@@ -249,14 +249,4 @@ updatedDate: "May 5 2024"
 
 - The `white-space` CSS property sets how white space inside an element is handled. By default, the sequences of white space are collapsed. Newline characters in the source are handled the same as other white space. Use `white-space: pre-wrap;` to preserve spaces, tabs, and new lines.
 
-- If your `--css-var` holds a space `--toggler: ;`, then it can be added to anything without changing the value. If your `--css-var` holds initial `--toggler: initial;` (or was never defined), then it can be added to anything to force-fallback when referenced.
-
-  ```css
-  --toggler: ;
-  --red-if-toggler: var(--toggler) red;
-  background: var(--red-if-toggler, green); /* will be red! */
-
-  --toggler: initial;
-  --red-if-toggler: var(--toggler) red;
-  background: var(--red-if-toggler, green); /* will be green! */
-  ```
+- CSS animations are pretty sweet, but they typically require explicit sizes, you couldn't use the intrinsic sizing keywords like `auto`, `min-content`, or `fit-content`. [From Chrome 129](https://developer.chrome.com/docs/css-ui/animate-to-height-auto), you can declare `interpolate-size: allow-keywords` on `:root` to enable transitioning to and from intrinsic sizing keywords for the entire document.

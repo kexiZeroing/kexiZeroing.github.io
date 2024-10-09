@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 6
-updatedDate: "Oct 8 2024"
+updatedDate: "Oct 9 2024"
 ---
 
 Implement the built-in `Pick<T, K>` generic without using it. Constructs a type by picking the set of properties K from T.
@@ -72,6 +72,40 @@ type MyReadonly2<T, K extends keyof T = keyof T> = Omit<T, K> & {
 };
 ```
 
+Implement a generic `DeepReadonly<T>` which makes every parameter of an object and its sub-objects readonly recursively.
+
+```ts
+type X = {
+  x: {
+    a: 1;
+    b: "hi";
+  };
+  y: "hey";
+};
+
+type Expected = {
+  readonly x: {
+    readonly a: 1;
+    readonly b: "hi";
+  };
+  readonly y: "hey";
+};
+
+// solution
+type DeepReadonly<T> = {
+  readonly [P in keyof T]: T[P] extends string | number | boolean | Function 
+    ? T[P] 
+    : DeepReadonly<T[P]>
+}
+
+// or
+type DeepReadonly<T> = {
+  readonly [P in keyof T]: T[P] extends Record<string, unknown>
+    ? DeepReadonly<T[P]>
+    : T[P];
+};
+```
+
 Given an array, transform to an object type and the key/value must in the given array.
 
 ```ts
@@ -105,6 +139,18 @@ type head2 = First<arr2>; // expected to be 3
 
 // solution
 type First<T extends any[]> = T extends [] ? never : T[0];
+```
+
+Implement a generic `Last<T>` that takes an Array T and returns it's last element's type.
+
+```ts
+type arr = ["a", "b", "c"];
+type tail = Last<arr>; // expected to be 'c'
+
+// solution
+// It is a hint to use **variadic tuple types**; we have an array and we need to work with its elements.
+// https://fettblog.eu/variadic-tuple-types-preview/
+type Last<T extends any[]> = T extends [...infer X, infer L] ? L : never;
 ```
 
 For given a tuple, you need create a generic `Length`, pick the length of the tuple.
@@ -184,6 +230,16 @@ type Push<T extends unknown[], U> = [...T, U];
 type Unshift<T extends unknown[], U> = [U, ...T];
 ```
 
+Implement a generic `Pop<T>` that takes an Array T and returns an Array without it's last element.
+
+```ts
+type arr = ["a", "b", "c", "d"];
+type arr1 = Pop<arr>; // expected to be ['a', 'b', 'c']
+
+// solution
+type Pop<T extends any[]> = T extends [...infer H, infer T] ? H : never;
+```
+
 Implement the built-in `Parameters<T>` generic without using it.
 
 ```ts
@@ -228,4 +284,42 @@ const todo: TodoPreview = {
 // 2. re-map keys (`as`) in mapped types to create new keys, or filter out keys
 // 3. filter out keys by producing never
 type MyOmit<T, K> = { [P in keyof T as P extends K ? never : P]: T[P] };
+```
+
+Implement a generic `TupleToUnion<T>` which covers the values of a tuple to its values union.
+
+```ts
+type Arr = ['1', 2, boolean]
+type Test = TupleToUnion<Arr> // expected '1' | 2 | boolean
+
+// solution
+// lookup types: looks like an element access, but are written as types
+type TupleToUnion<T> = T extends unknown[] ? T[number] : never
+```
+
+Type the function `PromiseAll` that accepts an array of `PromiseLike` objects. The returning value should be `Promise<T>` where T is the resolved result array.
+
+```ts
+const promise1 = Promise.resolve(3);
+const promise2 = 42;
+const promise3 = new Promise<string>((resolve, reject) => {
+  setTimeout(resolve, 100, "foo");
+});
+
+// expected to be `Promise<[number, number, string]>`
+const p = Promise.all([promise1, promise2, promise3] as const);
+
+// solution
+// step 1. the function that returns Promise<T>
+declare function PromiseAll<T>(values: T): Promise<T>;
+
+// step 2. `values` is an array and has a readonly modifier 
+declare function PromiseAll<T extends unknown[]>(
+  values: readonly [...T],
+): Promise<T>;
+
+// step 3. unwrap the type from Promise inside the `values`
+declare function PromiseAll<T extends unknown[]>(
+  values: readonly [...T],
+): Promise<{ [P in keyof T]: T[P] extends Promise<infer R> ? R : T[P] }>;
 ```

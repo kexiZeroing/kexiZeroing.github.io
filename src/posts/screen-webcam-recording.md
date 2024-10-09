@@ -271,3 +271,4 @@ And there we go! After our recording finishes, we’ve got a `.webm` video file 
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaStream
 - https://www.mux.com/blog
 - https://github.com/alyssaxuu/screenity
+- https://github.com/coffeefuelbump/openai-real-time-api-example-corbinbrown

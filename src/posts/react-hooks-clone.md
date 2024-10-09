@@ -5,7 +5,7 @@ slug: react-hooks-clone-and-related-concepts
 description: ""
 added: "Sep 12 2020"
 tags: [react, code]
-updatedDate: "Oct 7 2024"
+updatedDate: "Oct 9 2024"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -153,6 +153,15 @@ When developing an application in React 18+, you may encounter an issue where th
 - https://react.dev/learn/you-might-not-need-an-effect
 - https://eslint-react.xyz/docs/rules/hooks-extra-no-direct-set-state-in-use-effect
 - https://www.youtube.com/watch?v=bGzanfKVFeU
+
+### Referencing Values with Refs
+When you want a component to “remember” some information, but you don’t want that information to trigger new renders, you can use a `ref`. Typically, you will use a ref when your component needs to “step outside” React and communicate with external APIs. (e.g. storing timeout IDs, DOM elements)
+
+- Refs are an escape hatch to hold onto values that aren’t used for rendering. You won’t need them often.
+- A ref is a plain JavaScript object with a single property called `current`, which you can read or set.
+- You can ask React to give you a ref by calling the `useRef` Hook.
+- Like state, refs let you retain information between re-renders of a component.
+- Unlike state, setting the ref’s current value does not trigger a re-render.
 
 ### Higher Order Components
 HOCs are wrapper components that help provide additional functionality to existing components. While hooks probably replaced most of shared logic concerns, there are still use cases where higher-order components could be useful. For example, you want to fire analytics event on every click of every button, dropdown and link everywhere.

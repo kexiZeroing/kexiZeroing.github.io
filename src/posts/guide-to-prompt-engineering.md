@@ -58,6 +58,8 @@ Output:
 ## Tips and Techniques for Designing Prompts
 You can start with simple prompts and keep adding more elements and context as you aim for better results. When you have a big task that involves many different subtasks, you can try to break down the task into simpler subtasks and keep building up as you get better results.
 
+> Fun hack: show your prompt to a real human being. If they don’t understand, speak to them until they do. Then anything you needed to tell them verbally, add it to the prompt.
+
 You can design effective prompts by using commands to instruct the model what you want to achieve such as "Write", "Classify", "Summarize", "Translate", "Order", etc. It's also recommended that some clear separator like "###" is used to separate the instruction and context.
 
 Prompt:
