@@ -1086,32 +1086,6 @@ function isSame(dict1, dict2) {
 }
 ```
 
-You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. Each time the sliding window moves right by one position. Return an array of max number in sliding window. 
-
-```js
-var maxSlidingWindow = function(nums, k) {
-  let q = [];  // stores *indices*
-  let res = [];
-
-  for (let i = 0; i < nums.length; i++) {
-    while (q.length && nums[i] >= nums[q[q.length - 1]]) {
-      q.pop();
-    }
-    q.push(i);
-
-    // remove first element if it's outside the window
-    // `i - k + 1` is the left most element of current window
-    if (q[0] === i - k) {
-      q.shift();
-    }
-    if (i >= k - 1) {
-      res.push(nums[q[0]]);
-    }
-  }
-  return res;
-};
-```
-
 Given two strings s1 and s2, return true if s2 contains a permutation of s1 (one of s1's permutations is the substring of s2).
 
 ```js
@@ -1326,29 +1300,6 @@ var firstMissingPositive = function(nums) {
     i++;
   }
   return i;
-};
-
-// use O(1) space
-var firstMissingPositive = function(nums) {
-  const swap = (arr, i, j) => {
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  };
-
-  let n = nums.length;
-  // Place each positive integer i at index i-1 if possible
-  for (let i = 0; i < n; i++) {
-    while (nums[i] > 0 && nums[i] <= n && nums[i] !== nums[nums[i] - 1]) {
-      swap(nums, i, nums[i] - 1);
-    }
-  }
-    
-  for (let i = 0; i < n; i++) {
-    if (nums[i] !== i + 1) {
-      return i + 1;
-    }
-  }
-  // If all positive integers from 1 to n are present, return n + 1
-  return n + 1;
 };
 ```
 

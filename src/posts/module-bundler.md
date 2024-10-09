@@ -127,6 +127,8 @@ module.exports = {
 > - Babel Plugin Handbook: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
 > - Write Code to Rewrite Your Code using jscodeshift: https://www.toptal.com/javascript/write-code-to-rewrite-your-code
 
+> We can think about the *abstract syntax tree* as the “final project” of the front-end of the compiler. It’s the most important part, because its the last thing that the front-end has to show for itself. The technical term for this is called the *intermediate code representation* or the *IR*. An AST is the most common form of IR.
+
 Below is an example of a Webpack plugin: a BannerPlugin. This plugin adds a banner or comment to the top of each generated file. It's simple but demonstrates how Webpack plugins interact with the compilation process.
 
 The `apply` method is Webpack's way of registering a plugin and giving it access to the `compiler` object. Webpack calls `apply` during the initialization phase, before the build process begins, allowing the plugin to set up event hooks and modify the build as necessary.
