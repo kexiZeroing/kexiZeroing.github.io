@@ -218,6 +218,22 @@ defineProps<UserProfile>()
 </script>
 ```
 
+It is also possible to use both Options API and Composition API. Although you can access Composition API from the Options API, it’s a one-way street. The Composition API cannot access anything defined through the Options API.
+
+```js
+export default {
+  setup() {
+    const darkMode = ref(false)
+    return { darkMode }
+  },
+  methods: {
+    saveDarkMode() {
+      localStorage.setItem('dark-mode', this.darkMode)
+    },
+  }
+}
+```
+
 ### Custom Directives
 
 ```html

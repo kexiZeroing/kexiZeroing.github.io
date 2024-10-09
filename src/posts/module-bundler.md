@@ -1,11 +1,11 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Module bundler clone"
-slug: module-bundler
+title: "Module bundler and code transformation"
+slug: module-bundler-and-code-transformation
 description: ""
 added: "Oct 9 2021"
-tags: [code]
-updatedDate: "Sep 6 2024"
+tags: [code, js]
+updatedDate: "Oct 9 2024"
 ---
 
 The bundler will start from the entry file, and it will try to understand which files it depends on. Then, it will try to understand which files its dependencies depend on. It will keep doing that until it figures out about every module in the application, and how they depend on one another. This understanding of a project is called the **dependency graph**.
@@ -121,6 +121,9 @@ module.exports = {
 };
 ```
 
+> Exploring ASTs:
+> - Write a custom babel transformation: https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation
+> - Create a Custom ESLint Rule: https://ryankubik.com/blog/eslint-internal-state
 > - Babel Plugin Handbook: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
 > - Write Code to Rewrite Your Code using jscodeshift: https://www.toptal.com/javascript/write-code-to-rewrite-your-code
 
