@@ -427,7 +427,36 @@ async function renderJSXToHTML(jsx) {
 }
 ```
 
-14. Implement a simplified version of Vue reactivity system.
+14. Write your own React useState and useEffect hooks.
+
+```js
+let hooks = [];
+let idx = 0;
+
+function useState(initVal) {
+  const state = hooks[idx] || initVal;
+  const _idx = idx;
+  const setState = newVal => {
+    hooks[_idx] = newVal;
+  };
+  idx++;
+  return [state, setState];
+}
+
+function useEffect(cb, depArray) {
+  const oldDeps = hooks[idx];
+  let hasChanged = true;
+
+  if (oldDeps) {
+    hasChanged = depArray.some((dep, i) => !Object.is(dep, oldDeps[i]));
+  }
+  if (hasChanged) cb();
+  hooks[idx] = depArray;
+  idx++;
+}
+```
+
+15. Implement a simplified version of Vue reactivity system.
 
 ```js
 let activeEffect = null;
@@ -468,7 +497,7 @@ function trigger(dep) {
 }
 ```
 
-15. Check if an object has circular references.
+16. Check if an object has circular references.
 
 ```js
 // `JSON.stringify` throws if one attempts to encode an object with circular references.
@@ -510,7 +539,7 @@ function hasCircularReference(obj) {
 }
 ```
 
-16. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
+17. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
 
 ```js
 // https://gist.github.com/simonw/209b46563b520d1681a128c11dd117bc
