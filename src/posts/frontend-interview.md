@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 5
-updatedDate: "Sep 23 2024"
+updatedDate: "Oct 11 2024"
 ---
 
 更全面的准备可以参考:
@@ -102,8 +102,80 @@ Promise._resolve = function (value) {
 };
 ```
 
-3. Convert a list of objects into a tree.
+3. Implement `debounce` and `throttle`.
+```js
+function debounce(fn, time) {
+  let timer = null
 
+  return (...args) => {
+    if (timer) {
+      clearTimeout(timer)
+      timer = null
+    }
+    timer = setTimeout(() => {
+      fn(...args)
+    }, time)
+  }
+}
+
+function throttle(fn, delay) {
+  let currentTime = Date.now()
+
+  return (...args) => {
+    if (Date.now() - currentTime > delay) {
+      fn(...args)
+      currentTime = Date.now()
+    }
+  }
+}
+```
+
+4. Implement calling click event listener only once without using `{once: true}`.
+```js
+function clickOnce(el, cb) {
+  const cb2 = () => {
+    cb();
+    el.removeEventListener('click', cb2, false);
+  }
+  el.addEventListener('click', cb2, false);
+}
+
+clickOnce($0, () => console.log('click'));
+```
+
+5. Implement the `bind` function by yourself.
+
+```js
+Function.prototype.myBind = function(context, ...args1) {
+  const fn = this;
+  
+  return function(...args2) {
+    return fn.apply(context, [...args1, ...args2]);
+  };
+};
+```
+
+6. Implement the deep clone method.
+```js
+function deepClone(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+  let copy = Array.isArray(obj) ? [] : {};
+  
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      copy[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key];
+    }
+  }
+  return copy;
+}
+
+// `for...in` iterates over all enumerable properties, including those inherited.
+// `Object.keys()` gets only own enumerable property names.
+```
+
+7. Convert a list of objects into a tree.
 ```js
 let list = [
   { id: 1, name: 'node1', pid: 0 },
@@ -136,76 +208,6 @@ function listToTree(list) {
 }
 ```
 
-4. Implement `debounce` and `throttle`.
-```js
-function debounce(fn, time) {
-  let timer = null
-
-  return (...args) => {
-    if (timer) {
-      clearTimeout(timer)
-      timer = null
-    }
-    timer = setTimeout(() => {
-      fn(...args)
-    }, time)
-  }
-}
-
-function throttle(fn, delay) {
-  let currentTime = Date.now()
-
-  return (...args) => {
-    if (Date.now() - currentTime > delay) {
-      fn(...args)
-      currentTime = Date.now()
-    }
-  }
-}
-```
-
-5. Implement calling click event listener only once without using `{once: true}`.
-```js
-function clickOnce(el, cb) {
-  const cb2 = () => {
-    cb();
-    el.removeEventListener('click', cb2, false);
-  }
-  el.addEventListener('click', cb2, false);
-}
-
-clickOnce($0, () => console.log('click'));
-```
-
-6. Implement the `bind` function by yourself.
-
-```js
-Function.prototype.myBind = function(context, ...args1) {
-  const fn = this;
-  
-  return function(...args2) {
-    return fn.apply(context, [...args1, ...args2]);
-  };
-};
-```
-
-7. Implement the deep clone method.
-```js
-function deepClone(obj) {
-  if (obj === null || typeof obj !== 'object') {
-    return obj;
-  }
-  let copy = Array.isArray(obj) ? [] : {};
-  
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      copy[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key];
-    }
-  }
-  return copy;
-}
-```
-
 8. Use `setTimeout` to invoke a function multiple times in the fixed interval.
 ```js
 function repeat(func, times, ms, immediate) {
@@ -232,54 +234,7 @@ const repeatFunc = repeat(console.log, 4, 3000, true);
 repeatFunc("hello");
 ```
 
-9. Implement the render function to convert the virtual dom JSON to real DOM.
-```js
-function render(vnode) {
-  const { tag, props, children } = vnode;
-  const el = document.createElement(tag);
-
-  if (props) {
-    for (const key in props) {
-      const value = props[key];
-      if (key.startsWith("on")) {
-        el.addEventListener(key.slice(2).toLowerCase(), value);
-      } else {
-        el.setAttribute(key, value);
-      }
-    }
-  }
-
-  if (children) {
-    if (typeof children === "string") {
-      el.textContent = children;
-    } else {
-      children.forEach((item) => {
-        el.appendChild(render(item));
-      });
-    }
-  }
-
-  return el;
-}
-
-/**
- * Parse a string of HTML or XML to a DOM tree.
- * @param {string} [html] String containing HTML or XML to be parsed.
- * @returns {DocumentFragment} Object containing Node structure of HTML/XML parsed.
- */
-const parse = (html) => {
-  const element = document.createElement('template');
-  if (html !== undefined) {
-    element.innerHTML = html;
-  }
-  return element.content;
-};
-
-parse('Some <em>awesome</em> markup <img src="explosion.gif">');
-// returns DocumentFragment(4) [ #text, em, #text, img ]
-```
-
-10. Implement the functionality of `lodash.get`.
+9. Implement the functionality of `lodash.get`.
 ```js
 // _.get(object, path, [defaultValue])
 function get(obj, path, defaultValue = undefined) {
@@ -304,33 +259,7 @@ console.log(get(obj, 'a.b.d', 'default')); // 'default'
 console.log(get(obj, 'x.y.z', 'not found')); // 'not found'
 ```
 
-11. How to add two big integers in js?
-```js
-function add(A, B) {
-  const AL = A.length
-  const BL = B.length
-  const ML = Math.max(AL, BL)
-
-  let carry = 0, sum = ''
-
-  for (let i = 1; i <= ML; i++) {
-    let a = +A.charAt(AL - i)
-    let b = +B.charAt(BL - i)
-
-    let t = carry + a + b
-    carry = Math.floor(t / 10)
-    t %= 10
-
-    sum = (i === ML && carry)
-      ? (carry * 10 + t) + sum
-      : t + sum
-  }
-
-  return sum
-}
-```
-
-12. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
+10. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
 
 ```js
 const app = { middlewares: [] };
@@ -377,14 +306,73 @@ const compose = (middlewares) => {
 app.compose = compose(app.middlewares);
 ```
 
-13. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
+11. Implement the render function to convert the virtual dom JSON to real DOM.
+```js
+function render(vnode) {
+  const { tag, props, children } = vnode;
+  const el = document.createElement(tag);
+
+  if (props) {
+    for (const key in props) {
+      const value = props[key];
+      if (key.startsWith("on")) {
+        el.addEventListener(key.slice(2).toLowerCase(), value);
+      } else {
+        el.setAttribute(key, value);
+      }
+    }
+  }
+
+  if (children) {
+    if (typeof children === "string") {
+      el.textContent = children;
+    } else {
+      children.forEach((item) => {
+        el.appendChild(render(item));
+      });
+    }
+  }
+
+  return el;
+}
+
+/**
+ * Parse a string of HTML or XML to a DOM tree.
+ * @param {string} [html] String containing HTML or XML to be parsed.
+ * @returns {DocumentFragment} Object containing Node structure of HTML/XML parsed.
+ */
+const parse = (html) => {
+  const element = document.createElement('template');
+  if (html !== undefined) {
+    element.innerHTML = html;
+  }
+  return element.content;
+};
+
+parse('Some <em>awesome</em> markup <img src="explosion.gif">');
+// returns DocumentFragment(4) [ #text, em, #text, img ]
+```
+
+12. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
 
 ```js
 // written by Dan Abramov
+// e.g. <div>hello<span>world</div>
 // {
 //   $$typeof: Symbol("react.element"),
 //   type: "div",
-//   props: { children: "Hello" },
+//   props: {
+//     children: [
+//       "hello",
+//       {
+//         $$typeof: Symbol("react.element"),
+//         type: "span",
+//         props: {
+//           children: "world"
+//         }
+//       }
+//     ]
+//   },
 // }
 async function renderJSXToHTML(jsx) {
   if (typeof jsx === "string" || typeof jsx === "number") {
@@ -427,7 +415,7 @@ async function renderJSXToHTML(jsx) {
 }
 ```
 
-14. Write your own React useState and useEffect hooks.
+13. Write your own React useState and useEffect hooks.
 
 ```js
 let hooks = [];
@@ -456,7 +444,7 @@ function useEffect(cb, depArray) {
 }
 ```
 
-15. Implement a simplified version of Vue reactivity system.
+14. Implement a simplified version of Vue reactivity system.
 
 ```js
 let activeEffect = null;
@@ -500,7 +488,7 @@ effect(() => {
 state.count++;
 ```
 
-16. Check if an object has circular references.
+15. Check if an object has circular references.
 
 ```js
 // `JSON.stringify` throws if one attempts to encode an object with circular references.
@@ -542,7 +530,7 @@ function hasCircularReference(obj) {
 }
 ```
 
-17. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
+16. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
 
 ```js
 // https://gist.github.com/simonw/209b46563b520d1681a128c11dd117bc
