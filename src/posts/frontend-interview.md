@@ -464,37 +464,40 @@ let activeEffect = null;
 function reactive(target) {
   const depsMap = new Map();
 
-  const handler = {
+  return new Proxy(target, {
     get(target, key, receiver) {
       if (!depsMap.has(key)) {
         depsMap.set(key, new Set());
       }
       const dep = depsMap.get(key);
-      track(dep);
+      if (activeEffect) {
+        dep.add(activeEffect);
+      }
       return Reflect.get(target, key, receiver);
     },
     set(target, key, value, receiver) {
       const result = Reflect.set(target, key, value, receiver);
-      if (depsMap.has(key)) {
-        const dep = depsMap.get(key);
-        trigger(dep);
+      const dep = depsMap.get(key);
+      if (dep) {
+        dep.forEach(effect => effect());
       }
       return result;
     }
-  };
-
-  return new Proxy(target, handler);
+  });
 }
 
-function track(dep) {
-  if (activeEffect) {
-    dep.add(activeEffect);
-  }
+function effect(fn) {
+  activeEffect = fn
+  activeEffect()
+  activeEffect = null
 }
 
-function trigger(dep) {
-  dep.forEach(effect => effect());
-}
+// Usage example
+const state = reactive({ count: 0 });
+effect(() => {
+  console.log('Count is:', state.count);
+});
+state.count++;
 ```
 
 16. Check if an object has circular references.
