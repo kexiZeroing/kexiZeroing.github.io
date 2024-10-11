@@ -323,3 +323,69 @@ declare function PromiseAll<T extends unknown[]>(
   values: readonly [...T],
 ): Promise<{ [P in keyof T]: T[P] extends Promise<infer R> ? R : T[P] }>;
 ```
+
+Implement `TrimLeft<T>` which takes an exact string type and returns a new string with the whitespace beginning removed.
+
+```ts
+type trimmed = TrimLeft<"  Hello World  ">; // expected to be 'Hello World  '
+
+// solution
+type TrimLeft<S> = S extends `${" " | "\n" | "\t"}${infer T}` ? TrimLeft<T> : S;
+```
+
+Implement the type `ReplaceFirst<T, S, R>` which will replace the first occurrence of S in a tuple T with R. If no such S exists in T, the result should be T.
+
+```ts
+type replaced = ReplaceFirst<["A", "B", "C"], "C", "D">;
+// expected to be ['A', 'B', 'D']
+
+// solution
+// splitting the T to infer the first Item in the list and infer the Rest
+type ReplaceFirst<T extends readonly unknown[], S, R> = T extends [
+  infer FI,
+  ...infer Rest,
+]
+  ? FI extends S
+    ? [R, ...Rest]
+    : [FI, ...ReplaceFirst<Rest, S, R>]
+  : T;
+```
+
+Convert a string to CamelCase.
+
+```ts
+type camelCased = CamelCase<"foo-bar-baz">; // expected "fooBarBaz"
+
+// solution
+// step 1. inferring the parts of the string - hyphen
+type CamelCase<S> = S extends `${infer H}-${infer T}` ? never : S;
+
+// step 2. remove the hyphen and capitalize the tail
+type CamelCase<S> = S extends `${infer H}-${infer T}`
+  ? `${H}${CamelCase<Capitalize<T>>}`
+  : S;
+
+// step 3. the tail already capitalized, just skip this one
+type CamelCase<S> = S extends `${infer H}-${infer T}`
+  ? T extends Capitalize<T>
+    ? `${H}-${CamelCase<T>}`
+    : `${H}${CamelCase<Capitalize<T>>}`
+  : S;
+```
+
+Convert a string to kebab-case.
+
+```ts
+type kebabCase = KebabCase<"FooBarBaz">; // expected "foo-bar-baz"
+
+// solution
+// step 1. start from inferring to get the first character and the tail
+type KebabCase<S> = S extends `${infer C}${infer T}` ? never : S;
+
+// step 2. have / don't have the capitalized tail
+type KebabCase<S> = S extends `${infer C}${infer T}`
+  ? T extends Uncapitalize<T>
+    ? `${Uncapitalize<C>}${KebabCase<T>}`
+    : `${Uncapitalize<C>}-${KebabCase<T>}`
+  : S;
+```
