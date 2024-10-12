@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 6
-updatedDate: "Oct 9 2024"
+updatedDate: "Oct 12 2024"
 ---
 
 Implement the built-in `Pick<T, K>` generic without using it. Constructs a type by picking the set of properties K from T.
@@ -388,4 +388,98 @@ type KebabCase<S> = S extends `${infer C}${infer T}`
     ? `${Uncapitalize<C>}${KebabCase<T>}`
     : `${Uncapitalize<C>}-${KebabCase<T>}`
   : S;
+```
+
+Implement a type that adds a new field to the interface. The output should be an object with the new field.
+
+```ts
+type Test = { id: "1" };
+type Result = AppendToObject<Test, "value", 4>; // expected to be { id: '1', value: 4 }
+
+// solution
+type AppendToObject<T, U extends string, V> = {
+  [P in keyof T | U]: P extends keyof T ? T[P] : V;
+};
+```
+
+Merge two types into a new type. Keys of the second type overrides keys of the first type.
+
+```ts
+type Foo = {
+  a: number;
+  b: string;
+};
+
+type Bar = {
+  b: number;
+};
+
+type merged = Merge<Foo, Bar>; // expected { a: number; b: number }
+
+// solution
+// step 1. gather all the properties names from both objects
+type Merge<F, S> = { [P in keyof F | keyof S]: never };
+
+// step 2. S has a higher precedence
+type Merge<F, S> = {
+  [P in keyof F | keyof S]: P extends keyof S
+    ? S[P]
+    : P extends keyof F
+    ? F[P]
+    : never;
+};
+```
+
+Implement the `StringToUnion` type. Type take string argument. The output should be a union of input letters.
+
+```ts
+type Test = "123";
+type Result = StringToUnion<Test>; // expected to be "1" | "2" | "3"
+
+// solution
+// step 1. infer two parts of the string: the first character and the tail
+type StringToUnion<T extends string> = T extends `${infer C}${infer T}`
+  ? never
+  : never;
+
+// step 2. call our type recursively and provide the tail to it
+type StringToUnion<T extends string> = T extends `${infer C}${infer T}`
+  ? C | StringToUnion<T>
+  : never;
+```
+
+Get an Object that is the difference between two types.
+
+```ts
+type Foo = {
+  name: string;
+  age: string;
+};
+
+type Bar = {
+  name: string;
+  age: string;
+  gender: number;
+};
+
+type test = Diff<Foo, Bar>; // expected { gender: number }
+
+// solution
+// step 1. union of all properties from both objects
+type Diff<O, O1> = {
+  [P in keyof O | keyof O1]: P extends keyof O
+    ? O[P]
+    : P extends keyof O1
+    ? O1[P]
+    : never;
+};
+
+// step 2. filter out those are existing on both objects
+type Diff<O, O1> = {
+  [P in keyof O | keyof O1 as Exclude<P, keyof O & keyof O1>]: P extends keyof O
+    ? O[P]
+    : P extends keyof O1
+    ? O1[P]
+    : never;
+};
 ```
