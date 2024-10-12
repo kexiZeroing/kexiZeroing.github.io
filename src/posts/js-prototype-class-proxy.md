@@ -224,7 +224,7 @@ console.log(circle.area);
 ```
 
 ### Class inheritance
-A class can extend another class or extend traditional function-based "classes". The `super` keyword is used to reference the parent class. Private fields are not inherited by subclasses. To fix this, you can add a getter method to the parent class that returns the value of the private field.
+A class can extend another class or extend traditional function-based "classes". The `super` keyword is used to reference the parent class. **Private fields are not inherited by subclasses.** To fix this, you can add a getter method to the parent class that returns the value of the private field.
 
 ```js
 class Square extends Polygon {
