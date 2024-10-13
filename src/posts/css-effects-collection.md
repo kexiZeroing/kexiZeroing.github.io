@@ -343,6 +343,7 @@ https://codepen.io/bigxixi/pen/abjEMbg
 - A collection of example view transitions for multi-page sites: https://mpa-view-transitions-sandbox.netlify.app
 - Adam Argyle at SeattleJS Conf: https://seattlejs-view-transitions.netlify.app
 - Astro View Transitions Photo Gallery: https://deathbyjavascript.com
+- Google I/O 2024 update: https://developer.chrome.com/blog/view-transitions-update-io24
 
 > When a view transition occurs between two different documents it is called a cross-document view transition. This is typically the case in multi-page applications (MPA). Chrome 126 enables Cross-Document View Transitions triggered by a same-origin navigation. From now on, you no longer need rearchitect your app to an SPA to use View Transitions.
 

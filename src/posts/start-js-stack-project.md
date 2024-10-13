@@ -5,7 +5,7 @@ slug: start-js-stack-project
 description: ""
 added: "Jun 16 2022"
 tags: [web]
-updatedDate: "Sep 10 2024"
+updatedDate: "Oct 13 2024"
 ---
 
 ## Start a modern web project
@@ -173,6 +173,19 @@ With syntax transforms, I recommend `babel-preset-env`. For polyfills, the most 
 `core-js` provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.
 
 `core-js` is used by most of the popular websites. We can check it using `window['__core-js_shared__'].versions`, see details at https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md
+
+### The current state of ES5 on the web today
+https://philipwalton.com/articles/the-state-of-es5-on-the-web/
+
+**It turns out that most sites on the internet ship code that is transpiled to ES5, yet still doesn’t work in IE 11**, which meaning the transpiler and polyfill bloat is being downloaded by 100% of their users, but benefiting none of them.
+
+- 89% of sites serve at least 1 JavaScript file containing untranspiled ES6+ syntax.
+- 79% of sites serve at least 1 JavaScript file containing ES5 helper code.
+- 68% of sites serve at least 1 JavaScript file containing both ES5 helper code as well as untranspiled ES6+ syntax in the same file.
+
+For a site to serve users code that contains both ES5 helpers and untranspiled ES6+ syntax, there’s really only two plausible explanations:
+1. The site doesn’t need to support ES5 browsers, but some of their dependencies transpile to ES5, so therefore ES5 code appears in their output.
+2. The site intended to support ES5 browsers, but they didn’t realize that some of their dependencies publish untranspiled ES6+ syntax, and they didn’t configure their bundler to transpile code in `node_modules`.
 
 ### Live Reload and Hot Reload
 > When a file is edited, the dev server recompiles with the changes, then pushes a notification to the client code in the browser. The app code can then subscribe to "some file changed" notifications, re-import the new version of the code, and swap out the old code for the new code as the app is still running.
