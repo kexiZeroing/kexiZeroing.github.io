@@ -267,26 +267,6 @@ function reverseList(head) {
 
   return prev;
 }
-
-// fast pointer moves forward `n` steps first,
-// then fast and slow pointers move forward together
-// until the fast pointer reaches the end of the linked list.
-function removeNthFromEnd(head, n) {
-  let dummy = new ListNode(0, head);
-  let fast = dummy;
-  let slow = dummy;
-
-  while (n--) {
-    fast = fast.next;
-  }
-  while (fast.next) {
-    slow = slow.next;
-    fast = fast.next;
-  }
-  
-  slow.next = slow.next.next;
-  return dummy.next;
-}
 ```
 
 ### Stacks
@@ -2179,6 +2159,47 @@ var rightSideView = function(root) {
     }
   }
   return result;
+};
+```
+
+Given the head of a linked list, remove the nth node from the end of the list and return its head.
+
+```js
+// fast pointer moves forward `n` steps first,
+// then fast and slow pointers move forward together,
+// until the fast pointer reaches the end of the linked list.
+var removeNthFromEnd = function(head, n) {
+  let dummy = new ListNode(0, head);
+  let fast = dummy;
+  let slow = dummy;
+
+  for (let i = 0; i < n; i++) {
+    fast = fast.next;
+  }
+  while (fast.next) {
+    slow = slow.next;
+    fast = fast.next;
+  }
+  slow.next = slow.next.next;
+  
+  return dummy.next;
+};
+```
+
+Given a linked list, swap every two adjacent nodes and return its head.
+
+```js
+var swapPairs = function(head) {
+  if (head == null || head.next == null) {
+    return head;
+  }
+  const nextHead = head.next;
+  const skipHead = head.next.next;
+  
+  nextHead.next = head;
+  head.next = swapPairs(skipHead);
+
+  return nextHead;
 };
 ```
 
