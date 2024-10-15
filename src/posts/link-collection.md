@@ -436,7 +436,7 @@ Vue.js and Nuxt Tips, Tricks and good practice: https://vuejstips.com
 
 A type safe router for vuejs: https://github.com/kitbagjs/router
 
-Enhance Vue ecosystem with libraries and tools: https://github.com/unovue
+Build beautiful website using Vue & Nuxt: https://github.com/unovue/inspira-ui, https://github.com/selemondev/spark-ui
 
 ---
 

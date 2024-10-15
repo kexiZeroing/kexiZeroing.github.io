@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Sep 9 2024"
+updatedDate: "Oct 15 2024"
 ---
 
 ### TOC
@@ -2056,6 +2056,38 @@ var hasPathSum = function(root, targetSum) {
 };
 ```
 
+Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.
+
+```js
+var isSubtree = function(root, subRoot) {
+  if (subRoot === null) return true;
+  if (root === null) return false;
+
+	if (isSameTree(root, subRoot)) {
+		return true;
+	}
+  // if not same, continue to check subtrees
+	return (isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot));
+};
+
+function isSameTree(root, subRoot) {
+  // can't access `root.val` when its null
+	if (root === null && subRoot === null) {
+	  return true;
+	}
+
+  if ((root && subRoot === null) || (root === null && subRoot)) {
+	  return false;
+	} 
+
+	if (root.val !== subRoot.val) {
+		return false;
+	}
+
+	return (isSameTree(root.left, subRoot.left) && isSameTree(root.right, subRoot.right));
+}
+```
+
 Given the root of a binary tree, determine if it is a valid binary search tree.
 
 ```js
@@ -2428,39 +2460,5 @@ var maxProfit = function(prices) {
   }
 
   return Math.max(dp[prices.length - 1][1], dp[prices.length - 1][2], dp[prices.length - 1][3]);
-};
-```
-
-You are given k identical eggs and you have access to a building with n floors labeled from 1 to n. There exists a floor f such that any egg dropped at a floor higher than f will break, and any egg dropped at or below floor f will not break.
-
-```js
-var superEggDrop = function(k, n) {
-  // dp[i][j] represents the minimum # of attempts needed with i eggs and j floors
-  let dp = Array.from({ length: k + 1 }, () => Array.from({ length: n + 1 }, (_, i) => i));
-  dp[0] = Array(n + 1).fill(0);
-    
-  for (let egg = 2; egg <= k; egg++) {
-    for (let flr = 2; flr <= n; flr++) {
-      let low = 1, high = flr;
-      let result = flr; // the worst-case need to try
-
-      while (low < high) {
-        let mid = Math.floor((low + high) / 2);
-        // the # of attempts needed in worst-case
-        let left = dp[egg - 1][mid - 1]; // egg breaks
-        let right = dp[egg][flr - mid];  // egg doesn't break
-          
-        result = Math.min(result, 1 + Math.max(left, right));
-        
-        // We're trying to minimize `Math.max(left, right)`
-        if (left === right) break;
-        else if (left < right) low = mid + 1;
-        else high = mid - 1;
-      }
-
-      dp[egg][flr] = result;
-    }
-  }
-  return dp[k][n];
 };
 ```

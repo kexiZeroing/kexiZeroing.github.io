@@ -145,18 +145,17 @@ A page can be prerendered in either of two ways, all of which aim to make naviga
 1. When you type a URL into the Chrome omnibox, Chrome may automatically prerender the page for you, if it has high confidence you will visit that page. (View Chrome's predictions for URLs in the `chrome://predictors` page)
 2. Sites can use the *Speculation Rules API*, to programmatically tell Chrome which pages to prerender. This replaces what `<link rel="prerender"...>` used to do and allows sites to proactively prerender a page based on speculation rules on the page.
 
-Developers can insert JSON instructions onto their pages to inform the browser about which URLs to prerender. Speculation rules can be added in either the `<head>` or the `<body>` of the main frame. 
+Developers can insert JSON instructions onto their pages to inform the browser about which URLs to prerender. Speculation rules can be added in either the `<head>` or the `<body>` of the main frame. The `moderate` option is a middle ground, and many sites could benefit from the following speculation rule that would prerender a link when holding the pointer over the link for 200 milliseconds or on the pointerdown event.
 
 ```html
-<!-- Currently, the only type of rule specified is a list rule, denoted by "source": "list"-->
 <script type="speculationrules">
 {
-  "prerender": [
-    {
-      "source": "list",
-      "urls": ["next.html", "next2.html"]
-    }
-  ]
+  "prerender": [{
+    "where": {
+      "href_matches": "/*"
+    },
+    "eagerness": "moderate"
+  }]
 }
 </script>
 ```
