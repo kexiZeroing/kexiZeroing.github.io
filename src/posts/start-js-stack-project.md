@@ -24,6 +24,8 @@ npx shadcn-ui@latest init
 ```
 
 ```sh
+# nuxt@latest also works. `nuxi` is the cli package, it's minimal and fast to download
+# When you install nuxt, it re-exports nuxi as both `nuxi` and `nuxt`
 npx nuxi@latest init my-app
 ```
 

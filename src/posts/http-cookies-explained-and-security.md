@@ -5,7 +5,7 @@ slug: http-cookies-explained-and-security
 description: ""
 added: "Nov 16 2022"
 tags: [web]
-updatedDate: "July 21 2024"
+updatedDate: "Oct 17 2024"
 ---
 
 An HTTP cookie is a small piece of data that a server sends to the user's web browser. The browser may store it and send it back with later requests to the same server. Typically, it's used to tell if two requests came from the same browser — keeping a user logged-in, for example. It remembers stateful information for the stateless HTTP protocol.
@@ -88,10 +88,8 @@ A good test string is `>'>"><img src=x onerror=alert(0)>`. If your application d
 
 It’s recommended to avoid storing any sensitive information in local storage where authentication would be assumed. You can trivially read all data stored in local storage with `Object.entries(localStorage)`. This means if your website is vulnerable to XSS attacks, where a third party can run arbitrary scripts, your users’ tokens can be easily stolen. Cookies, on the other hand, can’t be read by client-side JS if you add the `HttpOnly` flag.
 
-## Content Security Policy
+### Content Security Policy
 Configuring Content Security Policy involves adding the `Content-Security-Policy` HTTP header to a web page and giving it values to control what resources the user agent is allowed to load for that page. If the site doesn't offer the CSP header, browsers likewise use the standard same-origin policy. A properly designed Content Security Policy helps protect a page against a cross-site scripting attack. There are specific directives for a wide variety of types of items, so that each type can have its own policy, including fonts, frames, images, audio and video media, scripts, and workers.
-
-[Helmet](https://github.com/helmetjs/helmet) helps secure Express apps by setting HTTP response headers including `Content-Security-Policy`.
 
 ```
 Content-Security-Policy: default-src 'self'; script-src 'self' cdn.example.com; img-src 'self' img.example.com; style-src 'self';
@@ -102,3 +100,32 @@ The above policy permits:
 - Scripts to be loaded from the site's own origin and `cdn.example.com`.
 - Images from the site's own origin and `img.example.com`
 - Styles only from the site's origin.
+
+---
+
+## iframe 跨域嵌入的实践
+网站 A 嵌入网站 B，且 A 和 B 是不同域名时，主要需要解决跨域请求 CORS 和 Cookie 的问题。先说预期，我们希望的是 A 网站嵌入 B 网站的同时，B 网站可以正常请求 B 域名的接口和发送 B 域名下的 Cookie。
+
+### CORS 的处理
+先说跨域请求，由于我们的请求目标应该都是 B，所以不涉及跨域。但如果出现在 A 域名中请求 B，需要 B 域名的服务端设置 `Access-Control-Allow-Origin: 'https://a-domain.com'` 和 `Access-Control-Allow-Credentials: true`，后者允许浏览器在跨域请求中发送 Cookies。注意此时 `Access-Control-Allow-Origin` 不能使用通配符 `*`，否则无法携带 Cookie 等凭证。
+
+### Cookie 的处理
+对于 Cookie 的问题，首先浏览器默认会给第三方 Cookie 添加 `SameSite=Lax` 属性，意味着 A 域名跨域请求 B 域名，不会携带 Cookie。所以需要 B 域名手动设置 Cookie `SameSite=None; Secure` 属性，确保 Cookie 可以在跨域上下文中发送 *(此时也增加了 CSRF 攻击的风险，建议使用 CSRF Token)*。
+
+上述方案基本可行，但是有一个长期维护的问题。Chrome 118 开始有第三方 Cookie 的警告，2024 年 Q1-Q3 逐步禁用 `SameSite=None; Secure`，请求时无法读取并携带第三方 Cookie。浏览器也有设置 flag 可以开启进行实验：
+
+<img alt="third-party cookie" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/Test%20Third%20Party%20Cookie%20Phaseout.png" width="500">
+
+从长期考虑，可以使用 Partitioned Cookies 方案（这也官方推荐的方式，别名叫做 CHIPS，即 Cookies Having Independent Partitioned State）。大概意思是如果 A 要嵌入 C，C 在它的 Cookie 上指定了 `partitioned` 属性，这个 Cookie 将保存在一个特殊的分区 jar 中。 它只会在 A 中通过 iframe 嵌入 C 时才会生效，浏览器会判断顶级网站为 A 时才发送该 Cookie。如果 B 也通过 iframe 嵌入了 C，这时在 B 下的 C 是无法访问到之前在 A 下面设置的那个 Cookie 的。如果用户直接访问 C，一样也是访问不到这个 Cookie 的。
+
+关于 Partitioned Cookie 的参考链接：
+- https://developers.google.com/privacy-sandbox/cookies/chips
+- https://sooniter.site/posts/third-party-cookie
+
+其实还有另一种方式避开 Cookie 的限制，就是使用 JWT 代替做验证，在域名 A 下生成 token，并传递给 iframe（url 参数或 postMessage）。后续 B 域名通过 JWT 验证请求中的用户身份。前端可以在所有发往 B 的请求上添加 `Authorization` 请求头，但是服务端 B 的认证方式都要修改。所以说 JWT 能避免浏览器的第三方 Cookie 限制，但也需要额外的 token 管理机制和服务端验证更新策略。
+
+### 结论和方案
+三种可能的模式如下，无论哪种都涉及跨域，都要按上面描述的方式设置 Cookie，后两种还有一些额外的工作。
+- **外面不需要登录，里面需要先登录好**：只是一个单纯套壳，只修改里面的 Cookie 设置就行。
+- **外面需要登录，里面需要先登录好**：认证方式应该是里面和外面一起，需要把外面登录后拿到的 token 或者 Cookie 传给里面。里面在请求接口时，除了本身的 Cookie，还要包括外层拿到的登录认证信息。
+- **外面需要登录，里面不需要先登录**：只有一个外层的登录，应该需要里面的服务提供一个接口，前端在里面的第一步先发请求，传递外面的登录信息，让服务端把 Cookie 种在里面的域名上。
