@@ -342,6 +342,10 @@ Highlight your plaintext via Shiki: https://github.com/KazariEX/plain-shiki
 
 A headless UI library that works for a wide range of JS frameworks: https://github.com/chakra-ui/ark
 
+A growing collection of over 50 input components: https://origin-ui-alpha.vercel.app
+
+Good web design inspiration: https://godly.website
+
 ---
 
 ## React ecosystem

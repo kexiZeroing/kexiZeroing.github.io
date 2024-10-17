@@ -5,7 +5,7 @@ slug: get-started-with-langchain
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
-updatedDate: "July 29 2024"
+updatedDate: "Oct 17 2024"
 ---
 
 LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications. LangChain makes it easy to prototype LLM applications and Agents.
@@ -425,3 +425,14 @@ while (true) {
 
 3. GPT4All
    - https://github.com/nomic-ai/gpt4all
+
+
+You can run any GGUF *(a binary format that is optimized for quick loading and saving of models)* on the Hugging Face Hub directly with ollama. All you need to do is:
+
+```sh
+# https://huggingface.co/docs/hub/en/ollama
+ollama run hf.co/{username}/{repository}
+
+# run the Llama 3.2 1B
+ollama run hf.co/bartowski/Llama-3.2-1B-Instruct-GGUF:latest
+```

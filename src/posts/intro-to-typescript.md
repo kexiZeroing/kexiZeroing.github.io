@@ -248,6 +248,11 @@ type User = typeof user
 const fieldsToUpdate: Partial<Todo>
 const todo: Readonly<Todo>
 const readOnlyGenres: readonly string[] = ["rock", "pop", "country"]
+// The `as const` assertion made the entire object deeply read-only,
+// including all nested properties. (js `Object.freeze` only at the first level)
+const albumAttributes = {
+  status: "on-sale",
+} as const;
 const cats: Record<string, string | number>
 type TodoPreview = Omit<Todo, "description">
 type TodoPreview = Pick<Todo, "title" | "completed">
