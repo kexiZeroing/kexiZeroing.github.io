@@ -127,6 +127,14 @@ const rawInput = import.meta.glob([
   as: 'raw',
   eager: true,
 })
+
+// 1. Add this into Vite setup
+const mdxFiles = import.meta.glob("./content/**.mdx");
+// 2. and it compiles to
+{
+  "./content/foo.mdx": () => import("./content/foo.mdx"),
+  "./content/bar.mdx": () => import("./content/bar.mdx"),
+}
 ```
 
 ## From Vue CLI to Vite

@@ -153,7 +153,12 @@ Dockerfile
 .git
 ```
 
-> Kaniko is a tool that enables building container images from a Dockerfile inside a Kubernetes cluster without requiring a Docker daemon. Kaniko builds container images by parsing the Dockerfile and executing each command within a container isolated from the host environment. Instead of using a Docker daemon, Kaniko simulates the Docker builder by providing its own implementations of Docker commands like ADD, COPY, RUN, etc.
+**Kaniko** is a tool that enables building container images from a Dockerfile inside a Kubernetes cluster (runs in a containerized environment like a CI/CD pipeline) without requiring a Docker daemon. Kaniko builds container images by parsing the Dockerfile and executing each command within a container isolated from the host environment. Instead of using a Docker daemon, Kaniko simulates the Docker builder by providing its own implementations of Docker commands like ADD, COPY, RUN, etc.
+
+1. You gather all your blocks (your source code) and decide how to arrange them using instructions (your Dockerfile). You tell a magical builder (Kaniko) how to build your toy house using these instructions, without needing the usual building tools (Docker).
+2. This packed version (a Docker image) can be sent to a special storage box (the container registry) so anyone can use it later. You told the builder (Kaniko) in step 1 where to store the house once it's packed.
+3. Now, you have to make sure that when the kids want to play with your house in the playground (your servers or Kubernetes), they are using the right version. So, you update the playground instructions (Terraform configuration) with the newest version of your house.
+4. The playground helpers (Terraform) read the updated plan you prepared. Terraform will actually deploy it, which means they replace the old toy house with the new one.
 
 ## Intro to Kubernetes
 Let's say you have an app which you have containerized (Monoliths were broken into microservices). So you run a bunch of containers to serve your app to users. But how do you manage these different containers? This is where K8s comes to the rescue. Kubernetes is a container orchestration tool for managing production-ready containerized workloads and services that allows for declarative setup as well as automation.

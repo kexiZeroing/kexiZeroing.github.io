@@ -562,6 +562,8 @@ React Components for AI Chat: https://github.com/Yonom/assistant-ui
 
 Introducing the Realtime API: https://openai.com/index/introducing-the-realtime-api
 
+Audio input and output for the OpenAI Chat Completion API: https://simonwillison.net/2024/Oct/18/openai-audio
+
 Improve performance and UX for client-side AI: https://web.dev/articles/client-side-ai-performance
 
 ---

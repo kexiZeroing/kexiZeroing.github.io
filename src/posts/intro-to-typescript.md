@@ -135,7 +135,7 @@ Sizes.Small;   // 1
 Sizes.Medium;  // 2
 Sizes.Large;   // 3
 
-// String values can also be assigned to an enum.
+// String values can also be assigned to an enum
 enum ThemeColors {
   Primary = 'primary',
   Secondary = 'secondary',
@@ -145,10 +145,10 @@ enum ThemeColors {
 
 // Real-world examples of Typescript enums
 enum LogLevel {
-    ERROR,
-    WARNING,
-    INFO,
-    DEBUG
+  ERROR,
+  WARNING,
+  INFO,
+  DEBUG
 }
 
 enum HTTPStatus {
@@ -159,6 +159,24 @@ enum HTTPStatus {
   NotFound = 404,
   InternalServerError = 500,
 }
+```
+
+```js
+// How numeric enums transpile
+var AlbumStatus;
+(function (AlbumStatus) {
+  AlbumStatus[(AlbumStatus["NewRelease"] = 0)] = "NewRelease";
+  AlbumStatus[(AlbumStatus["OnSale"] = 1)] = "OnSale";
+  AlbumStatus[(AlbumStatus["StaffPick"] = 2)] = "StaffPick";
+})(AlbumStatus || (AlbumStatus = {}));
+
+// How string enums transpile
+var AlbumStatus;
+(function (AlbumStatus) {
+  AlbumStatus["NewRelease"] = "NEW_RELEASE";
+  AlbumStatus["OnSale"] = "ON_SALE";
+  AlbumStatus["StaffPick"] = "STAFF_PICK";
+})(AlbumStatus || (AlbumStatus = {}));
 ```
 
 Fortunately, you don't have to specify types absolutely everywhere in your code because TypeScript has **Type Inference**. Type inference is what the TypeScript compiler uses to automatically determine types. TypeScript can infer types during variable initialization, when default parameter values are set, and while determining function return values.
