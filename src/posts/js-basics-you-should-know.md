@@ -1330,6 +1330,26 @@ async function parallel() {
 
 > Concurrency is when two or more tasks can start, run, and complete in overlapping time periods. It doesn't necessarily mean they'll ever be running at the same instant. For example, multitasking on a single-core machine. Parallelism is when tasks literally run at the same time, e.g., on a multicore processor.
 
+```ts
+// try...catch for await
+function catchError<T>(promise: Promise<T>): Promise<[undefined, T] | [Error]> {
+  return promise
+    .then(data => {
+      return [undefined, data] as [undefined, T]
+    })
+    .catch(err => {
+      return [err]
+    })
+}
+
+const [error, user] = await catchError(getUser(1))
+if (error) {
+  console.error('There was an error:', error.message)
+} else {
+  console.log(user)
+}
+```
+
 ### `for await...of`
 The `for await..of` loop is a handy tool when working with asynchronous operations. It allows us to iterate over the results of promises or asynchronous generators in a more readable and intuitive way.
 

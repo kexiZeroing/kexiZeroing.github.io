@@ -23,6 +23,22 @@ Host: www.example.org
 Cookie: yummy_cookie=choco; tasty_cookie=strawberry
 ```
 
+Basic HTTP cookie parser and serializer for HTTP servers: https://github.com/jshttp/cookie
+
+```js
+// Set a new cookie with the name: cookie.serialize(name, value, options)
+res.setHeader(
+  "Set-Cookie",
+  cookie.serialize("name", String(query.name), {
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 7, // 1 week
+  }),
+);
+
+// Parse the cookies on the request: cookie.parse(str, options)
+var cookies = cookie.parse(req.headers.cookie || "");
+```
+
 ### Cookie restrictions
 ```
 Set-Cookie: <cookie-name>=<cookie-value>; Max-Age=<number>; Domain=<domain-value>; Secure; HttpOnly
