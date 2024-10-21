@@ -431,8 +431,21 @@ type GroupedEvents = {
 type GroupProperties = keyof GroupedEvents
 
 // grab the keys and values when we don't know the type of an object
-type UppercaseAlbumType = keyof typeof albumTypes;
-type AlbumType = (typeof albumTypes)[keyof typeof albumTypes];
+type UppercaseAlbumType = keyof typeof albumTypes
+type AlbumType = (typeof albumTypes)[keyof typeof albumTypes]
+```
+
+The `as` assertion is a way to tell TypeScript that you know more about a value than it does. It's a way to override TS type inference and tell it to treat a value as a different type. Another assertion we can use is the non-null assertion, which is specified by using the `!` operator. It tells TS to remove any `null` or `undefined` types from the variable.
+
+```ts
+const searchParams = new URLSearchParams(window.location.search)
+const id = searchParams.get("id") // string | null
+
+const id = searchParams.get("id") as string;
+const albumSales = "Heroes" as unknown as number;
+const obj = {} as { a: number; b: number };
+searchParams.get("id")!;
+console.log(user.profile!.bio);
 ```
 
 **Generic Types**: Instead of working with a specific type, we work with a parameter that is then substituted for a specific type. Type parameters are denoted within angle brackets at function heads or class declarations. *[Generics are not scary](https://ts.chibicode.com/generics). They’re like regular function parameters, but instead of values, it deals with types.*
@@ -483,11 +496,13 @@ declare global {
 Interfaces in TypeScript have an odd property. When multiple interfaces with the same name in the same scope are created, TypeScript automatically merges them. This is known as declaration merging. This is very different from `type`, which would give you an error if you tried to declare the same type twice.
 
 ### How to use @ts-expect-error
-`@ts-expect-error` lets you specify that an error will occur on the next line of the file, which is helpful letting us be sure that an error will occur. If `@ts-expect-error` doesn't find an error, it will source an error itself *(Unused '@ts-expect-error' directive)*.
+`@ts-expect-error` lets you specify that an error will occur on the next line of the file, which is helpful letting us be sure that an error will occur. If `@ts-expect-error` doesn't find an error, it will source an error itself: *Unused '@ts-expect-error' directive*.
 
 When you actually want to ignore an error, you'll be tempted to use `@ts-ignore`. It works similarly to `@ts-expect-error`, except for one thing: it won't error if it doesn't find an error.
 
 Sometimes, you'll want to ignore an error that later down the line gets fixed. If you're using `@ts-ignore`, it'll just ignore the fact that the error is gone. But with `@ts-expect-error`, you'll actually get a hint that the directive is now safe to remove. So if you're choosing between them, pick `@ts-expect-error`.
+
+Finally, The `@ts-nocheck` directive will completely remove type checking for a file. To use it, add the directive at the top of your file.
 
 ## Building the Validation Schema with Zod
 [Zod](https://github.com/colinhacks/zod) is a TypeScript-first schema declaration and validation library. With Zod, you declare a validator once and Zod will automatically infer the static TypeScript type. It's easy to compose simpler types into complex data structures.
