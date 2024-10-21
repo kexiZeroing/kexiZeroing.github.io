@@ -5,7 +5,7 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Sep 29 2024"
+updatedDate: "Oct 21 2024"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
@@ -242,14 +242,21 @@ interface User extends User1 {  // raise an error
 }
 
 // `typeof` operator takes any object and extracts the shape of it.
-const defaultOrder = {
-  x: 1,
-  y: {
-    a: 'apple',
-    b: [1,2]
-  }
-}
-type Order = typeof defaultOrder
+// It is not the same as the `typeof` operator used at runtime
+const albumSales = {
+  "Kind of Blue": 500,
+  "A Love Supreme": 100,
+  "Mingus Ah Um": 300,
+};
+type AlbumSalesType = typeof albumSales;
+// type AlbumSalesType = {
+//    "Kind of Blue": number;
+//    "A Love Supreme": number;
+//    "Mingus Ah Um": number;
+// }
+
+// Runtime typeof
+typeof albumSales; // "object"
 
 function createUser(name: string, role: 'admin' | 'maintenance') {
   return {
@@ -274,11 +281,22 @@ const albumAttributes = {
 const cats: Record<string, string | number>
 type TodoPreview = Omit<Todo, "description">
 type TodoPreview = Pick<Todo, "title" | "completed">
-// retrieve the return type from the function signature without run the function
-type User = ReturnType<typeof createUser>
-// collect all arguments from a function in a tuple
-type Param = Parameters<typeof createUser>
 
+// Derive types from functions
+function sellAlbum(album: Album, price: number, quantity: number) {
+  return price * quantity
+}
+// extracts the parameters from a given function type and returns them as a tuple
+type SellAlbumParams = Parameters<typeof sellAlbum>  // [album: Album, price: number, quantity: number]
+// retrieve the return type from the function signature without run the function
+type SellAlbumReturn = ReturnType<typeof sellAlbum>  // number
+// unwrap the Promise type and provide the type of the resolved value
+type User = Awaited<ReturnType<typeof fetchUser>>
+
+// Idexed access types
+type AlbumTitle = Album["title"];
+type AlbumPropertyTypes = Album["title" | "isSingle" | "releaseYear"];
+type AlbumPropertyTypes = Album[keyof Album];
 // Index signatures for dynamic keys
 interface AlbumAwards {
   [iCanBeAnything: string]: boolean;
@@ -288,6 +306,17 @@ const albumAwards: {
 } = {};
 // more concise way
 const albumAwards: Record<string, boolean> = {};
+```
+
+It's worth noting the similarities between `Exclude/Extract` and `Omit/Pick`. A common mistake is to think that you can `Pick` from a union, or use `Exclude` on an object.
+
+```ts
+// Exclude/Extract - union (members)
+// Omit/Pick - object (properties)
+Exclude<'a' | 1, string>
+Extract<'a' | 1, string>
+Omit<UserObj, 'id'>
+Pick<UserObj, 'id'>
 ```
 
 ```ts
@@ -398,8 +427,12 @@ type GroupedEvents = {
   [Kind in EventKind]: TechEvent[]
 }
 
-// keyof (get object keys of the type)
+// `keyof` extracts the keys from an object type into a union type
 type GroupProperties = keyof GroupedEvents
+
+// grab the keys and values when we don't know the type of an object
+type UppercaseAlbumType = keyof typeof albumTypes;
+type AlbumType = (typeof albumTypes)[keyof typeof albumTypes];
 ```
 
 **Generic Types**: Instead of working with a specific type, we work with a parameter that is then substituted for a specific type. Type parameters are denoted within angle brackets at function heads or class declarations. *[Generics are not scary](https://ts.chibicode.com/generics). They’re like regular function parameters, but instead of values, it deals with types.*
