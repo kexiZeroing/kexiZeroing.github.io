@@ -168,6 +168,17 @@ const SomeOutsideComponent = () => {
 };
 ```
 
+> Btw, wrapping your root layout in the client component does not automatically turn your entire app into a client rendering. The client component gets hydrated on the client. The children can stay server components (do not hydrate on the client).
+
+```jsx
+"use client";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  const theme = ...
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
+}
+```
+
 React Element is nothing more than syntax sugar for a function `React.createElement` that returns an object. If the Parent component re-renders, the content of the `child` constant will be re-created from scratch, which is fine and super cheap since it’s just an object. And this is what allows memoization to work: the object will not be re-created, React will think that it doesn’t need updating, and Child’s re-render won’t happen.
 
 ```jsx

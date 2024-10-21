@@ -1,13 +1,14 @@
 ---
 layout: "../layouts/BlogPost.astro"
-title: "Explore interactive blog cells"
-slug: explore-interactive-blog-cells
+title: "Explore running code in browser"
+slug: explore-running-code-in-browser
 description: ""
 added: "Aug 25 2023"
 tags: [other]
-updatedDate: "Aug 12 2024"
+updatedDate: "Oct 21 2024"
 ---
 
+## Interactive blog-cells
 [blog-cells](https://github.com/rameshvarun/blog-cells) adds interactive code snippets to any blog or webpage. It's worth a try at here.
 
 <p>
@@ -196,3 +197,27 @@ ReactDOM.render(
   );
 };
 ```
+
+### WebLLM and Pyodide
+WebLLM is a high-performance in-browser LLM inference engine, aiming to be the backend of AI-powered web applications and agents. It provides a specialized runtime for the web backend of MLCEngine, leverages WebGPU for local acceleration.
+
+```js
+const selectedModel = "Llama-3-8B-Instruct-q4f32_1-MLC";
+const engine = await webllm.CreateMLCEngine(selectedModel);
+```
+
+Pyodide is a Python distribution for the browser and Node.js based on WebAssembly. Pyodide makes it possible to install and run Python packages in the browser. Try Pyodide in a [REPL](https://pyodide.org/en/stable/console.html) directly in your browser.
+
+```js
+async function main(){
+  let pyodide = await loadPyodide();
+  console.log(pyodide.runPython(`
+      import sys
+      sys.version
+  `));
+  pyodide.runPython("print(1 + 2)");
+}
+main();
+```
+
+[Qwen 2.5 Code Interpreter](https://github.com/cfahlgren1/qwen-2.5-code-interpreter) running locally on your computer. It is a lightweight, offline-compatible code interpreter that allows users to execute code snippets in real-time. (Powered by Qwen, WebLLM, and Pyodide)
