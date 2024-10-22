@@ -5,7 +5,7 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Oct 21 2024"
+updatedDate: "Oct 22 2024"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
@@ -464,6 +464,62 @@ type URLObject = {
   [k: string]: URL
 }
 function loadFile<Formats extends URLObject>(fileFormats: Formats, format: keyof Formats)
+```
+
+### Clarifying the `satisfies` operator
+We could try to catch the `bleu` typo below by using a type annotation, but we’d lose the information about each property.
+
+```ts
+type Colors = "red" | "green" | "blue";
+type RGB = [red: number, green: number, blue: number];
+
+const palette: Record<Colors, string | RGB> = {
+  red: [255, 0, 0],
+  green: "#00ff00",
+  bleu: [0, 0, 255]
+//~~~~ The typo is correctly detected
+};
+
+// But we now have an error here - 'palette.red' "could" be a string
+const redComponent = palette.red.at(0);
+```
+
+The `satisfies` operator lets us validate that the type of an expression matches some type, without changing the resulting type of that expression.
+
+```ts
+const palette = {
+  red: [255, 0, 0],
+  green: "#00ff00",
+  bleu: [0, 0, 255]
+//~~~~ The typo is also caught
+} satisfies Record<Colors, string | RGB>;
+
+// Both of these methods are still accessible
+const redComponent = palette.red.at(0);
+const greenNormalized = palette.green.toUpperCase();
+```
+
+When you use a colon, the type BEATS the value. When you use `satisfies`, the value BEATS the type. It infers the narrowest possible type, not the wider type you specify.
+
+```ts
+const routes: Record<string, {}> = {
+  "/": {},
+  "/users": {},
+  "/admin/users": {},
+};
+
+// No error
+routes.awdkjanwdkjn;
+
+const routes = {
+  "/": {},
+  "/users": {},
+  "/admin/users": {},
+} satisfies Record<string, {}>;
+
+// Property 'awdkjanwdkjn' does not exist on type
+// '{ "/": {}; "/users": {}; "/admin/users": {}; }'
+routes.awdkjanwdkjn;
 ```
 
 ### Declaring global variables
