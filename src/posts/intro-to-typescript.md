@@ -565,6 +565,8 @@ declare module "duration-utils" {
 export {}; // Adding an export turns this .d.ts file into a module
 ```
 
+How does TypeScript know that `.map` exists on an array, but `.transform` doesn't? TypeScript ships with a bunch of declaration files that describe the JavaScript environment. For example, `map` is defined in `lib.es5.d.ts`, `replaceAll` is in `lib.es2021.string.d.ts`. Looking at the code in `node_modules/typescript/lib`, you'll see dozens of declaration files that describe the JavaScript environment. Another set of declaration files that ship with TypeScript are the DOM types, which are defined in a file called `lib.dom.d.ts`. *The `lib` setting in `tsconfig.json` lets you choose which `.d.ts` files are included in your project. By default, this inherits from the `target` setting.*
+
 ### Declaring global variables
 If you try to access `window.__INITIAL_DATA__` in a TypeScript file, the compiler will produce a type error because it can't find a definition of the `__INITIAL_DATA__` property anywhere.
 
