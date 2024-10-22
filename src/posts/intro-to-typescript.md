@@ -379,6 +379,8 @@ async function fetchData(): Promise<number> {
                     never
 ```
 
+> The empty object type `{}` is unique. Instead of representing an empty object, it actually represents anything that isn't `null` or `undefined`. This means that it can accept a number of other types: string, number, boolean, function, symbol, and objects containing properties.
+
 **Value Types**: We can narrow down primitive types to values.
 ```ts
 // Type is string, because the value can change.
@@ -521,6 +523,11 @@ const routes = {
 // '{ "/": {}; "/users": {}; "/admin/users": {}; }'
 routes.awdkjanwdkjn;
 ```
+
+> The takeaway here:
+> - Use `as` when you want to tell TypeScript that you know more than it does.
+> - Use `satisfies` when you want to make sure a value is checked without changing the inference on that value.
+> - The rest of the time, use variable annotations.
 
 ### Declaring global variables
 If you try to access `window.__INITIAL_DATA__` in a TypeScript file, the compiler will produce a type error because it can't find a definition of the `__INITIAL_DATA__` property anywhere.
