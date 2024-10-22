@@ -70,6 +70,8 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
 
 `module` is a setting with a bunch of different options. But really, there are only two modern options. `NodeNext` tells TypeScript that your code will be run by Node.js. And `Preserve` tells TypeScript that an external bundler will handle the bundling.
 
+By default `moduleDetection` set to `auto`, if we don't have any `import` or `export` statements in a `.ts` file, TypeScript treats it as a script. **By adding the `export {}` statement, you're telling TS that the `.ts` is a module**. `moduleDetection: force` will treat all files as modules, and you will need to use `import` and `export` statements to access functions and variables across files.
+
 1. In `ESNext` you aren’t allowed to write `import Foo = require("foo")` because we assume there is no `require`. **`module: "ESNext"` is required with `moduleResolution: "bundler"`**. In `NodeNext`, we know that a given module might be an ES module or it might be a CJS module, based on its file extension(`mjs`, `.cjs`) and/or the `type` field in the nearest`package.json` file.
 2. Relative import paths [need explicit file extensions in ES imports](https://www.totaltypescript.com/relative-import-paths-need-explicit-file-extensions-in-ecmascript-imports) when `--moduleResolution` is `node16` or `nodenext`. (The Node spec requires that you use `.js` file extensions for all imports and exports.)
 3. `--allowImportingTsExtensions` allows TypeScript files to import each other with a TypeScript-specific extension like `.ts`, `.mts`, or `.tsx`. This flag is only allowed when `--noEmit` is enabled. The expectation here is that your resolver (e.g. your bundler, a runtime, or some other tool) is going to make these imports between `.ts` files work.
@@ -435,6 +437,15 @@ type GroupProperties = keyof GroupedEvents
 // grab the keys and values when we don't know the type of an object
 type UppercaseAlbumType = keyof typeof albumTypes
 type AlbumType = (typeof albumTypes)[keyof typeof albumTypes]
+
+function printUser(user: User) {
+  Object.keys(user).forEach((key) => {
+    // TS error: type 'string' can't be used to index type 'User'
+    console.log(user[key])
+    // should be
+    console.log(user[key as keyof User])
+  })
+}
 ```
 
 The `as` assertion is a way to tell TypeScript that you know more about a value than it does. It's a way to override TS type inference and tell it to treat a value as a different type. Another assertion we can use is the non-null assertion, which is specified by using the `!` operator. It tells TS to remove any `null` or `undefined` types from the variable.
@@ -528,6 +539,31 @@ routes.awdkjanwdkjn;
 > - Use `as` when you want to tell TypeScript that you know more than it does.
 > - Use `satisfies` when you want to make sure a value is checked without changing the inference on that value.
 > - The rest of the time, use variable annotations.
+
+### Declaration files
+Let's say we have a `.js` file that exports a function, if we try to import this file into a TypeScript file, we'll get an error: *Cannot find module xxx or its corresponding type declarations.* To fix this, we can create a declaration file with the same name as the JavaScript file, but with a `.d.ts` extension.
+1. TypeScript doesn't allow us to include any implementation code inside a declaration file.
+2. Describing JavaScript files by hand can be error-prone - and not usually recommended.
+
+The `declare` keyword can be used to define values which don't have an implementation. It defines the value within the scope it's currently in. `declare global` lets you add things to the global scope.
+
+```ts
+declare const MY_CONSTANT: number;
+declare var MY_VARIABLE: string;
+declare function myFunction(): void;
+
+declare global {
+  const ALBUM_API: {
+    searchAlbums(query: string): Promise<Album[]>;
+  };
+}
+
+// declare types for a module 
+declare module "duration-utils" {
+  export function formatDuration(seconds: number): string;
+}
+export {}; // Adding an export turns this .d.ts file into a module
+```
 
 ### Declaring global variables
 If you try to access `window.__INITIAL_DATA__` in a TypeScript file, the compiler will produce a type error because it can't find a definition of the `__INITIAL_DATA__` property anywhere.
