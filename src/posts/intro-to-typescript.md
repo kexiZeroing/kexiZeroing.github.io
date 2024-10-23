@@ -549,8 +549,12 @@ The `declare` keyword can be used to define values which don't have an implement
 
 ```ts
 declare const MY_CONSTANT: number;
-declare var MY_VARIABLE: string;
 declare function myFunction(): void;
+declare const DEBUG: {
+  getState: () => {
+    id: string;
+  };
+};
 
 declare global {
   const ALBUM_API: {
@@ -563,12 +567,44 @@ declare module "duration-utils" {
   export function formatDuration(seconds: number): string;
 }
 export {}; // Adding an export turns this .d.ts file into a module
+
+// png.d.ts: declare types for non-JavaScript files
+declare module "*.png" {
+  const png: string;
+
+  export default png;
+}
 ```
 
 How does TypeScript know that `.map` exists on an array, but `.transform` doesn't? TypeScript ships with a bunch of declaration files that describe the JavaScript environment. For example, `map` is defined in `lib.es5.d.ts`, `replaceAll` is in `lib.es2021.string.d.ts`. Looking at the code in `node_modules/typescript/lib`, you'll see dozens of declaration files that describe the JavaScript environment. Another set of declaration files that ship with TypeScript are the DOM types, which are defined in a file called `lib.dom.d.ts`. *The `lib` setting in `tsconfig.json` lets you choose which `.d.ts` files are included in your project. By default, this inherits from the `target` setting.*
 
+```json
+{
+  "compilerOptions": {
+    "target": "es2022",
+    // "lib": ["es2022", "dom", "dom.iterable"] is implied
+    "skipLibCheck": true,
+  }
+}
+```
+
+Note that skip declaration files in `node_modules`, **it also skips all declaration files.** "Declaration files" sounds like where you put your type declarations. But this is a bad idea. `skipLibCheck` will ignore these files, meaning you won't get type checking on them. Instead, put your types in regular TypeScript files.
+
+> Different browsers support different features. But TypeScript only ships one set of DOM types. So how does it know what to include? TypeScript's policy is that if a feature is supported in two major browsers, it's included in the DOM types.
+
+When you install a library with npm, you're downloading JavaScript to your file system, but not every library bundles `.d.ts` files. The [DefinitelyTyped GitHub repository](https://github.com/DefinitelyTyped/DefinitelyTyped) was built to house high-quality type definitions for numerous popular JavaScript libraries that didn't ship definitions of their own. By installing a package with `@types/*` and your library as a dev dependency, you can add type definitions that TypeScript will be able to use immediately.
+
+```sh
+# For an npm package "foo", typings for it will be at "@types/foo".
+npm install --save-dev @types/node
+
+# Types for a scoped package "@foo/bar" should go in "@types/foo__bar",
+# remove the @ and add double-underscore after the scope.
+npm install --save-dev @types/babel__preset-env
+```
+
 ### Declaring global variables
-If you try to access `window.__INITIAL_DATA__` in a TypeScript file, the compiler will produce a type error because it can't find a definition of the `__INITIAL_DATA__` property anywhere.
+There are two options for modifying the global scope in TypeScript: using `declare global` or creating a `.d.ts` declaration file. For example, if you try to access `window.__INITIAL_DATA__` in a TypeScript file, the compiler will produce a type error because it can't find a definition of the `__INITIAL_DATA__` property anywhere.
 
 ```ts
 // Example comes from https://mariusschulz.com/blog/declaring-global-variables-in-typescript
@@ -595,6 +631,16 @@ declare global {
 ```
 
 Interfaces in TypeScript have an odd property. When multiple interfaces with the same name in the same scope are created, TypeScript automatically merges them. This is known as declaration merging. This is very different from `type`, which would give you an error if you tried to declare the same type twice.
+
+Another example is to specify an environment variable as a string in the global scope. This will be slightly different than the solution for modifying `window`. Inside of `@types/node` from DefinitelyTyped, the `ProcessEnv` interface is responsible for environment variables. It can be found inside of the `NodeJS` namespace.
+
+```ts
+declare namespace NodeJS {
+  interface ProcessEnv {
+    MY_ENV_VAR: string;
+  }
+}
+```
 
 ### How to use @ts-expect-error
 `@ts-expect-error` lets you specify that an error will occur on the next line of the file, which is helpful letting us be sure that an error will occur. If `@ts-expect-error` doesn't find an error, it will source an error itself: *Unused '@ts-expect-error' directive*.
