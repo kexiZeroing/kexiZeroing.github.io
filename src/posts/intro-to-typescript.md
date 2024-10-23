@@ -44,25 +44,30 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
+
     /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
+
     /* If transpiling with TypeScript: */
-    "moduleResolution": "NodeNext",
     "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "dist",
     "sourceMap": true,
+
     /* If NOT transpiling with TypeScript: */
+    "module": "Preserve",
     "moduleResolution": "Bundler",
-    "module": "ESNext",
     "noEmit": true,
+
     // keep the JSX as part of the output to be further consumed by another transform step.
     // "jsx": "preserve",
+
     /* If your code runs in the DOM: */
-    /* "dom" and "dom.iterable" give you types for window, document etc. */
     "lib": ["es2022", "dom", "dom.iterable"],
     /* If your code doesn't run in the DOM: */
     "lib": ["es2022"],
+    
     /* If you're building for a library: */
     // Ts will automatically generate .d.ts files alongside your compiled JS files.
     "declaration": true,
@@ -499,22 +504,30 @@ searchParams.get("id")!;
 console.log(user.profile!.bio);
 ```
 
-**Generic Types**: Instead of working with a specific type, we work with a parameter that is then substituted for a specific type. Type parameters are denoted within angle brackets at function heads or class declarations. *[Generics are not scary](https://ts.chibicode.com/generics). They’re like regular function parameters, but instead of values, it deals with types.*
-
-You can pass types, as well as values, to functions. To tell whether a function can receive a type argument, hover it and check whether it has any angle brackets.
+**Generic Types**: Instead of working with a specific type, we work with a parameter that is then substituted for a specific type. Type parameters are denoted within angle brackets at function heads or class declarations. [Generics are not scary](https://ts.chibicode.com/generics). They’re like regular function parameters, but instead of values, it deals with types.
 
 ```ts
+type ResourceStatus<TContent> =
+  | {
+      status: "available";
+      content: TContent;
+    }
+  | {
+      status: "unavailable";
+      reason: string;
+    };
+
+type StreamingPlaylist = ResourceStatus<{
+  id: number;
+  name: string;
+  tracks: string[];
+}>;
+
 // Type as the parameter
 const fillArray = <T>(len: number, elem: T) => {
   return new Array<T>(len).fill(elem);
 };
 const newArray = fillArray<string>(3, 'hi');
-
-// Generic constraints (boundaries)
-type URLObject = {
-  [k: string]: URL
-}
-function loadFile<Formats extends URLObject>(fileFormats: Formats, format: keyof Formats)
 ```
 
 ### Clarifying the `satisfies` operator
