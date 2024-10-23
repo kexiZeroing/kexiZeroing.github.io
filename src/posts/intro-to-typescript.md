@@ -5,7 +5,7 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Oct 22 2024"
+updatedDate: "Oct 23 2024"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
@@ -64,6 +64,7 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
     /* If your code doesn't run in the DOM: */
     "lib": ["es2022"],
     /* If you're building for a library: */
+    // Ts will automatically generate .d.ts files alongside your compiled JS files.
     "declaration": true,
   }
 }
@@ -79,6 +80,8 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
 
 `module: "NodeNext"` also implies `moduleResolution: "NodeNext"`. `NodeNext` is a shorthand for the most up-to-date Node.js module behavior. `module: "Preserve"` implies `moduleResolution: "Bundler"`.
 
+TypeScript has built-in support for transpiling JSX syntax, and the `jsx` option tells TS how to handle JSX syntax. `preserve` means keeps JSX syntax as-is. `react` transforms JSX into `React.createElement` calls *(for React 16 and earlier)*. `react-jsx` transforms JSX into `_jsx` calls, and automatically imports from `react/jsx-runtime` *(for React 17 and later)*.
+
 By default `moduleDetection` set to `auto`, if we don't have any `import` or `export` statements in a `.ts` file, TypeScript treats it as a script. **By adding the `export {}` statement, you're telling TS that the `.ts` is a module**. `moduleDetection: force` will treat all files as modules, and you will need to use `import` and `export` statements to access functions and variables across files.
 
 How does TS know what module system (ESM or CJS) to emit?
@@ -89,8 +92,32 @@ Relative import paths [need explicit file extensions in ES imports](https://www.
 1. Most bundlers let you omit the file extension when importing files. But TS rules like `moduleResolution: NodeNext` force you to specify the file extension. This can feel really weird when you're working in `.ts` files, but writing `.js` on your imports. Why do we need to do it? Well, it's the spec. *The Node spec requires that you use `.js` file extensions for all imports and exports.* If you want to go back to the old style, then specify `moduleResolution: Bundler` and bundle your code with a tool like esbuild.
 2. `--allowImportingTsExtensions` allows TypeScript files to import each other with a TypeScript-specific extension like `.ts`, `.mts`, or `.tsx`. This flag is only allowed when `--noEmit` is enabled. The expectation here is that your resolver (e.g. your bundler, a runtime, or some other tool) is going to make these imports between `.ts` files work.
 
+How multiple `tsconfig.json` files can be composed together?
+1. Your IDE determines which `tsconfig.json` to use by looking for the closest one to the current `.ts` file.
+2. When you have multiple `tsconfig.json` files, it's common to have shared settings between them. We can create a new `tsconfig.base.json` file that can be extended from.
+
+```
+project
+  ├── client
+  │   └── tsconfig.json
+  ├── server
+  │   └── tsconfig.json
+  └── tsconfig.json
+```
+
+```json
+// server/tsconfig.json
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": [
+      "es2022"
+    ]
+  }
+}
+```
+
 See examples:
-- https://github.com/Microsoft/TypeScript-Babel-Starter/blob/master/tsconfig.json
 - https://github.com/vuejs/tsconfig/blob/main/tsconfig.json
 - https://www.totaltypescript.com/tsconfig-cheat-sheet
 - https://deno.com/blog/intro-to-tsconfig
