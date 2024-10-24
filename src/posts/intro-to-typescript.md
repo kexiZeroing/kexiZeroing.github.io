@@ -539,6 +539,14 @@ type StreamingPlaylist = ResourceStatus<{
   tracks: string[];
 }>;
 
+// Generic functions
+function identity<T>(arg: T): T {...}
+
+const removeId = <TObj extends { id: unknown }>(obj: TObj) => {
+  const { id, ...rest } = obj;
+  return rest;
+};
+
 // Set constraints on type parameters
 type HasId = {
   id: number;

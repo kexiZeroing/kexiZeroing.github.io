@@ -542,8 +542,6 @@ A Webapp that uses RAG to interact with a PDF directly in the browser: https://p
 
 High-Performance In-Browser LLM Inference Engine: https://github.com/mlc-ai/web-llm
 
-Fast AI voice assistant: https://github.com/ai-ng/swift
-
 Starter project for the Vercel AI SDK RAG guide: https://github.com/vercel/ai-sdk-rag-starter
 
 Build AI apps locally that can do document Q&A: https://github.com/ykhli/local-ai-stack
