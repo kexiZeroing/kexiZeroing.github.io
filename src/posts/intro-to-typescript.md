@@ -5,7 +5,7 @@ slug: intro-to-typescript
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Oct 23 2024"
+updatedDate: "Oct 24 2024"
 ---
 
 > There is a broad spectrum of what TypeScript can give you. On the one side of this spectrum, we have: writing good old JavaScript, without types or filling the gaps with any, and after the implementation is done — fixing the types. On the other side of the spectrum, we have type-driven development. Read from https://www.aleksandra.codes/fighting-with-ts
@@ -338,7 +338,7 @@ type SellAlbumReturn = ReturnType<typeof sellAlbum>  // number
 // unwrap the Promise type and provide the type of the resolved value
 type User = Awaited<ReturnType<typeof fetchUser>>
 
-// Idexed access types
+// Indexed access types
 type AlbumTitle = Album["title"];
 type AlbumPropertyTypes = Album["title" | "isSingle" | "releaseYear"];
 type AlbumPropertyTypes = Album[keyof Album];
@@ -351,6 +351,14 @@ const albumAwards: {
 } = {};
 // more concise way
 const albumAwards: Record<string, boolean> = {};
+
+// Template literal types can be used to interpolate other types into string types
+type PngFile = `${string}.png`;
+let myImage: PngFile = "my-image.png";
+
+type ColorShade = 100 | 200 | 300;
+type Color = "red" | "blue" | "green";
+type ColorPalette = `${Color}-${ColorShade}`;
 ```
 
 It's worth noting the similarities between `Exclude/Extract` and `Omit/Pick`. A common mistake is to think that you can `Pick` from a union, or use `Exclude` on an object.
@@ -523,11 +531,11 @@ type StreamingPlaylist = ResourceStatus<{
   tracks: string[];
 }>;
 
-// Type as the parameter
-const fillArray = <T>(len: number, elem: T) => {
-  return new Array<T>(len).fill(elem);
+// Set constraints on type parameters
+type HasId = {
+  id: number;
 };
-const newArray = fillArray<string>(3, 'hi');
+type ResourceStatus<TContent extends HasId, TMetadata extends object = {}> = ...
 ```
 
 ### Clarifying the `satisfies` operator
