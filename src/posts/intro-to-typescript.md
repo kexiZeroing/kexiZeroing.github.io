@@ -473,15 +473,6 @@ const abc = {
   kind: 'conference' as const
 }
 
-// Dynamically update types
-// lookup type
-type EventKind = TechEvent['kind']
-
-// mapped type (keys to be generated automatically and mapped to a TechEvent list)
-type GroupedEvents = {
-  [Kind in EventKind]: TechEvent[]
-}
-
 // `keyof` extracts the keys from an object type into a union type
 type GroupProperties = keyof GroupedEvents
 
@@ -512,6 +503,23 @@ searchParams.get("id")!;
 console.log(user.profile!.bio);
 ```
 
+**Mapped types** allow you to create a new object type based on an existing type by iterating over its keys and values. This can be let you be extremely expressive when creating new object types. For key remapping, `as` allows us to remap the key while keeping the original key accessible in the loop.
+
+```ts
+type Nullable<T> = {
+  [K in keyof T]?: T[K] | null;
+};
+
+// `as` keyword to remap the key
+type AlbumWithUppercaseKeys = {
+  [K in keyof Album as Uppercase<K>]: Album[K];
+};
+
+type AttributeGetters = {
+  [K in keyof Attributes as `get${Capitalize<K>}`]: () => Attributes[K];
+};
+```
+
 **Generic Types**: Instead of working with a specific type, we work with a parameter that is then substituted for a specific type. Type parameters are denoted within angle brackets at function heads or class declarations. [Generics are not scary](https://ts.chibicode.com/generics). They’re like regular function parameters, but instead of values, it deals with types.
 
 ```ts
@@ -536,6 +544,11 @@ type HasId = {
   id: number;
 };
 type ResourceStatus<TContent extends HasId, TMetadata extends object = {}> = ...
+
+type StrictOmit<T, K extends keyof T> = Omit<T, K>;
+
+// Conditional types
+type ToArray<T> = T extends any[] ? T : T[];
 ```
 
 ### Clarifying the `satisfies` operator
