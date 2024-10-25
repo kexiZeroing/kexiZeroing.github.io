@@ -5,7 +5,7 @@ slug: bitwise-operations-and-related-concepts
 description: ""
 added: "Sep 5 2020"
 tags: [other]
-updatedDate: "Sep 21 2024"
+updatedDate: "Oct 25 2024"
 ---
 
 ### Two's complement
@@ -95,6 +95,29 @@ What is the average size of JavaScript code downloaded per website? It seems lik
 Systems based on powers of 10 use standard SI prefixes (kilo, mega, giga, ...) and their corresponding symbols (k, M, G, ...). Systems based on powers of 2, however, might use binary prefixes (kibi, mebi, gibi, ...) and their corresponding symbols (Ki, Mi, Gi, ...).
 
 Btw, the median web page is [2.2MB](https://httparchive.org/reports/page-weight?lens=top10k&start=2018_09_15&end=latest&view=list#bytesTotal) (2.6MB on desktop).
+
+### What is the integer's limit?
+```
+          width                     minimum                         maximum
+signed    8 bit                        -128                            +127
+signed   16 bit                     -32 768                         +32 767
+signed   32 bit              -2 147 483 648                  +2 147 483 647
+signed   64 bit  -9 223 372 036 854 775 808      +9 223 372 036 854 775 807
+unsigned  8 bit                           0                            +255
+unsigned 16 bit                           0                         +65 535
+unsigned 32 bit                           0                  +4 294 967 295
+unsigned 64 bit                           0     +18 446 744 073 709 551 615
+```
+
+In C, the size of an int is really compiler dependent (many modern compilers make int 32-bit). The idea behind `int` was that it was supposed to match the natural "word" size on the given platform.
+
+JS Number type is a double-precision 64-bit binary format IEEE 754 value, like `double` in Java. The largest integer value of this type is `Number.MAX_SAFE_INTEGER`, which is: 2^53-1. *(1 bit for the sign, 11 bits for the exponent, 52 bits for the mantissa)*.
+
+The simplest version between 32-bit vs. 64-bit software is about the amount of memory available to a program. A 32 bit program uses a 32 bit number as a memory address. That means your program can talk about memory up to 2^32 bytes (which is about 4 GB of data), but it has no way of specifying memory past that. A 64 bit program can talk a whole lot more obviously.
+
+> Based on the [ASCII table](https://www.asciitable.com), when we store 'TAB' and decimal 9 to the memory, they are both stored as "1001". How does the computer know it's a 'TAB' or a decimal 9?
+> 
+> The computer doesn't know what type a specific address in memory is, that knowledge is baked into the instructions of your program. When a location is read, the assembly doesn't say "see what data type is there", it just says "load this location of memory and treat it as a char". The value in memory doesn't know or care what it is being used as.
 
 ### What is Unicode and UTF-8?
 Every letter in every alphabet is assigned a magic number by the Unicode consortium which is written like `U+0639`. This magic number is called a code point. The U+ means “Unicode” and the numbers are hexadecimal. `U+0639` is the Arabic letter Ain. The English letter A would be `U+0041`. *English text which rarely used code points above `U+007F`.* You can see each code point by pasting text in   https://unicode.run. How big is Unicode? Currently, the largest defined code point is `0x10FFFF`. That gives us a space of about 1.1 million code points. About 170,000, or 15%, are currently defined. An additional 11% are reserved for private use. The rest, about 800,000 code points, are not allocated at the moment. They could become characters in the future.
