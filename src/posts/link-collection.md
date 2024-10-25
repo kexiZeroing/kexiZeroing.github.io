@@ -346,6 +346,8 @@ A growing collection of over 50 input components: https://origin-ui-alpha.vercel
 
 Good web design inspiration: https://godly.website
 
+Stack Overflow's Combination Rich Text / Markdown Editor: https://github.com/StackExchange/Stacks-Editor
+
 ---
 
 ## React ecosystem
@@ -528,6 +530,8 @@ Power your apps with real-time speech-to-text APIs: https://deepgram.com
 
 Run Hugging Face Transformers directly in the browser: https://github.com/xenova/transformers.js
 
+Announce the release of Transformers.js v3: https://huggingface.co/blog/transformersjs-v3
+
 A collection of Transformers.js demos: https://github.com/huggingface/transformers.js-examples
 
 A collection of guides and examples for the Gemini API: https://github.com/google-gemini/cookbook
@@ -550,7 +554,7 @@ Semantic Image Search with Vercel AI SDK: https://github.com/vercel-labs/semanti
 
 Anthropic's educational courses: https://github.com/anthropics/courses
 
-Open source Claude Artifacts – built with Llama 3.1: https://llamacoder.together.ai
+Quickly get started with building applications using the Anthropic API: https://github.com/anthropics/anthropic-quickstarts
 
 Find the best cursor rules for your framework and language: https://cursor.directory
 

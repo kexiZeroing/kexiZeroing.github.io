@@ -67,8 +67,8 @@ body {
   line-height: 1.8;
   color: var(--text-color);
 
-  background-image: linear-gradient(#eee 1.1px, transparent 1.1px), linear-gradient(to right,#eee 1.1px, #fdfdfc 1.1px);
-  background-size: 22px 22px;
+  background-image: linear-gradient(#eee 1px, transparent 1px), linear-gradient(to right,#eee 1px, transparent 1px);
+  background-size: 24px 24px;
 
   display: flex;
   min-height: 100vh;

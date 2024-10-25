@@ -5,7 +5,7 @@ slug: using-es-modules
 description: ""
 added: "Aug 12 2020"
 tags: [js]
-updatedDate: "Aug 4 2024"
+updatedDate: "Oct 25 2024"
 ---
 
 ## ES Modules
@@ -240,3 +240,5 @@ const mathUtils = require('./math-utils.mjs');
 ​
 console.log(mathUtils.square(2));
 ```
+
+Node 23 was released on Oct 2024 that you can now `require()` files that use ESM (import/export). Previously, if you wanted to use a “module” from your CommonJS file, you would need to do use dynamic import `await import('some/module/file.mjs')` and you can’t just put this at the top of your file.

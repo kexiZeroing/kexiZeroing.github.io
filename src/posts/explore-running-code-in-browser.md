@@ -5,7 +5,7 @@ slug: explore-running-code-in-browser
 description: ""
 added: "Aug 25 2023"
 tags: [other]
-updatedDate: "Oct 21 2024"
+updatedDate: "Oct 25 2024"
 ---
 
 ## Interactive blog-cells
@@ -200,6 +200,8 @@ ReactDOM.render(
 
 ### WebLLM and Pyodide
 WebLLM is a high-performance in-browser LLM inference engine, aiming to be the backend of AI-powered web applications and agents. It provides a specialized runtime for the web backend of MLCEngine, leverages WebGPU for local acceleration.
+
+> WebGPU is a new web standard for accelerated graphics and compute. The API enables web developers to use the underlying system's GPU to carry out high-performance computations directly in the browser. WebGPU is the successor to WebGL and provides significantly better performance. Before WebGPU support, ONNX Runtime Web *(Transformers.js uses ONNX Runtime to run models in the browser)* has adopted WebAssembly and WebGL technologies for providing an optimized ONNX model inference runtime for both CPUs and GPUs.
 
 ```js
 const selectedModel = "Llama-3-8B-Instruct-q4f32_1-MLC";
