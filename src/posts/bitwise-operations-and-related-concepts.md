@@ -109,7 +109,7 @@ unsigned 32 bit                           0                  +4 294 967 295
 unsigned 64 bit                           0     +18 446 744 073 709 551 615
 ```
 
-In C, the size of an int is really compiler dependent (many modern compilers make int 32-bit). The idea behind `int` was that it was supposed to match the natural "word" size on the given platform.
+In C, the size of an `int` is really compiler dependent (many modern compilers make int 32-bit). The idea behind `int` was that it was supposed to match the natural "word" size on the given platform. *"Word size"* refers to the number of bits processed by a computer's CPU in one go, typically 32 bits or 64 bits.
 
 JS Number type is a double-precision 64-bit binary format IEEE 754 value, like `double` in Java. The largest integer value of this type is `Number.MAX_SAFE_INTEGER`, which is: 2^53-1. *(1 bit for the sign, 11 bits for the exponent, 52 bits for the mantissa)*.
 

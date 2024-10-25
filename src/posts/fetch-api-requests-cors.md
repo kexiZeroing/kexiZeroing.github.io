@@ -199,7 +199,7 @@ A POST request is typically sent via an HTML form. In this case, the content typ
 - **multipart/form-data**: each value is sent as a block of data ("body part"), with a user agent defined delimiter ("boundary") separating each part. The keys are given in the `Content-Disposition` header of each part.
 - **text/plain**
 
-> In a regular HTTP response, the `Content-Disposition` response header is a header indicating if the content is expected to be displayed *inline* in the browser, that is, as a Web page or as part of a Web page, or as an *attachment*, that is downloaded and saved locally.
+> In a regular HTTP response, the `Content-Disposition` response header is a header indicating if the content is expected to be displayed *inline* in the browser, that is, as a Web page or as part of a Web page, or as an *attachment*, that is downloaded and saved locally. e.g. `Content-Disposition: inline` and `Content-Disposition: attachment; filename="file.jpg"`.
 
 Use `multipart/form-data` when your form includes any `<input type="file">` elements. **Characters are NOT encoded** (No encoding means you save a lot of CPU cycles and keeps the total body size small). This is important when the form has a file upload control. You want to send the file binary and this ensures that bitstream is not altered.
 
