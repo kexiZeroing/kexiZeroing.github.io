@@ -26,10 +26,11 @@ order: 3
 - @TkDodo blog about React Query https://tkdodo.eu/blog/practical-react-query
 - @lydiahallie technology through writing and visualizations
 - @Una Chrome DevRel team
-- @rauchg @steventey @leeerob at Vercel about DX
+- @rauchg @leeerob at Vercel about DX
 - @jlengstorf Learn With Jason https://www.learnwithjason.dev/episodes
 - @asidorenko_ short videos about React/Next.js
-- @simonw blog https://simonwillison.net
+- @simonw writes notes on https://simonwillison.net
+- @mattpocockuk about TypeScript
 
 ## Learn from mistakes
 1. Make a mistake 

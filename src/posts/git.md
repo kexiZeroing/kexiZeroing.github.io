@@ -241,6 +241,20 @@ git lfs track "*.psd"
 git lfs help
 ```
 
+## optimize git repo size
+https://github.com/github/git-sizer
+
+Before the pack it was 3.1 GB. After the repack, it shrunk to the following values:
+
+```sh
+# default value for --window is 10 and --depth is 50.
+git repack -a -d --depth=50 --window=10 -f
+141.584 MB
+
+git repack -a -d --depth=250 --window=1000 -f
+110.484 MB
+```
+
 ## update your GitHub fork
 You cannot push code to repositories that you don’t own. So instead, you make your own copy of the repository by “forking” it. You are then free to make any changes you wish to your repository.
 
@@ -251,15 +265,6 @@ One of the challenges with forking a repository is keeping your copy up-to-date 
 4. git rebase origin/main
 
 If there are merge conflicts, we need to fix it, then `git add .` and run `git rebase --continue`. Now git will apply the rest of our commits. It's notable that if you had trouble with the merge conflict, you can run `git rebase --abort` to abort the rebase and get back to where you were before you started the rebase.
-
-## make your GitHub history back to 1990
-https://github.com/antfu/1990-script
-
-You can use the environment variables `GIT_COMMITTER_DATE` and `GIT_AUTHOR_DATE` to set the corresponding dates.
-
-Show commits more recent or older than a specific date:
-- `git log --since="yesterday"`
-- `git log --since="2023-01-30T09:00:00" --until="2023-01-30T18:00:00"`
 
 ## Organize multiple Git identities
 One awesome feature of the `.gitconfig` file is that you can conditionally include other config files. For every identity, you keep a separate gitconfig file and include it in the main `~/.gitconfig`. See an example: https://garrit.xyz/posts/2023-10-13-organizing-multiple-git-identities
