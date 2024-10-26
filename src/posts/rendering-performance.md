@@ -147,31 +147,30 @@ A page can be prerendered in either of two ways, all of which aim to make naviga
 
 Developers can insert JSON instructions onto their pages to inform the browser about which URLs to prerender. Speculation rules can be added in either the `<head>` or the `<body>` of the main frame. The `moderate` option is a middle ground, and many sites could benefit from the following speculation rule that would prerender a link when holding the pointer over the link for 200 milliseconds or on the pointerdown event.
 
-```html
-<script type="speculationrules">
-{
-  "prerender": [{
-    "where": {
-      "href_matches": "/*"
-    },
-    "eagerness": "moderate"
-  }]
-}
-</script>
-```
-
 Speculation rules can also be used to just prefetch pages, without a full prerender. Unlike the older `<link rel="prefetch">` resource hint which just prefetched to the HTTP disk cache, documents loaded via speculation rules are processed in the same way that navigations are (but then not rendered) and are held in memory so will be available quicker to the browser once needed. *Prefetch speculation rules only prefetch the document, not its subresources.*
 
 ```html
 <script type="speculationrules">
-{
-  "prefetch": [
-    {
-      "source": "list",
-      "urls": ["next.html", "next2.html"]
-    }
-  ]
-}
+  {
+    "prefetch": [
+      {
+        "source": "document",
+        "where": {
+          "selector_matches": "a[href^='/']"
+        },
+        "eagerness": "immediate"
+      }
+    ],
+    "prerender": [
+      {
+        "source": "document",
+        "where": {
+          "selector_matches": "a[href^='/']"
+        },
+        "eagerness": "moderate"
+      }
+    ]
+  }
 </script>
 ```
 

@@ -414,6 +414,8 @@ openai api fine_tunes.get -i <YOUR_FINE_TUNE_JOB_ID>
 openai api completions.create -m <FINE_TUNED_MODEL> -p <YOUR_PROMPT>
 ```
 
+> CSV stands for comma separated values. It is not a file type but a universally accepted format. It refers to the way the data is structured. This enables programs - like Excel, Numbers, cloud apps and databases - to read your data in an organized way. If you're working on data in tabular form, like a spreadsheet, you may wish to save as CSV.
+
 ## References
 - https://www.promptingguide.ai
 - https://lilianweng.github.io/posts/2023-03-15-prompt-engineering

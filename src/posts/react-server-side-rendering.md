@@ -293,6 +293,8 @@ A common misconception here is that components with `"use client"` only run in b
 > If a page uses server-side rendering, the page HTML is generated on each request. Next.js used to allow us to do so by using `getServerSideProps`, which will be called by the server on every request.
 > 
 > Next.js 13.4 introduced the App Router with new features, conventions, and support for React Server Components. Components in the app directory are React Server Components by default. `"use client"` directive used to mark components as Client Components. Server and Client Components can be interleaved in the same component tree, with React handling the merging of both environments.
+>
+> Next.js App Router wanted to solve the client-server waterfalls (move client-server REST fetches to the server using React Server Components in a single roundtrip). This meant the server had to sometimes be dynamic, sacrificing the great initial loading performance. Next uses partial prerendering, where the static "shell" of a dynamic page is prerendered at build time and served immediately on request, with the dynamic parts streamed in, to solve this tradeoff.
 
 Compare for server side rendering and server components:
 - https://github.com/TejasQ/makeshift-next.js/tree/spoiled
