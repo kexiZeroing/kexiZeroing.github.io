@@ -84,6 +84,26 @@ module.exports = class Compiler {
 
     fs.writeFileSync(outputPath, bundle, "utf-8");
   }
+
+  // example of modules
+  // {
+  //   'src/math.js': function(require, module, exports) {
+  //     exports.add = function(a, b) {
+  //       return a + b;
+  //     };
+  //   },
+  //   'src/logger.js': function(require, module, exports) {
+  //     exports.log = function(message) {
+  //       console.log(`[Logger]: ${message}`);
+  //     };
+  //   },
+  //   'src/index.js': function(require, module, exports) {
+  //     const math = require('./math.js');
+  //     const logger = require('./logger.js');
+
+  //     logger.log(math.add(2, 3));
+  //   },
+  // }
 };
 ```
 
