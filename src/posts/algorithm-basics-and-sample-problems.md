@@ -6,7 +6,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Oct 15 2024"
+updatedDate: "Oct 27 2024"
 ---
 
 ### TOC
@@ -2005,6 +2005,21 @@ var lowestCommonAncestor = function(root, p, q) {
   
   return root;
 };
+
+// LCA of a binary tree (not BST)
+var lowestCommonAncestor = function(root, p, q) {
+  if (!root || root === p || root === q) return root;
+
+  let left = lowestCommonAncestor(root.left, p, q);
+  let right = lowestCommonAncestor(root.right, p, q);
+
+  // p and q are in the right subtree
+  if (!left) return right;
+  // p and q are in the left subtree
+  if (!right) return left;
+  // p and q at different side
+  return root;
+};
 ```
 
 Given the root of a binary tree, invert the tree, and return its root.
@@ -2033,6 +2048,33 @@ var hasPathSum = function(root, targetSum) {
   }
   
   return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+};
+```
+
+Given the root of a binary tree, return the maximum path sum of any non-empty path. A path can start and end at any nodes in the tree.
+
+```js
+var maxPathSum = function(root) {
+  let max = -Infinity;
+
+	function findSums(node) {
+		if (!node) return 0;
+
+		let left = findSums(node.left),
+		    right = findSums(node.right),
+		    allSum = left + right + node.val,
+        leftNodeSum = left + node.val,
+        rightNodeSum = right + node.val;
+
+		// Tracks all possible paths, include both left and right children
+		max = Math.max(max, node.val, allSum, leftNodeSum, rightNodeSum);
+		
+		// Return value can only use ONE child. This is what we "offer up" to parent nodes
+		return Math.max(leftNodeSum, rightNodeSum, node.val);
+	};
+
+	findSums(root);
+	return max;
 };
 ```
 
@@ -2203,6 +2245,29 @@ var swapPairs = function(head) {
 };
 ```
 
+You are given the heads of two sorted linked lists. Merge the two lists into one sorted list.
+
+```js
+var mergeTwoLists = function(list1, list2) {
+  let dummy = new ListNode();
+  let cur = dummy;
+
+  while (list1 && list2) {
+    if (list1.val > list2.val) {
+      cur.next = list2;
+      list2 = list2.next;
+    } else {
+      cur.next = list1;
+      list1 = list1.next;
+    }
+    cur = cur.next;
+  }
+
+  cur.next = list1 || list2;
+  return dummy.next;
+};
+```
+
 Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges are all surrounded by water.
 
 ```js
@@ -2341,6 +2406,51 @@ var ladderLength = function(beginWord, endWord, wordList) {
   }
 
   return 0;    
+};
+```
+
+There are a total of `numCourses` courses you have to take, labeled from `0` to `numCourses - 1`. You are given an array prerequisites where `prerequisites[i] = [ai, bi]` indicates that you must take course `bi` first if you want to take course `ai`. Return true if you can finish all courses.
+
+```js
+// Topological Sort
+var canFinish = function(numCourses, prerequisites) {
+  if (numCourses <= 0) {
+    return true;
+  }
+
+  let inDegree = new Array(numCourses).fill(0);
+  let graph = Array.from({ length: numCourses }, () => []);
+
+  prerequisites.forEach(edge => {
+    let parent = edge[1];
+    let child = edge[0];
+    graph[parent].push(child);
+    inDegree[child]++;
+  });
+
+  // Initialize the queue with courses having no prerequisites (inDegree = 0)
+  let queue = [];
+  for (let i = 0; i < numCourses; i++) {
+    if (inDegree[i] === 0) {
+      queue.push(i);
+    }
+  }
+
+  // Process nodes with no prerequisites
+  let counter = 0;
+  while (queue.length > 0) {
+    let course = queue.shift();
+    counter++;
+
+    graph[course].forEach(child => {
+      inDegree[child]--;
+      if (inDegree[child] === 0) {
+        queue.push(child);
+      }
+    });
+  }
+
+  return counter === numCourses;
 };
 ```
 
