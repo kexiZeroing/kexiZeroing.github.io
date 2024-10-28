@@ -114,12 +114,15 @@ module.exports = class Compiler {
 const fs = require("fs");
 const parser = require("@babel/parser");
 const traverse = require("@babel/traverse").default;
-const { transformFromAst } = require("@babel/core");
+const { transformFromAstSync } = require("@babel/core");
 
 module.exports = {
+  // AST explorer: https://astexplorer.net
   getAST: (path) => {
     const content = fs.readFileSync(path, "utf-8");
-    // AST explorer: https://astexplorer.net
+    // 1. Babel parser generates AST
+    // 2. `sourceType` indicates the mode the code should be parsed in
+    // Files with ES6 imports and exports are considered "module" and are otherwise "script".
     return parser.parse(content, {
       sourceType: "module",
     });
@@ -127,6 +130,7 @@ module.exports = {
   getDependencies: (ast) => {
     const dependencies = [];
     traverse(ast, {
+      // target particular node types in the Syntax Tree
       ImportDeclaration: ({ node }) => {
         dependencies.push(node.source.value);
       },
@@ -134,7 +138,7 @@ module.exports = {
     return dependencies;
   },
   transform: (ast) => {
-    const { code } = transformFromAst(ast, null, {
+    const { code } = transformFromAstSync(ast, null, {
       presets: ["@babel/preset-env"],
     });
 
