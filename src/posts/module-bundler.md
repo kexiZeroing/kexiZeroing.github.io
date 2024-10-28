@@ -5,9 +5,10 @@ slug: module-bundler-and-code-transformation
 description: ""
 added: "Oct 9 2021"
 tags: [code, js]
-updatedDate: "Oct 9 2024"
+updatedDate: "Oct 28 2024"
 ---
 
+## Write your own module bundler
 The bundler will start from the entry file, and it will try to understand which files it depends on. Then, it will try to understand which files its dependencies depend on. It will keep doing that until it figures out about every module in the application, and how they depend on one another. This understanding of a project is called the **dependency graph**.
 
 ```js
@@ -48,6 +49,7 @@ module.exports = class Compiler {
     if (isEntry) {
       ast = getAST(filename);
     } else {
+      // Converted to absolute: '/your/project/src/xx.js'
       let absolutePath = path.join(process.cwd(), "./src", filename);
       ast = getAST(absolutePath);
     }
@@ -149,10 +151,75 @@ module.exports = {
 
 > We can think about the *abstract syntax tree* as the “final project” of the front-end of the compiler. It’s the most important part, because its the last thing that the front-end has to show for itself. The technical term for this is called the *intermediate code representation* or the *IR*. An AST is the most common form of IR.
 
-Below is an example of a Webpack plugin: a BannerPlugin. This plugin adds a banner or comment to the top of each generated file. It's simple but demonstrates how Webpack plugins interact with the compilation process.
+## Write a Webpack loader
+A loader is a function that accepts a source code and returns a transformed source code.
+
+```js
+// A custom webpack loader that turns MP3 files into interactive audio players
+const path = require('path')
+
+module.exports = function (source) {
+  // webpack exposes an absolute path to the imported module
+  // "/User/admin/audio.mp3" (this.resourcePath) -> "audio.mp3"
+  const filename = path.basename(this.resourcePath)
+
+  const assetInfo = { sourceFilename: filename }
+  // emit a file to the build directory
+  this.emitFile(filename, source, null, assetInfo)
+
+  return `
+    import React from 'react'
+    export default function Player(props) {
+      return <audio controls src="${filename}" />
+    }
+  `
+}
+```
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.mp3$/,
+        use: ['babel-loader', 'mp3-loader'],
+      },
+    ],
+  },
+  resolveLoader: {
+    alias: {
+      'mp3-loader': path.resolve(__dirname, 'src/mp3-loader.js'),
+    },
+  },
+}
+```
+
+## Write a Webpack plugin
+Among the two most important resources while developing plugins are the `compiler` and `compilation` objects. 
+
+The `compiler` object represents the fully configured Webpack environment. When applying a plugin to the Webpack environment, the plugin will receive a reference to this compiler. Use the compiler to access the main Webpack environment.
+
+The `compilation` object represents a single build of versioned assets. A new compilation will be created each time a file change is detected, thus generating a new set of compiled assets. A compilation surfaces information about the present state of module resources, compiled assets, changed files, and watched dependencies.
 
 The `apply` method is Webpack's way of registering a plugin and giving it access to the `compiler` object. Webpack calls `apply` during the initialization phase, before the build process begins, allowing the plugin to set up event hooks and modify the build as necessary.
 
+```js
+function HelloWorldPlugin(options) {
+  // Setup the plugin instance with options...
+}
+
+HelloWorldPlugin.prototype.apply = function(compiler) {
+  compiler.plugin('done', function() {
+    console.log('Hello World!'); 
+  });
+};
+
+module.exports = HelloWorldPlugin;
+```
+
+Here's an example of a plugin that adds a banner to the top of each generated file. It's simple but demonstrates how Webpack plugins interact with the compilation process.
+
+- `compiler.hooks.emit`: This is one of the last hooks that runs in the compilation lifecycle. It fires right before Webpack writes output files to disk.
 - `compilation.assets`: It's an object that represents all the files Webpack will emit.
 - `compilation.assets['bundle.js'].source()`: Retrieves the actual content of the asset as a string or a buffer.
 - `compilation.assets['bundle.js'].size()`: Returns the size of the asset's content in bytes, helping Webpack manage and report asset sizes accurately.
@@ -183,6 +250,17 @@ class SimpleBannerPlugin {
           };
         }
       }
+    });
+
+    // Example of other common hooks:
+    // Runs at the beginning of the compilation
+    compiler.hooks.compile.tap('SimpleBannerPlugin', () => {
+      console.log('Compilation starting...');
+    });
+
+    // Runs after compilation is done
+    compiler.hooks.done.tap('SimpleBannerPlugin', () => {
+      console.log('Compilation finished!');
     });
   }
 }

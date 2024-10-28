@@ -223,3 +223,10 @@ main();
 ```
 
 [Qwen 2.5 Code Interpreter](https://github.com/cfahlgren1/qwen-2.5-code-interpreter) running locally on your computer. It is a lightweight, offline-compatible code interpreter that allows users to execute code snippets in real-time. (Powered by Qwen, WebLLM, and Pyodide)
+
+### VSCode Dev Containers
+https://code.visualstudio.com/docs/devcontainers/tutorial
+
+A dev container allows you to use a container as a full-featured development environment. It can be used to run an application, to separate tools, libraries, or runtimes needed for working with a codebase, and to aid in continuous integration and testing. `devcontainer.json` is a structured jsonc metadata format that tools can use to store any needed configuration required to develop inside of local or cloud-based containerized coding.
+
+For example, https://github.com/Azure-Samples/real-time-transcription-simple uses Devcontainers. You can use this repo on your PC/MAC or on Codespaces in Github. This makes it easy for you to develop without having to install Node, NPM, or the React modules you will need. When you clone the repository and open it with VS Code, you will see "Folder contains a Dev Container config file. Reopen folder to develop in a container." Confirm it to open the Devcontainer. Node, yarn, etc. are installed on it, and that is all you need to build and run your webapp.
