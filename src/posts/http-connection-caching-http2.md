@@ -5,7 +5,7 @@ slug: http-connection-caching-http2
 description: ""
 added: "Nov 20 2022"
 tags: [web]
-updatedDate: "Aug 9 2024"
+updatedDate: "Oct 29 2024"
 ---
 
 ## Connection management
@@ -18,15 +18,13 @@ A **persistent connection**, also called keep-alive connection, remains open for
 Connection headers are prohibited in HTTP/2 and HTTP/3.
 
 ### HTTP pipelining
-**Head of Line blocking** in HTTP terms is often referring to the fact that each client has a limited number of connections to a server and doing a new request over one of those connections has to wait for the ones to complete before it can fire it off.
+By default, HTTP requests are issued sequentially. HTTP/1.1 introduced the concept of pipelining so you could send more requests while you were waiting. The server processes the requests and sends the responses in the order they were receive. It allows multiple HTTP requests to be sent over a single TCP, reducing the overhead associated with setting up and tearing down multiple TCP connections.
 
-By default, HTTP requests are issued sequentially. HTTP/1.1 introduced the concept of pipelining so you could send more requests while you were waiting. It allows multiple HTTP requests to be sent over a single TCP connection without waiting for the corresponding responses.
+The disadvantages of HTTP pipelining is **Head of Line (HOL) blocking**. If one request in the pipeline takes a long time to process, it can block the responses of all subsequent requests. This is one of the primary reasons pipelining is not widely adopted. This technique has been superseded by multiplexing, that is used by HTTP/2.
 
-- Non-idempotent requests such as POST should not be pipelined.
-- HTTP pipelining was disabled or not implemented in modern browsers.
-- This technique has been superseded by multiplexing, that is used by HTTP/2.
+HTTP/2 does however still suffer from another kind of HOL blocking at the TCP level. One lost packet in the TCP stream makes all streams wait until that packet is re-transmitted and received. This HOL is being addressed with the QUIC protocol.
 
-> HTTP/2 does however still suffer from another kind of HOL, namely on the TCP level. One lost packet in the TCP stream makes all streams wait until that packet is re-transmitted and received. This HOL is being addressed with the QUIC protocol. HTTP/3 is being done over QUIC instead of TCP.
+HTTP/3 builds on the strengths of HTTP/2 and runs over the QUIC protocol *(pronounced exactly like the English word "quick")*, which runs over UDP, further reducing latency and avoiding HOL blocking.
 
 ### Domain sharding
 In HTTP/1.x, the browser naively queue all HTTP requests on the client, sending one after another over a single, persistent connection. However, this is too slow. Hence, the browser vendors are left with no other choice than to **open multiple TCP sessions in parallel**. How many? In practice, most modern browsers, both desktop and mobile, open up to six connections per host. *(The higher the limit, the higher the client and server overhead, but at the additional benefit of higher request parallelism. Six connections per host is simply a safe middle ground.)*
@@ -237,7 +235,7 @@ HTTP/2 standard **allows each stream to have an associated weight and dependency
 HTTP/1.x must rely on the use of parallel connections, which enables limited parallelism of up to six requests per origin. As a result, requests are queued on the client until a connection is available, which adds unnecessary network latency. It is eliminated in HTTP/2 because the browser can dispatch all requests the moment they are discovered, and the browser can communicate its stream prioritization preference via stream dependencies and weights, allowing the server to further optimize response delivery.
 
 ### Header Compression
-Each HTTP transfer carries a set of headers that describe the transferred resource and its properties. In HTTP/1.x, this metadata is always sent as plain text *(not compress request and response headers)* and adds 500–800 bytes of overhead per transfer, and sometimes kilobytes more if HTTP cookies are being used. To reduce this overhead and improve performance, HTTP/2 compresses request and response header metadata using the **HPACK** compression format that uses two techniques:
+Each HTTP transfer carries a set of headers that describe the transferred resource and its properties. In HTTP/1.x, this metadata is always sent as plain text *(Text-Based Headers, not efficiently compressed)* and adds 500–800 bytes of overhead per transfer, and sometimes kilobytes more if HTTP cookies are being used. To reduce this overhead and improve performance, HTTP/2 compresses request and response header metadata using the **HPACK** compression format that uses two techniques:
 
 - It allows the transmitted header fields to be encoded via a static Huffman code, which reduces their individual transfer size.
 - It requires that both the client and server maintain and update an indexed list of previously seen header fields, which is then used as a reference to efficiently encode previously transferred values.
