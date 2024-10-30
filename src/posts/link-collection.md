@@ -182,6 +182,8 @@ The web-platform-tests Interop project: https://github.com/web-platform-tests/in
 
 Code transformer based on AST but providing a more intuitive API: https://github.com/thx/gogocode
 
+Guidance on choosing a license for your open source project: https://choosealicense.com
+
 ---
 
 ## CSS related

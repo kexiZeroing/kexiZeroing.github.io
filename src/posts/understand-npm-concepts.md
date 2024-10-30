@@ -53,9 +53,33 @@ npm run check-exports
 
 If you want to publish both CJS and ESM code, you can use `tsup`. This is a tool built on top of esbuild that compiles your TypeScript code into both formats. We'll now be running `tsup` to compile our code instead of `tsc`.
 
-Add an `exports` field to your `package.json`, which tells programs consuming your package how to find the CJS and ESM versions of your package. In this case, we're pointing folks using `import` to `dist/index.js` and folks using `require` to `dist/index.cjs`. Run `check-exports` again, everything is green.
+```ts
+// tsup.config.ts
+import { defineConfig } from "tsup";
 
-> [npm-esm-vs-cjs](https://github.com/wooorm/npm-esm-vs-cjs) has the data on the share of ESM vs CJS on the public npm registry. By August 2024, close to 1 in 4 of the popular npm packages contains ESM: ESM-only (12.1%) or dual (11.5%).
+export default defineConfig({
+  entryPoints: ["src/index.ts"],
+  format: ["cjs", "esm"],
+  dts: true,
+  outDir: "dist",
+  clean: true,
+});
+```
+
+This will create a `dist/index.js` (for ESM) and a `dist/index.cjs` (for CJS). Add an `exports` field to your `package.json`, which tells programs consuming your package how to find the CJS and ESM versions of your package. In this case, we're pointing folks using `import` to `dist/index.js` and folks using `require` to `dist/index.cjs`. Run `check-exports` again, everything is green.
+
+```json
+{
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  }
+}
+```
+
+`tsup` also creates declaration files for each of your outputs. `index.d.ts` for ESM and `index.d.cts` for CJS. This means you don't need to specify types in your `package.json`. TypeScript can automatically find the declaration file it needs.
 
 ### npm install and npm ci
 `npm install` reads `package.json` to create a list of dependencies and uses `package-lock.json` to inform which versions of these dependencies to install. If a dependency is not in `package-lock.json` it will be added by `npm install`.
