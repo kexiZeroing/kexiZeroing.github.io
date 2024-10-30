@@ -5,7 +5,7 @@ slug: unlock-the-power-of-generative-ui
 description: ""
 added: "Apr 16 2024"
 tags: [AI, react]
-updatedDate: "Jun 14 2024"
+updatedDate: "Oct 30 2024"
 ---
 
 The Vercel AI SDK is an open-source library designed to help developers build conversational streaming user interfaces. With the release of the [AI SDK 3.0](https://vercel.com/blog/ai-sdk-3-generative-ui), developers can move beyond plaintext and markdown chatbots to give LLMs rich, component-based interfaces.
@@ -213,6 +213,97 @@ export default function Home() {
 ```
 
 There is a [13 minute video](https://www.youtube.com/watch?v=UDm-hvwpzBI) on how to build LLM applications through the new Vercel AI SDK.
+
+### More `tools` examples
+
+```js
+// https://github.com/browserbase/BrowseGPT
+tools: {
+  googleSearch: tool({
+    description: 'Search Google for a query',
+    parameters: z.object({
+      toolName: z.string().describe('What the tool is doing'),
+      query: z.string().describe('The exact and complete search query as provided by the user. Do not modify this in any way.'),
+      sessionId: z.string().describe('The session ID to use for the search. If there is no session ID, create a new session with createSession Tool.'),
+      debuggerFullscreenUrl: z.string().describe('The fullscreen debug URL to use for the search. If there is no debug URL, create a new session with createSession Tool.')
+    }),
+    execute: async ({ query, sessionId }) => {
+      // import { chromium } from 'playwright'
+      const browser = await chromium.connectOverCDP(
+        `wss://connect.browserbase.com?apiKey=${process.env.BROWSERBASE_API_KEY}&sessionId=${sessionId}`
+      );
+      const defaultContext = browser.contexts()[0];
+      const page = defaultContext.pages()[0];
+    
+      await page.goto(`https://www.google.com/search?q=${encodeURIComponent(query)}`);
+      await page.waitForTimeout(500);
+      await page.keyboard.press('Enter');
+      await page.waitForLoadState('load', { timeout: 10000 });
+      
+      await page.waitForSelector('.g');
+
+      const results = await page.evaluate(() => {
+        const items = document.querySelectorAll('.g');
+        return Array.from(items).map(item => {
+          const title = item.querySelector('h3')?.textContent || '';
+          const description = item.querySelector('.VwiC3b')?.textContent || '';
+          return { title, description };
+        });
+      });
+      
+      const text = results.map(item => `${item.title}\n${item.description}`).join('\n\n');
+
+      const response = await generateText({
+        model: anthropic('claude-3-5-sonnet-20240620'),
+        prompt: `Evaluate the following web page content: ${text}`,
+      });
+
+      return {
+        toolName: 'Searching Google',
+        content: response.text,
+        dataCollected: true,
+      };
+    },
+  }),
+  getPageContent: tool({
+    description: 'Get the content of a page using Playwright',
+    parameters: z.object({
+      toolName: z.string().describe('What the tool is doing'),
+      url: z.string().describe('The url to get the content of'),
+      sessionId: z.string().describe('The session ID to use for the search. If there is no session ID, create a new session with createSession Tool.'),
+      debuggerFullscreenUrl: z.string().describe('The fullscreen debug URL to use for the search. If there is no debug URL, create a new session with createSession Tool.')
+    }),
+    execute: async ({ url, sessionId }) => {
+      const browser = await chromium.connectOverCDP(
+        `wss://connect.browserbase.com?apiKey=${process.env.BROWSERBASE_API_KEY}&sessionId=${sessionId}`
+      );
+      const defaultContext = browser.contexts()[0];
+      const page = defaultContext.pages()[0];
+    
+      await page.goto(url);
+    
+      const content = await page.content();
+      const dom = new JSDOM(content);
+      const reader = new Readability(dom.window.document);
+      const article = reader.parse();
+
+      const text = `${article?.title || ''}\n${article?.textContent || ''}`;
+
+      const response = await generateText({
+        model: anthropic('claude-3-5-sonnet-20240620'),
+        prompt: `Evaluate the following web page content: ${text}`,
+      });
+
+      return {
+        toolName: 'Getting page content',
+        content: response.text,
+      };
+    },
+  }),
+},
+```
+
+> `Readability.js` from Mozilla is a standalone version of the readability library used for Firefox Reader View. To parse a document, you must create a new `Readability` object from a DOM document object, and then call `parse()`. This returned `article` object will contain: title, content, textContent, length, excerpt, etc.
 
 ### More to explore
 - https://chat.vercel.ai/
