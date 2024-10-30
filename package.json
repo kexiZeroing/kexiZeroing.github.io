@@ -36,6 +36,7 @@
     "image-size": "^1.0.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.408.0",
+    "maplibre-gl": "^4.7.1",
     "markdown-it": "^13.0.1",
     "node-fetch": "^3.3.1",
     "pagefind": "^1.0.3",

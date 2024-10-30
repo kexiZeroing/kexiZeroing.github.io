@@ -1,0 +1,30 @@
+---
+import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+---
+
+<PlaygroundLayout title="OpenFreeMap Example">
+  <div id="map" class="w-full h-full"></div>
+</PlaygroundLayout>
+
+<script>
+  import maplibregl from 'maplibre-gl';
+  import 'maplibre-gl/dist/maplibre-gl.css';
+
+  async function init() {
+    const map = new maplibregl.Map({
+      // https://openmaptiles.org/styles/
+      // style: "/styles/dark.json",
+      // style: "https://tiles.openfreemap.org/styles/bright",
+      // style: "https://tiles.openfreemap.org/styles/positron",
+      style: "https://tiles.openfreemap.org/styles/liberty",
+      center: [116.4074, 39.9042],
+      zoom: 6,
+      container: "map",
+    });
+
+    // const location = await getLocation();
+    // map.flyTo({ center: location, zoom: 6 });
+  }
+
+  init();
+</script>
