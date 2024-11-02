@@ -5,7 +5,7 @@ slug: js-observer-apis
 description: ""
 added: "May 9 2024"
 tags: [js]
-updatedDate: "Aug 17 2024"
+updatedDate: "Nov 2 2024"
 ---
 
 Observers can be helpful to watch certain activities happening in the browser and respond accordingly. For example, we can observe, if child element has been added or removed from the parent DOM element, if a video is displayed within the viewport and enable autoplay, if the size/dimensions of a box element has changed and so on. These are different types of observer APIs in JavaScript.
@@ -52,9 +52,11 @@ export default function AutomaticScroller({ children, className }) {
   const ref = useRef(null);
 
   useEffect(() => {
-    const mutationObserver = new MutationObserver(async () => {
+    const mutationObserver = new MutationObserver(() => {
       if (ref.current) {
         ref.current.scroll({ behavior: 'smooth', top: ref.current.scrollHeight });
+        // OR using `scrollTop` property
+        // ref.current.scrollTop = ref.current.scrollHeight - ref.current.clientHeight;
       }
     });
 
@@ -62,12 +64,12 @@ export default function AutomaticScroller({ children, className }) {
       mutationObserver.observe(ref.current, {
         childList: true,
       });
-
-      return () => {
-        mutationObserver.disconnect();
-      };
     }
-  }, [ref]);
+
+    return () => {
+      mutationObserver.disconnect();
+    };
+  }, []);
 
   return (
     <div ref={ref} className={className}>
@@ -175,3 +177,22 @@ const ro = new ResizeObserver(entries => {
 
 ro.observe(document.getElementById("test"))
 ```
+
+```js
+// https://github.com/stackblitz/use-stick-to-bottom
+function Component() {
+  const { scrollRef, contentRef } = useStickToBottom();
+  
+  return (
+    <div style={{ overflow: 'auto' }} ref={scrollRef}>
+      <div ref={contentRef}>
+        {messages.map((message) => (
+          <Message key={message.id} message={message} />
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+> The `wheel` event fires when the user rotates a wheel button on a pointing device (typically a mouse), which may help to distinguish between human and programmatic scrolling. Unfortunately the `wheel` event only fires for trackpads/scroll wheels. If you scroll up with the scrollbar located on the right of the window, or if you press arrow down, there's actually no way to distinguish this.

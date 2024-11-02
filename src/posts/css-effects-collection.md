@@ -342,8 +342,8 @@ https://codepen.io/bigxixi/pen/abjEMbg
 - Getting started with View Transitions on multi-page apps: https://daverupert.com/2023/05/getting-started-view-transitions
 - A collection of example view transitions for multi-page sites: https://mpa-view-transitions-sandbox.netlify.app
 - Adam Argyle at SeattleJS Conf: https://seattlejs-view-transitions.netlify.app
-- Astro View Transitions Photo Gallery: https://deathbyjavascript.com
-- Google I/O 2024 update: https://developer.chrome.com/blog/view-transitions-update-io24
+- Same-Document View Transitions for SPA: https://developer.chrome.com/docs/web-platform/view-transitions/same-document
+- Cross-Document View Transitions for MPA: https://developer.chrome.com/docs/web-platform/view-transitions/cross-document
 
 > When a view transition occurs between two different documents it is called a cross-document view transition. This is typically the case in multi-page applications (MPA). Chrome 126 enables Cross-Document View Transitions triggered by a same-origin navigation. From now on, you no longer need rearchitect your app to an SPA to use View Transitions.
 
@@ -390,10 +390,6 @@ https://codepen.io/bigxixi/pen/abjEMbg
 https://codepen.io/argyleink/pen/GRPRJyM
 
 <img alt="just the tabs" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/245b6eaa-8117-430d-a2aa-faa40e0e51a2.png" width="450">
-
-https://codepen.io/argyleink/pen/jOQKdeW
-
-<img alt="just the tabs" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/transition-number.png" width="220">
 
 ### Filter and backdrop filter
 [backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) has the same effect as [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter), with one notable difference — backdrop filters apply only to areas behind the element instead of to the element and its children. Filters, on the other hand, apply directly to the element and its children, and don’t affect anything behind the element.
