@@ -263,7 +263,7 @@ When faced with a web font that has not yet loaded, the browser is faced with a 
 
 ### More to read
 - Web Performance 101: https://3perf.com/talks/web-perf-101/
-- A collection of the best practices that the Chrome DevRel team believes are the most effective ways to improve Core Web Vitals performance in 2023: https://web.dev/top-cwv-2023
+- A collection of the best practices that the Chrome DevRel team believes are the most effective ways to improve Core Web Vitals performance: https://web.dev/articles/top-cwv
 - Web Performance Snippets: https://github.com/nucliweb/webperf-snippets
 - Get All That Network Activity Under Control with Priority Hints: https://www.macarthur.me/posts/priority-hints
 - Get your `<head>` in order: https://github.com/rviscomi/capo.js

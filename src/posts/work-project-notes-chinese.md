@@ -68,6 +68,8 @@ Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本。
 
 The [Vue Language Tools](https://github.com/vuejs/language-tools) are essential for providing language features such as autocompletion, type checking, and diagnostics when working with Vue’s SFCs. While `Volar` powers the language tools, the official extension for Vue is titled `Vue - Official` now on the VSCode marketplace.
 
+Vue DevTools is designed to enhance the Vue developer experience. There are multiple options to add this tool to your projects by [Vite plugin](https://devtools.vuejs.org/guide/vite-plugin), [Standalone App](https://devtools.vuejs.org/guide/standalone), or Chrome Extension. Note that The v7 version of devtools only supports Vue3. If your application is still using Vue2, please install the v6 version.
+
 ### 一些 webpack 的配置
 - Webpack 5 boilerplate: https://github.com/taniarascia/webpack-boilerplate
 - Create App: https://createapp.dev/webpack

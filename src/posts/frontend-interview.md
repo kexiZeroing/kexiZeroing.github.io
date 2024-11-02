@@ -335,25 +335,59 @@ function render(vnode) {
 
   return el;
 }
-
-/**
- * Parse a string of HTML or XML to a DOM tree.
- * @param {string} [html] String containing HTML or XML to be parsed.
- * @returns {DocumentFragment} Object containing Node structure of HTML/XML parsed.
- */
-const parse = (html) => {
-  const element = document.createElement('template');
-  if (html !== undefined) {
-    element.innerHTML = html;
-  }
-  return element.content;
-};
-
-parse('Some <em>awesome</em> markup <img src="explosion.gif">');
-// returns DocumentFragment(4) [ #text, em, #text, img ]
 ```
 
-12. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
+12.  Write a `diff` function compares an old Virtual DOM node with a new one and returns a "patch" object describing the necessary changes.
+
+```js
+function diff(oldVNode, newVNode) {
+  if (!oldVNode) {
+    return { type: 'CREATE', newVNode };
+  }
+  if (!newVNode) {
+    return { type: 'REMOVE' };
+  }
+  if (typeof oldVNode !== typeof newVNode || oldVNode.tag !== newVNode.tag) {
+    return { type: 'REPLACE', newVNode };
+  }
+  if (typeof newVNode === 'string') {
+    if (oldVNode !== newVNode) {
+      return { type: 'TEXT', newVNode };
+    } else {
+      return null;
+    }
+  }
+
+  const patch = {
+    type: 'UPDATE',
+    props: diffProps(oldVNode.props, newVNode.props),
+    children: diffChildren(oldVNode.children, newVNode.children),
+  };
+  return patch;
+}
+
+function diffProps(oldProps, newProps) {
+  const patches = [];
+
+  for (let key in newProps) {
+    if (newProps[key] !== oldProps[key]) {
+      patches.push({ key, value: newProps[key] });
+    }
+  }
+  for (let key in oldProps) {
+    if (!(key in newProps)) {
+      patches.push({ key, value: undefined });
+    }
+  }
+  return patches;
+}
+
+function diffChildren(oldChildren, newChildren) {
+  // diff(oldChildren[i], newChildren[i])
+}
+```
+
+13.  You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
 
 ```js
 // written by Dan Abramov
@@ -415,7 +449,7 @@ async function renderJSXToHTML(jsx) {
 }
 ```
 
-13. Write your own React useState and useEffect hooks.
+14. Write your own React useState and useEffect hooks.
 
 ```js
 let hooks = [];
@@ -444,7 +478,7 @@ function useEffect(cb, depArray) {
 }
 ```
 
-14. Implement a simplified version of Vue reactivity system.
+15. Implement a simplified version of Vue reactivity system.
 
 ```js
 let activeEffect = null;
@@ -488,7 +522,7 @@ effect(() => {
 state.count++;
 ```
 
-15. Check if an object has circular references.
+16. Check if an object has circular references.
 
 ```js
 // `JSON.stringify` throws if one attempts to encode an object with circular references.
@@ -530,7 +564,7 @@ function hasCircularReference(obj) {
 }
 ```
 
-16. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
+17. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
 
 ```js
 // https://gist.github.com/simonw/209b46563b520d1681a128c11dd117bc

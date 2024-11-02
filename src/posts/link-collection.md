@@ -66,8 +66,6 @@ A Beginner’s Guide to the True Order of SQL Operations: https://blog.jooq.org/
 
 Falsehoods programmers believe in: https://github.com/kdeldycke/awesome-falsehood
 
-ASTs for Beginners by Kent C. Dodds: https://www.youtube.com/watch?v=CFQBHy8RCpg
-
 ---
 
 ## Tools and Cool websites
@@ -122,8 +120,6 @@ You Don't Need: https://github.com/you-dont-need/You-Dont-Need
 
 All the Ways to Make a Web Component: https://webcomponents.dev/blog/all-the-ways-to-make-a-web-component/
 
-Create README for your open source project: https://readme.so/
-
 The Timeline of The Web: https://thehistoryoftheweb.com/timeline/
 
 Visual history of your favorite technology: https://www.versionmuseum.com/
@@ -173,8 +169,6 @@ A powerful media downloader with no bullshit: https://cobalt.tools
 A high-performance HTTP benchmarking tool written in Golang: https://github.com/six-ddc/plow
 
 Netlify Celebrates 5 Million Developers | 3D Game: https://5-million-devs.netlify.com
-
-VoidZero - Unified Toolchain for JavaScript: https://github.com/voidzero-dev
 
 Utilities to work with PDFs in Node.js, browser and workers: https://github.com/unjs/unpdf
 
@@ -569,6 +563,8 @@ Introducing the Realtime API: https://openai.com/index/introducing-the-realtime-
 Audio input and output for the OpenAI Chat Completion API: https://simonwillison.net/2024/Oct/18/openai-audio
 
 Improve performance and UX for client-side AI: https://web.dev/articles/client-side-ai-performance
+
+For LLMs to better code with Jina API: https://github.com/jina-ai/meta-prompt
 
 ---
 

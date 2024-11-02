@@ -512,6 +512,12 @@ let a = 1, b = 3;
 [a, b] = [b, a];
 console.log(a); // 3
 console.log(b); // 1
+
+// Note: the semicolon here is required
+let b = 3
+[a, b] = [b, a]
+// will become:
+let b = 3[a, b] = [b, a];
 ```
 
 ### Object destructuring
@@ -1400,6 +1406,8 @@ describe('suite name', () => {
   })
 })
 ```
+
+> Before, we needed to write lots of defensive code to check if we passed weird things into methods. Now, we can use Typescript to make sure that never happens. We still need to test our business logic, but by using Typescript, we can write fewer unit tests.
 
 ```js
 import { expect, test } from 'vitest'

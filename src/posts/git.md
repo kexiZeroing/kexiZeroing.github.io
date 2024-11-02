@@ -159,6 +159,14 @@ git branch recovered-branch
 git push origin recovered-branch:recovered-branch
 ```
 
+## searching for commits by code
+The `-S` option for `git log` lets us pass a string used to filter out commits whose diff doesn't include that specific string. More specifically, it is used to match code that was added or deleted in that commit. If no match is found, the commit is not included in the output.
+
+```sh
+# Show commits that include "getUser" in the diff
+git log -S "getUser"
+```
+
 ## rename branch
 - Rename the branch while working in this branch: `git branch -m <new name>`; rename from outside the branch: `git branch -m <old name> <new name>`.
 - Using 'master' as the name for the initial branch. This default branch name is subject to change. To configure the initial branch name to use in all of your new repositories, call `git config --global init.defaultBranch <name>`.
