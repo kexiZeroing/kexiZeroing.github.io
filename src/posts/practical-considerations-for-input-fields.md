@@ -4,8 +4,8 @@ title: "Practical considerations for Input fields"
 slug: practical-considerations-for-input-fields
 description: ""
 added: "Jun 5 2024"
+tags: [web, react]
 updatedDate: "Aug 17 2024"
-tags: [web]
 ---
 
 ## Dealing with contenteditable elements in Vue
@@ -222,7 +222,7 @@ function App() {
 // React 19
 function RenderName({ name }) {
   // https://react.dev/reference/react-dom/hooks/useFormStatus
-  // The `useFormStatus` hook only returns status information for a parent <form>
+  // `useFormStatus` will only return status information for a parent <form>
   const { pending } = useFormStatus();
   return <div>{pending ? "Loading" : `Hello in React 19 ${name}` }</div>;
 }
@@ -328,6 +328,21 @@ export async function submitMessage(_prevState, formData) {
     success: true,
   };
 }
+```
+
+`useOptimistic` is a React Hook that lets you show a different state while an async action is underway. It returns:
+- `optimisticState` is the resulting optimistic state. It is equal to state unless an action is pending, in which case it is equal to the value returned by `updateFn`.
+- `addOptimistic` is the dispatching function to call when you have an optimistic update. It takes one argument `optimisticValue`, and will call the `updateFn` with `state` and `optimisticValue`.
+
+```js
+const [optimisticState, addOptimistic] = useOptimistic(
+  state,
+  // updateFn
+  (currentState, optimisticValue) => {
+    // merge and return new state
+    // with optimistic value
+  }
+);
 ```
 
 ## Styling validation status

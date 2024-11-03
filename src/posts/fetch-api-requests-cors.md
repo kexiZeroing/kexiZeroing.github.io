@@ -5,7 +5,7 @@ slug: fetch-api-requests-and-cors
 description: ""
 added: "Aug 9 2020"
 tags: [js, web]
-updatedDate: "Jan 13 2024"
+updatedDate: "Nov 3 2024"
 ---
 
 ## Fetch API
@@ -356,48 +356,98 @@ fetch('https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg')
 })
 ```
 
+### Understand fetch in chunks
+[fetch-in-chunks](https://github.com/tomayac/fetch-in-chunks) is a utility for fetching large files in chunks with support for parallel downloads and progress tracking.
+
 ```js
-// Read stream response
-// https://github.com/lianginx/chatgpt-vue/blob/master/src/views/home.vue
-const { body, status } = await chat(messageList.value);
-if (body) {
-  const reader = body.getReader();
-  await readStream(reader, status);
-}
+const VIDEO_URL =
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
 
-const readStream = async (reader, status) => {
-  let partialLine = "";
-  const decoder = new TextDecoder("utf-8");
+const video = document.querySelector('video');
+const progress = document.querySelector('progress');
 
-  while (true) {
-    const { value, done } = await reader.read();
-    if (done) break;
+const blob = await fetchInChunks(VIDEO_URL, {
+  progressCallback: (done, total) => {
+    progress.value = done / total;
+  },
+});
 
-    const decodedText = decoder.decode(value, { stream: true });
+video.src = URL.createObjectURL(blob);
+video.controls = true;
+video.play();
+```
 
-    const chunk = partialLine + decodedText;
-    const newLines = chunk.split(/\r?\n/);
+The key point in `fetchInChunks` is a parallel chunk-based file downloading system.
 
-    partialLine = newLines.pop() ?? "";  // the last line of the chunk might be incomplete
+```js
+let chunks = [];
+let queue = [];
+let downloadedBytes = 0;
 
-    for (const line of newLines) {
-      if (line.length === 0) continue; // ignore empty message
-      if (line.startsWith(":")) continue; // ignore sse comment message
-      if (line === "data: [DONE]") return;
+async function processQueue() {
+  let start = 0;
+  while (start < fileSize) {
+    // First Check
+    if (queue.length < maxParallelRequests) {
+      let end = Math.min(start + chunkSize - 1, fileSize - 1);
+      let actualStart = start;
 
-      const json = JSON.parse(line.substring(6)); // start with "data: "
-      const content =
-        status === 200
-          ? json.choices[0].delta.content ?? ""
-          : json.error.message;
+      // A. Create the promise but don't wait for it
+      let promise = fetchChunk(url, start, end, signal)
+        .then((chunk) => {
+          // C. This runs later when chunk downloads
+          chunks.push({ start: actualStart, chunk });
+          downloadedBytes += chunk.byteLength;
+          
+          if (progressCallback) {
+            progressCallback(downloadedBytes, fileSize);
+          }
+          // Remove this promise from queue when done
+          queue = queue.filter((p) => p !== promise);
+        })
+      
+      // B. Immediately add to queue and continue
+      queue.push(promise);
+      start += chunkSize;
+    }
 
-      appendLastMessageContent(content);
+    // Second Check
+    if (queue.length >= maxParallelRequests) {
+      // D. Wait for any download to complete before continuing
+      await Promise.race(queue);
     }
   }
-};
 
-const appendLastMessageContent = (content) =>
-  (messageList.value[messageList.value.length - 1].content += content);
+  await Promise.all(queue);
+}
+
+// 1. fetchChunk() returns immediately with a Promise, not waiting for download
+// 2. Multiple chunks download simultaneously
+// 3. Promise.race() only blocks when queue is full
+// 4. Each .then() callback executes when its chunk completes
+// 5. Final Promise.all() ensures all downloads finish
+```
+
+```js
+async function getFileSize(url, signal) {
+  const response = await fetch(url, { method: 'HEAD', signal });
+  if (!response.ok) {
+    throw new Error('Failed to fetch the file size');
+  }
+  const contentLength = response.headers.get('content-length');
+  return parseInt(contentLength, 10);
+}
+
+async function fetchChunk(url, start, end, signal) {
+  const response = await fetch(url, {
+    headers: { Range: `bytes=${start}-${end}` },
+    signal,
+  });
+  if (!response.ok && response.status !== 206) {
+    throw new Error('Failed to fetch chunk');
+  }
+  return await response.arrayBuffer();
+}
 ```
 
 ## Cross-Origin Resource Sharing
