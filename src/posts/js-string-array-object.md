@@ -306,6 +306,27 @@ var myFish = ['angel', 'clown', 'trumpet', 'sturgeon'];
 var removed = myFish.splice(0, 2, 'parrot', 'anemone', 'blue');
 ```
 
+Move an array item to a different position.
+
+```js
+export function arrayMoveMutable(array, fromIndex, toIndex) {
+  const startIndex = fromIndex < 0 ? array.length + fromIndex : fromIndex;
+	
+  if (startIndex >= 0 && startIndex < array.length) {
+    const endIndex = toIndex < 0 ? array.length + toIndex : toIndex;
+
+    const [item] = array.splice(fromIndex, 1);
+    array.splice(endIndex, 0, item);
+  }
+}
+
+export function arrayMoveImmutable(array, fromIndex, toIndex) {
+  const newArray = [...array];
+  arrayMoveMutable(newArray, fromIndex, toIndex);
+  return newArray;
+}
+```
+
 ### Flatten array
 ```js
 const arr1 = [1, 2, [3, 4]];

@@ -178,6 +178,8 @@ Code transformer based on AST but providing a more intuitive API: https://github
 
 Guidance on choosing a license for your open source project: https://choosealicense.com
 
+Bare metal to production ready in minutes: https://github.com/MightyMoud/sidekick
+
 ---
 
 ## CSS related

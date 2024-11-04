@@ -330,21 +330,6 @@ export async function submitMessage(_prevState, formData) {
 }
 ```
 
-`useOptimistic` is a React Hook that lets you show a different state while an async action is underway. It returns:
-- `optimisticState` is the resulting optimistic state. It is equal to state unless an action is pending, in which case it is equal to the value returned by `updateFn`.
-- `addOptimistic` is the dispatching function to call when you have an optimistic update. It takes one argument `optimisticValue`, and will call the `updateFn` with `state` and `optimisticValue`.
-
-```js
-const [optimisticState, addOptimistic] = useOptimistic(
-  state,
-  // updateFn
-  (currentState, optimisticValue) => {
-    // merge and return new state
-    // with optimistic value
-  }
-);
-```
-
 ## Styling validation status
 The `:user-valid` and `:user-invalid` pseudo-class selectors are similar to the existing `:valid` and `:invalid` pseudo-classes. Both match a form control based on whether its current value satisfies its validation constraints. However, the advantage of the new `:user-valid` and `:user-invalid` pseudo-classes is that they match a form control only after a user has significantly interacted with the input.
 

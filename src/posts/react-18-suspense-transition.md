@@ -5,7 +5,7 @@ slug: react-18-suspense-transition
 description: ""
 added: "Oct 7 2023"
 tags: [react]
-updatedDate: "July 30 2024"
+updatedDate: "Nov 4 2024"
 ---
 
 A key property of Concurrent React is that rendering is interruptible. With synchronous rendering, once an update starts rendering, nothing can interrupt it until the user can see the result on screen. In a concurrent render, this is not always the case. React may start rendering an update, pause in the middle, then continue later. It may even abandon an in-progress render altogether.
@@ -221,3 +221,59 @@ function BigSpinner() {
 - When you load new data on a page that has already loaded (ex. tab navigations). In this case, it's bad to hide something the user has already seen. In this case, `startTransition` lets you show a pending indicator until that render completes, and avoid retriggering Suspense boundaries.
 
 > **Render-as-you-fetch** is a pattern that lets you start fetching the data you will need at the same time you start rendering the component using that data. Used along with `Suspense`, the data call is made while the component is being rendered. While the data is being loaded the component is in a suspended state and `Suspense` is used to show a fallback UI.
+
+### `useOptimistic` use case
+When the app is settled, the server is their source of truth. Whenever the server responds with a page, the checkboxes should reflect the URL that was used to generate that page. When the app is transitioning, the client is their source of truth. If we press a checkbox and trigger a server-side refresh, the client should immediately reflect our press while the app is preparing the next page.
+
+This is exactly what `useOptimistic` was designed for. It gives you some local React state that's seeded with server-side data, but lets you make temporary changes while your app is transitioning. Once all pending transitions settle, `useOptimistic` automatically discards any changes you made, and resets its value to the latest version of your server-side data.
+
+```js
+// 
+// 1. `optimisticState` is the resulting optimistic state. It is equal to state
+// unless an action is pending, in which case it is equal to the value returned by `updateFn`.
+// 2. `addOptimistic` is the dispatching function to call when you have an optimistic update, 
+// it takes one argument `optimisticValue`, and will call the `updateFn`.
+const [optimisticState, addOptimistic] = useOptimistic(
+  // the value to be returned initially
+  state,
+  // updateFn
+  (currentState, optimisticValue) => {
+    // merge and return new state
+    // with optimistic value
+  }
+);
+```
+
+```jsx
+// https://buildui.com/posts/instant-search-params-with-react-server-components
+export default function GenresPanel({ genres }: { genres: string[] }) {
+  let [optimisticGenres, setOptimisticGenres] = useOptimistic(genres);
+  let [isPending, startTransition] = useTransition();
+  let router = useRouter();
+
+  return (
+    <>
+      <input
+        name={genre}
+        type="checkbox"
+        checked={optimisticGenres.includes(genre)}
+        onChange={(e) => {
+          let { name, checked } = e.target;
+          let newGenres = checked
+            ? [...optimisticGenres, name]
+            : optimisticGenres.filter((g) => g !== name);
+
+          let newParams = new URLSearchParams(
+            newGenres.map((genre) => ["genre", genre])
+          );
+
+          startTransition(() => {
+            setOptimisticGenres(newGenres);
+            router.push(`?${newParams}`);
+          });
+        }}
+      />
+    </>
+  );
+}
+```
