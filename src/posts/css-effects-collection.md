@@ -16,6 +16,7 @@ updatedDate: "Sep 24 2024"
 - [3D Flip Hover Effects](#3d-flip-hover-effects)
 - [Color Palettes](#color-palettes)
 - [3D Clock](#3d-clock)
+- [Blurry image load](#blurry-image-load)
 - [Animation with View Transitions](#animation-with-view-transitions)
 - [Filter and backdrop filter](#filter-and-backdrop-filter)
 - [Scroll-driven animations](#scroll-driven-animations)
@@ -336,6 +337,55 @@ Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick
 <img alt="3D Clock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/3dclock.jpg" width="300">
 
 https://codepen.io/bigxixi/pen/abjEMbg
+
+### Blurry image load
+
+```html
+<style>
+.blurry-load {
+  filter: blur(8px);
+}
+
+@keyframes blurOut {
+  0% {
+    filter: blur(20px);
+  }
+  50% {
+    filter: blur(10px);
+  }
+  100% {
+    filter: blur(0px);
+  }
+}
+.blur-out {
+  animation: blurOut 0.5s ease-out forwards;
+}
+</style>
+
+<img
+  class="blurry-load"
+  src="image-small.jpg"
+  data-large="image.jpg"
+/>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const images = document.querySelectorAll('.blurry-load');
+  
+  images.forEach(img => {
+    const fullImage = new Image();
+    
+    fullImage.onload = () => {
+      img.src = fullImage.src;
+      img.classList.add('blur-out');
+      img.classList.remove('blurry-load');
+    };
+    
+    fullImage.src = img.getAttribute('data-large');
+  });
+});
+</script>
+```
 
 ### Animation with View Transitions
 

@@ -5,7 +5,7 @@ slug: basic-dockerfile-and-kubernetes
 description: ""
 added: "Mar 12 2023"
 tags: [devops]
-updatedDate: "July 14 2024"
+updatedDate: "Nov 5 2024"
 ---
 
 ## Docker concepts
@@ -23,7 +23,7 @@ Docker-compose is a tool that accepts a YAML file that specifies a cross contain
 > 1. An image is a logical grouping of layers plus metadata about what to do when creating a container and how to assemble the layers. Part of that metadata is that each layer knows its parent's ID. When you docker run an image, docker creates a container: it unpacks all the layers in the correct order, creating a new "root" file system separate from the host.
 > 2. A layer is a change on an image, or an intermediate image. Every command you specify (FROM, RUN, COPY, etc.) in your Dockerfile causes the previous image to change, thus creating a new layer. If you make a change to your Dockerfile, docker will rebuild only the layer that was changed and the ones after that. This is called layer caching.
 
-## A Dockerfile for a NodeJS application
+### A Dockerfile for a NodeJS application
 This is a valid Dockerfile for a NodeJS application. But we can improve it a lot.
 
 ```dockerfile
@@ -162,6 +162,35 @@ Dockerfile
 2. This packed version (a Docker image) can be sent to a special storage box (the container registry) so anyone can use it later. You told the builder (Kaniko) in step 1 where to store the house once it's packed.
 3. Now, you have to make sure that when the kids want to play with your house in the playground (your servers or Kubernetes), they are using the right version. So, you update the playground instructions (Terraform configuration) with the newest version of your house.
 4. The playground helpers (Terraform) read the updated plan you prepared. Terraform will actually deploy it, which means they replace the old toy house with the new one.
+
+### Docker Multi-stage builds
+Most of the time, we COPY files from the host to the container image. However, you can also COPY files straight from other images `COPY --from=<image>`. Every FROM instruction defines a stage.
+
+- The order of stages in the Dockerfile matters - it's impossible to `COPY --from` a stage defined below the current stage.
+- The `AS` aliases are optional - if you don't name your stages, they still can be referred to by their sequence number.
+- Separating build and runtime environments can reduce image size, improve security, and make build scripts cleaner.
+
+```dockerfile
+# https://labs.iximiuz.com/tutorials/docker-multi-stage-builds
+# Build stage
+FROM node:lts-slim AS build
+
+WORKDIR /app
+
+COPY package*.json .
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+# Runtime stage
+FROM nginx:alpine
+
+WORKDIR /usr/share/nginx/html
+
+RUN rm -rf ./*
+COPY --from=build /app/dist .
+```
 
 ## Intro to Kubernetes
 Let's say you have an app which you have containerized (Monoliths were broken into microservices). So you run a bunch of containers to serve your app to users. But how do you manage these different containers? This is where K8s comes to the rescue. Kubernetes is a container orchestration tool for managing production-ready containerized workloads and services that allows for declarative setup as well as automation.

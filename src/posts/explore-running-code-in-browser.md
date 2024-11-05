@@ -70,6 +70,8 @@ const editor = monaco.editor.create(document.getElementById('editor'), {
 });
 ```
 
+> [esm.sh](https://esm.sh) is a global fast CDN for modern web development. It allows you to import JavaScript ES modules on NPM, GitHub, and JSR with a simple URL. No installation/build steps needed. Transpiling `.vue` or `.svelte` on esm.sh would be huge, meaning that you can publish a component to npm and import it from CDN without any build tools.
+
 To prevent the main thread from being blocked during code compilation, which could cause the UI to feel sluggish, we can use a Web Worker:
 
 ```js
