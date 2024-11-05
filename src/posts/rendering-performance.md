@@ -141,11 +141,18 @@ LCP sub-part breakdown: Time to First Byte -> Resource load delay -> Resource lo
 - https://developer.chrome.com/docs/web-platform/prerender-pages
 - https://developer.chrome.com/docs/devtools/application/debugging-speculation-rules
 
-A page can be prerendered in either of two ways, all of which aim to make navigations quicker:
+A page can be prerendered in one of four ways, all of which aim to make navigations quicker:
 1. When you type a URL into the Chrome omnibox, Chrome may automatically prerender the page for you, if it has high confidence you will visit that page. (View Chrome's predictions for URLs in the `chrome://predictors` page)
-2. Sites can use the *Speculation Rules API*, to programmatically tell Chrome which pages to prerender. This replaces what `<link rel="prerender"...>` used to do and allows sites to proactively prerender a page based on speculation rules on the page.
+2. When you use the bookmarks bar, Chrome may automatically prerender the page for you on holding the pointer over one of the bookmark buttons.
+3. When you type a search term into the Chrome address bar, Chrome may automatically prerender the search results page, when instructed to do so by the search engine.
+4. Sites can use the *Speculation Rules API*, to programmatically tell Chrome which pages to prerender. This replaces what `<link rel="prerender"...>` used to do and allows sites to proactively prerender a page based on speculation rules on the page.
 
-Developers can insert JSON instructions onto their pages to inform the browser about which URLs to prerender. Speculation rules can be added in either the `<head>` or the `<body>` of the main frame. The `moderate` option is a middle ground, and many sites could benefit from the following speculation rule that would prerender a link when holding the pointer over the link for 200 milliseconds or on the pointerdown event.
+> For a greater than 50% confidence level, Chrome proactively preconnects to the domain, but does not prerender the page. For a greater than 80% confidence level (shown in green), Chrome will prerender the URL.
+
+Developers can insert JSON instructions onto their pages to inform the browser about which URLs to prerender. Speculation rules can be added in either the `<head>` or the `<body>` of the main frame.
+- The Speculation Rules API used to include a `source` key which was set to **list** for list URLs or **document** for document URLs but this can be implied from the presence of a `urls` or `where` key (which are mutually exclusive).
+- The document rules (available from Chrome 121), which prerenders links found in the document based on `href` selectors or CSS selectors.
+- An `eagerness` setting is used to indicate when the speculations should fire. The default eagerness for list rules is `immediate`. The default eagerness for document rules is `conservative`. The `moderate` option is a middle ground that would prerender a link when holding the pointer over the link for 200 milliseconds or on the pointerdown event.
 
 Speculation rules can also be used to just prefetch pages, without a full prerender. Unlike the older `<link rel="prefetch">` resource hint which just prefetched to the HTTP disk cache, documents loaded via speculation rules are processed in the same way that navigations are (but then not rendered) and are held in memory so will be available quicker to the browser once needed. *Prefetch speculation rules only prefetch the document, not its subresources.*
 

@@ -281,6 +281,19 @@ fullName.value = 'Michael Thiessen';
 console.log(lastName.value);      // 'Thiessen'
 ```
 
+A common mistake using `computed` is non reactive value as a dependency. Often developers need some reactivity when working with browser API’s, but the APIs are not reactive. To get around this, we will use VueUse library that adds reactivity to web browser APIs.
+
+```js
+const videoPlayer = ref<HTMLVideoElement>();
+// wrong, not reactive
+const playing = computed(() => !videoPlayer.value?.paused);
+
+// instead, use composable from VueUse that provides a reactive ref
+const { playing: videoPlaying} = useMediaControls(videoRef, {
+  src: "/example.mp4",
+});
+```
+
 ### Slots in Vue
 
 ```vue

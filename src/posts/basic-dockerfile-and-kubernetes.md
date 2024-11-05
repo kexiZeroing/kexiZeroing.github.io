@@ -256,3 +256,19 @@ spec:
           type: Utilization
           averageUtilization: 50
 ```
+
+## Basic Terraform steps
+The process starts with `terraform init` **(Write the Blueprint)**, Terraform downloads all necessary providers and modules - think of it as collecting all the right building blocks before starting construction.
+
+Next comes `terraform plan` **(Check the Layout)**. It examines what currently exists in your infrastructure and compares it with what you want to build, creating a detailed execution plan.
+
+The real action happens with `terraform apply` **(Build the Playground)**. Terraform will create new resources, modify existing ones, or remove what's no longer needed. Throughout this process, it keeps track of everything in a state file (`terraform.tfstate`), which is like having a perfect memory of how everything was built.
+
+Your infrastructure blueprint lives in configuration files (typically `main.tf` or `terraform.tf`). These files are like the rulebook that tells Terraform exactly what to build and how to build it.
+
+- `terraform.tf` is your wishes (what you want)
+- `terraform.tfstate` is reality (what actually exists)
+
+This is why when you run `terraform plan`, Terraform compares these two files to determine what changes need to be made to turn your wishes (`terraform.tf`) into reality (`terraform.tfstate`).
+
+*"Error: Saved plan is stale"* may occur in Terraform when the actual infrastructure state has changed between when you created the plan and when you try to apply that saved plan. For example, someone else made changes to the same infrastructure while you had your plan file waiting, or another automation process (like CI/CD) modified the infrastructure.
