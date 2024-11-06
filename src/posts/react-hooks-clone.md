@@ -197,3 +197,4 @@ React 19:
 - https://react.dev/blog/2024/04/25/react-19
 - https://shrutikapoor.dev/posts/react-react19
 - https://www.youtube.com/watch?v=AJOGzVygGcY
+- https://www.youtube.com/watch?v=O3ZtlTwDnbk
