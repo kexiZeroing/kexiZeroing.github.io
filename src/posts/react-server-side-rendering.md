@@ -5,7 +5,7 @@ slug: react-server-side-rendering-and-server-components
 description: ""
 added: "July 8 2023"
 tags: [react]
-updatedDate: "Aug 1 2024"
+updatedDate: "Nov 9 2024"
 ---
 
 ## Adding Server-Side Rendering
@@ -143,9 +143,10 @@ const MovingComponent = () => {
 };
 ```
 
-The way to fight this, other than `React.memo`, is to extract `ChildComponent` outside and pass it as children. React "children" is just a prop. Components passed as children don’t re-render since they are just props.
+The way to fight this, other than `React.memo`, is to extract `ChildComponent` outside and pass it as children. React "children" is just a prop. When children are passed through props, React doesn't recreate them on each render. The child component's element is created when the JSX is evaluated. Once created, it's just passed down as a prop reference that stays stable across re-renders.
 
 ```jsx
+// https://www.developerway.com/posts/react-elements-children-parents
 const MovingComponent = ({ children }) => {
   const [state, setState] = useState({ x: 100, y: 100 });
 
@@ -165,29 +166,6 @@ const SomeOutsideComponent = () => {
       <ChildComponent />
     </MovingComponent>
   );
-};
-```
-
-> Btw, wrapping your root layout in the client component does not automatically turn your entire app into a client rendering. The client component gets hydrated on the client. The children can stay server components (do not hydrate on the client).
-
-```jsx
-"use client";
-
-export function Providers({ children }: { children: React.ReactNode }) {
-  const theme = ...
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
-}
-```
-
-React Element is nothing more than syntax sugar for a function `React.createElement` that returns an object. If the Parent component re-renders, the content of the `child` constant will be re-created from scratch, which is fine and super cheap since it’s just an object. And this is what allows memoization to work: the object will not be re-created, React will think that it doesn’t need updating, and Child’s re-render won’t happen.
-
-```jsx
-const ChildMemo = React.memo(Child);
-
-const Parent = () => {
-  const child = <ChildMemo />;
-
-  return <div>{child}</div>;
 };
 ```
 
@@ -284,6 +262,17 @@ Before React Server Components, all React components are “client” components
 
 A common misconception here is that components with `"use client"` only run in browser. Client components still get pre-rendered to the initial HTML on the server (SSR). The `"use client"` doesn't mean the component is "client only", it means that we send the code for this component to the client and hydrate it.
 
+Btw, wrapping your root layout in the client component does not automatically turn your entire app into a client rendering. The client component gets hydrated on the client. The children can stay server components (do not hydrate on the client).
+
+```jsx
+"use client";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  const theme = ...
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
+}
+```
+
 > What is RSC wire format?  
 > The server sends a serialized tree (similar to JSON but with “holes”) to the browser, and the browser can do the work of deserializing it, filling the client placeholders with the actual client components, and rendering the end result.
 >
@@ -294,7 +283,7 @@ A common misconception here is that components with `"use client"` only run in b
 > 
 > Next.js 13.4 introduced the App Router with new features, conventions, and support for React Server Components. Components in the app directory are React Server Components by default. `"use client"` directive used to mark components as Client Components. Server and Client Components can be interleaved in the same component tree, with React handling the merging of both environments.
 >
-> Next.js App Router wanted to solve the client-server waterfalls (move client-server REST fetches to the server using React Server Components in a single roundtrip). This meant the server had to sometimes be dynamic, sacrificing the great initial loading performance. Next uses partial prerendering, where the static "shell" of a dynamic page is prerendered at build time and served immediately on request, with the dynamic parts streamed in, to solve this tradeoff.
+> Next.js App Router wanted to solve the client-server waterfalls (move client-server REST fetches to the server using React Server Components in a single roundtrip). This meant the server had to sometimes be dynamic, sacrificing the great initial loading performance. Next uses partial prerendering (https://partialprerendering.com), where the static "shell" of a dynamic page is prerendered at build time and served immediately on request, with the dynamic parts streamed in, to solve this tradeoff.
 
 Compare for server side rendering and server components:
 - https://github.com/TejasQ/makeshift-next.js/tree/spoiled
@@ -486,10 +475,11 @@ function reviveJSX(key, value) {
 Must-read articles on React Server Components: 
 - https://www.joshwcomeau.com/react/server-components
 - https://github.com/reactwg/server-components/discussions/5
-- https://www.youtube.com/watch?v=ozI4V_29fj4
+- https://vercel.com/blog/understanding-react-server-components
+- https://www.youtube.com/watch?v=CvAySC5ex9c
 
 ## React Server Actions
-React Server Actions allow you to run asynchronous code directly on the server. They eliminate the need to create API endpoints to mutate your data. Instead, you write asynchronous functions that execute on the server and can be invoked from your Client or Server Components.
+React Server Actions allow you to run asynchronous code directly on the server. They eliminate the need to create API endpoints to mutate your data. Instead, you write asynchronous functions that execute on the server and can be invoked from your Client or Server Components. *(Server actions let us put our API endpoint back into the component boundary in the same way that server components let us move `getServerSideProps` into the component boundary.)*
 
 An advantage of invoking a Server Action within a Server Component is progressive enhancement - forms work even if JavaScript is disabled on the client.
 
@@ -506,4 +496,7 @@ export default function Page() {
 }
 ```
 
-Behind the scenes, Server Actions create a POST API endpoint. This is why you don't need to create API endpoints manually when using Server Actions. *(Server actions let us put our API endpoint back into the component boundary in the same way that server components let us move `getServerSideProps` into the component boundary.)*
+Behind the scenes, Server Actions create a POST API endpoint. This is why you don't need to create API endpoints manually when using Server Actions. Server actions are different from regular server-side code. They are specifically designed to be invoked from the client-side, usually through form submissions or other user interactions. If you need to "expose" server functions to the client, you can use `"use server"`.
+- Next.js creates a unique identifier for each server action. This identifier links the client-side request to the correct server-side function.
+- Next.js automatically generates an API endpoint for each server action. These endpoints are created during the compilation process and are not visible in your codebase. The generated endpoints handle the incoming requests from the client and route them to the corresponding server action. The request includes a special header called "Next-Action" which contains the unique identifier of the server action.
+- Server Actions integrate with Next.js' caching and revalidation architecture. `revalidatePath` accepts a relative URL string where it will clear the cache and revalidate the data for that path after a server action.
