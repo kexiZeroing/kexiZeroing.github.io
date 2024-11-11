@@ -2,6 +2,7 @@
 import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
 
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import { ModeToggle } from '@/components/shadcn-ui-demo/ModeToggle'
 import { CalendarDemo } from "@/components/shadcn-ui-demo/CalendarDemo"
 import { AlertDialogDemo } from "@/components/shadcn-ui-demo/AlertDialogDemo"
@@ -47,6 +48,14 @@ import { CarouselDemo } from "@/components/shadcn-ui-demo/CarouselDemo"
 			<Button variant='ghost'>Click Me</Button>
 		</div>
 		
+		<div class="flex flex-col space-y-3">
+      <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+      <div class="space-y-2">
+        <Skeleton className="h-4 w-[250px]" />
+        <Skeleton className="h-4 w-[200px]" />
+      </div>
+    </div>
+
 		<CalendarDemo client:load />
 
 		<div class="max-w-32">
