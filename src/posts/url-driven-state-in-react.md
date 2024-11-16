@@ -118,8 +118,14 @@ export default function Home() {
 
 This version of the code works well. No effects, no juggling multiple states to keep them in sync, and no bugs.
 
-Learning how to spot duplicated sources of truth is a big step in leveling up as a React developer. The next time you find yourself fighting a bug that has some confusing `useEffect` code behind it, instead of trying to fix the edge case by adding one more branch of logic or introducing another effect, instead:
+Learning how to spot duplicated sources of truth is a big step in leveling up as a React developer. The next time you find yourself fighting a bug that has some confusing `useEffect` code behind it, instead of trying to fix the edge case by adding one more branch of logic or introducing another effect, try this:
 - Pause, and take a step back from the details of the effect code
 - See if the effect is setting some state
 - Check to see whether that state is already represented in some other component or external system, and
 - If it is, eliminate it
+
+More advanced features to note here from the article [Managing Advanced Search Param Filtering in the Next.js App Router](https://aurorascharff.no/posts/managing-advanced-search-param-filtering-next-app-router).
+
+The issue for the search/filter: It all comes down to the way the Next.js router works. We click a category, but the URL does not update until the data fetching is resolved. The router is waiting for the server components to finish rendering on the server before it updates the URL. Since we are relying on the URL to be updated instantly, our implementation logic breaks.
+
+We learn to track the pending state of the search with `useTransition()`, implement a responsive category filter with `useOptimistic()`, and coordinate the search and filter state with a React Context provider. Finally, we switched to using `nuqs` *(a library that provides a type-safe way to manage search params as state in React)* for a more robust solution.

@@ -224,12 +224,18 @@ It is also possible to use both Options API and Composition API. Although you ca
 export default {
   setup() {
     const darkMode = ref(false)
+    // We can't access the method
+    // this.changeTheme(true)
     return { darkMode }
   },
   methods: {
     saveDarkMode() {
       localStorage.setItem('dark-mode', this.darkMode)
     },
+    changeTheme(val) {
+      // We can update values from the Options API
+      this.darkMode = val;
+    }
   }
 }
 ```
