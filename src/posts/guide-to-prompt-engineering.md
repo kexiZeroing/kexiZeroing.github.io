@@ -361,6 +361,7 @@ You'll access built-in AI capabilities primarily with task APIs, such as a trans
 - https://github.com/explainers-by-googlers/prompt-api
 - https://github.com/explainers-by-googlers/writing-assistance-apis
 - https://github.com/WICG/translation-api
+- https://developer.chrome.com/docs/devtools/ai-assistance
 
 ## Fine-tuning
 GPT-3 has been pre-trained on a vast amount of text from the open internet. When given a prompt with just a few examples, it can often intuit what task you are trying to perform and generate a plausible completion. This is often called "few-shot learning."

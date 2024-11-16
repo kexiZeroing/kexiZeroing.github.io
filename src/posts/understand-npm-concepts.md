@@ -93,6 +93,7 @@ This will create a `dist/index.js` (for ESM) and a `dist/index.cjs` (for CJS). A
 > - [depcheck](https://github.com/depcheck/depcheck) check your npm module for unused dependencies.
 > - [Taze](https://github.com/antfu/taze) is a modern cli tool that keeps your deps fresh. No installation required — `npx taze`. `-g` for global and `-I` for interactive.
 > - [npm-check-updates](https://github.com/raineorshine/npm-check-updates) upgrades your `package.json` dependencies to the latest versions, ignoring specified versions.
+> - [Npm Burst](https://craigory.dev/npm-burst) tracks statistics of released npm packages and installed version counts.
 > - [Version Lens](https://marketplace.visualstudio.com/items?itemName=pflannery.vscode-versionlens) VS Code extension shows the latest version for each package.
 
 ### npm ls

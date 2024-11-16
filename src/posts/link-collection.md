@@ -180,6 +180,10 @@ Guidance on choosing a license for your open source project: https://choosealice
 
 Bare metal to production ready in minutes: https://github.com/MightyMoud/sidekick
 
+A new tool for making and sharing delightful documents: https://leaflet.pub
+
+Grab the color palette from an image using just Javascript: https://github.com/lokesh/color-thief
+
 ---
 
 ## CSS related
@@ -231,6 +235,8 @@ Intro to CSS 3D transforms: https://3dtransforms.desandro.com
 Color Formats in CSS: https://www.joshwcomeau.com/css/color-formats
 
 It's time to learn oklch color: https://keithjgrant.com/posts/2023/04/its-time-to-learn-oklch-color
+
+Demo of using HDR colors in CSS: https://github.com/ardov/hdr-web
 
 Open Source CSS Variables: https://open-props.style
 
@@ -297,8 +303,6 @@ Easy visualizer for JavaScript KeyCodes: https://keycode.info
 Scroll-driven Animations: https://scroll-driven-animations.style
 
 A library that helps you create floating elements such as tooltips: https://floating-ui.com
-
-Accessible color combinations: https://randoma11y.com
 
 Color palette inspiration site: https://www.happyhues.co
 
@@ -442,6 +446,8 @@ A type safe router for vuejs: https://github.com/kitbagjs/router
 
 Build beautiful website using Vue & Nuxt: https://github.com/unovue/inspira-ui, https://github.com/selemondev/spark-ui
 
+Create full-stack apps with Nuxt: https://talks.soubiran.dev/2024-09-17/pragvue 
+
 ---
 
 ## Browsers related
@@ -567,6 +573,10 @@ Introducing the Realtime API: https://openai.com/index/introducing-the-realtime-
 Audio input and output for the OpenAI Chat Completion API: https://simonwillison.net/2024/Oct/18/openai-audio
 
 For LLMs to better code with Jina API: https://github.com/jina-ai/meta-prompt
+
+Let your Claude able to think: https://github.com/richards199999/Thinking-Claude
+
+JavaScript tokenizer for LLaMA 1 and LLaMA 2: https://github.com/belladoreai/llama-tokenizer-js
 
 ---
 
