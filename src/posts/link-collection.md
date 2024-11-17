@@ -386,6 +386,8 @@ React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.co
 
 Learn Next.js course by Vercel: https://nextjs.org/learn
 
+Create forms and handle data mutations in the Next.js: https://www.youtube.com/watch?v=dDpZfOQBMaU
+
 React's evolution from Hooks to Concurrent React: https://tigerabrodi.blog/reacts-evolution-from-hooks-to-concurrent-react
 
 Build Your Own React.js in 400 Lines of Code: https://webdeveloper.beehiiv.com/p/build-react-400-lines-code

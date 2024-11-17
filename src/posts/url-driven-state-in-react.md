@@ -124,6 +124,32 @@ Learning how to spot duplicated sources of truth is a big step in leveling up as
 - Check to see whether that state is already represented in some other component or external system, and
 - If it is, eliminate it
 
+> STOP using useState, instead put state in URL: https://www.youtube.com/watch?v=ukpgxEemXsk
+
+```js
+// client component
+"use client";
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+
+export default function ProductPage() {
+  const searchParams = useSearchParams();
+  const selectedColor = searchParams.get('color');
+  const selectedSize = searchParams.get('size');
+
+  return {
+    // ...
+    <Link href={`?color=${selectedColor}&size=${selectedSize}`}> 
+  }
+}
+
+// server component
+export default function ProductPage({ searchParams }) {
+  const selectedColor = searchParams.color;
+  const selectedSize = searchParams.size;
+}
+```
+
 More advanced features to note here from the article [Managing Advanced Search Param Filtering in the Next.js App Router](https://aurorascharff.no/posts/managing-advanced-search-param-filtering-next-app-router).
 
 The issue for the search/filter: It all comes down to the way the Next.js router works. We click a category, but the URL does not update until the data fetching is resolved. The router is waiting for the server components to finish rendering on the server before it updates the URL. Since we are relying on the URL to be updated instantly, our implementation logic breaks.
