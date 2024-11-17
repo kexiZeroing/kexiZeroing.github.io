@@ -226,6 +226,8 @@ main();
 
 [Qwen 2.5 Code Interpreter](https://github.com/cfahlgren1/qwen-2.5-code-interpreter) running locally on your computer. It is a lightweight, offline-compatible code interpreter that allows users to execute code snippets in real-time. (Powered by Qwen, WebLLM, and Pyodide)
 
+[WebVM](https://webvm.io) is a virtual Linux environment running in the browser via WebAssembly. WebVM is powered by the CheerpX virtualization engine, which includes an x86-to-WebAssembly JIT compiler, a virtual block-based file system, and a Linux syscall emulator.
+
 ### VSCode Dev Containers
 https://code.visualstudio.com/docs/devcontainers/tutorial
 

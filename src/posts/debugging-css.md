@@ -111,7 +111,17 @@ updatedDate: "May 5 2024"
 
 - In order for the `postion: sticky` element to function correctly, it needs to have at least one of it's `top`, `right`, `left`, or `bottom` placement properties set. Also look for any `overflow` property set on any parents of the element. You can't use `overflow: hidden`, `overflow: auto`, or `overflow: scroll` on the parent of a `position: sticky` element.
 
-- If you are using `visible` for either `overflow-x` or `overflow-y` and something other than `visible` for the other, the `visible` value is interpreted as `auto`. (If one is set to `visible`, and the other to `auto` or `scroll`, then the `visible` is changed to `auto`.)
+- If you are using `visible` for either `overflow-x` or `overflow-y` and something other than `visible` for the other, the `visible` value is interpreted as `auto`. Say if one is set to `visible`, and the other to `auto` or `hidden`, then the `visible` is changed to `auto`.
+
+  ```css
+  .wrapper {
+    overflow-y: hidden;
+    /* browser will add this by default, resulting in clipping both sides. */
+    overflow-x: auto;
+  }
+  ```
+
+- This is where the `overflow: clip` becomes helpful. It’s supported by all major browsers. If you set `overflow-y` to `clip`. The `overflow-x` value will stay as is (`visible`). Now the clipping happens only on the y-axis.
 
 - Position `fixed` doesn’t work with `transform` CSS property. It happens because transform creates a new coordinate system and your `position: fixed` element becomes fixed to that transformed element.
 

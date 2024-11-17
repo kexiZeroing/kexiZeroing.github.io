@@ -448,6 +448,8 @@ Build beautiful website using Vue & Nuxt: https://github.com/unovue/inspira-ui, 
 
 Create full-stack apps with Nuxt: https://talks.soubiran.dev/2024-09-17/pragvue 
 
+Create a Vue.js Component Library: https://soubiran.dev/posts/the-simplest-method-to-create-a-vue-js-component-library
+
 ---
 
 ## Browsers related
