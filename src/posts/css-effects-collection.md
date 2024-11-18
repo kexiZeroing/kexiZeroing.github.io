@@ -712,7 +712,9 @@ https://codepen.io/chriscoyier/pen/eYBQamQ
   control.addEventListener('pointerdown', oncontroldown, false);
 
   document.querySelector('p').onpointerup = () => {
-    let selection = document.getSelection(), text = selection.toString();
+    let selection = document.getSelection();
+    let text = selection.toString();
+    
     if (text !== "") {
       let rect = selection.getRangeAt(0).getBoundingClientRect();
       control.style.top = `calc(${rect.top}px - 48px)`;

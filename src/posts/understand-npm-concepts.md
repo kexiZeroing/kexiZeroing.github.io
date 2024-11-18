@@ -5,7 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "Aug 26 2024"
+updatedDate: "Nov 18 2024"
 ---
 
 ### package.json and package-lock.json
@@ -25,6 +25,24 @@ updatedDate: "Aug 26 2024"
 > - `exports`, modern entry points, more flexible
 
 <img alt="package-code-entries" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/package-code-entries.png" width="700" />
+
+#### Benefits of `exports` field
+- **Protecting internal files:** Previously, consumers could import any file in a package, even internal ones. With `exports`, maintainers can explicitly define which files are accessible, establishing a clear public API and preventing unintended imports of internal files.
+
+- **Mapping subpaths to `dist` directory:** Package authors may prefer not to have `dist` in the import path for a simpler API. With `exports`, package subpaths can map directly inside the dist directory, allowing consumers to use cleaner imports like `import foo from 'pkg-a/util'` without complex publishing scripts for maintainers.
+
+- **Multi-format packages:** Packages can toggle entry points to resolve to different files for different environments (e.g., Node.js vs. browsers) and module types (e.g., CJS vs. ESM).
+
+```json
+{
+  "name": "pkg-a",
+  "main": "./file-a.js", // For legacy Node consumers
+  "exports": {
+    ".": "./file-a.js", // Loaded via `pkg-a`
+    "./subpath-entry": "./file-b.js" // Loaded via `pkg-a/subpath-entry`
+  }
+}
+```
 
 #### Read [How To Create An NPM Package](https://www.totaltypescript.com/how-to-create-an-npm-package) by Total TypeScript
 
