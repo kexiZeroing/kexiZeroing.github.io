@@ -184,6 +184,8 @@ A new tool for making and sharing delightful documents: https://leaflet.pub
 
 Grab the color palette from an image using just Javascript: https://github.com/lokesh/color-thief
 
+Make your PDFs look scanned: https://github.com/rwv/lookscanned.io
+
 ---
 
 ## CSS related

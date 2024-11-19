@@ -5,6 +5,7 @@ slug: awesome-prompts-from-lijigang-in-chinese
 description: ""
 added: "Nov 18 2024"
 tags: [AI]
+updatedDate: "Nov 19 2024"
 ---
 
 李继刚，被一些人称为[Prompt 之神](https://mp.weixin.qq.com/s/JT2oOG2SYw2pDYEHlEmcyQ)，在生成式 AI 技术和提示词工程领域中进行过很多探索和研究，以其高效、创新的提示技巧和实践闻名，对从业者和爱好者都非常有帮助。
@@ -238,4 +239,97 @@ tags: [AI]
 ;;; 使用说明：
 ;; 1. 初次执行时, 运行 (start) 函数
 ;; 2. 调用(哲学家 用户输入)来开始深度思考
+```
+
+理解这些提示词，需要对 Lisp 编程语言有一些了解。Lisp 是仅次于 Fortran 的第二古老的高级编程语言，名字来源于"LISt Processing"（列表处理）的缩写，最初设计用于人工智能研究。主要特点是**所有代码都是用括号包围的前缀表达式**。
+
+```lisp
+; => 在 Lisp 代码中是一种注释惯例，用来表示表达式的求值结果
+
+;; 前缀表达式
+(+ 1 2)          ; => 3
+(- 10 5)         ; => 5
+(* 4 3)          ; => 12
+(/ 15 3)         ; => 5
+
+;; 嵌套计算
+(+ (* 2 3) (- 10 5))  ; => 11
+
+;; 数学函数
+(abs -5)         ; => 5    绝对值
+(sqrt 16)        ; => 4    平方根
+
+;; 字符串创建和连接
+(setq str1 "Hello")
+(setq str2 "World")
+(concatenate 'string str1 " " str2)  ; => "Hello World"
+
+;; 字符串操作
+(string-upcase "hello")              ; => "HELLO"
+(string-capitalize "hello world")    ; => "Hello World"
+(subseq "Hello World" 0 5)           ; => "Hello"
+
+;; 全局变量
+(defvar *global-var* 10)  ; 定义全局变量
+(setq x 100)              ; 简单赋值
+
+;; 局部变量
+(let ((x 1)
+      (y 2))
+  (+ x y))        ; => 3
+
+;; let* 允许引用前面定义的变量
+(let* ((x 5)
+       (y (* x 2)))      ; y 可以使用 x 的值
+  (list x y))            ; => (5 10)
+
+;; if 语句
+(if (> 5 3)
+    "大于"            ; then 子句
+    "小于")           ; else 子句
+
+;; dotimes 循环
+(dotimes (i 3)        ; 执行 3 次
+  (print i))
+
+;; dolist 遍历列表
+(dolist (x '(1 2 3))
+  (print x))   
+
+;; 创建列表
+(list 1 2 3)          ; => (1 2 3)
+'(1 2 3)              ; => (1 2 3)
+
+;; 创建和访问
+(cons 1 '(2 3))        ; => (1 2 3)
+(car '(1 2 3))         ; => 1  第一个元素
+(cdr '(1 2 3))         ; => (2 3) 剩余元素
+(nth 1 '(1 2 3))       ; => 2  第n个元素
+ 
+;; 列表操作函数
+(append '(1 2) '(3 4)) ; => (1 2 3 4)
+(reverse '(1 2 3))     ; => (3 2 1)
+(length '(1 2 3))      ; => 3
+(remove 2 '(1 2 3 2))  ; => (1 3)
+
+;; 高阶函数
+;; mapcar (映射)
+(mapcar #'1+ '(1 2 3))         ; => (2 3 4)
+(mapcar #'+ '(1 2 3) '(4 5 6)) ; => (5 7 9)
+
+;; reduce (归约)
+(reduce #'+ '(1 2 3 4))       ; => 10
+
+;; 基本函数定义
+(defun square (x)
+  "计算平方"           ; 文档字符串
+  (* x x))
+
+;; 基本关键字参数
+(defun make-person (&key name age)
+  (list :name name :age age))
+
+(make-person :name "John" :age 25)  ; => (:name "John" :age 25)
+(make-person :age 25 :name "John")  ; 参数顺序无关
+(make-person)                       ; => (:name nil :age nil)
 ```
