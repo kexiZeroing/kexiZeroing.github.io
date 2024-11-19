@@ -14,7 +14,7 @@ While Node.js has been using the CommonJS standard for years and there are a num
 > History of module formats:
 > 1. **AMD (Asynchronous Module Definition):** This is primarily considered a browser-specific module format. Its key feature is asynchronous module loading, with modules wrapped in a `define()` call. It requires a dedicated loader to run, with RequireJS being the most commonly used one back in the day.
 > 2. **CJS (CommonJS):** This is the most common module format in the Node.js environment and was originally the only natively supported format in Node.js. It uses `module` and `exports` fetching modules synchronously.
-> 3. **UMD (Universal Module Definition):** Since AMD and CJS are incompatible with each other, but developers wanted a single codebase to work in both browser and Node.js, UMD was created. UMD wraps the module in an IIFE and includes logic to check for `define`, `module`, and other variables for compatibility.
+> 3. **UMD (Universal Module Definition):** Since AMD and CJS are incompatible with each other, but developers wanted a single codebase to work in both browser and Node.js, UMD was created. UMD wraps the module in an IIFE and includes logic to check for `define`, `module`, and other variables for compatibility. With a `.umd.js` extension, just try to put it in a `<script src=...` tag and see if it works.
 
 ### Exporting module features
 The first thing you need to do to get access to module features is export them. This is done using the `export` statement. The easiest way to use it is to place it in front of any items you want exported out of the module. A more convenient way of exporting all the items is to use a single `export` statement at the end of your module file, followed by a comma-separated list of the features you want to export wrapped in curly braces. You can **export functions, var, let, const, and classes**. They need to be top-level items; you can't use export inside a function.
@@ -170,7 +170,7 @@ In common module systems, such as CommonJS, or a module bundler like webpack, th
 
 Now many web developers are using JavaScript's native module syntax, but combining it with bare import specifiers, making their code unable to run on the web without per-application, ahead-of-time modification. We'd like to solve that, and bring these benefits to the web.
 
-When importing modules in scripts, if you don't use the `type=importmap` feature, then each module must be imported using a module specifier that is either an absolute or relative URL.
+When importing modules in scripts, if you don't use the `type="importmap"` feature, then each module must be imported using a module specifier that is either an absolute or relative URL.
 
 ```js
 import { name as squareName, draw } from "./shapes/square.js";
@@ -178,7 +178,11 @@ import { name as circleName } from "https://example.com/shapes/circle.js";
 
 // import from CDN, and no need for a build step
 // https://www.skypack.dev
-import React from 'https://cdn.skypack.dev/react'
+import React from "https://cdn.skypack.dev/react";
+
+// esm.sh is a modern CDN that allows you to import es6 modules from a URL
+// No build tools needed
+import Module from "https://esm.sh/PKG@SEMVER[/PATH]";
 ```
 
 [This proposal](https://github.com/WICG/import-maps) allows control over what URLs get fetched by JavaScript `import` statements. This allows "bare import specifiers", such as `import moment from "moment"`, to work. The mechanism for doing this is via an *import map* which can be used to control the resolution of module specifiers generally.
@@ -194,6 +198,8 @@ Today, `import moment from "moment"` throws, as such bare specifiers are reserve
 }
 </script>
 ```
+
+> A valid module specifier map is a JSON object that each value must be either a valid absolute URL or a valid URL string that starts with "/", "./", or "../".
 
 *Update at 2023-03-28:* [JavaScript import maps are now supported cross-browser](https://web.dev/import-maps-in-all-modern-browsers). A modern way to use ES modules is with the `<script type="importmap">` tag. This tag allows you to define a mapping of external module names to their corresponding URLs, which makes it easier to include and use external modules in your code.
 

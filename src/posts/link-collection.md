@@ -584,6 +584,8 @@ Let your Claude able to think: https://github.com/richards199999/Thinking-Claude
 
 JavaScript tokenizer for LLaMA 1 and LLaMA 2: https://github.com/belladoreai/llama-tokenizer-js
 
+Extracting structured data from PDFs using AI: https://github.com/DocumindHQ/documind
+
 ---
 
 ## Machine Learning

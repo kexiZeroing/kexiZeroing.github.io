@@ -209,7 +209,8 @@ const ffmpeg = createFFmpeg({ log: true });
 })();
 ```
 
-> [ffmpeg-online](https://ffmpeg-online.vercel.app) is an online version of ffmpeg based on `ffmpeg.wasm`, which can be used to process audio and video online. The most straightforward example `ffmpeg -i input.mp4 output.avi` is used to convert an input media file to a different format.
+> - [ffmpeg-online](https://ffmpeg-online.vercel.app) is an online version of ffmpeg based on `ffmpeg.wasm`, which can be used to process audio and video online. The most straightforward example `ffmpeg -i input.mp4 output.avi` is used to convert an input media file to a different format.
+> - [ffmpeg-video-processing](https://mayallo.com/video-processing-using-ffmpeg-nodejs) shares examples using FFmpeg to optimize uploaded videos.
 
 A **[codec](https://api.video/what-is/codec)** is a hardware or software tool that is used to compress (and decompress) video files. Codec is a blend of coder/decoder. Common video codecs include h.264, h.265, VP8, VP9 and AV1. An efficient codec can deliver high-quality video at lower bitrates.
 
