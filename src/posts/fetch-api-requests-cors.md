@@ -5,7 +5,7 @@ slug: fetch-api-requests-and-cors
 description: ""
 added: "Aug 9 2020"
 tags: [js, web]
-updatedDate: "Nov 3 2024"
+updatedDate: "Nov 20 2024"
 ---
 
 ## Fetch API
@@ -519,6 +519,10 @@ By default, in cross-site XMLHttpRequest or Fetch invocations, browsers will not
 ### `integrity` and `crossorigin` in CDN links
 `integrity` defines the hash value of a resource (like a checksum) that has to be matched to make the browser execute it. The hash ensures that the file was unmodified and contains expected data. *With an `integrity` set on an external origin and a missing `crossorigin` the browser will choose to 'fail-open', as if the `integrity` attribute was not set.*
 
-The `crossorigin` attribute, valid on the `<audio>`, `<img>`, `<link>`, `<script>`, and `<video>` elements, provides support for CORS, defining how the element handles cross-origin requests. `crossorigin="anonymous"` means don't send credentials. Setting the attribute name to an empty value, like `crossorigin` or `crossorigin=""`, is the same as `anonymous`. There are actually three possible values for the `crossorigin` attribute: `anonymous`, `use-credentials`, and an "missing value default" that can only be accessed by omitting the attribute. The default value causes the browser to skip CORS entirely, which is the normal behavior (`Sec-Fetch-Mode: no-cors`).
+The `crossorigin` attribute, valid on the `<audio>`, `<img>`, `<link>`, `<script>`, and `<video>` elements, provides support for CORS, defining how the element handles cross-origin requests. There are actually three possible values for the `crossorigin` attribute: `anonymous`, `use-credentials`, and an "missing value default" that can only be accessed by omitting the attribute. The default value causes the browser to skip CORS entirely, which is the normal behavior (`Sec-Fetch-Mode: no-cors`).
 
-For example, trying to preload font files without the `crossorigin` attribute in Chromium will result in the browser downloading the font file twice, and a warning in the console will appear: *A preload for `http://example.com/fonts/xxx.woff2’ is found, but is not used because the request credentials mode does not match. Consider taking a look at crossorigin attribute.*
+**When to use `crossorigin`?**
+
+Developers think "this request is going to another origin, so it must need the `crossorigin` attribute". But that’s not what the attribute is for—`crossorigin` is used to define the CORS policy for the request. `crossorigin=anonymous` (or a bare `crossorigin` attribute) will never exchange any user credentials (e.g. cookies); `crossorigin=use-credentials` will always exchange credentials. Unless you know that you need it, you almost never need the latter. But when do we use the former?
+
+If the resulting request for a file would be CORS-enabled, you would need `crossorigin` on the corresponding preconnect. In DevTools, if you look at the resource’s request headers: `Sec-Fetch-Mode: no-cors`, the preconnect doesn’t currently need a `crossorigin` attribute. It does need `crossorigin` if it’s marked `Sec-Fetch-Mode: cors`.

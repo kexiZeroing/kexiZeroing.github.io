@@ -263,6 +263,10 @@ Transpiling is an expensive process and many projects have thousands of lines of
 2. 项目 A 的上线脚本中会先进入组件库 C，执行 `npm build` 和 `npm link`，之后再进入项目 A 本身，执行 `npm link C`，`npm build` 等项目本身的构建。
 3. 项目 C 会在本地构建（静态资源传七牛），远程仓库中包括 `server-static` 存放 build 后的静态文件，它的上线脚本里并不含构建过程，只是在拷贝仓库中的 `server-static` 目录。因为源文件中会有对组件库的引用 `import foo from 'C/dist/foo.js`，本地 build 时组件库已经被打包进去。
 
+The build job uses Kaniko (a tool for building Docker images in Kubernetes). Its main task is to build a Docker image.
+- For master, dev, or tagged commits: builds and pushes the Docker image
+- For other branches: builds but doesn't push the image
+
 ```sh
 prefixOss=`echo ${CI_COMMIT_REF_NAME} | sed -e "s/\_/-/g" -e "s/\//-/g"`
 
