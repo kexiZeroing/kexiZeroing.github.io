@@ -454,6 +454,8 @@ Create full-stack apps with Nuxt: https://talks.soubiran.dev/2024-09-17/pragvue
 
 Create a Vue.js Component Library: https://soubiran.dev/posts/the-simplest-method-to-create-a-vue-js-component-library
 
+3D page flip effect for Vue2 and Vue3: https://github.com/ts1/flipbook-vue
+
 ---
 
 ## Browsers related

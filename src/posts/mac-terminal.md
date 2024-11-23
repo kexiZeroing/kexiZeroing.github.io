@@ -45,8 +45,9 @@ There are two commands specific to macOS that connect the clipboard closer to th
 
 > `>` sends stream to a file (overwrite) and `>>` appends stream to a file, e.g., ls > a.txt
 > 
-> `echo "" > a.txt` will still give you a file with one character (a newline.)  
+> `echo "" > a.txt` will still give you a file with one character (a newline).  
 > `cat /dev/null > a.txt` should clean all contents of a file.
+> `> /dev/null` means redirect the output to `/dev/null`, which is a special file that discards all data written to it (essentially throwing away the output).
 
 ## The '[' Marks
 Using Terminal you may notice that there is a small gray square brackets before the prompt. They are called 'Marks' and every command that is executed automatically gets marked. You can quickly scroll the Terminal output to previous marks with `Cmd + Up Arrow` and to the next mark with `Cmd + Down Arrow`. You can hide them with 'Hide Marks' from the 'View' menu.
@@ -344,6 +345,10 @@ Open Activity Monitor, you’ll see a column named “Kind”. If the app says �
 | cat /etc/resolv.conf | DNS 客户机配置文件
 | nohup ping baidu.com & | 使命令永久的在后台执行（不挂断且前台可交互）
 |
+
+> `nohup` command allows a process to continue running in the background even after the terminal session is closed. Normally, when you close a terminal, all processes started in that terminal are terminated. `nohup` prevents this.
+> 
+> `&` at the end means run the entire command in the background as a background process.
 
 System Information Library for Node.js: https://systeminformation.io
 ```js
