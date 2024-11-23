@@ -10,6 +10,8 @@ updatedDate: "Mar 30 2024"
 
 When we do search for a string in a notepad file, browser, or database, pattern searching algorithms are used to show the search results. Boyer-Moore String Search is one such pattern searching algorithm, meaning it has large area of practical use.
 
+> Btw, BM25, or Best Match 25, is a widely used algorithm for full text search. It is the default in Elasticsearch and SQLite.
+
 String matching - Search for a string (pattern) in a large body of text  
 Input:
 - T: The text being searched within, length is n

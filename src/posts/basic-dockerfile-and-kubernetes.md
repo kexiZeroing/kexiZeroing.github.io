@@ -286,6 +286,14 @@ spec:
           averageUtilization: 50
 ```
 
+A typical modern cloud-native application deployment on Kubernetes with AWS services:
+
+```
+User Request → CloudFront (CDN) → Application Load Balancer (ALB) → Ingress → Service → Pod
+```
+
+When a user makes a request to your application, it first reaches CloudFront (CDN) which caches and serves content from the nearest edge location. The request then passes to the Application Load Balancer (ALB), which distributes traffic across multiple targets. The ALB forwards the request to the Kubernetes Ingress, which uses rules to route traffic based on the URL path. The Ingress directs traffic to the appropriate Kubernetes Service (ClusterIP), which provides internal load balancing within the cluster. Finally, the Service forwards the request to one of the available Pods managed by a Deployment, where your application code runs and processes the request, sending the response back through the same path to the user.
+
 ## Basic Terraform steps
 The process starts with `terraform init` **(Write the Blueprint)**, Terraform downloads all necessary providers and modules - think of it as collecting all the right building blocks before starting construction.
 

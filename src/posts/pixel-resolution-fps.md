@@ -83,10 +83,6 @@ el.style.display = 'none'
 // No. All this code takes place before a rendering is ever triggered.
 ```
 
-Tools:
-- Performance monitor stats.js: https://github.com/mrdoob/stats.js
-- Monitor for JS Heap Size memory-stats.js: https://github.com/paulirish/memory-stats.js
-
 ## requestIdleCallback
 The `window.requestIdleCallback()` method queues a function to be called during a browser's idle periods. This enables developers to perform background and low priority work on the main event loop, without impacting latency-critical events such as animation and input response. Functions are generally called in first-in-first-out order; however, callbacks which have a timeout specified may be called out-of-order if necessary in order to run them before the timeout elapses.
 

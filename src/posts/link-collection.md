@@ -76,6 +76,8 @@ Let Me DuckDuckGo That For You: https://lmddgtfy.net
 
 A collective list of free APIs: https://github.com/public-apis/public-apis
 
+Monitor for JS Heap Size memory-stats.js: https://github.com/paulirish/memory-stats.js
+
 Console Utilities API reference: https://developer.chrome.com/docs/devtools/console/utilities/
 
 Tips to get more comfortable with DevTools: https://devtoolstips.org/
@@ -257,6 +259,10 @@ The Collection of CSS-only Shapes: https://css-shape.com
 Styling Tables the Modern CSS Way: https://piccalil.li/blog/styling-tables-the-modern-css-way
 
 Visual design rules you can safely follow every time: https://anthonyhobday.com/sideprojects/saferules
+
+Easing Wizard - CSS easing functions made easy: https://easingwizard.com
+
+Amazing CSS in 2024: https://nerdy.dev/amazing-css-in-2024
 
 ---
 
