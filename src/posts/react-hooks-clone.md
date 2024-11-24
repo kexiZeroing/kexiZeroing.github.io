@@ -5,7 +5,7 @@ slug: react-hooks-clone-and-related-concepts
 description: ""
 added: "Sep 12 2020"
 tags: [react, code]
-updatedDate: "Oct 9 2024"
+updatedDate: "Nov 24 2024"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -162,6 +162,26 @@ When you want a component to “remember” some information, but you don’t wa
 - You can ask React to give you a ref by calling the `useRef` Hook.
 - Like state, refs let you retain information between re-renders of a component.
 - Unlike state, setting the ref’s current value does not trigger a re-render.
+
+#### `ref` callback function
+Instead of a ref object, you may pass a function to the ref attribute. When the `<div>` DOM node is added to the screen, React will call your `ref` callback with the DOM node as the argument. When that `<div>` DOM node is removed, React will call your `ref` callback with null. React will also call your `ref` callback whenever you pass a different `ref` callback.
+
+```tsx
+const scroller = (node: HTMLDivElement | null) => {
+  node?.scrollIntoView({ behavior: "smooth" });
+};
+
+const ChatWindow = () => {
+  return (
+    <>
+      {Array.from(Array(100).keys()).map((e) => (
+        <div key={e}>Chat message: {e}</div>
+      ))}
+      <div ref={scroller} />
+    </>
+  );
+};
+```
 
 ### Higher Order Components
 HOCs are wrapper components that help provide additional functionality to existing components. While hooks probably replaced most of shared logic concerns, there are still use cases where higher-order components could be useful. For example, you want to fire analytics event on every click of every button, dropdown and link everywhere.

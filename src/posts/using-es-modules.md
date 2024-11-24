@@ -5,7 +5,7 @@ slug: using-es-modules
 description: ""
 added: "Aug 12 2020"
 tags: [js]
-updatedDate: "Oct 25 2024"
+updatedDate: "Nov 24 2024"
 ---
 
 ## ES Modules
@@ -202,6 +202,11 @@ Today, `import moment from "moment"` throws, as such bare specifiers are reserve
 > A valid module specifier map is a JSON object that each value must be either a valid absolute URL or a valid URL string that starts with "/", "./", or "../".
 
 *Update at 2023-03-28:* [JavaScript import maps are now supported cross-browser](https://web.dev/import-maps-in-all-modern-browsers). A modern way to use ES modules is with the `<script type="importmap">` tag. This tag allows you to define a mapping of external module names to their corresponding URLs, which makes it easier to include and use external modules in your code.
+
+### Importing a frontend Javascript library without a build system
+It's a hard problem now to take an NPM library and figure out how to download it and use it from a `<script>` tag without needing to involve some sort of convoluted build system.
+
+Read: https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
 
 ## Getting started with Node.js ESM
 In May, 2020, Node.js v12.17.0 made ESM support available to all Node.js applications without experimental flags. Read more at https://formidable.com/blog/2021/node-esm-and-exports

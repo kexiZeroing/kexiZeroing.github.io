@@ -410,6 +410,8 @@ React and the Vanishing Network: https://vanishing-network.epicreact.dev
 
 UI Library for Design Engineers: https://github.com/magicuidesign/magicui
 
+Our Journey with Caching: https://nextjs.org/blog/our-journey-with-caching
+
 ---
 
 ## Vue and Vite ecosystem
