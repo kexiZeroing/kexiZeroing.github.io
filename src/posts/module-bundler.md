@@ -5,7 +5,7 @@ slug: module-bundler-and-code-transformation
 description: ""
 added: "Oct 9 2021"
 tags: [code, js]
-updatedDate: "Oct 28 2024"
+updatedDate: "Nov 25 2024"
 ---
 
 ## Write your own module bundler
@@ -147,13 +147,15 @@ module.exports = {
 };
 ```
 
-> Exploring ASTs:
-> - Write a custom babel transformation: https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation
-> - Create a Custom ESLint Rule: https://ryankubik.com/blog/eslint-internal-state
-> - Babel Plugin Handbook: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
-> - Write Code to Rewrite Your Code using jscodeshift: https://www.toptal.com/javascript/write-code-to-rewrite-your-code
+We can think about the *abstract syntax tree* as the “final project” of the front-end of the compiler. It’s the most important part, because its the last thing that the front-end has to show for itself. The technical term for this is called the *intermediate code representation* or the *IR*. An AST is the most common form of IR.
 
-> We can think about the *abstract syntax tree* as the “final project” of the front-end of the compiler. It’s the most important part, because its the last thing that the front-end has to show for itself. The technical term for this is called the *intermediate code representation* or the *IR*. An AST is the most common form of IR.
+> `@babel/parser`, Babel’s official parser, was born as a fork of Acorn, but it has been completely rewritten. After changing its name from `babylon`, the plug-in system it built was very powerful. Both Webpack and Rollup depend on the Acorn parser. ESBuild presumably has its own, since it's written in Go. Rust-based tools like SWC and OXC roll their own.
+
+Exploring ASTs:
+- Write a custom babel transformation: https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation
+- Create a Custom ESLint Rule: https://ryankubik.com/blog/eslint-internal-state
+- Babel Plugin Handbook: https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md
+- Write Code to Rewrite Your Code using jscodeshift: https://www.toptal.com/javascript/write-code-to-rewrite-your-code
 
 ## Write a Webpack loader
 A loader is a function that accepts a source code and returns a transformed source code.
