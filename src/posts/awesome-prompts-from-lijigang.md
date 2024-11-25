@@ -338,6 +338,22 @@ updatedDate: "Nov 19 2024"
 (length '(1 2 3))      ; => 3
 (remove 2 '(1 2 3 2))  ; => (1 3)
 
+;; 点对语法
+;; 点对用于创建关联
+(a . b)  ; 等价于 (cons 'a 'b)
+
+;; 创建关联列表
+(setq person 
+      (list (cons 'name "John")
+            (cons 'age 30)
+            (cons 'city "New York")))
+
+;; 等价的点对语法
+(setq person 
+      (list (name . "John")
+            (age . 30)
+            (city . "New York")))
+
 ;; 高阶函数
 ;; (mapcar #'函数名 列表)
 (mapcar #'1+ '(1 2 3))         ; => (2 3 4)
