@@ -260,3 +260,20 @@ updatedDate: "May 5 2024"
 - The `white-space` CSS property sets how white space inside an element is handled. By default, the sequences of white space are collapsed. Newline characters in the source are handled the same as other white space. Use `white-space: pre-wrap;` to preserve spaces, tabs, and new lines.
 
 - CSS animations are pretty sweet, but they typically require explicit sizes, you couldn't use the intrinsic sizing keywords like `auto`, `min-content`, or `fit-content`. [From Chrome 129](https://developer.chrome.com/docs/css-ui/animate-to-height-auto), you can declare `interpolate-size: allow-keywords` on `:root` to enable transitioning to and from intrinsic sizing keywords for the entire document.
+
+- CSS background image on background color.
+
+```css
+{
+  background-image: url('images/foo.png');
+  background-color: #6DB3F2;
+}
+
+{
+  background: url('images/foo.png'), #6DB3F2;
+}
+```
+
+**The second one is not shorthand for the first.** In the first method, last property (color) takes precedence. The use of the comma in the background property sets multiple backgrounds which get layered on top of each other. The image will be on top, color underneath (opposite of the first method).
+
+> MDN docs: You can apply multiple backgrounds to elements. These are layered atop one another with the first background you provide on top and the last background listed in the back. Only the last background can include a background color. You can do this with both the shorthand `background` property and the individual properties except for `background-color`.

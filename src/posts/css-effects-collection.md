@@ -25,6 +25,7 @@ updatedDate: "Sep 24 2024"
 - [Glass folder effect](#glass-folder-effect)
 - [The Periodic Table](#the-periodic-table)
 - [Selection menu](#selection-menu)
+- [Light/Dark modes baiscs](#lightdark-modes-baiscs)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -730,4 +731,48 @@ https://codepen.io/chriscoyier/pen/eYBQamQ
     }
   }
 </script>
+```
+
+### Light/Dark modes baiscs
+
+```css
+html {
+  --bg: black;
+  --text: #ffdbdb;
+
+  --link-color: #4ac6ff;
+  --link-color-hover: #9ce0ff;
+  --bright-color: white;
+  --faded-color: #373232;
+}
+
+@media (prefers-color-scheme: light) {
+  html {
+    --bg: white;
+    --text: #323232;
+
+    --link-color: #068dcb;
+    --link-color-hover: #67cfff;
+    --bright-color: black;
+    --faded-color: #dedede;
+  }
+}
+```
+
+`color-scheme: light dark;` tells the browser that the element supports both light and dark color modes, with light mode being the default.
+
+The `light-dark()` CSS function is a relatively new color function that allows you to specify different colors for light and dark color schemes. It provides a more direct way to handle color variations between light and dark modes. It prevents you from having to use the `@media` query and re-declare variables.
+
+```css
+:root {
+  color-scheme: light dark; /* Supports both, light is default */
+
+  --light: #292524;
+  --dark: #f5f5f4;
+}
+
+body {
+  color: light-dark(var(--light), var(--dark));
+  background-color: light-dark(var(--dark), var(--light));
+}
 ```
