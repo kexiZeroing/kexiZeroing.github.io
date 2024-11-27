@@ -5,7 +5,7 @@ slug: learn-from-advent-of-vue-2022
 description: ""
 added: "Dec 27 2022"
 tags: [vue]
-updatedDate: "July 22 2024"
+updatedDate: "Nov 27 2024"
 ---
 
 ### Code Structure
@@ -339,6 +339,52 @@ const { playing: videoPlaying} = useMediaControls(videoRef, {
   </SlotsScoped>
 </template>
 ```
+
+### Vue router and Suspense
+
+```vue
+<template>
+  <nav>
+    <router-link to="/">first</router-link> /
+    <router-link to="/second">second</router-link>
+  </nav>
+  <main>
+    <RouterView v-slot="{ Component }">
+      <template v-if="Component">
+        <KeepAlive>
+          <Suspense>
+            <!-- main content -->
+            <component :is="Component"></component>
+
+            <!-- loading state -->
+            <template #fallback> Loading... </template>
+          </Suspense>
+        </KeepAlive>
+      </template>
+    </RouterView>
+  </main>
+</template>
+
+<script>
+import { watchEffect } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+export default {
+  setup() {
+    const route = useRoute()
+    const router = useRouter()
+    // Route isn't reactive
+    watchEffect(() => console.log('Route changed', route))
+    // But its properties are
+    watchEffect(() => console.log('Path changed', route.path))
+    // useRouter also works
+    watchEffect(() => console.log('[Router] Path changed', router.currentRoute.value))
+  },
+}
+</script>
+```
+
+`v-slot="{ Component }"` exposes a scoped slot, where `Component` is the dynamically loaded component for the current route. The scoped slot gives you more programmatic control over the rendering process, making it easier to add transitions, loading states, or additional wrapping logic around your route components.
 
 ### Renderless Components
 Renderless components can be an alternative to composables when finding ways to design reusable logic in your Vue apps. As you might guess, they don't render anything. Instead, they handle all the logic inside a script section and then expose properties through a scoped slot.
