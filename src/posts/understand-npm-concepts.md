@@ -5,7 +5,7 @@ slug: understand-npm-concepts
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "Nov 18 2024"
+updatedDate: "Nov 27 2024"
 ---
 
 ### package.json and package-lock.json
@@ -24,25 +24,43 @@ updatedDate: "Nov 18 2024"
 > - `module`, ESM-specific entry point
 > - `exports`, modern entry points, more flexible
 
-<img alt="package-code-entries" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/package-code-entries.png" width="700" />
-
 #### Benefits of `exports` field
+
+```json
+// package.json
+{
+  "name": "my-package",
+  "type": "module",
+  "exports": {
+    ".": {
+      // Entry-point for `import "my-package"` in ESM
+      "import": {
+        // Where TypeScript will look
+        "types": "./types/esm/index.d.ts",
+        // Where Node.js will look
+        "default": "./esm/index.js"
+      },
+      // Entry-point for `require("my-package") in CJS
+      "require": {
+        "types": "./types/commonjs/index.d.cts",
+        "default": "./commonjs/index.cjs"
+      },
+    }
+  },
+  // Fall-back for older versions of TypeScript
+  "types": "./types/index.d.ts",
+  // CJS fall-back for older versions of Node.js
+  "main": "./commonjs/index.cjs"
+}
+```
+
+By default, TypeScript overlays the same rules with import conditions – if you write an `import` from an ES module, it will look up the `import` field, and from a CommonJS module, it will look at the `require` field. If it finds them, it will look for a corresponding declaration file. If you need to point to a different location for your type declarations, you can add a `"types"` import condition. Note that the `"types"` condition should always come first in `"exports"`.
+
 - **Protecting internal files:** Previously, consumers could import any file in a package, even internal ones. With `exports`, maintainers can explicitly define which files are accessible, establishing a clear public API and preventing unintended imports of internal files.
 
 - **Mapping subpaths to `dist` directory:** Package authors may prefer not to have `dist` in the import path for a simpler API. With `exports`, package subpaths can map directly inside the dist directory, allowing consumers to use cleaner imports like `import foo from 'pkg-a/util'` without complex publishing scripts for maintainers.
 
 - **Multi-format packages:** Packages can toggle entry points to resolve to different files for different environments (e.g., Node.js vs. browsers) and module types (e.g., CJS vs. ESM).
-
-```json
-{
-  "name": "pkg-a",
-  "main": "./file-a.js", // For legacy Node consumers
-  "exports": {
-    ".": "./file-a.js", // Loaded via `pkg-a`
-    "./subpath-entry": "./file-b.js" // Loaded via `pkg-a/subpath-entry`
-  }
-}
-```
 
 #### Read [How To Create An NPM Package](https://www.totaltypescript.com/how-to-create-an-npm-package) by Total TypeScript
 

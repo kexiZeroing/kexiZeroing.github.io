@@ -5,7 +5,7 @@ slug: debugging-css
 description: ""
 added: "Oct 10 2021"
 tags: [css]
-updatedDate: "May 5 2024"
+updatedDate: "Nov 27 2024"
 ---
 
 - A fundamental concept for CSS layout is inline vs. block elements. Inline means elements only take up the space they need, and do not affect flow. Applying `margin` or `padding` to an inline element will only work in the "inline" direction (left/right) not the "block" direction (top/bottom).
@@ -260,6 +260,27 @@ updatedDate: "May 5 2024"
 - The `white-space` CSS property sets how white space inside an element is handled. By default, the sequences of white space are collapsed. Newline characters in the source are handled the same as other white space. Use `white-space: pre-wrap;` to preserve spaces, tabs, and new lines.
 
 - CSS animations are pretty sweet, but they typically require explicit sizes, you couldn't use the intrinsic sizing keywords like `auto`, `min-content`, or `fit-content`. [From Chrome 129](https://developer.chrome.com/docs/css-ui/animate-to-height-auto), you can declare `interpolate-size: allow-keywords` on `:root` to enable transitioning to and from intrinsic sizing keywords for the entire document.
+
+- If you wanted to pause a CSS Keyframe animation using JavaScript, how would you do it? You can use the element’s `getAnimations` method to get an array of all the animations on the element. From there you can loop through the array and call the `pause()` method on each animation.
+
+```js
+btn.addEventListener("click", () => {
+  const animations = document.querySelector(".circle")
+    .getAnimations();
+  
+  if (btn.textContent === "Pause Animation") {
+    animations.forEach((animation) => {
+      animation.pause();
+    });
+    btn.textContent = "Play Animation";
+  } else {
+    animations.forEach((animation) => {
+      animation.play();
+    });
+    btn.textContent = "Pause Animation";
+  }
+});
+```
 
 - CSS background image on background color.
 

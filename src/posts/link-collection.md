@@ -188,6 +188,8 @@ Grab the color palette from an image using just Javascript: https://github.com/l
 
 Make your PDFs look scanned: https://github.com/rwv/lookscanned.io
 
+A JavaScript text differencing implementation: https://github.com/kpdecker/jsdiff
+
 ---
 
 ## CSS related
@@ -412,6 +414,8 @@ UI Library for Design Engineers: https://github.com/magicuidesign/magicui
 
 Our Journey with Caching: https://nextjs.org/blog/our-journey-with-caching
 
+A component to transition, format, and localize numbers: https://github.com/barvian/number-flow
+
 ---
 
 ## Vue and Vite ecosystem
@@ -514,7 +518,7 @@ Catching up on the weird world of LLMs: https://simonwillison.net/2023/Aug/3/wei
 
 [1hr Talk] Intro to Large Language Models: https://www.youtube.com/watch?v=zjkBMFhNj_g
 
-Vercel AI SDK: https://sdk.vercel.ai/docs
+Vercel AI SDK Cookbook: https://sdk.vercel.ai/cookbook
 
 AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel/ai-chatbot
 
@@ -597,6 +601,8 @@ Let your Claude able to think: https://github.com/richards199999/Thinking-Claude
 JavaScript tokenizer for LLaMA 1 and LLaMA 2: https://github.com/belladoreai/llama-tokenizer-js
 
 Extracting structured data from PDFs using AI: https://github.com/DocumindHQ/documind
+
+Model Context Protocol Quickstart: https://glama.ai/blog/2024-11-25-model-context-protocol-quickstart
 
 ---
 
