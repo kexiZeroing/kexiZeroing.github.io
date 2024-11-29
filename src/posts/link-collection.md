@@ -190,6 +190,8 @@ Make your PDFs look scanned: https://github.com/rwv/lookscanned.io
 
 A JavaScript text differencing implementation: https://github.com/kpdecker/jsdiff
 
+Log in the node terminal from the browser: https://github.com/patak-dev/vite-plugin-terminal
+
 ---
 
 ## CSS related

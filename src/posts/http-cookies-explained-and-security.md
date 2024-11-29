@@ -104,6 +104,28 @@ A good test string is `>'>"><img src=x onerror=alert(0)>`. If your application d
 
 It’s recommended to avoid storing any sensitive information in local storage where authentication would be assumed. You can trivially read all data stored in local storage with `Object.entries(localStorage)`. This means if your website is vulnerable to XSS attacks, where a third party can run arbitrary scripts, your users’ tokens can be easily stolen. Cookies, on the other hand, can’t be read by client-side JS if you add the `HttpOnly` flag.
 
+Store data inside of your users browser: https://rxdb.info/articles/localstorage-indexeddb-cookies-opfs-sqlite-wasm.html
+- Cookies
+- LocalStorage (limited by a 5MB storage cap)
+- IndexedDB
+- OPFS (native browser storage API that allows web applications to manage files)
+- WASM SQLite
+
+```js
+function getLocalStorageSize() {
+  let totalSize = 0;
+  for (let key in localStorage) {
+    if (localStorage.hasOwnProperty(key)) {
+      const item = localStorage.getItem(key);
+      // The `size` read-only property of the Blob returns 
+      // the number of bytes of data contained within the Blob.
+      totalSize += item ? new Blob([item]).size : 0;
+    }
+  }
+  return Math.round(totalSize / 1024) + ' KB';
+}
+```
+
 ### Content Security Policy
 Configuring Content Security Policy involves adding the `Content-Security-Policy` HTTP header to a web page and giving it values to control what resources the user agent is allowed to load for that page. If the site doesn't offer the CSP header, browsers likewise use the standard same-origin policy. A properly designed Content Security Policy helps protect a page against a cross-site scripting attack. There are specific directives for a wide variety of types of items, so that each type can have its own policy, including fonts, frames, images, audio and video media, scripts, and workers.
 
