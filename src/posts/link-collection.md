@@ -192,6 +192,8 @@ A JavaScript text differencing implementation: https://github.com/kpdecker/jsdif
 
 Log in the node terminal from the browser: https://github.com/patak-dev/vite-plugin-terminal
 
+Share your screen with one simple room code: https://github.com/tonghohin/screen-sharing
+
 ---
 
 ## CSS related
@@ -466,7 +468,7 @@ Build beautiful website using Vue & Nuxt: https://github.com/unovue/inspira-ui, 
 
 Create full-stack apps with Nuxt: https://talks.soubiran.dev/2024-09-17/pragvue 
 
-Create a Vue.js Component Library: https://soubiran.dev/posts/the-simplest-method-to-create-a-vue-js-component-library
+The Complete Guide to Building a Vue.js Component Library: https://soubiran.dev/series/the-complete-guide-to-building-a-vue-js-component-library
 
 3D page flip effect for Vue2 and Vue3: https://github.com/ts1/flipbook-vue
 

@@ -237,6 +237,13 @@ After committing several times, you realize that you need to create `.gitignore`
 - Use `git push origin v1.1.0` to push a particular tag, or `git push --tags` if you want to push all tags.
 - `git push origin :tagname` to delete a remote tag, and if you also need to delete the local tag, use `git tag --delete tagname`.
 
+## git submodules
+A git submodule is a full repo that’s been nested inside another repo. Any repo can be a submodule of another. Submodules can only be pinned to a specific commit. This is because a submodule isn’t a package; it’s code that you have embedded in another repo, and git wants you to be precise.
+
+Run `git submodule init` to initialize the submodules. This doesn’t actually download them, though. Run `git submodule update` to actually pull the submodules. Just do `git submodule update --init`, which initializes any submodules and updates them in one step.
+
+How do you make webapp point at the new commit? You can go into webapp, then `cd library`, and just do `git pull` in there. When you cd back into webapp, if you `git diff` you’ll see that webapp points to the newest branch of library. You can commit that.
+
 ## git lfs
 GitHub limits the size of files allowed in repositories. If you attempt to add or update a file that is larger than 50 MiB, you will receive a warning from Git. GitHub blocks files larger than 100 MiB. To track files beyond this limit, you must use Git Large File Storage (Git LFS). Git LFS handles large files by storing references to the file in the repository, but not the actual file itself.
 

@@ -88,7 +88,7 @@ For the normal `man` page, this special display mode is actually controlled by t
 > - `cat` show the contents of file, which is used for relatively small files.
 > - `head` show the first part of the file. `head -n 3 <filename>` prints first three lines.
 > - `tail` show the last part of the file.
-> - `tail -f` show the text appended to the file as the file grows.
+> - `tail -f /some/log/file` show the text appended to the file as the file grows.
 > - `less` show contents of file one screen at a time. (`more` is an old utility, just use `less` and forget about `more`)
 
 ## grep
