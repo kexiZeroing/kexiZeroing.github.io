@@ -610,6 +610,8 @@ Extracting structured data from PDFs using AI: https://github.com/DocumindHQ/doc
 
 Model Context Protocol Quickstart: https://glama.ai/blog/2024-11-25-model-context-protocol-quickstart
 
+A collection of MCP servers: https://github.com/punkpeye/awesome-mcp-servers
+
 ---
 
 ## Machine Learning

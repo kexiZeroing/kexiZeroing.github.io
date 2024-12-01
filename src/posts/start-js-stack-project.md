@@ -111,6 +111,24 @@ For example, [Emotion](https://github.com/emotion-js/emotion) is a flexible CSS-
 > 1. Tailwind CSS is incredibly performance focused and aims to produce the smallest CSS file possible by only generating the CSS you are actually using in your project.
 > 2. The way Tailwind scans your source code for classes is intentionally very simple — we don’t actually parse or execute any of your code in the language it’s written in, we just use regular expressions to extract every string that could possibly be a class name. (Don’t construct class names dynamically)
 
+```js
+// What `twMerge` and `clsx` solve
+// `tailwind-merge` intelligently merges conflicting Tailwind classes.
+// twMerge('px-2 py-1 bg-red', 'p-3 bg-[#B91C1C]');
+// 
+// But some developers prefer to use an object-based syntax for conditional classes
+// `clsx` is generally used to construct className strings conditionally.
+// clsx({ foo:true, bar:false, baz:isTrue() });
+//
+// Combine twMerge and clsx to a single `cn` (short for "class names") function
+import { clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs))
+}
+```
+
 [Lightning CSS](https://lightningcss.dev) is an extremely fast CSS parser, transformer, and minifier written in Rust. It lets you use modern CSS features and future syntax today. Features such as CSS nesting, custom media queries, high gamut color spaces, logical properties, and new selector features are automatically converted to more compatible syntax based on your browser targets. Lightning CSS is used by Vite, and soon by Tailwind and Next.js. Tools like `postcss` and `autoprefixer` are being replaced by faster, all-in-one Rust toolchains.
 
 Lightning CSS can be used as a library from JavaScript or Rust, or from a standalone CLI. It can also be wrapped as a plugin in other build tools, and it is built into Parcel out of the box. For example, as a standalone CLI, it can be used to compile, minify, and bundle CSS files: `lightningcss --minify --bundle --targets 'defaults' input.css -o output.css`.
