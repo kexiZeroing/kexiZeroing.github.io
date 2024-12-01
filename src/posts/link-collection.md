@@ -436,6 +436,8 @@ Collection of essential Vue Composition Utilities: https://vueuse.org
 
 VitePress - Vite & Vue Powered Static Site Generator: https://vitepress.vuejs.org
 
+Fast and beautiful interactive component playgrounds, powered by Vite: https://histoire.dev
+
 Vue Composables putting your components in motion: https://github.com/vueuse/motion
 
 Declarative ThreeJS using Vue Components: https://tresjs.org

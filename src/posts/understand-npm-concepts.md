@@ -234,9 +234,11 @@ You can find the `npm-debug.log` file in your `.npm` directory. To find your `.n
 ### npm init and exec
 `npm init <initializer>` can be used to set up a npm package. `initializer` in this case is an npm package named `create-<initializer>`, which will be installed by `npm exec`. The init command is transformed to a corresponding `npm exec` operation like `npm init foo` -> `npm exec create-foo`. Another example is `npm init react-app myapp`, which is same as `npx create-react-app myapp`. If the initializer is omitted (by just calling `npm init`), init will fall back to legacy init behavior. It will ask you a bunch of questions, and then write a `package.json` for you. You can also use `-y/--yes` to skip the questionnaire altogether.
 
-npm 7 introduced the new `npm exec` command which, like npx, provided an easy way to run npm scripts on the fly. If the package is not present in the local project dependencies, `npm exec` installs the required package and its dependencies to a folder in the npm cache. With the introduction of `npm exec`, npx had been rewritten to use `npm exec` under the hood in a backwards compatible way.
-
 > `npm create` is an alias for `npm init`. Check more about `npm init --help`.
+
+npm 7 introduced the new `npm exec` command which, like npx, provided an easy way to run npm scripts on the fly. If the package is not present in the local project dependencies, `npm exec` installs the required package and its dependencies to a folder in the npm cache. With the introduction of `npm exec`, npx had been rewritten to use `npm exec` under the hood in a backwards compatible way, and the standalone `npx` package deprecated at that time.
+
+> To prevent security and user-experience problems from mistyping package names, `npx` prompts before installing anything. Suppress this prompt with the `-y` or `--yes` option.
 
 ### npm link
 1. Run `npm link` from your `MyModule` directory: this will create a global package `{prefix}/node/{version}/lib/node_modules/<package>` symlinked to the `MyModule` directory.
@@ -259,6 +261,11 @@ pnpm was released in 2017. It is a drop-in replacement for npm, so if you have a
 Traditionally, npm installed dependencies in a flat `node_modules` folder. On the other hand, pnpm manages `node_modules` by using hard linking and symbolic linking to a global on-disk content-addressable store. It results in a nested `node_modules` folder that stores packages in a global store on your home folder (`~/.pnpm-store/`). Every version of a dependency is physically stored in that folder only once, constituting a single source of truth. pnpm identifies the files by a hash id (also called "content integrity" or "checksum") and not by the filename, which means that two same files will have identical hash id and pnpm will determine that there’s no reason for duplication.
 
 <img alt="pnpm" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7aw9ablr4j30vm0u0q5z.jpg" width="650" />
+
+#### pnpm `shamefully-hoist=true` configuration
+pnpm organizes `node_modules` differently from npm, exposing only the dependencies explicitly declared in `package.json`. Transitive dependencies are installed in `node_modules/.pnpm/registry.npmjs.org/`, rather than the flat structure for `node_modules` as npm.
+
+In simple terms, if there is a module A that depends on module B, and module A is depended on in the project's `package.json`, module A can access module B, but the project cannot. When `shamefully-hoist=true` is set, module B will be hoisted, making it accessible in the project.
 
 ### npm scripts
 npm scripts are a set of built-in and custom scripts defined in the `package.json` file. Their goal is to provide a simple way to execute repetitive tasks.
