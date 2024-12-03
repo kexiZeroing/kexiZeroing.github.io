@@ -109,7 +109,7 @@ Store data inside of your users browser: https://rxdb.info/articles/localstorage
 - LocalStorage (limited by a 5MB storage cap)
 - IndexedDB
 - OPFS (native browser storage API that allows web applications to manage files)
-- WASM SQLite
+- [WASM SQLite](https://github.com/sqlite/sqlite-wasm)
 
 ```js
 function getLocalStorageSize() {

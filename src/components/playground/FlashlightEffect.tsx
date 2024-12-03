@@ -21,7 +21,12 @@ const FlashlightEffect = () => {
     >
       <div
         className="absolute inset-0 bg-black"
-        style={gradient ? { background: gradient } : {}}
+        style={{
+          ...{
+            backdropFilter: "sepia(50%) brightness(130%)",
+          },
+          ...(gradient && { background: gradient }),
+        }}
       ></div>
     </section>
   );
