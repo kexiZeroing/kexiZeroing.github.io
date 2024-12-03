@@ -53,7 +53,7 @@ bun index.ts
 bun index.tsx
 
 # To run a file in watch mode.
-bun --watch run index.tsx
+bun run --watch index.tsx
 
 # Run a `package.json` script
 bun run <script>
@@ -86,6 +86,25 @@ Bun.serve({
     return new Response("404!");
   },
 });
+```
+
+```js
+import { Database } from "bun:sqlite";
+const db = new Database("db.sqlite");
+
+Bun.serve({
+  port: 3001,
+  fetch(req) {
+    switch (new URL(req.url).pathname) {
+      case "/vehicles": {
+        const vehicles = db.query("SELECT * FROM vehicles");
+        return new Response(JSON.stringify(vehicles));
+      }
+      default:
+        return new Response("404!");
+    }
+  },
+})
 ```
 
 Bun provides a set of optimized APIs for reading and writing files. A `BunFile` represents a lazily-loaded file; initializing it does not actually read the file from disk.

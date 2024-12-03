@@ -5,9 +5,29 @@ slug: getting-to-know-llm-as-a-judge
 description: ""
 added: "Nov 2 2024"
 tags: [AI]
-updatedDate: "Nov 4 2024"
+updatedDate: "Dec 3 2024"
 ---
 
+## What Are Evals
+Matt Pocock wrote an article about [what evals are](https://www.aihero.dev/what-are-evals). Normal software is deterministic. Let's say you capitalize a single word in an app menu. You can be fairly confident in the outcome of that change. But capitalizing a single word in a prompt can create massive ripple effects. **In AI systems, no change is small.**
+
+Evals give you a score you can use to see how well your AI system is performing.
+- Deterministic evals are traditional pass/fail checks.
+- Another technique is to pass the results of your prompts into another LLM, and use that LLM as a judge. 
+- Some evals can only be usefully evaluated by humans. These involve long-form text generation and certain types of factuality.
+
+```js
+scorers: [
+  // Checks if output is long enough
+  length,
+  // Uses an LLM to check if it's accurate
+  factualAccuracy,
+  // Uses an LLM to check writing style
+  writingStyle,
+],
+```
+
+## What is LLM-as-a-Judge
 LLM-as-a-Judge is a solution that uses LLMs to evaluate LLM responses based on any specific criteria of your choice. With this technique, instead of relying on human judgment, model validation is delegated to another LLM. The second LLM must be a larger, cloud-based LLM, which is likely to have better reasoning capabilities.
 
 > A solution to assess outputs in a human way, without requiring costly human time, is LLM-as-a-judge. This method was introduced in [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://huggingface.co/papers/2306.05685).

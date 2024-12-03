@@ -232,7 +232,7 @@ Scroll Snap: https://oh-snap.netlify.app
 
 Simple CSS scrollbar editor: https://scrollbar.app
 
-Incomplete List of Mistakes in the Design of CSS: https://wiki.csswg.org/ideas/mistakes
+A Modern CSS Reset: https://piccalil.li/blog/a-more-modern-css-reset
 
 Build faithful recreations of old UIs: https://jdan.github.io/98.css, https://botoxparty.github.io/XP.css, https://khang-nd.github.io/7.css
 
@@ -260,13 +260,13 @@ Compare web animation techniques by bouncing a ball: https://sparkbox.github.io/
 
 A Friendly Introduction to Spring Physics: https://www.joshwcomeau.com/animation/a-friendly-introduction-to-spring-physics
 
+Easing Wizard - CSS easing functions made easy: https://easingwizard.com
+
 The Collection of CSS-only Shapes: https://css-shape.com
 
 Styling Tables the Modern CSS Way: https://piccalil.li/blog/styling-tables-the-modern-css-way
 
 Visual design rules you can safely follow every time: https://anthonyhobday.com/sideprojects/saferules
-
-Easing Wizard - CSS easing functions made easy: https://easingwizard.com
 
 Amazing CSS in 2024: https://nerdy.dev/amazing-css-in-2024
 
@@ -455,6 +455,8 @@ Vue port of Radix UI Primitives: https://www.radix-vue.com
 Vue port of shadcn-ui: https://github.com/radix-vue/shadcn-vue
 
 Vue UI Component Library: https://primevue.org
+
+Copy-and-paste components for quickly building app UIs using Vue: https://github.com/Jettonn/originui-vue
 
 Integrate Clerk into your Vue application: https://vue-clerk.vercel.app
 
