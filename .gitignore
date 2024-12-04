@@ -19,6 +19,9 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# Ignore content collection generated files
+.astro
+
 storage/
 /test-results/
 /playwright-report/
