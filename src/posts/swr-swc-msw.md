@@ -185,9 +185,9 @@ function App() {
 }
 ```
 
-React Query, as an async state manager, works with any function that returns a Promise and embraces the stale-while-revalidate caching strategy. The library tries to keep your data as fresh as possible while at the same time showing data to the user as early as possible.
+To manage client state in a React app, we have lots of options available, starting from the built-in hooks like `useState` and `useReducer`, all the way up to community maintained solutions like redux or zustand. But what are our options for managing server state in a React app? Historically, there weren't many. That is, until React Query came along.
 
-> TanStack Query is a server-state library, responsible for managing asynchronous operations between your server and client. Vuex, Pinia, Zustand, etc. are client-state libraries that can be used to store asynchronous data.
+While React Query goes very well with data fetching, a better way to describe it is as an async state manager that is also acutely aware of the needs of server state. In fact, React Query doesn't fetch any data for you. You provide it a promise (whether from fetch, axios, graphql, etc.), and React Query will then take the data that the promise resolves with and make it available wherever you need it throughout your entire application.
 
 `staleTime` is the duration until a query transitions from fresh to stale. As long as the query is fresh, data will always be read from the cache only - no network request will happen. If the query is stale (which per default is: instantly), **you will still get data from the cache, but a background refetch can happen**.
 

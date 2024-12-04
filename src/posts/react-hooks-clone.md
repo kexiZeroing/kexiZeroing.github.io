@@ -5,7 +5,7 @@ slug: react-hooks-clone-and-related-concepts
 description: ""
 added: "Sep 12 2020"
 tags: [react, code]
-updatedDate: "Nov 24 2024"
+updatedDate: "Dev 4 2024"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -144,6 +144,15 @@ export default function useQuery(url) {
   return { data, isLoading, error }
 }
 ```
+
+In reality, we still need to think about:
+1. For every component that needs the same data, we have to refetch it.
+2. It's possible that while fetching to the same endpoint, one request could fail while the other succeeds.
+3. If our state is moved to "global", we've just introduced a small, in-memory cache. Since we've introduced a cache, we also need to introduce a way to invalidate it.
+4. Context often becomes confusing over time. A component subscribed to QueryContext will re-render whenever anything changes – even if the change isn't related to the url it cares about.
+5. We're treating asynchronous state as if it were synchronous state.
+
+That's [why React Query](https://ui.dev/c/query/why-react-query) was created.
 
 ### You Might Not Need an Effect
 > Whenever you think of writing `useEffect`, the only sane thing is to NOT do it. Instead, go to the react docs and re-read the page about why you don't need an effect. You really don't. -@TkDodo

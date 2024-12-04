@@ -254,6 +254,8 @@ console.log(mathUtils.square(2));
 
 Node 23 was released on Oct 2024 that you can now `require()` files that use ESM (import/export), which lets you import an ES Module in CommonJS and have it just work. Previously, if you wanted to use a “module” from your CommonJS file, you would need to do use dynamic import `await import('some/module/file.mjs')` and you can’t just put this at the top of your file.
 
+> Update: In the release of version 22.12.0, it is now no longer behind a flag on v22.x. Users can check `process.features.require_module` to see whether `require(esm)` is enabled in the current Node.js instance.
+
 Other highlights in Node 23:
 - The `--experimental-strip-types` flag provides “initial TypeScript support” by stripping type annotations from .ts files, allowing them to run without transforming TypeScript-specific syntax.
 - Stabilized task runner lets you execute `package.json` scripts by using `node --run`, instead of needing to use npm, Yarn, or Bun.
