@@ -5,14 +5,13 @@ import Footer from "../../components/Footer.astro";
 import Post from "../../components/Post.astro";
 import ColorScript from "../../components/ColorScript.astro";
 import SmallRotation from '../../components/SmallRotation.astro';
-
+import { getCollection } from "astro:content";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../config";
 
-// Credit to @rachsmithcodes for this function
 export async function getStaticPaths() {
-	let posts = await Astro.glob(`../../posts/*.md`);
+	let posts = await getCollection("blog");
 	const tags = posts.reduce((allTags, post) => {
-		const postTags = post.frontmatter.tags;
+		const postTags = post.data.tags;
 		if (postTags) {
 			postTags.forEach((tag) => {
 				if (!allTags[tag]) {
@@ -33,7 +32,7 @@ export async function getStaticPaths() {
 }
 
 const { tag } = Astro.props;
-const tagPosts = tag.sort((a, b) => new Date(b.frontmatter.added).valueOf() - new Date(a.frontmatter.added).valueOf());
+const tagPosts = tag.sort((a, b) => new Date(b.data.added).valueOf() - new Date(a.data.added).valueOf());
 const { tag: currentTag } = Astro.params;
 ---
 
@@ -62,11 +61,15 @@ const { tag: currentTag } = Astro.params;
 				<ul>
 					{
 						tagPosts.map(
-							({
-								url,
-								frontmatter: { description, slug, title, tags, added: date },
-							}) => <Post {url} {description} {date} {slug} {title} {tags} />
-						)
+							(post: any) => (
+							<Post
+								url={"/post/" + post.id}
+								date={post.data.date}
+								title={post.data.title}
+								tags={post.data.tags}
+								top={post.data.top}
+							/>
+						))
 					}
 				</ul>
 			</content>

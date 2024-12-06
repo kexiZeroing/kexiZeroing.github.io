@@ -6,19 +6,9 @@ import ColorScript from "../components/ColorScript.astro";
 import SmallRotation from '../components/SmallRotation.astro';
 import PostComments from "../components/PostComments.astro";
 
-export interface Props {
-	content: {
-		title: string;
-		description: string;
-		added?: string;
-		updatedDate?: string;
-		heroImage?: string;
-	};
-}
-
 const {
-	content: { title, description, added, updatedDate, heroImage },
-} = Astro.props as Props;
+	content: { title, description, added, updatedDate },
+} = Astro.props;
 ---
 
 <html>
@@ -46,14 +36,6 @@ const {
 		<Header />
 		<main data-pagefind-body>
 			<article>
-				{heroImage && (
-					<img
-						width={720}
-						height={360}
-						src={heroImage}
-						alt=""
-					/>
-				)}
 				<h1 class="title" data-pagefind-meta="title">{title}</h1>
 				{added && <time>{added}</time>}
 				{updatedDate && <div class="update-time">Last updated on <time>{updatedDate}</time></div>}

@@ -8,16 +8,17 @@ import SmallRotation from '../components/SmallRotation.astro';
 
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 
-// Use Astro.glob() to fetch all posts, and then sort them by date.
-const posts = await Astro.glob('../posts/*.{md,mdx}')
+import { getCollection } from "astro:content";
+const posts = await getCollection("blog");
 
 const topPosts = posts
-	.filter(p => p.frontmatter.top)
-	.sort((a, b) => a.frontmatter.order - b.frontmatter.order)
+	.filter(p => p.data.top)
+	.sort((a, b) => a.data.order - b.data.order)
 	
 const restPosts = posts
-	.filter(p => !p.frontmatter.top)
-	.sort((a, b) => new Date(b.frontmatter.added).valueOf() - new Date(a.frontmatter.added).valueOf())
+	.filter(p => !p.data.top)
+	.sort((a, b) => new Date(b.data.added).valueOf() - new Date(a.data.added).valueOf())
+
 ---
 
 <!DOCTYPE html>
@@ -45,15 +46,27 @@ const restPosts = posts
 			<content>
 				<ul>
           {topPosts.map(
-          ({url, frontmatter: { description, slug, title, tags, added: date, top }}) => (
-          	<Post {url} {description} {date} {slug} {title} {tags} {top} />
+          (post: any) => (
+          	<Post
+							url={"/post/" + post.id}
+							date={post.data.date}
+							title={post.data.title}
+							tags={post.data.tags}
+							top={post.data.top}
+						/>
           ))}
         </ul>
 				<hr />
 				<ul>
           {restPosts.map(
-          ({url, frontmatter: { description, slug, title, tags, added: date, top }}) => (
-          	<Post {url} {description} {date} {slug} {title} {tags} {top} />
+          (post: any) => (
+						<Post
+							url={"/post/" + post.id}
+							date={post.data.date}
+							title={post.data.title}
+							tags={post.data.tags}
+							top={post.data.top}
+						/>
           ))}
         </ul>
 			</content>

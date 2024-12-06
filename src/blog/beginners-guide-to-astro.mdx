@@ -1,0 +1,137 @@
+---
+title: "A Beginner's Guide to Astro"
+description: ""
+added: "Sep 11 2022"
+tags: [web]
+updatedDate: "Dec 10 2023"
+---
+
+## Astro and its Features
+Astro is a web framework designed for building content-driven websites, emphasizing a server-first Multi-Page App architecture. By default, [Astro](https://astro.build) ships HTML and CSS. No JavaScript at all. This is ideal for a substantial portion of the sites on the internet — most of these sites show us text and images without much interactivity or state.
+
+```astro
+---
+// Example Astro component. You write JavaScript inside the `---` front matter block
+// everything here will be run on the server
+const name = 'Astro';
+---
+
+<h1 class="title">Hello {name}</h1>
+
+<style>
+  .title {
+    color: red;
+  }
+</style>
+```
+
+Astro is unique among the JavaScript frameworks in that it supports other UI frameworks. You can import components written in React, Preact, Svelte, Vue, Lit, or Solid directly into Astro, and even mix them within the same file. It’s all possible with the command: `npx astro add @astrojs/react @astrojs/svelte @astrojs/vue`. And, because Astro outputs zero JavaScript by default, the bundle size does not increase for each new framework. Each component gets server-rendered and turned into static HTML.
+
+```astro
+---
+// Import components from different frameworks
+import SvelteNavbar from './components/SvelteNavbar.svelte';
+import ReactPostList from './components/ReactPostList.jsx';
+import VueFooter from './components/VueFooter.vue';
+---
+
+<article>
+  <header>
+    <SvelteNavbar />
+  </header>
+
+  <main>
+    <ReactPostList />
+  </main>
+
+  <footer>
+    <VueFooter />
+  </footer>
+</article>
+```
+
+Astro includes an `astro add` command to automate the setup of integrations. Run `npx astro add tailwind` command to install both `tailwindcss` and `@astro/tailwind` as well as generate a `tailwind.config.cjs` file. When you install the integration, Tailwind’s utility classes should be ready to go right away.
+
+Astro includes built-in support for standard Markdown files. With the `@astrojs/mdx` integration installed, Astro also supports [MDX](https://docs.astro.build/en/guides/markdown-content/) (`.mdx`) files which bring added features like support for JSX expressions and components in your Markdown content. Astro lets you turn markdown and MDX files directly into pages on your website. All you have to do is specify a layout value in the front matter.
+
+```md
+---
+title: About
+layout: ../layouts/MarkdownPage.astro
+---
+
+Welcome to My Blog
+
+```
+
+```mdx
+## This is a mdx file
+
+<section>
+  And here is *markdown* in **JSX**!
+</section>
+
+{(function () {
+  const guess = Math.random()
+
+  if (guess > 0.66) {
+    return <span style={{color: 'tomato'}}>Look at us.</span>
+  }
+
+  if (guess > 0.33) {
+    return <span style={{color: 'violet'}}>Who would have guessed?!</span>
+  }
+
+  return <span style={{color: 'goldenrod'}}>Not me.</span>
+})()}
+```
+
+### Template Directives
+If you want interactivity **(note that there is not JavaScript being shipped to the client by default)**, you need to add the `client:load` directive, and then the framework’s runtime will be loaded client-side. This is an implementation of what’s called "island architecture".
+
+```astro
+---
+// `Counter.jsx` is a React component using `useState`
+import { Counter } from '../components/Counter';
+const hello = 'hello'
+---
+
+<body>
+  <h2 class="text-2xl">{hello}</h2>  
+  <Counter client:load />
+</body>
+```
+
+> Astro Islands explained in 30 seconds:  
+> Only certain parts of your app need to be interactive (these are the "islands of interactivity" a.k.a. Javscript). The rest can be plain, vanilla HTML.
+
+By default, `<script>` tags are processed by Astro.
+- Any imports will be bundled, allowing you to import local files or Node modules.
+- The processed script will be injected into your page’s `<head>` with `type="module"`.
+- TypeScript is fully supported, including importing TypeScript files.
+
+You can opt-out of this behavior with the `is:inline` directive. `is:inline` tells Astro to leave the `<script>` or `<style>` tag as-is in the final output HTML.
+
+In Astro components, the code in the frontmatter between the `---` fences runs on the server and is not available in the browser. To send variables from the server to the client, we need a way to store our variables and then read them when JavaScript runs in the browser. One way to do this is to use `data-*` attributes to store the value of variables in your HTML output. Scripts can then read these attributes using an element’s `dataset` property once your HTML loads in the browser.
+
+## Astro Remote
+Render remote HTML or Markdown content (with automatic sanitization) in Astro with full control over the output.
+
+```astro
+---
+import { Markup, Markdown } from 'astro-remote';
+const { html, markdown } = await fetch('http://my-site.com/api/v1/post').then(res => res.json());
+---
+
+<Markup content={html} />
+<Markdown content={markdown} />
+```
+
+## Astro Links
+- Astro starter template: https://github.com/surjithctly/astroship
+- A free template using Astro and Tailwind CSS: https://github.com/onwidget/astrowind
+- Build beautiful, high-performance documentation websites with Astro: https://starlight.astro.build
+- Astro View Transitions: https://developer.chrome.com/blog/astro-view-transitions
+- Personal Blog Template Powered by Astro: https://astro-blog-template.netlify.app
+- Astro UI library: https://ui.full.dev
+- It’s go time with Astro: https://astro.new
