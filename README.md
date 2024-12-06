@@ -10,3 +10,4 @@ https://kexizeroing.github.io
 - [Giscus](https://giscus.app) is a comment system powered by GitHub Discussions that allows visitors to leave comments and reactions on any website via GitHub.
 - Experiment with [shadcn/ui](https://ui.shadcn.com) at `/shadcn-ui` page.
 - Use [PostHog](https://posthog.com) for tracking and product analytics.
+- Refer to the [Astro blog tutorial](https://docs.astro.build/en/tutorial/6-islands/4) and the [blog-tutorial-demo](https://github.com/withastro/blog-tutorial-demo/tree/content-collections) to help me update to using a content collection.
