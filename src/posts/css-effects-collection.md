@@ -25,6 +25,7 @@ updatedDate: "Sep 24 2024"
 - [Glass folder effect](#glass-folder-effect)
 - [The Periodic Table](#the-periodic-table)
 - [Selection menu](#selection-menu)
+- [Double input range slider](#double-input-range-slider)
 - [Light/Dark modes baiscs](#lightdark-modes-baiscs)
 
 ### Rainbow Artword
@@ -731,6 +732,108 @@ https://codepen.io/chriscoyier/pen/eYBQamQ
     }
   }
 </script>
+```
+
+### Double input range slider
+https://codepen.io/alexpg96/pen/xxrBgbP
+
+```html
+<style>
+  .container {
+    position: relative;
+    width: 300px;
+    height: 100px;
+  }
+  .slider-track {
+    width: 100%;
+    height: 5px;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    outline: none;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    background-color: transparent;
+    pointer-events: none;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    height: 5px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 22px;
+    width: 22px;
+    background-color: blue;
+    cursor: pointer;
+    margin-top: -8px;
+    pointer-events: auto;
+    border-radius: 50%;
+  }
+  input[type="range"]:active::-webkit-slider-thumb {
+    background-color: #ffffff;
+    border: 1px solid blue;
+  }
+</style>
+
+<body>
+  <div class="values">
+    <span id="range1">0</span>
+    <span> &dash; </span>
+    <span id="range2">100</span>
+  </div>
+  <div class="container">
+    <div class="slider-track"></div>
+    <input type="range" min="0" max="100" value="30" id="slider-1" oninput="slideOne()">
+    <input type="range" min="0" max="100" value="70" id="slider-2" oninput="slideTwo()">
+  </div>
+
+  <script>
+    window.onload = function () {
+      slideOne();
+      slideTwo();
+    };
+
+    let sliderOne = document.getElementById("slider-1");
+    let sliderTwo = document.getElementById("slider-2");
+    let displayValOne = document.getElementById("range1");
+    let displayValTwo = document.getElementById("range2");
+    let sliderTrack = document.querySelector(".slider-track");
+    let sliderMaxValue = 100;
+
+    function slideOne() {
+      if (parseInt(sliderTwo.value) <= parseInt(sliderOne.value)) {
+        sliderOne.value = parseInt(sliderTwo.value);
+      }
+      displayValOne.textContent = sliderOne.value;
+      fillColor();
+    }
+    function slideTwo() {
+      if (parseInt(sliderTwo.value) <= parseInt(sliderOne.value)) {
+        sliderTwo.value = parseInt(sliderOne.value);
+      }
+      displayValTwo.textContent = sliderTwo.value;
+      fillColor();
+    }
+    function fillColor() {
+      percent1 = (sliderOne.value / sliderMaxValue) * 100;
+      percent2 = (sliderTwo.value / sliderMaxValue) * 100;
+      // The color gray starts from the beginning and transitions to percent1%
+      // At percent1%, the color changes to blue, and the color blue continues up to percent2%
+      // At percent2%, the color changes back to gray
+      sliderTrack.style.background = `linear-gradient(to right, lightgray ${percent1}%, blue ${percent1}%, blue ${percent2}%, lightgray ${percent2}%)`;
+    }
+  </script>
+</body>
+</html>
 ```
 
 ### Light/Dark modes baiscs
