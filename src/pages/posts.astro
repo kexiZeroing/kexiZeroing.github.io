@@ -7,8 +7,8 @@ import ColorScript from '../components/ColorScript.astro';
 import SmallRotation from '../components/SmallRotation.astro';
 
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
-
 import { getCollection } from "astro:content";
+
 const posts = await getCollection("blog");
 
 const topPosts = posts
@@ -49,7 +49,7 @@ const restPosts = posts
           (post: any) => (
           	<Post
 							url={"/post/" + post.id}
-							date={post.data.date}
+							date={post.data.added}
 							title={post.data.title}
 							tags={post.data.tags}
 							top={post.data.top}
@@ -62,7 +62,7 @@ const restPosts = posts
           (post: any) => (
 						<Post
 							url={"/post/" + post.id}
-							date={post.data.date}
+							date={post.data.added}
 							title={post.data.title}
 							tags={post.data.tags}
 							top={post.data.top}
