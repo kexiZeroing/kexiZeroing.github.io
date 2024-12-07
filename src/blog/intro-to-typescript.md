@@ -319,6 +319,13 @@ const cats: Record<string, string | number>
 type TodoPreview = Omit<Todo, "description">
 type TodoPreview = Pick<Todo, "title" | "completed">
 
+// https://www.totaltypescript.com/const-type-parameters
+const myFunc = <const T extends string[]>(input: T) => {
+  return input
+}
+const result = myFunc(['a', 'b']) // myFunc(['a', 'b'] as const)
+type myFuncType = typeof result  // ['a', 'b'], not string[]
+
 // Derive types from functions
 function sellAlbum(album: Album, price: number, quantity: number) {
   return price * quantity

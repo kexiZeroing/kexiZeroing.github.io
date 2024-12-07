@@ -498,6 +498,23 @@ language.current = 'EN';
 console.log(language.log); // ['EN']
 ```
 
+```ts
+// a general purpose memoizer
+function lazy<T>(getter: () => T): { value: T } {
+  return {
+    get value() {
+      const value = getter();
+      Object.defineProperty(this, 'value', { value });
+      return value;
+    },
+  };
+}
+
+const myValue = lazy(() => 'Hello, world');
+myValue.value;  // compute value
+myValue.value;  // return cached value
+```
+
 ### Object.keys(), Object.values(), Object.entries()
 - Object.keys() returns an array whose elements are strings corresponding to the enumerable properties found directly upon object. 
 - Object.values() returns an array of a given object's own enumerable property values, in the same order as that provided by a `for...in` loop (the difference being that **for-in loop enumerates properties in the prototype chain as well**).

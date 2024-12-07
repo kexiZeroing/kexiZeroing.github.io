@@ -163,6 +163,8 @@ verify();
 
 - The `npm install` command will install both *devDependencies* and *dependencies*. With the `--production` flag or when the `NODE_ENV` environment variable is set to production `NODE_ENV=production npm install`, npm will not install modules listed in devDependencies.
 
+- Many applications use different configuration settings when `NODE_ENV` is set to `production`. This also makes the Node.js process more efficient. If you set `NODE_ENV=testing` which means the devDependencies will be installed and it is more like development than it is like production.
+
 - Using the `npm uninstall --no-save` will tell npm not to remove the package from your `package.json` or `package-lock.json` files.
 
 **peerDependencies** are dependencies that your project hooks into, or modifies, in the parent project, usually a plugin for some other library. It is just intended to be a check, making sure that the project that will depend on your project has a dependency on the project you hook into. So if you make a plugin C that adds functionality to library B, then someone making a project A will need to have a dependency on B if they have a dependency on C. *Example: your project adds functionality to grunt and can only be used on projects that use grunt*.

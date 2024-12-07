@@ -268,6 +268,8 @@ Visual design rules you can safely follow every time: https://anthonyhobday.com/
 
 Amazing CSS in 2024: https://nerdy.dev/amazing-css-in-2024
 
+CSS Wrapped 2024: https://chrome.dev/css-wrapped-2024
+
 ---
 
 ## FE dev resources
@@ -358,7 +360,7 @@ A headless UI library that works for a wide range of JS frameworks: https://gith
 
 A growing collection of over 50 input components: https://origin-ui-alpha.vercel.app
 
-Good web design inspiration: https://godly.website
+A component to transition, format, and localize numbers: https://number-flow.barvian.me
 
 Stack Overflow's Combination Rich Text / Markdown Editor: https://github.com/StackExchange/Stacks-Editor
 
@@ -415,8 +417,6 @@ React and the Vanishing Network: https://vanishing-network.epicreact.dev
 UI Library for Design Engineers: https://github.com/magicuidesign/magicui
 
 Our Journey with Caching: https://nextjs.org/blog/our-journey-with-caching
-
-A component to transition, format, and localize numbers: https://github.com/barvian/number-flow
 
 ---
 
