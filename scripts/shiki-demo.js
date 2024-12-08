@@ -13,6 +13,8 @@ console.log('__filename:', __filename);
 // --> /home/users/projects/example.js
 console.log('__dirname:', __dirname);
 // --> /home/users/projects
+console.log('directory path:', fileURLToPath(new URL('.', import.meta.url)));
+// --> /home/users/projects/
 
 async function main() {
   const highlighter = await createHighlighter({
@@ -27,7 +29,7 @@ async function main() {
   });
   await highlighter.loadLanguage('javascript') // load the language
 
-  const inputFile = await fs.readFile(path.resolve(__dirname, "../src/posts/state-management-clone.md"), 'utf-8');
+  const inputFile = await fs.readFile(path.resolve(__dirname, "../src/blog/state-management-clone.md"), 'utf-8');
   const html = md.render(inputFile);
   const out = `
     <title>Shiki</title>

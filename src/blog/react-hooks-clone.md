@@ -190,6 +190,8 @@ const ChatWindow = () => {
 };
 ```
 
+So if you need to interact with DOM nodes directly after they rendered, try not to jump to `useRef` + `useEffect` directly, but consider using [callback refs](https://tkdodo.eu/blog/avoiding-use-effect-with-callback-refs) instead.
+
 ### Higher Order Components
 HOCs are wrapper components that help provide additional functionality to existing components. While hooks probably replaced most of shared logic concerns, there are still use cases where higher-order components could be useful. For example, you want to fire analytics event on every click of every button, dropdown and link everywhere.
 
@@ -221,7 +223,7 @@ React 18:
 - https://www.youtube.com/watch?v=ytudH8je5ko
 
 React 19:
-- https://react.dev/blog/2024/04/25/react-19
+- https://react.dev/blog/2024/12/05/react-19
 - https://shrutikapoor.dev/posts/react-react19
 - https://www.youtube.com/watch?v=AJOGzVygGcY
 - https://www.youtube.com/watch?v=O3ZtlTwDnbk
