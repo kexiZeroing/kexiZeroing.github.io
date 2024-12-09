@@ -716,7 +716,7 @@ Another example is to specify an environment variable as a string in the global 
 ```ts
 declare namespace NodeJS {
   interface ProcessEnv {
-    MY_ENV_VAR: string;
+    MY_ENV_VAR: string;   // [key: string]: string;
   }
 }
 ```

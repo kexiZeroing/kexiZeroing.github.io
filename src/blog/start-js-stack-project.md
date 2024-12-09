@@ -3,7 +3,7 @@ title: "Start a Javascript stack project"
 description: ""
 added: "Jun 16 2022"
 tags: [web]
-updatedDate: "Oct 24 2024"
+updatedDate: "Dec 9 2024"
 ---
 
 ## Start a modern web project
@@ -77,6 +77,15 @@ export const loader = async ({ params }: LoaderArgs) => {
 ```
 
 > An `invariant` function from [tiny-invariant](https://github.com/alexreardon/tiny-invariant) takes a value, and if the value is falsy then the invariant function will throw. If the value is truthy, then the function will not throw.
+
+### Writing Modern JavaScript without a Bundler
+https://playfulprogramming.com/posts/modern-js-bundleless
+
+1. Create `index.html` and denote our script tag (from our HTML file) as `type="module"`.
+2. Introduce HMR via `browser-sync start --server \"src\" --watch`. The page refreshed while we modify any of the files in src.
+3. Use CDN like `unpkg.com` to load libraries in our app. Remember, we need to have `import` and `export` lines, looking for files labeled something like ES6 or ESM or BROWSER.
+4. Not all libraries are bundled to support ESM as a single file. If it does not, we may use `esbuild` to bundle the dependencies.
+5. Leverage an `importmap` to alias the URL to be imported.
 
 ### Writing CSS in 2024
 **CSS-in-JS libraries** (e.g. styled-components, Emotion for React) allows you to style your components by writing CSS directly in your JavaScript code. The good part includes making styles locally-scoped by default, colocating styles with components, enabling you to reference JavaScript variables in your style rules. But CSS-in-JS adds runtime overhead, the library must "serialize" your styles into plain CSS string that can be inserted into the document. Every time the component renders, the object styles are serialized again. Btw, using CSS-in-JS with newer React features like Server Components and Streaming requires library authors to support the latest version of React.
