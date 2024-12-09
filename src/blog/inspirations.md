@@ -17,7 +17,7 @@ order: 3
 - @EmmaBostian @kvlly ladybug podcast
 - @vaidehijoshi basecs and baseds(distributed system)
 - @devdevcharlie ML for front-end developers https://charliegerard.dev/projects
-- @antfu7 about Vue and open source
+- @antfu7 about Vue and open source https://github.com/antfu-collective
 - @shadeed9 @5t3ph about CSS
 - @taniarascia blog https://www.taniarascia.com/blog
 - @JoshWComeau blog https://www.joshwcomeau.com

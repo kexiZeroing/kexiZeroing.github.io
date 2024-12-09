@@ -424,8 +424,6 @@ Our Journey with Caching: https://nextjs.org/blog/our-journey-with-caching
 
 Updates, tips & opinions from the maintainers of Vue.js: https://blog.vuejs.org
 
-Projects - Anthony Fu: https://antfu.me/projects
-
 Opinionated Vite + Vue Starter Template: https://github.com/antfu/vitesse
 
 A curated list of awesome things related to Vite.js: https://github.com/vitejs/awesome-vite

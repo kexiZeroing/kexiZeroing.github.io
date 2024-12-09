@@ -643,6 +643,12 @@ declare global {
 
 // declare types for a module 
 declare module "duration-utils" {
+  export type Status = 'ok' | 'failed';
+  export interface MyType {
+    name: string;
+    status: Status;
+  }
+  export type List = MyType[];
   export function formatDuration(seconds: number): string;
 }
 export {}; // Adding an export turns this .d.ts file into a module
