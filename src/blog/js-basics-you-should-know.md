@@ -718,6 +718,12 @@ JSON.stringify(true);                 // 'true'
 JSON.stringify([1, 'false', false]);  // '[1,"false",false]'
 JSON.stringify(null);                 // 'null'
 
+// Map is not serializable. To fix this, you can convert the Map to a serializable object.
+const state = new Map([['key', 1]]);
+const serializableState = Object.fromEntries(state);
+JSON.stringify(state);  // '{}'
+JSON.stringify(serializableState);  // '{"key":1}'
+
 JSON.stringify({ x: 5, y: 6, toJSON(){ return this.x + this.y; } });
 // '11'
 

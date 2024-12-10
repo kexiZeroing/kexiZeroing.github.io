@@ -421,6 +421,7 @@ while (true) {
 
 2. LM Studio
    - https://lmstudio.ai
+   - https://huggingface.co/blog/yagilb/lms-hf
 
 3. GPT4All
    - https://github.com/nomic-ai/gpt4all

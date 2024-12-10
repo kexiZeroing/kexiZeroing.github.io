@@ -20,7 +20,6 @@ updatedDate: "Oct 27 2024"
 - [Shuffle an array](#shuffle-an-array)
 - [Traverse Binary Tree](#traverse-binary-tree)
 - [Graph DFS](#graph-dfs)
-- [Graph BFS](#graph-bfs)
 - [Union Find](#union-find)
 - [Heap](#heap)
 - [DP](#dp)
@@ -484,58 +483,30 @@ var minDepth = function(root) {
 ### Graph DFS
 
 ```js
-function dfs(startingNodeKey, visitFn) {
-  const startingNode = this.getNode(startingNodeKey)
-  const visitedHash = nodes.reduce((acc, cur) => {
-    acc[cur.key] = false
-    return acc
-  }, {})
-
-  function explore(node) {
-    if (visitedHash[node.key]) {
-      return
-    }
-
-    visitFn(node)
-    visitedHash[node.key] = true
-
-    node.children.forEach(child => {
-      explore(child)
-    })
+function dfs(i, j, visited, params) {
+  // 1. Base Case: Check boundaries, visited state, or other termination conditions
+  if (i < 0 || i >= rows || j < 0 || j >= cols || visited[i][j] || !isValid(i, j, params)) {
+    return;
   }
 
-  explore(startingNode)
+  // 2. Mark the current node as visited
+  visited[i][j] = true;
+
+  // 3. Perform any necessary operations for the current node
+  processNode(i, j, params);
+
+  // 4. Recur for all possible directions
+  dfs(i - 1, j, visited, params);
+  dfs(i + 1, j, visited, params);
+  dfs(i, j - 1, visited, params);
+  dfs(i, j + 1, visited, params);
+
+  // 5. Backtrack: Unmark the current node after exploring all paths from that node
+  visited[i][j] = false;
 }
 ```
 
-### Graph BFS
-
-```js
-function bfs(startingNodeKey, visitFn) {
-  const startingNode = this.getNode(startingNodeKey)
-  const visitedHash = nodes.reduce((acc, cur) => {
-    acc[cur.key] = false
-    return acc
-  }, {})
-  const queue = createQueue()
-  queue.enqueue(startingNode)
-
-  while (!queue.isEmpty()) {
-    const currentNode = queue.dequeue()
-
-    if (!visitedHash[currentNode.key]) {
-      visitFn(currentNode)
-      visitedHash[currentNode.key] = true
-    }
-
-    currentNode.children.forEach(node => {
-      if (!visitedHash[node.key]) {
-        queue.enqueue(node)
-      }
-    })
-  }
-}
-```
+The `visited` array is global or shared across all recursive calls. If you are searching for **one valid path** (e.g., finding a path in a maze), there's no need to restore the visited array. Once a node is marked as visited, it remains visited throughout the traversal. If you are searching for **all possible paths** (e.g., finding all routes in a graph), you must restore the visited array. After exploring a path, you backtrack by marking the node as unvisited to allow its reuse in other paths.
 
 ### Union Find
 
