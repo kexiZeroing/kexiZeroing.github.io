@@ -612,6 +612,8 @@ Model Context Protocol Quickstart: https://glama.ai/blog/2024-11-25-model-contex
 
 A collection of MCP servers: https://github.com/punkpeye/awesome-mcp-servers
 
+Conversational video interface with a holiday theme: https://santa.tavus.io
+
 ---
 
 ## Machine Learning
