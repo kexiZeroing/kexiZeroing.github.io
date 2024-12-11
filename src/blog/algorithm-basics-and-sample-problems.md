@@ -4,7 +4,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Oct 27 2024"
+updatedDate: "Dec 11 2024"
 ---
 
 ### TOC
@@ -507,6 +507,9 @@ function dfs(i, j, visited, params) {
 ```
 
 The `visited` array is global or shared across all recursive calls. If you are searching for **one valid path** (e.g., finding a path in a maze), there's no need to restore the visited array. Once a node is marked as visited, it remains visited throughout the traversal. If you are searching for **all possible paths** (e.g., finding all routes in a graph), you must restore the visited array. After exploring a path, you backtrack by marking the node as unvisited to allow its reuse in other paths.
+
+- If you are finding a path in a maze, the visited array doesn’t need to be reset because you only care about finding a path from the start to the end. Once you visit a node, it’s marked as visited, and it remains marked.
+- If you’re looking for all possible paths in a maze, or doing multiple DFS calls from a single node, the visited array must be reset after each recursion to allow revisiting nodes.
 
 ### Union Find
 

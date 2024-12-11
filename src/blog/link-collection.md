@@ -556,6 +556,8 @@ Pi, your personal AI from Inflection: https://pi.ai
 
 Power your apps with real-time speech-to-text APIs: https://deepgram.com
 
+Your words will be transcribed and fact-checked in real-time using AI: https://ai-facts.vercel.app
+
 Run Hugging Face Transformers directly in the browser: https://github.com/xenova/transformers.js
 
 Announce the release of Transformers.js v3: https://huggingface.co/blog/transformersjs-v3

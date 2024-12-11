@@ -3,7 +3,7 @@ title: "Explore running code in browser"
 description: ""
 added: "Aug 25 2023"
 tags: [other]
-updatedDate: "Oct 25 2024"
+updatedDate: "Dev 11 2024"
 ---
 
 ## Interactive blog-cells
@@ -147,8 +147,6 @@ const babelTransformWithPlugin = (code) => {
 ### CodeSandbox and StackBlitz
 **Sandpack** is a component toolkit for creating live-running code editing experiences, powered by the online bundler used on CodeSandbox. https://sandpack.codesandbox.io
 
-**WebContainers** are a browser-based runtime for executing Node.js applications and operating system commands, entirely inside your browser tab. https://webcontainers.io
-
 ```jsx
 import { Sandpack } from "@codesandbox/sandpack-react";
 
@@ -198,6 +196,10 @@ ReactDOM.render(
 };
 ```
 
+**WebContainers** are a browser-based runtime for executing Node.js applications and operating system commands, entirely inside your browser tab. https://webcontainers.io
+
+> Here is a quick reminder that Stackblitz is not running nodejs in the browser. They are running a proprietary fork of nodejs in the browser. I hope you can see the difference. There is no WebContainers code in the nodejs repository.
+
 ### WebLLM and Pyodide
 WebLLM is a high-performance in-browser LLM inference engine, aiming to be the backend of AI-powered web applications and agents. It provides a specialized runtime for the web backend of MLCEngine, leverages WebGPU for local acceleration.
 
@@ -222,9 +224,9 @@ async function main(){
 main();
 ```
 
-[Qwen 2.5 Code Interpreter](https://github.com/cfahlgren1/qwen-2.5-code-interpreter) running locally on your computer. It is a lightweight, offline-compatible code interpreter that allows users to execute code snippets in real-time. (Powered by Qwen, WebLLM, and Pyodide)
+ChatGPT has had the ability to run Python for a long time via the Code Interpreter feature, which executes Python server-side in a tightly locked down Kubernetes container managed by OpenAI. The new Canvas run button is not the same thing—it’s an entirely new implementation of code execution that runs code directly in your browser using Pyodide (Python compiled to WebAssembly). Simon Willison wrote it here: https://simonwillison.net/2024/Dec/10/chatgpt-canvas/
 
-[WebVM](https://webvm.io) is a virtual Linux environment running in the browser via WebAssembly. WebVM is powered by the CheerpX virtualization engine, which includes an x86-to-WebAssembly JIT compiler, a virtual block-based file system, and a Linux syscall emulator.
+[Qwen 2.5 Code Interpreter](https://github.com/cfahlgren1/qwen-2.5-code-interpreter) running locally on your computer. It is a lightweight, offline-compatible code interpreter that allows users to execute code snippets in real-time. (Powered by Qwen, WebLLM, and Pyodide)
 
 ### VSCode Dev Containers
 https://code.visualstudio.com/docs/devcontainers/tutorial
