@@ -9,6 +9,11 @@ updatedDate: "Nov 9 2024"
 ## Adding Server-Side Rendering
 SSR focuses on initial page load, sending pre-rendered HTML to the client that must then be hydrated with downloaded JavaScript before it behaves as a typical React app. SSR also only happens one time: when directly navigating to a page.
 
+> Debunking the Myth: SSR Isn't Expensive: https://t3.gg/blog/post/ssr-is-not-expensive
+> - SSR Overhead Is Minimal
+> - SSR Can Actually Reduce Other Cloud Costs
+> - SSR Delivers a Better User Experience
+
 Let’s create a simple React component App. We will render this component on the server-side and hydrate it on the client-side.
 
 ```js
