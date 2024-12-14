@@ -54,6 +54,10 @@ input.addEventListener('change', e => {
 });
 ```
 
+In summary, we can represent file contents in two primary forms, depending on how you’re using it:
+1. **Data URIs** (Base64 encoded strings) — these are great when you’re stuffing the data directly into an HTML attribute (e.g. `<img src="data:image/png...">`).
+2. **Blobs** (or Binary Objects) — useful when you’re dynamically updating HTML attributes like we did with the image preview example. We see that an `<input type=file>` uses Blobs. When you want someone to see a Blob, you don’t just add the Blob directly in the `<img>` or `<a href="...">`. You have to give it an Object URL first.
+
 ## Difference between an ArrayBuffer and a Blob
 ArrayBuffer object is used to represent generic, fixed-length raw binary data buffer. You cannot directly manipulate the contents of an ArrayBuffer; instead, you create one of the typed array objects or a DataView object which represents the buffer in a specific format, and use that to read and write the contents of the buffer.
 

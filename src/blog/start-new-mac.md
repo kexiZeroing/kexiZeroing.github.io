@@ -91,7 +91,8 @@ updatedDate: "Apr 05 2023"
     defaults write com.apple.finder ShowStatusBar -bool true
     ```
 
-    A curated list of shell commands specific to macOS: https://git.herrbischoff.com/awesome-macos-command-line/about
+    - A curated list of shell commands specific to macOS: https://git.herrbischoff.com/awesome-macos-command-line/about
+    - macOS defaults: https://macos-defaults.com
 
 9. Install Chrome extension [DevTools Theme: New Moon](https://github.com/taniarascia/new-moon-chrome-devtools), then set devtool's theme to "Dark" and go to Experiments and select "Allow custom UI themes".
 

@@ -3,7 +3,7 @@ title: "Container queries and :has selector"
 description: ""
 added: "Jan 08 2023"
 tags: [css]
-updatedDate: "Mar 7 2024"
+updatedDate: "Dec 14 2024"
 ---
 
 `@container` and `:has()` are two powerful new responsive APIs landing in Chromium 105. Read at: https://developer.chrome.com/blog/has-with-cq-m105/
@@ -38,6 +38,45 @@ To build with container queries, you must first set containment on a parent elem
 @container (max-width: 400px) {
   .card {
     grid-template-columns: 1fr;
+  }
+}
+```
+
+```js
+// before
+const cardContainer = document.querySelector('.card-container');
+const cards = cardContainer.children;
+
+function adjustLayout() {
+  if (cardContainer.offsetWidth > 900) {
+    cards.forEach(card => card.style.width = '33.33%');
+  } else if (cardContainer.offsetWidth > 600) {
+    cards.forEach(card => card.style.width = '50%');
+  } else {
+    cards.forEach(card => card.style.width = '100%');
+  }
+}
+
+window.addEventListener('resize', adjustLayout);
+adjustLayout();
+```
+
+```css
+/* after */
+.card-container {
+  container-type: inline-size;
+}
+.card {
+  width: 100%;
+}
+@container (min-width: 600px) {
+  .card {
+    width: 50%;
+  }
+}
+@container (min-width: 900px) {
+  .card {
+    width: 33.33%;
   }
 }
 ```
