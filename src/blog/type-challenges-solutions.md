@@ -4,9 +4,10 @@ description: ""
 added: ""
 top: true
 order: 6
-updatedDate: "Oct 27 2024"
+updatedDate: "Dec 14 2024"
 ---
 
+## Type challenges
 > TypeScript allows you to write complex yet elegant code. Some TypeScript users love to explore the possibilities of the type system and love to encode logic at type level. This practice is known as type gymnastics. The community also helps users to learn type gymnastics by creating fun and challenges such as [type challenges](https://github.com/type-challenges/type-challenges).
 
 Implement the built-in `Pick<T, K>` generic without using it. Constructs a type by picking the set of properties K from T.
@@ -576,4 +577,120 @@ type Unique<T> = T extends [...infer H, infer T]
     ? [...Unique<H>]
     : [...Unique<H>, T]
   : [];
+```
+
+## Total TypeScript's TypeScript Generics Workshop
+
+```ts
+const returnWhatIPassIn = <T>(param: T) => param;
+
+const returnWhatIPassIn = <T extends string>(param: T) => param;
+
+const returnBothOfWhatIPassIn = <T1, T2>(params: { a: T1; b: T2 }) => {
+  return {
+    first: params.a,
+    second: params.b,
+  };
+};
+
+export class Component<TProps> {
+  constructor(props: TProps) {
+    this.props = props;
+  }
+  
+  private props: TProps;
+
+  getProps = () => this.props;
+}
+
+export const createSet = <T = string>() => {
+  return new Set<T>();
+};
+
+const sum = <T>(array: readonly T[], mapper: (item: T) => number): number =>
+  array.reduce((acc, item) => acc + mapper(item), 0);
+
+// There are three type signature for `reduce`, which are called function overload.
+// reduce(callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: readonly T[]) => T): T;
+
+// reduce(callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: readonly T[]) => T, initialValue: T): T;
+
+// reduce<U>(callbackfn: (previousValue: U, currentValue: T, currentIndex: number, array: readonly T[]) => U, initialValue: U): U;
+
+// Here the U type is being inferred from the initial value, 
+// which we can see when hovering over the `.reduce()` in our code.
+const obj = array.reduce<Record<string, { name: string }>>((accum, item) => {
+  accum[item.name] = item;
+  return accum;
+}, {});
+
+// fetchData infer the `Promise<TData>`
+const fetchData = async <TData>(url: string) => {
+  let data: TData = await fetch(url).then((response) => response.json());
+
+  return data;
+};
+
+const typedObjectKeys = <TObject extends object>(obj: TObject) => {
+  return Object.keys(obj) as Array<keyof TObject>;
+};
+// The second solution is to have the generic only represent the keys.
+const typedObjectKeys = <TKey extends string>(obj: Record<TKey, any>) => {
+  return Object.keys(obj) as Array<TKey>;
+};
+
+// When directly returning a value, it infers the literal type.
+const returnsValueOnly = <T>(t: T) => {
+  return t;
+};
+const result = returnsValueOnly("a");
+// const result: "a"
+
+// When returning an object or array, it defaults to the broader type.
+const returnsValueInAnObject = <T1>(t: T1) => {
+  return {
+    t,
+  };
+};
+const result2 = returnsValueInAnObject("abc");
+// const result2: { t: string }
+
+// However, we can use constraints to guide TS towards the desired literal type inference.
+const returnsValueInAnObjectWithConstraint = <T1 extends string>(t: T1) => {
+  return {
+    t,
+  };
+};
+const result3 = returnsValueInAnObjectWithConstraint("abc");
+// const result3: { t: "abc" }
+
+export function remapPerson<Key extends keyof Person>(
+  key: Key,
+  value: Person[Key],
+) {
+  if (key === "birthdate") {
+    return new Date() as Person[Key];
+  }
+
+  return value;
+}
+
+const obj = {
+  a: 1,
+  b: "some-string",
+  c: true,
+};
+
+const getValue = <TObj>(obj: TObj, key: keyof TObj) => {
+  return obj[key];
+};
+// => string | number| boolean
+
+const getValue = <TObj, TKey extends keyof TObj>(obj: TObj, key: TKey) => {
+  return obj[key];
+};
+
+const numberResult = getValue(obj, "a");  // number
+const stringResult = getValue(obj, "b"); // string
+const booleanResult = getValue(obj, "c"); // boolean
 ```
