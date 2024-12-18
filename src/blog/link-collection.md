@@ -192,6 +192,8 @@ Log in the node terminal from the browser: https://github.com/patak-dev/vite-plu
 
 Share your screen with one simple room code: https://github.com/tonghohin/screen-sharing
 
+Web-based document scanner to PDF: https://github.com/addyosmani/scan
+
 ---
 
 ## CSS related
@@ -344,6 +346,8 @@ Open Source Tailwind components tailored for your AI and GPT: https://github.com
 
 Converting any layout you have to drag-to-swap layout: https://github.com/TahaSh/swapy
 
+Smoothly transition one element into another: https://github.com/TahaSh/blendy
+
 Drag and drop for any experience on any tech stack: https://github.com/atlassian/pragmatic-drag-and-drop
 
 Leaflet extension for various free tile providers: https://github.com/leaflet-extras/leaflet-providers
@@ -417,6 +421,8 @@ React and the Vanishing Network: https://vanishing-network.epicreact.dev
 UI Library for Design Engineers: https://github.com/magicuidesign/magicui
 
 Our Journey with Caching: https://nextjs.org/blog/our-journey-with-caching
+
+React Visualized: https://react.gg/visualized
 
 ---
 
