@@ -225,6 +225,7 @@ Object.prototype.toString.call(new Map())     // '[object Map]'
 - With the introduction of `BigInt`, you can operate with numbers beyond the `Number.MAX_SAFE_INTEGER`. A `BigInt` is created by appending `n` to the end of an integer or by calling the constructor.
 - The `Number.isFinite()` static method determines whether the passed value is a finite number — that is neither positive Infinity, negative Infinity, nor NaN.
 - `Number.isInteger()` returns true if the given value is an integer, otherwise return false. If the value is NaN or Infinity, return false.
+- `Number.isNaN()` determines whether the passed value is the number value NaN, and returns false if the input is not of the Number type. Note that `Number.isNaN()` doesn't attempt to convert the parameter to a number, so non-numbers always return false.
 
 > Tweet IDs are big numbers, bigger than `2^53`. The Twitter API now returns them as both integers and strings, so that in Javascript you can just use the string ID, but if you tried to use the integer version in JS, things would go very wrong. This particular issue doesn’t happen in Python, because Python has integers. Read more about [Examples of floating point problems](https://jvns.ca/blog/2023/01/13/examples-of-floating-point-problems/).
 
@@ -248,7 +249,7 @@ Sign: Positive
 3. `toPrecision()` returns a string representing this number to the specified number of significant digits.
 
 ```js
-const fixNumber = num => Number(num.toPrecision(15));
+const fixNumber = num => Number(num.toPrecision(5));
 
 // fixNumber(0.3 - 0.1) => 0.2
 // fixNumber(0.0003 - 0.0001) => 0.0002

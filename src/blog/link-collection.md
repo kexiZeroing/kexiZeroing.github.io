@@ -602,6 +602,8 @@ Chatbot components based on shadcn/ui: https://github.com/Blazity/shadcn-chatbot
 
 Introducing the Realtime API: https://openai.com/index/introducing-the-realtime-api
 
+Realtime API updates — WebRTC: https://platform.openai.com/docs/guides/realtime-webrtc
+
 Audio input and output for the OpenAI Chat Completion API: https://simonwillison.net/2024/Oct/18/openai-audio
 
 AI-powered search engine that is an open source alternative to Perplexity AI: https://github.com/ItzCrazyKns/Perplexica

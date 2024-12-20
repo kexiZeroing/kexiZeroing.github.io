@@ -338,6 +338,33 @@ const { playing: videoPlaying} = useMediaControls(videoRef, {
 </template>
 ```
 
+### Async Components
+Vue allows us to divide an app into smaller chunks by loading components asynchronously with the help of the `defineAsyncComponent()` function, which accepts a loader function that returns a Promise that resolves to the imported component.
+
+```js
+import { defineAsyncComponent } from "vue";
+
+export const AsyncModal = defineAsyncComponent(() => import("./Modal.vue"));
+```
+
+```vue
+<template>
+  <button id="show-modal" @click="showModal = true">Show Modal</button>
+  <AsyncModal v-if="showModal" :show="showModal" @close="showModal = false" />
+</template>
+
+<script setup>
+  import { ref } from "vue";
+  import { AsyncModal } from "./components/AsyncModal.js";
+
+  const showModal = ref(false);
+</script>
+```
+
+The `AsyncModal` is a wrapper component that only calls the loader function when it is actually rendered on the page.
+
+When our application webpage initially loads, we’ll recognize that the bundle for the Modal component is no longer loaded automatically upon page load. When we click the button to trigger the modal to be shown, we’ll notice the bundle is then asynchronously loaded as the modal component is being rendered.
+
 ### Vue router and Suspense
 
 ```vue
