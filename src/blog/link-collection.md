@@ -194,6 +194,8 @@ Share your screen with one simple room code: https://github.com/tonghohin/screen
 
 Web-based document scanner to PDF: https://github.com/addyosmani/scan
 
+Background removal with Transformers.js: https://github.com/addyosmani/bg-remove
+
 ---
 
 ## CSS related
@@ -454,7 +456,9 @@ Modular and Accessible UI Components for your Vue Applications (Made for Vue 2.x
 
 Vue port of Radix UI Primitives: https://www.radix-vue.com
 
-Vue port of shadcn-ui: https://github.com/radix-vue/shadcn-vue
+Vue port of shadcn-ui: https://github.com/unovue/shadcn-vue
+
+Build beautiful website using Vue & Nuxt: https://github.com/unovue/inspira-ui
 
 Vue UI Component Library: https://primevue.org
 
@@ -469,8 +473,6 @@ Vue3 wrapper components for smooth-dnd: https://gilnd.github.io/vue3-smooth-dnd
 Vue.js and Nuxt Tips, Tricks and good practice: https://vuejstips.com
 
 A type safe router for vuejs: https://github.com/kitbagjs/router
-
-Build beautiful website using Vue & Nuxt: https://github.com/unovue/inspira-ui, https://github.com/selemondev/spark-ui
 
 Create full-stack apps with Nuxt: https://talks.soubiran.dev/2024-09-17/pragvue 
 
@@ -623,6 +625,8 @@ A collection of MCP servers: https://github.com/punkpeye/awesome-mcp-servers
 Converting files and office documents to Markdown: https://github.com/microsoft/markitdown
 
 Conversational video interface with a holiday theme: https://santa.tavus.io
+
+Real-time in-browser speech recognition: https://huggingface.co/spaces/webml-community/moonshine-web
 
 ---
 

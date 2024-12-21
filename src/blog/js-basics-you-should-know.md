@@ -1121,6 +1121,19 @@ Promise.allSettled([
 // ]
 ```
 
+```js
+// use Promise.allSettled() for async error handling
+const profilePromise = fetch(endpoint).then(response => response.json());
+const [ result ] = await Promise.allSettled([profilePromise]);
+
+if (result.status === 'rejected') {
+  console.error(result.reason);
+  return;
+}
+
+console.log(result.value);
+```
+
 `Promise.any()` method (in ES2021) runs promises in parallel and resolves to the value of the first successfully resolved promise. Even if some promises get rejected, these rejections are ignored. However, if all promises in the input array are rejected or if the input array is empty, then `Promise.any()` rejects with an aggregate error containing all the rejection reasons of the input promises.
 
 ```js
