@@ -23,6 +23,10 @@ When a user's browser connects to a website over HTTPS, the following steps take
 5. The browser ensures that the domain name in the certificate matches the actual domain of the website to prevent man-in-the-middle attacks.
 6. If all checks pass, the browser and the server proceed to exchange encryption keys securely, and the encrypted communication begins.
 
+> SSL, or Secure Sockets Layer, was the original security protocol developed for HTTP. SSL was replaced by TLS, or Transport Layer Security, some time ago. SSL handshakes are now called TLS handshakes, although the "SSL" name is still in wide use.
+> 
+> Read more: https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/
+
 By going through these verification steps, the browser establishes trust in the authenticity of the website and the public key presented in the certificate.
 
 Curious about the details in verifing the trust. For example, on a Mac, the list of pre-installed trusted Certificate Authorities (CAs) is managed by the operating system. You can access and view this list through the Keychain Access application. You'll see a list of certificates, which may include both root certificates and intermediate certificates, as the trust chain often involves multiple levels of CAs.
