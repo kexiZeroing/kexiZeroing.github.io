@@ -3,7 +3,7 @@ title: "Understand the event loop"
 description: ""
 added: "Aug 26 2020"
 tags: [js]
-updatedDate: "Sep 16 2024"
+updatedDate: "Dec 23 2024"
 ---
 
 ## Inside look at a browser
@@ -81,6 +81,46 @@ output：2 4 5 6 8 3 7 1
 ```
 
 You may argue that `setTimeout` should be logged first because a task is run first before clearing the microtask queue. Well, you are right. But, no code runs in JS unless an event has occurred and the event is queued as a task. At the execution of any JS file, the JS engine wraps the contents in a function and associates the function with an event `start`, and add the event to the task queue. After emits the program `start` event, the JavaScript engine pulls that event off the queue, executes the registered handler, and then our program runs.
+
+### `process.nextTick()` and `setImmediate()` in Node.js
+A function passed to `process.nextTick()` is going to be executed on the current iteration of the event loop, after the current operation ends. This means it will always execute before `setTimeout` and `setImmediate`.
+
+A `setTimeout()` callback with a 0ms delay is very similar to `setImmediate()`. The execution order will depend on various factors, but they will be both run in the next iteration of the event loop.
+
+A `process.nextTick` callback is added to `process.nextTick` queue. A `Promise.then()` callback is added to promises microtask queue. A `setTimeout`, `setImmediate` callback is added to macrotask queue. Event loop executes tasks in `process.nextTick` queue first, and then executes promises microtask queue, and then executes macrotask queue.
+
+```js
+const baz = () => console.log('baz');
+const foo = () => console.log('foo');
+const zoo = () => console.log('zoo');
+
+const start = () => {
+  console.log('start');
+  setImmediate(baz);
+  new Promise((resolve, reject) => {
+    resolve('bar');
+  }).then(resolve => {
+    console.log(resolve);
+    process.nextTick(zoo);
+  });
+  process.nextTick(foo);
+};
+
+start();
+
+// start foo bar zoo baz
+```
+
+The principle aforementioned holds true in CommonJS cases, but keep in mind in ES Modules, e.g. mjs files, the execution order will be different:
+
+```js
+// start bar foo zoo baz
+```
+
+This is because the **ES Module being loaded is wrapped as an asynchronous operation, and thus the entire script is actually already in the promises microtask queue**. So when the promise is immediately resolved, its callback is appended to the microtask queue. Node.js will attempt to clear the queue before moving to any other queue, and hence you will see it outputs `bar` first.
+
+### Optimize long tasks
+Common advice for keeping JavaScript apps fast tends to boil down to the advice: "Don't block the main thread" and "Break up your long tasks."
 
 Any task that takes longer than 50 milliseconds is a long task. When a user attempts to interact with a page when there are many long tasks, the user interface will feel unresponsive. To prevent the main thread from being blocked for too long, you can break up a long task into several smaller ones. One method developers have used to break up tasks into smaller ones involves `setTimeout()`. With this technique, you pass the function to `setTimeout()`. This postpones execution of the callback into a separate task, even if you specify a timeout of 0.
 

@@ -3,7 +3,7 @@ title: "React Server Side Rendering and Server Components"
 description: ""
 added: "July 8 2023"
 tags: [react]
-updatedDate: "Nov 9 2024"
+updatedDate: "Dec 23 2024"
 ---
 
 ## Adding Server-Side Rendering
@@ -505,3 +505,5 @@ Behind the scenes, Server Actions create a POST API endpoint. This is why you do
 - Next.js creates a unique identifier for each server action. This identifier links the client-side request to the correct server-side function.
 - Next.js automatically generates an API endpoint for each server action. These endpoints are created during the compilation process and are not visible in your codebase. The generated endpoints handle the incoming requests from the client and route them to the corresponding server action. The request includes a special header called "Next-Action" which contains the unique identifier of the server action.
 - Server Actions integrate with Next.js' caching and revalidation architecture. `revalidatePath` accepts a relative URL string where it will clear the cache and revalidate the data for that path after a server action.
+
+> *Server Actions have officially been renamed to Server Functions.* Until September 2024, we referred to all Server Functions as “Server Actions”. If a Server Function is passed to an action prop or called from inside an action then it is a Server Action, but not all Server Functions are Server Actions. The naming in this documentation has been updated to reflect that Server Functions can be used for multiple purposes.

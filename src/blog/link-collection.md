@@ -196,6 +196,8 @@ Web-based document scanner to PDF: https://github.com/addyosmani/scan
 
 Background removal with Transformers.js: https://github.com/addyosmani/bg-remove
 
+Your coding year in review: https://githubunwrapped.com
+
 ---
 
 ## CSS related

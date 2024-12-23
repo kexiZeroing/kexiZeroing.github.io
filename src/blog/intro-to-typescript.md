@@ -584,6 +584,10 @@ type ReturnType<T extends (...args: any) => any> = T extends (...args: any) => i
 
 // Extracting the Type of a Property from an Object
 type PropertyType<T, K extends keyof T> = T extends { [key in K]: infer P } ? P : never;
+
+type TrimWhitespacePrefix<T> = T extends `${" " | "\t" | "\n"}${infer U}`
+  ? TrimWhitespacePrefix<U>
+  : T;
 ```
 
 ```ts
