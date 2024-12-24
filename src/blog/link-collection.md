@@ -428,6 +428,8 @@ Our Journey with Caching: https://nextjs.org/blog/our-journey-with-caching
 
 React Visualized: https://react.gg/visualized
 
+A collection of fancy React components: https://www.fancycomponents.dev
+
 ---
 
 ## Vue and Vite ecosystem
@@ -474,11 +476,9 @@ Vue3 wrapper components for smooth-dnd: https://gilnd.github.io/vue3-smooth-dnd
 
 Vue.js and Nuxt Tips, Tricks and good practice: https://vuejstips.com
 
-A type safe router for vuejs: https://github.com/kitbagjs/router
+The Guide to Building a Vue.js Component Library: https://soubiran.dev/series/the-complete-guide-to-building-a-vue-js-component-library
 
-Create full-stack apps with Nuxt: https://talks.soubiran.dev/2024-09-17/pragvue 
-
-The Complete Guide to Building a Vue.js Component Library: https://soubiran.dev/series/the-complete-guide-to-building-a-vue-js-component-library
+The Guide to Setting Up a New Nuxt Project: https://soubiran.dev/posts/the-perfect-guide-to-setting-up-a-new-nuxt-project
 
 3D page flip effect for Vue2 and Vue3: https://github.com/ts1/flipbook-vue
 

@@ -85,7 +85,7 @@ npm run check-exports
 └───────────────────┴──────────────────────────────┘
 ```
 
-If you want to publish both CJS and ESM code, you can use `tsup`. This is a tool built on top of esbuild that compiles your TypeScript code into both formats. We'll now be running `tsup` to compile our code instead of `tsc`.
+If you want to publish both CJS and ESM code, you can use `tsup`. This is a tool built on top of esbuild that compiles your TypeScript code into both formats. We'll now be running `tsup` to compile our code instead of `tsc`. *A minimal TS library starter: https://github.com/egoist/ts-lib-starter*
 
 ```ts
 // tsup.config.ts
