@@ -392,6 +392,35 @@ badEmptyCheck(new String());  // false
 badEmptyCheck(new Array());   // false
 ```
 
+### Check if two objects are equal
+
+```js
+function compareTwoObjs(obj1, obj2) {
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (let key of keys1) {
+    if (!keys2.includes(key)) {
+      return false;
+    }
+
+    if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+      if (!compareTwoObjs(obj1[key], obj2[key])) {
+        return false;
+      }
+    } else if (obj1[key] !== obj2[key]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+```
+
 ### Object.defineProperty()
 It defines a new property or modifies an existing property on an object, and returns the object. By default, values added using `Object.defineProperty()` are immutable and not enumerable. Property descriptors present in objects come in two main flavors: **data descriptors or accessor descriptors**. A data descriptor is a property that has a value, which may or may not be writable. An accessor descriptor is a property described by a getter-setter pair of functions. A descriptor must be one of these two flavors; it cannot be both.
 
