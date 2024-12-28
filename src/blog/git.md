@@ -203,6 +203,19 @@ Another example, I want to squash my last 3 commits together into one commit.
 
 - Method 2: `git reset --hard HEAD~3`, where `HEAD@{1}` is where the branch was just before the reset command. Then `git merge --squash HEAD@{1} && git commit`. This way you get the commit message prepopulated with every commit message that you're squashing.
 
+## `git add -p` is underrated
+Interactively choose hunks of patch between the index and the work tree and add them to the index. This gives the user a chance to review the difference before adding modified contents to the index.
+
+```
+y - stage this hunk
+n - do not stage this hunk
+q - quit; do not stage this hunk or any of the remaining ones
+a - stage this hunk and all later hunks in the file
+d - do not stage this hunk or any of the later hunks in the file
+e - manually edit the current hunk
+? - print help
+```
+
 ## git restore and git switch
 `git checkout` is one of the many reasons why newcomers find git confusing, and that is because its effect is context-dependent. In version 2.23 of git, two new commands have been introduced to split the old `git checkout` in two.
 

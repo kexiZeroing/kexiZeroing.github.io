@@ -3,7 +3,7 @@ title: "Intro to TypeScript"
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Oct 24 2024"
+updatedDate: "Dec 28 2024"
 ---
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
@@ -36,6 +36,12 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
+
+    /*
+     * https://github.com/privatenumber/fix-verbatim-module-syntax
+     * Fix error: 'SomeType' is a type and must be imported using a type-only import 
+     * when 'verbatimModuleSyntax' is enabled.
+     */
 
     /* Strictness */
     "strict": true,
@@ -918,3 +924,9 @@ npx tsc --init
 How to run ts files from command line? There is [ts-node](https://github.com/TypeStrong/ts-node) that will compile the code and REPL for node.js: `npx ts-node src/foo.ts`. `tsc` writes js to disk. `ts-node` doesn't need to do that and runs ts on the fly. But it's not typechecking your code. So we recommend to type check your code first with `tsc` and then run it with `ts-node` before shipping it.
 
 Btw, you can use [jiti](https://github.com/unjs/jiti) CLI to quickly run any script with TypeScript and native ESM support.
+
+Node 23 will soon be able to run TypeScript files without any extra configuration *(unflagging `--experimental-strip-types`)*.
+- Create an `index.ts` file containing TS syntax. Enums and namespaces are not supported by default.
+- Run node `index.ts` with no further flags.
+- Node will strip out the types using a version of swc, then run the resulting code.
+- Node will not typecheck your files when it runs them. 

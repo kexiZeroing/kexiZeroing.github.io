@@ -511,6 +511,8 @@ Access-Control-Allow-Origin: https://foo.example
 Content-Type: text/plain
 ```
 
+> Preflight requests are only made for so-called non-simple requests which for historical reasons are requests that you cannot make with a HTML form. In practice what it means is that you can make CORS POST without preflight but you cannot use custom headers.
+
 Note that along with the OPTIONS request, two other request headers are sent: `Access-Control-Request-Method` and `Access-Control-Request-Headers`. The `Access-Control-Request-Method` header notifies the server that when the actual request is sent, it will be sent with a POST request method. The `Access-Control-Request-Headers` header notifies the server that when the actual request is sent, it will be sent with a `X-PINGOTHER` and `Content-Type` custom headers. The server now has an opportunity to determine whether it wishes to accept a request under these circumstances.
 
 In addition to `Access-Control-Allow-Origin`, the server responds with `Access-Control-Allow-Methods` and says that POST and GET are viable methods to query the resource. The server also sends `Access-Control-Allow-Headers` with a value of "X-PINGOTHER, Content-Type", confirming that these are permitted headers to be used with the actual request. Finally, `Access-Control-Max-Age` gives the value in seconds for how long the response to the preflight request can be cached without sending another preflight request. (Note that each browser has a maximum internal value that takes precedence when the `Access-Control-Max-Age` is greater).
