@@ -198,6 +198,8 @@ Background removal with Transformers.js: https://github.com/addyosmani/bg-remove
 
 Your coding year in review: https://githubunwrapped.com
 
+Create Your Own CLI Tool: https://citw.dev/tutorial/create-your-own-cli-tool
+
 ---
 
 ## CSS related
@@ -287,8 +289,6 @@ Web Interface Guidelines: https://github.com/raunofreiberg/interfaces
 The react library to build dashboards fast: https://github.com/tremorlabs/tremor
 
 Copy & Paste React Components for Dashboards: https://github.com/tremorlabs/tremor-raw
-
-SVG spinners: https://github.com/n3r4zzurr0/svg-spinners
 
 The Biggest Collection of Loading Animations: https://css-loaders.com
 

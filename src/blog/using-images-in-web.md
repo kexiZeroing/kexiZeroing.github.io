@@ -46,6 +46,8 @@ SVG is different than all the above in that it's a vector file format (the above
 </svg>
 ```
 
+An Introduction to SVGs: https://courses.nan.fyi/svg/00-svg-foundations
+
 ### Webp
 WebP is an image format developed and first released by Google in 2010. It supports encoding images in both lossless and lossy formats, making it a great alternative format to both PNG or JPEG. WebP lossless images are 26% smaller in size compared to PNGs. WebP lossy images are 25-34% smaller than comparable JPEG images. It also supports transparency and animation.
 
