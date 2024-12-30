@@ -1,0 +1,64 @@
+---
+import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+---
+
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  html {
+    block-size: 100%;
+  }
+
+  body {
+    min-block-size: 150%;
+  }
+  
+  section {
+    block-size: 50vh;
+  }
+  
+  .sda-pip {
+    position: fixed;
+    inset: 0;
+    inline-size: 100vw;
+    block-size: 100vh;
+  }
+
+  @layer demo {
+    section {
+      view-timeline-name: --pip;
+    }
+    
+    .sda-pip {
+      animation-timeline: --pip;
+      animation-name: fade;
+      animation-fill-mode: both;
+      animation-range: exit 0% exit 50vh;
+    }
+  }
+
+  @keyframes fade {
+    to {
+      block-size: 180px;
+      inline-size: 320px;
+      inset-block: calc(100% - 180px - 15px) 0;
+      inset-inline: calc(100% - 320px - 15px) 0;
+    }
+  }
+</style>
+
+<PlaygroundLayout title="Video Scroll Animation">
+  <section>
+    <video
+      class="sda-pip"
+      src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
+      controls
+      autoplay
+      muted
+      loop
+    ></video>
+  </section>
+</PlaygroundLayout>
