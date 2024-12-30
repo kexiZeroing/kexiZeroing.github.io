@@ -60,7 +60,7 @@ B-trees and database indexes: https://planetscale.com/blog/btrees-and-database-i
 
 MySQL isolation levels and how they work: https://planetscale.com/blog/mysql-isolation-levels-and-how-they-work
 
-A Beginner’s Guide to the True Order of SQL Operations: https://blog.jooq.org/a-beginners-guide-to-the-true-order-of-sql-operations
+The Super Tiny Compiler: https://github.com/jamiebuilds/the-super-tiny-compiler
 
 Falsehoods programmers believe in: https://github.com/kdeldycke/awesome-falsehood
 
@@ -629,6 +629,8 @@ Converting files and office documents to Markdown: https://github.com/microsoft/
 Conversational video interface with a holiday theme: https://santa.tavus.io
 
 Real-time in-browser speech recognition: https://huggingface.co/spaces/webml-community/moonshine-web
+
+An AI assistant that can use your CLI aNd Editor: https://github.com/cline/cline
 
 ---
 

@@ -175,6 +175,8 @@ Webpack 4 also has the concept `url-loader`. It first base64 encodes the file an
     }
     ```
 
+    > [es-toolkit](https://github.com/toss/es-toolkit) is a modern JavaScript utility library that's 2-3 times faster and up to 97% smaller—a major upgrade to lodash.
+
 4. The `sideEffects` property of `package.json` declares whether a module has side effects on import. When side effects are present, unused modules and unused exports may not be tree shaken due to the limitations of static analysis.
 
 #### webpack-bundle-analyzer（检查打包体积）
