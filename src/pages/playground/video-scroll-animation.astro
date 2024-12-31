@@ -1,5 +1,8 @@
 ---
-import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+import PlaygroundLayout from "@/layouts/PlaygroundLayout.astro";
+
+// https://codepen.io/argyleink/pen/JjepyYJ
+// https://github.com/w3c/csswg-drafts/pull/11421/files
 ---
 
 <style>
@@ -15,11 +18,11 @@ import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
   body {
     min-block-size: 150%;
   }
-  
+
   section {
     block-size: 50vh;
   }
-  
+
   .sda-pip {
     position: fixed;
     inset: 0;
@@ -31,13 +34,24 @@ import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
     section {
       view-timeline-name: --pip;
     }
-    
+
     .sda-pip {
+      /* animation-timeline: scroll(); */
       animation-timeline: --pip;
       animation-name: fade;
       animation-fill-mode: both;
+      /* when an animation starts and ends relative to the scroll position of an element. */
       animation-range: exit 0% exit 50vh;
     }
+
+    /* exit 0%: 
+      Marks the start of the animation. 
+      It begins when the element just starts to exit the viewport
+    */
+    /* exit 50vh: 
+      Marks the end of the animation. 
+      It ends when the exit point of the element has scrolled up by 50% of the viewport height (50vh).
+    */
   }
 
   @keyframes fade {
