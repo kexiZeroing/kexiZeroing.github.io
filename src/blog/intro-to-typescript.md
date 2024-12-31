@@ -437,7 +437,10 @@ async function fetchData(): Promise<number> {
                     never
 ```
 
-> The empty object type `{}` is unique. Instead of representing an empty object, it actually represents anything that isn't `null` or `undefined`. This means that it can accept a number of other types: string, number, boolean, function, symbol, and objects containing properties.
+> The empty object type `{}` is unique. Instead of representing an empty object, it actually represents anything that isn't `null` or `undefined`. `{}` can accept a number of other types: string, number, boolean, function, symbol, and objects containing properties.
+>
+> - The only difference between `{}` and `unknown` is that `unknown` contains every single JavaScript value, including `null` and `undefined`.
+> - Unlike `{}`, `object` type does not include primitive types.
 
 **Value Types**: We can narrow down primitive types to values.
 ```ts

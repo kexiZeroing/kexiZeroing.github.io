@@ -198,7 +198,7 @@ Background removal with Transformers.js: https://github.com/addyosmani/bg-remove
 
 Your coding year in review: https://githubunwrapped.com
 
-Create Your Own CLI Tool: https://citw.dev/tutorial/create-your-own-cli-tool
+A list of resources for local-first web development: https://github.com/mylofi/localfirstweb.dev
 
 ---
 

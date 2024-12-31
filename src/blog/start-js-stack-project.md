@@ -78,6 +78,12 @@ export const loader = async ({ params }: LoaderArgs) => {
 
 > An `invariant` function from [tiny-invariant](https://github.com/alexreardon/tiny-invariant) takes a value, and if the value is falsy then the invariant function will throw. If the value is truthy, then the function will not throw.
 
+### Modular architecture of Front-end applications
+<img alt="apple-style-dock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/modular-architecture.png" width="700">
+
+- Components can’t use modules, but can use everything from the UI layer, while modules use components but can’t use pages. And pages only use modules.
+- A module shouldn’t use another module, and a component should’t contain complex logic. If logic is still needed, it should be as simple and easily maintainable as possible, otherwise — it’s a module.
+
 ### Writing Modern JavaScript without a Bundler
 https://playfulprogramming.com/posts/modern-js-bundleless
 
