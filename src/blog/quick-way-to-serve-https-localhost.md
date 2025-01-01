@@ -23,13 +23,19 @@ When a user's browser connects to a website over HTTPS, the following steps take
 5. The browser ensures that the domain name in the certificate matches the actual domain of the website to prevent man-in-the-middle attacks.
 6. If all checks pass, the browser and the server proceed to exchange encryption keys securely, and the encrypted communication begins.
 
-> SSL, or Secure Sockets Layer, was the original security protocol developed for HTTP. SSL was replaced by TLS, or Transport Layer Security, some time ago. SSL handshakes are now called TLS handshakes, although the "SSL" name is still in wide use.
-> 
-> Read more: https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/
-
 By going through these verification steps, the browser establishes trust in the authenticity of the website and the public key presented in the certificate.
 
 Curious about the details in verifing the trust. For example, on a Mac, the list of pre-installed trusted Certificate Authorities (CAs) is managed by the operating system. You can access and view this list through the Keychain Access application. You'll see a list of certificates, which may include both root certificates and intermediate certificates, as the trust chain often involves multiple levels of CAs.
+
+### TLS fingerprinting
+TLS (Transport Layer Security) is the evolution of SSL (Secure Sockets Layer), the protocol previously responsible for handling encrypted connections between web clients and servers. SSL was replaced by TLS, and SSL handshakes are now called TLS handshakes. **SSL is no longer in common use, but its name is still mistakenly used to refer to TLS as well.**
+
+To initiate a SSL session, a client will send a SSL Client Hello packet following the TCP 3-way handshake. Because SSL negotiations are transmitted in the clear, it’s possible to fingerprint and identify client applications using the details in the SSL Client Hello packet. The Client Hello message that most HTTP clients and libraries produce differs drastically from that of a real browser. Some web services use the TLS and HTTP handshakes to fingerprint which client is accessing them, and then present different content for different clients.
+
+[JA3](https://github.com/salesforce/ja3) is a popular method used to formalize the notion of a TLS fingerprint. It takes a Client Hello packet and produces a hash identifying the client. (JA3 works by concatenating multiple fields of the Client Hello and then hashing them.)
+
+- https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake
+- https://lwthiker.com/networks/2022/06/17/tls-fingerprinting.html
 
 ## Create Self-Assigned Certificate
 [mkcert](https://github.com/FiloSottile/mkcert) is a tool that simplifies the process of setting up a local development environment with HTTPS. `mkcert` is a simple tool for making locally-trusted development certificates.

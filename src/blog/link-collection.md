@@ -632,6 +632,8 @@ Real-time in-browser speech recognition: https://huggingface.co/spaces/webml-com
 
 An AI assistant that can use your CLI aNd Editor: https://github.com/cline/cline
 
+2024 AI Timeline: https://huggingface.co/spaces/reach-vb/2024-ai-timeline
+
 ---
 
 ## Machine Learning
