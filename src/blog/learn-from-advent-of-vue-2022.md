@@ -365,6 +365,61 @@ The `AsyncModal` is a wrapper component that only calls the loader function when
 
 When our application webpage initially loads, we’ll recognize that the bundle for the Modal component is no longer loaded automatically upon page load. When we click the button to trigger the modal to be shown, we’ll notice the bundle is then asynchronously loaded as the modal component is being rendered.
 
+For Vue 2, the following example shows how to lazy load a component. By passing `() => import("./tooltip")` instead of the static `import Tooltip from "./tooltip"`. Vue will lazy load that component as soon as is requested to be rendered, which normally happens right away when the App component gets mounted. However, in practice, we'd like to defer the Tooltip component loading until it is required, which for example when hovering a button or text.
+
+```vue
+<template>
+  <div>
+    <button @click="show = true">Load Tooltip</button>
+    <div v-if="show">
+      <tooltip></tooltip>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data: () => ({ show: false }),
+  components: {
+    Tooltip: () => import("./Tooltip")
+    // Tooltip: () => ({
+    //   component: import("./Tooltip"),
+    //   loading: AwesomeSpinner,
+    //   error: SadFaceComponent,
+    //   timeout: 5000,
+    // })
+  }
+};
+</script>
+```
+
+### Global Properties
+It's possible to add global properties to your Vue app in both Vue 2 and Vue 3. Prefixing global properties with a `$` helps prevent naming conflicts with other variables, and it's a standard convention that makes it easy to spot when a value is global.
+
+```js
+// Vue 3
+const app = createApp({});
+app.config.globalProperties.$myGlobalVariable = 'foo';
+
+// Vue 2
+Vue.prototype.$myGlobalVariable = 'foo';
+```
+
+Properties added to `globalProperties` will be available via the component instance for all components within the application. So if you're using the Options API you'll be able to access them using `this.$myGlobalVariable`, just like you could with `Vue.prototype`. They'll also be available in the template without the `this`, e.g. `{{ $myGlobalVariable }}`.
+
+If you're using the Composition API then you'll still be able to use these properties within the template, but you won't have access to the component instance within `setup`, so these properties won't be accessible there. *(Composition API is designed to be context-free and has no access to `this`.)* Application-level `provide`/`inject` can be used as an alternative to `Vue.prototype`.
+
+```js
+const app = createApp(RootComponent)
+app.provide('myGlobalVariable', globalVariable)
+
+// In the descendant component
+<script setup>
+import { inject } from 'vue'
+const myGlobalVariable = inject('myGlobalVariable')
+</script>
+```
+
 ### Vue router and Suspense
 
 ```vue
