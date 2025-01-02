@@ -4,7 +4,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Dec 11 2024"
+updatedDate: "Jan 2 2025"
 ---
 
 ### TOC
@@ -20,6 +20,7 @@ updatedDate: "Dec 11 2024"
 - [Shuffle an array](#shuffle-an-array)
 - [Traverse Binary Tree](#traverse-binary-tree)
 - [Graph DFS](#graph-dfs)
+- [Path finding](#path-finding)
 - [Union Find](#union-find)
 - [Heap](#heap)
 - [DP](#dp)
@@ -510,6 +511,64 @@ The `visited` array is global or shared across all recursive calls. If you are s
 
 - If you are finding a path in a maze, the visited array doesn’t need to be reset because you only care about finding a path from the start to the end. Once you visit a node, it’s marked as visited, and it remains marked.
 - If you’re looking for all possible paths in a maze, or doing multiple DFS calls from a single node, the visited array must be reset after each recursion to allow revisiting nodes.
+
+### Path finding
+https://www.redblobgames.com/pathfinding/a-star/introduction.html
+
+```python
+# bfs
+frontier = Queue()
+frontier.put(start)
+reached = set()
+reached.add(start)
+
+while not frontier.empty():
+   current = frontier.get()
+   for next in graph.neighbors(current):
+      if next not in reached:
+         frontier.put(next)
+         reached.add(next)
+
+
+# finding path
+frontier = Queue()
+frontier.put(start)
+came_from = dict()  # path A->B is stored as came_from[B] == A
+came_from[start] = None
+
+while not frontier.empty():
+   current = frontier.get()
+
+   if current == goal: 
+      break           
+
+   for next in graph.neighbors(current):
+      if next not in came_from:
+         frontier.put(next)
+         came_from[next] = current
+
+# dijkstra
+frontier = PriorityQueue()
+frontier.put(start, 0)
+came_from = dict()
+cost_so_far = dict()
+came_from[start] = None
+cost_so_far[start] = 0
+
+while not frontier.empty():
+   current = frontier.get()
+
+   if current == goal:
+      break
+   
+   for next in graph.neighbors(current):
+      new_cost = cost_so_far[current] + graph.cost(current, next)
+      if next not in cost_so_far or new_cost < cost_so_far[next]:
+         cost_so_far[next] = new_cost
+         priority = new_cost
+         frontier.put(next, priority)
+         came_from[next] = current
+```
 
 ### Union Find
 
