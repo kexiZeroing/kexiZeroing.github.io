@@ -430,6 +430,8 @@ React Visualized: https://react.gg/visualized
 
 A collection of fancy React components: https://www.fancycomponents.dev
 
+How does React re-render internally: https://jser.dev/2023-07-18-how-react-rerenders
+
 ---
 
 ## Vue and Vite ecosystem
@@ -617,8 +619,6 @@ For LLMs to better code with Jina API: https://github.com/jina-ai/meta-prompt
 Let your Claude able to think: https://github.com/richards199999/Thinking-Claude
 
 JavaScript tokenizer for LLaMA 1 and LLaMA 2: https://github.com/belladoreai/llama-tokenizer-js
-
-Extracting structured data from PDFs using AI: https://github.com/DocumindHQ/documind
 
 Model Context Protocol Quickstart: https://glama.ai/blog/2024-11-25-model-context-protocol-quickstart
 

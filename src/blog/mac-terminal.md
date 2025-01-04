@@ -76,6 +76,8 @@ echo "$HOME"  /home/user1/
 ## Making tab-completion case-insensitive
 The problem is that the file system of macOS is "case preserving, but case-insensitive". That means the file system will remember wether you named a file `README.TXT`, `ReadMe.txt` or `readme.TXT` and preserve that case, but using either of these will point to the same file. This may be confusing in Terminal. Since most other Unix file system are case-sensitive (i.e. `README.TXT` and `readme.txt` are different files) and most shells are case-sensitive too.
 
+> Don't mix uppercase and lowercase letters in your filenames. It's a recipe for disaster with different operating systems (some ignore the case while others don't). I use kebab-case.
+
 One thing you can change is wether tab-completion is case-sensitive or not. Since the underlying file system is insensitive, there is no reason tab-completion should be. To make tab-completion in bash case-insensitive, put `set completion-ignore-case on` in your `.inputrc` (create if necessary).
 
 ## Viewing `man` Pages

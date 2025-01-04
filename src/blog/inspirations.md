@@ -61,3 +61,10 @@ The divide between frontend and backend engineers is increasingly less useful:
 Product Engineers consider the frontend, backend, design, and everything in between to create a great user experience. They don't need to understand every part deeply, a common misconception of "fullstack". Instead, they have a broad understanding of the available tools and deep experience applying those tools to build products. At Vercel, we updated our job descriptions to change references from Fullstack to Product Engineers.
 
 While Product Engineers focus on building and enhancing features that solve end user problems, Platform Engineers focus on the infrastructure that supports the product.
+
+## Five things I’ve stopped doing as a leader by Kelly Vaughn
+1. Focusing on outputs over outcomes. It's easy to celebrate launching a new feature, but the real win is the impact on users and the business. I've learned to ask, What did this actually change?
+2. Worrying about making sure my team is only working on important things. The reality is we're all going to have to do things at work that aren't exactly fun or the biggest money movers, but they're still necessary in their own right. Leave space to sit through the boring work.
+3. Avoiding conflict. Giving tough feedback used to make me anxious. Now, I see those conversations as opportunities to grow—both for me and my team.
+4. Micromanaging. Instead of solving problems for my team, I guide them to find their own solutions and give them room to decide the best path forward without me lighting the way. Delegation isn’t just about efficiency. It’s about trust.
+5. Treating self-care as optional. Burnout isn’t a badge of honor. Being busy isn't something to brag about. When I take the time to care of myself, I lead with clarity and empathy. It's a win for everyone.
