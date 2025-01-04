@@ -3,7 +3,7 @@ title: "Understand npm concepts"
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "Nov 27 2024"
+updatedDate: "Jan 4 2025"
 ---
 
 ### package.json and package-lock.json
@@ -266,6 +266,40 @@ Traditionally, npm installed dependencies in a flat `node_modules` folder. On th
 pnpm organizes `node_modules` differently from npm, exposing only the dependencies explicitly declared in `package.json`. Transitive dependencies are installed in `node_modules/.pnpm/registry.npmjs.org/`, rather than the flat structure for `node_modules` as npm.
 
 In simple terms, if there is a module A that depends on module B, and module A is depended on in the project's `package.json`, module A can access module B, but the project cannot. When `shamefully-hoist=true` is set, module B will be hoisted, making it accessible in the project.
+
+#### corepack
+Instead of installing `yarn` or `pnpm` globally, Corepack manages them for you behind the scenes. When you run a package manager command, Corepack intercepts it, checks what version you need, downloads it if necessary, and runs your command with the correct version.
+
+Corepack makes sure you're using the correct package manager for your project. Since v16.13, Node.js is shipping Corepack for managing package managers. This is an experimental feature, so you need to enable it by running `corepack enable pnpm`. To configure the package manager for your project, add the `packageManager` field to your `package.json`:
+
+```json
+{
+  // npm
+  "packageManager": "npm@10.8.1",
+  // pnpm
+  "packageManager": "pnpm@9.1.4",
+  // yarn
+  "packageManager": "yarn@3.1.1"
+}
+```
+
+You can use `corepack use pnpm@x.y.z` to ask Corepack to update your local `package.json` to use the package manager of your choice. *(Corepack intercepts calls to `pnpm` or `yarn` to make sure you're using them correctly.)* You must specify an exact version of the package manager you want to use - not a range. Now, if you try to `npm install` in a project that has `packageManager` set to `pnpm`, corepack will show an error. And if you try to `pnpm install` there, corepack will automatically download and use the correct pnpm version.
+
+#### monorepo setup
+Monorepos are specified using a `pnpm-workspace.yaml` file instead of the `"workspaces"` field in `package.json` that npm and yarn use.
+
+```yml
+# The only field in this config file
+packages:
+  - apps/*
+  - packages/*
+```
+
+To add a local dependency within a monorepo, in your `package.json` "dependencies" field you'll prefix your local dependencies' version-range strings with `"workspace:^"` *(`workspace:` indicates that the dependency should be resolved from the local workspace packages rather than pulling from an external registry. `^` means the version should follow the semver caret (^) range rule.)* `workspace:*` uses the exact version of the dependency as defined in its `package.json` within the workspace.
+
+Check out the example:
+- https://www.youtube.com/watch?v=KIgPJT806D0
+- https://github.com/w3cj/monorepo-example-tasks-app
 
 ### npm scripts
 npm scripts are a set of built-in and custom scripts defined in the `package.json` file. Their goal is to provide a simple way to execute repetitive tasks.
