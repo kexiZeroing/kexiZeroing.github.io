@@ -3,7 +3,7 @@ title: "Learn from Advent of Vue 2022"
 description: ""
 added: "Dec 27 2022"
 tags: [vue]
-updatedDate: "Nov 27 2024"
+updatedDate: "Jan 4 2025"
 ---
 
 ### Code Structure
@@ -51,6 +51,18 @@ state.value.count = 2
 // does trigger change
 state.value = { count: 2 }
 ```
+
+### `defineProps` and compiler macros
+You don't need to import `defineProps` from Vue. `defineProps`, `defineEmits`, and `defineExpose` are **compiler macros** that are compiled away, and they are not actual functions in the Vue package. These are just hints for the compiler to create them nicely.
+
+> A compiler macro is special code that is processed by a compiler and converted into something else. They are effectively a clever form of string replacement.
+
+<img alt="vue-cmp-props" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/vue-props.png" width="750">
+<br>
+
+<img alt="vue-setup-defineprops" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/vue-setup-defineprops.png" width="750">
+
+The output structure looks like what we had before with our `defineComponent` approach, and the only difference is that the compiler is creating this for us.
 
 ### Recursive Tree
 1. Recursion always requires two things: Define your base case and recursive case. To do this you need a switch of some kind (maybe a `v-if`), and a value that changes with each step in the recursion.
