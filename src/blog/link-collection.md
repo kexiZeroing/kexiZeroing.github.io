@@ -634,6 +634,8 @@ An AI assistant that can use your CLI aNd Editor: https://github.com/cline/cline
 
 2024 AI Timeline: https://huggingface.co/spaces/reach-vb/2024-ai-timeline
 
+A minimalistic AI-powered search engine: https://github.com/zaidmukaddam/miniperplx
+
 ---
 
 ## Machine Learning
