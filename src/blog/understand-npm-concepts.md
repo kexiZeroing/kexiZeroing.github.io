@@ -130,6 +130,32 @@ This will create a `dist/index.js` (for ESM) and a `dist/index.cjs` (for CJS). A
 > - [Npm Burst](https://craigory.dev/npm-burst) tracks statistics of released npm packages and installed version counts.
 > - [Version Lens](https://marketplace.visualstudio.com/items?itemName=pflannery.vscode-versionlens) VS Code extension shows the latest version for each package.
 
+### dependency overrides
+If you need to make specific changes to dependencies of your dependencies, you may add an *override*. Overrides provide a way to replace a package in your dependency tree with another version, or another package entirely.
+
+To make sure the package `foo` is always installed as version 1.0.0 no matter what version your dependencies rely on:
+```json
+{
+  "overrides": {
+    "foo": "1.0.0"
+  }
+}
+
+// To only override foo to be 1.0.0 when it's a child of the package bar
+{
+  "overrides": {
+    "bar": {
+      "foo": "1.0.0"
+    }
+  }
+}
+```
+
+However, be cautious when doing this because:
+- Package A might not work correctly if B's version is incompatible.
+- When package A updates, it might require a different version of B.
+- Other packages might also depend on B and need different versions.
+
 ### npm ls
 `npm ls` (aliases: list, la, ll) list dependencies that have been installed to `node_modules`. It throws an error for discrepancies between `package.json` and its lock file.
 

@@ -3,7 +3,7 @@ title: "Notes on work projects (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Jult 17 2024"
+updatedDate: "Jan 6 2025"
 ---
 
 ### 项目是怎么跑起来的
@@ -334,8 +334,6 @@ if (!isInIframe && !ua.toLowerCase().match(/micromessenger|android|iphone/i)) {
 <script src="https://cdn.example.com/assets/login.js"></script>
 ```
 
-> 关于 iframe 的配置：https://iframegenerator.top
-
 ### 登录逻辑
 - 二维码登录先使用 websocket 连接，message 中定义不同的 `op` 代表不同的操作，比如 requestlogin 会返回微信生成的二维码（包括 qrcode, ticket, expire_seconds 等）, 扫码成功返回类型是 loginsuccess，并附带 OpenID, UnionID, Name, UserID, Auth 等信息，前端拿到这些信息后可以请求后端登录的 http 接口，拿到 sessionid，并被种在 cookie 里。
 - 账密登录，前端使用 [JSEncrypt](http://travistidwell.com/jsencrypt/) 给密码加密并请求后端登录接口，成功的话后端会把 sessionid 种在 cookie 里。
@@ -515,11 +513,6 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 
 3. 使用 [VueRequest](https://github.com/AttoJS/vue-request)，管理请求状态，支持 SWR、轮询、错误重试、缓存、分页等常用功能。`useRequest` 接收一个 service 函数，service 是一个异步的请求函数，换句话说，还可以使用 axios 来获取数据，然后返回一个 Promise。`useRequest` 会返回 data、loading、error 等，它们的值会根据请求状态和结果进行修改。返回的 run 方法，可以手动触发 service 请求。
 
-### API 版本和 URI 连字符
-API 版本可以放在两个地方: 在 url 中指定 API 的版本，例如 `example.com/api/v1`，这样不同版本的协议解析可以放在不同的服务器上，不用考虑协议兼容性，开发方便，升级也不受影响。另一种是放在 HTTP header 中，url 显得干净，符合 RESTful 惯例，毕竟版本号不属于资源的属性。缺点是需要解析头部，判断返回。
-
-URI 中尽量使用连字符 `-` 代替下划线 `_` 的使用，连字符用来分割 URI 中出现的单词，提高 URI 的可读性。下划线会和链接的样式冲突重叠。URI 是对大小写敏感的，为了避免歧义，我们尽量用小写字符。但主机名（Host）和协议名（Scheme）对大小写是不敏感的。
-
 ### 阿里云 CDN
 阿里云 CDN 对于文件是否支持缓存是以 `X-Cache` 头部来确定，缓存时间是以 `X-Swift-CacheTime` 头部来确认。
 - `Age` 表示该文件在 CDN 节点上缓存的时间，单位为秒。只有文件存在于节点上 Age 字段才会出现，当文件被刷新后或者文件被清除的首次访问，在此前文件并未缓存，无 Age 头部字段。当 Age 为 0 时，表示节点已有文件的缓存，但由于缓存已过期，本次无法直接使用该缓存，需回源校验。
@@ -625,13 +618,20 @@ URI 中尽量使用连字符 `-` 代替下划线 `_` 的使用，连字符用来
 
 - 防止重复提交：前端防抖，按钮点击后立即禁用。后端接口幂等性设计。
 
-- iframe 技术方案（浏览器原生的隔离方案）
-  1. iframe 内部的路由变化要体现在浏览器地址栏上
-  2. 刷新页面时要把当前状态的 url 传递给 iframe
-  3. 浏览器前进后退符合预期
-  4. 弹窗全局居中
-  5. CSP, sandbox 等安全属性
-  6. 局限性：每次刷新页面都可能使 iframe 内部状态丢失；postMessage 只能传递可序列化的数据；iframe 白屏时间相对较长
+### iframe 技术方案
+用一句话概括 iframe 的作用就是在一个 web 应用中可以独立的运行另一个 web 应用，这个概念和微前端是类似的。采用 iframe 的优点是使用简单、隔离完美、页面上可以摆放多个 iframe 来组合多应用业务。但是缺点也非常明显：
+- 路由状态丢失，刷新一下，iframe 的 url 状态就丢失了
+- dom 割裂严重，弹窗只能在 iframe 内部展示，无法覆盖全局
+- 通信困难，只能通过 postMessage 传递序列化的消息
+- 白屏时间长
+
+所以我们需要考虑：
+1. iframe 内部的路由变化要体现在浏览器地址栏上
+2. 刷新页面时要把当前状态的 url 传递给 iframe
+3. 浏览器前进后退符合预期
+4. 弹窗全局居中
+5. CSP, sandbox 等安全属性
+6. 腾讯的无界微前端框架 https://wujie-micro.github.io/doc/
 
 ### 桌面端 Electron 的本地构建过程
 Electron是一个集成项目，允许开发者使用前端技术开发桌面端应用。其中 **Chromium 基础能力**可以让应用渲染 HTML 页面，执行页面的 JS 脚本，让应用可以在 Cookie 或 LocalStorage 中存取数据。Electron 还继承了 Chromium 的多进程架构，分一个主进程和多个渲染进程，主进程进行核心的调度启动，不同的 GUI 窗口独立渲染，做到进程间的隔离，进程与进程之间实现了 IPC 通信。**Node.js 基础能力**可以让开发者读写本地磁盘的文件，通过 socket 访问网络，创建和控制子进程等。**Electron 内置模块**可以支持创建操作系统的托盘图标，访问操作系统的剪切板，获取屏幕信息，发送系统通知，收集崩溃报告等。
