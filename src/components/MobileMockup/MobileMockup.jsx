@@ -27,6 +27,7 @@ const MobileMockup = () => {
             <p>- Social media cares more about what's hot and being talked about instead of what can actually get you a job.</p>
             <p>- A goal without a plan is just a wish.</p>
             <p>- There are no solutions, only tradeoffs.</p>
+            <p>- Sometimes magic is just someone spending more time on something than anyone else might reasonably expect.</p>
           </div>
         </main>
       </div>

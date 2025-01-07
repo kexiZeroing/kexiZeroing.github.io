@@ -126,8 +126,18 @@ The simplest possible encoding for Unicode is UTF-32. It simply stores code poin
 
 **U**nicode **T**ransformation **F**ormat **8**-bit is a variable-width encoding that can represent every character in the Unicode character set. It was designed for backward compatibility with ASCII and to avoid the complications of endianness and byte order marks in UTF-16 and UTF-32. In UTF-8, every code point from 0-127 is stored in a single byte. Only code points 128 and above are stored using 2, 3, in fact, up to 6 bytes. *English is encoded with 1 byte, Cyrillic, Latin European languages, Hebrew and Arabic need 2, and Chinese, Japanese, Korean, other Asian languages, and Emoji need 3 or 4.* The MIME character set attribute for UTF-8 is `UTF-8`. Character sets are case-insensitive, so `utf-8` is equally valid.
 
-What’s "🤦🏼‍♂️".length? This string that contains one graphical unit consists of 5 Unicode scalar values.
+What’s "🤦🏼‍♂️".length? Different languages use different internal string representations and report length in whatever units they store. For example, JavaScript (and Java) strings have UTF-16 semantics, so the string occupies 7 code units.
 
 <img alt="unicode-string" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/unicode-encoding.png" width="550" />
+<br>
 
-Different languages use different internal string representations and report length in whatever units they store. For example, JavaScript (and Java) strings have UTF-16 semantics, so the string occupies 7 code units.
+```js
+const str = "Hello, 👋!"
+// bug occurs because the `split` method treats the string as an array of 16-bit units.
+str.split("").reverse().join("");
+
+// split into an array of actual characters
+Array.from(str).reverse().join("");
+// or
+[...str].reverse().join("");
+```

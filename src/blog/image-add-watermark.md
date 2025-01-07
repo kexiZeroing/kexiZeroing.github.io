@@ -9,6 +9,7 @@ updatedDate: "July 21 2024"
 Image watermarking is the process of placing an overlay text on top of the original image, usually in one of the corners. The first approach shown below is primarily based on the HTML5 `<canvas>` element while the second one uses [watermark.js](https://brianium.github.io/watermarkjs) library, which requires just a few lines of code.
 
 ## Use HTML Canvas 
+Below is a simple example to show that how it works, and there is also a real world example of [image-watermark-tool](https://github.com/unilei/image-watermark-tool) you can check out.
 
 ```html
 <body>
@@ -110,7 +111,6 @@ async function save(dataURL: string) {
 }
 ```
 
-### Add custom cropper
 ```js
 // https://advanced-cropper.github.io/vue-advanced-cropper/
 <Cropper

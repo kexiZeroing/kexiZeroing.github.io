@@ -242,6 +242,8 @@ A Modern CSS Reset: https://piccalil.li/blog/a-more-modern-css-reset
 
 Build faithful recreations of old UIs: https://jdan.github.io/98.css, https://botoxparty.github.io/XP.css, https://khang-nd.github.io/7.css
 
+An Interactive Guide to Keyframe Animations: https://www.joshwcomeau.com/animation/keyframe-animations
+
 How to create high-performance CSS animations: https://web.dev/animations-guide
 
 CSS clip-path defining the visible region: https://ishadeed.com/article/clip-path
