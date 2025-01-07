@@ -10,10 +10,22 @@ updatedDate: "Mar 9 2024"
 
 WebAssembly is a type of code that can be run in modern web browsers — it is a low-level assembly-like language with a compact binary format that runs with near-native performance and provides languages such as C/C++, C# and Rust with a compilation target so that they can run on the web.
 
-- The first one to writing assembly code with no architecture dependencies was `asm.js`, a strict subset of JavaScript that could be used as a low-level, efficient target language for compilers.
-- While `asm.js` still works in browsers, it has been superseded by WebAssembly.
+- The first one to writing assembly code with no architecture dependencies was `asm.js`, a strict subset of JavaScript that could be used as a low-level, efficient target language for compilers. While `asm.js` still works in browsers, it has been superseded by WebAssembly.
+- WebAssembly is statically typed, and the low-level code emitted is optimized ahead-of-time. This means that many optimizations are already done during compilation, rather than having to be performed at runtime like with JavaScript.
 - WebAssembly has two representations: textual and binary. The textual representation is based on S-expressions and commonly uses the file extension `.wat` (for WebAssembly text format). If you really wanted to, you could write it by hand. The binary format that uses the file extension `.wasm` is not meant for human consumption, let alone human creation.
-- Neither `.wat` nor `.wasm` are particularly very human-friendly. This is where a compiler like Emscripten comes into play. It lets you compile from higher-level languages like C and C++.
+
+```wasm
+;; add.wat
+(module
+  (func $add (param $lhs i32) (param $rhs i32) (result i32)
+    local.get $lhs
+    local.get $rhs
+    i32.add)
+  (export "add" (func $add))
+)
+```
+
+Neither `.wat` nor `.wasm` are particularly very human-friendly. This is where a compiler like Emscripten comes into play. It lets you compile from higher-level languages like C and C++. Btw, `wasm-pack` is for Rust, which helps you build rust-generated WebAssembly packages.
 
 [Emscripten](https://emscripten.org) compiles C and C++ code, or any other language that uses LLVM, into WebAssembly, and run it on the Web, Node.js, or other wasm runtimes. Emscripten provides Web support for popular portable APIs such as OpenGL, allowing complex graphical native applications to be ported, such as the Unity game engine and Google Earth.
 

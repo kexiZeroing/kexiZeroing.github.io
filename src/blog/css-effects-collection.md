@@ -3,7 +3,7 @@ title: "CSS effects collection"
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Sep 24 2024"
+updatedDate: "Jan 7 2025"
 ---
 
 ### TOC
@@ -24,6 +24,7 @@ updatedDate: "Sep 24 2024"
 - [The Periodic Table](#the-periodic-table)
 - [Selection menu](#selection-menu)
 - [Double input range slider](#double-input-range-slider)
+- [Hover list focus by demotion](#hover-list-focus-by-demotion)
 - [Light/Dark modes baiscs](#lightdark-modes-baiscs)
 
 ### Rainbow Artword
@@ -832,6 +833,39 @@ https://codepen.io/alexpg96/pen/xxrBgbP
   </script>
 </body>
 </html>
+```
+
+### Hover list focus by demotion
+https://nerdy.dev/hover-not-hover-sorry-not-sorry
+
+```html
+<style>
+  @import "https://unpkg.com/open-props/easings.min.css";
+  
+  ul li {
+    transform-origin: left center;
+    transition: 
+      transform 1s var(--ease-spring-3),
+      opacity .3s var(--ease-3);
+  }
+  ul:hover > li:not(:hover) {
+    opacity: .25;
+    transform: scale(0.8);
+  }
+</style>
+
+<ul>
+  <li>Apple</li>
+  <li>Banana</li>
+  <li>Orange</li>
+  <li>Mango</li>
+  <li>Pineapple</li>
+  <li>Strawberry</li>
+  <li>Blueberry</li>
+  <li>Grape</li>
+  <li>Watermelon</li>
+  <li>Peach</li>
+</ul>
 ```
 
 ### Light/Dark modes baiscs
