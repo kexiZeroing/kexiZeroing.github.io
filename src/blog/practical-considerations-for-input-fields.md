@@ -354,3 +354,5 @@ input:user-invalid + span::before {
   color: red;
 }
 ```
+
+Btw, from HTML 2.0 spec: When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form. `number`, `email`, `password`, `search`, `tel`, and `url` all are regarded as single-line text inputs. You can add any other form elements including input types like `date` or `color`, even a `textarea`, and the form will still submit on enter (when the focus is on the text field).

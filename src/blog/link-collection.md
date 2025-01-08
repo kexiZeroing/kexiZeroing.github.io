@@ -198,7 +198,9 @@ Background removal with Transformers.js: https://github.com/addyosmani/bg-remove
 
 Your coding year in review: https://githubunwrapped.com
 
-A list of resources for local-first web development: https://github.com/mylofi/localfirstweb.dev
+This is Not My Name: https://vis.csh.ac.at/notmyname
+
+Efforts to clean up the JS ecosystem: https://github.com/es-tooling/ecosystem-cleanup
 
 ---
 

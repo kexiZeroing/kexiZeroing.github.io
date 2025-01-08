@@ -1,3 +1,8 @@
+// https://shiki.style
+// Shiki is a Japanese word for "Style".
+// Shiki is a syntax highlighter that uses TextMate grammars and themes, the same engine that powers VS Code.
+// Shiki took a different approach by highlighting ahead of time. It ships the highlighted HTML to the client.
+
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

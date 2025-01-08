@@ -3,7 +3,7 @@ title: "Intro to TypeScript"
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Jan 7 2025"
+updatedDate: "Jan 8 2025"
 ---
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
@@ -36,12 +36,6 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
-
-    /*
-     * https://github.com/privatenumber/fix-verbatim-module-syntax
-     * Fix error: 'SomeType' is a type and must be imported using a type-only import 
-     * when 'verbatimModuleSyntax' is enabled.
-     */
 
     /* Strictness */
     "strict": true,
@@ -107,6 +101,19 @@ export function add(a: number, b: number) {
 // @Filename: src/main.mts
 import { add } from "./math.mjs";
 add(1, 2);
+```
+
+Since TypeScript 5.0, `verbatimModuleSyntax` is the recommended way to enforce `import type`. When it is set to true, any imports or exports without a `type` modifier are left around. Anything that uses the `type` modifier is dropped entirely. You may get the message when enabling `verbatimModuleSyntax` (as expected): *'SomeType' is a type and must be imported using a type-only import.*
+
+> TypeScript import elision: If an import is not used as a value, or the compiler can detect that the import doesn't refer to a value at runtime, the compiler will drop the import during emit.
+
+```ts
+// Erased away entirely
+import type { A } from "a";
+// Rewritten to `import { b } from "bcd";`
+import { b, type c, type d } from "bcd";
+// Rewritten to `import {} from "xyz";`
+import { type xyz } from "xyz";
 ```
 
 How multiple `tsconfig.json` files can be composed together?
