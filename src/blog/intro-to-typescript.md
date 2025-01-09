@@ -750,7 +750,7 @@ Note that skip declaration files in `node_modules`, **it also skips all declarat
 
 > Different browsers support different features. But TypeScript only ships one set of DOM types. So how does it know what to include? TypeScript's policy is that if a feature is supported in two major browsers, it's included in the DOM types.
 
-When you install a library with npm, you're downloading JavaScript to your file system, but not every library bundles `.d.ts` files. The [DefinitelyTyped GitHub repository](https://github.com/DefinitelyTyped/DefinitelyTyped) was built to house high-quality type definitions for numerous popular JavaScript libraries that didn't ship definitions of their own. By installing a package with `@types/*` and your library as a dev dependency, you can add type definitions that TypeScript will be able to use immediately.
+When you install a library with npm, you're downloading JavaScript to your file system, but not every library bundles `.d.ts` files. The [DefinitelyTyped GitHub repository](https://github.com/DefinitelyTyped/DefinitelyTyped) was built to house high-quality type definitions for numerous popular JavaScript libraries that didn't ship definitions of their own. By **installing a package with `@types/*`** as a dev dependency, you can add type definitions that TypeScript will be able to use immediately.
 
 ```sh
 # For an npm package "foo", typings for it will be at "@types/foo".

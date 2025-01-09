@@ -442,6 +442,8 @@ How does React re-render internally: https://jser.dev/2023-07-18-how-react-reren
 
 Updates, tips & opinions from the maintainers of Vue.js: https://blog.vuejs.org
 
+Vue Land FAQ: https://vue-land.github.io
+
 Opinionated Vite + Vue Starter Template: https://github.com/antfu/vitesse
 
 A curated list of awesome things related to Vite.js: https://github.com/vitejs/awesome-vite

@@ -411,7 +411,11 @@ while (true) {
 }
 ```
 
-> Autonomous agents are self-governing AI systems. AutoGPT is an open-source "AI agent" that, given a goal in natural language, will attempt to achieve it by breaking it into sub-tasks and using the Internet and other tools in an automatic loop. https://www.georgesung.com/ai/autogpt-arch/ is a quick summary about how AutoGPT works.
+> Agents are systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks.
+> 
+> Workflows use "predefined code paths", whereas agents "dynamically direct their own processes". The difference between them is the degree of autonomy. Agents have more autonomy, workflows run on pre-defined rails.
+> - https://www.aihero.dev/building-effective-agents
+> - https://www.georgesung.com/ai/autogpt-arch
 
 ### Run open-source LLMs locally on your computer 
 1. Ollama + OpenWebUI
