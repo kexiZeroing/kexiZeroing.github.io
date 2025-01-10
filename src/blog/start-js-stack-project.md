@@ -54,6 +54,7 @@ A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and
 
 ### Remix - full stack web framework
 - Remix Tutorial: https://remix.run/start/tutorial
+- React Router Tutorial: https://reactrouter.com/tutorials/address-book
 - Remix Templates: https://remix.run/docs/en/main/guides/templates
 - Remix for Next.js Developers: https://remixfornextdevs.com
 

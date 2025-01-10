@@ -111,9 +111,11 @@ By placing the things that will be animated or transitioned onto a new layer, th
 3. The element has been given its own compositing layer. (it may be forced by using a "go faster" hack like `transform: translate3d`)
 
 > More knowledge about GPU:
+> 
+> Broadly speaking, CPUs are better for sequential programs and GPUs are better for parallel programs. CPUs have a small number of large cores (Apple’s M3 has an 8-core CPU), and GPUs have many small cores (Nvidia’s H100 GPU has thousands of cores). 
+> 
 > 1. GPUs (Graphical Processing Units) were originally designed to accelerate rendering of images, 2D, and 3D graphics. However, due to their capability of performing many parallel operations, their utility extends beyond that to applications such as deep learning. GPUs prioritize having a large number of cores to achieve a higher level of parallelism.
 > 2. Imagine you want to add two vectors, a simple implementation iterates over the vector, adding each pair of elements on each iteration sequentially. But the addition of the *ith* pair of elements does not rely on any other pair. So, what if we could execute these operations concurrently, adding all of the pairs of elements in parallel? That’s when the GPUs come into action. Modern GPUs can run millions of threads simultaneously, enhancing performance of these mathematical operations on massive vectors.
-> 3. The Chrome team is thrilled to announce that WebGPU is now available by default in Chrome 113, which allows high-performance 3D graphics and data-parallel computation on the web. See https://developer.chrome.com/blog/webgpu-release/
 
 ## Best practice for font units
 - `1px` is equal to whatever the browser is treating as a single pixel (even if it’s not literally a pixel on the hardware screen).
