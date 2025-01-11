@@ -8,6 +8,6 @@ https://kexizeroing.github.io
 - Posts searching uses static search library [pagefind](https://pagefind.app).
 - A "Pictures" page contains all the images in all posts. Use [image-size](https://github.com/image-size/image-size) to detect image dimensions and [PhotoSwipe](https://photoswipe.com) to preview.
 - [Giscus](https://giscus.app) is a comment system powered by GitHub Discussions that allows visitors to leave comments and reactions on any website via GitHub.
-- Experiment with [shadcn/ui](https://ui.shadcn.com) at `/shadcn-ui` page.
+- Try some cool features or different tech skills at `/playground` page.
 - Use [PostHog](https://posthog.com) for tracking and product analytics.
 - Refer to the [Astro blog tutorial](https://docs.astro.build/en/tutorial/6-islands/4) and the [blog-tutorial-demo](https://github.com/withastro/blog-tutorial-demo/tree/content-collections) to help me update to using a content collection.
