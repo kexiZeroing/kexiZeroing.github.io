@@ -320,7 +320,19 @@ Examples:
 1. The video [So You Think You Can Build A Dropdown?](https://www.youtube.com/watch?v=lY-RQjWeweo) is diving deep into the complexities of designing and building a fully-accessible dropdown menu.
 2. [Vaul](https://github.com/emilkowalski/vaul) is an unstyled drawer component for React that can be used as a Dialog replacement on tablet and mobile devices.
 
-Then it leaves us with the decision about how to style things. This is where [shadcn/ui](https://ui.shadcn.com) comes into the picture. It's not a component library, but more of a code registry where you can copy/paste/modify the code to your content. It's built with Tailwind and Radix. `shadcn/ui` is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn-ui add card`, making it even more convenient to use. Here is a component demo page: https://kexizeroing.github.io/shadcn-ui
+Then it leaves us with the decision about how to style things. This is where [shadcn/ui](https://ui.shadcn.com) comes into the picture. It's not a component library, but more of a code registry where you can copy/paste/modify the code to your content. It's built with Tailwind and Radix. `shadcn/ui` is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn@latest add card`, making it even more convenient to use.
+
+```sh
+# start at an empty directory (it will help you to create a Next.js project)
+npx shadcn@latest init sidebar-01
+
+# import components from v0
+npx shadcn add "https://v0.dev/chat/xxx"
+
+# Look for https://v0.dev/chat/xxx/json to know how it works
+# https://github.com/jherr/shadcn-differ-demo/blob/main/simple.json
+npx shadcn@latest init http://localhost:8080/simple.json
+```
 
 To understand shadcn/ui, first we need to know what does `cva (class-variance-authority)` do. It basically is a function, that allows us to define variants for the element we want to style. A simple variant definition has a name and a list of possible values, each with a list of classes that should apply.
 

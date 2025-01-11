@@ -336,7 +336,7 @@ The next open source file uploader for web browsers: https://uppy.io
 
 Draggable objects: https://www.redblobgames.com/making-of/draggable
 
-Add motion to your apps with a single line of code: https://auto-animate.formkit.com
+A modern animation library for JavaScript and React: https://motion.dev
 
 PartyKit at ViteConf 2023: https://blog.partykit.io/posts/partykit-at-viteconf
 

@@ -12,6 +12,7 @@ updatedDate: "Jan 4 2025"
 1. If you run `npm i` against the `package.json` and `package-lock.json`, the latter will never be updated, even if the `package.json` would be happy with newer versions.
 2. If you manually edit your `package.json` to have different ranges and run `npm i` and those ranges aren't compatible with your `package-lock.json`, then the latter will be updated with version that are compatible with your `package.json`.
 3. Listed dependencies in `package-lock.json` file have mixed (sha1/sha512) integrity checksum. npm changed the integrity checksum from sha1 to sha512. Only packages published with npm@5 or later will include a sha512 integrity hash.
+4. Ignoring the lock file and pinning the exact version of a dependency in `package.json` is not a good idea since their dependencies (and deps of their deps) are not explicitly pinned to a version. This can result in different versions of same dependencies being installed when running `npm install` at different times.
 
 > Two fields are mandatory in `package.json`:
 > - `name`, can be scoped

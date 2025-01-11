@@ -20,6 +20,12 @@ docker exec -it ba76bef03590 bash -l
 ```
 
 ```sh
+# If you want to run PostgreSQL on Docker
+# https://masteringpostgres.com/articles/how-to-install-postgresql
+docker run --name my-postgres-name -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
+```
+
+```sh
 [root@ba76bef03590 /]# mysql
 
 mysql> SHOW DATABASES;
