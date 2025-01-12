@@ -3,6 +3,7 @@ title: "Rice course - intro to database"
 description: ""
 added: "Oct 21 2018"
 tags: [other]
+updatedDate: "Jan 12 2025"
 ---
 
 **Early Open Source Databases**
@@ -10,7 +11,13 @@ tags: [other]
 - MySQL (1995)
 - SQLite (2000)
 
-> SQLite is a software library that provides a relational database management system. If you have a Mac, sqlite3 should be available on there. https://github.com/kexiZeroing/node-sqlite-app
+POSTGRES, the predecessor to PostgreSQL, was created first in 1986 at UC Berkeley. Its name was short for "POST-Ingres", as it was a successor to the Ingres database. The original system did not use SQL, but support was added around 1995, and soon after, it was renamed to PostgreSQL. Many experienced developers prefer Postgres because it has a superior query optimizer, more advanced data types, is less likely to produce unexpected results and deadlocks.
+
+MySQL was created in 1995 by Michael Widenius and David Axmark as an alternative to the mSQL database. The system was named after Michael's daughter, My. From the start, the database was designed to be flexible, powerful, and relatively easy to use. This led to its quick adoption by the web hosting community, and it was used as the default database for WordPress. *MariaDB (named after Michael's other daughter, Maria) was initially created as a drop-in replacement for MySQL.*
+
+SQLite is a serverless database engine. It functions as a lightweight library embedded directly into applications, reading and writing data from a single file on disk. This simplicity eliminates the need for a separate server process and makes SQLite highly portable. However, SQLite's concurrency model is more restrictive: while it allows multiple readers, only one process can write to the database at a time. *(If you have a Mac, sqlite3 should be available on there.)*
+
+---
 
 The Relational Model is usually denoted using `LIKES (DRINKER, COFFEE)`
 

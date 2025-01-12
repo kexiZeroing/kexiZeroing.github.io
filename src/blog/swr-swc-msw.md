@@ -3,7 +3,7 @@ title: "SWR, SWC, and MSW"
 description: ""
 added: "Oct 25 2023"
 tags: [web]
-updatedDate: "Aug 24 2024"
+updatedDate: "Jan 12 2025"
 ---
 
 SWR, SWC, and MSW, three similar names, are always mentioned in the context of web development, but they are totally different things. In this article, we will learn each of them and where they are used.
@@ -187,15 +187,49 @@ To manage client state in a React app, we have lots of options available, starti
 
 While React Query goes very well with data fetching, a better way to describe it is as an async state manager that is also acutely aware of the needs of server state. In fact, React Query doesn't fetch any data for you. You provide it a promise (whether from fetch, axios, graphql, etc.), and React Query will then take the data that the promise resolves with and make it available wherever you need it throughout your entire application.
 
-`staleTime` is the duration until a query transitions from fresh to stale. As long as the query is fresh, data will always be read from the cache only - no network request will happen. If the query is stale (which per default is: instantly), **you will still get data from the cache, but a background refetch can happen**.
+> A common mistake people do is try to combine useEffect and useQuery. useQuery already handles the state for you. If you're using a useEffect to somehow manage what you get from useQuery, you're doing it wrong.
 
-Stale queries are refetched automatically in the background when:
-- Its corresponding component mounts (`refetchOnMount`)
-- The window is refocused (`refetchOnWindowFocus`)
-- The network is reconnected (`refetchOnReconnect`)
-- The query is optionally configured with a refetch interval (`refetchInterval`)
+`staleTime` is the duration until a query transitions from fresh to stale. As long as the query is fresh, data will always be read from the cache only - no network request will happen. If the query is stale (which per default is: instantly), **you will still get data from the cache, but a background refetch can happen**. 
 
 As long as a query is being actively used, the cached data will be kept in memory. What about inactive queries? `gcTime` is the duration until inactive queries will be removed from the cache. This defaults to 5 minutes, which means that if a query is not being used for 5 minutes, the cache for that query will be cleaned up.
+
+> - `staleTime`: How long before data is considered stale, when should revalidation happen? (default: 0)
+> - `gcTime`: How long before inactive data is garbage collected, when should the cache be cleared? (default: 5 minutes)
+
+```jsx
+function TodoList() {
+  // This query is "active" because the component is using it
+  const { data } = useQuery({
+    queryKey: ['todos'],
+    gcTime: 1000 * 60 * 5 // 5 minutes
+  })
+  return <div>{data.map(...)}</div>
+}
+
+// When TodoList unmounts (user navigates away), the query becomes "inactive"
+// If user doesn't come back to TodoList within 5 minutes (gcTime),
+// the data is removed from cache
+// If they return within 5 minutes, the cached data is still there!
+```
+
+Query keys are reactive. When a key changes, React Query knows it needs fresh data. You don't manually trigger refetches, you just change the key, and React Query handles the rest. Your UI becomes a reflection of your query keys.
+
+```js
+function TodoList({ filter }) {
+  const { data } = useQuery({
+    queryKey: ["todos", filter],
+    queryFn: () => fetchTodos(filter),
+  });
+}
+
+// Search with URL state
+const { search } = useSearchParams();
+
+useQuery({
+  queryKey: ["search", search],
+  queryFn: () => searchItems(search),
+});
+```
 
 ## SWC - Rust-based platform for the Web
 SWC (stands for Speedy Web Compiler) is a super-fast TypeScript / JavaScript compiler written in Rust, and can be used for both compilation and bundling. SWC is 20x faster than babel on a single-core benchmark, 68x faster than babel on a multicore benchmark. 

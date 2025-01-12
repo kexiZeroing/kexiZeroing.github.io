@@ -207,7 +207,7 @@ enum ThemeColors {
   DarkSecondary = 'darkSecondary',
 }
 
-// Real-world examples of Typescript enums
+// Real-world examples of TS enums
 enum LogLevel {
   ERROR,
   WARNING,
@@ -215,14 +215,13 @@ enum LogLevel {
   DEBUG
 }
 
-enum HTTPStatus {
-  OK = 200,
-  Redirect = 301,
-  BadRequest = 400,
-  Unauthorized = 401,
-  NotFound = 404,
-  InternalServerError = 500,
-}
+// An object marked "as const" accomplishes the same thing
+const status = {
+  pending: 0,
+  shipped: 1,
+  delivered: 2,
+  error: 3,
+} as const
 ```
 
 ```js

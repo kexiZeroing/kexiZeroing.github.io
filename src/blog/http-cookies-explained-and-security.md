@@ -105,7 +105,7 @@ It’s recommended to avoid storing any sensitive information in local storage w
 Store data inside of your users browser: https://rxdb.info/articles/localstorage-indexeddb-cookies-opfs-sqlite-wasm.html
 - Cookies
 - LocalStorage (limited by a 5MB storage cap)
-- IndexedDB
+- IndexedDB (Dexie.js is a wrapper library for indexedDB)
 - OPFS (native browser storage API that allows web applications to manage files)
 - [WASM SQLite](https://github.com/sqlite/sqlite-wasm)
 
