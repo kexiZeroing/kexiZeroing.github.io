@@ -3,7 +3,7 @@ title: "Learn from Advent of Vue 2022"
 description: ""
 added: "Dec 27 2022"
 tags: [vue]
-updatedDate: "Jan 4 2025"
+updatedDate: "Jan 12 2025"
 ---
 
 ### Code Structure
@@ -163,7 +163,37 @@ export function useTimeout = (fn, delay, options) => {
 
 > Each component instance calling `useMouse()` will create its own copies of x and y state so they won't interfere with one another. But if you put those values outside of the composable function, it will persist, like a basic state or store. When you need to access those values later somewhere else, they won't be reset everytime you call the composable.
 
-### Organize your Composition API code
+### Write better Vue composables
+Passing props and events back and forth through the component hierarchy creates a lot of complexity. A more straightforward solution is to create a shared data store that any component can import:
+
+```js
+import { reactive, toRefs } from 'vue'
+const state = reactive({ user: { name: 'Alice' } })
+
+export function useUserStore() {
+  // Without toRefs, if you were to destructure the returned state like this:
+  // const { user } = useUserStore()
+  // You would lose reactivity because destructuring breaks the reactive connection. T
+  return toRefs(state)
+}
+```
+
+> Without `toRefs`, if you were to destructure the returned state `const { user } = useUserStore()`, you would lose reactivity because destructuring breaks the reactive connection. The `user` variable would just be a static copy of the value at the time of destructuring. With `toRefs`, each property becomes an individual `ref` that maintains its reactive connection to the original state. If you only ever used the state as a whole object (like `state.user.name`) and never destructured it, then you wouldn't need `toRefs`.
+
+A giant component might put all its refs and methods in one place, so that setup quickly becomes unmanageable. Instead, an inline composable can group logic and provide it locally.
+
+```vue
+<script setup>
+function useCounter() {
+  const count = ref(0)
+  const increment = () => count.value++
+  return { count, increment }
+}
+
+const { count, increment } = useCounter()
+</script>
+```
+
 We abandon the options API for the composition API, and the idea is not that we write everything the same way as the options API but not having the data/computed/watch options.
 
 ```js
@@ -212,23 +242,7 @@ function useMessage(input) {
 }
 ```
 
-It is possible to have two script sections within a Vue Single File component: one with the `setup` attribute and one without. One of reasons for this is exporting types or data that are tightly tied to the component but could be useful elsewhere.
-
-```vue
-<!-- UserProfileComponent -->
-<script lang="ts">
-export interface UserProfile{
-  username: string,
-  // etc...
-}
-</script>
-
-<script setup lang="ts">
-defineProps<UserProfile>()
-</script>
-```
-
-It is also possible to use both Options API and Composition API. Although you can access Composition API from the Options API, it’s a one-way street. The Composition API cannot access anything defined through the Options API.
+It is possible to use both Options API and Composition API. Although you can access Composition API from the Options API, it’s a one-way street. The Composition API cannot access anything defined through the Options API.
 
 ```js
 export default {

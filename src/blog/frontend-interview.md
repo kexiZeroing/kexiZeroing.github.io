@@ -4,13 +4,14 @@ description: ""
 added: ""
 top: true
 order: 5
-updatedDate: "Oct 11 2024"
+updatedDate: "Jan 12 2025"
 ---
 
 更全面的准备可以参考:
 - https://hzfe.github.io/awesome-interview
 - https://github.com/Sunny-117/js-challenges
 - https://blog.algomooc.com
+- https://github.com/tigerabrodi/leetcode-2025-notes
 
 ---
 
