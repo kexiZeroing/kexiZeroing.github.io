@@ -374,7 +374,7 @@ A growing collection of over 50 input components: https://origin-ui-alpha.vercel
 
 A component to transition, format, and localize numbers: https://number-flow.barvian.me
 
-Stack Overflow's Combination Rich Text / Markdown Editor: https://github.com/StackExchange/Stacks-Editor
+Interactive CSS memory space: https://nerdy.dev/notebook
 
 ---
 
@@ -382,11 +382,11 @@ Stack Overflow's Combination Rich Text / Markdown Editor: https://github.com/Sta
 
 The Beginner's Guide to React: https://egghead.io/courses/the-beginner-s-guide-to-react or https://www.youtube.com/watch?v=7_x4AuqHxlg
 
-Epic Web React Fundamentals: https://react-fundamentals.epicweb.dev
-
 Getting Closure on React Hooks by Shawn Wang: https://www.youtube.com/watch?v=KJP1E-Y-xyo
 
 Building a Custom React Renderer by Sophie Alpert: https://www.youtube.com/watch?v=CGpMlWVcHok
+
+React Fiber Architecture: https://github.com/acdlite/react-fiber-architecture
 
 All Developer Way Articles about React: https://www.developerway.com
 

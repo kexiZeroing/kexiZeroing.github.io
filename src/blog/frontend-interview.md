@@ -154,7 +154,24 @@ Function.prototype.myBind = function(context, ...args1) {
 };
 ```
 
-6. Implement the deep clone method.
+6. Calling the same function over and over again is wasteful if we know that the function is pure. We can create a memoized version of a function that we don't have to reexecute it if we keep using the same value.
+
+```js
+function memoize(fn) {
+  let cachedArg;
+  let cachedResult;
+  return function(arg) {
+    if (cachedArg === arg) {
+      return cachedResult;
+    }
+    cachedArg = arg;
+    cachedResult = fn(arg);
+    return cachedResult;
+  };
+}
+```
+
+7. Implement the deep clone method.
 ```js
 function deepClone(obj) {
   if (obj === null || typeof obj !== 'object') {
@@ -174,7 +191,7 @@ function deepClone(obj) {
 // `Object.keys()` gets only own enumerable property names.
 ```
 
-7. Convert a list of objects into a tree.
+8. Convert a list of objects into a tree.
 ```js
 let list = [
   { id: 1, name: 'node1', pid: 0 },
@@ -207,7 +224,7 @@ function listToTree(list) {
 }
 ```
 
-8. Use `setTimeout` to invoke a function multiple times in the fixed interval.
+9. Use `setTimeout` to invoke a function multiple times in the fixed interval.
 ```js
 function repeat(func, times, ms, immediate) {
   let count = 0;
@@ -233,7 +250,7 @@ const repeatFunc = repeat(console.log, 4, 3000, true);
 repeatFunc("hello");
 ```
 
-9. Implement the functionality of `lodash.get`.
+10. Implement the functionality of `lodash.get`.
 ```js
 // _.get(object, path, [defaultValue])
 function get(obj, path, defaultValue = undefined) {
@@ -258,7 +275,7 @@ console.log(get(obj, 'a.b.d', 'default')); // 'default'
 console.log(get(obj, 'x.y.z', 'not found')); // 'not found'
 ```
 
-10. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
+11. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
 
 ```js
 const app = { middlewares: [] };
@@ -305,7 +322,7 @@ const compose = (middlewares) => {
 app.compose = compose(app.middlewares);
 ```
 
-11. Implement the render function to convert the virtual dom JSON to real DOM.
+12. Implement the render function to convert the virtual dom JSON to real DOM.
 ```js
 function render(vnode) {
   const { tag, props, children } = vnode;
@@ -336,7 +353,7 @@ function render(vnode) {
 }
 ```
 
-12.  Write a `diff` function compares an old Virtual DOM node with a new one and returns a "patch" object describing the necessary changes.
+13. Write a `diff` function compares an old Virtual DOM node with a new one and returns a "patch" object describing the necessary changes.
 
 ```js
 function diff(oldVNode, newVNode) {
@@ -386,7 +403,7 @@ function diffChildren(oldChildren, newChildren) {
 }
 ```
 
-13.  You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
+14. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
 
 ```js
 // written by Dan Abramov
@@ -448,7 +465,7 @@ async function renderJSXToHTML(jsx) {
 }
 ```
 
-14. Write your own React useState and useEffect hooks.
+15. Write your own React useState and useEffect hooks.
 
 ```js
 let hooks = [];
@@ -477,7 +494,7 @@ function useEffect(cb, depArray) {
 }
 ```
 
-15. Implement a simplified version of Vue reactivity system.
+16. Implement a simplified version of Vue reactivity system.
 
 ```js
 let activeEffect = null;
@@ -521,7 +538,7 @@ effect(() => {
 state.count++;
 ```
 
-16. Check if an object has circular references.
+17. Check if an object has circular references.
 
 ```js
 // `JSON.stringify` throws if one attempts to encode an object with circular references.
@@ -563,7 +580,7 @@ function hasCircularReference(obj) {
 }
 ```
 
-17. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
+18. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
 
 ```js
 // https://gist.github.com/simonw/209b46563b520d1681a128c11dd117bc
