@@ -332,6 +332,10 @@ npx shadcn add "https://v0.dev/chat/xxx"
 # Look for https://v0.dev/chat/xxx/json to know how it works
 # https://github.com/jherr/shadcn-differ-demo/blob/main/simple.json
 npx shadcn@latest init http://localhost:8080/simple.json
+
+# Add simple-ai components (chat interface components)
+# https://github.com/Alwurts/simple-ai
+npx shadcn@latest add https://simple-ai.alwurts.com/registry/chat-message.json
 ```
 
 To understand shadcn/ui, first we need to know what does `cva (class-variance-authority)` do. It basically is a function, that allows us to define variants for the element we want to style. A simple variant definition has a name and a list of possible values, each with a list of classes that should apply.

@@ -3,7 +3,7 @@ title: "Learn from Advent of Vue 2022"
 description: ""
 added: "Dec 27 2022"
 tags: [vue]
-updatedDate: "Jan 12 2025"
+updatedDate: "Jan 14 2025"
 ---
 
 ### Code Structure
@@ -99,7 +99,7 @@ The key idea of the Composition API is that, rather than defining a component’
 
 Composition API provides the same level of logic composition capabilities as React Hooks, but with some [important differences](https://vuejs.org/guide/extras/composition-api-faq.html#comparison-with-react-hooks):
 - Composition API calls are also not sensitive to call order and can be conditional.
-- Vue's runtime reactivity system automatically collects reactive dependencies used in computed properties and watchers.
+- Vue's runtime reactivity system automatically collects reactive dependencies used in computed properties and watchers. *(It tracks dependencies for reactive variables and recomputes only when necessary. There is no need for manual low level performance tuning like `useMemo` or `useCallback` in React.)*
 - No need to manually cache callback functions to avoid unnecessary child updates.
 
 ```js
@@ -161,7 +161,12 @@ export function useTimeout = (fn, delay, options) => {
 }
 ```
 
-> Each component instance calling `useMouse()` will create its own copies of x and y state so they won't interfere with one another. But if you put those values outside of the composable function, it will persist, like a basic state or store. When you need to access those values later somewhere else, they won't be reset everytime you call the composable.
+> Each component instance calling `useXXX()` will create its own copies of state so they won't interfere with one another. But if you put those values outside of the composable function, it will persist, like a basic state or store. When you need to access those values later somewhere else, they won't be reset everytime you call the composable.
+
+More about `watchEffect`:
+1. `watchEffect` runs a callback function immediately and automatically tracks its reactive dependencies. The callback function is executed whenever any of the reactive dependencies change.
+2. The callback function receives a special function called `onCleanup` as its first argument. You can use this function to register a cleanup callback that will be called before the watcher is re-executed.
+3. A confusing caveat is that `watchEffect` only tracks dependencies during its synchronous execution. When using it with an async callback, only properties accessed before the first `await` tick will be tracked. Everything after the `await` will NOT be tracked.
 
 ### Write better Vue composables
 Passing props and events back and forth through the component hierarchy creates a lot of complexity. A more straightforward solution is to create a shared data store that any component can import:
