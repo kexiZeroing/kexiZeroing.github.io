@@ -1,44 +1,33 @@
 ---
 import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+
+const playgrounds = [
+	{ title: 'Grid Page', href: '/playground/grid' },
+	{ title: 'Shadcn UI Page', href: '/playground/shadcn-ui' },
+	{ title: 'Leaflet Map', href: '/playground/leaflet-map' },
+	{ title: 'OpenFreeMap + MapLibre GL JS', href: '/playground/openfreemap' },
+	{ title: 'Flashlight Effect', href: '/playground/flashlight' },
+	{ title: 'Curtains Opening', href: '/playground/curtains-opening' },
+	{ title: 'Highlighting Search Results', href: '/playground/highlighting-search-results' },
+	{ title: 'Fade In Text', href: '/playground/fadein-text' },
+	{ title: 'Animated Text', href: '/playground/animated-text' },
+	{ title: 'Blend Mode', href: '/playground/blend-mode' },
+];
 ---
 
 <PlaygroundLayout title="Playground List">
 	<main class="container mx-auto p-4">
 		<h1 class="text-xl font-bold mb-10 text-center">Playground Pages</h1>
 		<ul class="space-y-6 max-w-md mx-auto">
-			<li>
-				<a href="/playground/grid" class="text-blue-600 hover:underline">Grid Page</a>
-			</li>
-			<li>
-				<a href="/playground/shadcn-ui" class="text-blue-600 hover:underline">Shadcn UI Page</a>
-			</li>
-			<li>
-				<a href="/playground/leaflet-map" class="text-blue-600 hover:underline">Leaflet Map</a>
-			</li>
-			<li>
-				<a href="/playground/openfreemap" class="text-blue-600 hover:underline">OpenFreeMap + MapLibre GL JS</a>
-			</li>
-			<li>
-				<a href="/playground/flashlight" class="text-blue-600 hover:underline">Flashlight Effect</a>
-			</li>
-			<li>
-				<a href="/playground/curtains-opening" class="text-blue-600 hover:underline">Curtains Opening</a>
-			</li>
-			<li>
-				<a href="/playground/video-scroll-animation" class="text-blue-600 hover:underline">Video Scroll Animation</a>
-			</li>
-			<li>
-				<a href="/playground/highlighting-search-results" class="text-blue-600 hover:underline">Highlighting Search Results</a>
-			</li>
-			<li>
-				<a href="/playground/fadein-text" class="text-blue-600 hover:underline">Fade In Text</a>
-			</li>
-			<li>
-				<a href="/playground/animated-text" class="text-blue-600 hover:underline">Animated Text</a>
-			</li>
-			<li>
-				<a href="/playground/blend-mode" class="text-blue-600 hover:underline">Blend Mode</a>
-			</li>
+			{
+				playgrounds.map((playground) => (
+					<li>
+						<a href={playground.href} target="_blank" class="text-blue-600 hover:underline">
+							{playground.title}
+						</a>
+					</li>
+				))
+			}
 		</ul>
 	</main>
 </PlaygroundLayout>
