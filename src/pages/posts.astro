@@ -8,17 +8,42 @@ import SmallRotation from '../components/SmallRotation.astro';
 
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 import { getCollection } from "astro:content";
+import type { CollectionEntry } from 'astro:content';
 
 const posts = await getCollection("blog");
+
+interface PostsByYear {
+  [year: string]: CollectionEntry<"blog">[];
+}
+
+interface YearGroup {
+  year: string;
+  posts: CollectionEntry<"blog">[];
+}
 
 const topPosts = posts
 	.filter(p => p.data.top)
 	.sort((a, b) => a.data.order - b.data.order)
-	
-const restPosts = posts
-	.filter(p => !p.data.top)
-	.sort((a, b) => new Date(b.data.added).valueOf() - new Date(a.data.added).valueOf())
 
+const restPosts: PostsByYear = posts
+  .filter(p => !p.data.top)
+	.reduce((acc, post) => {
+    const year = post.data.added.slice(-4);
+    if (!acc[year]) {
+      acc[year] = [];
+    }
+    acc[year].push(post);
+    return acc;
+  }, {});
+
+const groupedByYear: YearGroup[] = Object.entries(restPosts).map(([year, posts]) => ({
+		year,
+		posts: posts.sort(
+			(a, b) => 
+				new Date(b.data.added).valueOf() - new Date(a.data.added).valueOf()
+		),
+	}))
+	.sort((a, b) => Number(b.year) - Number(a.year));
 ---
 
 <!DOCTYPE html>
@@ -43,33 +68,35 @@ const restPosts = posts
 	<body>
 		<Header />
 		<main>
-			<content>
-				<ul>
-          {topPosts.map(
-          (post: any) => (
-          	<Post
-							url={"/post/" + post.id}
-							date={post.data.added}
-							title={post.data.title}
-							tags={post.data.tags}
-							top={post.data.top}
-						/>
-          ))}
-        </ul>
-				<hr />
-				<ul>
-          {restPosts.map(
-          (post: any) => (
-						<Post
-							url={"/post/" + post.id}
-							date={post.data.added}
-							title={post.data.title}
-							tags={post.data.tags}
-							top={post.data.top}
-						/>
-          ))}
-        </ul>
-			</content>
+			<ul>
+				{topPosts.map(
+				(post: any) => (
+					<Post
+						url={"/post/" + post.id}
+						date={post.data.added}
+						title={post.data.title}
+						tags={post.data.tags}
+						top={post.data.top}
+					/>
+				))}
+			</ul>
+			<hr />
+			<ul>
+				{groupedByYear.map((group) => (
+					<li>
+						<h3>{group.year}</h3>
+						{group.posts.map((post) => (
+							<Post
+								url={"/post/" + post.id}
+								date={post.data.added}
+								title={post.data.title}
+								tags={post.data.tags}
+								top={post.data.top}
+							/>
+						))}
+					</li>
+				))}
+			</ul>
 		</main>
 		<Footer />
 		<SmallRotation />
