@@ -444,7 +444,7 @@ Updates, tips & opinions from the maintainers of Vue.js: https://blog.vuejs.org
 
 Vue Land FAQ: https://vue-land.github.io
 
-Opinionated Vite + Vue Starter Template: https://github.com/antfu/vitesse
+Vue 3 Migration Guide: https://v3-migration.vuejs.org
 
 A curated list of awesome things related to Vite.js: https://github.com/vitejs/awesome-vite
 

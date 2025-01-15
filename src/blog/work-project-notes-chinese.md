@@ -3,7 +3,7 @@ title: "Notes on work projects (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Jan 6 2025"
+updatedDate: "Jan 15 2025"
 ---
 
 ### 项目是怎么跑起来的
@@ -28,34 +28,6 @@ updatedDate: "Jan 6 2025"
 Vue npm 包有不同的 Vue.js 构建版本，可以在 `node_modules/vue/dist` 中看到它们，大致包括完整版、编译器（编译template）、运行时版本、UMD 版本（通过 `<script>` 标签直接用在浏览器中）、CommonJS 版本（用于很老的打包工具）、ES Module 版本。总的来说，Runtime + Compiler 版本是包含编译代码的，可以把编译过程放在运行时做，如果需要在客户端编译模板 (比如传入一个字符串给 template 选项)，就需要加上编译器的完整版。Runtime 版本不包含编译代码，需要借助 webpack 的 `vue-loader` 事先把 `*.vue` 文件内的模板编译成 `render` 函数，在最终打好的包里实际上是不需要编译器的，只用运行时版本即可。
 - Standalone build: includes both the compiler and the runtime.
 - Runtime only build: since it doesn't include the compiler, you need to either pre-compiled templates in a compile step, or manually written render functions. The npm package will export this build by default, since when consuming Vue from npm, you will likely be using a compilation step (with Webpack), during which vue-loader will perform the template pre-compilation.
-
-```js
-// Using Runtime + Compiler
-new Vue({
-  el: '#app',
-  router,                  
-  template: '<App/>',                                     
-  components: { App }        
-})
-
-// build/webpack.base.conf.js
-resolve: {
-  alias: {
-    'vue$': 'vue/dist/vue.esm.js',
-  }
-}
-```
-
-```js
-// Using Runtime-only
-new Vue({
-  el: '#app',
-  router,
-  render: h => h(App)
-})
-```
-
-> Vue 是如何被编译的详细介绍：https://vue-compiler.iamouyang.cn/template/baseCompile.html
 
 Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本。
 - [create-vite](https://github.com/vitejs/vite/tree/main/packages/create-vite) 是 Vite 官方推荐的一个脚手架工具，可以创建基于 Vite 的不同技术栈基础模板。`npm create vite` 可创建一个基于 Vite 的基础空项目。
