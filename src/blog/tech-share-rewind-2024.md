@@ -105,11 +105,13 @@ Throughout 2024, I found myself sharing countless tech stories that caught my at
 
 - [webgpu-whisper](https://huggingface.co/spaces/Xenova/realtime-whisper-webgpu) is a demo of real-time in-browser speech recognition with OpenAI Whisper. The model runs fully on-device using Transformers.js and ONNX Runtime Web, and supports multilingual transcription.
 
-- React Conf 2024. Enhancing Forms with React Server Components by [Aurora Scharff](https://www.youtube.com/watch?v=X9cw4VczYVg). What's new in React 19 by [Lydia Hallie](https://www.youtube.com/watch?v=AJOGzVygGcY).
+- Astro presents a series on “The Future of Astro” covering three major features we have planned for Astro in 2024: [Zero-JavaScript View Transitions](https://astro.build/blog/future-of-astro-zero-js-view-transitions), [Content Layer](https://astro.build/blog/future-of-astro-content-layer) (a new way to work with your local and remote content sources), and [Server Islands](https://astro.build/blog/future-of-astro-server-islands) (static, CDN-cached HTML page shells with injected dynamic content).
 
 - Every Nomic-Embed-Text embedding becomes multimodal. Nomic-Embed-Vision is a high quality, unified embedding space for image, text, and multimodal tasks. You can create image embeddings with the Nomic API with the same vector space as embeddings produced by Nomic Embed Text.
 
 ## May
+- React Conf 2024. Enhancing Forms with React Server Components by [Aurora Scharff](https://www.youtube.com/watch?v=X9cw4VczYVg). What's new in React 19 by [Lydia Hallie](https://www.youtube.com/watch?v=AJOGzVygGcY).
+
 - Google I/O 2024 - The Gemini era.
 
 - Jina Reader now supports reading arbitrary PDFs from URLs. Simply add r.jina.ai like https://r.jina.ai/https://example.pdf, and you get a nicely parsed text ready for downstream LLMs to consume. Yes, Reader natively supports PDF reading. It is compatible to most PDFs including those with a lot of images, and it's lightning fast.
