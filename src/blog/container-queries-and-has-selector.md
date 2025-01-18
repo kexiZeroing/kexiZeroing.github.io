@@ -3,7 +3,7 @@ title: "Container queries and :has selector"
 description: ""
 added: "Jan 08 2023"
 tags: [css]
-updatedDate: "Dec 14 2024"
+updatedDate: "Jan 18 2025"
 ---
 
 `@container` and `:has()` are two powerful new responsive APIs landing in Chromium 105. Read at: https://developer.chrome.com/blog/has-with-cq-m105/
@@ -110,6 +110,24 @@ There is also the possiblity to use style queries, which enables applying styles
 ```
 
 > Style queries are still experimental. A good reminder that mentioning "container queries" isn't enough now, we need to specify either size or style. Read more at: https://ishadeed.com/article/css-container-style-queries
+
+### Scroll state queries
+Chrome 133 introduces scroll state container queries. Before scroll state queries, you’d need to use JavaScript to understand if an element was stuck, snapped, or scrollable. Now there's a more performant method to trigger style changes when an element is stuck to an edge, is snapped on an axis, or is overflowing.
+
+```css
+.stuck-top {
+  container-type: scroll-state;
+  position: sticky;
+  top: 0px;
+
+  > nav {
+    @container scroll-state(stuck: top) {
+      background: Highlight;
+      color: HighlightText;
+    }
+  }
+}
+```
 
 ## The `:has()` selector
 The CSS `:has()` pseudo-class enables developers to check if a parent element contains children with specific parameters. For example, `p:has(span)` indicates a paragraph selector, which has a `span` inside of it. You can use this to style the parent paragraph itself, or style anything within it.

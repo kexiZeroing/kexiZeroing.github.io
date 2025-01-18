@@ -3,6 +3,7 @@ title: "Tech Share Rewind 2024"
 description: ""
 added: "Jan 14 2025"
 tags: [web, other]
+updatedDate: "Jan 18 2025"
 ---
 
 Throughout 2024, I found myself sharing countless tech stories that caught my attention across different social media, primarily focusing on web development and AI - two areas I’m most passionate about. I've compiled these digital breadcrumbs month by month here, and hopefully I can keep this up every year.
@@ -70,6 +71,8 @@ Throughout 2024, I found myself sharing countless tech stories that caught my at
 
 - Lee Robinson [recorded a video](https://www.youtube.com/watch?v=sIVL4JMqRfc) on learning how to deploy Next.js, Postgres, and Nginx to a $4 VPS with Docker. He explains how to use and configure Next.js features like image optimization, caching & ISR, streaming, middleware, server components, and more.
 
+- [player.style](https://player.style) is legit amazing. A themable video player built on web components that can express everything from YouTube's style to Winamp.
+
 ## September
 - Google's NotebookLM gives you a personalized AI collaborator that you can read, take notes, and collaborate with it to refine and organize your ideas. Support added for YouTube videos and audio files as new source materials.
 
@@ -78,8 +81,6 @@ Throughout 2024, I found myself sharing countless tech stories that caught my at
 - Wes Bos finds out about `display: contents`. This causes an element's children to appear as if they were direct children of the element's parent, ignoring the element itself. This can be useful when a wrapper element should be ignored when using CSS grid or similar layout techniques.
 
 - Sam Selikoff wrote [an article](https://buildui.com/posts/how-to-control-a-react-component-with-the-url) about How to control a React component with the URL.
-
-- You can create image embeddings with the Nomic API. Same vector space as embeddings produced by Nomic Embed Text.
 
 ## August
 - Matt Pocock wrote a massive guide to [creating and publishing a package on npm](https://www.totaltypescript.com/how-to-create-an-npm-package).
@@ -105,6 +106,8 @@ Throughout 2024, I found myself sharing countless tech stories that caught my at
 - [webgpu-whisper](https://huggingface.co/spaces/Xenova/realtime-whisper-webgpu) is a demo of real-time in-browser speech recognition with OpenAI Whisper. The model runs fully on-device using Transformers.js and ONNX Runtime Web, and supports multilingual transcription.
 
 - React Conf 2024. Enhancing Forms with React Server Components by [Aurora Scharff](https://www.youtube.com/watch?v=X9cw4VczYVg). What's new in React 19 by [Lydia Hallie](https://www.youtube.com/watch?v=AJOGzVygGcY).
+
+- Every Nomic-Embed-Text embedding becomes multimodal. Nomic-Embed-Vision is a high quality, unified embedding space for image, text, and multimodal tasks. You can create image embeddings with the Nomic API with the same vector space as embeddings produced by Nomic Embed Text.
 
 ## May
 - Google I/O 2024 - The Gemini era.

@@ -160,8 +160,6 @@ Remote desktop environment in the browser: https://github.com/HeyPuter/puter
 
 See Core Web Vitals and PageSpeed Insights results simply and easily: https://page-speed.dev
 
-Feature management for developers with GitOps: https://github.com/featurevisor/featurevisor
-
 Awesome Web Apps that work without login: https://github.com/aviaryan/awesome-no-login-web-apps
 
 A powerful media downloader with no bullshit: https://cobalt.tools
@@ -172,35 +170,25 @@ Netlify Celebrates 5 Million Developers | 3D Game: https://5-million-devs.netlif
 
 Utilities to work with PDFs in Node.js, browser and workers: https://github.com/unjs/unpdf
 
-The web-platform-tests Interop project: https://github.com/web-platform-tests/interop
-
 Code transformer based on AST but providing a more intuitive API: https://github.com/thx/gogocode
 
 Guidance on choosing a license for your open source project: https://choosealicense.com
 
 Bare metal to production ready in minutes: https://github.com/MightyMoud/sidekick
 
-A new tool for making and sharing delightful documents: https://leaflet.pub
-
 Grab the color palette from an image using just Javascript: https://github.com/lokesh/color-thief
 
 Make your PDFs look scanned: https://github.com/rwv/lookscanned.io
 
-A JavaScript text differencing implementation: https://github.com/kpdecker/jsdiff
-
 Log in the node terminal from the browser: https://github.com/patak-dev/vite-plugin-terminal
-
-Share your screen with one simple room code: https://github.com/tonghohin/screen-sharing
-
-Web-based document scanner to PDF: https://github.com/addyosmani/scan
 
 Background removal with Transformers.js: https://github.com/addyosmani/bg-remove
 
 Your coding year in review: https://githubunwrapped.com
 
-This is Not My Name: https://vis.csh.ac.at/notmyname
-
 Efforts to clean up the JS ecosystem: https://github.com/es-tooling/ecosystem-cleanup
+
+An interactive tutorial to Learn Yjs: https://learn.yjs.dev
 
 ---
 
@@ -452,8 +440,6 @@ Collection of essential Vue Composition Utilities: https://vueuse.org
 
 VitePress - Vite & Vue Powered Static Site Generator: https://vitepress.vuejs.org
 
-Fast and beautiful interactive component playgrounds, powered by Vite: https://histoire.dev
-
 Vue Composables putting your components in motion: https://github.com/vueuse/motion
 
 Declarative ThreeJS using Vue Components: https://tresjs.org
@@ -640,7 +626,7 @@ An AI assistant that can use your CLI aNd Editor: https://github.com/cline/cline
 
 2024 AI Timeline: https://huggingface.co/spaces/reach-vb/2024-ai-timeline
 
-A minimalistic AI-powered search engine: https://github.com/zaidmukaddam/miniperplx
+Explore common agent recipes: https://www.agentrecipes.com
 
 ---
 

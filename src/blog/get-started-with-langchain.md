@@ -432,7 +432,7 @@ while (true) {
    - https://github.com/nomic-ai/gpt4all
 
 
-You can run any GGUF *(a binary format that is optimized for quick loading and saving of models)* on the Hugging Face Hub directly with ollama. All you need to do is:
+You can run any GGUF (GPT-Generated Unified Format), a binary format that is optimized for quick loading and saving of models, on the Hugging Face Hub directly with ollama. All you need to do is:
 
 ```sh
 # https://huggingface.co/docs/hub/en/ollama

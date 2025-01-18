@@ -47,6 +47,7 @@ A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and
 - recharts: chart library to help you to write charts in React.
 - stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
 - @mux/mux-node is a Mux API wrapper for Node projects to post a video. Note that this package uses Mux access tokens and secret keys and is intended to be used in server-side code only. Also add @mux/mux-player-react to integrate [Mux](https://docs.mux.com) player into your web application.
+- [next-video](https://next-video.dev) is a react component for adding video to your next.js application. It extends both the `<video>` element and your Next app with features for automatic video optimization.
 - react-confetti: create a confetti effect to celebrate the accomplishment of particular steps in an application.
 - [next-auth](https://github.com/vercel/next.js/tree/canary/examples/auth) is a complete open-source authentication solution for Next.js applications. [auth-nextjs-tutorial](https://github.com/codegenixdev/auth-nextjs-tutorial) is an example project covering both OAuth providers and traditional credential-based authentication.
  

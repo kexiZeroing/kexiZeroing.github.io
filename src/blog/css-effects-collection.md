@@ -3,7 +3,7 @@ title: "CSS effects collection"
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Jan 7 2025"
+updatedDate: "Jan 18 2025"
 ---
 
 ### TOC
@@ -397,6 +397,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 > When a view transition occurs between two different documents it is called a cross-document view transition. This is typically the case in multi-page applications (MPA). Chrome 126 enables Cross-Document View Transitions triggered by a same-origin navigation. From now on, you no longer need rearchitect your app to an SPA to use View Transitions.
 
+Animation CSS grid alignments: https://codepen.io/argyleink/pen/NWOEvro
+
 ```html
 <style>
   body {
@@ -414,7 +416,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <div class="box"></div>
 <script>
-  // https://codepen.io/argyleink/pen/NWOEvro
   const positions = ['start', 'end', 'center']
 
   function getRandomInt(max) {
@@ -434,6 +435,48 @@ document.addEventListener('DOMContentLoaded', () => {
         setRandomAlignments()
       })
   })
+</script>
+```
+
+Tag selection: https://codepen.io/dannymoerkerke/pen/VYZxYdy
+
+```html
+<div class="search"></div>
+<div class="tags">
+  <button>Docker<span>X</span></button>
+  <button>Kubernetes<span>X</span></button>
+  <button>AWS<span>X</span></button>
+</div>
+
+<script>
+  const tags = document.querySelectorAll('button');
+  const search = document.querySelector('.search');
+
+  tags.forEach((tag, index) => {
+    tag.style.viewTransitionName = `tag-${index}`;
+    tag.style.order = index;
+  });
+
+  const tagsContainer = document.querySelector('.tags');
+
+  tagsContainer.addEventListener('click', (e) => {
+    const tag = e.target.closest('button');
+    if (tag) {
+      document.startViewTransition(() => {
+        search.appendChild(tag);
+      });
+    }
+  });
+
+  search.addEventListener('click', (e) => {
+    const span = e.target.closest('span');
+    if (span) {
+      const tag = span.closest('button');
+      document.startViewTransition(() => {
+        tagsContainer.appendChild(tag);
+      });
+    }
+  });
 </script>
 ```
 
