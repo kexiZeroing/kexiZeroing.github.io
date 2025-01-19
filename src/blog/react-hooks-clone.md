@@ -216,6 +216,7 @@ export const withLoggingOnClick = (Component) => {
 ### What's new in React 17+
 React 17:
 - https://legacy.reactjs.org/blog/2020/10/20/react-v17.html
+- https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html
 
 React 18:
 - https://react.dev/blog/2022/03/29/react-v18

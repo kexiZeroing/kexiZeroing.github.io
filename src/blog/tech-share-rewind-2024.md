@@ -114,8 +114,6 @@ Throughout 2024, I found myself sharing countless tech stories that caught my at
 
 - Google I/O 2024 - The Gemini era.
 
-- Jina Reader now supports reading arbitrary PDFs from URLs. Simply add r.jina.ai like https://r.jina.ai/https://example.pdf, and you get a nicely parsed text ready for downstream LLMs to consume. Yes, Reader natively supports PDF reading. It is compatible to most PDFs including those with a lot of images, and it's lightning fast.
-
 - Nico Albanese recorded [a video](https://www.youtube.com/watch?v=UDm-hvwpzBI) walking through the new Vercel AI SDK v3.1. Learn how to build AI apps with TypeScript in 13 minutes.
 
 - Guillermo Rauch had a really cool [AI chatbot in Win95 style](https://wingpt.vercel.app). There is also a project [Github95](https://github95.vercel.app) to browse GitHub repos and users with a Windows 95 style.
@@ -128,6 +126,8 @@ Throughout 2024, I found myself sharing countless tech stories that caught my at
 - Google AI Studio is a web-based environment where developers can write, run, and test prompts using Google’s Gemini models. Additionally, if you want to use the Gemini API, you can get your API key from inside Google AI Studio.
 
 - Gemma is a family of lightweight, state-of-the-art open models in lightweight 7B and 2B sizes, built from the same research and technology used to create the Gemini models.
+
+- Introduce [Jina Reader](https://jina.ai/reader): simply prefix any URL with https://r.jina.ai and get an LLM-friendly input.
 
 ## March
 - We're excited to announce that Chrome for Developers is now available on a `.cn` domain. Find Chrome for Developers for China at [developer.chrome.google.cn](https://developer.chrome.google.cn). Find web.dev for China at [web.developers.google.cn](https://web.developers.google.cn).
