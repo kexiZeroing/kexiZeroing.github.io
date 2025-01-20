@@ -270,6 +270,8 @@ Amazing CSS in 2024: https://nerdy.dev/amazing-css-in-2024
 
 CSS Wrapped 2024: https://chrome.dev/css-wrapped-2024
 
+The most hearted Pens of 2024: https://codepen.io/2024/popular/pens
+
 ---
 
 ## FE dev resources
