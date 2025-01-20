@@ -1,0 +1,28 @@
+---
+import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+
+const projects = [
+	{ title: 'Super Simple Vue Compiler', href: 'https://github.com/kexiZeroing/super-simple-vue-compiler' },
+	{ title: 'Super Simple Vite Dev Server', href: 'https://github.com/kexiZeroing/super-simple-vite-dev-server' },
+	{ title: 'Super Simple RSC', href: 'https://github.com/kexiZeroing/super-simple-rsc' },
+	{ title: 'Super Simple Bundler', href: 'https://github.com/kexiZeroing/super-simple-bundler' },
+	{ title: 'Super Simple Authentication', href: 'https://github.com/kexiZeroing/super-simple-auth' },
+];
+---
+
+<PlaygroundLayout title="Playground List">
+	<main class="container mx-auto p-4">
+		<h1 class="text-xl font-bold mb-10 text-center">Super Simple Series: Show me the code</h1>
+		<ul class="space-y-6 max-w-md mx-auto">
+			{
+				projects.map(({ href, title }) => (
+					<li>
+						<a href={href} target="_blank" class="text-blue-600 hover:underline">
+							{title}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</main>
+</PlaygroundLayout>
