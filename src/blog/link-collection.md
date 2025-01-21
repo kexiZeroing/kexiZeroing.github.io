@@ -8,8 +8,6 @@ order: 2
 
 ## Worth learning repeatedly
 
-baseCS: https://github.com/vaidehijoshi/basecs-series
-
 Stanford CS 106B Lectures: https://www.youtube.com/playlist?list=PL-h0BZdG_K4mfItKR5nUChmnuus-q-Tbc
 
 Web Security: https://web.stanford.edu/class/cs253
@@ -26,7 +24,7 @@ The Missing Semester of Your CS Education: https://missing.csail.mit.edu
 
 High Performance Browser Networking: https://hpbn.co
 
-Modern JavaScript-based web development: https://fullstackopen.com
+Modern JavaScript-based web development: https://fullstackopen.com/en
 
 Bash Commands and Tips: https://dev.to/awwsmm/101-bash-commands-and-tips-for-beginners-to-experts-30je
 
@@ -44,8 +42,6 @@ Machine Learning for Beginners: https://github.com/microsoft/ML-For-Beginners
 
 Artificial Intelligence for Beginners: https://github.com/microsoft/AI-For-Beginners
 
-Generative AI for Beginners: https://github.com/microsoft/generative-ai-for-beginners
-
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials
@@ -57,8 +53,6 @@ Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
 B-trees and database indexes: https://planetscale.com/blog/btrees-and-database-indexes
-
-MySQL isolation levels and how they work: https://planetscale.com/blog/mysql-isolation-levels-and-how-they-work
 
 The Super Tiny Compiler: https://github.com/jamiebuilds/the-super-tiny-compiler
 
@@ -80,13 +74,9 @@ Console Utilities API reference: https://developer.chrome.com/docs/devtools/cons
 
 Tips to get more comfortable with DevTools: https://devtoolstips.org/
 
-Frontend build config generator: https://createapp.dev/
-
-Web Page Test: https://www.webpagetest.org/
-
 Chrome DevTools tips: https://umaar.com/dev-tips/
 
-Devhints for developer documentation: https://devhints.io/
+Frontend build config generator: https://createapp.dev/
 
 Quick Reference Cheat Sheet: https://quickref.me/
 
@@ -132,9 +122,9 @@ Windows 11 in React: https://github.com/blueedgetechno/win11React
 
 Windows 95 style UI component library for React: https://github.com/react95-io/React95
 
-Discover the apps everyone is docking about: https://www.dockhunt.com
+An AI chatbot in Win95 style: https://wingpt.vercel.app
 
-Chrome-style tabs in HTML/CSS: https://github.com/adamschwartz/chrome-tabs
+Discover the apps everyone is docking about: https://www.dockhunt.com
 
 The Steve Jobs Archive: https://stevejobsarchive.com
 
@@ -166,11 +156,9 @@ A powerful media downloader with no bullshit: https://cobalt.tools
 
 A high-performance HTTP benchmarking tool written in Golang: https://github.com/six-ddc/plow
 
-Netlify Celebrates 5 Million Developers | 3D Game: https://5-million-devs.netlify.com
+Netlify Celebrates 5 Million Developers in 3D Game: https://5-million-devs.netlify.com
 
 Utilities to work with PDFs in Node.js, browser and workers: https://github.com/unjs/unpdf
-
-Code transformer based on AST but providing a more intuitive API: https://github.com/thx/gogocode
 
 Guidance on choosing a license for your open source project: https://choosealicense.com
 
@@ -193,10 +181,6 @@ An interactive tutorial to Learn Yjs: https://learn.yjs.dev
 ---
 
 ## CSS related
-
-Modern CSS Solutions for Old CSS Problems: https://moderncss.dev
-
-100 Days Of More Or Less Modern CSS: https://www.matuzo.at/blog/2022/100-days-of-more-or-less-modern-css
 
 Defensive CSS - writing CSS that is protected: https://ishadeed.com/article/defensive-css
 
@@ -276,23 +260,15 @@ The most hearted Pens of 2024: https://codepen.io/2024/popular/pens
 
 ## FE dev resources
 
-GUI Challenges: https://www.youtube.com/playlist?list=PLNYkxOF6rcIAaV1wwI9540OC_3XoIzMjQ
-
 Web Interface Guidelines: https://github.com/raunofreiberg/interfaces
 
-The react library to build dashboards fast: https://github.com/tremorlabs/tremor
-
-Copy & Paste React Components for Dashboards: https://github.com/tremorlabs/tremor-raw
+Copy & Paste React Components for Dashboards: https://github.com/tremorlabs/tremor
 
 The Biggest Collection of Loading Animations: https://css-loaders.com
 
 Understanding SVG Paths: https://www.nan.fyi/svg-paths
 
 CSS animations on demand: https://animista.net
-
-A lightweight JavaScript animation library: https://github.com/juliangarnier/anime
-
-Buttons Generator: https://markodenic.com/tools/buttons-generator
 
 Box-shadow: https://neumorphism.io
 
@@ -340,8 +316,6 @@ Comlink makes WebWorkers enjoyable: https://github.com/GoogleChromeLabs/comlink
 
 Web component JS frameworks overview by their syntax and features: https://component-party.dev
 
-Open Source Tailwind components tailored for your AI and GPT: https://github.com/LangbaseInc/langui
-
 Converting any layout you have to drag-to-swap layout: https://github.com/TahaSh/swapy
 
 Smoothly transition one element into another: https://github.com/TahaSh/blendy
@@ -350,11 +324,7 @@ Drag and drop for any experience on any tech stack: https://github.com/atlassian
 
 Leaflet extension for various free tile providers: https://github.com/leaflet-extras/leaflet-providers
 
-Modular data visualization framework: https://github.com/f5/unovis
-
 Image comparison slider to compare images before and after: https://github.com/sneas/img-comparison-slider
-
-CSS Custom Highlight API: https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API
 
 Highlight your plaintext via Shiki: https://github.com/KazariEX/plain-shiki
 
@@ -388,15 +358,9 @@ React hook library, ready to use, written in Typescript: https://github.com/juli
 
 50 react hooks from scratch: https://github.com/tigerabrodi/50-react-hooks
 
-How styled-components works: https://medium.com/styled-components/how-styled-components-works-618a69970421
-
 Start developing websites like it's 2025: https://react2025.com
 
-Up and Running with Remix: https://egghead.io/courses/up-and-running-with-remix-b82b6bb6
-
 Next vs Remix (FULL STACK FRAMEWORK QUICKSTART): https://www.brenelz.com/posts/next-vs-remix
-
-Learn Next.js Server Side Rendering: https://dev.to/skirianov/learn-nextjs-server-side-rendering-by-building-your-own-implementation-41m8
 
 React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.com/watch?v=zMf_xeGPn6s
 
@@ -410,11 +374,9 @@ Build Your Own React.js in 400 Lines of Code: https://webdeveloper.beehiiv.com/p
 
 Zero-dependency and lightweight React implementation: https://github.com/MarufZak/react-simplified
 
-Modern UI components to build your React app: https://dotui.org
+How does React re-render internally: https://jser.dev/2023-07-18-how-react-rerenders
 
 Type-safe search params state manager for Next.js: https://nuqs.47ng.com
-
-React and the Vanishing Network: https://vanishing-network.epicreact.dev
 
 UI Library for Design Engineers: https://github.com/magicuidesign/magicui
 
@@ -423,8 +385,6 @@ Our Journey with Caching: https://nextjs.org/blog/our-journey-with-caching
 React Visualized: https://react.gg/visualized
 
 A collection of fancy React components: https://www.fancycomponents.dev
-
-How does React re-render internally: https://jser.dev/2023-07-18-how-react-rerenders
 
 ---
 
@@ -435,6 +395,8 @@ Updates, tips & opinions from the maintainers of Vue.js: https://blog.vuejs.org
 Vue Land FAQ: https://vue-land.github.io
 
 Vue 3 Migration Guide: https://v3-migration.vuejs.org
+
+Vue.js and Nuxt Tips, Tricks and good practice: https://vuejstips.com
 
 A curated list of awesome things related to Vite.js: https://github.com/vitejs/awesome-vite
 
@@ -462,21 +424,17 @@ Build beautiful website using Vue & Nuxt: https://github.com/unovue/inspira-ui
 
 Vue UI Component Library: https://primevue.org
 
-Copy-and-paste components for quickly building app UIs using Vue: https://github.com/Jettonn/originui-vue
-
-Integrate Clerk into your Vue application: https://vue-clerk.vercel.app
-
 Drag and drop components that support Vue2 and Vue3: https://alfred-skyblue.github.io/vue-draggable-plus
 
 Vue3 wrapper components for smooth-dnd: https://gilnd.github.io/vue3-smooth-dnd
-
-Vue.js and Nuxt Tips, Tricks and good practice: https://vuejstips.com
 
 The Guide to Building a Vue.js Component Library: https://soubiran.dev/series/the-complete-guide-to-building-a-vue-js-component-library
 
 The Guide to Setting Up a New Nuxt Project: https://soubiran.dev/posts/the-perfect-guide-to-setting-up-a-new-nuxt-project
 
 3D page flip effect for Vue2 and Vue3: https://github.com/ts1/flipbook-vue
+
+Clerk official SDK for Vue: https://clerk.com/changelog/2025-01-07-vue-and-nuxt-sdk
 
 ---
 
@@ -510,15 +468,7 @@ Prompt Engineering Guide: https://github.com/dair-ai/Prompt-Engineering-Guide
 
 An open-source ChatGPT UI: https://github.com/mckaywrigley/chatbot-ui
 
-A universal local knowledge base solution: https://github.com/GanymedeNil/document.ai
-
-Local knowledge based ChatGLM with langchain: https://github.com/imClumsyPanda/langchain-ChatGLM
-
-Share your wildest ChatGPT conversations with one click: https://sharegpt.com
-
-A chat assistant fine-tuned from LLaMA on user-shared conversations: https://vicuna.lmsys.org
-
-Chatbot Arena - Benchmarking LLMs in the Wild: https://chat.lmsys.org
+Chatbot Arena - Benchmarking LLMs in the Wild: https://lmarena.ai
 
 Interact privately with your documents using LLMs: https://github.com/imartinez/privateGPT
 
@@ -538,11 +488,7 @@ Fine-tuning GPT with OpenAI, Next.js and Vercel AI SDK: https://vercel.com/guide
 
 How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr-code/
 
-An alternative take on OpenAI Chat Completion API: https://gpt.pomb.us
-
 LlamaIndex.TS offers the core features of LlamaIndex for popular runtimes like Node.js: https://github.com/run-llama/LlamaIndexTS
-
-LlamaIndex Chat is an example chatbot application for LlamaIndexTS: https://github.com/run-llama/chat-llamaindex
 
 Get up and running with large language models locally: https://ollama.com
 
@@ -551,8 +497,6 @@ Fully client-side chat over documents: https://github.com/jacoblee93/fully-local
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
 
 Get started with the Gemini API: https://ai.google.dev/gemini-api/docs
-
-Google AI SDK for JavaScript: https://github.com/google/generative-ai-js
 
 Generative UI chatbot using the Vercel AI SDK and Google Gemini: https://github.com/vercel-labs/gemini-chatbot
 
@@ -566,8 +510,6 @@ Your words will be transcribed and fact-checked in real-time using AI: https://a
 
 Run Hugging Face Transformers directly in the browser: https://github.com/xenova/transformers.js
 
-Announce the release of Transformers.js v3: https://huggingface.co/blog/transformersjs-v3
-
 A collection of Transformers.js demos: https://github.com/huggingface/transformers.js-examples
 
 A collection of guides and examples for the Gemini API: https://github.com/google-gemini/cookbook
@@ -575,8 +517,6 @@ A collection of guides and examples for the Gemini API: https://github.com/googl
 Hands on with the Vercel AI SDK: https://github.com/nicoalbanese/ai-sdk-fundamentals
 
 AI agent stdlib that works with any LLM and AI SDK: https://github.com/transitive-bullshit/agentic
-
-An AI chatbot in Win95 style: https://wingpt.vercel.app
 
 A Webapp that uses RAG to interact with a PDF directly in the browser: https://pdf.nico.dev
 
@@ -594,11 +534,7 @@ Quickly get started with building applications using the Anthropic API: https://
 
 Find the best cursor rules for your framework and language: https://cursor.directory
 
-Internal Knowledge Base Preview: https://github.com/vercel-labs/ai-sdk-preview-internal-knowledge-base
-
 React Components for AI Chat: https://github.com/Yonom/assistant-ui
-
-Chatbot components based on shadcn/ui: https://github.com/Blazity/shadcn-chatbot-kit
 
 Introducing the Realtime API: https://openai.com/index/introducing-the-realtime-api
 
@@ -622,8 +558,6 @@ Converting files and office documents to Markdown: https://github.com/microsoft/
 
 Conversational video interface with a holiday theme: https://santa.tavus.io
 
-Real-time in-browser speech recognition: https://huggingface.co/spaces/webml-community/moonshine-web
-
 An AI assistant that can use your CLI aNd Editor: https://github.com/cline/cline
 
 2024 AI Timeline: https://huggingface.co/spaces/reach-vb/2024-ai-timeline
@@ -633,8 +567,6 @@ Explore common agent recipes: https://www.agentrecipes.com
 ---
 
 ## Machine Learning
-
-Gain the skills you need to do independent data science projects: https://www.kaggle.com/learn
 
 Stanford CS229 Machine Learning: https://cs229.stanford.edu
 
@@ -649,8 +581,6 @@ Stanford CS224N - Natural Language Processing with Deep Learning: https://web.st
 Princeton Natural Language Processing: https://princeton-nlp.github.io/cos484
 
 Understanding Large Language Models: https://www.cs.princeton.edu/courses/archive/fall22/cos597G
-
-Big Data Machine Learning Algorithms: https://yishuai.github.io/bigalgo
 
 Transformers from Scratch: https://e2eml.school/transformers.html
 
