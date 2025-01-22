@@ -353,57 +353,7 @@ function render(vnode) {
 }
 ```
 
-13. Write a `diff` function compares an old Virtual DOM node with a new one and returns a "patch" object describing the necessary changes.
-
-```js
-function diff(oldVNode, newVNode) {
-  if (!oldVNode) {
-    return { type: 'CREATE', newVNode };
-  }
-  if (!newVNode) {
-    return { type: 'REMOVE' };
-  }
-  if (typeof oldVNode !== typeof newVNode || oldVNode.tag !== newVNode.tag) {
-    return { type: 'REPLACE', newVNode };
-  }
-  if (typeof newVNode === 'string') {
-    if (oldVNode !== newVNode) {
-      return { type: 'TEXT', newVNode };
-    } else {
-      return null;
-    }
-  }
-
-  const patch = {
-    type: 'UPDATE',
-    props: diffProps(oldVNode.props, newVNode.props),
-    children: diffChildren(oldVNode.children, newVNode.children),
-  };
-  return patch;
-}
-
-function diffProps(oldProps, newProps) {
-  const patches = [];
-
-  for (let key in newProps) {
-    if (newProps[key] !== oldProps[key]) {
-      patches.push({ key, value: newProps[key] });
-    }
-  }
-  for (let key in oldProps) {
-    if (!(key in newProps)) {
-      patches.push({ key, value: undefined });
-    }
-  }
-  return patches;
-}
-
-function diffChildren(oldChildren, newChildren) {
-  // diff(oldChildren[i], newChildren[i])
-}
-```
-
-14. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
+13. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
 
 ```js
 // written by Dan Abramov
@@ -465,80 +415,7 @@ async function renderJSXToHTML(jsx) {
 }
 ```
 
-15. Write your own React useState and useEffect hooks.
-
-```js
-let hooks = [];
-let idx = 0;
-
-function useState(initVal) {
-  const state = hooks[idx] || initVal;
-  const _idx = idx;
-  const setState = newVal => {
-    hooks[_idx] = newVal;
-  };
-  idx++;
-  return [state, setState];
-}
-
-function useEffect(cb, depArray) {
-  const oldDeps = hooks[idx];
-  let hasChanged = true;
-
-  if (oldDeps) {
-    hasChanged = depArray.some((dep, i) => !Object.is(dep, oldDeps[i]));
-  }
-  if (hasChanged) cb();
-  hooks[idx] = depArray;
-  idx++;
-}
-```
-
-16. Implement a simplified version of Vue reactivity system.
-
-```js
-let activeEffect = null;
-
-function reactive(target) {
-  const depsMap = new Map();
-
-  return new Proxy(target, {
-    get(target, key, receiver) {
-      if (!depsMap.has(key)) {
-        depsMap.set(key, new Set());
-      }
-      const dep = depsMap.get(key);
-      if (activeEffect) {
-        dep.add(activeEffect);
-      }
-      return Reflect.get(target, key, receiver);
-    },
-    set(target, key, value, receiver) {
-      const result = Reflect.set(target, key, value, receiver);
-      const dep = depsMap.get(key);
-      if (dep) {
-        dep.forEach(effect => effect());
-      }
-      return result;
-    }
-  });
-}
-
-function effect(fn) {
-  activeEffect = fn
-  activeEffect()
-  activeEffect = null
-}
-
-// Usage example
-const state = reactive({ count: 0 });
-effect(() => {
-  console.log('Count is:', state.count);
-});
-state.count++;
-```
-
-17. Check if an object has circular references.
+14. Check if an object has circular references.
 
 ```js
 // `JSON.stringify` throws if one attempts to encode an object with circular references.
@@ -580,7 +457,7 @@ function hasCircularReference(obj) {
 }
 ```
 
-18. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
+15. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
 
 ```js
 // https://gist.github.com/simonw/209b46563b520d1681a128c11dd117bc

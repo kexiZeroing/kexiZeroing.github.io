@@ -460,7 +460,9 @@ Monitor and track the status of all Web Platform features: https://webstatus.dev
 
 ## Awesome LLMs
 
-OpenAI Cookbook: https://github.com/openai/openai-cookbook
+OpenAI Cookbook: https://cookbook.openai.com
+
+Vercel AI SDK Cookbook: https://sdk.vercel.ai/cookbook
 
 Awesome ChatGPT Prompts: https://prompts.chat
 
@@ -477,8 +479,6 @@ Understanding GPT tokenizers: https://simonwillison.net/2023/Jun/8/gpt-tokenizer
 Catching up on the weird world of LLMs: https://simonwillison.net/2023/Aug/3/weird-world-of-llms/
 
 [1hr Talk] Intro to Large Language Models: https://www.youtube.com/watch?v=zjkBMFhNj_g
-
-Vercel AI SDK Cookbook: https://sdk.vercel.ai/cookbook
 
 AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel/ai-chatbot
 
