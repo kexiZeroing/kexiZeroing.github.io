@@ -3,7 +3,7 @@ title: "Start a Javascript stack project"
 description: ""
 added: "Jun 16 2022"
 tags: [web]
-updatedDate: "Dec 9 2024"
+updatedDate: "Jan 23 2025"
 ---
 
 ## Start a modern web project
@@ -98,25 +98,33 @@ https://playfulprogramming.com/posts/modern-js-bundleless
 ### Writing CSS in 2024
 **CSS-in-JS libraries** (e.g. styled-components, Emotion for React) allows you to style your components by writing CSS directly in your JavaScript code. The good part includes making styles locally-scoped by default, colocating styles with components, enabling you to reference JavaScript variables in your style rules. But CSS-in-JS adds runtime overhead, the library must "serialize" your styles into plain CSS string that can be inserted into the document. Every time the component renders, the object styles are serialized again. Btw, using CSS-in-JS with newer React features like Server Components and Streaming requires library authors to support the latest version of React.
 
-For example, [Emotion](https://github.com/emotion-js/emotion) is a flexible CSS-in-JS library. It allows you to style apps quickly with string or object styles. It also computes a hash of the plain CSS during serialization — this hash is what you see in the generated class names.
+```js
+// const btnStyles = css`
+//   width: 100px;
+//   height: 100px;
+//   color: ${red};
+// `;
+// 
+// strings: ["width: 100px; height: 100px; color: ", ";"]
+// interpolations: ["red"]
+const interleave = (strings, interpolations) => {
+  return strings.reduce((output, str, i) => 
+    output + str + (interpolations[i] ?? ''), '');
+};
 
-```jsx
-<div
-  css={{
-    padding: 32px;
-    background-color: hotpink;
-    font-size: 24px;
-    border-radius: 4px;
-    &:hover {
-      color: ${color};
-    }
-  }}
->
-  Hover to change color
-</div>
+const styleElement = document.createElement('style');
+document.head.appendChild(styleElement);
+const sheet = styleElement.sheet;
 
-// genergate below code
-<div class="css-1h3ivcl">Hover to change color</div>
+export const css = (strings, ...interpolations) => {
+  const styleString = interleave(strings, interpolations).trim();
+  // We use 36 as the radix here so that the output string uses the 26 alphabet characters as well.
+  // e.g. css-0, css-a
+  const className = `css-${sheet.cssRules.length.toString(36)}`;
+  
+  sheet.insertRule(`.${className} { ${styleString} }`, sheet.cssRules.length);
+  return className;
+};
 ```
 
 **CSS Modules** are a small but impactful enhancement on top of vanilla CSS. A CSS Module is a CSS file where all class names and animation names are scoped locally by default. They treat the classes defined in each file as unique. Each class name or identifier is renamed to include a unique hash, and a mapping is exported to JavaScript to allow referencing them. CSS Modules are available in almost every [modern bundler and framework](https://github.com/css-modules/css-modules/blob/master/docs/get-started.md).
