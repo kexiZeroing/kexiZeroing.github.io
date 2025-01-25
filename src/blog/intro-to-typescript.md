@@ -944,6 +944,31 @@ npx tsc --init
 
 > Make sure you’re using Node >=20.6 — it’s required for some of the flags used in this setup. The `--watch` flag was added in Node v18.11.0. The `--env-file` flag was added in Node v20.6.0.
 
+```js
+// testing source code
+import { describe, it } from "node:test";
+import assert from "node:assert";
+
+describe("test ...", () => {
+  it('should ...', () => {
+    assert.strictEqual(1, 1);
+  });
+});
+
+// watching source code
+"node --watch index.js"
+"node --watch-path=./src --watch-path=./tests index.js"
+
+// styling output
+import { styleText } from 'node:util'
+
+const redText = styleText('red', 'I’m a red text')  
+console.log(redText)
+
+const blackWithGreenBg = styleText(['black', 'bgGreen'], 'I’m green with a black background')  
+console.log(blackWithGreenBg)
+```
+
 How to run ts files from command line? There is [ts-node](https://github.com/TypeStrong/ts-node) that will compile the code and REPL for node.js: `npx ts-node src/foo.ts`. `tsc` writes js to disk. `ts-node` doesn't need to do that and runs ts on the fly. But it's not typechecking your code. So we recommend to type check your code first with `tsc` and then run it with `ts-node` before shipping it.
 
 Btw, you can use [jiti](https://github.com/unjs/jiti) CLI to quickly run any script with TypeScript and native ESM support.

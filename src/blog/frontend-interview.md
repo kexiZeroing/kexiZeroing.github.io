@@ -459,6 +459,8 @@ function hasCircularReference(obj) {
 
 15. Parse Server-Sent Events from an API. Write a function that implements the `sseStreamIterator`, which can be used in `for await (const event of sseStreamIterator(apiUrl, requestBody))`.
 
+> Key Term: Streaming breaks up a resource you want to send or receive over a network into smaller chunks. This is common for browsers when receiving media assets, such as video buffering or partial loading of images.
+
 ```js
 // https://gist.github.com/simonw/209b46563b520d1681a128c11dd117bc
 async function* sseStreamIterator(apiUrl, requestBody) {
