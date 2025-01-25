@@ -251,11 +251,11 @@ updatedDate: "Nov 27 2024"
 
   <img alt="stack-elements-with-grid" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/stack-elements-grid.png" width="650" />
 
-- 8-digit hex notation (#RRGGBBAA): The first 6 digits are interpreted identically to the 6-digit notation. The last pair of digits, interpreted as a hexadecimal number, specifies the alpha channel of the color, where `00` represents a fully transparent color and `ff` represent a fully opaque color. Btw, 4-digit notation (#RGBA) is a shorter variant of the 8-digit notation. If there is only one number, it is duplicated: `1` means `11`, `c` means `cc`.
-
 - `text-underline-offset` sets the offset distance of an underline text decoration line from its original position. All browsers support this property. Note that it is not part of the `text-decoration` shorthand.
 
 - The `white-space` CSS property sets how white space inside an element is handled. By default, the sequences of white space are collapsed. Newline characters in the source are handled the same as other white space. Use `white-space: pre-wrap;` to preserve spaces, tabs, and new lines.
+
+- `color-scheme: light dark;` tells the browser that the element supports both light and dark color modes, with light mode being the default. The `light-dark()` CSS function is a relatively new color function that allows you to specify different colors for light and dark color schemes. It provides a more direct way to handle color variations between light and dark modes. It prevents you from having to use the `@media` query and re-declare variables.
 
 - CSS animations are pretty sweet, but they typically require explicit sizes, you couldn't use the intrinsic sizing keywords like `auto`, `min-content`, or `fit-content`. [From Chrome 129](https://developer.chrome.com/docs/css-ui/animate-to-height-auto), you can declare `interpolate-size: allow-keywords` on `:root` to enable transitioning to and from intrinsic sizing keywords for the entire document.
 

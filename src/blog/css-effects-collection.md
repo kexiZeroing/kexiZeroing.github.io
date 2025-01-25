@@ -3,7 +3,7 @@ title: "CSS effects collection"
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Jan 18 2025"
+updatedDate: "Jan 25 2025"
 ---
 
 ### TOC
@@ -14,18 +14,13 @@ updatedDate: "Jan 18 2025"
 - [3D Flip Hover Effects](#3d-flip-hover-effects)
 - [Color Palettes](#color-palettes)
 - [3D Clock](#3d-clock)
-- [Blurry image load](#blurry-image-load)
 - [Animation with View Transitions](#animation-with-view-transitions)
 - [Filter and backdrop filter](#filter-and-backdrop-filter)
 - [Scroll-driven animations](#scroll-driven-animations)
 - [Reveal hover effect](#reveal-hover-effect)
-- [Rotating highlight effect](#rotating-highlight-effect)
-- [Glass folder effect](#glass-folder-effect)
+- [Gradient border card](#gradient-border-card)
 - [The Periodic Table](#the-periodic-table)
-- [Selection menu](#selection-menu)
 - [Double input range slider](#double-input-range-slider)
-- [Hover list focus by demotion](#hover-list-focus-by-demotion)
-- [Light/Dark modes baiscs](#lightdark-modes-baiscs)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -339,55 +334,6 @@ Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick
 
 https://codepen.io/bigxixi/pen/abjEMbg
 
-### Blurry image load
-
-```html
-<style>
-.blurry-load {
-  filter: blur(8px);
-}
-
-@keyframes blurOut {
-  0% {
-    filter: blur(20px);
-  }
-  50% {
-    filter: blur(10px);
-  }
-  100% {
-    filter: blur(0px);
-  }
-}
-.blur-out {
-  animation: blurOut 0.5s ease-out forwards;
-}
-</style>
-
-<img
-  class="blurry-load"
-  src="image-small.jpg"
-  data-large="image.jpg"
-/>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const images = document.querySelectorAll('.blurry-load');
-  
-  images.forEach(img => {
-    const fullImage = new Image();
-    
-    fullImage.onload = () => {
-      img.src = fullImage.src;
-      img.classList.add('blur-out');
-      img.classList.remove('blurry-load');
-    };
-    
-    fullImage.src = img.getAttribute('data-large');
-  });
-});
-</script>
-```
-
 ### Animation with View Transitions
 
 - Getting started with View Transitions on multi-page apps: https://daverupert.com/2023/05/getting-started-view-transitions
@@ -619,108 +565,29 @@ img:hover {
 - `object-position` is used together with `object-fit` to specify how an `<img>` should be positioned with x/y coordinates inside its "own content box".
 - `box-sizing: border-box` will make the size of the content box equal to 0. In other words, we don’t see the image, but we see the background color since it covers the padding area.
 
-### Rotating highlight effect
-It creates an animated button with a rotating highlight effect around its border. Conic gradients are employed to generate the rotating highlight and the `@property` rule defines a custom property for rotation.
+### Gradient border card
+<img alt="Gradient Border" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/gradient-border.png" width="100">
 
-https://codepen.io/wesbos/pen/PoraMVV
+The two layers stack on top of each other:
+- The conic-gradient layer applies over the content and padding areas.
+- The linear-gradient layer applies to the border area, visible outside the padding.
 
-```html
-<button>
-  <div class="fancy"></div>
-  <span class="text">Download For Free</span>
-</button>
+```css
+.box {
+  width: 100px;
+  height: 100px;
+  border: solid 4px #0000;
+  border-radius: 16px;
+  /* `0 0` means no transition resulting in a solid fill of the specified color. */
+  background: conic-gradient(rgb(0 0 0) 0 0) padding-box,
+    linear-gradient(45deg, #ffbc00, #ff0058) border-box;
+}
 
-<style>
-  @property --rotate {
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
-  }
-
-  button {
-    --blue: #0173ff;
-    --radius: 50px;
-    --rotate: 0deg;
-    border-radius: var(--radius);
-    background: var(--blue);
-    color: white;
-    border: 0;
-    position: relative;
-    
-    .fancy {
-      position: absolute;
-      inset: 0;
-      &:before {
-        content: "";
-        background: conic-gradient(
-          from var(--rotate),
-          transparent 0%,
-          white 5%,
-          transparent 10%
-        );
-        position: absolute;
-        inset: 0;
-        animation: rotate 1s linear infinite;
-      }
-      &:after {
-        content: "";
-        background: var(--blue);
-        position: absolute;
-        inset: 2px;
-        border-radius: calc(var(--radius) - 2px);
-      }
-    }
-    .text {
-      position: relative;
-    }
-  }
-  @keyframes rotate {
-    to {
-      --rotate: 360deg;
-    }
-  }
-</style>
-```
-
-### Glass folder effect
-<img alt="Glass-folder-effect" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/glass-folder.png" width="200">
-
-```html
-<div class="folder">
-  <img src="https://picsum.photos/seed/picsum/200/200" />
-</div>
-
-<style>
-  img {
-    border-radius: 10px;
-    box-shadow: 0 2px 15px #333;
-    transition: all 0.2s;
-    margin-top: -30%;
-  }
-  .folder {
-    display: inline-block;
-    background: #007eaf;
-    transition: all 0.2s;
-    box-shadow: 0 2px 15px #333;
-    padding: 30px;
-    border-radius: 10px;
-    position: relative;
-    margin-top: 30%;
-  }
-  .folder:hover img {
-    translate: 0 -50px;
-  }
-  .folder::after {
-    box-shadow: 0 2px 5px #3334 inset;
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;      
-    content: '';
-    position: absolute;
-    background: #019eda44;
-    inset: 20% 0 0;
-    backdrop-filter: blur(8px);
-  }
-</style>
+/* conic-gradient(
+  rgb(0 0 0 / .75) 0deg,
+  rgba(255, 255, 255, 0.5) 90deg,
+  rgba(255, 0, 0, 0.75) 180deg
+); */
 ```
 
 ### The Periodic Table
@@ -741,38 +608,6 @@ li {
 body:has(#alk:checked) li:not(.alk) { 
   opacity: 0.2;
 }
-```
-
-### Selection menu
-https://codepen.io/chriscoyier/pen/eYBQamQ
-
-```html
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-<template><span id="control"></span></template>
-
-<script>
-  let control = document.importNode(document.querySelector('template').content, true).childNodes[0];
-  control.addEventListener('pointerdown', oncontroldown, false);
-
-  document.querySelector('p').onpointerup = () => {
-    let selection = document.getSelection();
-    let text = selection.toString();
-    
-    if (text !== "") {
-      let rect = selection.getRangeAt(0).getBoundingClientRect();
-      control.style.top = `calc(${rect.top}px - 48px)`;
-      control.style.left = `calc(${rect.left}px + calc(${rect.width}px / 2) - 40px)`;
-      document.body.appendChild(control);
-    }
-  }
-  document.onpointerdown = () => {	
-    let control = document.querySelector('#control');
-    if (control !== null) {
-      control.remove();
-      document.getSelection().removeAllRanges();
-    }
-  }
-</script>
 ```
 
 ### Double input range slider
@@ -875,81 +710,4 @@ https://codepen.io/alexpg96/pen/xxrBgbP
   </script>
 </body>
 </html>
-```
-
-### Hover list focus by demotion
-https://nerdy.dev/hover-not-hover-sorry-not-sorry
-
-```html
-<style>
-  @import "https://unpkg.com/open-props/easings.min.css";
-  
-  ul li {
-    transform-origin: left center;
-    transition: 
-      transform 1s var(--ease-spring-3),
-      opacity .3s var(--ease-3);
-  }
-  ul:hover > li:not(:hover) {
-    opacity: .25;
-    transform: scale(0.8);
-  }
-</style>
-
-<ul>
-  <li>Apple</li>
-  <li>Banana</li>
-  <li>Orange</li>
-  <li>Mango</li>
-  <li>Pineapple</li>
-  <li>Strawberry</li>
-  <li>Blueberry</li>
-  <li>Grape</li>
-  <li>Watermelon</li>
-  <li>Peach</li>
-</ul>
-```
-
-### Light/Dark modes baiscs
-
-```css
-html {
-  --bg: black;
-  --text: #ffdbdb;
-
-  --link-color: #4ac6ff;
-  --link-color-hover: #9ce0ff;
-  --bright-color: white;
-  --faded-color: #373232;
-}
-
-@media (prefers-color-scheme: light) {
-  html {
-    --bg: white;
-    --text: #323232;
-
-    --link-color: #068dcb;
-    --link-color-hover: #67cfff;
-    --bright-color: black;
-    --faded-color: #dedede;
-  }
-}
-```
-
-`color-scheme: light dark;` tells the browser that the element supports both light and dark color modes, with light mode being the default.
-
-The `light-dark()` CSS function is a relatively new color function that allows you to specify different colors for light and dark color schemes. It provides a more direct way to handle color variations between light and dark modes. It prevents you from having to use the `@media` query and re-declare variables.
-
-```css
-:root {
-  color-scheme: light dark; /* Supports both, light is default */
-
-  --light: #292524;
-  --dark: #f5f5f4;
-}
-
-body {
-  color: light-dark(var(--light), var(--dark));
-  background-color: light-dark(var(--dark), var(--light));
-}
 ```

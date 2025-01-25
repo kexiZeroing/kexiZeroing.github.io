@@ -23,6 +23,7 @@
       quibusdam id ipsa.
     </p>
   </article>
+  <template><span id="control">Hello</span></template>
 </div>
 
 <style is:global>
@@ -31,6 +32,12 @@
   ::highlight(search-results) {
     background-color: yellow;
     color: red;
+  }
+
+  #control {
+    background-color: yellow;
+    padding: 4px;
+    position: absolute;
   }
 </style>
 
@@ -115,5 +122,33 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', initializeSearch);
+  function selectionMenu() {
+    // https://codepen.io/chriscoyier/pen/eYBQamQ
+    let control = document.importNode(document.querySelector('template').content, true).childNodes[0];
+    control.addEventListener('pointerdown', () => console.log('clicked'), false);
+
+    document.querySelector('article').onpointerup = () => {
+      let selection = document.getSelection();
+      let text = selection.toString();
+      
+      if (text !== "") {
+        let rect = selection.getRangeAt(0).getBoundingClientRect();
+        (control as HTMLElement).style.top = `calc(${rect.top}px - 40px)`;
+        (control as HTMLElement).style.left = `calc(${rect.left}px + calc(${rect.width}px / 2) - 40px)`;
+        document.body.appendChild(control);
+      }
+    }
+    document.onpointerdown = () => {	
+      let control = document.querySelector('#control');
+      if (control !== null) {
+        control.remove();
+        document.getSelection().removeAllRanges();
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeSearch();
+    selectionMenu();
+  });
 </script>
