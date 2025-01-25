@@ -136,20 +136,16 @@ export default function ProductPage() {
   const selectedSize = searchParams.get('size');
 
   return {
-    // ...
-    <Link href={`?color=${selectedColor}&size=${selectedSize}`}> 
+    // options to choose from ...
+    <Link href={`?color=${color}&size=${selectedSize}`}>{ color }</Link>
+    <Link href={`?color=${selectedColor}&size=${size}`}>{ size }</Link>
   }
 }
 
-// server component
+// changing to server component also works
+// need to validate the data from the URL (using Zod)
 export default function ProductPage({ searchParams }) {
   const selectedColor = searchParams.color;
   const selectedSize = searchParams.size;
 }
 ```
-
-More advanced features to note here from the article [Managing Advanced Search Param Filtering in the Next.js App Router](https://aurorascharff.no/posts/managing-advanced-search-param-filtering-next-app-router).
-
-The issue for the search/filter: It all comes down to the way the Next.js router works. We click a category, but the URL does not update until the data fetching is resolved. The router is waiting for the server components to finish rendering on the server before it updates the URL. Since we are relying on the URL to be updated instantly, our implementation logic breaks.
-
-We learn to track the pending state of the search with `useTransition()`, implement a responsive category filter with `useOptimistic()`, and coordinate the search and filter state with a React Context provider. Finally, we switched to using `nuqs` *(a library that provides a type-safe way to manage search params as state in React)* for a more robust solution.

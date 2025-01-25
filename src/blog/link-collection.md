@@ -554,6 +554,10 @@ An AI assistant that can use your CLI aNd Editor: https://github.com/cline/cline
 
 Explore common agent recipes: https://www.agentrecipes.com
 
+Vercel AI SDK Tutorial: https://www.aihero.dev/vercel-ai-sdk-tutorial
+
+Open Operator from browserbase: https://open-operator.vercel.app
+
 ---
 
 ## Machine Learning
