@@ -324,47 +324,6 @@ if (!isInIframe && !ua.toLowerCase().match(/micromessenger|android|iphone/i)) {
 >
 > A great library for generating bcrypt hashes is [bcryptjs](https://github.com/dcodeIO/bcrypt.js) which will generate a random salt for you. This means that you don't need to worry about generating a salt and you can simply store the whole thing as is. Then when the user logs in, you provide the stored hash and the password they provide to bcryptjs's `compare` function will verify the password is correct.
 
-```js
-import { compare, hash } from 'bcryptjs';
-import { SignJWT } from 'jose';
-
-// Takes a string as input, and returns a Uint8Array containing UTF-8 encoded text
-const key = new TextEncoder().encode(process.env.AUTH_SECRET);
-const SALT_ROUNDS = 10;  // Salt length to generate
-
-export async function hashPassword(password) {
-  return hash(password, SALT_ROUNDS);
-}
-
-export async function comparePasswords(plainTextPassword, hashedPassword) {
-  return compare(plainTextPassword, hashedPassword);
-}
-
-export async function signToken(payload: SessionData) {
-  // https://github.com/panva/jose/blob/main/docs/classes/jwt_sign.SignJWT.md
-  return await new SignJWT(payload)
-    .setProtectedHeader({ alg: 'HS256' })
-    .setIssuedAt()
-    .setExpirationTime('1 day from now')
-    .sign(key);
-}
-
-export async function setSession(user: NewUser) {
-  const expiresInOneDay = new Date(Date.now() + 24 * 60 * 60 * 1000);
-  const session: SessionData = {
-    user: { id: user.id! },
-    expires: expiresInOneDay.toISOString(),
-  };
-  const encryptedSession = await signToken(session);
-  cookies().set('session', encryptedSession, {
-    expires: expiresInOneDay,
-    httpOnly: true,
-    secure: true, // Only over HTTPS
-    sameSite: 'strict', // Prevent CSRF
-  });
-}
-```
-
 ### 微信网页授权
 申请公众号/小程序的时候，都有一个 APPID 作为当前账号的标识，OpenID 就是用户在某一公众平台下的标识（用户微信号和公众平台的 APPID 两个数据加密得到的字符串）。如果开发者拥有多个应用，可以通过获取用户基本信息中的 UnionID 来区分用户的唯一性，因为同一用户，在同一微信开放平台下的不同应用，UnionID 应是相同的，代表同一个人，当然前提是各个公众平台需要先绑定到同一个开放平台。OpenID 同一用户同一应用唯一，UnionID 同一用户不同应用唯一，获取用户的 OpenID 是无需用户同意的，获取用户的基本信息则需要用户同意。
 

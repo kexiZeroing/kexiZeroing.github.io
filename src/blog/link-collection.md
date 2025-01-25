@@ -54,8 +54,6 @@ A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
 B-trees and database indexes: https://planetscale.com/blog/btrees-and-database-indexes
 
-The Super Tiny Compiler: https://github.com/jamiebuilds/the-super-tiny-compiler
-
 Falsehoods programmers believe in: https://github.com/kdeldycke/awesome-falsehood
 
 ---
@@ -160,8 +158,6 @@ Netlify Celebrates 5 Million Developers in 3D Game: https://5-million-devs.netli
 
 Utilities to work with PDFs in Node.js, browser and workers: https://github.com/unjs/unpdf
 
-Guidance on choosing a license for your open source project: https://choosealicense.com
-
 Bare metal to production ready in minutes: https://github.com/MightyMoud/sidekick
 
 Grab the color palette from an image using just Javascript: https://github.com/lokesh/color-thief
@@ -215,8 +211,6 @@ Simple CSS scrollbar editor: https://scrollbar.app
 A Modern CSS Reset: https://piccalil.li/blog/a-more-modern-css-reset
 
 Build faithful recreations of old UIs: https://jdan.github.io/98.css, https://botoxparty.github.io/XP.css, https://khang-nd.github.io/7.css
-
-An Interactive Guide to Keyframe Animations: https://www.joshwcomeau.com/animation/keyframe-animations
 
 How to create high-performance CSS animations: https://web.dev/animations-guide
 
@@ -312,8 +306,6 @@ What PWA Can Do Today: https://whatpwacando.today
 
 OCR PDFs and images directly in your browser: https://tools.simonwillison.net/ocr
 
-Comlink makes WebWorkers enjoyable: https://github.com/GoogleChromeLabs/comlink
-
 Web component JS frameworks overview by their syntax and features: https://component-party.dev
 
 Converting any layout you have to drag-to-swap layout: https://github.com/TahaSh/swapy
@@ -325,8 +317,6 @@ Drag and drop for any experience on any tech stack: https://github.com/atlassian
 Leaflet extension for various free tile providers: https://github.com/leaflet-extras/leaflet-providers
 
 Image comparison slider to compare images before and after: https://github.com/sneas/img-comparison-slider
-
-Highlight your plaintext via Shiki: https://github.com/KazariEX/plain-shiki
 
 A headless UI library that works for a wide range of JS frameworks: https://github.com/chakra-ui/ark
 

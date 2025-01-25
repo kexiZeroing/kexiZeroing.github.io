@@ -177,11 +177,14 @@ import { name as circleName } from "https://example.com/shapes/circle.js";
 // import from CDN, and no need for a build step
 // https://www.skypack.dev
 import React from "https://cdn.skypack.dev/react";
-
-// esm.sh is a modern CDN that allows you to import es6 modules from a URL
-// No build tools needed
-import Module from "https://esm.sh/PKG@SEMVER[/PATH]";
+// or 
+import React from "https://esm.sh/react@19/?dev"
+import ReactDOMClient from "https://esm.sh/react-dom@19/client?dev"
 ```
+
+> UMD builds removed in React 19:
+> 
+> UMD was widely used in the past as a convenient way to load React without a build step. Now, there are modern alternatives for loading modules as scripts in HTML documents. Starting with React 19, React will no longer produce UMD builds to reduce the complexity of its testing and release process. To load React 19 with a script tag, we recommend using an ESM-based CDN such as `esm.sh`.
 
 [This proposal](https://github.com/WICG/import-maps) allows control over what URLs get fetched by JavaScript `import` statements. This allows "bare import specifiers", such as `import moment from "moment"`, to work. The mechanism for doing this is via an *import map* which can be used to control the resolution of module specifiers generally.
 

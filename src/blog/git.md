@@ -10,7 +10,6 @@ updatedDate: "July 20 2024"
 - https://ohshitgit.com
 - https://github.com/k88hudson/git-flight-rules
 - https://dev.to/g_abud/advanced-git-reference-1o9j
-- https://gitexplorer.com
 - https://jvns.ca/blog/2023/11/01/confusing-git-terminology/
 
 ## git reset
