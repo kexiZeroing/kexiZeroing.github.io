@@ -1,10 +1,20 @@
 ---
 import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
 
-const projects = [
+type projectType = {
+	title: string;
+	href: string;
+	snapshot?: string;
+};
+
+const projects: projectType[] = [
 	{ title: 'Super Simple Vue Compiler', href: 'https://github.com/kexiZeroing/super-simple-vue-compiler' },
 	{ title: 'Super Simple Vite Dev Server', href: 'https://github.com/kexiZeroing/super-simple-vite-dev-server' },
-	{ title: 'Super Simple React SSR', href: 'https://github.com/kexiZeroing/super-simple-react-ssr' },
+	{ 
+		title: 'Super Simple React SSR',
+		href: 'https://github.com/kexiZeroing/super-simple-react-ssr',
+		snapshot: 'https://raw.gitmirror.com/kexiZeroing/blog-images/main/super-simple-react-ssr-readme.png',
+	},
 	{ title: 'Super Simple RSC', href: 'https://github.com/kexiZeroing/super-simple-rsc' },
 	{ title: 'Super Simple React Virtual DOM', href: 'https://github.com/kexiZeroing/super-simple-virtual-dom' },
 	{ title: 'Super Simple State Management', href: 'https://github.com/kexiZeroing/super-simple-state-management' },
@@ -34,11 +44,27 @@ const mustReads = [
 		<h1 class="text-xl font-bold mb-10 text-center">Super Simple Series: Show me the code</h1>
 		<ul class="space-y-6 max-w-md mx-auto">
 			{
-				projects.map(({ href, title }) => (
+				projects.map(({ href, title, snapshot }) => (
 					<li>
-						<a href={href} target="_blank" class="text-blue-600 hover:underline">
-							{title}
-						</a>
+						{snapshot ? (
+							<details class="group">
+								<summary class="text-blue-600 cursor-pointer flex items-center">
+									<span class="-ml-5 mr-2 text-sm transform group-open:rotate-90 transition-transform">
+										▶
+									</span>
+									<a href={href} target="_blank" class="text-blue-600 hover:underline">
+										{title}
+									</a>
+								</summary>
+								<div class="mt-2 text-gray-700">
+									<img src={snapshot} alt={title} loading="lazy" />
+								</div>
+							</details>
+						) : (
+							<a href={href} target="_blank" class="text-blue-600 hover:underline">
+								{title}
+							</a>
+						)}
 					</li>
 				))
 			}

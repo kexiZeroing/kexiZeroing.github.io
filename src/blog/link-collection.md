@@ -316,15 +316,13 @@ Drag and drop for any experience on any tech stack: https://github.com/atlassian
 
 Leaflet extension for various free tile providers: https://github.com/leaflet-extras/leaflet-providers
 
-Image comparison slider to compare images before and after: https://github.com/sneas/img-comparison-slider
-
 A headless UI library that works for a wide range of JS frameworks: https://github.com/chakra-ui/ark
-
-A growing collection of over 50 input components: https://origin-ui-alpha.vercel.app
 
 A component to transition, format, and localize numbers: https://number-flow.barvian.me
 
 Interactive CSS memory space: https://nerdy.dev/notebook
+
+Micro-Frontends with Rspack and Module Federation: https://www.youtube.com/watch?v=32_EikGKESk
 
 ---
 
@@ -374,7 +372,7 @@ Our Journey with Caching: https://nextjs.org/blog/our-journey-with-caching
 
 React Visualized: https://react.gg/visualized
 
-A collection of fancy React components: https://www.fancycomponents.dev
+Collection of copy-and-paste components for quickly building UI: https://originui.com
 
 ---
 
