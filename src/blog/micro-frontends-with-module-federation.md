@@ -3,6 +3,7 @@ title: "Micro-frontends with Module Federation"
 description: ""
 added: "Jan 27 2025"
 tags: [web]
+updatedDate: "Jan 27 2025"
 ---
 
 Module Federation provides a solution to the scaling problem by allowing a SPA to be sliced into multiple smaller remote applications that are built independently. It has become more popular in recent years since the addition of the `ModuleFederationPlugin` in Webpack.
@@ -42,6 +43,9 @@ Module Federation introduces three terms for the applications that make up the M
 - A **host** is an application that consumes federated modules from remote applications at runtime. When you write your host application, you import the module from your remote as though it was part of the build, but at build time, Webpack is aware that this module will only exist at runtime.
 - A **federated module** is any valid JavaScript module that is exposed by a remote application with the aim that it will be consumed by a host application. This means that React Components, Angular Components, Services, Application State, Functions, UI Components and more can be shared between applications and updated without the need to redeploy everything.
 
+---
+
 - https://github.com/module-federation/module-federation-examples
 - https://github.com/originjs/vite-plugin-federation
-- https://www.youtube.com/watch?v=32_EikGKESk
+- Micro-Frontends in Just 10 Minutes: https://www.youtube.com/watch?v=s_Fs4AXsTnA
+- Micro-Frontends With RSpack and Module Federation: https://www.youtube.com/watch?v=32_EikGKESk
