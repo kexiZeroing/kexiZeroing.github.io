@@ -1,7 +1,7 @@
 ---
 title: "Micro-frontends with Module Federation"
 description: ""
-added: "Jan 27 2024"
+added: "Jan 27 2025"
 tags: [web]
 ---
 
