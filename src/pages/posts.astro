@@ -3,7 +3,6 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Post from '../components/Post.astro';
-import ColorScript from '../components/ColorScript.astro';
 import SmallRotation from '../components/SmallRotation.astro';
 
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
@@ -72,6 +71,7 @@ const groupedByYear: YearGroup[] = Object.entries(restPosts).map(([year, posts])
 				{topPosts.map(
 				(post: any) => (
 					<Post
+						id={post.id}
 						url={"/post/" + post.id}
 						date={post.data.added}
 						title={post.data.title}
@@ -87,6 +87,7 @@ const groupedByYear: YearGroup[] = Object.entries(restPosts).map(([year, posts])
 						<h3>{group.year}</h3>
 						{group.posts.map((post) => (
 							<Post
+								id={post.id}
 								url={"/post/" + post.id}
 								date={post.data.added}
 								title={post.data.title}
@@ -100,6 +101,5 @@ const groupedByYear: YearGroup[] = Object.entries(restPosts).map(([year, posts])
 		</main>
 		<Footer />
 		<SmallRotation />
-		<ColorScript />
 	</body>
 </html>

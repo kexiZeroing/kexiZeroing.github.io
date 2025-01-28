@@ -1,10 +1,10 @@
 ---
-const { url, title, tags, date, top } = Astro.props;
+const { id, url, title, tags, date, top } = Astro.props;
 ---
 
 <li class="post-item">
   { top && <span class="top-tag">top</span> }
-  <a href={url} class="title">{title}</a>
+  <a href={url} class="title" transition:name={'post-' + id}>{title}</a>
   <time datetime={date}>
     {date && new Date(date).toLocaleDateString('en-us', {
       year: 'numeric',
@@ -14,21 +14,23 @@ const { url, title, tags, date, top } = Astro.props;
   </time>
 
   <span>
-		{ tags && tags.map((tag) => (
-        <a class="tag-link" href={`/tag/${tag}`}>
-          #{tag}
-        </a>
-		  ))
-		}
+		{tags && tags.map((tag) => (
+      <a class="tag-link" href={`/tag/${tag}`}>
+        #{tag}
+      </a>
+		))}
 	</span>
 </li>
 <style>
   .post-item {
     margin: 1.2em 0;
   }
-  .post-item:hover {
-    transform: scale(1.05);
-    transform-origin: left;
+  .post-item .title {
+    color: var(--heading-color);
+    text-decoration: underline;
+  }
+  .post-item:hover .title {
+    font-weight: bold;
   }
   .post-item .top-tag {
     border: 1px solid var(--orange);

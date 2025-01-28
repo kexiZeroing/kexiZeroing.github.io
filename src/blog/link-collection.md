@@ -424,6 +424,8 @@ The Guide to Setting Up a New Nuxt Project: https://soubiran.dev/posts/the-perfe
 
 3D page flip effect for Vue2 and Vue3: https://github.com/ts1/flipbook-vue
 
+Modern and Performant Bottom Sheet for Vue: https://github.com/megaarmos/vue-spring-bottom-sheet
+
 Clerk official SDK for Vue: https://clerk.com/changelog/2025-01-07-vue-and-nuxt-sdk
 
 ---

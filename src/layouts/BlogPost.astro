@@ -18,6 +18,7 @@ const {
 			.title {
 				font-size: 2em;
 				margin: 0.25em 0 0;
+				color: var(--heading-color);
 			}
 			hr {
 				border: 0;
@@ -36,7 +37,7 @@ const {
 		<Header />
 		<main data-pagefind-body>
 			<article>
-				<h1 class="title" data-pagefind-meta="title">{title}</h1>
+				<h1 class="title" data-pagefind-meta="title" transition:name={'post-' + Astro.params.slug}>{title}</h1>
 				{added && <time>{added}</time>}
 				{updatedDate && <div class="update-time">Last updated on <time>{updatedDate}</time></div>}
 				<hr />
