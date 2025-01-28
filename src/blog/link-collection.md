@@ -174,6 +174,8 @@ Efforts to clean up the JS ecosystem: https://github.com/es-tooling/ecosystem-cl
 
 An interactive tutorial to Learn Yjs: https://learn.yjs.dev
 
+A simple tool for redirecting you: https://github.com/kodie/redirectmeto
+
 ---
 
 ## CSS related

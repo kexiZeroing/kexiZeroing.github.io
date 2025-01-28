@@ -79,6 +79,7 @@ The `nonce` is a cryptographically random string that the client creates and sen
 > The details of how this works shouldn’t trouble you or keep you from effectively using an authorization server with token-based authentication.
 > - To further demystify JWT, read [Signing and Validating JSON Web Tokens For Everyone](https://maida.kim/2020/09/signing-and-validating-json-web-tokens-jwt-for-everyone) also by @KimMaida.
 > - [JWT.io](https://jwt.io) provides a debugger tool to decode, verify and generate JWT.
+> - [jose](https://github.com/panva/jose) is JavaScript module for JSON Object Signing and Encryption.
 
 ```js
 // This library doesn't validate the token, any well-formed JWT can be decoded. 
@@ -113,8 +114,6 @@ The app sends an authorization request to the authorization server, requesting a
 Remember when granting consent to allow HireMe123 to use the user’s privileges to access MyCalApp? HireMe123 could ask for a variety of different scopes, for example: `write:events`, `read:events`, `write:settings`, `read:settings`. Scopes are for delegated permissions for an application. It is possible to add different scopes to individual users if your authorization server provides Role-Based Access Control (RBAC).
 
 > The client, in OAuth terminology, is the component that makes requests to the resource server, in your case, the client is the server of a web application (NOT the browser). Therefore, the access token should be stored on the web application server only. It should not be exposed to the browser, and it doesn't need to, because the browser never makes any direct requests to the resource server. It talks to the web application server instead, which in turn makes requests to the resource server using the access token.
->
-> Example code to create an OAuth client by implementing Login with Google using TypeScript and Express: https://github.com/Alex-Yakubovsky/walkthroughs/blob/main/oauth-client-walkthrough/index.ts
 
 ### Summary of ID Tokens and Access Tokens
 ID tokens are JSON web tokens meant for use by the application only. For example, if there's an app that uses Google to log in users and to sync their calendars, Google sends an ID token to the app that includes information about the user. The app then parses the token's contents and uses the information (including details like name and profile picture) to customize the user experience. Be sure to validate ID tokens before using the information it contains.
