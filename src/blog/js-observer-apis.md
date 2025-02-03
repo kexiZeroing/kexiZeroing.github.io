@@ -134,6 +134,8 @@ const observer = new IntersectionObserver(
 )
 ```
 
+There is also a `rootMargin` option, which specifies a set of offsets to add to the root’s bounding box when calculating intersections, effectively shrinking or growing the root. The default is "0px 0px 0px 0px". To give you an example: if you want some code to run before the element is actually in view, `rootMargin: "25%"` will make the Intersection Observer report an intersection when the observed element is 25% away from the viewport.
+
 With the help of `IntersectionObserver` (and tricky usage of `top: -1px`), we can detect when a sticky element gets pinned.
 
 ```js

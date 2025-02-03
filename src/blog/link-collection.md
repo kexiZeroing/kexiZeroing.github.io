@@ -170,7 +170,7 @@ Background removal with Transformers.js: https://github.com/addyosmani/bg-remove
 
 Your coding year in review: https://githubunwrapped.com
 
-Efforts to clean up the JS ecosystem: https://github.com/es-tooling/ecosystem-cleanup
+Smoothly animated code blocks with Shiki: https://github.com/shikijs/shiki-magic-move
 
 An interactive tutorial to Learn Yjs: https://learn.yjs.dev
 

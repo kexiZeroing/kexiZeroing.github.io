@@ -25,6 +25,12 @@ npx shadcn-ui@latest init
 # nuxt@latest also works. `nuxi` is the cli package, it's minimal and fast to download
 # When you install nuxt, it re-exports nuxi as both `nuxi` and `nuxt`
 npx nuxi@latest init my-app
+
+# You can build SPA with Nuxt, similar to Vite+Vue but with the power of the Nuxt ecosystem.
+# nuxt.config.js
+export default {
+  ssr: false
+}
 ```
 
 Start with templates:

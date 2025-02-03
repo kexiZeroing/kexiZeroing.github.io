@@ -257,8 +257,8 @@ return new Response(
 ```
 
 ## Download streamed data using vanilla JavaScript
-
-> Consume Web streams from OpenAI using vanilla JavaScript: https://umaar.com/dev-tips/269-web-streams-openai/
+- Consume Web streams from OpenAI using vanilla JavaScript: https://umaar.com/dev-tips/269-web-streams-openai/
+- Parsing Server-Sent Events from an API: https://gist.github.com/simonw/209b46563b520d1681a128c11dd117bc
 
 ```js
 const url = "https://api.openai.com/v1/chat/completions";

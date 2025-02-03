@@ -420,6 +420,7 @@ while (true) {
 ### Run open-source LLMs locally on your computer 
 1. Ollama + OpenWebUI
    - https://github.com/kexiZeroing/langchain-llamaindex-ollama
+   - https://github.com/ollama/ollama/blob/main/docs/faq.md
    - https://github.com/ollama/ollama-js
    - https://github.com/open-webui/open-webui
    - https://simonwillison.net/2024/Dec/27/open-webui

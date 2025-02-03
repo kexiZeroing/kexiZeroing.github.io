@@ -301,6 +301,12 @@ npx @biomejs/biome lint
 npx @biomejs/biome check
 ```
 
+```sh
+# https://biomejs.dev/guides/migrate-eslint-prettier
+biome migrate eslint --write
+biome migrate prettier --write
+```
+
 ## MSW - API mocking library
 Mock Service Worker is an API mocking library for browser and Node.js that uses a Service Worker to intercept requests that actually happened. Developers come to MSW for various reasons: to establish proper testing boundaries, to prototype applications, debug network-related issues, or monitor production traffic.
 

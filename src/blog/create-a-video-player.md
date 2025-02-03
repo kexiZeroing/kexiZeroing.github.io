@@ -35,7 +35,7 @@ To start off with, let's take a look at the HTML that makes up the player. First
 
 Even though this player will define its own custom control set, the `controls` attribute is still added to the `<video>` element, and the player's default control set is switched off later with JavaScript. Doing things this way still allows users who have JavaScript turned off to still have access to the browser's native controls.
 
-A poster image is defined for the video, and the `preload` attribute is set to `metadata`, which informs the browser that it should initially only attempt to load the metadata from the video file rather than the entire video file. This provides the player with data such as video duration and format.
+A poster image is defined for the video, and the `preload` attribute is set to `metadata`, which informs the browser that it should initially only attempt to load the metadata from the video file rather than the entire video file. This provides the player with data such as video duration and format. *(Setting `preload="none"` tells the browser to avoid downloading the video file until the user requests playback.)*
 
 The next step is to define a custom control set, also in HTML, which will be used to control the video.
 
