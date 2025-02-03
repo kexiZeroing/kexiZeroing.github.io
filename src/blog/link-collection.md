@@ -484,6 +484,8 @@ LlamaIndex.TS offers the core features of LlamaIndex for popular runtimes like N
 
 Get up and running with large language models locally: https://ollama.com
 
+A unified interface for accessing and using LLMs: https://openrouter.ai
+
 Fully client-side chat over documents: https://github.com/jacoblee93/fully-local-pdf-chatbot
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic

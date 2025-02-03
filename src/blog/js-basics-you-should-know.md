@@ -297,6 +297,13 @@ function Person() {
 var p = new Person();
 ```
 
+Figure out what the `"this"` is referencing:
+1. Is there an object to the left of the dot? If so, that's what the "this" keyword is referencing. (Implicit Binding)
+2. Was the function invoked with "call", "apply", or "bind"? If so, it'll explicitly state what the "this" keyword is referencing. (Explicit Binding)
+3. Was the function invoked using the "new" keyword? If so, the "this" keyword is referencing the newly created object that was made by the JavaScript interpreter. (new Binding)
+4. Is "this" inside of an arrow function? If so, its reference may be found lexically in the enclosing scope. (Lexical Binding)
+5. Are you in "strict mode"? If yes, the "this" keyword is undefined. If not, "this" is referencing the "window" object. (window Binding)
+
 ### Function.prototype.call() / apply()
 While the syntax of `call()` function is almost identical to that of `apply()`, the fundamental difference is that `call()` accepts an argument list, while `apply()` accepts a single array of arguments (or an array-like object). They provide a new value of `this` to the function. With call or apply, you can write a method once and then inherit it in another object, without having to rewrite the method for the new object. If the first argument is not passed, the value of `this` is bound to the global object (the value of `this` will be undefined in strict mode).
 
