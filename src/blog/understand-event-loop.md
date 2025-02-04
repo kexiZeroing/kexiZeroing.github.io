@@ -177,3 +177,21 @@ async function blocksInChunks() {
 ```
 
 > The api and implementation is the result of a multi year collab effort between (meta) the react team and (google) chrome, and underpins react’s concurrent mode. Now being implemented in browsers as a standard.
+
+```js
+// Here is how you can "defer" a slow operation in JS
+const onIdle = (fn) => {
+  if ('scheduler' in window) {
+    return scheduler.postTask(fn, {
+      priority: 'background'
+    });
+  }
+  if ('requestIdleCallback' in window) {
+    return requestIdleCallback(fn);
+  }
+
+  setTimeout(fn, 0);
+};
+
+onIdle(() => slowFunction());
+```

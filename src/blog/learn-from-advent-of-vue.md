@@ -1,9 +1,9 @@
 ---
-title: "Learn from Advent of Vue 2022"
+title: "Learn from Advent of Vue"
 description: ""
 added: "Dec 27 2022"
 tags: [vue]
-updatedDate: "Jan 14 2025"
+updatedDate: "Feb 4 2025"
 ---
 
 ### Code Structure
@@ -161,7 +161,7 @@ export function useTimeout = (fn, delay, options) => {
 }
 ```
 
-> Each component instance calling `useXXX()` will create its own copies of state so they won't interfere with one another. But if you put those values outside of the composable function, it will persist, like a basic state or store. When you need to access those values later somewhere else, they won't be reset everytime you call the composable.
+> Each component instance calling `useXXX()` will create its own copies of state so they won't interfere with one another. But if you put those values outside of the composable function, it will persist, like a basic state or store. When you need to access those values later somewhere else, they won't be reset everytime you call the composable. *(Potential issues in SSR: State declared outside component scope persists between requests.)*
 
 More about `watchEffect`:
 1. `watchEffect` runs a callback function immediately and automatically tracks its reactive dependencies. The callback function is executed whenever any of the reactive dependencies change.
@@ -450,6 +450,8 @@ import { inject } from 'vue'
 const myGlobalVariable = inject('myGlobalVariable')
 </script>
 ```
+
+> [Solving Prop Drilling in Vue](https://alexop.dev/posts/solving-prop-drilling-in-vue): Instead of event buses, use Pinia for state, composables for logic, and provide/inject for component trees.
 
 ### Vue router and Suspense
 

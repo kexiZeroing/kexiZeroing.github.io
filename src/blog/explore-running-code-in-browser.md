@@ -208,7 +208,7 @@ const selectedModel = "Llama-3-8B-Instruct-q4f32_1-MLC";
 const engine = await webllm.CreateMLCEngine(selectedModel);
 ```
 
-Pyodide is a Python distribution for the browser and Node.js based on WebAssembly. Pyodide makes it possible to install and run Python packages in the browser. Try Pyodide in a [REPL](https://pyodide.org/en/stable/console.html) directly in your browser.
+Pyodide is a Python distribution for the browser and Node.js based on WebAssembly. Pyodide makes it possible to install and run Python packages in the browser. Try Pyodide in a [REPL](https://pyodide.org/en/stable/console.html) directly in your browser, or [pydantic.run](https://pydantic.run/), a Python browser sandbox based on Pyodide. Write and share Python code, run it in the browser.
 
 ```js
 async function main(){
