@@ -121,7 +121,7 @@ updatedDate: "Nov 27 2024"
 
 - This is where the `overflow: clip` becomes helpful. It’s supported by all major browsers. If you set `overflow-y` to `clip`. The `overflow-x` value will stay as is (`visible`). Now the clipping happens only on the y-axis.
 
-- Position `fixed` doesn’t work with `transform` CSS property. It happens because transform creates a new coordinate system and your `position: fixed` element becomes fixed to that transformed element.
+- Position `fixed` doesn’t work with `transform` property for the ancestor element. It happens because `transform` creates a new stacking context and containing block, causing the fixed element to be positioned relative to that ancestor instead of the viewport.
 
 - Center one and right/left align other element: Grid layout may be the cleanest and most efficient method. There is no need for absolute positioning or flexbox with fake elements.
 
