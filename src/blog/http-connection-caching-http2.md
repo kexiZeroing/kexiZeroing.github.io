@@ -240,21 +240,23 @@ Each HTTP transfer carries a set of headers that describe the transferred resour
 
 In HTTP/2, `:method`, `:scheme`, `:authority`, and `:path` are pseudo-header fields. It tries to compress headers and strip headers that are equal to the headers sent in the previous request. 
 
+> Clients that generate HTTP/2 requests directly should use the ":authority" pseudo-header field instead of the "Host" header field.
+
 ```
 # HTTP/1.x
 # the first request
 GET /resoure HTTP/1.1
-Host: https://example.com
+Host: www.example.com
 
 # and a consecutive request
 GET /new_resource HTTP/1.1
-Host: https://example.com
+Host: www.example.com
 
 # HTTP/2
 # the first request
 :method: GET
 :scheme: https
-:host: example.com
+:authority: www.example.com
 :path: /resource
 
 # and a consecutive request to the same server just requires

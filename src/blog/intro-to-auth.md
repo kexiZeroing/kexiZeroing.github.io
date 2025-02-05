@@ -177,7 +177,7 @@ SSO is an **authentication** method that allows users to authenticate once with 
 - You should use SSO when you want to authenticate users via a centralized identity provider. Users can log into an IdP and gain access to all the apps and services connected to that IdP without repeatedly authenticating with each.
 - You should use OAuth when you want to access or modify data in another service on behalf of a user.
 
-Different SSO protocols share session information in different ways, but the essential concept is the same: there is a central domain, through which authentication is performed, and then the session is shared with other domains in some way.
+Different SSO protocols (e.g. SAML, CAS) share session information in different ways, but the essential concept is the same: there is a central domain, through which authentication is performed, and then the session is shared with other domains in some way.
 
 1. You try to log in to YouTube, and the application redirects you to the Identity Provider (IDP) for authentication.
 2. The IDP (Google) checks your credentials and confirms your identity. It creates a new session for you on its server and sets a session cookie in your browser.

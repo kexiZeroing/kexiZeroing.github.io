@@ -2,8 +2,8 @@
 title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
-tags: [react, code]
-updatedDate: "Dev 4 2024"
+tags: [react]
+updatedDate: "Feb 5 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -170,6 +170,19 @@ When you want a component to “remember” some information, but you don’t wa
 - Like state, refs let you retain information between re-renders of a component.
 - Unlike state, setting the ref’s current value does not trigger a re-render.
 
+```js
+function usePrevious(value) {
+  const ref = useRef();
+
+  useEffect(() => {
+    // this update does not trigger a re-render
+    ref.current = value;
+  }, [value]);
+
+  return ref.current;
+}
+```
+
 #### `ref` callback function
 Instead of a ref object, you may pass a function to the ref attribute. When the `<div>` DOM node is added to the screen, React will call your `ref` callback with the DOM node as the argument. When that `<div>` DOM node is removed, React will call your `ref` callback with null. React will also call your `ref` callback whenever you pass a different `ref` callback.
 
@@ -191,6 +204,36 @@ const ChatWindow = () => {
 ```
 
 So if you need to interact with DOM nodes directly after they rendered, try not to jump to `useRef` + `useEffect` directly, but consider using [callback refs](https://tkdodo.eu/blog/ref-callbacks-react-19-and-the-compiler) instead.
+
+### batching and flushSync in rendering
+In early versions (React 17 and earlier), React updated the DOM immediately after each state change. Multiple state updates within a single event cycle would cause multiple, unnecessary re-renders, affecting the application's responsiveness.
+
+```js
+const handleUpdate = () => {
+  setCount(count + 1); // First update
+  setFlag(!flag);      // Second update
+  // In pre-batching React, this would cause two separate renders
+};
+```
+
+React 18 introduced batching to prevent these issues. Batching means that React groups multiple state updates into a single re-render cycle. This approach ensures that the UI is updated efficiently, reflecting all state changes in one go.
+
+`flushSync` allows you to opt-out of batching for specific updates, forcing them to be processed immediately. This ensures that critical updates are executed in the correct order, even within a batched state update cycle. *(But, use it carefully and not too much, because using it too often can cancel out the performance advantages of batching.)*
+
+```js
+// https://tigerabrodi.blog/understanding-flushsync-mastering-batching-behavior-in-reactjs
+const receiveMessage = () => {
+  const newMessage = `Message ${messages.length + 1}`;
+
+  // Update messages and Forces re-render
+  flushSync(() => {
+    setMessages(prevMessages => [...prevMessages, newMessage]);
+  });
+
+  // Scroll to the bottom after messages update
+  endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
+};
+```
 
 ### Higher Order Components
 HOCs are wrapper components that help provide additional functionality to existing components. While hooks probably replaced most of shared logic concerns, there are still use cases where higher-order components could be useful. For example, you want to fire analytics event on every click of every button, dropdown and link everywhere.
@@ -222,6 +265,7 @@ React 18:
 - https://react.dev/blog/2022/03/29/react-v18
 - https://www.youtube.com/watch?v=Z-NCLePa2x8
 - https://www.youtube.com/watch?v=ytudH8je5ko
+- https://tigerabrodi.blog/reacts-evolution-from-hooks-to-concurrent-react
 
 React 19:
 - https://react.dev/blog/2024/12/05/react-19

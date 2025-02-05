@@ -95,8 +95,8 @@ To display something on a webpage the browser has to go through the following se
 
 1. Style: Calculate the styles that apply to the elements.
 2. Layout: Generate the geometry and position for each element.
-3. Paint: Fill out the pixels for each element into layers.
-4. Composite: Draw the layers to the screen.
+3. Paint: Fill out the pixels for each element.
+4. Composite: Separate the elements into layers and draw the layers to the screen.
 
 When you animate something on a page that has already loaded these steps have to happen again. For example, if you animate something that changes layout, the paint and composite steps also have to run again. Animating something that changes layout is therefore more expensive than animating something that only changes compositing.
 
