@@ -971,7 +971,7 @@ console.log(blackWithGreenBg)
 
 How to run ts files from command line? There is [ts-node](https://github.com/TypeStrong/ts-node) that will compile the code and REPL for node.js: `npx ts-node src/foo.ts`. `tsc` writes js to disk. `ts-node` doesn't need to do that and runs ts on the fly. But it's not typechecking your code. So we recommend to type check your code first with `tsc` and then run it with `ts-node` before shipping it.
 
-Btw, you can use [jiti](https://github.com/unjs/jiti) CLI to quickly run any script with TypeScript and native ESM support.
+CLI tools like [tsx](https://github.com/privatenumber/tsx) and [jiti](https://github.com/unjs/jiti) offer a seamless experience for running TypeScript and ESM code without requiring additional configuration.
 
 For lightweight support to enable runtime TypeScript in Node.js, you can use the built-in support for [type stripping](https://nodejs.org/api/typescript.html#type-stripping). By default Node.js will execute only files that contain no TypeScript features that require transformation, such as enums or namespaces. Node.js will replace inline type annotations with whitespace, and no type checking is performed. Node 23 will be able to run TypeScript files without any extra configuration *(unflagging `--experimental-strip-types`)*.
 - Create an `index.ts` file containing TS syntax. Enums and namespaces are not supported by default.

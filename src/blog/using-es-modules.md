@@ -238,7 +238,12 @@ ESM changes a bunch of stuff in JavaScript. Switching the default from CJS to ES
    }
    ```
 
+### Requiring ESM in Node.js
+The capability to `require()` ESM modules in Node.js marks an incredible milestone. This feature allows packages to be published as ESM-only while still being consumable by CJS codebases with minimal modifications.
+
 **Updates for Node.js 22:** Support for require()ing ESM graphs is now enabled through experimental flag. We intend to enable it by default in the future to allow package authors to publish ESM-only packages while maintaining support for CJS users, and help the ecosystem migrate to ESM incrementally.
+
+> Update: In the release of version 22.12.0, it is now no longer behind a flag on v22.x. Users can check `process.features.require_module` to see whether `require(esm)` is enabled in the current Node.js instance.
 
 ```js
 // Define a module in a file named 'math-utils.mjs'
@@ -254,5 +259,3 @@ console.log(mathUtils.square(2));
 ```
 
 Node 23 was released on Oct 2024 that you can now `require()` files that use ESM (import/export), which lets you import an ES Module in CommonJS and have it just work. Previously, if you wanted to use a “module” from your CommonJS file, you would need to do use dynamic import `await import('some/module/file.mjs')` and you can’t just put this at the top of your file.
-
-> Update: In the release of version 22.12.0, it is now no longer behind a flag on v22.x. Users can check `process.features.require_module` to see whether `require(esm)` is enabled in the current Node.js instance.
