@@ -3,7 +3,7 @@ title: "Notes on work projects (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Jan 15 2025"
+updatedDate: "Feb 7 2025"
 ---
 
 ### 项目是怎么跑起来的
@@ -97,6 +97,14 @@ Webpack 4 also has the concept `url-loader`. It first base64 encodes the file an
 - `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.
 - Want to access `webpack-dev-server` from the mobile in local network: run `webpack-dev-server` with `--host 0.0.0.0`, which lets the server listen for requests from the network (all IP addresses on the local machine), not just localhost. But Chrome won't access `http://0.0.0.0:8089` (Safari can open). It's not the IP, it just means it is listening on all the network interfaces, so you can use any IP the host has.
 
+The `DefinePlugin` allows you to create global constants that are replaced at compile time, commonly used to specify environment variables or configuration values that should be available throughout your application during the build process. For example, you might use it to define `process.env.NODE_ENV` as 'production' or 'development' which webpack will literally replace in your code during bundling.
+
+```js
+new webpack.DefinePlugin({
+  'process.env.NODE_ENV': JSON.stringify('development')
+}),
+```
+
 #### difference between `--watch` and `--hot`
 - `webpack --watch`: watch for the file changes and compile again when the source files changes. `webpack-dev-server` uses webpack's watch mode by default.
 - `webpack-dev-server --hot`: add the HotModuleReplacementPlugin to the webpack configuration, which will allow you to only reload the component that is changed instead of doing a full page refresh.
@@ -183,8 +191,6 @@ const webpackConfig = smp.wrap({
 });
 ```
 
-Webpack 5 fails if using `smp.wrap()` the config, with the error: "You forgot to add `mini-css-extract-plugin` plugin". As a hacky workaround, you can append `MiniCssExtractPlugin` after wrapping with `speed-measure-webpack-plugin`.
-
 #### TypeScript and Webpack
 Webpack is extensible with "loaders" that can be added to handle particular file formats.
 
@@ -230,24 +236,6 @@ Transpiling is an expensive process and many projects have thousands of lines of
 }
 ```
 
-#### 打包时插入 git 提交信息
-[git-revision-webpack-plugin](https://github.com/pirelenito/git-revision-webpack-plugin) generates VERSION and COMMITHASH files during build.
-
-```js
-const GitRevisionPlugin = require('git-revision-webpack-plugin');
-const gitRevisionPlugin = new GitRevisionPlugin();
-
-plugins: [
-  new DefinePlugin({
-    'VERSION': JSON.stringify(gitRevisionPlugin.version()),
-    'COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
-    'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
-  }),
-]
-```
-
-> The `DefinePlugin` allows you to create global constants that are replaced at compile time, commonly used to specify environment variables or configuration values that should be available throughout your application during the build process. For example, you might use it to define `process.env.NODE_ENV` as 'production' or 'development' which webpack will literally replace in your code during bundling.
-
 ### 本地 build 与上线 build
 1. 公共组件库 C 需要先 build，再 `npm link` 映射到全局的 node_modules，然后被其他项目 `npm link C` 引用。(关于 `npm link` 的使用场景可以看看 https://github.com/atian25/blog/issues/17)
 2. 项目 A 的上线脚本中会先进入组件库 C，执行 `npm build` 和 `npm link`，之后再进入项目 A 本身，执行 `npm link C`，`npm build` 等项目本身的构建。
@@ -273,6 +261,14 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 3. 调用 `webpack()` 传入配置 `webpack.prod.conf` 和一个回调函数，**webpack stats 对象** 作为回调函数的参数，可以通过它获取到 webpack 打包过程中的信息，使用 `process.stdout.write(stats.toString(...))` 输出到命令行中 (`console.log` in Node is just `process.stdout.write` with formatted output)
 4. 使用 [chalk](https://www.npmjs.com/package/chalk) 在命令行中显示一些提示信息。
 5. 补充：目前大多数工程都是通过脚手架来创建的，使用脚手架的时候最明显的就是与命令行的交互，[Inquirer.js](https://github.com/SBoudrias/Inquirer.js) 是一组常见的交互式命令行用户界面。[Commander.js](https://github.com/tj/commander.js) 作为 node.js 命令行解决方案，是开发 node cli 的必备技能。
+
+### 实时检测 web 应用更新
+当应用发布新版本时，考虑及时通知用户并引导其刷新页面以加载最新资源。
+
+1. 使用 Web Worker API 在浏览器后台轮询请求 `index.html` 文件，不会影响主线程运行。
+2. 请求 `index.html` 文件，对比本地和请求响应头的 ETag 的字段值。
+3. 如果 ETag 字段值不一致，说明有更新，则弹出更新提示。
+4. 当页面不可见时（例如切换标签页或最小化窗口），停止实时检测任务；再次可见时，恢复实时检测任务。
 
 ### 后端模板
 有些 url 请求是后端直出页面返回 html，通过类似 `render_to_response(template, data)` 的方法，将数据打到模板中，模板里会引用 `xx/static/js` 路径下的 js 文件，这些 js 使用 require 框架，导入需要的其他 js 文件或 tpl 模板，再结合业务逻辑使用 underscore 的 template 方法（`_.template(xx)`）可以将 tpl 渲染为 html，然后被 jquery `.html()` 方法插入到 DOM 中。
@@ -354,6 +350,7 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 微信外网页通过小程序链接 URL Scheme，微信内通过微信开放标签，且微信内不会直接拉起小程序，需要手动点击按钮跳转。这是官方提供的一个例子 https://postpay-2g5hm2oxbbb721a4-1258211818.tcloudbaseapp.com/jump-mp.html 可以用手机浏览器查看效果，直接跳转小程序。
 
 - 使用微信开放标签 `<wx-open-launch-weapp>`，提供要跳转小程序的原始 ID 和路径，标签内插入自定义的 html 元素。开放标签会被渲染成一个 iframe，所以外部的样式是不会生效的。另外在开放标签上模拟 click 事件也不生效，即不可以在微信内不通过点击直接跳转小程序。可以监听 `<wx-open-launch-weapp>` 元素的 `launch` 事件，用户点击跳转按钮并对确认弹窗进行操作后触发。
+- 通过开放标签 `<wx-open-launch-app>` 唤起 App，提供 AppId 和可选的附加信息。但是 Android 的要求是 App 必须登录过一次（客户端的微信 sdk 跑过）。如果不能跳转，要么就是未安装 App，要么就是场景值不对（这个指的是页面打开方式，比如从公众号菜单栏，收藏等地方打开的页面才可以跳转），但是报错信息无法区分这两种错误。
 - 通过[服务端接口](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html)或在小程序管理后台的「工具」入口可以获取打开小程序任意页面的 URL Scheme。适用于从短信、邮件、微信外网页等场景打开小程序。
 
 > 微信小程序相关的仓库，比如 WeUI 组件库、微信小程序示例、computed / watch 扩展等: https://github.com/wechat-miniprogram
@@ -460,11 +457,6 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 - https://github.com/resumejob/How-to-design-a-spike-system
 - https://github.com/sunshineshu/-How-to-design-a-spike-system/blob/master/SUMMARY.md
 
-### 开发自己的调试工具
-- https://kentcdodds.com/blog/make-your-own-dev-tools
-- https://app-dev-tools.netlify.app
-- https://github.com/coryhouse/switchboard
-
 ### 日常开发 Tips and Tricks
 - The `input` event is fired every time the value of the element changes. This is unlike the `change` event, which only fires when the value is committed, such as by pressing the enter key or selecting a value from a list of options. Note that `onChange` in React behaves like the browser `input` event. *(in React it is idiomatic to use `onChange` instead of `onInput`)*
 
@@ -515,18 +507,6 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
   target.parentNode.scrollTop = target.offsetTop;
 
   // can also add the css `scroll-behavior: smooth;`
-  ```
-
-- If several listeners are attached to the same element for the same event type, they are called in the order in which they were added. If `stopImmediatePropagation()` is invoked during one such call, no remaining listeners will be called.
-
-- To detect if a user has their keyboard's caps lock turn on, we'll employ KeyboardEvent's `getModifierState` method (which returns the current state of the specified modifier key, `true` if the modifier is active):
-  ```js
-  document.querySelector('input[type=password]').addEventListener('keyup', function (keyboardEvent) {
-    const capsLockOn = keyboardEvent.getModifierState('CapsLock');
-    if (capsLockOn) {
-      // Warn the user that their caps lock is on
-    }
-  });
   ```
  
 - npmmirror 已内置[支持类似 unpkg cdn 解析能力](https://zhuanlan.zhihu.com/p/633904268)，可以简单理解为访问 unpkg 地址时，在回源服务里面根据 URL 参数，去 npm registry 下载对应的 npm 包，解压后响应对应的文件内容。即只需要遵循约定的 URL 进行访问，即可在页面中加载任意 npm 包里面的文件内容。
