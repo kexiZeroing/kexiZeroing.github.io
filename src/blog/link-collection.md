@@ -324,8 +324,6 @@ A component to transition, format, and localize numbers: https://number-flow.bar
 
 Interactive CSS memory space: https://nerdy.dev/notebook
 
-Micro-Frontends with Rspack and Module Federation: https://www.youtube.com/watch?v=32_EikGKESk
-
 ---
 
 ## React ecosystem
@@ -559,6 +557,8 @@ Explore common agent recipes: https://www.agentrecipes.com
 Vercel AI SDK Tutorial: https://www.aihero.dev/vercel-ai-sdk-tutorial
 
 Tools for Vercel AI SDK: https://ai-sdk-agents.vercel.app
+
+AI inference in Firefox Web extensions: https://blog.tomayac.com/2025/02/07/playing-with-ai-inference-in-firefox-web-extensions
 
 ---
 

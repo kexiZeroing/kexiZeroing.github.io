@@ -3,7 +3,7 @@ title: "Notes on work projects (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Feb 7 2025"
+updatedDate: "Feb 8 2025"
 ---
 
 ### 项目是怎么跑起来的
@@ -359,33 +359,10 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 - iOS 方面，根据 App Store 审核指南，上架 App Store 的应用不允许使用自己的浏览器内核。如果 app 会浏览网页，则必须使用相应的 WebKit 框架和 WebKit Javascript。
 - Android 方面，不限制应用使用自己的浏览器内核。安卓微信之前的浏览器为基于 WebKit 的 X5 浏览器，后为了和小程序的浏览器内核同构，大概 2020-05 从 X5 迁移到 XWeb，官方一般会有内核版本升级体验通告，比如[2023-06 更新](https://developers.weixin.qq.com/community/develop/doc/0002c2167840006af8df3c94256001)：当前安卓微信 XWeb 开发版基于 111 新内核，现网仍基于 107 内核。
 
-### Debug iOS Safari from your Mac
-1. On your iPhone, go to Settings > Safari > Advanced and toggle on `Web Inspector`.
-2. On your Mac, open Safari and go to Safari > Preferences > Advanced then check `Show Develop menu in menu bar`.
-3. Connect your iPhone to your Mac with the USB cable.
-4. On your iPhone, open the web site that you want to debug.
-5. On your Mac, in Safari, the name of the iOS device will appear as a submenu in the `Develop menu`. This will open a Web Inspector window on your Mac.
+> 1. 当小程序基于 WebView 环境下时，WebView 的 JS 逻辑、DOM 树创建、CSS 解析、样式计算、Layout、Paint 都发生在同一线程，在 WebView 上执行过多的 JS 逻辑可能阻塞渲染，导致界面卡顿（Chrome 的渲染进程是多线程的）。以此为前提，小程序同时考虑了性能与安全，采用了 AppService 和 WebView 的双线程模型。
+> 2. 为了进一步优化小程序性能，在 WebView 渲染之外新增了一个渲染引擎 Skyline，拥有更接近原生渲染的性能体验。Skyline 创建了一条渲染线程来负责 Layout, Composite 和 Paint 等渲染任务，并在 AppService 中划出一个独立的上下文，来运行之前 WebView 承担的 JS 逻辑、DOM 树创建等逻辑。
 
 ### HTTP 请求相关
-1. 使用 vue-resource
-- [vue-resource](https://github.com/pagekit/vue-resource) 是一个轻量级的用于处理 HTTP 请求的插件，通过 `Vue.use` 使用自定义的插件。
-- 全局对象使用 `Vue.http.get()`，在一个组件内使用 `this.$http.get()`
-- 可以定义 inteceptor 在请求发送前和接收响应前做一些处理，比如设置业务相关的请求头、添加 CSRF token、请求加 loading 状态、query 参数加时间戳等。
-
-  ```js
-  Vue.http.interceptors.push((request, next) => {
-    // 请求发送前的处理逻辑（比如判断传入的 request.no_loading 是否显示 loading）
-    // if (request.method === 'GET') {...}
-    // if (request.method === 'POST') {...}
-    next((response) => {
-      // 请求结果返回给 successCallback 或 errorCallback 之前，根据 `response.ok` 或 `response.status` 加一些处理逻辑 
-      // ...
-      return response
-    })
-  });
-  ```
-
-2. 自己对 axios 封装
 - 通过 `axios.defaults.headers['xyz'] = 'abc'` 这样的方式添加需要的请求头
 - 统一对 query 参数做处理，拼在 url 后面
 - 加 csrf token，加业务需要的 header
@@ -439,7 +416,7 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
   })
   ```
 
-3. 使用 [VueRequest](https://github.com/AttoJS/vue-request)，管理请求状态，支持 SWR、轮询、错误重试、缓存、分页等常用功能。`useRequest` 接收一个 service 函数，service 是一个异步的请求函数，换句话说，还可以使用 axios 来获取数据，然后返回一个 Promise。`useRequest` 会返回 data、loading、error 等，它们的值会根据请求状态和结果进行修改。返回的 run 方法，可以手动触发 service 请求。
+后续使用 [VueRequest](https://github.com/AttoJS/vue-request)，管理请求状态，支持 SWR、轮询、错误重试、缓存、分页等常用功能。`useRequest` 接收一个 service 函数，service 是一个异步的请求函数，换句话说，还可以使用 axios 来获取数据，然后返回一个 Promise。`useRequest` 会返回 data、loading、error 等，它们的值会根据请求状态和结果进行修改。返回的 run 方法，可以手动触发 service 请求。
 
 ### 阿里云 CDN
 阿里云 CDN 对于文件是否支持缓存是以 `X-Cache` 头部来确定，缓存时间是以 `X-Swift-CacheTime` 头部来确认。

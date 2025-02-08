@@ -16,8 +16,8 @@ order: 1
 5. One second to read GitHub code with VS Code online. Just add 1s after github (`github1s.com`) in browser address bar for any repository you want to read. Another one, open a GitHub repo, press `.`, then VS Code opens up in your browser. You can also change `github.com` to `github.dev` in the URL in order to achieve the same effect.
 6. Type `Cmd + K` to open the GitHub command palette to quickly navigate, search projects and try other commands. There is a related React component [cmdk](https://github.com/pacocoursey/cmdk).
 7. `Cmd + Shift + .` toggles hidden files in Mac.
-8.  After `Cmd + h` to hide the window, there is no shortcut to bring the window back, **because the app loses focus when hidden**. The easiest way to do is using task switcher `Cmd + Tab` to display it normally.
-9.  Open VSCode in terminal: `Cmd + Shift + P` -> type **Shell Command: Install 'code' command in PATH** -> restart the terminal for the new `$PATH` value to take effect, and type `code .` to open VS Code. (`open .` to open the Finder)
+8. After `Cmd + h` to hide the window, there is no shortcut to bring the window back, **because the app loses focus when hidden**. The easiest way to do is using task switcher `Cmd + Tab` to display it normally.
+9. Open VSCode in terminal: `Cmd + Shift + P` -> type **Shell Command: Install 'code' command in PATH** -> restart the terminal for the new `$PATH` value to take effect, and type `code .` to open VS Code. (`open .` to open the Finder)
 10. Open `settings.json` file in VSCode: `Cmd + Shift + P`, type "open settings" and you can choose Open User Settings (JSON). Another way is `Cmd + ,` to open Settings UI and there is a button on the top-right corner which can be used to switch between JSON and graphical view.
 11. Use "Organize Imports" in VS Code to remove unused imports. Run it via the command palette or add this to `settings.json` to run automatically on save. In addition, you can use up and down keys in the search box to access your search history. Use `Ctrl + G` to navigate to a specific line. Also, `Cmd + X` to delete a line, `Cmd + L` to select a line, `Opt + Up/Down` to move a line.
 12. Drag the file tab from VS Code into the terminal to get the absolute path for that file.
@@ -165,3 +165,4 @@ order: 1
 154. IPinfo is the trusted source for IP address data. You can open terminal and type in: `curl ipinfo.io`.
 155. When a regex has the global flag set, `test()` will advance the `lastIndex` of the regex. Further calls to `test(str)` will resume searching starting from `lastIndex`. As long as `test()` returns true, `lastIndex` will not reset—even when testing a different string. When `test()` returns false, the calling regex's `lastIndex` property will reset to 0.
 156. Use [gitingest](https://gitingest.com) to quickly turn a GitHub repository into text for LLMs. Replace "hub" with "ingest" in any GitHub URL for a text version of the codebase.
+157. You can take a GitHub profile URL, append a `.png` to it (`github.com/<github_username>.png`), and you will have access to the profile picture of the account of you choice.
