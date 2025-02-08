@@ -1,5 +1,8 @@
 ---
-import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 
 type projectType = {
 	title: string;
@@ -28,64 +31,72 @@ const projects: projectType[] = [
 	{ title: 'Super Simple HTTP Router', href: 'https://github.com/kexiZeroing/super-simple-http-router' },
 	{ title: 'Super Simple Module Federation', href: 'https://github.com/kexiZeroing/mf-vue2-and-vue3' },
 ];
-
-const mustReads = [
-	'https://howhttps.works',
-	'https://developer.chrome.com/blog/inside-browser-part1',
-	'https://www.patterns.dev',
-	'https://www.totaltypescript.com/books/total-typescript-essentials',
-	'https://www.totaltypescript.com/how-to-create-an-npm-package',
-	'https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library',
-	'https://philipwalton.com/articles/the-state-of-es5-on-the-web',
-	'https://www.developerway.com/posts/react-elements-children-parents',
-	'https://www.joshwcomeau.com/react/server-components',
-	'https://aurorascharff.no/posts/managing-advanced-search-param-filtering-next-app-router',
-]
 ---
 
-<PlaygroundLayout title="Playground List">
-	<main class="container mx-auto p-4">
-		<h1 class="text-xl font-bold mb-10 text-center">Super Simple Series: Show me the code</h1>
-		<ul class="space-y-6 max-w-md mx-auto">
-			{
-				projects.map(({ href, title, snapshot }) => (
-					<li>
-						{snapshot ? (
-							<details class="group">
-								<summary class="text-blue-600 cursor-pointer flex items-center">
-									<span class="-ml-5 mr-2 text-sm transform group-open:rotate-90 transition-transform">
-										▶
-									</span>
-									<a href={href} target="_blank" class="text-blue-600 hover:underline">
-										{title}
-									</a>
-								</summary>
-								<div class="mt-2 text-gray-700">
-									<img src={snapshot} alt={title} loading="lazy" />
-								</div>
-							</details>
-						) : (
-							<a href={href} target="_blank" class="text-blue-600 hover:underline">
-								{title}
-							</a>
-						)}
-					</li>
-				))
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			.h3-title {
+				margin-bottom: 2rem;
+				padding-left: 2rem;
 			}
-		</ul>
-	</main>
-	<hr class="my-8" />
-	<main class="container mx-auto pt-4 pb-8">
-		<h1 class="text-xl font-bold mb-10 text-center">Must Read Articles</h1>
-		<ul class="space-y-6 max-w-md mx-auto">
-			{
-				mustReads.map((href) => (
-					<li>
-						<a href={href} target="_blank" class="text-blue-600 hover:underline">
-							{href}
-						</a>
-					</li>
-				))
+			ul {
+				list-style-type: none;
+				padding: unset;
 			}
-		</ul>
-</PlaygroundLayout>
+			ul li {
+				display: flex;
+				padding-left: 1rem;
+			}
+			.post-item {
+				margin: 1.2em 0;
+			}
+			.post-item:not(:has(details)) {
+				.link {
+					padding-left: 14px;
+				}
+			}
+			.link {
+				margin-left: 6px;
+				color: var(--heading-color);
+				text-decoration: underline;
+			}
+			.link:hover {
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h3 class="h3-title">Super Simple Series: Show me the code</h3>
+			<ul>
+				{
+					projects.map(({ href, title, snapshot }) => (
+						<li class="post-item">
+							{snapshot ? (
+								<details>
+									<summary>
+										<a href={href} target="_blank" class="link">
+											{title}
+										</a>
+									</summary>
+									<div>
+										<img src={snapshot} alt={title} loading="lazy" />
+									</div>
+								</details>
+							) : (
+								<a href={href} target="_blank" class="link">
+									{title}
+								</a>
+							)}
+						</li>
+					))
+				}
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>
