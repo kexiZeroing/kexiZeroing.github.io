@@ -3,7 +3,7 @@ title: "Get started with LangChain"
 description: ""
 added: "Apr 9 2023"
 tags: [AI]
-updatedDate: "Oct 17 2024"
+updatedDate: "Feb 9 2025"
 ---
 
 LangChain is a framework for developing applications powered by language models, making them easier to integrate into applications. LangChain makes it easy to prototype LLM applications and Agents.
@@ -432,6 +432,12 @@ while (true) {
 3. GPT4All
    - https://github.com/nomic-ai/gpt4all
 
+4. Vercel AI Chatbot Template
+   - https://github.com/vercel/ai-chatbot
+
+5. Transformers.js uses ONNX Runtime to run models in the browser
+   - https://huggingface.co/docs/transformers.js/index
+   - https://huggingface.co/onnx-community
 
 You can run any GGUF (GPT-Generated Unified Format), a binary format that is optimized for quick loading and saving of models, on the Hugging Face Hub directly with ollama. All you need to do is:
 
@@ -446,3 +452,5 @@ ollama run hf.co/bartowski/Llama-3.2-1B-Instruct-GGUF:latest
 > Mirror site of huggingface.co in China
 > - https://hf-mirror.com
 > - https://zhuanlan.zhihu.com/p/663712983
+>
+> DeepSeek's official API platform has been down. You could use either [OpenRouter](https://openrouter.ai) or the Chinese equivalent, [SiliconFlow](https://siliconflow.cn).
