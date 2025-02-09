@@ -558,6 +558,8 @@ Vercel AI SDK Tutorial: https://www.aihero.dev/vercel-ai-sdk-tutorial
 
 Tools for Vercel AI SDK: https://ai-sdk-agents.vercel.app
 
+Keep searching, reading webpages, reasoning until an answer is found: https://github.com/jina-ai/node-DeepResearch
+
 AI inference in Firefox Web extensions: https://blog.tomayac.com/2025/02/07/playing-with-ai-inference-in-firefox-web-extensions
 
 ---

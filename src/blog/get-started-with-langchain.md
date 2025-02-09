@@ -442,3 +442,7 @@ ollama run hf.co/{username}/{repository}
 # run the Llama 3.2 1B
 ollama run hf.co/bartowski/Llama-3.2-1B-Instruct-GGUF:latest
 ```
+
+> Mirror site of huggingface.co in China
+> - https://hf-mirror.com
+> - https://zhuanlan.zhihu.com/p/663712983

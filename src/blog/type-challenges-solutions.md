@@ -9,6 +9,8 @@ updatedDate: "Dec 14 2024"
 
 ## Type challenges
 > TypeScript allows you to write complex yet elegant code. Some TypeScript users love to explore the possibilities of the type system and love to encode logic at type level. This practice is known as type gymnastics. The community also helps users to learn type gymnastics by creating fun and challenges such as [type challenges](https://github.com/type-challenges/type-challenges).
+>
+> Note that some features are primarily useful when building libraries. App dev TS is and should be very different from lib dev TS.
 
 Implement the built-in `Pick<T, K>` generic without using it. Constructs a type by picking the set of properties K from T.
 

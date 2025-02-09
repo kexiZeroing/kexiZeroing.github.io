@@ -189,6 +189,14 @@ The try statement consists of a try block, which contains one or more statements
 })()
 ```
 
+The non-standard `stack` property of an Error instance offers a trace of which functions were called. The stack string proceeds from the most recent calls to earlier ones, leading back to the original global scope call. Each JavaScript engine uses its own format for stack traces, but they are fairly consistent in their high-level structure.
+
+```js
+function foo() {
+  console.log(new Error().stack);
+}
+```
+
 ## Data types
 number, string, boolean, undefined, null, object, symbol, bigInt
 

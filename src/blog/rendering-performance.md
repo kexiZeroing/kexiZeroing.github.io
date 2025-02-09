@@ -3,7 +3,7 @@ title: "Rendering performance"
 description: ""
 added: "Oct 16 2021"
 tags: [web]
-updatedDate: "Sep 9 2024"
+updatedDate: "Feb 9 2025"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
@@ -71,11 +71,12 @@ Modern browsers try their best to anticipate what connections a page will need, 
 While `dns-prefetch` only performs a DNS lookup, `preconnect` establishes a full connection (DNS, TCP, TLS) to a server. This process includes DNS resolution, as well as establishing the TCP connection, and performing the TLS handshake. If a page needs to make connections to many third-party domains, preconnecting all of them is counterproductive. **The preconnect hint is best used for only the most critical connections. For all the rest, use `<link rel=dns-prefetch>` to save time on the first step, the DNS lookup**.
 
 ### Render blocking JavaScript and CSS
-Before a browser can render any content, it needs to parse HTML markup into a DOM tree. The HTML parser will pause if it encounters any external stylesheets (`<link rel="stylesheet">`) or synchronous JavaScript tags (`<script src="main.js">`). Scripts and stylesheets are both render blocking resources which delay FCP, and consequently LCP. (Additionally, if CSS appears before a script, the script will not be executed until the CSSOM is created because JavaScript can also interact with the CSSOM.) Defer any non-critical JavaScript and CSS to speed up loading of the main content of your web page.
+Generally speaking, when loading resources into web pages, there are three possible blocking states: Non-blocking, Render blocking, and Parser blocking.
 
-**Minify CSS**, if you use a module bundler or build tool, include an appropriate plugin to minify CSS files on every build. Use the `Coverage` tab in Chrome DevTools to **find any unused CSS** on your web page. **Inlining important styles** eliminates the need to make a round-trip request to fetch CSS. If you cannot manually add inline styles to your site, use a library to automate the process.
+- `<link rel=stylesheet href=app.css>`: This will block the rendering of subsequent content, but not its parsing. The browser is free to continue parsing the HTML and building out the DOM, but cannot display any of it until `app.css` is fully fetched and parsed. Stylesheets are render blocking.
+- `<script src=app.js></script>`: This will block parsing (and therefore also rendering) of subsequent content. The browser may not parse or construct any DOM until `app.js` is fully fetched and parsed. Scripts are parser blocking. The presence of any of `async`, `defer` or `type=module` attributes on a `<script>` will cause it to be non-blocking. Therefore, `<script>`s can occupy either extreme: non-blocking, the fastest option; or parser blocking, the slowest option.`
 
-> Take font inlining as an example, Next.js and Angular have support for inlining Google and Adobe fonts. They will download the content of `<link rel='stylesheet' href='https://fonts.googleapis.com/xxx' />` at build time, and inline it's content (replace link tag with a style tag) at serve/render time. This eliminates the extra round trip that the browser has to make to fetch the font declarations.
+Browsers will not run any synchronous JS if any CSS is still in flight. This is because the JS could read/write from/to the CSSOM, so the browser will build the CSSOM first. Statistically, this isn’t behaviour you actually need or want very often, so placing JS after CSS often leads to main thread inefficiencies that you could probably circumvent.
 
 If you know that a particular resource should be prioritized, use `<link rel="preload">` to fetch it sooner. By preloading a certain resource, you are telling the browser that you would like to fetch it sooner than the browser would discover it because you are certain that it is important for the current page. **Preloading is best suited for resources typically discovered late by the browser**. The browser caches preloaded resources so they are available immediately when needed. It doesn't execute the scripts or apply the stylesheets. Supplying the `as` attribute helps the browser set the priority of the prefetched resource according to its type and determine whether the resource already exists in the cache.
 
@@ -102,9 +103,15 @@ The `fetchpriority` attribute (available in Chrome 101 or later) is a hint and n
 
 For images loading, the `decoding=async` attribute of the `<img>` is one of the most misunderstood things out there. Images are not typically render-blocking and if they were the web would be a very slow and painful place to be. **Modern browsers all decode images off the main thread** leaving it free for other stuff, and decoding images is very fast compared to network downloads. Don’t worry about setting it. Leave it to the default and move on to more important things. Stop propagating this myth that this is a magic attribute to speed up your images in any noticeable way. Other attributes like `loading=lazy` (on offscreen images only) and `fetchpriority=high` (on important images only) will have a much larger impact.
 
-For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. The good thing about defer is that you can guarantee the order of the script execution. *When you have both async and defer, `async` takes precedence and the script will be async.* @addyosmani has a good summary about [JavaScript Loading Priorities in Chrome](https://addyosmani.com/blog/script-priorities).
+For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. The good thing about defer is that you can guarantee the order of the script execution. *When you have both async and defer, `async` takes precedence and the script will be async.*
 
 <img alt="JavaScript Loading Priorities" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/addyosmani.com_blog_script-priorities%20(1).png" width="800">
+
+*from @addyosmani [JavaScript Loading Priorities in Chrome](https://addyosmani.com/blog/script-priorities)*
+
+> Inlining important styles eliminates the need to make a round-trip request to fetch CSS.
+> 
+> Take font inlining as an example, Next.js and Angular have support for inlining Google and Adobe fonts. They will download the content of `<link rel='stylesheet' href='https://fonts.googleapis.com/xxx' />` at build time, and inline it's content (replace link tag with a style tag) at serve/render time. This eliminates the extra round trip that the browser has to make to fetch the font declarations.
 
 #### APIs to help you assess loading performance in the field
 Navigation Timing measures the speed of requests for HTML documents. Resource Timing measures the speed of requests for document-dependent resources such as CSS, JavaScript, images, and so on.
