@@ -1,10 +1,10 @@
 ---
-title: "Algorithm basics and sample problems"
+title: "Algorithm basics and LeetCode problems"
 description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Jan 4 2025"
+updatedDate: "Feb 10 2025"
 ---
 
 ### TOC
@@ -25,7 +25,7 @@ updatedDate: "Jan 4 2025"
 - [Heap](#heap)
 - [DP](#dp)
 - [LRU](#lru)
-- [Sample Problems](#sample-problems)
+- [LeetCode Problems](#leetcode-problems)
 
 ### Binary Search
 
@@ -869,7 +869,7 @@ LRUCache.prototype.put = function(key, value) {
 }
 ```
 
-### Sample Problems
+### LeetCode Problems
 
 Given an integer array nums, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`. Notice that the solution set must not contain duplicate triplets.
 

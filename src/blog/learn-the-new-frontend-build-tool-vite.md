@@ -69,6 +69,10 @@ Vite's current unbundle mechanism is not suitable for large web app development,
 
 > While Vite and other tools handle the actual transpilation of TypeScript to JavaScript, they don't provide type checking out of the box. This means that you could introduce errors into your code and Vite would continue running the dev server without telling you. Fortunately, we can configure TypeScript's CLI to allow for type checking without interfering with our other tools. By setting `noEmit` to true, this makes TypeScript act more like a linter than a transpiler.
 
+> Linters such as ESLint and type checkers such as TypeScript are both valuable assets for developers. They are two kinds of static analysis tooling that analyze code and report on detected issues.
+> - ESLint checks that code adheres to best practices and is consistent, enforcing what you should write.
+> - TypeScripts checks that code is “type-safe”, enforcing what you can write.
+
 ### CSS
 - Importing `.css` files will inject its content to the page via a `<style>` tag with HMR support.
 - Vite is pre-configured to support CSS `@import` inlining via `postcss-import`.
@@ -107,7 +111,7 @@ Vite uses dotenv (`.env`) to load additional environment variables, and the load
 
 > The `import.meta` meta-property exposes context-specific metadata to a JavaScript module. It contains information about the module, such as the module's URL. `import.meta` is available in JavaScript modules; using it outside of a module is a syntax error.
 > 
-> `import.meta.glob` to import multiple modules from the file system is a Vite-only feature and is not a web or ES standard.
+> `import.meta.glob` to import multiple modules from the file system is a Vite-only feature and is not a web or ES standard. It is a way to import many files at once using glob patterns to find matching file paths.
 
 ```js
 import fs from "node:fs/promises";
