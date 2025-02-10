@@ -562,6 +562,8 @@ Keep searching, reading webpages, reasoning until an answer is found: https://gi
 
 AI inference in Firefox Web extensions: https://blog.tomayac.com/2025/02/07/playing-with-ai-inference-in-firefox-web-extensions
 
+Collection of client-side AI demos: https://github.com/GoogleChromeLabs/web-ai-demos
+
 ---
 
 ## Machine Learning

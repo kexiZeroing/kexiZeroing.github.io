@@ -3,7 +3,7 @@ title: "A guide to Prompt Engineering"
 description: ""
 added: "Apr 5 2023"
 tags: [AI]
-updatedDate: "Sep 21 2024"
+updatedDate: "Feb 10 2025"
 ---
 
 Prompt Engineering refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of LLMs on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs.
@@ -355,6 +355,21 @@ With built-in AI, your website or web application can perform AI-powered tasks w
 You'll access built-in AI capabilities primarily with task APIs, such as a translation API or a summarization API. Task APIs are designed to run inference against the best model for the assignment. In Chrome, these APIs are built to run inference against Gemini Nano with fine-tuning or an expert model.
 
 > Expert models focus on a specific use case, resulting in higher performance and quality. The models are unlike very versatile LLMs. For example, a translation API could be built with an expert model that's focused on translating content to new languages. Expert models tend to have low hardware requirements.
+
+```js
+// https://github.com/tomayac/prompt-api-playground
+// ai.assistant -> ai.languageModel
+const available = (await ai.languageModel.capabilities()).available;
+
+if (available === "readily") {
+  const session = await window.ai.languageModel.create();
+  const stream = session.promptStreaming(`Tell me a joke`);
+
+  for await (const chunk of stream) {
+    console.log(chunk);
+  }
+}
+```
 
 - https://github.com/explainers-by-googlers/prompt-api
 - https://github.com/explainers-by-googlers/writing-assistance-apis

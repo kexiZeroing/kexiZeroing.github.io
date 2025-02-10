@@ -278,6 +278,14 @@ In most cases, the value of `this` is determined by how a function is called (ru
 
 Historically, accessing the global object has required different syntax in different JavaScript environments. On the web you can use `window`, `self`, or `frames`. In Node.js none of these work, and you must instead use `global`. The `globalThis` property provides a standard way of accessing the global `this` value across environments. In this way, you can access the global object in a consistent manner without having to know which environment the code is being run in.
 
+```js
+const w1 = window;
+const w2 = self;
+const w3 = window.window;
+const w4 = window.self;
+// w1, w2, w3, w4 all strictly equal, but only w2 will function in workers
+```
+
 - In strict mode, if the value of `this` is not set when entering an execution context, it remains as `undefined`.
 - In arrow functions, `this` retains the value of the enclosing lexical context's `this`. In global code, it will be set to the global object.
 - As a constructor (with the `new` keyword), its `this` is bound to the new object being constructed.
