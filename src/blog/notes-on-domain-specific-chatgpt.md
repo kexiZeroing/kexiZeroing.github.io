@@ -360,6 +360,11 @@ scores = model.predict([
 - JinaAI Reranker (1 million free tokens): https://jina.ai/reranker
 - Cohere offers an API for reranking documents: https://cohere.com/blog/rerank
 
+> Jina AI Search Foundation Models:
+> - Embedding Models: `jina-embeddings-v3`
+> - Reranker Models: `jina-reranker-v2-base-multilingual`
+> - Small Language Models (SLMs): `ReaderLM-v2`
+
 ### Query Transformation
 ```py
 multi_query_prompt = ChatPromptTemplate.from_template(

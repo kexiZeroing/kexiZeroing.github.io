@@ -162,6 +162,38 @@ The most common transport protocols used in a web context:
 
 For both HLS and DASH, players can adapt to the different renditions in real-time on a segment-by-segment basis.
 
+### HLS video streaming example
+```
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-TARGETDURATION:4
+#EXT-X-PLAYLIST-TYPE:VOD
+#EXTINF:4.000000,
+0000.ts
+#EXTINF:4.000000,
+0001.ts
+#EXTINF:4.000000,
+0002.ts
+```
+
+The TARGETDURATION says that each segment should be 4 seconds, and the PLAYLIST-TYPE indicates VOD, meaning video on demand. Each segment is listed with the EXTINF 4.0000, indicating the length of the segment, followed by the filename.
+
+In reality, it is rare to just have one video stream inside your HLS video. You often have many different versions of the same video (360p, 480p, 720p, 1080p...). Each of these formats will have a manifest file as above. But how do you differentiate between each version of the video?
+
+```
+#EXTM3U
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=880000,RESOLUTION=202x360,CODECS="avc1.66.30,mp4a.40.2"
+360/manifest.m3u8
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=1540000,RESOLUTION=270x480,CODECS="avc1.66.30,mp4a.40.2"
+480/manifest.m3u8
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2860000,RESOLUTION=404x720,CODECS="avc1.66.30,mp4a.40.2"
+720/manifest.m3u8
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=4840000,RESOLUTION=608x1080,CODECS="avc1.66.30,mp4a.40.2"
+1080/manifest.m3u8
+```
+
+The first file of the video delivered to the video player is the master manifest. It is the "menu" that lists all of the streams available to consume. Each version of stream gets its own entry, and they are typically ordered from lowest quality to highest.
+
 ```
 ./audio/
   ├── ./128kbps/
