@@ -3,7 +3,7 @@ title: "Intro to TypeScript"
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Jan 8 2025"
+updatedDate: "Feb 11 2025"
 ---
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
@@ -24,6 +24,8 @@ yarn add --dev typescript
 ```
 
 A `tsconfig.json` file is used to configure TypeScript project settings. The `tsconfig.json` file should be put in the project's root directory. You can run the `tsc --init` to generate a `tsconfig.json` file with some default options set and a bunch of other options commented out. In order to transpile the TypeScript code to JavaScript, the `tsc` command needs to be run. Running `tsc` will have the TypeScript compiler search for the `tsconfig.json` file which will determine the project's root directory as well as which options to use when compiling the TypeScript.
+
+By default all visible `"@types"` packages are included in your compilation. Packages in `node_modules/@types` of any enclosing folder are considered visible. If `types` is specified, only packages listed will be included in the global scope.
 
 ```json
 {
@@ -145,6 +147,7 @@ See examples:
 - https://github.com/vuejs/tsconfig/blob/main/tsconfig.json
 - https://www.totaltypescript.com/tsconfig-cheat-sheet
 - https://deno.com/blog/intro-to-tsconfig
+- https://github.com/tsconfig/bases
 
 Run `tsc --noEmit` that tells TypeScript that we just want to check types and not create any output files. If everything in our code is all right, `tsc` exits with no error. `tsc --noEmit --watch` will add a `watch` mode so TypeScript reruns type-checking every time you save a file.
 

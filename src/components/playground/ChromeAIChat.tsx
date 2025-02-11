@@ -1,39 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-type AIModelAvailability = 'readily' | 'after-download' | 'no';
 type Message = {
   role: 'user' | 'assistant';
   content: string;
 };
-
-declare global {
-  interface Window {
-    ai: AI;
-  }
-  interface AI {
-    languageModel: {
-      create(): Promise<AITextSession>;
-      capabilities(): Promise<{
-        available: AIModelAvailability;
-        defaultTemperature?: number;
-        defaultTopK?: number;
-        maxTemperature?: number;
-        maxTopK?: number;
-      }>;
-    };
-  }
-  interface AITextSession {
-    prompt(input: string): Promise<string>;
-    promptStreaming(input: string): AsyncGenerator<string>;
-  }
-}
 
 const ChromeAIChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [modelStatus, setModelStatus] = useState('');
-  const [session, setSession] = useState<AITextSession | null>(null);
+  // https://www.npmjs.com/package/@types/dom-chromium-ai
+  const [session, setSession] = useState<AILanguageModel | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
