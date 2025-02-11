@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 export interface Props extends astroHTML.JSX.AnchorHTMLAttributes {}
 
 const { href, class: className, ...props } = Astro.props as Props;
@@ -7,6 +8,9 @@ const isActive = Astro.url.pathname === href || Astro.url.pathname === `${href}/
 
 <a href={href} class:list={[className, { active: isActive }]} {...props}>
 	<slot />
+	{ props.target && props.target === "_blank" &&
+		<Image src="/external-link.svg" alt="external link" width={18} height={18} class="link-icon" />
+	}
 </a>
 
 <!-- Notes: 
@@ -25,5 +29,9 @@ const isActive = Astro.url.pathname === href || Astro.url.pathname === `${href}/
 		font-weight: bold;
 		font-style: italic;
 		text-decoration: underline;
+	}
+	.link-icon {
+		margin-left: -4px;
+		vertical-align: baseline;
 	}
 </style>
