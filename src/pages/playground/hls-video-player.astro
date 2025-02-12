@@ -6,8 +6,13 @@ import PlaygroundLayout from "@/layouts/PlaygroundLayout.astro";
   <h4 class="note">HLS video switch quality</h4>
   <div class="video-container">
     <div class="video-wrapper">
-      <video id="video" controls></video>
+      <video
+        id="video"
+        controls
+        poster="https://bitdash-a.akamaihd.net/content/sintel/poster.png">
+      </video>
       <div class="quality-control">
+        Quality
         <select id="qualitySelect">
           <option value="">Auto</option>
         </select>
@@ -150,7 +155,7 @@ import PlaygroundLayout from "@/layouts/PlaygroundLayout.astro";
     margin: 2rem 0;
     text-align: center;
   }
-  .demo-note a {
+  .note a {
     text-decoration: underline;
   }
 </style>
