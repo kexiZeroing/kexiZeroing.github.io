@@ -371,9 +371,9 @@ if (available === "readily") {
 }
 ```
 
-- https://github.com/explainers-by-googlers/prompt-api
-- https://github.com/explainers-by-googlers/writing-assistance-apis
-- https://github.com/WICG/translation-api
+- https://github.com/webmachinelearning/prompt-api
+- https://github.com/webmachinelearning/writing-assistance-apis
+- https://github.com/webmachinelearning/translation-api
 - https://github.com/oslook/chrome-ai-playground
 
 ## Fine-tuning
