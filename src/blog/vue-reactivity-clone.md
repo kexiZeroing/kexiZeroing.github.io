@@ -43,29 +43,6 @@ The virtual DOM was created to address performance issues caused by frequent man
 
 > Diffing isn't free. The more nodes you have, the more time it takes to diff. With newer frameworks like Svelte, the virtual DOM isn't even used because of the performance overhead. Instead, Svelte uses a technique called "dirty checking" to determine what has changed. Fine-grained reactivity frameworks like SolidJS take this a step further by pinpointing exactly what has changed and updating only that part of the DOM.
 
-### Angular Signals in Vue by Evan You
-https://vuejs.org/guide/extras/reactivity-in-depth.html#connection-to-signals
-
-```js
-import { shallowRef, triggerRef, computed as _computed } from 'vue'
-
-export function signal(initialValue) {
-  const r = shallowRef(initialValue)
-  const s = () => r.value
-  s.set = value => { r.value = value }
-  s.update = updater => { r.value = updater(r.value) }
-  // `triggerRef` is used to force trigger effects that depends on a shallow ref.
-  // It is used after making deep mutations to the inner value of a shallow ref.
-  s.mutate = mutator => { mutator(r.value); triggerRef(r) }
-  return s
-}
-
-export function computed(getter) {
-  const c = _computed(getter)
-  return () => c.value
-}
-```
-
 ### Vue reactivity implementation
 <img alt="Vue3 reactivity" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/ba9fd338-ae71-43ab-88cc-52086aa8700a.png" width="650" />
 
