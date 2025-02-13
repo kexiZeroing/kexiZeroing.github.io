@@ -366,20 +366,8 @@ scores = model.predict([
 > - Small Language Models (SLMs): `ReaderLM-v2`
 
 ### Query Transformation
-```py
-multi_query_prompt = ChatPromptTemplate.from_template(
-  """
-  You are an intelligent assistant. Your task is to generate 5 questions based on the provided question in different wording and different perspectives to retrieve relevant documents from a vector database. By generating multiple perspectives on the user question, your goal is to help the user overcome some of the limitations of the distance-based similarity search. Provide these alternative questions separated by newlines. Original question: {question}
-  """
-)
+RAG systems often face challenges in retrieving the most relevant information, especially when dealing with complex or ambiguous queries. These [query transformation techniques](https://github.com/NirDiamant/RAG_Techniques/blob/main/all_rag_techniques/query_transformations.ipynb) address this issue by reformulating queries to better match relevant documents or to retrieve more comprehensive information.
 
-decompostion_prompt = ChatPromptTemplate.from_template(
-  """
-  You are a helpful assistant that can break down complex questions into simpler parts. \n
-  Your goal is to decompose the given question into multiple sub-questions that can be answerd in isolation to answer the main question in the end. \n
-  Provide these sub-questions separated by the newline character. \n
-  Original question: {question}\n
-  Output (3 queries): 
-  """
-)
-```
+1. Query Rewriting: Reformulates queries to be more specific and detailed.
+2. Step-back Prompting: Generates broader queries for better context retrieval.
+3. Sub-query Decomposition: Breaks down complex queries into simpler sub-queries.
