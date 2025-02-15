@@ -4,7 +4,7 @@ description: ""
 added: ""
 top: true
 order: 4
-updatedDate: "Feb 10 2025"
+updatedDate: "Feb 15 2025"
 ---
 
 ### TOC
@@ -1041,22 +1041,22 @@ var canConstruct = function(ransomNote, magazine) {
 Given a string, find the length of the longest substring without repeating characters.
 
 ```js
-// slide window
 var lengthOfLongestSubstring = function(s) {
-  let max = 0;
-  let windowSet = new Set();
-  
-  let i = 0;
-  for (let j = 0; j < s.length; j++) {
-    while (windowSet.has(s[j])) {
-      windowSet.delete(s[i]);
-      i++;
-    }
+  let maxLength = 0;
+  let charMap = new Map();
+  let left = 0;
 
-    windowSet.add(s[j]);
-    max = Math.max(max, j - i + 1);
+  for (let right = 0; right < s.length; right++) {
+    charMap.set(s[right], (charMap.get(s[right]) || 0) + 1);
+      
+    while (charMap.get(s[right]) > 1) {
+      charMap.set(s[left], charMap.get(s[left]) - 1);
+      left++;
+    }
+    maxLength = Math.max(maxLength, right - left + 1);
   }
-  return max;
+  
+  return maxLength;
 };
 ```
 
