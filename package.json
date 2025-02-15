@@ -1,6 +1,6 @@
 {
   "name": "astro-blog",
-  "version": "1.0.0",
+  "version": "1.1.3",
   "author": "kexiZeroing",
   "description": "Personal blog built with Astro",
   "private": true,
