@@ -3,7 +3,7 @@ title: "A Beginner's Guide to Astro"
 description: ""
 added: "Sep 11 2022"
 tags: [web]
-updatedDate: "Dec 10 2023"
+updatedDate: "Feb 15 2025"
 ---
 
 ## Astro and its Features
@@ -51,6 +51,12 @@ import VueFooter from './components/VueFooter.vue';
 ```
 
 Astro includes an `astro add` command to automate the setup of integrations. Run `npx astro add tailwind` command to install both `tailwindcss` and `@astro/tailwind` as well as generate a `tailwind.config.cjs` file. When you install the integration, Tailwind’s utility classes should be ready to go right away.
+
+> Upgrade Tailwind CSS from v3 to v4:
+> 
+> `@astrojs/tailwind` is deprecated. Tailwind CSS now offers a Vite plugin `@tailwindcss/vite` which is the preferred way to use Tailwind 4 in Astro.
+> 
+> One of the biggest changes in Tailwind CSS v4.0 is the shift from configuring your project in JavaScript to configuring it in CSS. Instead of a `tailwind.config.js` file, you can configure all of your customizations directly in the CSS file where you import Tailwind, giving you one less file to worry about in your project.
 
 Astro includes built-in support for standard Markdown files. With the `@astrojs/mdx` integration installed, Astro also supports [MDX](https://docs.astro.build/en/guides/markdown-content/) (`.mdx`) files which bring added features like support for JSX expressions and components in your Markdown content. Astro lets you turn markdown and MDX files directly into pages on your website. All you have to do is specify a layout value in the front matter.
 
