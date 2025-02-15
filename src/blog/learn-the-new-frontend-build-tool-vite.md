@@ -62,6 +62,10 @@ Vite's current unbundle mechanism is not suitable for large web app development,
 - Rewrite the imports to valid URLs like `/node_modules/.vite/deps/my-dep.js?v=f3sf2ebd` so that the browser can import them properly.
 - Vite caches dependency requests via HTTP headers.
 
+> Why bundle a dependency and become dependency free?
+> 1. Dependency is CommonJS and you're targeting browsers. (convert dependencies that are shipped as CommonJS or UMD into ESM first)
+> 2. Using only a small part of the dependency. (converts dependencies with many internal modules into a single module)
+
 ### TypeScript
 - Vite supports importing `.ts` files out of the box.
 - Only performs transpilation on `.ts` files and does NOT perform type checking. It assumes type checking is taken care of by your IDE and build process. For production builds, you can run `tsc --noEmit` in addition to Vite's build command. During development, use [vite-plugin-checker](https://github.com/fi3ework/vite-plugin-checker) if you prefer having type errors directly reported in the browser.

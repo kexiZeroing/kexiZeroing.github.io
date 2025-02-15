@@ -324,6 +324,8 @@ A component to transition, format, and localize numbers: https://number-flow.bar
 
 Interactive CSS memory space: https://nerdy.dev/notebook
 
+Rich text editor comparison in 2025: https://liveblocks.io/blog/which-rich-text-editor-framework-should-you-choose-in-2025
+
 ---
 
 ## React ecosystem

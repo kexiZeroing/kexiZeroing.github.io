@@ -137,6 +137,11 @@ The above policy permits:
 - Images from the site's own origin and `img.example.com`
 - Styles only from the site's origin.
 
+The [Helmet](https://github.com/helmetjs/helmet) middleware in Express is a security package that helps protect your application by setting various HTTP headers. It helps defend against:
+1. Cross-site attacks by controlling resource loading and framing
+2. Network/connection vulnerabilities by enforcing HTTPS and managing DNS settings
+3. Content-type attacks by preventing MIME-type sniffing and setting proper security policies
+
 ---
 
 ## iframe 跨域嵌入的实践
