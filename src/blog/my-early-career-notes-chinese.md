@@ -31,3 +31,8 @@ Web server（如 nginx）只是内容的分发者。比如，请求 `/index.html
 - `abc.com/products/7/`
 
 The problem with the first URL structure is that it is not memorable, but you can tell from the second URL what you're likely to find on that page. Search engines can split that URL into words, and they can use that information to better determine the content of the page. Unfortunately, the second URL cannot be easily understood by a server without some work on our part. When a request is made for that URL, the server needs to work out how to process that URL so that it knows what to send back to the user. **URL rewriting** is a technique used to "translate" a URL like this into something the server can understand. We need to tell the server to internally redirect all requests for the URL "/products" to "show_a_product.php".
+
+关于单页应用无刷新更新 URL：
+- 通过 URL 的 `#` 哈希片段实现路由切换。当哈希变化时，触发 `hashchange` 事件，动态更新页面内容。例如，导航链接通过修改哈希值（如 `<a href="#/home">`），在 JavaScript 中监听 `hashchange` 事件，根据 `location.hash` 的值使用 `switch` 语句匹配并渲染对应内容到指定容器。
+
+- 基于 History API 使用 HTML5 的 `history.pushState()` 和 `popstate` 事件实现。拦截 `<a>` 标签的默认跳转行为，通过 `history.pushState()` 修改 URL 并手动触发内容更新。页面首次加载或用户点击前进/后退按钮时，通过监听 `popstate` 事件，根据 `location.pathname` 渲染内容。现代框架默认使用 History 模式，开发者只需声明式配置路由，无需手动操作 `history.pushState()` 或监听 `popstate`。
