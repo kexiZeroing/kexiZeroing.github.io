@@ -870,9 +870,6 @@ LRUCache.prototype.put = function(key, value) {
 ```
 
 ### LeetCode Problems
-- https://leetcode.cn/studyplan/top-100-liked
-- https://leetcode.cn/studyplan/top-interview-150
-- https://space.bilibili.com/206214/lists/842776
 
 Given an integer array nums, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`. Notice that the solution set must not contain duplicate triplets.
 
@@ -1907,6 +1904,34 @@ var trap = function(height) {
   }
 
   return res;
+};
+```
+
+```js
+// Another solution to use two arrays
+var trap = function(height) {  
+  const n = height.length;
+  // Arrays to store maximum height to the left and right of each position
+  const preMax = new Array(n).fill(0);
+  const postMax = new Array(n).fill(0);
+  
+  preMax[0] = height[0];
+  for (let i = 1; i < n; i++) {
+    preMax[i] = Math.max(preMax[i - 1], height[i]);
+  }
+  
+  postMax[n - 1] = height[n - 1];
+  for (let i = n - 2; i >= 0; i--) {
+    postMax[i] = Math.max(postMax[i + 1], height[i]);
+  }
+  
+  let totalWater = 0;
+  for (let i = 0; i < n; i++) {
+    const waterAtPosition = Math.min(preMax[i], postMax[i]) - height[i];
+    totalWater += Math.max(0, waterAtPosition);
+  }
+  
+  return totalWater;
 };
 ```
 
