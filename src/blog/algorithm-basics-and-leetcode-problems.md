@@ -2126,26 +2126,23 @@ var letterCombinations = function(digits) {
 };
 ```
 
-Given a binary search tree (BST), find the lowest common ancestor node of two given nodes in the BST.
+Given the root of a binary tree, invert the tree, and return its root.
 
 ```js
-var lowestCommonAncestor = function(root, p, q) {
-  // If root is the LCA node, p and q should be at different side
-
-  // (root.val - p.val) * (root.val - q.val) > 0, means p, q at same side
-  // (root.val - p.val) * (root.val - q.val) < 0, means p, q at different side
-  while ((root.val - p.val) * (root.val - q.val) > 0) {
-    if (p.val < root.val) {
-      root = root.left;
-    } else {
-      root = root.right;
-    }
-  }
+var invertTree = function(root) {
+  if (root === null) return root;
+  
+  [root.left, root.right] = [root.right, root.left];
+  invertTree(root.left);
+  invertTree(root.right);
   
   return root;
 };
+```
 
-// LCA of a binary tree (not BST)
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+```js
 var lowestCommonAncestor = function(root, p, q) {
   if (!root || root === p || root === q) return root;
 
@@ -2161,17 +2158,19 @@ var lowestCommonAncestor = function(root, p, q) {
 };
 ```
 
-Given the root of a binary tree, invert the tree, and return its root.
+Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.
 
 ```js
-var invertTree = function(root) {
-  if (root === null) return root;
-  
-  [root.left, root.right] = [root.right, root.left];
-  invertTree(root.left);
-  invertTree(root.right);
-  
-  return root;
+var lowestCommonAncestor = function(root, p, q) {
+  if (!root) return null;
+
+  if (p.val < root.val && q.val < root.val) {
+    return lowestCommonAncestor(root.left, p, q);
+  } else if (p.val > root.val && q.val > root.val) {
+    return lowestCommonAncestor(root.right, p, q);
+  } else {
+    return root;
+  }
 };
 ```
 
@@ -2223,26 +2222,51 @@ var isSubtree = function(root, subRoot) {
   if (isSameTree(root, subRoot)) {
     return true;
   }
-  // if not same, continue to check subtrees
   return (isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot));
 };
 
-function isSameTree(root, subRoot) {
-  // can't access `root.val` when its null
-  if (root === null && subRoot === null) {
-    return true;
+function isSameTree(p, q) {
+  if (p === null || q === null) {
+    return p === q;
+  }
+
+  return (p.val === q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right));
+}
+```
+
+Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+```js
+var isSymmetric = function(root) {
+  function isMirror(p, q) {
+    if (p === null || q === null) {
+      return p === q;
+    }
+    return (p.val === q.val && isMirror(p.left, q.right) && isMirror(p.right, q.left));
+  }
+
+  return isMirror(root.left, root.right);
+};
+```
+
+Given a binary tree, determine if it is height-balanced (depth of the two subtrees of every node never differs by more than one).
+
+```js
+var isBalanced = function(root) {
+  function checkHeight(node) {
+    if (node === null) return 0;
+    
+    let leftH = checkHeight(node.left);
+    let rightH = checkHeight(node.right);
+
+    if (leftH === -1 || rightH === -1 || Math.abs(leftH - rightH) > 1) {
+      return -1;
+    }
+    return Math.max(leftH, rightH) + 1;
   }
   
-  if ((root && subRoot === null) || (root === null && subRoot)) {
-    return false;
-  } 
-
-  if (root.val !== subRoot.val) {
-    return false;
-  }
-
-  return (isSameTree(root.left, subRoot.left) && isSameTree(root.right, subRoot.right));
-}
+  return checkHeight(root) !== -1;
+};
 ```
 
 Given the root of a binary tree, determine if it is a valid binary search tree.
