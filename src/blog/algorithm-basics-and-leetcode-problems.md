@@ -2190,30 +2190,26 @@ var hasPathSum = function(root, targetSum) {
 };
 ```
 
-Given the root of a binary tree, return the maximum path sum of any non-empty path. A path can start and end at any nodes in the tree.
+Given the root of a binary tree, return the maximum path sum of any non-empty path. A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them.
 
 ```js
 var maxPathSum = function(root) {
-  let max = -Infinity;
-
-	function findSums(node) {
-		if (!node) return 0;
-
-		let left = findSums(node.left),
-		    right = findSums(node.right),
-		    allSum = left + right + node.val,
-        leftNodeSum = left + node.val,
-        rightNodeSum = right + node.val;
-
-		// Tracks all possible paths, include both left and right children
-		max = Math.max(max, node.val, allSum, leftNodeSum, rightNodeSum);
-		
-		// Return value can only use ONE child. This is what we "offer up" to parent nodes
-		return Math.max(leftNodeSum, rightNodeSum, node.val);
-	};
-
-	findSums(root);
-	return max;
+  let maxSum = -Infinity;
+  
+  const maxHelper = (node) => {
+    if (!node) return 0;
+        
+    let leftGain = Math.max(maxHelper(node.left), 0);
+    let rightGain = Math.max(maxHelper(node.right), 0);
+    let currentPathSum = node.val + leftGain + rightGain;
+        
+    maxSum = Math.max(maxSum, currentPathSum);
+    // We can only choose one path (left or right) return to parent
+    return node.val + Math.max(leftGain, rightGain);
+  };
+  
+  maxHelper(root);
+  return maxSum;
 };
 ```
 
@@ -2224,28 +2220,28 @@ var isSubtree = function(root, subRoot) {
   if (subRoot === null) return true;
   if (root === null) return false;
 
-	if (isSameTree(root, subRoot)) {
-		return true;
-	}
+  if (isSameTree(root, subRoot)) {
+    return true;
+  }
   // if not same, continue to check subtrees
-	return (isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot));
+  return (isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot));
 };
 
 function isSameTree(root, subRoot) {
   // can't access `root.val` when its null
-	if (root === null && subRoot === null) {
-	  return true;
-	}
-
+  if (root === null && subRoot === null) {
+    return true;
+  }
+  
   if ((root && subRoot === null) || (root === null && subRoot)) {
-	  return false;
-	} 
+    return false;
+  } 
 
-	if (root.val !== subRoot.val) {
-		return false;
-	}
+  if (root.val !== subRoot.val) {
+    return false;
+  }
 
-	return (isSameTree(root.left, subRoot.left) && isSameTree(root.right, subRoot.right));
+  return (isSameTree(root.left, subRoot.left) && isSameTree(root.right, subRoot.right));
 }
 ```
 
