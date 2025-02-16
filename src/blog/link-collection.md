@@ -8,7 +8,7 @@ order: 2
 
 ## Worth learning repeatedly
 
-Stanford CS 106B Lectures: https://www.youtube.com/playlist?list=PL-h0BZdG_K4mfItKR5nUChmnuus-q-Tbc
+Stanford CS 106B Lectures: https://www.youtube.com/playlist?list=PLoCMsyE1cvdWiqgyzwAz_uGLSHsuYZlMX
 
 Web Security: https://web.stanford.edu/class/cs253
 

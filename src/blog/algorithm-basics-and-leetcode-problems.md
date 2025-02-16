@@ -20,8 +20,7 @@ updatedDate: "Feb 16 2025"
 - [Shuffle an array](#shuffle-an-array)
 - [Traverse Binary Tree](#traverse-binary-tree)
 - [Graph DFS](#graph-dfs)
-- [Path finding](#path-finding)
-- [Union Find](#union-find)
+- [Path Finding](#path-finding)
 - [Heap](#heap)
 - [DP](#dp)
 - [LRU](#lru)
@@ -509,24 +508,19 @@ var minDepth = function(root) {
 
 ```js
 function dfs(i, j, visited, params) {
-  // 1. Base Case: Check boundaries, visited state, or other termination conditions
   if (i < 0 || i >= rows || j < 0 || j >= cols || visited[i][j] || !isValid(i, j, params)) {
     return;
   }
 
-  // 2. Mark the current node as visited
   visited[i][j] = true;
 
-  // 3. Perform any necessary operations for the current node
   processNode(i, j, params);
 
-  // 4. Recur for all possible directions
   dfs(i - 1, j, visited, params);
   dfs(i + 1, j, visited, params);
   dfs(i, j - 1, visited, params);
   dfs(i, j + 1, visited, params);
 
-  // 5. Backtrack: Unmark the current node after exploring all paths from that node
   visited[i][j] = false;
 }
 ```
@@ -536,39 +530,17 @@ The `visited` array is global or shared across all recursive calls. If you are s
 - If you are finding a path in a maze, the visited array doesn’t need to be reset because you only care about finding a path from the start to the end. Once you visit a node, it’s marked as visited, and it remains marked.
 - If you’re looking for all possible paths in a maze, or doing multiple DFS calls from a single node, the visited array must be reset after each recursion to allow revisiting nodes.
 
-### Path finding
-https://www.redblobgames.com/pathfinding/a-star/introduction.html
-
-```js
-function bfs(graph, start) {
-  const frontier = new Queue();
-  frontier.enqueue(start);
-  const reached = new Set();
-  reached.add(start);
-  
-  while (!frontier.isEmpty()) {
-    const current = frontier.dequeue();
-    for (const next of graph.neighbors(current)) {
-      if (!reached.has(next)) {
-        frontier.enqueue(next);
-        reached.add(next);
-      }
-    }
-  }
-  
-  return reached;
-}
-```
+### Path Finding
 
 ```js
 function findPath(graph, start, goal) {
-  const frontier = new Queue();
-  frontier.enqueue(start);
+  const queue = [];
+  queue.push(start);
   const cameFrom = new Map();
   cameFrom.set(start, null);
   
-  while (!frontier.isEmpty()) {
-    const current = frontier.dequeue();
+  while (queue.length > 0) {
+    const current = queue.shift();
       
     if (current === goal) {
       break;
@@ -576,7 +548,7 @@ function findPath(graph, start, goal) {
       
     for (const next of graph.neighbors(current)) {
       if (!cameFrom.has(next)) {
-        frontier.enqueue(next);
+        queue.push(next);
         cameFrom.set(next, current);
       }
     }
@@ -588,15 +560,16 @@ function findPath(graph, start, goal) {
 
 ```js
 function dijkstra(graph, start, goal) {
-  const frontier = new PriorityQueue();
-  frontier.enqueue(start, 0);
+  const pq = new PriorityQueue();
+  pq.enqueue(start, 0);
+  
   const cameFrom = new Map();
   const costSoFar = new Map();
   cameFrom.set(start, null);
   costSoFar.set(start, 0);
     
-  while (!frontier.isEmpty()) {
-    const current = frontier.dequeue();
+  while (!pq.isEmpty()) {
+    const current = pq.dequeue();
       
     if (current === goal) {
       break;
@@ -606,51 +579,13 @@ function dijkstra(graph, start, goal) {
       const newCost = costSoFar.get(current) + graph.cost(current, next);
       if (!costSoFar.has(next) || newCost < costSoFar.get(next)) {
         costSoFar.set(next, newCost);
-        frontier.enqueue(next, newCost);
+        pq.enqueue(next, newCost);
         cameFrom.set(next, current);
       }
     }
   }
     
   return { cameFrom, costSoFar };
-}
-```
-
-### Union Find
-
-```js
-class DisjointSet {
-  constructor(size) {
-    this.parent = Array.from({ length: size }, (_, index) => index);
-    this.rank = Array(size).fill(1);
-  }
-
-  find(x) {
-    if (this.parent[x] !== x) {
-      this.parent[x] = this.find(this.parent[x]);
-    }
-    return this.parent[x];
-  }
-
-  union(x, y) {
-    const rootX = this.find(x);
-    const rootY = this.find(y);
-
-    if (rootX !== rootY) {
-      if (this.rank[rootX] > this.rank[rootY]) {
-        this.parent[rootY] = rootX;
-      } else if (this.rank[rootX] < this.rank[rootY]) {
-        this.parent[rootX] = rootY;
-      } else {
-        this.parent[rootY] = rootX;
-        this.rank[rootX] += 1;
-      }
-    }
-  }
-
-  connected(x, y) {
-    return this.find(x) === this.find(y);
-  }
 }
 ```
 
@@ -2072,30 +2007,65 @@ var permute = function(nums) {
   backtrack([]);
   return result;
 };
-
-// Time complexity: O(n!)
-// Space complexity: O(n)
 ```
 
 Given an integer array nums of unique elements, return all possible subsets.
 
+```
+                [ ]
+          /      |     \
+         /       |      \
+      [1]       [2]     [3]
+    /    \       |
+   /      \      |
+[1,2]    [1,3] [2,3]
+  |
+  |
+[1,2,3]
+```
+
 ```js
 var subsets = function(nums) {
   const result = [];
-  const subset = [];
+  const path = [];
   
+  // `start` means the index we begin to iterate for the current subset
   function backtrack(start) {
-    result.push([...subset]);
+    result.push([...path]);
     
     for (let i = start; i < nums.length; i++) {
-      subset.push(nums[i]);
+      path.push(nums[i]);
       backtrack(i + 1);
-      subset.pop();
+      path.pop();
     }
   }
   
   backtrack(0);
   return result;
+};
+```
+
+Given two integers n and k, return all possible combinations of k numbers chosen from the range [1, n]. You may return the answer in any order.
+
+```js
+var combine = function(n, k) {
+  const res = [];
+  const path = [];
+
+  function backtrack(start) {
+    if (path.length === k) {
+      res.push([...path]);
+      return;
+    }
+    for (let j = start; j <= n; j++) {
+      path.push(j);
+      backtrack(j + 1);
+      path.pop();
+    }
+  }
+
+  backtrack(1);
+  return res;
 };
 ```
 
@@ -2107,20 +2077,20 @@ var letterCombinations = function(digits) {
     return [];
   }
 
-  const phone_map = ["abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
+  const phone_map = ["", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
   const output = [];
-  backtrack("", digits, phone_map, output);
+  backtrack("", digits, output);
   return output;
 
-  function backtrack(combination, next_digits, phone_map, output) {
+  function backtrack(combination, next_digits, output) {
     if (next_digits.length === 0) {
       output.push(combination);
       return;
     }
 
-    const letters = phone_map[next_digits[0] - '2'];
+    const letters = phone_map[next_digits[0]];
     for (const letter of letters) {
-      backtrack(combination + letter, next_digits.slice(1), phone_map, output);
+      backtrack(combination + letter, next_digits.slice(1), output);
     }
   }
 };
