@@ -2012,12 +2012,15 @@ var permute = function(nums) {
     for (let i = 0; i < nums.length; i++) {
       const num = nums[i];
       if (path.includes(num)) continue;
+
       path.push(num);
-      backtrack(path);  // console.log(`backtrack(${path});`)
+      backtrack(path);
       path.pop();
     }
   }
-    
+
+  // think in backtracking, [] is the chosen
+  // pick an element and permute the rest
   backtrack([]);
   return result;
 };
