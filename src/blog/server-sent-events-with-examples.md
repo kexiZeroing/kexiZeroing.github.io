@@ -3,7 +3,7 @@ title: "Server-sent events with examples"
 description: ""
 added: "Mar 26 2023"
 tags: [js]
-updatedDate: "Jan 25 2025"
+updatedDate: "Feb 17 2025"
 ---
 
 Ways to implement real-time updates before SSE:
@@ -156,13 +156,19 @@ serve(async (_) => {
 });
 ```
 
-`TextEncoder.encode()` is used to convert a string of text into a sequence of bytes using a specific encoding. It is used with APIs that expect encoded text. `TextDecoder` is the counterpart to `TextEncoder`. It's used to convert a sequence of bytes back into a string of text, like reading text from binary data sources.
+`TextEncoder` and `TextDecoder` are used to convert between strings and Uint8Arrays. TextEncoder only supports UTF-8 encoding, while TextDecoder can support various encodings.
 
-`start(controller)` method is called immediately when the object is constructed. It aims to get access to the stream source, and do anything else required to set up the stream functionality. The `controller` parameter passed to this method can be used to control the stream's state and internal queue. 
+```js
+const text = "hello";
+// Converts string to Uint8Array using UTF-8 encoding
+const encoded = new TextEncoder().encode(text);
+console.log(encoded); // Uint8Array: [104, 101, 108, 108, 111]
 
-`cancel()` method will be called if the app signals that the stream is to be cancelled (e.g. if `ReadableStream.cancel()` is called).
-
-> [eventsource-parser](https://github.com/rexxars/eventsource-parser) is a streaming parser for server-sent events, without any assumptions about how the actual stream of data is retrieved. It simplifies the process of handling SSE data by providing functions to parse and handle the incoming messages.
+// Decode: Uint8Array -> string
+const decoder = new TextDecoder();
+const decoded = decoder.decode(encoded);
+console.log(decoded); // 'hello'
+```
 
 **How OpenAI uses SSE to stream the results back to the client?**
 1. The client creates an SSE `EventSource` to server endpoint with SSE configured.

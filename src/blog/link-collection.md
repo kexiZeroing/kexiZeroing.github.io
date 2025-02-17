@@ -400,8 +400,6 @@ Declarative ThreeJS using Vue Components: https://tresjs.org
 
 Unified plugin system for build tools: https://github.com/unjs/unplugin
 
-On-demand components auto importing for Vue: https://github.com/unplugin/unplugin-vue-components
-
 A lightweight, customizable Vue UI library for mobile web apps: https://vant-ui.github.io
 
 Modular and Accessible UI Components for your Vue Applications (Made for Vue 2.x): https://vue.chakra-ui.com

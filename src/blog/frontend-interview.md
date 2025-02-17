@@ -506,25 +506,3 @@ if (stream.body) {
   }
 }
 ```
-
-```js
-// TextEncoder and TextDecoder are used to convert between strings and Uint8Arrays.
-// TextEncoder only supports UTF-8 encoding, 
-// while TextDecoder can support various encodings.
-const encoder = new TextEncoder();
-const decoder = new TextDecoder();
-
-const longMessage = "This is a longer message that we'll process in chunks";
-const encodedLong = encoder.encode(longMessage);
-
-// Simulate processing data in chunks (e.g., streaming)
-const chunkSize = 10;
-for (let i = 0; i < encodedLong.length; i += chunkSize) {
-  const chunk = encodedLong.slice(i, i + chunkSize);
-  const decodedChunk = decoder.decode(chunk, { stream: true });
-  console.log(`Chunk ${i/chunkSize + 1}:`, decodedChunk);
-}
-
-// Final chunk (need to call decode without stream option to finish)
-decoder.decode(); // Flush the stream
-```

@@ -3,7 +3,7 @@ title: "Fetch API requests and CORS"
 description: ""
 added: "Aug 9 2020"
 tags: [js, web]
-updatedDate: "Nov 20 2024"
+updatedDate: Feb 17 2025"
 ---
 
 ## Fetch API
@@ -316,7 +316,57 @@ You can create a new Response object using the `Response()` constructor, but you
 
 The body of Response allows you to declare what its content type is and how it should be handled (`.json()`, `.blob()`, `.arrayBuffer()`, `.formData()`, `.text()`). For example, The `json()` method of the Response interface takes a Response stream and reads it to completion. It returns a promise which resolves with the result of parsing the body text as JSON.
 
-> `Response.body` is a `ReadableStream` of the body contents. [In this example](https://mdn.github.io/dom-examples/streams/simple-pump/) we fetch an image, expose the response's stream using `response.body`, create a reader using `ReadableStream.getReader()`, then enqueue that stream's chunks into a second, custom readable stream — effectively creating an identical copy of the image.
+An important concept is that Response bodies can only be consumed once.
+
+```js
+const response = new Response('{"message": "hello"}');
+
+// This works
+const data = await response.json();
+
+// This fails
+try {
+  const data2 = await response.json();
+} catch (error) {
+  console.log("Error: Body already consumed");
+}
+```
+
+Another important thing to note is that `Response.body` is a `ReadableStream` of the body contents.
+- The `getReader()` approach gives you more fine-grained control.
+- The `for await...of` syntax is more concise and uses the response body's async iterator interface internally.
+
+```js
+const response = await fetch("large-file.mp4");
+const reader = response.body.getReader();
+
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+
+  // value is a Uint8Array chunk
+  processChunk(value);
+}
+
+// You can create your own ReadableStream 
+const stream = new ReadableStream({
+  start(controller) {
+    controller.enqueue("First chunk");
+    controller.enqueue("Second chunk");
+    controller.close();
+  },
+});
+
+// Bad: Loads entire file
+const response = await fetch("huge-video.mp4");
+const blob = await response.blob();
+
+// Good: Process in chunks
+const response = await fetch("huge-video.mp4");
+for await (const chunk of response.body) {
+  processVideoChunk(chunk);
+}
+```
 
 ```js
 // An example to fetch image with progress indicator
