@@ -410,7 +410,7 @@ Vue port of Radix UI Primitives: https://www.radix-vue.com
 
 Vue port of shadcn-ui: https://github.com/unovue/shadcn-vue
 
-Build beautiful website using Vue & Nuxt: https://github.com/unovue/inspira-ui
+Build beautiful website using Vue & Nuxt: https://inspira-ui.com
 
 Vue UI Component Library: https://primevue.org
 

@@ -3,7 +3,7 @@ title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
 tags: [react]
-updatedDate: "Feb 5 2025"
+updatedDate: "Feb 18 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -87,6 +87,48 @@ var App = React.render(Component);
   useEffect no dep
   {count: 2, text: "pear"}`
 */
+```
+
+### Simple React custom renderer
+```jsx
+const React = {
+  createElement: (tag, props, ...children) => {
+    if (typeof tag === "function") {
+      return tag(props);
+    }
+    let element = { tag, props: { ...props, children } };
+    return element;
+  }
+}
+
+const render = (reactElementOrText, container) => {
+  if (['string', 'number'].includes(typeof reactElementOrText)) {
+    container.appendChild(document.createTextNode(String(reactElementOrText)));
+    return;
+  }
+
+  let actualElement = document.createElement(reactElementOrText.tag);
+  if (reactElementOrText.props) {
+    Object.keys(reactElementOrText.props).filter(p => p !== children).forEach(p => {
+      actualElement.setAttribute(p, reactElementOrText.props[p])
+    })
+  }
+  if (reactElementOrText.props.children) {
+    reactElementOrText.props.children.forEach(child => {
+      render(child, actualElement)
+    })
+  }
+  container.appendChild(actualElement);
+}
+
+const App = () => (
+  <div className="react-div">
+    <h1>Hello</h1>
+    <p>Some text here</p>
+  </div>
+)
+
+render(<App />, document.querySelector("#app"));
 ```
 
 ### Vanilla React data fetching

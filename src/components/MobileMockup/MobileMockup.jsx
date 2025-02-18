@@ -28,6 +28,7 @@ const MobileMockup = () => {
             <p>- A goal without a plan is just a wish.</p>
             <p>- There are no solutions, only tradeoffs.</p>
             <p>- Sometimes magic is just someone spending more time on something than anyone else might reasonably expect.</p>
+            <p>The answer was not the point. The answer was never the point. The process of searching is the process of learning.</p>
           </div>
         </main>
       </div>
