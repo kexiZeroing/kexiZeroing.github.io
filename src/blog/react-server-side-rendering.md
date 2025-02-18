@@ -295,38 +295,6 @@ Compare for server side rendering and server components:
 - https://github.com/TejasQ/react-server-components-from-scratch/tree/spoild
 
 ```jsx
-// React Components (used in server-side rendering)
-import React from "react";
-
-export const getStuff = async () => {
-  return fetch("https://dog.ceo/api/breeds/list/all")
-    .then((response) => response.json())
-    .then((data) => {
-      return Object.keys(data.message);
-    });
-};
-
-// This code runs on the server and on the client
-const Breeds = ({ initialBreeds }) => {
-  const [breeds, setBreeds] = React.useState(initialBreeds);
-
-  React.useEffect(() => {
-    getStuff().then(setBreeds);
-  }, []);
-
-  return (
-    <ul>
-      {breeds.map((breed) => (
-        <li key={breed}>
-          <a href={`/detail?breed=${breed}`}>{breed}</a>
-        </li>
-      ))}
-    </ul>
-  );
-};
-
-export default Breeds;
-
 // This code only runs on the server (and only works at the route level)
 export const gSSP = async () => {
   const data = await getStuff();
@@ -337,10 +305,9 @@ export const gSSP = async () => {
 ```
 
 ```jsx
-// React Server Components, notice the difference from above
-
+// React Server Components
 // The big difference is that we've never before had a way 
-// to run server-exclusive code inside our components.
+// to run server-exclusive code inside our components (component level).
 import React from "react";
 
 const List = async () => {
