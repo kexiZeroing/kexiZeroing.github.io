@@ -145,6 +145,7 @@ LCP sub-part breakdown: Time to First Byte -> Resource load delay -> Resource lo
 ### The Speculation Rules API
 - https://developer.chrome.com/docs/web-platform/prerender-pages
 - https://developer.chrome.com/docs/devtools/application/debugging-speculation-rules
+- https://developer.chrome.com/blog/search-speculation-rules
 
 A page can be prerendered in one of four ways, all of which aim to make navigations quicker:
 1. When you type a URL into the Chrome omnibox, Chrome may automatically prerender the page for you, if it has high confidence you will visit that page. (View Chrome's predictions for URLs in the `chrome://predictors` page)

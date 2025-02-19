@@ -168,6 +168,10 @@ console.log(encoded); // Uint8Array: [104, 101, 108, 108, 111]
 const decoder = new TextDecoder();
 const decoded = decoder.decode(encoded);
 console.log(decoded); // 'hello'
+
+// Note: `encrypted` here is raw binary data in ArrayBuffer format
+Array.from(new Uint8Array(encrypted)); // for database storage
+new Uint8Array(user.api.encryptedKey); // when retrieving from database
 ```
 
 **How OpenAI uses SSE to stream the results back to the client?**

@@ -288,7 +288,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 > 
 > Next.js 13.4 introduced the App Router with new features, conventions, and support for React Server Components. Components in the app directory are React Server Components by default. `"use client"` directive used to mark components as Client Components. Server and Client Components can be interleaved in the same component tree, with React handling the merging of both environments.
 >
-> Next.js App Router wanted to solve the client-server waterfalls (move client-server REST fetches to the server using React Server Components in a single roundtrip). This meant the server had to sometimes be dynamic, sacrificing the great initial loading performance. Next uses partial prerendering (https://partialprerendering.com), where the static "shell" of a dynamic page is prerendered at build time and served immediately on request, with the dynamic parts streamed in, to solve this tradeoff.
+> Currently in Next.js, a route is either fully static or fully dynamic. If you have just one dynamic part, the whole page becomes dynamic. This means slower page loads even when most content could be static. Partial prerendering (https://partialprerendering.com) lets you mix static and dynamic parts in the same route. At build time, Next.js creates static HTML for as much as it can, and dynamic parts get wrapped in React Suspense boundaries. The static parts show up instantly while dynamic parts load.
 
 Compare for server side rendering and server components:
 - https://github.com/TejasQ/makeshift-next.js/tree/spoiled

@@ -378,6 +378,8 @@ React Visualized: https://react.gg/visualized
 
 Collection of copy-and-paste components for quickly building UI: https://originui.com
 
+The creative library of animated React components: https://www.reactbits.dev
+
 ---
 
 ## Vue and Vite ecosystem
@@ -593,3 +595,5 @@ ML for front-end developers: https://docs.google.com/presentation/d/1f--c4Ui1Vcm
 Machine Learning 101 from Jason Mayes: https://docs.google.com/presentation/d/1kSuQyW5DTnkVaZEjGYCkfOxvzCqGEFzWBy4e9Uedd9k
 
 Visual explanations of core machine learning concepts: https://mlu-explain.github.io
+
+Learning material for Artificial Intelligence: https://aman.ai
