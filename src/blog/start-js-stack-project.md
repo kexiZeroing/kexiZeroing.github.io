@@ -3,7 +3,7 @@ title: "Start a Javascript stack project"
 description: ""
 added: "Jun 16 2022"
 tags: [web]
-updatedDate: "Jan 23 2025"
+updatedDate: "Feb 19 2025"
 ---
 
 ## Start a modern web project
@@ -34,11 +34,10 @@ export default {
 ```
 
 Start with templates:
-- Awesome Vite: https://github.com/vitejs/awesome-vite
-- A Next.js 13 template for building apps with Radix UI and Tailwind CSS: https://github.com/shadcn-ui/next-template
-- Vercel pre-built solutions: https://vercel.com/templates
-- An example deploying Next / Postgres / Nginx to a Ubuntu Linux server: https://github.com/leerob/next-self-host
-- Admin Dashboard Starter with Nextjs14 and shadcn ui: https://github.com/Kiranism/next-shadcn-dashboard-starter
+- https://github.com/vitejs/awesome-vite
+- https://vercel.com/templates
+- https://tanstack.com/router
+- https://github.com/TanStack/create-tsrouter-app
 
 A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and MySQL:
 - @clerk/nextjs: add authentication and user management to your Next.js application.
