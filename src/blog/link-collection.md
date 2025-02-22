@@ -382,6 +382,8 @@ The creative library of animated React components: https://www.reactbits.dev
 
 Building node-based editors and interactive diagrams: https://reactflow.dev
 
+Shadcn form-building tool: https://www.shadcn-form.com
+
 ---
 
 ## Vue and Vite ecosystem

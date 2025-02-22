@@ -3,7 +3,7 @@ title: "Notes on work projects (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Feb 8 2025"
+updatedDate: "Feb 22 2025"
 ---
 
 ### 项目是怎么跑起来的
@@ -237,9 +237,11 @@ Transpiling is an expensive process and many projects have thousands of lines of
 ```
 
 ### 本地 build 与上线 build
-1. 公共组件库 C 需要先 build，再 `npm link` 映射到全局的 node_modules，然后被其他项目 `npm link C` 引用。(关于 `npm link` 的使用场景可以看看 https://github.com/atian25/blog/issues/17)
-2. 项目 A 的上线脚本中会先进入组件库 C，执行 `npm build` 和 `npm link`，之后再进入项目 A 本身，执行 `npm link C`，`npm build` 等项目本身的构建。
-3. 项目 C 会在本地构建（静态资源传七牛），远程仓库中包括 `server-static` 存放 build 后的静态文件，它的上线脚本里并不含构建过程，只是在拷贝仓库中的 `server-static` 目录。因为源文件中会有对组件库的引用 `import foo from 'C/dist/foo.js`，本地 build 时组件库已经被打包进去。
+1. 使用 [ora](https://www.npmjs.com/package/ora) 做 spinner，提示 building for production...
+2. 使用 [rimraf](https://www.npmjs.com/package/rimraf) 删除打包路径下的资源 (`rimraf` command is an alternative to the Linux command `rm -rf`)
+3. 调用 `webpack()` 传入配置 `webpack.prod.conf` 和一个回调函数，**webpack stats 对象** 作为回调函数的参数，可以通过它获取到 webpack 打包过程中的信息，使用 `process.stdout.write(stats.toString(...))` 输出到命令行中 (`console.log` in Node is just `process.stdout.write` with formatted output)
+4. 使用 [chalk](https://www.npmjs.com/package/chalk) 在命令行中显示一些提示信息。
+5. 补充：目前大多数工程都是通过脚手架来创建的，使用脚手架的时候最明显的就是与命令行的交互，[Inquirer.js](https://github.com/SBoudrias/Inquirer.js) 是一组常见的交互式命令行用户界面。[Commander.js](https://github.com/tj/commander.js) 作为 node.js 命令行解决方案，是开发 node cli 的必备技能。
 
 The build job uses Kaniko (a tool for building Docker images in Kubernetes). Its main task is to build a Docker image.
 - For master, dev, or tagged commits: builds and pushes the Docker image
@@ -255,13 +257,6 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 
 > The `s` command is for substitute, to replace text -- the format is `s/[text to select]/[text to replace]/`. For example, `sed 's/target/replacement/g' file.txt` will globally substitute the word `target` with `replacement`.
 
-### 本地 build 脚本
-1. 使用 [ora](https://www.npmjs.com/package/ora) 做 spinner，提示 building for production...
-2. 使用 [rimraf](https://www.npmjs.com/package/rimraf) 删除打包路径下的资源 (`rimraf` command is an alternative to the Linux command `rm -rf`)
-3. 调用 `webpack()` 传入配置 `webpack.prod.conf` 和一个回调函数，**webpack stats 对象** 作为回调函数的参数，可以通过它获取到 webpack 打包过程中的信息，使用 `process.stdout.write(stats.toString(...))` 输出到命令行中 (`console.log` in Node is just `process.stdout.write` with formatted output)
-4. 使用 [chalk](https://www.npmjs.com/package/chalk) 在命令行中显示一些提示信息。
-5. 补充：目前大多数工程都是通过脚手架来创建的，使用脚手架的时候最明显的就是与命令行的交互，[Inquirer.js](https://github.com/SBoudrias/Inquirer.js) 是一组常见的交互式命令行用户界面。[Commander.js](https://github.com/tj/commander.js) 作为 node.js 命令行解决方案，是开发 node cli 的必备技能。
-
 ### 实时检测 web 应用更新
 当应用发布新版本时，考虑及时通知用户并引导其刷新页面以加载最新资源。
 
@@ -269,6 +264,46 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 2. 请求 `index.html` 文件，对比本地和请求响应头的 ETag 的字段值。
 3. 如果 ETag 字段值不一致，说明有更新，则弹出更新提示。
 4. 当页面不可见时（例如切换标签页或最小化窗口），停止实时检测任务；再次可见时，恢复实时检测任务。
+
+Vercel's Skew Protection is a mechanism to eliminate version skew between web clients and servers.
+```jsx
+function useSkewProtectionBusted() {
+  const { data, error, isFetching } = useQuery({
+    queryKey: ["skew-protection-buster_NOSTORE"],
+    queryFn: async () => {
+      const res = await fetch("/api/server-version?dpl=LATEST", {
+        cache: "no-store", // Ensure no caching
+      });
+      return res.json() as Promise<{ VERCEL_DEPLOYMENT_ID: string }>;
+    },
+    staleTime: 0,
+    gcTime: 0,
+    refetchInterval: 30_000, // Refetch every 30 seconds
+  });
+
+  if (isFetching || error || !data) return false;
+  // If they do not match, the client is outdated (return true)
+  return data.VERCEL_DEPLOYMENT_ID !== process.env.NEXT_PUBLIC_VERCEL_DEPLOYMENT_ID;
+}
+
+export function SkewProtectionBuster() {
+  const isBusted = useSkewProtectionBusted();
+
+  useEffect(() => {
+    if (isBusted) {
+      toast("Client out of date", {
+        description: "Please refresh to get the latest version",
+        action: {
+          label: "Refresh now",
+          onClick: () => window.location.reload(),
+        },
+      });
+    }
+  }, [isBusted]);
+
+  return null; // No UI component, just logic
+}
+```
 
 ### 后端模板
 有些 url 请求是后端直出页面返回 html，通过类似 `render_to_response(template, data)` 的方法，将数据打到模板中，模板里会引用 `xx/static/js` 路径下的 js 文件，这些 js 使用 require 框架，导入需要的其他 js 文件或 tpl 模板，再结合业务逻辑使用 underscore 的 template 方法（`_.template(xx)`）可以将 tpl 渲染为 html，然后被 jquery `.html()` 方法插入到 DOM 中。

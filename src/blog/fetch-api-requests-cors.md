@@ -169,6 +169,19 @@ const req = await fetch('/api/data', {
 - [wretch](https://github.com/elbywan/wretch) is a tiny wrapper built around fetch.
 - Axios is great *(Axios is based on XMLHttpRequests)*, but a bit large on kb compared to wretch. [Redaxios](https://github.com/developit/redaxios) is a great small alternative to axios.
 - [Ky](https://github.com/sindresorhus/ky) is a tiny and elegant HTTP client based on the browser Fetch API.
+- [upfetch](https://github.com/L-Blondy/up-fetch) is an advanced fetch client builder with standard schema validation, automatic response parsing, smart defaults and more.
+
+Make a fetch request with schema validation. The response is already parsed and properly typed based on the schema.
+```js
+import { z } from 'zod'
+
+const posts = await upfetch('/posts/1', {
+  schema: z.object({
+    id: z.number(),
+    title: z.string(),
+  }),
+})
+```
 
 ## POST Requests
 The HTTP POST method sends data to the server. The type of the body of the request is indicated by the `Content-Type` header.

@@ -868,6 +868,9 @@ An object's presence as a key in a WeakMap does not prevent the object from bein
 
 In WeakMaps, references to key objects are held "weakly", which means that they do not prevent garbage collection when there would be no other reference to the object. Because of references being weak, you cannot iterate over its keys or values, cannot clear all items (no clear method), cannot check its size (no size property).
 
+- Map says "I need to keep this object in memory".
+- WeakMap says "I'll use this object if it's in memory, but I don't care if it gets cleaned up".
+
 ```js
 // Map and Weakmap
 var k1 = {a: 1};
