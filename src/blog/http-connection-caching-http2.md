@@ -174,11 +174,11 @@ console.log(await getUserById(1));
 ```
 
 ### Refresh behaviors in Chrome
-- Enter from the address bar and press Enter key: You tell the browser to navigate to some page and apply normal resource caching behavior just like clicking a link.
+- Press enter in URL bar: You tell the browser to navigate to some page and apply normal resource caching behavior just like clicking a link.
 
-- Normal reload (`F5`): This will use the cache but revalidate everything during page load, looking for "304 Not Modified" responses.
+- Normal reload: This will use the cache but revalidate everything during page load, looking for "304 Not Modified" responses. *(browsers send `cache-control: max-age=0` - bypasses local cache)*
 
-- Hard reload (`ctrl + F5`): Don't use anything in the cache and force the browser do re-download when making the request.
+- Hard reload: Don't use anything in the cache and force the browser do re-download when making the request.
 
 - Empty Cache and Hard Reload: Right-click on the Network requests in DevTools, select "Clear browser cache" and then reload the page.
 

@@ -380,6 +380,8 @@ Collection of copy-and-paste components for quickly building UI: https://originu
 
 The creative library of animated React components: https://www.reactbits.dev
 
+Building node-based editors and interactive diagrams: https://reactflow.dev
+
 ---
 
 ## Vue and Vite ecosystem
@@ -408,9 +410,11 @@ A lightweight, customizable Vue UI library for mobile web apps: https://vant-ui.
 
 Modular and Accessible UI Components for your Vue Applications (Made for Vue 2.x): https://vue.chakra-ui.com
 
-Vue port of Radix UI Primitives: https://www.radix-vue.com
+Craft accessible web apps with Vue: https://github.com/unovue/reka-ui
 
 Vue port of shadcn-ui: https://github.com/unovue/shadcn-vue
+
+An unstyled drawer component for Vue: https://github.com/unovue/vaul-vue
 
 Build beautiful website using Vue & Nuxt: https://inspira-ui.com
 

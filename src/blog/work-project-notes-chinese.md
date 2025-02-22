@@ -504,7 +504,14 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
   3. 与 HTML 元素不同的是，Fetch API 的 mode 的默认值是 cors；当你发送一个状态为 no-cors 的跨域请求，会发现返回的 response body 是空，也就是说，虽然请求成功，但仍然无法访问返回的资源。
   4. Unlike classic scripts, module scripts (`<script type="module"`>) require the use of the CORS protocol for cross-origin fetching.
 
-- 防止重复提交：前端防抖，按钮点击后立即禁用。后端接口幂等性设计。
+- 针对手机网页的前端开发者调试面板 vConsole (框架无关)
+  ```html
+  <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+  <script>
+    // VConsole 默认会挂载到 `window.VConsole` 上
+    var vConsole = new window.VConsole();
+  </script>
+  ```
 
 ### iframe 技术方案
 用一句话概括 iframe 的作用就是在一个 web 应用中可以独立的运行另一个 web 应用，这个概念和微前端是类似的。采用 iframe 的优点是使用简单、隔离完美、页面上可以摆放多个 iframe 来组合多应用业务。但是缺点也非常明显：

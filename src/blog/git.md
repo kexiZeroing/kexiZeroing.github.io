@@ -3,7 +3,7 @@ title: "Git knowledge that not clear to me"
 description: ""
 added: "Jun 19 2022"
 tags: [system]
-updatedDate: "July 20 2024"
+updatedDate: "Feb 22 2025"
 ---
 
 ## helpful links
@@ -128,6 +128,7 @@ Run `git show` to show the changes made in the most recent commit, which is equi
 - diff for a certain folder: git diff master..yourbranch -- path/to/folder
 - save in a file: git diff master..develop > my.diff
 - diff between a commit and the head: git diff COMMIT
+- show what you're about to commit: git diff --cached
 
 ## refuse to merge unrelated histories
 I always see this error when I create a new Github repository with a README.md or a LICENSE file, then pull it to a local repository at the first time. `git pull origin main --allow-unrelated-histories` should fix it, which force the merge to happen.
@@ -203,7 +204,7 @@ Another example, I want to squash my last 3 commits together into one commit.
 - Method 2: `git reset --hard HEAD~3`, where `HEAD@{1}` is where the branch was just before the reset command. Then `git merge --squash HEAD@{1} && git commit`. This way you get the commit message prepopulated with every commit message that you're squashing.
 
 ## `git add -p` is underrated
-Interactively choose hunks of patch between the index and the work tree and add them to the index. This gives the user a chance to review the difference before adding modified contents to the index.
+This is basically "git add partial (or patch)". Patch mode allows you to stage parts of a changed file, instead of the entire file. This allows you to interactively choose hunks of patch between the index and the work tree and add them to the index. This gives the user a chance to review the difference before adding modified contents to the index. Read more at https://gist.github.com/mattlewissf/9958704
 
 ```
 y - stage this hunk

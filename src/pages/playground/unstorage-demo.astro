@@ -12,7 +12,9 @@ import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
         <li><strong>Memory Driver</strong> <span class="badge volatile">volatile</span> - Stores data in-memory (RAM). Data will be lost when you refresh the page.</li>
         <li><strong>Browser Driver</strong> <span class="badge persistent">persistent</span> - Uses browser localStorage. Data persists across page refreshes.</li>
       </ul>
-      <p>Try setting, getting, and removing key-value pairs using the controls below.</p>
+      <p>Try setting, getting, and removing key-value pairs using the controls below. 
+        Learn more about unstorage at <a class="link" href="https://unstorage.unjs.io" target="_blank">https://unstorage.unjs.io</a>
+      </p>
     </div>
   
     <div class="driver-select">
@@ -57,12 +59,12 @@ import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
   .demo-container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px 20px;
   }
   .demo-title {
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
-    margin-bottom: 24px;
+    margin-bottom: 18px;
     font-size: 24px;
     font-weight: bold;
   }
@@ -127,9 +129,14 @@ import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    line-height: 1.6;
+  }
+  .link {
+    color: #4a90e2;
+    text-decoration: underline;
   }
   .driver-select {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     padding: 15px;
     background-color: #f5f5f5;
     border-radius: 6px;
@@ -141,7 +148,7 @@ import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
   }
   .badge {
     display: inline-block;
-    padding: 3px 8px;
+    padding: 2px 8px;
     border-radius: 12px;
     font-size: 12px;
     font-weight: bold;
