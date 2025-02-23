@@ -223,7 +223,7 @@ export default function SearchForm() {
   )
 }
 
-// pages/posts.tsx
+// posts/page.tsx
 export default async function PostsPage({
   searchParams,
 }: {

@@ -54,8 +54,6 @@ A year-end celebration of fundamental web technologies: https://12daysofweb.dev
 
 B-trees and database indexes: https://planetscale.com/blog/btrees-and-database-indexes
 
-Falsehoods programmers believe in: https://github.com/kdeldycke/awesome-falsehood
-
 ---
 
 ## Tools and Cool websites
@@ -383,6 +381,8 @@ The creative library of animated React components: https://www.reactbits.dev
 Building node-based editors and interactive diagrams: https://reactflow.dev
 
 Shadcn form-building tool: https://www.shadcn-form.com
+
+Neobrutalism-styled components based on shadcn/ui: https://www.neobrutalism.dev
 
 ---
 

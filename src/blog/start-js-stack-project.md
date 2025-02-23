@@ -36,7 +36,6 @@ export default {
 Start with templates:
 - https://github.com/vitejs/awesome-vite
 - https://vercel.com/templates
-- https://tanstack.com/router
 - https://github.com/TanStack/create-tsrouter-app
 
 A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and MySQL:
