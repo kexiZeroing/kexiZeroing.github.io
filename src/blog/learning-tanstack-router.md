@@ -15,6 +15,20 @@ File-based routing is the preferred and recommended way to configure TanStack Ro
 - Non-path routes (without requiring a matching path in the URL) are denoted by the `_` prefix in the filename. (e.g. `_app.a.tsx`)
 - Non-nested routes can be created by suffixing a parent file route segment with a `_` and are used to un-nest a route from it's parents and render its own component tree. (e.g. `posts_.$postId.edit.tsx`)
 
+```
+├── blog
+│   ├── posts
+│   │   ├── $postId
+
+Render a component tree that looks like this:
+
+<Blog>
+  <Posts>
+    <Post postId="123" />
+  </Posts>
+</Blog>
+```
+
 ### Use file-based routing with Vite
 
 ```js
@@ -49,6 +63,17 @@ declare module '@tanstack/react-router' {
   }
 }
 ```
+
+```js
+// src/routes/__root.tsx
+import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
+
+export const Route = createRootRoute({
+  component: () => (...),
+})
+```
+
+All other routes other than the root route are configured using the `createFileRoute` function. The path is automatically written and managed by the router for you via the TanStack Router plugin or Router CLI. So, as you create new routes, move routes around or rename routes, the path will be updated for you automatically.
 
 ```js
 // about.tsx
@@ -114,4 +139,37 @@ const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
 })
+```
+
+TanStack Router is designed to run loaders in parallel and wait for all of them to resolve before rendering the next route. This is great most of the time, but occasionally, you may want to show the user something sooner while the rest of the data loads in the background.
+
+As soon as any awaited promises are resolved, the next route will begin rendering while the deferred promises continue to resolve. In the component, deferred promises can be resolved and utilized using the `Await` component. In React 19, you can use the `use()` hook instead of `Await`.
+
+```js
+export const Route = createFileRoute('/posts/$postId')({
+  loader: async () => {
+    // Fetch some slower data, but do not await it
+    const slowDataPromise = fetchSlowData()
+    // Fetch and await some data that resolves quickly
+    const fastData = await fetchFastData()
+
+    return {
+      fastData,
+      deferredSlowData: slowDataPromise,
+    }
+  },
+  component: PostIdComponent,
+})
+
+function PostIdComponent() {
+  const { deferredSlowData, fastData } = Route.useLoaderData()
+
+  return (
+    <Await promise={deferredSlowData} fallback={<div>Loading...</div>}>
+      {(data) => {
+        return <div>{data}</div>
+      }}
+    </Await>
+  )
+}
 ```
