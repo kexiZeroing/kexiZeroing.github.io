@@ -172,7 +172,7 @@ Smoothly animated code blocks with Shiki: https://github.com/shikijs/shiki-magic
 
 An interactive tutorial to Learn Yjs: https://learn.yjs.dev
 
-A simple tool for redirecting you: https://github.com/kodie/redirectmeto
+Ryo Lu's home website: https://ryo.lu
 
 ---
 
