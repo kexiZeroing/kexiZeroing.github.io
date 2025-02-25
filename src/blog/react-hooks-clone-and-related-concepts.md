@@ -131,69 +131,6 @@ const App = () => (
 render(<App />, document.querySelector("#app"));
 ```
 
-### Vanilla React data fetching
-If you're going to fetch in `useEffect()`, you should at least make sure that you're handling:
-- Loading states
-- Error handling (rejections & HTTP error codes)
-- Race conditions & cancellation
-
-```js
-import * as React from "react"
-
-export default function useQuery(url) {
-  const [data, setData] = React.useState(null)
-  const [isLoading, setIsLoading] = React.useState(true)
-  const [error, setError] = React.useState(null)
-
-  React.useEffect(() => {
-    let ignore = false  // isCancelled
-
-    const handleFetch = async () => {
-      setData(null)
-      setIsLoading(true)
-      setError(null)
-
-      try {
-        const res = await fetch(url)
-
-        if (ignore) {
-          return 
-        }
-
-        if (res.ok === false) {
-          throw new Error(`A network error occurred.`)
-        }
-
-        const json = await res.json()
-
-        setData(json)
-        setIsLoading(false)
-      } catch (e) {
-        setError(e.message)
-        setIsLoading(false)
-      }
-    }
-
-    handleFetch()
-
-    return () => {
-      ignore = true
-    }
-  }, [url])
-
-  return { data, isLoading, error }
-}
-```
-
-In reality, we still need to think about:
-1. For every component that needs the same data, we have to refetch it.
-2. It's possible that while fetching to the same endpoint, one request could fail while the other succeeds.
-3. If our state is moved to "global", we've just introduced a small, in-memory cache. Since we've introduced a cache, we also need to introduce a way to invalidate it.
-4. Context often becomes confusing over time. A component subscribed to QueryContext will re-render whenever anything changes – even if the change isn't related to the url it cares about.
-5. We're treating asynchronous state as if it were synchronous state.
-
-That's [why React Query](https://ui.dev/c/query/why-react-query) was created.
-
 ### You Might Not Need an Effect
 > Whenever you think of writing `useEffect`, the only sane thing is to NOT do it. Instead, go to the react docs and re-read the page about why you don't need an effect. You really don't. -@TkDodo
 

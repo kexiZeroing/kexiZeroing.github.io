@@ -3,13 +3,15 @@ title: "SWR, SWC, and MSW"
 description: ""
 added: "Oct 25 2023"
 tags: [web]
-updatedDate: "Jan 12 2025"
+updatedDate: "Feb 25 2025"
 ---
 
 SWR, SWC, and MSW, three similar names, are always mentioned in the context of web development, but they are totally different things. In this article, we will learn each of them and where they are used.
 
 ## SWR - React Hooks for Data Fetching
-The name “SWR” is derived from `stale-while-revalidate`, a HTTP cache invalidation strategy. SWR is created by the same team behind Next.js.
+The name “SWR” is derived from `stale-while-revalidate`, a cache invalidation strategy. SWR first returns the data from cache (stale), then sends the request (revalidate), and finally comes with the up-to-date data again.
+
+`useSWR` accepts a key and a fetcher function. The key is a unique identifier of the request, normally the URL of the API. And the fetcher accepts key as its parameter and returns the data asynchronously. The fetcher can be any asynchronous function, you can use your favourite data-fetching library to handle that part.
 
 ```jsx
 import useSWR from 'swr'
@@ -58,17 +60,29 @@ By adopting this pattern, you can forget about fetching data in the imperative w
 The most beautiful thing is that there will be only 1 request sent to the API, because they use the same SWR key (normally the API URL) and the request is cached and shared automatically. Also, the application now has the ability to refetch the data on user focus or network reconnect.
 
 ### Automatic Revalidation
-- When you re-focus a page or switch between tabs, SWR automatically revalidates data.
-- SWR will give you the option to automatically refetch data on interval.
-- It's useful to also revalidate when the user is back online.
+1. When you re-focus a page or switch between tabs, SWR automatically revalidates data. This can be useful to immediately synchronize to the latest state. This is helpful for refreshing data in scenarios like stale mobile tabs, or laptops that went to sleep.
 
-### Mutation - manually revalidate the data
+2. SWR will give you the option to revalidate on interval. You can enable it by setting a `refreshInterval` value.
+
+3. It's useful to also revalidate when the user is back online. This feature is enabled by default.
+
+### Mutation - Manually revalidate the data
 There're 2 ways to use the mutate API to mutate the data, the global mutate API which can mutate any key and the bound mutate API which only can mutate the data of corresponding SWR hook.
 
-When you call `mutate(key)` (or just `mutate()` with the bound mutate API) without any data, it will trigger a revalidation (mark the data as expired and trigger a refetch) for the resource.
+When you call `mutate(key)` or just `mutate()` with the bound mutate API without any data, it will trigger a revalidation (mark the data as expired and trigger a refetch) for the resource.
+
+```js
+// global mutate
+import { useSWRConfig } from "swr"
+ 
+function App() {
+  const { mutate } = useSWRConfig()
+  mutate(key, data, options)
+}
+```
 
 ```jsx
-// an example of bound mutate 
+// bound mutate 
 function Profile () {
   const { data, mutate } = useSWR('/api/user', fetcher)
  
@@ -77,6 +91,7 @@ function Profile () {
       <h1>My name is {data.name}.</h1>
       <button onClick={async () => {
         const newName = data.name.toUpperCase()
+        // send a request to the API to update the data
         await requestUpdateUsername(newName)
         // update the local data immediately and revalidate (refetch)
         mutate({ ...data, name: newName })
@@ -86,7 +101,39 @@ function Profile () {
 }
 ```
 
-> [swrv](https://github.com/Kong/swrv) is a port of SWR for Vue, a Vue library for data fetching.
+SWR also provides `useSWRMutation` as a hook for remote mutations.
+
+```js
+import useSWRMutation from 'swr/mutation'
+ 
+async function sendRequest(url, { arg }: { arg: { username: string }}) {
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(arg)
+  }).then(res => res.json())
+}
+ 
+function App() {
+  const { trigger, isMutating } = useSWRMutation('/api/user', sendRequest, /* options */)
+ 
+  return (
+    <button
+      disabled={isMutating}
+      onClick={async () => {
+        try {
+          const result = await trigger({ username: 'johndoe' }, /* options */)
+        } catch (e) {
+          // error handling
+        }
+      }}
+    >
+      Create User
+    </button>
+  )
+}
+```
+
+> [swrv](https://github.com/Kong/swrv) is a port of SWR for Vue, a Vue library for data fetching. It supports both Vue2 and Vue3.
 
 ### React Query
 SWR and React Query (new name: TanStack Query) are the two most popular libraries that can be used to manage data fetching in a React application. SWR is a smaller library that focuses on providing a simple way to fetch and cache data, while React Query is a more comprehensive library that offers a wider range of features.
@@ -114,9 +161,68 @@ Bugs from the above code:
 3. If your app is wrapped in `<React.StrictMode>`, React will intentionally call your effect twice in development mode to help you find bugs like missing cleanup functions.
 4. `fetch` doesn't reject on HTTP errors, so you'd have to check for `res.ok` and throw an error yourself.
 
-> Remember about potential race conditions whenever you see an `await`. What else could happen while awaiting? After the await, is the result still relevant?
+#### Vanilla React data fetching
+If you're going to fetch in `useEffect()`, you should at least make sure that you're handling:
+- Loading states
+- Error handling (rejections & HTTP error codes)
+- Race conditions & cancellation
 
-With React Query, the above code becomes:
+```js
+import * as React from "react"
+
+export default function useQuery(url) {
+  const [data, setData] = React.useState(null)
+  const [isLoading, setIsLoading] = React.useState(true)
+  const [error, setError] = React.useState(null)
+
+  React.useEffect(() => {
+    let ignore = false  // isCancelled
+
+    const handleFetch = async () => {
+      setData(null)
+      setIsLoading(true)
+      setError(null)
+
+      try {
+        const res = await fetch(url)
+
+        if (ignore) {
+          return 
+        }
+
+        if (res.ok === false) {
+          throw new Error(`A network error occurred.`)
+        }
+
+        const json = await res.json()
+
+        setData(json)
+        setIsLoading(false)
+      } catch (e) {
+        setError(e.message)
+        setIsLoading(false)
+      }
+    }
+
+    handleFetch()
+
+    return () => {
+      ignore = true
+    }
+  }, [url])
+
+  return { data, isLoading, error }
+}
+```
+
+In reality, we still need to think about:
+1. For every component that needs the same data, we have to refetch it.
+2. It's possible that while fetching to the same endpoint, one request could fail while the other succeeds.
+3. If our state is moved to "global", we've just introduced a small, in-memory cache. Since we've introduced a cache, we also need to introduce a way to invalidate it.
+4. Context often becomes confusing over time. A component subscribed to QueryContext will re-render whenever anything changes – even if the change isn't related to the url it cares about.
+5. We're treating asynchronous state as if it were synchronous state.
+
+That's [why React Query](https://ui.dev/c/query/why-react-query) was created. With React Query, the above `Bookmarks` example code becomes:
 
 ```jsx
 const useBookmarks = (category) => {
