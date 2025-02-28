@@ -372,6 +372,7 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 
 > 1. 微信公众平台接口测试帐号申请: https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
 > 2. 某个公众号的关注页面地址为 https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI0NDA2OTc2Nw==#wechat_redirect 其中 biz 字符串是微信公众号标识，在浏览器打开该公众号下的任意一篇文章，查看网页源代码，搜索 `var biz` 这样的关键字即可得到。
+> 3. 在微信开发中，JS 接口安全域名和网页授权域名是两个不同的配置项。JS 接口安全域名用于控制哪些域名下的页面可以调用微信的 JS-SDK 接口（如分享、拍照、支付、定位等）。网页授权域名用于控制哪些域名下的页面可以发起微信网页授权，用户授权后，后端可通过 code 换取用户信息（如 openid、nickname 等）。
 
 微信授权也符合通常的 OAuth 流程：  
 *You first need to register your app with your provider to get the required credentials. You’ll be asked to define a callback URL or a redirect URI.*

@@ -3,7 +3,7 @@ title: "What is Nginx"
 description: ""
 added: "Nov 3 2022"
 tags: [devops]
-updatedDate: "Jan 15 2024"
+updatedDate: "Feb 28 2025"
 ---
 
 Developers started simply using the app as an HTTP server. You can serve your node.js application without using any other web servers. Other web development frameworks in Go, Java and Swift also do this. When you serve a node.js app, note that you are the author of your own web server. Any potential bug in your app is a directly exploitable bug on the internet. Some people are not comfortable with this. Adding a layer of Apache or Nginx in front of your app (proxies the requests to a node.js server) means that you have a battle-tested, security-hardened piece of software on the live internet as an interface to your app.
@@ -84,6 +84,11 @@ Ingress is a powerful component of any Kubernetes application. It exposes HTTP a
 You can deploy a bunch of ingress rules, but nothing will happen unless you have a controller that can process them. An Ingress Controller is a pod that is configured to interpret ingress rules. `ingress-nginx` is an Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
 
 Considering what you can do with Ingress, it is easy to think of an Ingress controller as an API gateway, reducing the need for a separate API gateway resource in your cloud architecture.
+
+> Question: You want `b.com` to display the same content as `a.com`, while ensuring that the URL in the browser remains `b.com`.
+>
+> 1. Ensure that `b.com` resolves to the same IP address as `a.com`. This typically means updating the DNS records for `b.com` (e.g., an A or CNAME record) to point to the same load balancer or ingress controller IP that serves `a.com`. This step ensures traffic to `b.com` reaches your Kubernetes cluster.
+> 2. In Kubernetes, an ingress resource can handle multiple domains (hosts). You need to update your existing ingress configuration to include `b.com` as an additional host, with the same routing rules as `a.com`. This tells the ingress controller to direct traffic from both domains to the same backend service.
 
 ### Nginx command line
 NGINX has only a few command-line parameters, and the configuration is done entirely via the configuration file (`/usr/local/etc/nginx/nginx.conf`).
