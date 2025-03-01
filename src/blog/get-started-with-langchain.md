@@ -335,6 +335,10 @@ What is an agent?
 - Memory: Short (e.g. chat history) and long-term (e.g. vector store) memories.
 - Tool use: External APIs for extra information.
 
+> Agents are distinct from workflows:
+> - Agents: non-linear, non-deterministic (can change from run to run)
+> - Workflows: linear, deterministic execution paths
+
 ReAct is a very popular implementation of an agent and involves basically the loop of Action-Observation-Thinking to perform tasks. (Planning: Lets LLM choose an action, observe result, think, and choose action again.)
 
 Delving into the LangChain codebase, we find that this orchestration is performed by the following prompt:

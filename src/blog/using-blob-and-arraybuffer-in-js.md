@@ -153,3 +153,27 @@ const emptyBuf = Buffer.alloc(10);
 
 // Output: <Buffer 00 00 00 00 00 00 00 00 00 00>
 ```
+
+### Different ways to convert an image URL to Base64
+
+```js
+async function urlToBase64(url) {
+  const response = await fetch(url);
+  const arrayBuffer = await response.arrayBuffer();
+  const base64 = Buffer.from(arrayBuffer).toString('base64');
+  return base64; // Raw Base64 string without the "data:image/jpeg;base64," prefix
+}
+```
+
+```js
+async function urlToBase64(url) {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob); // Base64-encoded data URI, including the MIME type prefix
+  });
+}
+```

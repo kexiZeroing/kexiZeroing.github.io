@@ -384,6 +384,8 @@ Shadcn form-building tool: https://www.shadcn-form.com
 
 Neobrutalism-styled components based on shadcn/ui: https://www.neobrutalism.dev
 
+React Server Components in AI Applications by Tejas: https://www.youtube.com/watch?v=fsAYMNl1Cj0
+
 ---
 
 ## Vue and Vite ecosystem
@@ -575,6 +577,8 @@ Keep searching, reading webpages, reasoning until an answer is found: https://gi
 AI inference in Firefox Web extensions: https://blog.tomayac.com/2025/02/07/playing-with-ai-inference-in-firefox-web-extensions
 
 [3h31m video] Deep Dive into LLMs like ChatGPT by Andrej Karpathy: https://www.youtube.com/watch?v=7xTGNNLPyMI
+
+AI SDK Reasoning Preview: https://github.com/vercel-labs/ai-sdk-reasoning-starter
 
 ---
 

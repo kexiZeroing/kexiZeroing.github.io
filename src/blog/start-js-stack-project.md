@@ -37,6 +37,7 @@ Start with templates:
 - https://github.com/vitejs/awesome-vite
 - https://vercel.com/templates
 - https://github.com/TanStack/create-tsrouter-app
+- https://nextjs.org/blog/building-apis-with-nextjs
 
 A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and MySQL:
 - @clerk/nextjs: add authentication and user management to your Next.js application.

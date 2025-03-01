@@ -981,3 +981,5 @@ For lightweight support to enable runtime TypeScript in Node.js, you can use the
 - Run node `index.ts` with no further flags.
 - Node will strip out the types using a version of swc, then run the resulting code.
 - Node will not typecheck your files when it runs them.
+
+> In TypeScript 5.8, the flag `--erasableSyntaxOnly` marks enums, namespaces and class parameter properties as errors. These pieces of syntax are not considered erasable. "Erasable" syntax means that the syntax can be deleted without the runtime behaviour being affected.

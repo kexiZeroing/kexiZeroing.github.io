@@ -15,7 +15,6 @@ order: 3
 - @addyosmani almost every tweet https://addyosmani.com/blog
 - @b0rk wizard zines https://wizardzines.com
 - @EmmaBostian @kvlly ladybug podcast
-- @vaidehijoshi basecs and baseds(distributed system)
 - @devdevcharlie ML for front-end developers https://charliegerard.dev/projects
 - @antfu7 about Vue and open source https://github.com/antfu-collective
 - @shadeed9 @5t3ph about CSS
@@ -26,9 +25,9 @@ order: 3
 - @Una Chrome DevRel team
 - @rauchg @leeerob at Vercel about DX
 - @jlengstorf Learn With Jason https://www.learnwithjason.dev/episodes
-- @asidorenko_ short videos about React/Next.js
 - @simonw writes notes on https://simonwillison.net
 - @mattpocockuk about TypeScript
+- @TAbrodi blog https://tigerabrodi.blog/archive
 
 ## Learn from mistakes
 1. Make a mistake 
