@@ -438,7 +438,7 @@ Modern and Performant Bottom Sheet for Vue: https://github.com/megaarmos/vue-spr
 
 Clerk official SDK for Vue: https://clerk.com/changelog/2025-01-07-vue-and-nuxt-sdk
 
-[WIP] An interactive tutorial and playground for Nuxt: https://learn-dev.nuxt.com
+Vue Dashboard Template made with Nuxt UI Pro: https://github.com/nuxt-ui-pro/dashboard-vue
 
 ---
 
