@@ -142,6 +142,11 @@ const babelTransformWithPlugin = (code) => {
 };
 ```
 
+> Babel's core packages:
+> - `babel-core`: The core module that wraps everything in our transform api (used for integrations)
+> - `babel-parser`: babel-parser (Babylon) is a JavaScript parser used in Babel
+> - `babel-generator`: Prints a string from an AST
+
 ### CodeSandbox and StackBlitz
 **Sandpack** is a component toolkit for creating live-running code editing experiences, powered by the online bundler used on CodeSandbox. https://sandpack.codesandbox.io
 

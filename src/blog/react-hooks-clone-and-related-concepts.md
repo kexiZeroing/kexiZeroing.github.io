@@ -140,7 +140,7 @@ When developing an application in React 18+, you may encounter an issue where th
 - https://eslint-react.xyz/docs/rules/hooks-extra-no-direct-set-state-in-use-effect
 - https://www.youtube.com/watch?v=bGzanfKVFeU
 
-### Referencing Values with Refs
+### Referencing values with `ref`s
 When you want a component to “remember” some information, but you don’t want that information to trigger new renders, you can use a `ref`. Typically, you will use a ref when your component needs to “step outside” React and communicate with external APIs. (e.g. storing timeout IDs, DOM elements)
 
 - Refs are an escape hatch to hold onto values that aren’t used for rendering. You won’t need them often.
@@ -150,17 +150,35 @@ When you want a component to “remember” some information, but you don’t wa
 - Unlike state, setting the ref’s current value does not trigger a re-render.
 
 ```js
+import React, { useState, useEffect, useRef } from 'react';
+
 function usePrevious(value) {
   const ref = useRef();
-
+  
   useEffect(() => {
-    // this update does not trigger a re-render
     ref.current = value;
   }, [value]);
-
+  
   return ref.current;
 }
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  const previousCount = usePrevious(count);
+  
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+      <p>Current count: {count}</p>
+      <p>Previous count: {previousCount}</p>
+    </div>
+  );
+}
 ```
+
+The key to understanding this hook is realizing there's a timing difference. When your component renders, the hook returns the current value of `ref.current`. After rendering, the effect runs and updates `ref.current` to the new value. On the next render, `ref.current` contains what was the value in the previous render.
 
 #### `ref` callback function
 Instead of a ref object, you may pass a function to the ref attribute. When the `<div>` DOM node is added to the screen, React will call your `ref` callback with the DOM node as the argument. When that `<div>` DOM node is removed, React will call your `ref` callback with null. React will also call your `ref` callback whenever you pass a different `ref` callback.
@@ -183,6 +201,25 @@ const ChatWindow = () => {
 ```
 
 So if you need to interact with DOM nodes directly after they rendered, try not to jump to `useRef` + `useEffect` directly, but consider using [callback refs](https://tkdodo.eu/blog/ref-callbacks-react-19-and-the-compiler) instead.
+
+#### `ref` as a prop in React 19
+In React 19, `forwardRef` is no longer necessary. Pass `ref` as a prop instead.
+
+```jsx
+export default function SearchInput({ inputRef }) {
+  return <input ref={inputRef} />;
+}
+
+export default function App() {
+  const inputRef = React.useRef();
+  return (
+    <>
+      <SearchInput inputRef={inputRef} />
+      <button onClick={() => inputRef.current.focus()}>Focus</button>
+    </>
+  );
+}
+```
 
 ### batching and flushSync in rendering
 In early versions (React 17 and earlier), React updated the DOM immediately after each state change. Multiple state updates within a single event cycle would cause multiple, unnecessary re-renders, affecting the application's responsiveness.
