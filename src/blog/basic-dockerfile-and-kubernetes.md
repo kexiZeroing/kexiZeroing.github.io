@@ -190,6 +190,11 @@ RUN rm -rf ./*
 COPY --from=build /app/dist .
 ```
 
+## Deploy Next.js app with Docker
+Next.js can be deployed to any hosting provider that supports Docker containers. You can use this approach when deploying to container orchestrators such as Kubernetes or when running inside a container in any cloud provider.
+
+To add support for Docker to an existing project, just copy the [Dockerfile](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile) into the root of the project.
+
 ## Intro to Kubernetes
 Let's say you have an app which you have containerized (Monoliths were broken into microservices). So you run a bunch of containers to serve your app to users. But how do you manage these different containers? This is where K8s comes to the rescue. Kubernetes is a container orchestration tool for managing production-ready containerized workloads and services that allows for declarative setup as well as automation.
 

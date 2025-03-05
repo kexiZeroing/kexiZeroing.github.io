@@ -3,7 +3,7 @@ title: "Mac terminal"
 description: ""
 added: "March 14 2022"
 tags: [system]
-updatedDate: "Feb 24 2023"
+updatedDate: "Mar 5 2025"
 ---
 
 ## Terminal Primer
@@ -233,6 +233,19 @@ else
   echo "This is also unreachable."
 fi
 ```
+
+## Bash Redirections
+Working with redirections in bash is easy once you realize that it's all about manipulating file descriptors. When bash starts it opens the three standard file descriptors: stdin (file descriptor 0), stdout (file descriptor 1), and stderr (file descriptor 2).
+
+Redirect the standard output of a command to a file: `command >file`. Operator `>` is the output redirection operator. Bash first tries to open the file for writing and if it succeeds it sends the stdout of command to the newly opened file. If it fails opening the file, the whole command fails. It is the same as writing `command 1>file`. The number 1 stands for stdout.
+
+Redirect the standard error of a command to a file: `command 2>file`. Anything written to stderr gets written to file.
+
+Redirect both standard output and standard error to a file: `command &>file`. There are several ways to redirect both streams to the same destination. `command >file 2>&1` is a much more common way to redirect both streams to a file. First stdout is redirected to file, and then stderr is duplicated to be the same as stdout. So both streams end up pointing to file.
+
+However be careful writing `command >file 2>&1` is not the same as `command 2>&1 >file`. The second one redirects only the standard output to the file. The stderr will still print to the terminal.
+
+<img alt="bash redirection" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/bash-redirection.png" width="450">
 
 ## Moving to zsh
 From macOS Catalina the default shell is zsh. The bash bundled with macOS has been stuck on version 3.2 for a long time now. bash v4 was released in 2009 and bash v5 in January 2019. The reason Apple has not switched to these newer versions is that they are licensed with `GPL v3`. bash v3 is still `GPL v2`. zsh, on the other hand, has an MIT-like license, which makes it much more palatable for Apple to include in the system by default.

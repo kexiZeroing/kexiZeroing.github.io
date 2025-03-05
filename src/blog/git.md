@@ -3,7 +3,7 @@ title: "Git knowledge that not clear to me"
 description: ""
 added: "Jun 19 2022"
 tags: [system]
-updatedDate: "Feb 22 2025"
+updatedDate: "Mar 5 2025"
 ---
 
 ## helpful links
@@ -247,6 +247,10 @@ After committing several times, you realize that you need to create `.gitignore`
 - `git tag` lists all tags.
 - Use `git push origin v1.1.0` to push a particular tag, or `git push --tags` if you want to push all tags.
 - `git push origin :tagname` to delete a remote tag, and if you also need to delete the local tag, use `git tag --delete tagname`.
+
+Normally, you list tags by alpha order. You can fix this by setting `git config --global tag.sort version:refname`, which will generally do what you expect, treating dotted version numbers as a series of integer values for sorting purposes.
+
+Similarly, set `git config --global branch.sort -committerdate` to sort the branch list by the most recent commit date rather than by alpha order.
 
 ## git submodules
 A git submodule is a full repo that’s been nested inside another repo. Any repo can be a submodule of another. Submodules can only be pinned to a specific commit. This is because a submodule isn’t a package; it’s code that you have embedded in another repo, and git wants you to be precise.
