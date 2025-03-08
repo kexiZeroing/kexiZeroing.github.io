@@ -560,6 +560,8 @@ Model Context Protocol Quickstart: https://glama.ai/blog/2024-11-25-model-contex
 
 A collection of MCP servers: https://github.com/punkpeye/awesome-mcp-servers
 
+Browse MCP use cases across the community: https://www.pulsemcp.com/use-cases
+
 Converting files and office documents to Markdown: https://github.com/microsoft/markitdown
 
 Conversational video interface with a holiday theme: https://santa.tavus.io
@@ -603,6 +605,8 @@ Transformers from Scratch: https://e2eml.school/transformers.html
 ML for front-end developers: https://docs.google.com/presentation/d/1f--c4Ui1VcmVgW4Gj3v-e_17GYfxRlbUSMnyk4sOVjg
 
 Machine Learning 101 from Jason Mayes: https://docs.google.com/presentation/d/1kSuQyW5DTnkVaZEjGYCkfOxvzCqGEFzWBy4e9Uedd9k
+
+MediaPipe Studio: https://mediapipe-studio.webapps.google.com
 
 Visual explanations of core machine learning concepts: https://mlu-explain.github.io
 

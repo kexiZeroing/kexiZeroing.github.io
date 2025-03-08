@@ -371,3 +371,11 @@ RAG systems often face challenges in retrieving the most relevant information, e
 1. Query Rewriting: Reformulates queries to be more specific and detailed.
 2. Step-back Prompting: Generates broader queries for better context retrieval.
 3. Sub-query Decomposition: Breaks down complex queries into simpler sub-queries.
+
+### DeepSearch and DeepResearch
+https://jina.ai/news/a-practical-guide-to-implementing-deepsearch-deepresearch/
+
+- DeepSearch runs through an iterative loop of searching, reading, and reasoning until it finds the optimal answer.
+- DeepResearch builds upon DeepSearch by adding a structured framework for generating long research reports.
+
+RAG is about answering questions that fall outside of the knowledge baked into a model. The DeepSearch pattern offers a tools-based alternative to classic RAG: we give the model extra tools for running multiple searches and run it for several steps in a loop to try to find an answer.

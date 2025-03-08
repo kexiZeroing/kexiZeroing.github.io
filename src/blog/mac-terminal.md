@@ -287,6 +287,10 @@ For example, when you press `enter`, it sends a `\r` (carriage return) symbol. W
 
 Terminals are not just able to display black and white text; they can display colors and formatted texts thanks to escape sequences. The `\x1b[` things sending to the client are called *escape sequences*. They change the cursor’s position, make text bold or underlined, change colours, etc.
 
+> Have you ever pressed the left arrow key in your terminal and seen `^[[D`? That’s an escape code. The first character is the “escape” character, which is usually written as `ESC`, `\x1b`, `\e` or `\033` or `^[`. They are how your terminal emulator communicates various kinds of information (colours, mouse movement, etc) with programs running in the terminal.
+> 
+> Some specific escape codes: “move the cursor to the left” is `ESC[D`, “move the cursor down” is `ESC[B`, “turn text red” is `ESC[31m`, “make text bold” is `ESC[1m`.
+
 <img alt="ascii table" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/asciifull.gif" width="710">
 
 > Base64:  
