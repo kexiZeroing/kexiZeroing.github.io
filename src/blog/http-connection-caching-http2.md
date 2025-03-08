@@ -126,6 +126,15 @@ The `no-cache` directive does not prevent the storing of responses but instead p
 
 `stale-if-error=86400` indicates that the cache can reuse a stale response for an extra 1 day (86400s) when an error is encountered. Here, an error is considered any response with a status code of 500, 502, 503, or 504.
 
+#### `Cache-Control` as a Request Header
+One thing we’re probably less used to is `Cache-Control`’s employment as a request header. It determines whether the browser retrieves content from the cache or forces a network request. The most common way you’re ever likely to see a `Cache-Control` request header is when you refresh or hard refresh a page.
+
+In Chrome, even if the page is still fresh, refreshing it will dispatch a request to the network with `Cache-Control: max-age=0` and `If-Modified-Since | If-None-Match`. All other subresources on the page are fetched as per their caching headers, so there is no specific behaviour here.
+
+A hard refresh causes both the main document and all of its subresources to be requested with the `Cache-Control: no-cache`.
+
+Note that `max-age=0` means the response is considered stale after zero seconds and therefore should be revalidated, and `no-cache` means don’t fetch this response from cache without revalidating it first. Where they differ is that `max-age=0` permits caches to reuse a response if revalidation isn’t possible (e.g. no network access); `no-cache` is much stricter—it means the cache must always revalidate before releasing a response, or return an error if revalidation fails.
+
 ### Freshness and Cache validation
 Before the expiration time, the resource is fresh; after the expiration time, the resource is stale. Stale responses are not immediately discarded. HTTP has a mechanism to transform a stale response into a fresh one by asking the origin server. This is called validation. Validation is done by using a conditional request that includes an `If-Modified-Since` or `If-None-Match` request header. The server will respond with `304 Not Modified` if the content has not changed. **Since this response only indicates "no change", there is no response body — there's just a status code — so the transfer size is extremely small.** The response can also include headers that update the expiration time of the cached resource.
 
