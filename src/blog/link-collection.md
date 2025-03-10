@@ -174,6 +174,8 @@ An interactive tutorial to Learn Yjs: https://learn.yjs.dev
 
 Ryo Lu's home website: https://ryo.lu
 
+Google Chrome Dino 3D WebGL game: https://github.com/addyosmani/chrome-dino-3d
+
 ---
 
 ## CSS related
