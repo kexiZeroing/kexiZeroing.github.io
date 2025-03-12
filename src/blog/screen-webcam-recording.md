@@ -70,6 +70,10 @@ const connectToWebcam = async (deviceId: string) => {
 }
 ```
 
+> `getUserMedia()` is a powerful feature which can only be used in secure contexts; in insecure contexts, `navigator.mediaDevices` is undefined. A secure context is a page loaded using HTTPS or the `file://` URL scheme, or a page loaded from `localhost`.
+>
+> In addition, user permission is always required to access the user's audio and video inputs. Only a window's top-level document context for a valid origin can even request permission to use it. Otherwise, the user will never even be asked for permission to use the input devices.
+
 Similar to our screen share stream, we want to use the result of this video stream in our canvas, so we’ll need to pass this stream along to a `<video>` element for decoding for later use in our canvas drawing.
 
 ```js

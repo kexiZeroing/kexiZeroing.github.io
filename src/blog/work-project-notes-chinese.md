@@ -454,6 +454,8 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 
 后续使用 [VueRequest](https://github.com/AttoJS/vue-request)，管理请求状态，支持 SWR、轮询、错误重试、缓存、分页等常用功能。`useRequest` 接收一个 service 函数，service 是一个异步的请求函数，换句话说，还可以使用 axios 来获取数据，然后返回一个 Promise。`useRequest` 会返回 data、loading、error 等，它们的值会根据请求状态和结果进行修改。返回的 run 方法，可以手动触发 service 请求。
 
+Use `$fetch`, `useFetch`, or `useAsyncData` in Nuxt: https://masteringnuxt.com/blog/when-to-use-fetch-usefetch-or-useasyncdata-in-nuxt-a-comprehensive-guide
+
 ### 阿里云 CDN
 阿里云 CDN 对于文件是否支持缓存是以 `X-Cache` 头部来确定，缓存时间是以 `X-Swift-CacheTime` 头部来确认。
 - `Age` 表示该文件在 CDN 节点上缓存的时间，单位为秒。只有文件存在于节点上 Age 字段才会出现，当文件被刷新后或者文件被清除的首次访问，在此前文件并未缓存，无 Age 头部字段。当 Age 为 0 时，表示节点已有文件的缓存，但由于缓存已过期，本次无法直接使用该缓存，需回源校验。
@@ -597,6 +599,7 @@ Advantages over `localStorage`:
   > - hash mode 是默认模式，原理是使用 `location.hash` 和 `onhashchange` 事件，利用 `#` 后面的内容不会被发送到服务端实现单页应用。history mode 要手动设置 `mode: 'history'`, 是基于 History API 来实现的，这也是浏览器本身的功能，地址不会被请求到服务端。
 5. 关于 Icon 图标，Windows（.ico 文件）和 Mac（.icns 文件）的都是复合格式，包含了多种尺寸和颜色模式，Linux 就是多张 png。注意不要把 png 直接改成 ico，可以使用在线工具转换。如果 Windows 窗口或任务栏图标未更换成功，可能是 ico 文件中缺少小尺寸图标，如缺少 16x16 或 32x32 的图标。
 6. 可以通过命令行启动程序，查看打包后的主进程日志，Mac 进入到 `/Applications/Demo.app/Contents/MacOS/` 路径，执行 `./Demo` 启动应用层序。Windows 上打开 Powershell 进入到程序的安装目录，执行 `.\Demo.exe`，如果文件名中有空格，需要用双引号把文件名引起来。
-7. Electron 参考项目:
+7. 在 Electron 打包后，`__dirname` 在渲染进程中指向的是 app.asar 内部的虚拟路径。渲染进程无法直接访问物理资源路径（如 macOS 的 `xx.app/Contents/Resources/`），但可以在主进程通过 `process.resourcesPath` 获取该路径，以 IPC 的方式传递给渲染进程。
+8. Electron 参考项目:
    - https://github.com/liou666/polyglot
    - https://github.com/replit/desktop

@@ -340,6 +340,8 @@ useQuery({
 ## SWC - Rust-based platform for the Web
 SWC (stands for Speedy Web Compiler) is a super-fast TypeScript / JavaScript compiler written in Rust, and can be used for both compilation and bundling. SWC is 20x faster than babel on a single-core benchmark, 68x faster than babel on a multicore benchmark. 
 
+> JavaScript can only work on one core at a time. Languages like Go and Rust have multi-threading support built-in, which means they can use multiple CPU cores to parallelize as much work as possible.
+
 ```sh
 npm i -D @swc/cli @swc/core
 
