@@ -3,7 +3,7 @@ title: "CSS effects collection"
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Jan 25 2025"
+updatedDate: "Mar 15 2025"
 ---
 
 ### TOC
@@ -21,6 +21,7 @@ updatedDate: "Jan 25 2025"
 - [Gradient border card](#gradient-border-card)
 - [The Periodic Table](#the-periodic-table)
 - [Double input range slider](#double-input-range-slider)
+- [Eyes Follow Mouse Cursor](#eyes-follow-mouse-cursor)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -710,4 +711,76 @@ https://codepen.io/alexpg96/pen/xxrBgbP
   </script>
 </body>
 </html>
+```
+
+### Eyes Follow Mouse Cursor
+https://www.kirupa.com/codingexercises/examples/eyes_follow_mouse.htm
+
+```html
+<style>
+  body {
+    grid-template-rows: 100vh;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+  }
+  .eyesContainer {
+    width: 200px;
+    height: 200px;
+    background-color: tomato;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns: 1fr 1fr;
+  }
+  .eye {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+    transform: rotate(var(--eyeAngle, 0deg));
+  }
+  .pupil {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    background: #000;
+    border-radius: 50%;
+    top: calc(50% - 8px);
+    left: 5px;
+  }
+</style>
+
+<body>
+  <div class="eyesContainer">
+    <div class="eye">
+      <div class="pupil"></div>
+    </div>
+    <div class="eye">
+      <div class="pupil"></div>
+    </div>
+  </div>
+  <script>
+    let eyes = document.querySelectorAll(".eye");
+    let eyeRect = eyes[0].getBoundingClientRect();
+    let container = document.querySelector(".eyesContainer");
+    
+    document.body.addEventListener("mousemove", eyesFollow, false);
+
+    function eyesFollow(e) {
+      requestAnimationFrame(() => {
+        let xPos = e.pageX;
+        let yPos = e.pageY;
+
+        // diff between the center of the eye and the mouse position
+        let xDiff = (eyeRect.x + eyeRect.width / 2) - xPos;
+        let yDiff = (eyeRect.y + eyeRect.height / 2) - yPos;
+        // the angle between the x-axis and the ray from (0, 0) to the point (x, y)
+        let angle = Math.atan2(yDiff, xDiff) * 180 / Math.PI;
+
+        container.style.setProperty("--eyeAngle", angle.toFixed(2) + "deg");
+      });
+    }
+  </script>
+</body>
 ```
