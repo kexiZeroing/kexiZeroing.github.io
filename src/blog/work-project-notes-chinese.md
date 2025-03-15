@@ -404,7 +404,11 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 - 加 csrf token，加业务需要的 header
 - 根据不同的错误码做页面跳转
 
-> 注意 Axios 遇到 302 的返回：重定向直接被浏览器拦截处理，浏览器 redirect 后，被视为 Axios 发起了跨域请求，所以抛异常。Axios 捕获异常，进入 catch 逻辑。
+> Some features about Axios:
+> 1. Axios automatically converts the data to JSON returned from the server.
+> 2. In Axios, HTTP error responses (like 404 or 500) automatically reject the promise, so you can handle them using catch block (`err.response`).
+> 3. One of the main selling points of Axios is its wide browser support. Even old browsers like IE11 can run Axios without any issues. This is because it uses `XMLHttpRequest` under the hood. 
+> 4. 注意 Axios 遇到 302 的返回：重定向直接被浏览器拦截处理，浏览器 redirect 后，被视为 Axios 发起了跨域请求，所以抛异常。Axios 捕获异常，进入 catch 逻辑。
 
   ```js
   const handleResponse = (res) => {
