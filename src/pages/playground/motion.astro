@@ -1,0 +1,51 @@
+---
+import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+---
+
+<PlaygroundLayout title="Motion Examples">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-4 px-8">
+    <div>
+      <p class="text-lg mb-4">Hover</p>
+      <div class="box box-hover bg-indigo-300"></div>
+    </div>
+    <div>
+      <p class="text-lg mb-4">Press</p>
+      <div class="box box-press cursor-pointer bg-emerald-300"></div>
+    </div>
+    <div>
+      <p class="text-lg mb-4">HTML Content</p>
+      <pre id="count" class="text-3xl">0</pre>
+    </div>
+  </div>
+</PlaygroundLayout>
+
+<style>
+.box {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+}
+</style>
+
+<script>
+import { animate, press, hover } from "motion"
+
+hover(".box-hover", (element) => {
+  animate(element, { scale: 1.3 }, { type: "spring" })
+
+  return () => animate(element, { scale: 1 }, { type: "spring" })
+})
+
+press(".box-press", (element) => {
+  animate(element, { scale: 0.8 }, { type: "spring", stiffness: 1000 })
+
+  return () => animate(element, { scale: 1 }, { type: "spring", stiffness: 500 })
+})
+
+const count = document.getElementById("count")
+animate(0, 100, {
+  duration: 2,
+  ease: "circOut",
+  onUpdate: (latest) => (count.innerHTML = String(Math.round(latest))),
+})
+</script>

@@ -38,6 +38,7 @@
     "lucide-react": "^0.408.0",
     "maplibre-gl": "^4.7.1",
     "markdown-it": "^13.0.1",
+    "motion": "^12.5.0",
     "node-fetch": "^3.3.1",
     "pagefind": "^1.0.3",
     "playwright": "^1.40.0",
