@@ -130,6 +130,14 @@ const ClientOnly: React.FC<ClientOnlyProps> = ({
 export default ClientOnly;
 ```
 
+> Fix Next.js error: `window` is not defined:
+> 1. Keep it as server component, and use `if (typeof window !== 'undefined')` to check first.
+> 2. Add `use client` and have a `useEffect` run when mounting the component.
+> 3. Use Next `next/dynamic` to dynamic import the component and disable SSR: `dynamic(() => import('./MyComponent'), { ssr: false })`. (use Suspense under the hood)
+
+> Fix Next.js error: Event handlers cannot be passed to client component:  
+> You use `<Card onClick={() => console.log(1)} />` to pass a function from the server to the client. The issue here is the function is not serializable. The workaround is to make both of them client components.
+
 ### Understand the "children pattern"
 React components re-render themselves and all their children when the state is updated. In this case, on every mouse move the state of `MovingComponent` is updated, its re-render is triggered, and as a result, `ChildComponent` will re-render as well.
 

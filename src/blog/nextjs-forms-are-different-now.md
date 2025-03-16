@@ -159,6 +159,11 @@ export async function submitMessage(_prevState, formData) {
 ## Next.js sever actions and `<Form>` component
 Next.js Server Actions is a feature that allows you to run server-side code directly from client components. It is part of Next.js's full-stack framework features, eliminating the need for API routes for basic form handling.
 
+<img alt="next-server-actions-1" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/next-server-actions-1.png" width="600">
+
+<img alt="next-server-actions-2" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/next-server-actions-2.png" width="600">
+<br>
+
 ```ts
 // contact-form.tsx
 import { submitFormAction } from "./action";

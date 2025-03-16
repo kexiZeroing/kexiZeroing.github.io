@@ -1,5 +1,6 @@
 ---
 import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+import { MotionCards } from '@/components/playground/CardMotion';
 ---
 
 <PlaygroundLayout title="Motion Examples">
@@ -43,6 +44,10 @@ import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
       <div class="path-container relative h-40 border border-gray-200 rounded">
         <div class="w-8 h-8 box-path absolute bg-yellow-300"></div>
       </div>
+    </div>
+    <div>
+      <p class="text-lg mb-4">Cards</p>
+      <MotionCards client:load />
     </div>
   </div>
 </PlaygroundLayout>
