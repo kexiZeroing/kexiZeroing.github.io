@@ -176,6 +176,8 @@ Ryo Lu's home website: https://ryo.lu
 
 Google Chrome Dino 3D WebGL game: https://github.com/addyosmani/chrome-dino-3d
 
+Motion-controlled Fruit Ninja game: https://dev.to/devdevcharlie/motion-controlled-fruit-ninja-game-using-three-js-tensorflow-js-18de
+
 ---
 
 ## CSS related
