@@ -149,3 +149,50 @@ export default function ProductPage({ searchParams }) {
   const selectedSize = searchParams.size;
 }
 ```
+
+### Summary of different ways to store state in the URL
+
+```js
+// Vanilla JS
+const params = new URLSearchParams(window.location.search);
+params.set("theme", "dark");
+window.history.replaceState({}, "", "?" + params.toString());
+```
+
+```js
+// React Router
+import { useSearchParams } from "react-router-dom";
+
+function Example() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const updateParam = () => {
+    setSearchParams({ filter: "active" });
+  };
+
+  return (
+    <div>
+      <button onClick={updateParam}>Set Filter</button>
+      <p>Current Filter: {searchParams.get("filter")}</p>
+    </div>
+  );
+}
+```
+
+```js
+// nuqs (type-safety)
+import { useQueryState } from "nuqs";
+
+function Example() {
+  const [filter, setFilter] = useQueryState("filter");
+  const updateParam = () => {
+    setFilter("active");
+  };
+
+  return (
+    <div>
+      <button onClick={updateParam}>Set Filter</button>
+      <p>Current Filter: {filter}</p>
+    </div>
+  );
+}
+```
