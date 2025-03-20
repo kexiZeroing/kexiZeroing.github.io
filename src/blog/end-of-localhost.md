@@ -40,6 +40,8 @@ Your workplace is already compiled and all dependencies of your code have been d
 https://www.brev.dev/  
 https://console.brev.dev/
 
+> Update on Jul 2024: NVIDIA has acquired Brev.dev, a San Francisco-based startup founded in 2021.
+
 Brev creates your powerful computer in the cloud for development. Brev solves configurations with the `.brev` directory. Create your `.brev/setup.sh` script to make your environment reproducible. Brev will automatically run it when creating the workspace.
 
 <img alt="brev demo" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/e6c9d24ely1h3dnwzu0szj21ee0o4mzl.jpg" width="800">

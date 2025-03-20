@@ -3,7 +3,7 @@ title: "CSS effects collection"
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Mar 15 2025"
+updatedDate: "Mar 20 2025"
 ---
 
 ### TOC
@@ -22,6 +22,7 @@ updatedDate: "Mar 15 2025"
 - [The Periodic Table](#the-periodic-table)
 - [Double input range slider](#double-input-range-slider)
 - [Eyes Follow Mouse Cursor](#eyes-follow-mouse-cursor)
+- [3D Grid Layout](#3d-grid-layout)
 
 ### Rainbow Artword
 <img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
@@ -782,5 +783,64 @@ https://www.kirupa.com/codingexercises/examples/eyes_follow_mouse.htm
       });
     }
   </script>
+</body>
+```
+
+### 3D Grid Layout
+
+```html
+<style>
+  .isometric-grid {
+    position: relative;
+    transform: rotateX(60deg) rotateZ(-45deg);
+    transform-style: preserve-3d;
+    display: grid;
+    grid-template-columns: repeat(3, 120px);
+    grid-template-rows: repeat(3, 120px);
+    grid-gap: 15px;
+  }
+  .grid-item {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    background-color: rgba(30, 30, 30, 0.8);
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+    cursor: pointer;
+  }
+  .grid-item:hover {
+    transform: translateZ(30px);
+    background-color: #0088ff;
+  }
+  .grid-item-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    transform: translateZ(6px) rotateX(-60deg) rotateZ(45deg);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .grid-item:hover .grid-item-content {
+    opacity: 1;
+  }
+</style>
+
+<body>
+  <div class="isometric-grid">
+    <div class="grid-item"><div class="grid-item-content">1</div></div>
+    <div class="grid-item"><div class="grid-item-content">2</div></div>
+    <div class="grid-item"><div class="grid-item-content">3</div></div>
+    <div class="grid-item"><div class="grid-item-content">4</div></div>
+    <div class="grid-item"><div class="grid-item-content">5</div></div>
+    <div class="grid-item"><div class="grid-item-content">6</div></div>
+  </div>
 </body>
 ```

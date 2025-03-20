@@ -176,8 +176,6 @@ Ryo Lu's home website: https://ryo.lu
 
 Google Chrome Dino 3D WebGL game: https://github.com/addyosmani/chrome-dino-3d
 
-Motion-controlled Fruit Ninja game: https://dev.to/devdevcharlie/motion-controlled-fruit-ninja-game-using-three-js-tensorflow-js-18de
-
 ---
 
 ## CSS related
@@ -585,6 +583,8 @@ AI inference in Firefox Web extensions: https://blog.tomayac.com/2025/02/07/play
 [3h31m video] Deep Dive into LLMs like ChatGPT by Andrej Karpathy: https://www.youtube.com/watch?v=7xTGNNLPyMI
 
 AI SDK Reasoning Preview: https://github.com/vercel-labs/ai-sdk-reasoning-starter
+
+MediaPipe hand detection and Gemini 2.0 Flash generating thought: https://huggingface.co/spaces/tinazone/handspew
 
 ---
 
