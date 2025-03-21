@@ -3,7 +3,7 @@ title: "Start a Javascript stack project"
 description: ""
 added: "Jun 16 2022"
 tags: [web]
-updatedDate: "Feb 19 2025"
+updatedDate: "Mar 21 2025"
 ---
 
 ## Start a modern web project
@@ -276,6 +276,15 @@ Check out the following resources:
 1. [You Probably Don't Need eslint-config-prettier or eslint-plugin-prettier](https://www.joshuakgoldberg.com/blog/you-probably-dont-need-eslint-config-prettier-or-eslint-plugin-prettier/)
 2. [Reasonable ESLint, Prettier, and TypeScript configs](https://github.com/epicweb-dev/config)
 
+### Lint like a senior developer by CJ
+Watch this: https://www.youtube.com/watch?v=Kr4VxMbF3LY
+
+1. Install `pnpm i -D eslint @antfu/eslint-config`
+2. Update `eslint.config.mjs` using the config from https://gist.github.com/w3cj/21b1f1b4857ecd13d076075a5c5aaf13/
+3. Try to run the script `"lint": "eslint ."` and install the required eslint plugins.
+4. Copy the VS Code support (auto fix on save) settings from https://github.com/antfu/eslint-config to your `.vscode/settings.json`.
+5. Add a `"lint:fix": "eslint --fix ."` script and run it.
+
 ### What is Husky
 While working on an enterprise development team, it is important that all code linting and unit tests are passing before committing code, especially if you are using some form of continuous integration. [Git Hooks](https://githooks.com) are a built-in feature of Git that can execute automatically when certain events occur. **Husky**, as a project, is a very popular npm package that allows custom scripts to be ran against your repository to prevent bad `git commit` and `git push`, which makes commits of fixing lint errors doesn't happen.
 
@@ -283,10 +292,10 @@ Install husky `npm i -D husky` and have a "husky" section in the `package.json` 
 ```json
 // package.json
 "husky": {
-    "hooks": {
-        "pre-commit": "npm run lint && npm run test",
-        "pre-push": "npm test"
-    }
+  "hooks": {
+    "pre-commit": "npm run lint && npm run test",
+    "pre-push": "npm test"
+  }
 }
 ```
 

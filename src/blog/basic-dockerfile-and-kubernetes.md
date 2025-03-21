@@ -3,7 +3,7 @@ title: "A basic Dockerfile and Intro to Kubernetes"
 description: ""
 added: "Mar 12 2023"
 tags: [devops]
-updatedDate: "Nov 5 2024"
+updatedDate: "Mar 21 2025"
 ---
 
 ## Docker concepts
@@ -192,10 +192,48 @@ RUN rm -rf ./*
 COPY --from=build /app/dist .
 ```
 
-## Deploy Next.js app with Docker
+### Deploy Next.js app with Docker
 Next.js can be deployed to any hosting provider that supports Docker containers. You can use this approach when deploying to container orchestrators such as Kubernetes or when running inside a container in any cloud provider.
 
 To add support for Docker to an existing project, just copy the [Dockerfile](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile) into the root of the project.
+
+### Minimal pattern for building and deploying a custom site using GitHub Actions and GitHub Page
+
+```yaml
+name: Publish site
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the site
+      run: |
+        mkdir _site
+        echo '<h1>Hello, world!</h1>' > _site/index.html
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+Anything that goes in that `_site/` directory will be published to the GitHub Pages site. [github.com/simonw/minimal-github-pages-from-actions](https://github.com/simonw/minimal-github-pages-from-actions) is an example repository that uses this exact YAML configuration.
 
 ## Intro to Kubernetes
 Let's say you have an app which you have containerized (Monoliths were broken into microservices). So you run a bunch of containers to serve your app to users. But how do you manage these different containers? This is where K8s comes to the rescue. Kubernetes is a container orchestration tool for managing production-ready containerized workloads and services that allows for declarative setup as well as automation.

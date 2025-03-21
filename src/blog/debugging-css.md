@@ -68,6 +68,22 @@ updatedDate: "Nov 27 2024"
 
 - `flex-basis` is more of a suggestion than a hard constraint. At a certain point, there isn't enough space for all of the elements to sit at their assigned size, and so they have to compromise, in order to avoid an overflow. The default value for `flex-grow` is 0. The default value for `flex-shrink` is 1.
 
+  ```css
+  .masonry {
+    max-width: 80vw;
+    margin: auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.25em;
+  }
+  .masonry .column {
+    flex-grow: 1;
+  }
+  .masonry .column img {
+    width: 100%;
+  }
+  ```
+
 - How we compare a design against implementation? We can take the original design as an image and place it above the page in the browser. Thanks to CSS backgrounds and pseudo-elements, this is possible. Please make sure that the browser width is equal to the design width and no other element in the same stacking context has a higher `z-index` than the pseudo-element. Also, you will notice that nothing is hoverable or clickable, that’s because the pseudo-element is covering the page. We can allow interactivity by setting `pointer-events: none` (the specified HTML element is never the target of pointer events).
 
   ```css
