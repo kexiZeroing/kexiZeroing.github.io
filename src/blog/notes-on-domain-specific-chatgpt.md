@@ -3,7 +3,7 @@ title: "Notes on domain-specific ChatGPT"
 description: ""
 added: "Mar 25 2023"
 tags: [AI]
-updatedDate: "July 29 2024"
+updatedDate: "Mar 22 2025"
 ---
 
 ## What are Vector Embeddings?
@@ -61,30 +61,44 @@ print(f"Embedding length: {len(embedded_query)}") # Embedding length: 1536
 print(embedded_query) # [-0.0013594045786472937, -0.03437049808954925, ...]
 ```
 
-```js
-import { embed } from 'ai'
-import { openai } from '@ai-sdk/openai'
-
-const { embedding } = await embed({
-  model: openai.embedding('text-embedding-3-small'),
-  value: 'sunny day at the beach',
-})
-```
-
-```js
-const { Configuration, OpenAIApi } = require("openai")
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-})
-
-const openai = new OpenAIApi(configuration)
-const response = await openai.createEmbedding({
-  model: "text-embedding-ada-002",
-  input: "The food was delicious and the waiter...",
-})
-```
-
 In data analysis, *cosine similarity* is a measure of similarity between two non-zero vectors defined in an inner product space. Cosine similarity is the cosine of the angle between the vectors; that is, it is the dot product of the vectors divided by the product of their lengths.
+
+### Word2Vec - Continuous Bag of Words
+Watch this: https://www.youtube.com/watch?v=hVM8qGRTaOA
+
+```
+The quick brown fox jumps over the lazy dog.
+
+e.g. Context word: fox, over. Target word: jumps
+window size = 3
+```
+
+1. One-hot encoding for each word. Context words are the input features.
+2. The hidden layer contains neurons equal to the # of dimensions in the embedding space. The output layer contains neurons equal to the size of the vocabulary.
+3. The target word act as the label. We calculate the loss between the predicted and actual target word. Backpropagation is used to adjust the model weights.
+4. Slide the window across the text to train with the next set of context words and target words.
+5. After training the model, we can use the weights matrix as the embedding matrix. This 8x3 matrix becomes a lookup table for the embeddings. (# of rows = vocabulary size, # of columns = embedding dimensions)
+6. Take the dot product of the one-hot encoding vector with the embedding matrix to get the embedding vector for each word.
+7. The transformer architecture processes all words in parallel. We need to inform the model about the position of each word in the sentence. This is done by adding positional vectors to the word embeddings. This positional information can either be another trainable layer or a static numerical representation unique to each word.
+
+<img alt="embedding-layer" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/embedding-layer.png" width="600" />
+
+<br>
+<img alt="embedding-matrix" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/embedding-matrix.png" width="600" />
+
+### Self Attention Mechanism
+Tokenaizer -> Embedding (capture semantic meaning) -> Attention (capture contextual meaning)
+
+Embeddings alone don't distinguish between words with multiple meanings. Embedding table assigns a signle vector regardless of the context. This is where self-attention comes in. Self attention mechanism transforms semantic representations into context-aware representations making words are understood in the context of the sentence.
+
+- Query: Do you have anything useful for me
+- Key: Here is what I can offer
+- Value: Here is the actual information if we match
+
+<img alt="self-attention" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/self-attention.png" width="600" />
+
+<br>
+<img alt="embedding-matrix" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/self-attention-qkv.png" width="600" />
 
 ## Storing embeddings in Postgres with pgvector
 How can I retrieve K nearest embedding vectors quickly? For searching over many vectors quickly, we recommend using a vector database.

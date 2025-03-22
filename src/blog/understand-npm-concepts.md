@@ -280,6 +280,18 @@ Learn how to create a new npm package and publish the code to npm by the demo [B
 
 > Most popular npm packages: https://socket.dev/npm/category/popular
 
+### pkg.pr.new
+With [pkg.pr.new](https://github.com/stackblitz-labs/pkg.pr.new), each of your commits and pull requests will trigger an instant preview release without publishing anything to NPM. This enables users to access features and bug-fixes without the need to wait for release cycles using npm or pull request merges. We call it "Continuous Releases" too.
+
+It uses a CLI and GitHub Actions to publish unreleased packages to a temporary npm-compatible registry. You can trigger continuous releases by running: `npx pkg-pr-new publish` from your GitHub actions setup.
+
+```sh
+npx pkg-pr-new publish
+
+npm i https://pkg.pr.new/tinylibs/tinybench/tinybench@a832a55
+# npm i https://pkg.pr.new/${owner}/${repo}/${package}@{commit}
+```
+
 ### npm and pnpm
 The very first package manager ever released was npm, back in January 2010. In 2020, GitHub acquired npm, so in principle, npm is now under the stewardship of Microsoft. *(npm should never be capitalized unless it is being displayed in a location that is customarily all-capitals.)*
 
