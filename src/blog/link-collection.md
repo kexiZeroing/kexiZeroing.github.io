@@ -580,8 +580,6 @@ AI inference in Firefox Web extensions: https://blog.tomayac.com/2025/02/07/play
 
 AI SDK Reasoning Preview: https://github.com/vercel-labs/ai-sdk-reasoning-starter
 
-MediaPipe hand detection and Gemini 2.0 Flash generating thought: https://huggingface.co/spaces/tinazone/handspew
-
 An interactive demo to try the new text-to-speech model: https://www.openai.fm
 
 ---
