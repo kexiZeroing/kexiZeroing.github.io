@@ -45,6 +45,8 @@ print(decoded_text)
 > - It attempts to let the model see common subwords. For instance, "ing" is a common subword in English, so BPE encodings will often split "encoding" into tokens like "encod" and "ing" (instead of e.g. "enc" and "oding"). Because the model will then see the "ing" token again and again in different contexts, it helps models generalise and better understand grammar.
 > - It ensures that the most common words are represented as a single token while the rare words are broken down into two or more subword tokens. (Looking for the most frequent pairing, merge them, and perform the same iteration again and again until we reach our token limit or iteration limit.)
 
+<img alt="BPE-tokenize" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/BPE-tokenize.png" width="450" />
+
 Token IDs are a straightforward numerical representation of tokens. It is a basic form of vectorization. They do not capture any deeper relationships or patterns between the tokens.
 
 Embeddings are advanced vector representations of tokens. They try to capture the most nuance, connections, and semantic meanings between tokens. Each embedding is generally a series of real numbers on a vector space computed by a neural network. They are the “real inputs” of LLMs.

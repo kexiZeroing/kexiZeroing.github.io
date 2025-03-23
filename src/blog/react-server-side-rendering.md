@@ -92,6 +92,16 @@ It's extremely important that SSR React output (HTML) and CSR React output (HTML
 >
 > Vite provides built-in support for Vue [server-side rendering](https://vite.dev/guide/ssr.html), but it is intentionally low-level *(for library and framework authors)*. If you wish to go directly with Vite, check out [vite-plugin-ssr](https://vite-plugin-ssr.com), a community plugin that abstracts away many challenging details for you.
 
+### Where to deploy
+Hosting static resources is extremely cheap. But now, I need to have a server. There are two most common solutions here.
+
+- We can use the serverless functions of the hosting provider that serve the static resources: Cloudflare Workers, Netlify Functions, Vercel Functions, Amazon Lambdas.
+- Another option is to keep it as an actual tiny Node server and deploy it to any cloud platform, from AWS to Azure to Digital Ocean.
+
+If it’s deployed as one of the Serverless Functions, then there is a chance that it's not that bad. Some of the providers can run those functions “on Edge.” I.e., those functions are distributed to different servers that are closer to the end user. In this case, the latency will be minimal, and the performance degradation will be minimal.
+
+If, however, I went with the self-managed server, I don’t have the advantages of a distributed network. I’d have to deploy it to one particular region. So, users on the opposite side of the planet from this region have a chance to really feel the impact of the performance degradation.
+
 ### React hydration error
 While rendering your application, there was a difference between the React tree that was pre-rendered from the server and the React tree that was rendered during the first render in the browser (hydration).
 
