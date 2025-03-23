@@ -560,12 +560,6 @@ Let your Claude able to think: https://github.com/richards199999/Thinking-Claude
 
 JavaScript tokenizer for LLaMA 1 and LLaMA 2: https://github.com/belladoreai/llama-tokenizer-js
 
-Model Context Protocol Quickstart: https://glama.ai/blog/2024-11-25-model-context-protocol-quickstart
-
-A collection of MCP servers: https://github.com/punkpeye/awesome-mcp-servers
-
-Browse MCP use cases across the community: https://www.pulsemcp.com/use-cases
-
 Converting files and office documents to Markdown: https://github.com/microsoft/markitdown
 
 Conversational video interface with a holiday theme: https://santa.tavus.io
@@ -619,3 +613,5 @@ MediaPipe Studio: https://mediapipe-studio.webapps.google.com
 Visual explanations of core machine learning concepts: https://mlu-explain.github.io
 
 Learning material for Artificial Intelligence: https://aman.ai
+
+Understanding Large Language Model by Under The Hood: https://www.youtube.com/playlist?list=PLUfbC589u-FSwnqsvTHXVcgmLg8UnbIy3
