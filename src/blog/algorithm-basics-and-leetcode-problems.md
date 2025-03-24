@@ -24,6 +24,7 @@ updatedDate: "Feb 16 2025"
 - [Heap](#heap)
 - [DP](#dp)
 - [LRU](#lru)
+- [Simulated Annealing](#simulated-annealing)
 - [LeetCode Problems](#leetcode-problems)
 
 ### Binary Search
@@ -839,6 +840,44 @@ LRUCache.prototype.put = function(key, value) {
     this.removeNode(realHead);
     this.map.delete(realHead.key)
   }
+}
+```
+
+### Simulated Annealing
+The simulated annealing algorithm was originally inspired from the process of annealing in metal work. Annealing involves heating and cooling a material to alter its physical properties due to the changes in its internal structure. As the metal cools its new structure becomes fixed, consequently causing the metal to retain its newly obtained properties.
+
+In simulated annealing we keep a temperature variable to simulate this heating process. We initially set it high and then allow it to slowly cool as the algorithm runs. While this temperature variable is high the algorithm will be allowed, with more frequency, to accept solutions that are worse than our current solution. This gives the algorithm the ability to jump out of any local optimums it finds itself in early on in execution. As the temperature is reduced so is the chance of accepting worse solutions, therefore allowing the algorithm to gradually focus in on a area of the search space in which hopefully, a close to optimum solution can be found.
+
+```js
+while (currentTemp > tempMin) {
+  for i = 1 to iterationsPerTemp {
+    // Generate a neighbor state
+    neighborState = generateNeighbor(currentState)
+    neighborEnergy = calculateEnergy(neighborState)
+    
+    // Decide whether to accept the neighbor
+    if (neighborEnergy < currentEnergy) {
+      // Always accept better solutions
+      currentState = neighborState
+      currentEnergy = neighborEnergy
+    } else {
+      // Accept worse solutions with a probability that decreases with temperature
+      acceptanceProbability = exp(-(neighborEnergy - currentEnergy) / currentTemp)
+      if (random(0,1) < acceptanceProbability) {
+        currentState = neighborState
+        currentEnergy = neighborEnergy
+      }
+    }
+    
+    // Update best solution found so far
+    if (currentEnergy < bestEnergy) {
+      bestState = currentState
+      bestEnergy = currentEnergy
+    }
+  }
+  
+  // Cool the temperature
+  currentTemp = coolingSchedule(currentTemp)
 }
 ```
 
