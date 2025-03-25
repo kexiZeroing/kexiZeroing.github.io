@@ -7,15 +7,10 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 type projectType = {
 	title: string;
 	href: string;
-	snapshot?: string;
 };
 
 const projects: projectType[] = [
-	{
-		title: 'Super Simple Vue Compiler',
-		href: 'https://github.com/kexiZeroing/super-simple-vue-compiler',
-		snapshot: 'https://raw.gitmirror.com/kexiZeroing/blog-images/main/super-simple-vue-compiler.png',
-	},
+	{ title: 'Super Simple Vue Compiler', href: 'https://github.com/kexiZeroing/super-simple-vue-compiler' },
 	{ title: 'Super Simple Vite Dev Server', href: 'https://github.com/kexiZeroing/super-simple-vite-dev-server' },
 	{ title: 'Super Simple React SSR', href: 'https://github.com/kexiZeroing/super-simple-react-ssr' },
 	{ title: 'Super Simple RSC', href: 'https://github.com/kexiZeroing/super-simple-rsc' },
@@ -50,13 +45,8 @@ const projects: projectType[] = [
 			.post-item {
 				margin: 1.2em 0;
 			}
-			.post-item:not(:has(details)) {
-				.link {
-					padding-left: 14px;
-				}
-			}
 			.link {
-				margin-left: 6px;
+				margin-left: 1rem;
 				color: var(--heading-color);
 				text-decoration: underline;
 			}
@@ -71,24 +61,9 @@ const projects: projectType[] = [
 			<h3 class="h3-title">Super Simple Series: Show me the code</h3>
 			<ul>
 				{
-					projects.map(({ href, title, snapshot }) => (
+					projects.map(({ href, title }) => (
 						<li class="post-item">
-							{snapshot ? (
-								<details>
-									<summary>
-										<a href={href} target="_blank" class="link">
-											{title}
-										</a>
-									</summary>
-									<div>
-										<img src={snapshot} alt={title} loading="lazy" />
-									</div>
-								</details>
-							) : (
-								<a href={href} target="_blank" class="link">
-									{title}
-								</a>
-							)}
+							<a href={href} target="_blank" class="link">{title}</a>
 						</li>
 					))
 				}
