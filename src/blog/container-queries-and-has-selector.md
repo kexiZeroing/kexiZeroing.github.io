@@ -176,6 +176,18 @@ Use Case 3: We can check the input state like a checkbox or radio button.
 - The difference between `:where()` and `:is()` is that `:where()` always has 0 specificity, whereas `:is()` takes on the specificity of the most specific selector in its arguments.
 - The `:has()` pseudo-class itself doesn’t add any specificity weight to the selector. Like `:is()` and `:not()`, the specificity of `:has()` is equal to the highest specificity selector in the selector list.
 
+```css
+/* Specificity: 0 0 1 */
+:is(h1, h2, h3, h4, h5, h6) {
+  color: #666;
+}
+
+/* Specificity: 0 0 0 */
+:where(h1, h2, h3, h4, h5, h6) {
+  color: #666;
+}
+```
+
 ```js
 // Specificity is a triple that has three components (A,B,C)
 const compare = (s1, s2) => {

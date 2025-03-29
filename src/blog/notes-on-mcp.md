@@ -3,6 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
+updatedDate: "Mar 29 2025"
 ---
 
 These are my learning notes on the Model Context Protocol, mainly based on [Matt Pocock's tutorial](https://www.aihero.dev/model-context-protocol-tutorial).
@@ -17,13 +18,13 @@ MCP uses a client-server design where applications can connect to multiple resou
 - The Communication Layer: The Standard Protocol
 - The Server Side: Providing Resources
 
-The MCP client is the program that's going to access the MCP servers. This might be Claude Desktop, Cursor, Windsurf, or any other application that supports MCP. This host probably uses an LLM of some kind. That LLM will be able to call tools that are defined in the MCP server.
+The **MCP client** is the program that's going to access the MCP servers. This might be Claude Desktop, Cursor, Windsurf, or any other application that supports MCP. This host probably uses an LLM of some kind. That LLM will be able to call tools that are defined in the MCP server.
 
-The MCP server is the server that's going to be running the tools that the host wants to call. This server could be running locally, or it could be running on a remote server.
+The **MCP server** is the server that's going to be running the tools that the host wants to call. This server could be running locally, or it could be running on a remote server.
 
-The client connects to its server using a transport. This transport is responsible for sending messages between the client and the server. There are currently two supported transports. You can communicate via `stdio` - in other words, via the terminal. Or you can communicate through HTTP via server-sent events. This is useful if you want to run your server on a remote machine.
+The client connects to its server using a **transport**. This transport is responsible for sending messages between the client and the server. There are currently two supported transports. You can communicate via `stdio` - in other words, via the terminal. Or you can communicate through HTTP via server-sent events. This is useful if you want to run your server on a remote machine.
 
-The protocol defines JSON message formats, based on JSON-RPC 2.0, for communication between client and server.
+The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for communication between client and server.
 
 ```json
 // Client sends...
@@ -69,8 +70,11 @@ const server = new McpServer({
 
 server.tool(
   "getWeather",
+  "Get the weather in a city",
   { city: z.string() },
   async ({ city }) => {
+    // await fetch('wheather API') 
+
     return {
       content: [
         {

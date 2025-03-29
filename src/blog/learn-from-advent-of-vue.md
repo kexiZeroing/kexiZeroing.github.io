@@ -646,8 +646,10 @@ export function unmount(vnode) {
 }
 ```
 
+### Vue compiler explorer
 - Demystifying the Art of SFC Compilation: https://vueconf19-compiler.surge.sh
 - Vue template explorer: https://template-explorer.vuejs.org
 - Vue SFC Playground: https://play.vuejs.org
 - Understanding Vue SFC Compiler: https://jinjiang.dev/slides/understanding-vue-compiler
 - Compile Vue SFC into plain JavaScript & CSS: https://github.com/Jinjiang/vue-simple-compiler
+- AST-based Codemod for Vue projects: https://vue-metamorph.dev/guide/writing-codemods
