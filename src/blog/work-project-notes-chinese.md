@@ -3,7 +3,7 @@ title: "Notes on work projects (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Feb 22 2025"
+updatedDate: "Mar 29 2025"
 ---
 
 ### 项目是怎么跑起来的
@@ -459,6 +459,34 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 后续使用 [VueRequest](https://github.com/AttoJS/vue-request)，管理请求状态，支持 SWR、轮询、错误重试、缓存、分页等常用功能。`useRequest` 接收一个 service 函数，service 是一个异步的请求函数，换句话说，还可以使用 axios 来获取数据，然后返回一个 Promise。`useRequest` 会返回 data、loading、error 等，它们的值会根据请求状态和结果进行修改。返回的 run 方法，可以手动触发 service 请求。
 
 Use `$fetch`, `useFetch`, or `useAsyncData` in Nuxt: https://masteringnuxt.com/blog/when-to-use-fetch-usefetch-or-useasyncdata-in-nuxt-a-comprehensive-guide
+
+**Preventing Duplicate Requests:**
+1. UI Blocking
+  - Disable submit buttons immediately after click
+  - Overlay/modal blockers for critical operations
+2. Request Debounce: Delay execution until user stops clicking
+3. Request `isSubmitting` in progress flag
+4. `AbortController` to cancel pending requests if a new one is made
+
+```js
+let controller = new AbortController();
+
+async function makeRequest() {
+  // Cancel previous request if it exists
+  controller.abort();
+  controller = new AbortController();
+  
+  try {
+    const response = await fetch('/api/endpoint', {
+      signal: controller.signal
+    });
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      console.log('Request was cancelled');
+    }
+  }
+}
+```
 
 ### 阿里云 CDN
 阿里云 CDN 对于文件是否支持缓存是以 `X-Cache` 头部来确定，缓存时间是以 `X-Swift-CacheTime` 头部来确认。

@@ -4,7 +4,7 @@ description: ""
 added: ""
 top: true
 order: 5
-updatedDate: "Feb 3 2025"
+updatedDate: "Mar 29 2025"
 ---
 
 1. 假设现在有 20 个异步请求需要发送，但由于某些原因，我们必须将同一时刻的并发请求数量控制在 3 个以内。实现一个并发请求函数，要求最大并发数 maxNum，每当有一个请求返回，就留下一个空位，可以增加新的请求。当所有请求完成后，结果按照 urls 里面的顺序依次输出。
@@ -454,47 +454,48 @@ function hasCircularReference(obj) {
 > Key Term: Streaming breaks up a resource you want to send or receive over a network into smaller chunks. This is common for browsers when receiving media assets, such as video buffering or partial loading of images.
 
 ```js
-// Read from a stream and decode the chunks as UTF-8 text
-function streamAsyncIterator(reader: ReadableStreamDefaultReader<Uint8Array>) {
-  const decoder = new TextDecoder("utf-8");
-  return {
-    async *[Symbol.asyncIterator]() {
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) return;
-          yield decoder.decode(value);
-        }
-      } finally {
-        // When call reader.read(), the reader acquires an exclusive lock on the stream
-        reader.releaseLock();
-      }
-    }
-  };
-}
-
-const messagesWithInput: Message[] = [
-  ...messages,
-  { role: "system", content: "You are a..." },
-  { role: "user", content: input },
-];
-
-const stream = await chatAPI({ messages: messagesWithInput });
-if (stream.body) {
-  let assistantResponse = "";
-  const reader = stream.body.getReader();
-  
-  for await (const value of streamAsyncIterator(reader)) {
-    const { message: { content } } = JSON.parse(value);
-    assistantResponse += content;
-
-    setMessages([
-      ...messagesWithInput,
+// server
+app.get('/ask', async (req, res) => {
+  const { question } = req.query;
+  const anwser = await new OpenAI().chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
       {
-        role: "assistant",
-        content: assistantResponse,
-      },
-    ]);
+        role: "user",
+        content: `Answer the following question: ${question}`
+      }
+    ],
+    stream: true,
+  })
+
+  res.setHeader('Content-Type', 'text/event-stream');
+
+  for await (const chunk of anwser) {
+    res.write(chunk.choices[0].delta.content);
   }
+
+  res.end();
+});
+```
+
+```js
+// client
+const handleSearch = async () => {
+  fetch(`/ask?question=${input}`).then((res) => {
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();  // binary to text
+
+    const read = async () => {
+      const { done, value } = await reader.read();
+      if (done) {
+        return;
+      }
+      const chunk = decoder.decode(value, { stream: true });
+      elResult.textContent += chunk;  // setResult(prev => prev + chunk);
+      read();
+    };
+
+    read();
+  })
 }
 ```
