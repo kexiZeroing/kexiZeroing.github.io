@@ -6,9 +6,13 @@ tags: [AI]
 updatedDate: "Mar 29 2025"
 ---
 
-These are my learning notes on the Model Context Protocol, mainly based on [Matt Pocock's tutorial](https://www.aihero.dev/model-context-protocol-tutorial).
+### Historical context: The Path to MCP
+Early AI assistants were limited to text generation, unable to interact with external tools or real-time data. The introduction of function calling and plugins in 2023 allowed models to execute code, browse the web, and interact with APIs, marking the shift toward AI agents. However, each integration was fragmented, requiring custom implementations for different tools, making scaling difficult.
 
-APIs power tools like Slack, GitHub, and local filesystems, but LLMs need custom code to access them. The Model Context Protocol (MCP), an open standard by [Anthropic](https://www.anthropic.com/news/model-context-protocol), enables plug-and-play toolsets for seamless integration into applications. It isn't magic — it's a standard way for AI to discover and use tools without learning every API's specific details. An MCP server is like a menu of tools. Each tool has a name, a description, a schema defining what info it needs, and the actual code that makes the API calls. AI applications (like Claude or Cline) can dynamically query these servers to execute tasks such as reading files, querying databases, or creating new integrations.
+MCP, introduced by Anthropic in late 2024, solves this problem by providing a unified protocol for AI-tool interactions. Instead of custom adapters for each tool, MCP allows developers to expose functionality once, making it accessible to any AI supporting MCP. It also eliminates the inefficiencies of tool-specific APIs by offering a structured, self-describing interface. This enables seamless, scalable AI-tool connectivity, much like how USB standardized device connections.
+
+### MCP is not magic
+MCP isn't magic — it's a standard way for AI to discover and use tools without learning every API's specific details. An MCP server is like a menu of tools. Each tool has a name, a description, a schema defining what info it needs, and the actual code that makes the API calls. AI applications (like Claude or Cline) can dynamically query these servers to execute tasks such as reading files, querying databases, or creating new integrations.
 
 > How similar is this to tool calling? Tool calling lets LLMs invoke functions to interact with the real world, typically within the same process. MCP enables tool execution in a separate process, either locally or remotely, fully decoupling the server from the client.
 
@@ -128,6 +132,7 @@ app.listen(3000, () => {
 Run the server: `npx tsx ./path-to-file.ts`
 
 ### References and further reading
+- https://www.aihero.dev/model-context-protocol-tutorial
 - https://glama.ai/blog/2024-11-25-model-context-protocol-quickstart
 - https://github.com/modelcontextprotocol/servers
 - https://github.com/punkpeye/awesome-mcp-servers
