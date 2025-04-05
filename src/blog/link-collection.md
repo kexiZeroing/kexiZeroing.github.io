@@ -254,6 +254,8 @@ CSS Wrapped 2024: https://chrome.dev/css-wrapped-2024
 
 The most hearted Pens of 2024: https://codepen.io/2024/popular/pens
 
+First Look at The Modern attr(): https://ishadeed.com/article/modern-attr
+
 ---
 
 ## FE dev resources

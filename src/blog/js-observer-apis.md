@@ -88,6 +88,14 @@ The callback function is called when the percentage of the target element is vis
 
 The `options` object customizes the observer, for exmple, we can set the `root` or `threshold` property. If not specified, the observer uses the document's viewport as the root, with no margin, and a 0% threshold.
 
+```js
+const options = {
+  root: null, // The element to use as viewport (null = browser viewport)
+  rootMargin: "0px", // Margin around the root
+  threshold: 0.5, // Percentage of target visibility to trigger callback (0-1)
+};
+```
+
 Then, we call the `observe()` method on the `IntersectionObserver` object, telling it to observe intersection changes for the target element (whose visibility within the root is to be monitored.)
 
 ```js

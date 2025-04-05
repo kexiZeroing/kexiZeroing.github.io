@@ -212,7 +212,7 @@ updatedDate: "Nov 27 2024"
 
   > `<dialog>` examples demo (default, error, wait, notify, confirm, transitioned, light dismiss, fully customized): https://codepen.io/argyleink/pen/VwJvqrW
 
-- CSS `unset` will remove all properties set directly on the matched element, and revert to inheriting from the cascade - like a parent element or `<body>` (if the property naturally inherits from its parent); `inherit` is pretty straight-forward that inherits all defined properties from its parent element. `revert` will set the property to the user agent stylesheet value — AKA the default browser style. `initial` is the nuclear option. This will reset a CSS property as if no CSS rules had been written for that value, which means it’s gonna remove the style all together.
+- CSS `unset` will remove all properties set directly on the matched element, and revert to inheriting from the cascade - like a parent element or `<body>` (if the property naturally inherits from its parent); `inherit` is pretty straight-forward that inherits all defined properties from its parent element (to inherit those non-inheritable properties). `revert` will set the property to the user agent stylesheet value — AKA the default browser style. `initial` is the nuclear option. This will reset a CSS property as if no CSS rules had been written for that value, which means it’s gonna remove the style all together.
 
   ```html
   <!-- What color is the <p> tag’s text? -->
