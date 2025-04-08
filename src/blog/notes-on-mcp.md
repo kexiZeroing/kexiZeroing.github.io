@@ -3,7 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "Mar 29 2025"
+updatedDate: "Apr 8 2025"
 ---
 
 ### Historical context: The Path to MCP
@@ -94,7 +94,22 @@ const transport = new StdioServerTransport();
 await server.connect(transport);
 ```
 
-Connecting to Claude Code: `claude mcp add "weather-example" npx tsx "/path-to-the-file.ts"`
+Claude Desktop app is the easiest way to test MCP. Open your Claude Desktop App configuration at `~/Library/Application Support/Claude/claude_desktop_config.json` in a text editor. After updating your configuration file, you need to restart Claude for Desktop. See the [documentation](https://modelcontextprotocol.io/quickstart/user) for more details.
+
+```json
+{
+  "mcpServers": {
+    "weather-example": {
+      "command": "node",
+      "args": [
+        "/ABSOLUTE/PATH/TO/PARENT/FOLDER/weather/build/index.js"
+      ]
+    }
+  }
+}
+```
+
+For Claude Code (only supports `stdio` transport), you can run it with a single command: `claude mcp add "weather-example" npx tsx "/path-to-the-file.ts"`. This tells Claude that in order to run the file, it should call `npx tsx /path-to-the-file.ts`.
 
 ### MCP servers over HTTP
 The server can be hosted on the cloud, and the client can communicate with it via an HTTP connection.

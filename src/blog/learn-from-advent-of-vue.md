@@ -453,6 +453,21 @@ const myGlobalVariable = inject('myGlobalVariable')
 
 > [Solving Prop Drilling in Vue](https://alexop.dev/posts/solving-prop-drilling-in-vue): Instead of event buses, use Pinia for state, composables for logic, and provide/inject for component trees.
 
+### How to Use Provide/Inject
+Vue’s Provide/Inject API is a powerful feature that allows components to share data without prop drilling. It is not meant for global state management but rather for local component hierarchies.
+
+```js
+// parent component to make data available to its descendants
+const message = ref('Hello from parent');
+provide('sharedMessage', message);
+
+// child component consume the provided data
+const sharedMessage = inject('sharedMessage');
+```
+
+1. Provide/Inject is best suited for sharing dependencies like form contexts, themes, or service instances, rather than global state management. If multiple components rely on the same data structure, consider Vuex or Pinia.
+2. Since `provide` passes values by reference, you may need to use `ref()` or `reactive()` to ensure reactivity.
+
 ### Vue router and Suspense
 
 ```vue

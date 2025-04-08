@@ -976,7 +976,7 @@ How to run ts files from command line? There is [ts-node](https://github.com/Typ
 
 CLI tools like [tsx](https://github.com/privatenumber/tsx) and [jiti](https://github.com/unjs/jiti) offer a seamless experience for running TypeScript and ESM code without requiring additional configuration.
 
-> How does `tsx` compare to `ts-node`?
+> `tsx` is a faster version of `ts-node` that is optimized for the CLI. How does `tsx` compare to `ts-node`?
 > - `tsx` works out of the box without needing a `tsconfig.json` file, making it easy for beginners.
 > - `tsx` can be used without installation (via `npx tsx ./script.ts`) and comes as a single binary with no peer dependencies. `ts-node` requires installation of TypeScript or SWC as peer dependencies.
 > - `tsx` uses esbuild for fast compilation and does not perform type checking. `ts-node` uses the TypeScript compiler by default, with an option to use the SWC compiler for faster performance.
