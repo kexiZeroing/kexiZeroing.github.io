@@ -3,7 +3,7 @@ title: "Server-sent events with examples"
 description: ""
 added: "Mar 26 2023"
 tags: [js]
-updatedDate: "Feb 17 2025"
+updatedDate: "Apr 12 2025"
 ---
 
 Ways to implement real-time updates before SSE:
@@ -86,6 +86,7 @@ app.listen(3000, () => console.log('Listening on port 3000...'));
 < Content-Type: text/event-stream
 
 # Events sperated by two newline characters \n\n
+# `id` and `event` fields are optional, while `data` is required.
 < data: Hello\n\n
 
 < data: Are you there?\n\n
@@ -95,6 +96,55 @@ app.listen(3000, () => console.log('Listening on port 3000...'));
 < event: status
 < data: {"msg": "hi"}\n\n
 ```
+
+### Implement SSE with Hono
+
+```js
+import { Hono } from 'hono'
+import { streamSSE } from 'hono/sse'
+
+const app = new Hono()
+
+app.get('/api/stream', async (c) => {
+  const prompt = c.req.query('prompt') || 'Hello'
+
+  return streamSSE(c, async (stream) => {
+    try {
+      // Send start event
+      stream.writeSSE({ event: 'start', data: JSON.stringify({ id: Date.now() }) })
+
+      // Stream AI response
+      for await (const chunk of streamText(prompt)) {
+        stream.writeSSE({
+          event: 'chunk',
+          data: JSON.stringify({ text: chunk, timestamp: Date.now() }),
+        })
+      }
+
+      // Send completion event
+      stream.writeSSE({ event: 'complete', data: JSON.stringify({ timestamp: Date.now() }) })
+    } catch (error) {
+      // Send error event
+      stream.writeSSE({ event: 'error', data: JSON.stringify({ error: error.message }) })
+    }
+  })
+})
+
+// Mock AI text generation service
+async function* streamText(prompt: string) {
+  const response = `This is a simulated AI response to: "${prompt}". It streams word by word.`
+  const words = response.split(' ')
+  for (const word of words) {
+    await new Promise((r) => setTimeout(r, 200))
+    yield word + ' '
+  }
+}
+```
+
+### Client-side considerations
+When an SSE connection drops, the browser automatically reconnects and sends the last event ID it received via the "Last-Event-ID" header. The server uses this to determine which events to send, avoiding duplicates. The EventSource API handles this automatically as long as you:
+1. Include the `id:` field in your SSE format
+2. Support "Last-Event-ID" header on your server
 
 With the default browser EventSource API, you can only make GET requests, and you cannot pass in a request body and custom request headers.
 - [fetch-event-source](https://github.com/Azure/fetch-event-source) provides a better API for making Event Source requests.

@@ -584,6 +584,8 @@ AI SDK Reasoning Preview: https://github.com/vercel-labs/ai-sdk-reasoning-starte
 
 An interactive demo to try the new text-to-speech model: https://www.openai.fm
 
+Run AI Agent in your browser: https://github.com/browser-use/web-ui
+
 ---
 
 ## Machine Learning

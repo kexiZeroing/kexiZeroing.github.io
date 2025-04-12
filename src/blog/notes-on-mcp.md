@@ -3,7 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "Apr 8 2025"
+updatedDate: "Apr 12 2025"
 ---
 
 ### Historical context: The Path to MCP
@@ -146,9 +146,33 @@ app.listen(3000, () => {
 
 Run the server: `npx tsx ./path-to-file.ts`
 
+### AI SDK MCP clients
+The SDK supports connecting to MCP servers via either stdio (for local tools) or SSE (for remote servers). Once connected, you can use MCP tools directly with the AI SDK. The client exposes a `tools` method for retrieving tools from a MCP server.
+
+```js
+import { experimental_createMCPClient as createMCPClient } from 'ai';
+import { openai } from '@ai-sdk/openai';
+
+const mcpClient = await createMCPClient({
+  transport: {
+    type: 'sse',
+    url: 'https://my-server.com/sse',
+  },
+});
+
+// The client's tools method acts as an adapter between MCP tools and AI SDK tools.
+// https://sdk.vercel.ai/docs/ai-sdk-core/tools-and-tool-calling#using-mcp-tools
+const response = await generateText({
+  model: openai('gpt-4o'),
+  tools: await mcpClient.tools(),
+  prompt: 'Find products under $100',
+});
+```
+
 ### References and further reading
 - https://www.aihero.dev/model-context-protocol-tutorial
 - https://glama.ai/blog/2024-11-25-model-context-protocol-quickstart
 - https://github.com/modelcontextprotocol/servers
 - https://github.com/punkpeye/awesome-mcp-servers
 - https://www.pulsemcp.com/use-cases
+- https://github.com/invariantlabs-ai/mcp-scan
