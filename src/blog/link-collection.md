@@ -176,7 +176,7 @@ Ryo Lu's home website: https://ryo.lu
 
 Google Chrome Dino 3D WebGL game: https://github.com/addyosmani/chrome-dino-3d
 
-The open-source library for building games on the web: https://github.com/fibbojs/fibbo
+AI-powered application to generate character relationship: https://github.com/herol3oy/austen
 
 ---
 

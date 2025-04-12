@@ -229,7 +229,8 @@ Object.prototype.toString.call(new Map())     // '[object Map]'
 - `Number.MAX_VALUE` is the largest number possible to represent using a double precision floating point representation.
 - `Number.MAX_SAFE_INTEGER` is the largest integer which can be used safely in calculations, for example, `Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2` is true. Any integer larger than `Number.MAX_SAFE_INTEGER` cannot always be represented in memory accurately and will be a double-precision floating point approximation of the value.
 - With the introduction of `BigInt`, you can operate with numbers beyond the `Number.MAX_SAFE_INTEGER`. A `BigInt` is created by appending `n` to the end of an integer or by calling the constructor.
-- The `Number.isFinite()` static method determines whether the passed value is a finite number — that is neither positive Infinity, negative Infinity, nor NaN.
+- `Number.isSafeInteger()` returns true if the given value is a number that is a safe integer. The safe integers consist of all integers from -(2^53 − 1) to (2^53 − 1). For larger integers, consider using the `BigInt` type.
+- `Number.isFinite()` determines whether the passed value is a finite number — that is neither positive Infinity, negative Infinity, nor NaN.
 - `Number.isInteger()` returns true if the given value is an integer, otherwise return false. If the value is NaN or Infinity, return false.
 - `Number.isNaN()` determines whether the passed value is the number value NaN, and returns false if the input is not of the Number type. Note that `Number.isNaN()` doesn't attempt to convert the parameter to a number, so non-numbers always return false.
 
