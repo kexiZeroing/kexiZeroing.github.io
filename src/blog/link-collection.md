@@ -590,6 +590,8 @@ AI-powered application to generate character relationship: https://github.com/he
 
 An ML-powered web game that runs completely in your browser: https://github.com/xenova/doodle-dash
 
+Your on-machine AI agent automating engineering tasks seamlessly: https://block.github.io/goose
+
 ---
 
 ## Machine Learning

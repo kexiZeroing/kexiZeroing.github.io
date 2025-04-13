@@ -3,7 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "Apr 12 2025"
+updatedDate: "Apr 13 2025"
 ---
 
 ### Historical context: The Path to MCP
@@ -22,9 +22,11 @@ MCP uses a client-server design where applications can connect to multiple resou
 - The Communication Layer: The Standard Protocol
 - The Server Side: Providing Resources
 
-The **MCP client** is the program that's going to access the MCP servers. This might be Claude Desktop, Cursor, Windsurf, or any other application that supports MCP. This host probably uses an LLM of some kind. That LLM will be able to call tools that are defined in the MCP server.
+The **MCP client** is the program that's going to access the MCP servers. This might be Claude Desktop, Cursor, Windsurf, or any other application that supports MCP. This host probably uses an LLM of some kind. That LLM will be able to call tools that are defined in the MCP server. See https://www.pulsemcp.com/clients
 
-The **MCP server** is the server that's going to be running the tools that the host wants to call. This server could be running locally, or it could be running on a remote server.
+The **MCP server** is the server that's going to be running the tools that the host wants to call. This server could be running locally, or it could be running on a remote server. See https://www.pulsemcp.com/servers
+
+> You can also check out these [Goose tutorials](https://block.github.io/goose/docs/category/tutorials), showing you exactly how you can use some of the popular MCP servers with Goose, or use Goose's Tutorial extension to get extra help walking you through using or building extensions.
 
 The client connects to its server using a **transport**. This transport is responsible for sending messages between the client and the server. There are currently two supported transports. You can communicate via `stdio` - in other words, via the terminal. Or you can communicate through HTTP via server-sent events. This is useful if you want to run your server on a remote machine.
 
@@ -94,7 +96,7 @@ const transport = new StdioServerTransport();
 await server.connect(transport);
 ```
 
-Claude Desktop app is the easiest way to test MCP. Open your Claude Desktop App configuration at `~/Library/Application Support/Claude/claude_desktop_config.json` in a text editor. After updating your configuration file, you need to restart Claude for Desktop. See the [documentation](https://modelcontextprotocol.io/quickstart/user) for more details.
+Claude Desktop is the first MCP-compatible app, and it's the easiest way to test MCP. Open your Claude Desktop App configuration at `~/Library/Application Support/Claude/claude_desktop_config.json` in a text editor. After updating your configuration file, you need to restart Claude for Desktop. See the [documentation](https://modelcontextprotocol.io/quickstart/user) for more details.
 
 ```json
 {
@@ -111,8 +113,10 @@ Claude Desktop app is the easiest way to test MCP. Open your Claude Desktop App 
 
 For Claude Code (only supports `stdio` transport), you can run it with a single command: `claude mcp add "weather-example" npx tsx "/path-to-the-file.ts"`. This tells Claude that in order to run the file, it should call `npx tsx /path-to-the-file.ts`.
 
+> Most MCP servers work "locally" (over a mechanism called `stdio`): you download a copy of the source code and run the code on your own computer. Servers rely on a command line tool either `npx` or `uvx` to download and run the server's code on your local machine. With both `npx` and `uvx` working, you're ready to use MCP servers with Claude Desktop.
+
 ### MCP servers over HTTP
-The server can be hosted on the cloud, and the client can communicate with it via an HTTP connection.
+The server can be hosted on the cloud, and the client can communicate with it via an HTTP connection. This is the mechanism called SSE, which enables an MCP server to be used over the internet. Most MCP servers today do not support this yet.
 
 ```js
 // Still use the server we had in the previous example
@@ -174,5 +178,6 @@ const response = await generateText({
 - https://glama.ai/blog/2024-11-25-model-context-protocol-quickstart
 - https://github.com/modelcontextprotocol/servers
 - https://github.com/punkpeye/awesome-mcp-servers
-- https://www.pulsemcp.com/use-cases
+- https://glama.ai/mcp/servers
+- https://www.pulsemcp.com
 - https://github.com/invariantlabs-ai/mcp-scan
