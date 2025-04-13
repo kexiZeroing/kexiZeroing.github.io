@@ -13,6 +13,17 @@ At its core, an agent can be defined with this simple equation:
 agent = llm + memory + planning + tools + while loop
 ```
 
+**LLMs using tools in a loop.**
+```py
+env = Environment()
+tools = Tools(env)
+system_prompt = "Goals, constraints, and how to act"
+
+while True:
+  action = llm.run(system_prompt + env.state)
+  env.state = tools.run(action)
+```
+
 Let's explore how each component works by building a minimalist but functional agent system from scratch.
 
 ## The Core Components

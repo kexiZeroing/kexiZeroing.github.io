@@ -176,7 +176,7 @@ Ryo Lu's home website: https://ryo.lu
 
 Google Chrome Dino 3D WebGL game: https://github.com/addyosmani/chrome-dino-3d
 
-AI-powered application to generate character relationship: https://github.com/herol3oy/austen
+Writing down and searching through every UUID: https://eieio.games/blog/writing-down-every-uuid
 
 ---
 
@@ -585,6 +585,10 @@ AI SDK Reasoning Preview: https://github.com/vercel-labs/ai-sdk-reasoning-starte
 An interactive demo to try the new text-to-speech model: https://www.openai.fm
 
 Run AI Agent in your browser: https://github.com/browser-use/web-ui
+
+AI-powered application to generate character relationship: https://github.com/herol3oy/austen
+
+An ML-powered web game that runs completely in your browser: https://github.com/xenova/doodle-dash
 
 ---
 

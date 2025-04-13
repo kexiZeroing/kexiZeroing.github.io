@@ -534,6 +534,8 @@ For example, [Cloudflare Workers](https://developers.cloudflare.com/workers/lear
 
 > *workerd* is a JavaScript / Wasm server runtime based on the same code that powers Cloudflare Workers. The name "workerd" (pronounced "worker dee") comes from the Unix tradition of naming servers with a "-d" suffix standing for "daemon". *A daemon is a background, non-interactive program. It is detached from the keyboard and display of any interactive user.* The name is not capitalized because it is a program name, which are traditionally lower-case in Unix-like environments.
 
+**Cloudflare** is one of the world’s largest internet networks, designed to improve the speed and security of websites, applications, and blogs. It uses a powerful edge network to deliver content from servers closest to users, ensuring fast performance. Cloudflare also protects online properties from threats such as DDoS attacks, malicious bots, and other cyber threats. Additionally, it offers a free DNS service called 1.1.1.1, which enhances privacy by preventing user data from being tracked or used for targeted advertising.
+
 Read more about The Edge:
 - [Vercel Edge Functions](https://vercel.com/docs/functions/edge-functions) (using CloudFlare Workers under the hood)
 - [Netlify Edge Functions](https://www.netlify.com/blog/edge-functions-explained) (using Deno under the hood)

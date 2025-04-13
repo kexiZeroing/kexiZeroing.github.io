@@ -3,7 +3,7 @@ title: "Pixel, resolution and fps"
 description: ""
 added: "Oct 15 2021"
 tags: [css, web]
-updatedDate: "Apr 4 2024"
+updatedDate: "Apr 13 2025"
 ---
 
 ## Concept of pixel and resolution
@@ -79,6 +79,36 @@ document.body.appendChild(el)
 el.style.display = 'none'
 
 // No. All this code takes place before a rendering is ever triggered.
+```
+
+### A simple FPS meter
+1. Calculates the current FPS by dividing 1000 (milliseconds in a second) by the time elapsed since the last frame. e.g. `1000 / 16.67 = 60 fps`
+2. Maintains a rolling window of FPS measurements and calculates the average FPS across these measurements.
+3. If the average FPS falls below 45, it calls a callback function.
+4. It uses requestAnimationFrame to continue measuring with each new frame.
+
+```js
+// https://github.com/wesbos/fps-meter
+const measureFrame = (timestamp: number) => {  
+  // Calculate FPS
+  const currentFPS = 1000 / (timestamp - this.lastFrameTime);
+  this.lastFrameTime = timestamp;
+  
+  // Add current FPS to history and maintain size limit
+  this.frames.push(currentFPS);
+  if (this.frames.length > this.maxFrames) {
+    this.frames.shift();
+  }
+  
+  // Check if average FPS is below threshold
+  const avgFPS = this.getAverageFPS();
+  if (avgFPS && avgFPS < 45 && this.lowFPSCallback) {
+    this.lowFPSCallback(avgFPS);
+  }
+  
+  // Continue measuring
+  requestAnimationFrame(measureFrame);
+};
 ```
 
 ## requestIdleCallback
