@@ -3,7 +3,7 @@ title: "Debugging CSS"
 description: ""
 added: "Oct 10 2021"
 tags: [css]
-updatedDate: "Nov 27 2024"
+updatedDate: "Apr 13 2025"
 ---
 
 - A fundamental concept for CSS layout is inline vs. block elements. Inline means elements only take up the space they need, and do not affect flow. Applying `margin` or `padding` to an inline element will only work in the "inline" direction (left/right) not the "block" direction (top/bottom).
@@ -271,7 +271,33 @@ updatedDate: "Nov 27 2024"
 
 - The `white-space` CSS property sets how white space inside an element is handled. By default, the sequences of white space are collapsed. Newline characters in the source are handled the same as other white space. Use `white-space: pre-wrap;` to preserve spaces, tabs, and new lines.
 
-- `color-scheme: light dark;` tells the browser that the element supports both light and dark color modes, with light mode being the default. The `light-dark()` CSS function is a relatively new color function that allows you to specify different colors for light and dark color schemes. It provides a more direct way to handle color variations between light and dark modes. It prevents you from having to use the `@media` query and re-declare variables.
+- To opt the entire page into the user's color scheme preferences, declare `color-scheme: light dark;` on the `:root` element. To style elements based on color scheme preferences, use the `prefers-color-scheme` media query. Alternatively, use the `light-dark()` function to set colors for the different color schemes.
+
+- The `light-dark()` CSS function is a relatively new color function that allows you to specify different colors for light and dark color schemes. It provides a more direct way to handle color variations between light and dark modes. It prevents you from having to use the `@media` query and re-declare variables.
+
+  ```css
+  :root {
+    color-scheme: light dark;
+    --dark: darkslategrey;
+    --light: beige;
+    --fg: light-dark(var(--dark), var(--light));
+    --bg: light-dark(var(--light), var(--dark));
+    color: var(--fg);
+    background: var(--bg);
+  }
+
+  :root:has(option[id="theme-system"]:checked) {
+    color-scheme: light dark;
+  }
+
+  :root:has(option[id="theme-light"]:checked) {
+    color-scheme: light;
+  }
+
+  :root:has(option[id="theme-dark"]:checked) {
+    color-scheme: dark;
+  }
+  ```
 
 - CSS animations are pretty sweet, but they typically require explicit sizes, you couldn't use the intrinsic sizing keywords like `auto`, `min-content`, or `fit-content`. [From Chrome 129](https://developer.chrome.com/docs/css-ui/animate-to-height-auto), you can declare `interpolate-size: allow-keywords` on `:root` to enable transitioning to and from intrinsic sizing keywords for the entire document.
 

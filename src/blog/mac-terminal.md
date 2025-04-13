@@ -341,7 +341,7 @@ Open Activity Monitor, you’ll see a column named “Kind”. If the app says �
 | reboot  | 重启
 | arch | 体系结构名称 i386, i486, i586, mips, arm64, x86_64(x64 is the abbreviation for x86_64)
 | sysctl -n machdep.cpu.brand_string | 查看 cpu 信息
-| uname -s | 操作系统名称 kernel name
+| uname | 操作系统名称 (short for Unix name)
 | hostname | 计算机名
 | whoami | 当前用户名
 | who | 当前登录系统的⽤户 (The console is your physical computer and the various tty are virtual terminals)
