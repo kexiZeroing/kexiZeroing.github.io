@@ -3,7 +3,7 @@ title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
 tags: [react]
-updatedDate: "Feb 18 2025"
+updatedDate: "Apr 14 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -130,6 +130,32 @@ const App = () => (
 
 render(<App />, document.querySelector("#app"));
 ```
+
+### How reconciliation works
+If we had two components of the same type:
+
+```jsx
+{isEditing ? (
+  <input
+    type="text"
+    placeholder="Enter your name"
+    className="edit-input"
+  />
+) : (
+  <input
+    type="text"
+    placeholder="Enter your name"
+    disabled
+    className="view-input"
+  />
+)}
+```
+
+React preserves the DOM element and its state because both elements are of the same type (`input`) at the same position in the element tree. React simply updates the props of the existing element rather than recreating it.
+
+Note that here React still re-renders the component, but the DOM node for the `<input>` is preserved (not re-created). **"DOM reuse" is not equivalent to "component render skip"** — you can render a component again, and still reuse DOM nodes.
+
+Read this article: https://cekrem.github.io/posts/react-reconciliation-deep-dive
 
 ### You Might Not Need an Effect
 > Whenever you think of writing `useEffect`, the only sane thing is to NOT do it. Instead, go to the react docs and re-read the page about why you don't need an effect. You really don't. -@TkDodo

@@ -592,6 +592,8 @@ An ML-powered web game that runs completely in your browser: https://github.com/
 
 Your on-machine AI agent automating engineering tasks seamlessly: https://block.github.io/goose
 
+Google's 69-page paper on Prompt Engineering: https://www.kaggle.com/whitepaper-prompt-engineering
+
 ---
 
 ## Machine Learning
