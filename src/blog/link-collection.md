@@ -42,6 +42,8 @@ Machine Learning for Beginners: https://github.com/microsoft/ML-For-Beginners
 
 Artificial Intelligence for Beginners: https://github.com/microsoft/AI-For-Beginners
 
+Get Started Building AI Agents: https://github.com/microsoft/ai-agents-for-beginners
+
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials

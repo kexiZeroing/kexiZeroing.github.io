@@ -24,7 +24,6 @@ order: 3
 - @lydiahallie technology through writing and visualizations
 - @Una Chrome DevRel team
 - @rauchg @leeerob at Vercel about DX
-- @jlengstorf Learn With Jason https://www.learnwithjason.dev/episodes
 - @simonw writes notes on https://simonwillison.net
 - @mattpocockuk about TypeScript
 - @TAbrodi blog https://tigerabrodi.blog/archive
@@ -38,6 +37,8 @@ order: 3
 - https://philipwalton.com/articles/the-state-of-es5-on-the-web
 - https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
 - https://leerob.com/n/ai
+- https://tania.dev/how-to-use-webpack
+- https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation
 
 ## Learn from mistakes
 1. Make a mistake 
