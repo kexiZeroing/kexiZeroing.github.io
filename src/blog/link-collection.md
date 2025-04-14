@@ -120,8 +120,6 @@ Windows 95 style UI component library for React: https://github.com/react95-io/R
 
 An AI chatbot in Win95 style: https://wingpt.vercel.app
 
-Discover the apps everyone is docking about: https://www.dockhunt.com
-
 The Steve Jobs Archive: https://stevejobsarchive.com
 
 A web scraping and browser automation library: https://crawlee.dev
@@ -363,8 +361,6 @@ React from Another Dimension by Dan Abramov at RemixConf: https://www.youtube.co
 Learn Next.js course by Vercel: https://nextjs.org/learn
 
 Create forms and handle data mutations in the Next.js: https://www.youtube.com/watch?v=dDpZfOQBMaU
-
-React's evolution from Hooks to Concurrent React: https://tigerabrodi.blog/reacts-evolution-from-hooks-to-concurrent-react
 
 Build Your Own React.js in 400 Lines of Code: https://webdeveloper.beehiiv.com/p/build-react-400-lines-code
 
