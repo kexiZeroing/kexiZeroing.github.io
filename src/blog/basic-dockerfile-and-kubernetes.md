@@ -156,6 +156,8 @@ Dockerfile
 .git
 ```
 
+> About pattern matching of the ignored file, `*/temp` will match `a/temp` and `b/temp` but not `temp` or `a/b/temp` from the root directory. To match 2 levels deep only, you need to write `*/*/temp` and for arbitrary levels, use `**` it will match any number of directory including zero, eg: `**/temp` matches `temp`, `a/temp` and `a/b/temp`.
+
 **Kaniko** is a tool that enables building container images from a Dockerfile inside a Kubernetes cluster (runs in a containerized environment like a CI/CD pipeline) without requiring a Docker daemon. Kaniko builds container images by parsing the Dockerfile and executing each command within a container isolated from the host environment. Instead of using a Docker daemon, Kaniko simulates the Docker builder by providing its own implementations of Docker commands like ADD, COPY, RUN, etc.
 
 1. You gather all your blocks (your source code) and decide how to arrange them using instructions (your Dockerfile). You tell a magical builder (Kaniko) how to build your toy house using these instructions, without needing the usual building tools (Docker).

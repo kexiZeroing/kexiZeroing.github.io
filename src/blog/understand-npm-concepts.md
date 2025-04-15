@@ -401,3 +401,14 @@ npm scripts are a set of built-in and custom scripts defined in the `package.jso
 Despite "npm scripts" high usage they are not particularly well optimized.
 1. By running `cat $(which npm)`, you will find npm CLI is a standard JavaScript file. The only special thing is the first line `#!/usr/bin/env node` which tells your shell the current file can be executed with `node`.
 2. Because it's just a js file, we can rely on all the usual ways to generate a profile. My favorite one is node’s `--cpu-prof` argument. Combine that knowledge together and we can generate a profile from an npm script via `node --cpu-prof $(which npm) run myscript`. Loading that profile into [speedscope](https://www.speedscope.app) reveals quite a bit about how npm is structured. The majority of time is spent on loading all the modules that compose the npm cli. The time of the script that we’re running pales in comparison.
+
+### What is JSR
+The JavaScript Registry (JSR) is a modern package registry (not a package manager). JSR works with many runtimes (Node.js, Deno, Bun, browsers, and more) and is backwards compatible with npm. JSR is designed for TypeScript. You publish TypeScript source, and JSR handles generating API docs, `.d.ts` files, and transpiling your code for cross-runtime compatibility. Check out: https://jsr.io/docs/why
+
+```sh
+# deno
+deno add jsr:@luca/cases
+
+# npm (use any of npx, yarn dlx, pnpm dlx, or bunx)
+npx jsr add @luca/cases
+```
