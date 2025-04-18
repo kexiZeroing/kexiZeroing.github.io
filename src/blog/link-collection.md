@@ -592,6 +592,8 @@ Your on-machine AI agent automating engineering tasks seamlessly: https://block.
 
 Google's 69-page paper on Prompt Engineering: https://www.kaggle.com/whitepaper-prompt-engineering
 
+GPT-4o Image Prompts Gallery: https://github.com/ImgEdify/Awesome-GPT4o-Image-Prompts
+
 ---
 
 ## Machine Learning

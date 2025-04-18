@@ -23,6 +23,8 @@ const root = createRoot(container);
 root.render(<App tab="home" />);
 ```
 
+> The first big win came from upgrading to React 18. The key benefit of this update was concurrent rendering since high-priority tasks like user input can interrupt rendering. This single change improved desktop performance by 46%. The crucial insight is that sometimes framework-level changes can have more impact than local optimizations.
+
 ## Transitions
 Consider typing in an input field that filters a list of data. Here, whenever the user types a character, we update the input value and use the new value to search the list and show the results. For large screen updates, this can cause lag on the page while everything renders, making typing or other interactions feel slow and unresponsive. Conceptually, there are two different updates that need to happen. The first update is an urgent update, to change the value of the input field. The second, is a less urgent update to show the results of the search.
 

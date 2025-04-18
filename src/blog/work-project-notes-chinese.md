@@ -395,6 +395,8 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 - iOS 方面，根据 App Store 审核指南，上架 App Store 的应用不允许使用自己的浏览器内核。如果 app 会浏览网页，则必须使用相应的 WebKit 框架和 WebKit Javascript。
 - Android 方面，不限制应用使用自己的浏览器内核。安卓微信之前的浏览器为基于 WebKit 的 X5 浏览器，后为了和小程序的浏览器内核同构，大概 2020-05 从 X5 迁移到 XWeb，官方一般会有内核版本升级体验通告，比如[2023-06 更新](https://developers.weixin.qq.com/community/develop/doc/0002c2167840006af8df3c94256001)：当前安卓微信 XWeb 开发版基于 111 新内核，现网仍基于 107 内核。
 
+vue vite 打包后白屏问题，推测就是 webview 版本太旧了，使用 [@vitejs/plugin-legacy](https://github.com/vitejs/vite/tree/main/packages/plugin-legacy) 做兼容。它的内部使用 `@babel/preset-env` 以及 `core-js` 等一系列基础库来进行语法降级和 Polyfill 注入，以解决在旧版浏览器上的兼容性问题。*（默认情况下，Vite 的目标是能够支持原生 ESM script 标签、支持原生 ESM 动态导入 和 import.meta 的浏览器）*
+
 > 1. 当小程序基于 WebView 环境下时，WebView 的 JS 逻辑、DOM 树创建、CSS 解析、样式计算、Layout、Paint 都发生在同一线程，在 WebView 上执行过多的 JS 逻辑可能阻塞渲染，导致界面卡顿（Chrome 的渲染进程是多线程的）。以此为前提，小程序同时考虑了性能与安全，采用了 AppService 和 WebView 的双线程模型。
 > 2. 为了进一步优化小程序性能，在 WebView 渲染之外新增了一个渲染引擎 Skyline，拥有更接近原生渲染的性能体验。Skyline 创建了一条渲染线程来负责 Layout, Composite 和 Paint 等渲染任务，并在 AppService 中划出一个独立的上下文，来运行之前 WebView 承担的 JS 逻辑、DOM 树创建等逻辑。
 
