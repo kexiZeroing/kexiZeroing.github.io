@@ -159,6 +159,9 @@ while (tasks.length > 0) {
 }
 ```
 
+<br>
+<img alt="yield-to-main" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/yield-to-main.webp" width="600">
+
 `scheduler.yield()` *(in Chrome 129)* provides a method for yielding control to the browser, which can be used to break up long tasks. Awaiting the promise returned by `scheduler.yield()` causes the current task to yield, continuing in a new browser task. This can be useful when you want to ensure that your JavaScript code doesn't block the main thread and negatively impact the user experience.
 
 - With `scheduler.yield`, the continuation of work is placed at the front of the task queue.

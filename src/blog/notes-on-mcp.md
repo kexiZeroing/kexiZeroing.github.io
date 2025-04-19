@@ -3,7 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "Apr 13 2025"
+updatedDate: "Apr 19 2025"
 ---
 
 ### Historical context: The Path to MCP
@@ -65,6 +65,8 @@ The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for commun
 ### The simplest MCP server
 
 ```ts
+// npm i @modelcontextprotocol/sdk zod
+
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
@@ -76,8 +78,7 @@ const server = new McpServer({
 
 server.tool(
   "getWeather",
-  "Get the weather in a city",
-  { city: z.string() },
+  { city: z.string().describe('The city to get the weather for') },
   async ({ city }) => {
     // await fetch('wheather API') 
 
@@ -112,6 +113,20 @@ Claude Desktop is the first MCP-compatible app, and it's the easiest way to test
 ```
 
 For Claude Code (only supports `stdio` transport), you can run it with a single command: `claude mcp add "weather-example" npx tsx "/path-to-the-file.ts"`. This tells Claude that in order to run the file, it should call `npx tsx /path-to-the-file.ts`.
+
+```sh
+claude mcp list
+# No MCP servers configured.
+
+claude mcp add "weather-example" npx tsx index.ts
+# Added stdio MCP server weather-example...
+
+claude mcp list
+# weather-example: npx tsx index.ts
+
+claude
+# Actually run Claude Code
+```
 
 > Most MCP servers work "locally" (over a mechanism called `stdio`): you download a copy of the source code and run the code on your own computer. Servers rely on a command line tool either `npx` or `uvx` to download and run the server's code on your local machine. With both `npx` and `uvx` working, you're ready to use MCP servers with Claude Desktop.
 
@@ -174,6 +189,7 @@ const response = await generateText({
 ```
 
 ### References and further reading
+- https://github.com/modelcontextprotocol/typescript-sdk
 - https://www.aihero.dev/model-context-protocol-tutorial
 - https://glama.ai/blog/2024-11-25-model-context-protocol-quickstart
 - https://github.com/modelcontextprotocol/servers

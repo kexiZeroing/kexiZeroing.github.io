@@ -462,6 +462,9 @@ vue vite 打包后白屏问题，推测就是 webview 版本太旧了，使用 [
 
 Use `$fetch`, `useFetch`, or `useAsyncData` in Nuxt: https://masteringnuxt.com/blog/when-to-use-fetch-usefetch-or-useasyncdata-in-nuxt-a-comprehensive-guide
 
+- The `useFetch` composable is the best choice to load initial data once on the server. It prevents extra calls after hydration.
+- The `$fetch` method is more direct for forms or user-triggered actions. It doesn’t store SSR data in the Nuxt payload and doesn’t automatically prevent re-fetching.
+
 **Preventing Duplicate Requests:**
 1. UI Blocking
   - Disable submit buttons immediately after click
