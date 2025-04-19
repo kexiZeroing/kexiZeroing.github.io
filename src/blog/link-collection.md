@@ -178,6 +178,8 @@ Google Chrome Dino 3D WebGL game: https://github.com/addyosmani/chrome-dino-3d
 
 Writing down and searching through every UUID: https://eieio.games/blog/writing-down-every-uuid
 
+Gallery of error 404 page designs: https://www.404s.design
+
 ---
 
 ## CSS related
