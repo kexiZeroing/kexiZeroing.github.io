@@ -873,6 +873,24 @@ const formSchema = z
 type FormSchemaType = z.infer<typeof formSchema>;
 ```
 
+```js
+// URL parameter validation via Zod (use Zod to validate runtime inputs)
+const productIdSchema = z.coerce.number().positive();
+
+const searchParams = new URLSearchParams(window.location.search);
+const productIdParam = searchParams.get("productId");
+
+if (productIdParam) {
+  const result = productIdSchema.safeParse(productIdParam);
+  if (result.success) {
+    const productId = result.data; // This will be a number
+    console.log("Valid URL parameter:", productId);
+  } else {
+    console.error("Invalid URL parameter:", result.error);
+  }
+}
+```
+
 > [Valibot](https://github.com/fabian-hiller/valibot) is very similar to Zod, helping you validate data easily using a schema. The biggest difference is the modular design and the ability to reduce the bundle size to a minimum.
 >
 > [ArkType](https://github.com/arktypeio/arktype) is a TypeScript-first runtime validation library designed to offer concise, composable, and powerful type definitions with zero dependencies, optimized from editor to runtime.

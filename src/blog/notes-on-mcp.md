@@ -3,7 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "Apr 19 2025"
+updatedDate: "Apr 20 2025"
 ---
 
 ### Historical context: The Path to MCP
@@ -13,6 +13,21 @@ MCP, introduced by Anthropic in late 2024, solves this problem by providing a un
 
 ### MCP is not magic
 MCP isn't magic — it's a standard way for AI to discover and use tools without learning every API's specific details. An MCP server is like a menu of tools. Each tool has a name, a description, a schema defining what info it needs, and the actual code that makes the API calls. AI applications (like Claude or Cline) can dynamically query these servers to execute tasks such as reading files, querying databases, or creating new integrations.
+
+```
+User                App                        LLM               MCP Server
+
+                    ------------ initialize connection   ------------> 
+                    <----------- response with available tools -------
+--- send query ---->
+                    -- send query with MCP tools ->
+                    <-- response with tool call ---
+                    -------------- send tool call ------------------->
+                    <------------ responds with tool response --------
+                    ---- send tool response ------>
+                    <- response with final answer -
+<-- final answer ---                  
+```
 
 > How similar is this to tool calling? Tool calling lets LLMs invoke functions to interact with the real world, typically within the same process. MCP enables tool execution in a separate process, either locally or remotely, fully decoupling the server from the client.
 
@@ -164,6 +179,116 @@ app.listen(3000, () => {
 ```
 
 Run the server: `npx tsx ./path-to-file.ts`
+
+### Create an MCP client that can connect to any MCP server
+https://github.com/alejandro-ao/mcp-clients
+
+```ts
+// anthropic sdk
+import { Anthropic } from "@anthropic-ai/sdk";
+import { Tool } from "@anthropic-ai/sdk/resources/messages/messages.mjs";
+
+// mcp sdk
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+
+class MCPClient {
+  private mcp: Client;
+  private llm: Anthropic;
+  private transport: StdioClientTransport | null = null;
+  private tools: Tool[] = [];
+
+  constructor() {
+    this.llm = new Anthropic({
+      apiKey: ANTHROPIC_API_KEY,
+    });
+    this.mcp = new Client({ name: "mcp-client-cli", version: "1.0.0" });
+  }
+
+  // Connect to the MCP
+  async connectToServer(serverScriptPath: string) {
+    const isJs = serverScriptPath.endsWith(".js");
+    const isPy = serverScriptPath.endsWith(".py");
+    const command = isPy ? "python3" : process.execPath;  // '/usr/local/bin/node' 
+
+    this.transport = new StdioClientTransport({
+      command,
+      args: [serverScriptPath],
+    });
+    await this.mcp.connect(this.transport);
+
+    // Register tools
+    const toolsResult = await this.mcp.listTools();
+    this.tools = toolsResult.tools.map((tool) => {
+      return {
+        name: tool.name,
+        description: tool.description,
+        input_schema: tool.inputSchema,
+      };
+    });
+
+    console.log(
+      "Connected to server with tools:",
+      this.tools.map(({ name }) => name)
+    );
+  }
+
+  async processQuery(query: string) {
+    const messages = [
+      {
+        role: "user",
+        content: query,
+      },
+    ];
+
+    const response = await this.llm.messages.create({
+      model: "claude-3-5-sonnet-20241022",
+      max_tokens: 1000,
+      messages,
+      tools: this.tools,
+    });
+
+    const finalText = [];
+    const toolResults = [];
+
+    // if text -> return response
+    for (const content of response.content) {
+      if (content.type === "text") {
+        finalText.push(content.text);
+      } else if (content.type === "tool_use") {
+        // if tool -> call the tool on mcp server
+        const toolName = content.name;
+        const toolArgs = content.input;
+
+        const result = await this.mcp.callTool({
+          name: toolName,
+          arguments: toolArgs,
+        });
+        toolResults.push(result);
+        finalText.push(
+          `[Calling tool ${toolName} with args ${JSON.stringify(toolArgs)}]`
+        );
+        messages.push({
+          role: "user",
+          content: result.content,
+        });
+
+        const response = await this.llm.messages.create({
+          model: "claude-3-5-sonnet-20241022",
+          max_tokens: 1000,
+          messages,
+        });
+
+        finalText.push(
+          response.content[0].type === "text" ? response.content[0].text : ""
+        );
+      }
+    }
+
+    return finalText.join("\n");
+  }
+}
+```
 
 ### AI SDK MCP clients
 The SDK supports connecting to MCP servers via either stdio (for local tools) or SSE (for remote servers). Once connected, you can use MCP tools directly with the AI SDK. The client exposes a `tools` method for retrieving tools from a MCP server.
