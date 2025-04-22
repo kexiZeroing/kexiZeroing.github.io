@@ -32,12 +32,11 @@ User                App                        LLM               MCP Server
 > How similar is this to tool calling? Tool calling lets LLMs invoke functions to interact with the real world, typically within the same process. MCP enables tool execution in a separate process, either locally or remotely, fully decoupling the server from the client.
 
 ### MCP server and client
-MCP uses a client-server design where applications can connect to multiple resources. The system has three main parts:
-- The Client Side: Making Requests
-- The Communication Layer: The Standard Protocol
-- The Server Side: Providing Resources
+MCP uses a client-server design where applications can connect to multiple resources.
 
-The **MCP client** is the program that's going to access the MCP servers. This might be Claude Desktop, Cursor, Windsurf, or any other application that supports MCP. This host probably uses an LLM of some kind. That LLM will be able to call tools that are defined in the MCP server. See https://www.pulsemcp.com/clients
+The **MCP host** is the program that's going to access the MCP servers. This might be Claude Desktop, Cursor, Windsurf, or any other application that supports MCP. (LLM + MCP Client)
+
+On this host, you're going to run one or multiple **MCP clients** - each client will maintain a relationship to a single MCP server. When the host starts up, each client will connect to an MCP server. See https://www.pulsemcp.com/clients
 
 The **MCP server** is the server that's going to be running the tools that the host wants to call. This server could be running locally, or it could be running on a remote server. See https://www.pulsemcp.com/servers
 
