@@ -236,3 +236,126 @@ const main = async () => {
   console.log(result.object.definitions)
 }
 ```
+
+## Deep Research
+The rough steps will be:
+1. Take the initial input
+2. Generate search queries
+3. Map through each query and
+   - Search the web for a relevant result
+   - Analyze the result for learnings and follow-up questions
+   - If depth > 0, follow-up with a new query
+
+Let's start by creating a function to generate search queries.
+
+```js
+const generateSearchQueries = async (query: string, n: number = 3) => {
+  const {
+    object: { queries },
+  } = await generateObject({
+    model: openai('gpt-4o'),
+    prompt: `Generate ${n} search queries for the following query: ${query}`,
+    schema: z.object({
+      queries: z.array(z.string()).min(1).max(5),
+    }),
+  })
+  return queries
+}
+
+const main = async () => {
+  const prompt = 'What do you need to be a D1 shotput athlete?'
+  const queries = await generateSearchQueries(prompt)
+  // [
+  //   'requirements to be a D1 shotput athlete',
+  //   'training regimen for D1 shotput athletes',
+  //   'qualifications for NCAA Division 1 shotput',
+  // ]
+}
+ 
+main()
+```
+
+Now we need to map these queries to web search results. We use [Exa](https://exa.ai) for this.
+
+```js
+import Exa from 'exa-js'
+ 
+const exa = new Exa(process.env.EXA_API_KEY)
+ 
+type SearchResult = {
+  title: string
+  url: string
+  content: string
+}
+ 
+const searchWeb = async (query: string) => {
+  const { results } = await exa.searchAndContents(query, {
+    numResults: 1,
+    livecrawl: 'always', // not use cache
+  })
+  return results.map(
+    (r) =>
+      ({
+        title: r.title,
+        url: r.url,
+        content: r.text,
+      }) as SearchResult
+  )
+}
+```
+
+Next thing is to give the model two tools, one to search the web, the other to evaluate the relevance of that tool call. This is the most complicated part of entire workflow, also the agentic part of workflow.
+
+```js
+const searchAndProcess = async (query: string) => {
+  const pendingSearchResults: SearchResult[] = []
+  const finalSearchResults: SearchResult[] = []
+  await generateText({
+    model: mainModel,
+    prompt: `Search the web for information about ${query}`,
+    system:
+      'You are a researcher. For each query, search the web and then evaluate if the results are relevant and will help answer the following query',
+    maxSteps: 5,
+    tools: {
+      searchWeb: tool({
+        description: 'Search the web for information about a given query',
+        parameters: z.object({
+          query: z.string().min(1),
+        }),
+        async execute({ query }) {
+          const results = await searchWeb(query)
+          pendingSearchResults.push(...results)
+          return results
+        },
+      }),
+      evaluate: tool({
+        description: 'Evaluate the search results',
+        parameters: z.object({}),
+        async execute() {
+          const pendingResult = pendingSearchResults.pop()!
+          const { object: evaluation } = await generateObject({
+            model: mainModel,
+            prompt: `Evaluate whether the search results are relevant and will help answer the following query: ${query}. If the page already exists in the existing results, mark it as irrelevant.
+ 
+            <search_results>
+            ${JSON.stringify(pendingResult)}
+            </search_results>
+            `,
+            output: 'enum',
+            enum: ['relevant', 'irrelevant'],
+          })
+          if (evaluation === 'relevant') {
+            finalSearchResults.push(pendingResult)
+          }
+          console.log('Found:', pendingResult.url)
+          console.log('Evaluation completed:', evaluation)
+          return evaluation === 'irrelevant'
+            ? 'Search results are irrelevant. Please search again with a more specific query.'
+            : 'Search results are relevant. End research for this query.'
+        },
+      }),
+    },
+  })
+  return finalSearchResults
+}
+```
