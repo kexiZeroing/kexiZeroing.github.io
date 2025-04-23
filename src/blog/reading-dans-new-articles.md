@@ -334,3 +334,207 @@ async function render() {
 
 render();
 ```
+
+## JSX Over The Wire
+
+```js
+// 1. Model, View, ViewModel
+type Like = {
+  createdAt: string, // Timestamp
+  likedById: number, // User ID
+  postId: number     // Post ID
+};
+type Model = Like;
+
+type LikeButtonProps = {
+  totalLikeCount: number,
+  isLikedByUser: boolean,
+  friendLikes: string[]
+}
+type ViewModel = LikeButtonProps;
+```
+
+```js
+// 2. BFF layer
+import { getPost, getFriendLikes, getRecentPostIds } from '@your-company/data-layer';
+
+// Only place generating props for `LikeButton` component
+// which is showing “You, Alice, and 13 others liked this” 
+async function LikeButtonViewModel({ postId }) {
+  const [post, friendLikes] = await Promise.all([
+    getPost(postId),
+    getFriendLikes(postId, { limit: 2 }),
+  ]);
+  return {
+    totalLikeCount: post.totalLikeCount,
+    isLikedByUser: post.isLikedByUser,
+    friendLikes: friendLikes.likes.map(l => l.firstName)
+  };
+}
+ 
+async function PostDetailsViewModel({ postId }) {
+  const [post, postLikes] = await Promise.all([
+    getPost(postId),
+    LikeButtonViewModel({ postId }),
+  ]);
+  return {
+    postTitle: post.title,
+    postContent: parseMarkdown(post.content),
+    postAuthor: post.author,
+    postLikes
+  };
+}
+ 
+app.get('/screen/post-details/:postId', async (req, res) => {
+  const postId = req.params.postId;
+  const viewModel = await PostDetailsViewModel({ postId });
+  res.json(viewModel);
+});
+ 
+app.get('/screen/post-list', async (req, res) => {
+  const postIds = await getRecentPostIds();
+  const viewModel = {
+    posts: await Promise.all(postIds.map(postId =>
+      PostDetailsViewModel({ postId })
+    ))
+  };
+  res.json(viewModel);
+});
+```
+
+```js
+// 3. ViewModel Parameters
+
+// Client doesn’t pass parameters like `?includeAvatars=true` to the server
+// BFF itself knows a page include avatars or not, 
+// and we have split BFF endpoints into units of reusable logic.
+async function PostDetailsViewModel({
+  postId,
+  truncateContent,
+  includeAvatars
+}) {
+  const [post, postLikes] = await Promise.all([
+    getPost(postId),
+    LikeButtonViewModel({ postId, includeAvatars }),
+  ]);
+  return {
+    postTitle: post.title,
+    postContent: parseMarkdown(post.content, {
+      maxParagraphs: truncateContent ? 1 : undefined
+    }),
+    postAuthor: post.author,
+    postLikes
+  };
+}
+```
+
+```js
+// 4. Components as JSON
+
+// Producing HTML as the primary output format is a dead end for interactive applications
+// However, if tags are objects, they can be sent as JSON.
+const json = (
+  <Page title={`${person.firstName}'s Profile`}>
+    <Header>
+      <Avatar src={person.avatarUrl} />
+      {person.isPremium && <PremiumBadge />}
+    </Header>
+
+    <Layout columns={featureFlags.includes('TWO_COL_LAYOUT') ? 2 : 1}>
+      <Panel title="User Info">
+        <UserDetails user={person} />
+        {req.user.id === person.id && <EditButton />}
+      </Panel>
+
+      <Panel title="Activity">
+        <ActivityFeed userId={person.id} limit={3} />
+      </Panel>
+    </Layout>
+  </Page>
+);
+
+// /app/profile/123
+{
+  type: "Page",
+  props: {
+    title: "Jae's Profile",
+    children: [{
+      type: "Header",
+      props: {
+        children: [{
+          type: "Avatar",
+          props: {
+            src: "https://example.com/avatar.jpg"
+          }
+        }, {
+          type: "PremiumBadge",
+          props: {},
+        }]
+      }
+    }, {
+      type: "Layout",
+      props: {
+        columns: 2,
+        children: [
+          // ...
+        ]
+      }
+    }]
+  }
+}
+```
+
+```js
+// 5. Connect the ViewModel to its component
+async function LikeButtonViewModel({
+  postId,
+  includeAvatars
+}) {
+  const [post, friendLikes] = await Promise.all([
+    getPost(postId),
+    getFriendLikes(postId, { limit: includeAvatars ? 5 : 2 }),
+  ]);
+  return (
+    <LikeButton
+      totalLikeCount={post.totalLikeCount}
+      isLikedByUser={post.isLikedByUser}
+      friendLikes={friendLikes.likes.map(l => ({
+        firstName: l.firstName,
+        avatar: includeAvatars ? l.avatar : null,
+      }))}
+    />
+  );
+}
+// {
+//   type: "LikeButton",
+//   props: {
+//     totalLikeCount: 8,
+//     isLikedByUser: false,
+//     friendLikes: [{
+//       firstName: 'Alice',
+//       avatar: 'https://example.com/alice.jpg'
+//     }, {
+//       firstName: 'Bob',
+//       avatar: 'https://example.com/bob.jpg'
+//     }]
+//   }
+// }
+
+// On the client, React will take these props and pass them to the component
+function LikeButton({
+  totalLikeCount,
+  isLikedByUser,
+  friendLikes
+}) {
+  let buttonText = 'Like';
+  if (totalLikeCount > 0) {
+    // e.g. "Liked by You, Alice, and 13 others"
+    buttonText = formatLikeText(totalLikeCount, isLikedByUser, friendLikes);
+  }
+  return (
+    <button className={isLikedByUser ? 'liked' : ''}>
+      {buttonText}
+    </button>
+  );
+}
+```
