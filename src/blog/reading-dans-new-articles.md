@@ -3,9 +3,10 @@ title: "Reading Dan's new articles"
 description: ""
 added: "Apr 20 2025"
 tags: [react, code]
+updatedDate: "Apr 24 2025"
 ---
 
-Dan is really a good writer. He has published several articles consecutively this April, which is uncommon in recent years. I'm particularly drawn to his storytelling style that captivates readers from beginning to end. Instead of sharing his original texts here, I'll show some code from his articles that demonstrates key ideas.
+Dan is really a good writer. He recently published several articles this April, which is uncommon in recent years. I'm particularly drawn to his storytelling style that captivates readers from beginning to end. Instead of sharing his original texts here, I'll show some code from his articles that demonstrates key ideas.
 
 ## React for Two Computers
 
@@ -535,6 +536,178 @@ function LikeButton({
     <button className={isLikedByUser ? 'liked' : ''}>
       {buttonText}
     </button>
+  );
+}
+```
+
+```js
+// 6. We’re describing React Server Components:
+// “ViewModels” are Server Components
+// “Components” are Client Components
+
+import { LikeButton } from './LikeButton';
+
+// you just get a reference which describes how to load the client component
+// "src/LikeButton.js#LikeButton"
+console.log(LikeButton);
+
+async function LikeButtonViewModel() {
+  return (
+    <LikeButton
+      ...
+    />
+  );
+}
+
+// {
+//   type: "src/LikeButton.js#LikeButton", // This is a Client Component
+//   props: {
+//     totalLikeCount: 8,
+//     // ...
+//   }
+// }
+
+'use client';
+ 
+export function LikeButton({
+  totalLikeCount,
+  isLikedByUser,
+  friendLikes
+}) {
+  // ... 
+}
+```
+
+## Impossible Components
+
+```js
+// 1. backend passes data to the frontend
+import { readFile } from 'fs/promises';
+import { GreetingFrontend } from './client';
+ 
+async function GreetingBackend() {
+  const myColor = await readFile('./color.txt', 'utf8');
+  return <GreetingFrontend color={myColor} />;
+}
+
+'use client';
+import { useState } from 'react';
+ 
+export function GreetingFrontend({ color }) {
+  const [yourName, setYourName] = useState('Alice');
+  return (
+    <>
+      <input placeholder="What's your name?"
+        value={yourName}
+        onChange={e => setYourName(e.target.value)}
+      />
+      <p style={{ color }}>
+        Hello, {yourName}!
+      </p>
+    </>
+  );
+}
+```
+
+```js
+// 2. backend renders the frontend, and rendering the backend gives you both
+
+// The `GreetingFrontend` state inside of each `GreetingBackend` is isolated,
+// and how each `GreetingBackend` loads its data is also isolated.
+import { readFile } from 'fs/promises';
+import { GreetingFrontend } from './client';
+ 
+function Welcome() {
+  return (
+    <>
+      <GreetingBackend colorFile="./color1.txt" />
+      <GreetingBackend colorFile="./color2.txt" />
+      <GreetingBackend colorFile="./color3.txt" />
+    </>
+  );
+}
+ 
+async function GreetingBackend({ colorFile }) {
+  const myColor = await readFile(colorFile, 'utf8');
+  return <GreetingFrontend color={myColor} />;
+}
+```
+
+```js
+// 3. another example of backend rendering the frontend
+import { SortableList } from './client';
+import { readdir } from 'fs/promises';
+ 
+async function SortableFileList({ directory }) {
+  const files = await readdir(directory);
+  return <SortableList items={files} />;
+}
+
+'use client';
+import { useState } from 'react';
+ 
+export function SortableList({ items }) {
+  const [isReversed, setIsReversed] = useState(false);
+  const sortedItems = isReversed ? items.toReversed() : items;
+  return (
+    <>
+      <button onClick={() => setIsReversed(!isReversed)}>
+        Flip order
+      </button>
+      <ul>
+        {sortedItems.map(item => (
+          <li key={item}>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
+
+```js
+// 4. Expand a preview on click
+
+// you can always take a tag like <section> and replace it with a frontend component
+// that enriches a plain <section> with some stateful logic and event handlers.
+import { readFile } from 'fs/promises';
+import matter from 'gray-matter';
+import { ExpandingSection } from './client';
+ 
+async function PostPreview({ slug }) {
+  const fileContent = await readFile('./public/' + slug + '/index.md', 'utf8');
+  const { data, content } = matter(fileContent);
+  const wordCount = content.split(' ').filter(Boolean).length;
+  const firstSentence = content.split('.')[0];
+ 
+  return (
+    <ExpandingSection
+      extraContent={<p>{firstSentence} [...]</p>}
+    >
+      <h5 className="font-bold">
+        <a href={'/' + slug} target="_blank">
+          {data.title}
+        </a>
+      </h5>
+      <i>{wordCount.toLocaleString()} words</i>
+    </ExpandingSection>
+  );
+}
+
+'use client';
+import { useState } from 'react';
+ 
+export function ExpandingSection({ children, extraContent }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  return (
+    <section
+      className="rounded-md bg-black/5 p-2"
+      onClick={() => setIsExpanded(!isExpanded)}
+    >
+      {children}
+      {isExpanded && extraContent}
+    </section>
   );
 }
 ```
