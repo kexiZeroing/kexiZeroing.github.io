@@ -3,6 +3,7 @@ title: "Notes on AI SDK"
 description: ""
 added: "Apr 22 2025"
 tags: [AI]
+updatedDate: "Apr 24 2025"
 ---
 
 This is my learning notes from the [Vercel AI SDK Masterclass](https://www.youtube.com/watch?v=kDlqpN1JyIw) tutorial by Nico Albanese.
@@ -311,7 +312,7 @@ const searchAndProcess = async (query: string) => {
   const pendingSearchResults: SearchResult[] = []
   const finalSearchResults: SearchResult[] = []
   await generateText({
-    model: mainModel,
+    model: openai('gpt-4o'),
     prompt: `Search the web for information about ${query}`,
     system:
       'You are a researcher. For each query, search the web and then evaluate if the results are relevant and will help answer the following query',
@@ -334,7 +335,7 @@ const searchAndProcess = async (query: string) => {
         async execute() {
           const pendingResult = pendingSearchResults.pop()!
           const { object: evaluation } = await generateObject({
-            model: mainModel,
+            model: openai('gpt-4o'),
             prompt: `Evaluate whether the search results are relevant and will help answer the following query: ${query}. If the page already exists in the existing results, mark it as irrelevant.
  
             <search_results>
@@ -348,7 +349,7 @@ const searchAndProcess = async (query: string) => {
             finalSearchResults.push(pendingResult)
           }
           console.log('Found:', pendingResult.url)
-          console.log('Evaluation completed:', evaluation)
+          console.log('Evaluation:', evaluation)
           return evaluation === 'irrelevant'
             ? 'Search results are irrelevant. Please search again with a more specific query.'
             : 'Search results are relevant. End research for this query.'
@@ -357,5 +358,52 @@ const searchAndProcess = async (query: string) => {
     },
   })
   return finalSearchResults
+}
+
+for (const query of queries) {
+  console.log(`Searching the web for: ${query}`)
+  const searchResults = await searchAndProcess(query)
+}
+```
+
+The next step is to generate learnings and follow-up questions, and then add recursion to the `deepResearch` function.
+
+```js
+const generateLearnings = async (query: string, searchResult: SearchResult) => {
+  const { object } = await generateObject({
+    model: openai('gpt-4o'),
+    prompt: `The user is researching "${query}". The following search result were deemed relevant.
+    Generate a learning and a follow-up question from the following search result:
+ 
+    <search_result>
+    ${JSON.stringify(searchResult)}
+    </search_result>
+    `,
+    schema: z.object({
+      learning: z.string(),
+      followUpQuestions: z.array(z.string()),
+    }),
+  })
+  return object
+}
+```
+
+```js
+const deepResearch = async (
+  query: string,
+  depth: number = 1,
+  breadth: number = 3
+) => {
+  const queries = await generateSearchQueries(query)
+ 
+  for (const query of queries) {
+    console.log(`Searching the web for: ${query}`)
+    const searchResults = await searchAndProcess(query)
+    for (const searchResult of searchResults) {
+      console.log(`Processing search result: ${searchResult.url}`)
+      const learnings = await generateLearnings(query, searchResult)
+      // call deepResearch recursively with decrementing depth and breadth
+    }
+  }
 }
 ```
