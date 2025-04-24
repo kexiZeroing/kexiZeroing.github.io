@@ -3,7 +3,7 @@ title: "Notes on work projects (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Mar 29 2025"
+updatedDate: "Apr 24 2025"
 ---
 
 ### 项目是怎么跑起来的
@@ -492,6 +492,16 @@ async function makeRequest() {
   }
 }
 ```
+
+### Chrome's `--remote-debugging-port=9222` feature
+1. Launch Chrome with remote debugging: `google-chrome --remote-debugging-port=9222`. Chrome will start an internal HTTP and WebSocket server on port 9222.
+2. Go to `http://localhost:9222/json`, and you'll see JSON metadata for every open tab. Each tab has its own WebSocket debugger endpoint. If you connect to that using a WebSocket client, you can send and receive raw DevTools Protocol commands.
+3. Use Node.js with ws to control the tab. Use `webSocketDebuggerUrl` from the JSON to connect `new WebSocket('ws://localhost:9222/devtools/page/...');`.
+
+#### Debugging Node.js with `--inspect-brk`
+https://www.builder.io/blog/debug-nodejs
+
+Launch your Node.js process using the `--inspect-brk` flag (`node server.js --inspect-brk`). Now, open up any Edge or Chrome dev tools window and click the little green Node.js logo button. A new instance of DevTools will open and connect to the node process.
 
 ### 阿里云 CDN
 阿里云 CDN 对于文件是否支持缓存是以 `X-Cache` 头部来确定，缓存时间是以 `X-Swift-CacheTime` 头部来确认。
