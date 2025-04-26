@@ -411,4 +411,10 @@ deno add jsr:@luca/cases
 
 # npm (use any of npx, yarn dlx, pnpm dlx, or bunx)
 npx jsr add @luca/cases
+
+# starting with pnpm v10.9
+pnpm add jsr:<scope>/<pkg_name>
+
+# since Yarn v4.9.0
+yarn add jsr:<scope>/<pkg_name>
 ```

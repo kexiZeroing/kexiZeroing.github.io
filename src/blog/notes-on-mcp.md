@@ -320,4 +320,5 @@ const response = await generateText({
 - https://github.com/punkpeye/awesome-mcp-servers
 - https://glama.ai/mcp/servers
 - https://www.pulsemcp.com
+- https://github.com/github/github-mcp-server
 - https://github.com/invariantlabs-ai/mcp-scan

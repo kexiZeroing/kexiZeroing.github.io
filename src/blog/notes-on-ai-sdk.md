@@ -8,6 +8,8 @@ updatedDate: "Apr 24 2025"
 
 This is my learning notes from the [Vercel AI SDK Masterclass](https://www.youtube.com/watch?v=kDlqpN1JyIw) tutorial by Nico Albanese.
 
+> AI SDK is like an ORM for LLMs. It provides a simple interface to interact with different LLM providers, making it easy to switch between them without changing your code.
+
 ## Generate Text
 
 Make your first LLM call.
