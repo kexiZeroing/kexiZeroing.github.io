@@ -3,7 +3,7 @@ title: "Learn the new frontend build tool Vite"
 description: ""
 added: "Jan 29 2022"
 tags: [web]
-updatedDate: "Nov 28 2023"
+updatedDate: "Apr 27 2025"
 ---
 
 ## Next Generation Frontend Tooling
@@ -64,7 +64,40 @@ Vite's current unbundle mechanism is not suitable for large web app development,
 
 > Why bundle a dependency and become dependency free?
 > 1. Dependency is CommonJS and you're targeting browsers. (convert dependencies that are shipped as CommonJS or UMD into ESM first)
-> 2. Using only a small part of the dependency. (converts dependencies with many internal modules into a single module)
+> 2. Using only a small part of the dependency. (converts dependencies with many internal modules into a single module), also reduce the number of requests to the server for better performance.
+
+To better understand how it works, you can open the browser DevTools and check the "Network" panel. You will see all the requests to the Vite dev server. And some of them point to the `node_modules/.vite/deps` folder.
+
+```js
+// originally 'react'
+import react from "/node_modules/.vite/deps/react.js?v=<hash>";
+// originally 'react-dom/client'
+import reactDom_client from "/node_modules/.vite/deps/react-dom_client.js?v=<hash>";
+```
+
+Whatever the source of a package import is in CJS or ESM, the eventual requested content will always be in ESM. For CJS package import (with `exports.xxx` in it), Vite will transform the package code (`node_module/foo/foo-cjs.cjs`) into ESM via default export. And it will be eventually imported as default in the importer file.
+
+```js
+// import cjs file
+import { foo as fooCjs } from 'foo/foo-cjs.cjs'
+
+// The above import has been resolved into this
+import foo_fooCjs from "/node_modules/.vite/deps/foo_foo-cjs__cjs.js?v=<hash>";
+const fooCjs = foo_fooCjs["foo"];
+
+// What is node_modules/.vite/deps/foo_foo-cjs__cjs.js under the hood
+// It imports a builtin helper `__commonJS` to wrap the CJS code into ESM
+import { __commonJS } from "/node_modules/.vite/deps/chunk-<hash1>.js?v=<hash2>";
+
+var require_foo_cjs = __commonJS({
+  "node_modules/foo/foo-cjs.cjs"(exports) {
+    exports.foo = "foo-cjs";
+  }
+});
+export default require_foo_cjs();
+```
+
+By default, Vite will automatically analyze the project and draw a "optimization boundary" around all the package imports. The "optimization boundary" is used to pre-bundle the dependencies into ESM and put them into `node_modules/.vite/deps`. Option `optimizeDeps.include` and `optimizeDeps.exclude` are used to opt-in/opt-out certain package imports to/from the "optimization boundary". Never exclude CJS package imports, otherwise the import will not resolved into `node_modules/.vite/deps/xxx` anymore, and will be pointed to the original package imports.
 
 ### TypeScript
 - Vite supports importing `.ts` files out of the box.
