@@ -82,6 +82,25 @@ output：2 4 5 6 8 3 7 1
 
 You may argue that `setTimeout` should be logged first because a task is run first before clearing the microtask queue. Well, you are right. But, no code runs in JS unless an event has occurred and the event is queued as a task. At the execution of any JS file, the JS engine wraps the contents in a function and associates the function with an event `start`, and add the event to the task queue. After emits the program `start` event, the JavaScript engine pulls that event off the queue, executes the registered handler, and then our program runs.
 
+```js
+button.addEventListener('click', () => {
+  Promise.resolve().then(() => console.log('Microtask 1'));
+  console.log('listener 1');
+});
+
+button.addEventListener('click', () => {
+  Promise.resolve().then(() => console.log('Microtask 2'));
+  console.log('listener 2');
+});
+
+// If the user clicks the button: 
+// listener 1, Microtask 1, listener 2, Microtask 2
+
+button.click();
+// If click using JS: 
+// listener 1, listener 2, Microtask 1, Microtask 2
+```
+
 ### `process.nextTick()` and `setImmediate()` in Node.js
 A function passed to `process.nextTick()` is going to be executed on the current iteration of the event loop, after the current operation ends. This means it will always execute before `setTimeout` and `setImmediate`.
 

@@ -3,7 +3,7 @@ title: "Reading Dan's new articles"
 description: ""
 added: "Apr 20 2025"
 tags: [react, code]
-updatedDate: "Apr 24 2025"
+updatedDate: "Apr 27 2025"
 ---
 
 Dan is really a good writer. He recently published several articles this April, which is uncommon in recent years. I'm particularly drawn to his storytelling style that captivates readers from beginning to end. Instead of sharing his original texts here, I'll show some code from his articles that demonstrates key ideas.
@@ -710,4 +710,158 @@ export function ExpandingSection({ children, extraContent }) {
     </section>
   );
 }
+```
+
+## What Does "use client" Do
+
+```js
+// 1. "normal" backend server and frontend code
+async function likePost(postId) {
+  const userId = getCurrentUser();
+  await db.likes.create({ postId, userId });
+  const count = await db.likes.count({ where: { postId } });
+  return { likes: count };
+}
+
+app.post('/api/like', async (req, res) => {
+  const { postId } = req.body;
+  const json = await likePost(postId);
+  res.json(json);
+});
+
+document.getElementById('likeButton').onclick = async function() {
+  const postId = this.dataset.postId;
+  const response = await fetch('/api/like', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ postId, userId })
+  });
+  const { likes } = await response.json();
+  this.classList.add('liked');
+  this.textContent = likes + ' Likes';
+});
+```
+
+```js
+// 2. single program split between two machines
+// 'use server' exports server functions to the client. 
+// The frontend sees them as async functions that call the backend via HTTP.
+
+'use server'; // Mark all exports as "callable" from the frontend
+ 
+export async function likePost(postId) {
+  const userId = getCurrentUser();
+  await db.likes.create({ postId, userId });
+  const count = await db.likes.count({ where: { postId } });
+  return { likes: count };
+}
+ 
+export async function unlikePost(postId) {
+  const userId = getCurrentUser();
+  await db.likes.destroy({ where: { postId, userId } });
+  const count = await db.likes.count({ where: { postId } });
+  return { likes: count };
+}
+
+import { likePost, unlikePost } from './backend';
+ 
+document.getElementById('likeButton').onclick = async function() {
+  const postId = this.dataset.postId;
+  if (this.classList.contains('liked')) {
+    const { likes } = await unlikePost(postId); // HTTP call
+    this.classList.remove('liked');
+    this.textContent = likes + ' Likes';
+  } else {
+    const { likes } = await likePost(postId); // HTTP call
+    this.classList.add('liked');
+    this.textContent = likes + ' Likes';
+  }
+};
+```
+
+```js
+// 3. We pass information from the backend to the frontend code.
+
+// With purely client-side rendering, 
+// our server code’s job is just to pass the initial props.
+app.get('/posts/:postId', async (req, res) => {
+  const { postId } = req.params;
+  const userId = getCurrentUser();
+  const likeCount = await db.likes.count({ where: { postId } });
+  const isLiked = await db.likes.count({ where: { postId, userId } }) > 0;
+  const html = `<html>
+    <body>
+      <script src="./frontend.js></script>
+      <script>
+        const output = LikeButton(${JSON.stringify({
+          postId,
+          likeCount,
+          isLiked
+        })});
+        render(document.body, output);
+      </script>
+    </body>
+  </html>`;
+  res.text(html);
+});
+```
+
+```js
+// 4. Look at them as a single program rather than as two separate programs.
+// 'use client' from the backend doesn’t give us the `LikeButton` function itself.
+// Instead, it gives a client reference—something that
+// we can turn into a <script> tag under the hood later.
+
+import { LikeButton } from './frontend'; // "/src/frontend.js#LikeButton"
+ 
+app.get('/posts/:postId', async (req, res) => {
+  // ...
+  const jsx = (
+    <html>
+      <body>
+        <LikeButton
+          postId={postId}
+          likeCount={likeCount}
+          isLiked={isLiked}
+        />
+      </body>
+    </html>
+  );
+  // ...
+});
+
+// The JSX produces this JSON:
+// {
+//   type: "html",
+//   props: {
+//     children: {
+//       type: "body",
+//       props: {
+//         children: {
+//           type: "/src/frontend.js#LikeButton", // A client reference!
+//           props: {
+//             postId: 42
+//             likeCount: 8
+//             isLiked: true
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+'use client'; // Mark all exports as "renderable" from the backend
+ 
+export function LikeButton({ postId, likeCount, isLiked }) {
+  // ...
+
+  return (
+    <button className={isLiked ? 'liked' : ''}>
+      {likeCount} Likes
+    </button>
+  );
+}
+
+// 'use server' opens a door from the client to the server, 
+// 'use client' opens a door from the server to the client.
 ```

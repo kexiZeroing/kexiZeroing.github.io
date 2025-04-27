@@ -180,10 +180,11 @@ function Example() {
 
 ```js
 // nuqs (type-safety)
+// https://nuqs.47ng.com/
 import { useQueryState } from "nuqs";
 
 function Example() {
-  const [filter, setFilter] = useQueryState("filter");
+  const [filter, setFilter] = useQueryState("filter", { defaultValue: "all" });
   const updateParam = () => {
     setFilter("active");
   };
@@ -195,4 +196,26 @@ function Example() {
     </div>
   );
 }
+```
+
+By default, `nuqs` will update search params:
+1. On the client only (not sending requests to the server),
+2. by replacing the current history entry,
+3. and without scrolling to the top of the page.
+
+Search params are strings by default, but you might want to use numbers, booleans, Dates, objects, arrays, or even custom types. This is where parsers come in.
+
+```js
+useQueryState('int', parseAsInteger.withDefault(0))
+
+useQueryState('bool', parseAsBoolean.withDefault(false))
+
+const [pageIndex] = useQueryState('page', parseAsIndex.withDefault(0))
+
+const [state, setState] = useQueryState(
+  'foo',
+  parseAsString.withOptions({ history: 'push' })
+)
+
+setState('foo', { scroll: true })
 ```
