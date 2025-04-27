@@ -168,6 +168,26 @@ More about `watchEffect`:
 2. The callback function receives a special function called `onCleanup` as its first argument. You can use this function to register a cleanup callback that will be called before the watcher is re-executed.
 3. A confusing caveat is that `watchEffect` only tracks dependencies during its synchronous execution. When using it with an async callback, only properties accessed before the first `await` tick will be tracked. Everything after the `await` will NOT be tracked.
 
+### Watchers callback flush timing
+Similar to component updates, user-created watcher callbacks are batched to avoid duplicate invocations.
+
+By default, a watcher's callback is called after parent component updates (if any), and **before** the owner component's DOM updates. This means if you attempt to access the owner component's own DOM inside a watcher callback, the DOM will be in a pre-update state.
+
+```js
+const count = ref(0);
+const countRef = useTemplateRef('countRef'); // Vue 3.5+
+const logs = ref([]);
+
+const watchFn = (type) => () => {
+  logs.value.push('Watcher type ' + type + ': Count is ' + CountRef.value.innerText);
+}
+
+watch(count, watchFn('pre')); // default, Count is 0
+watch(count, watchFn('post'), { flush: 'post' }); // Count is 1
+// 'sync' runs first, fires synchronously, before any Vue-managed updates
+watch(count, watchFn('sync'), { flush: 'sync' }); // Count is 0
+```
+
 ### Write better Vue composables
 Passing props and events back and forth through the component hierarchy creates a lot of complexity. A more straightforward solution is to create a shared data store that any component can import:
 
