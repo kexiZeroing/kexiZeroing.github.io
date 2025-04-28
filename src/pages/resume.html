@@ -60,6 +60,24 @@
     .pdfViewer .page:first-of-type {
       border-top: none !important;
     }
+    #contextMenu {
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ccc;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      border-radius: 4px;
+      padding: 5px 0;
+      display: none;
+      z-index: 1000;
+    }
+    #contextMenu .menu-item {
+      padding: 8px 15px;
+      cursor: pointer;
+      user-select: none;
+    }
+    #contextMenu .menu-item:hover {
+      background-color: #f2f2f2;
+    }
   </style>
 
   <link rel="stylesheet" href="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/web/pdf_viewer.css">
@@ -79,6 +97,10 @@
     <div id="viewer" class="pdfViewer"></div>
   </div>
 
+  <div id="contextMenu">
+    <div class="menu-item" id="downloadPdf">Download PDF</div>
+  </div>
+
   <script>
     // The workerSrc property shall be specified.
     pdfjsLib.GlobalWorkerOptions.workerSrc =
@@ -94,6 +116,7 @@
     const ENABLE_XFA = true;
 
     const container = document.getElementById("viewerContainer");
+    const contextMenu = document.getElementById("contextMenu");
 
     const eventBus = new pdfjsViewer.EventBus();
 
@@ -138,6 +161,32 @@
     document.querySelector('#en-pdf-btn').addEventListener('click', () => {
       swithPDF('/pdf/en.pdf');
     });
+
+    // Context menu implementation
+    container.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      
+      contextMenu.style.left = e.pageX + 'px';
+      contextMenu.style.top = e.pageY + 'px';
+      contextMenu.style.display = 'block';
+    });
+
+    document.addEventListener('click', function() {
+      contextMenu.style.display = 'none';
+    });
+
+    document.getElementById('downloadPdf').addEventListener('click', function() {
+      downloadCurrentPdf();
+    });
+
+    function downloadCurrentPdf() {
+      const a = document.createElement('a');
+      a.href = CUR_URL;
+      a.download = CUR_URL.split('/').pop();
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   </script>
 </body>
 </html>
