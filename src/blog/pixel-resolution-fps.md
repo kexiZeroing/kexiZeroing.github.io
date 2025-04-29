@@ -147,6 +147,76 @@ By placing the things that will be animated or transitioned onto a new layer, th
 > 1. GPUs (Graphical Processing Units) were originally designed to accelerate rendering of images, 2D, and 3D graphics. However, due to their capability of performing many parallel operations, their utility extends beyond that to applications such as deep learning. GPUs prioritize having a large number of cores to achieve a higher level of parallelism.
 > 2. Imagine you want to add two vectors, a simple implementation iterates over the vector, adding each pair of elements on each iteration sequentially. But the addition of the *ith* pair of elements does not rely on any other pair. So, what if we could execute these operations concurrently, adding all of the pairs of elements in parallel? That’s when the GPUs come into action. Modern GPUs can run millions of threads simultaneously, enhancing performance of these mathematical operations on massive vectors.
 
+### Infinite scrolling performance analysis
+Our goal is to create an infinite vertical scroll of two divs (each `100vh` tall) that continuously loop, with `div 1` smoothly following `div 2` to create a seamless experience.
+
+```js
+const scrollContent = (timestamp) => {
+  if (!lastTimestamp) lastTimestamp = timestamp;
+  const elapsed = timestamp - lastTimestamp;
+  lastTimestamp = timestamp;
+  
+  const totalHeight = scrollContainer.scrollHeight - window.innerHeight;
+  scrollContainer.scrollTop += scrollSpeed * elapsed;
+  
+  if (scrollContainer.scrollTop >= totalHeight - 10) {
+    scrollContainer.scrollTop = 0;
+  }
+  
+  requestAnimationFrame(scrollContent);
+};
+```
+
+Performance Issues:
+- Each frame requires DOM writes (`scrollTop +=`), which can trigger layout recalculations.
+- The `scrollTop` manipulation can cause browser repaints, especially with large content.
+- If the main thread is busy, `requestAnimationFrame` callbacks may be delayed.
+
+```html
+<style>
+  .container {
+    height: 100vh;
+    overflow: hidden;
+  }
+  .scroll-wrapper {
+    animation: scroll 10s linear infinite;
+    will-change: transform;
+  }  
+  .div-box {
+    height: 100vh;
+  }
+  .div1 { background-color: #3498db; }
+  .div2 { background-color: #e74c3c; }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-200vh); /* Total height of all original divs */
+    }
+  }
+</style>
+
+<body>
+  <div class="container">
+    <div class="scroll-wrapper">
+      <!-- Original divs -->
+      <div class="div-box div1">1</div>
+      <div class="div-box div2">2</div>
+      
+      <!-- Cloned divs for smooth infinite scrolling -->
+      <div class="div-box div1">1</div>
+    </div>
+  </div>
+</body>
+```
+
+Advantages of CSS Solution:
+- CSS transforms (`translateY`) are hardware-accelerated by default.
+- `will-change: transform` further optimizes by offloading animation to GPU.
+- No layout recalculations during animation.
+
 ## Best practice for font units
 - `1px` is equal to whatever the browser is treating as a single pixel (even if it’s not literally a pixel on the hardware screen).
 - `1rem` is always equal to the browser’s font size — or, more accurately the font size of the `html` element. `1em` is the font size of the current element, and `font-size: 1em` is equivalent to `font-size: 100%`.

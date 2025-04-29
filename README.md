@@ -12,3 +12,4 @@ https://kexizeroing.github.io
 - Use [PostHog](https://posthog.com) for tracking and product analytics.
 - Refer to [Astro blog tutorial](https://docs.astro.build/en/tutorial/6-islands/4) and [blog-tutorial-demo](https://github.com/withastro/blog-tutorial-demo/tree/content-collections) to help me update to using a content collection.
 - Refer to [Astro Shadcn UI Template](https://github.com/AREA44/astro-shadcn-ui-template) and [Official upgrade guide](https://tailwindcss.com/docs/upgrade-guide) to help me upgrade to [Tailwind CSS v4.0](https://tailwindcss.com/blog/tailwindcss-v4).
+- Google doc exporting as PDF doesn't has a correct font if it's written in Chinese. You should use "print" and save as PDF. This [article](https://truxton2blog.com/google-docs-export-pdf-ugly-chinese-character-solution) explains this issue, which helps me a lot.
