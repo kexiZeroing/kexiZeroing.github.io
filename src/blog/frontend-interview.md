@@ -499,3 +499,50 @@ const handleSearch = async () => {
   })
 }
 ```
+
+16. Use a stream to serialize a promise, which is readable while the promise is pending and resolved. This format needs to be sharable across the network.
+
+```js
+const promise = new Promise((resolve) => {
+  setTimeout(() => resolve("Hello!"), 2000);
+});
+
+const json = JSON.stringify(promise); // => '{}'
+```
+
+```js
+function serializePromise(promise) {
+  const stream = new ReadableStream({
+    async start(controller) {
+      controller.enqueue("promise:create");
+
+      const value = await promise;
+      controller.enqueue(`promise:resolve:${value}`);
+      controller.close();
+    },
+  });
+  return stream;
+}
+
+async function testStream() {
+  const promise = new Promise((resolve) => {
+    setTimeout(() => resolve("Hello"), 2000);
+  });
+
+  const stream = serializePromise(promise);
+  const reader = stream.getReader();
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) {
+      console.log("Stream closed");
+      break;
+    }
+    console.log("Stream value:", value);
+  }
+}
+
+testStream();
+```
+
+> In React world, the server uses `renderToReadableStream` from "react-server-dom-webpack/server". The client uses `createFromReadableStream` from "react-server-dom-webpack/client" to read the stream and recreate the promise React serialized on the server. In reality, your app will never directly call these APIs. Instead, the framework you're using will rely on them under the hood.
