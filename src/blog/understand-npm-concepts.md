@@ -3,7 +3,7 @@ title: "Understand npm concepts"
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "Jan 4 2025"
+updatedDate: "May 1 2025"
 ---
 
 ### package.json and package-lock.json
@@ -192,6 +192,8 @@ verify();
 
 - The `npm install` command will install both *devDependencies* and *dependencies*. With the `--production` flag or when the `NODE_ENV` environment variable is set to production `NODE_ENV=production npm install`, npm will not install modules listed in devDependencies.
 
+- When you install a package, npm automatically installs its dependencies but not its devDependencies. This is because you are consuming it as a dependency and don’t need its development tools.
+
 - Many applications use different configuration settings when `NODE_ENV` is set to `production`. This also makes the Node.js process more efficient. If you set `NODE_ENV=testing` which means the devDependencies will be installed and it is more like development than it is like production.
 
 - Using the `npm uninstall --no-save` will tell npm not to remove the package from your `package.json` or `package-lock.json` files.
@@ -307,6 +309,35 @@ Traditionally, npm installed dependencies in a flat `node_modules` folder. On th
 pnpm organizes `node_modules` differently from npm, exposing only the dependencies explicitly declared in `package.json`. Transitive dependencies are installed in `node_modules/.pnpm/registry.npmjs.org/`, rather than the flat structure for `node_modules` as npm.
 
 In simple terms, if there is a module A that depends on module B, and module A is depended on in the project's `package.json`, module A can access module B, but the project cannot. When `shamefully-hoist=true` is set, module B will be hoisted, making it accessible in the project.
+
+#### pnpm Catalogs
+pnpm Catalogs is a feature allowing monorepo workspaces to share dependency versions across different packages via a centralized management location. Basically, you add `catalog` or `catalogs` fields to your `pnpm-workspace.yaml` file and reference them using `catalog:<name>` in your `package.json`. For the default catalog only, a special `catalog:` shorthand can also be used. Think of `catalog:` as a shorthand that expands to `catalog:default`.
+
+```yaml
+# pnpm-workspace.yaml
+# create a catalog named default
+catalog:
+  react: ^18.2.0
+  react-dom: ^18.2.0
+
+# create arbitrarily named catalogs
+catalogs:
+  react18:
+    react: ^18.2.0
+    react-dom: ^18.2.0
+```
+
+```json
+// package.json
+"dependencies": {
+  "react": "catalog:",
+}
+
+"dependencies": {
+  "react": "catalog:react18",
+  "react-dom": "catalog:react18",
+}
+```
 
 #### corepack
 Instead of installing `yarn` or `pnpm` globally, Corepack manages them for you behind the scenes. When you run a package manager command, Corepack intercepts it, checks what version you need, downloads it if necessary, and runs your command with the correct version.

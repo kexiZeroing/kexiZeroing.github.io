@@ -258,6 +258,8 @@ The most hearted Pens of 2024: https://codepen.io/2024/popular/pens
 
 First Look at The Modern attr(): https://ishadeed.com/article/modern-attr
 
+Great Animations: https://emilkowal.ski/ui/great-animations
+
 ---
 
 ## FE dev resources

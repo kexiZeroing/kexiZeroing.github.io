@@ -34,9 +34,9 @@ order: 3
 - https://tigerabrodi.blog/reacts-evolution-from-hooks-to-concurrent-react
 - https://www.developerway.com/posts/react-re-renders-guide
 - https://www.totaltypescript.com/how-to-create-an-npm-package
+- https://www.totaltypescript.com/tsconfig-cheat-sheet
 - https://philipwalton.com/articles/the-state-of-es5-on-the-web
 - https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
-- https://leerob.com/n/ai
 - https://tania.dev/how-to-use-webpack
 - https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation
 
