@@ -3,7 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "Apr 20 2025"
+updatedDate: "May 2 2025"
 ---
 
 ### Historical context: The Path to MCP
@@ -289,28 +289,10 @@ class MCPClient {
 }
 ```
 
-### AI SDK MCP clients
-The SDK supports connecting to MCP servers via either stdio (for local tools) or SSE (for remote servers). Once connected, you can use MCP tools directly with the AI SDK. The client exposes a `tools` method for retrieving tools from a MCP server.
-
-```js
-import { experimental_createMCPClient as createMCPClient } from 'ai';
-import { openai } from '@ai-sdk/openai';
-
-const mcpClient = await createMCPClient({
-  transport: {
-    type: 'sse',
-    url: 'https://my-server.com/sse',
-  },
-});
-
-// The client's tools method acts as an adapter between MCP tools and AI SDK tools.
-// https://sdk.vercel.ai/docs/ai-sdk-core/tools-and-tool-calling#using-mcp-tools
-const response = await generateText({
-  model: openai('gpt-4o'),
-  tools: await mcpClient.tools(),
-  prompt: 'Find products under $100',
-});
-```
+> Update on 2025.5.2:
+> Until now, support for MCP was limited to Claude Desktop through local servers. Today, we're introducing Integrations, allowing Claude to work seamlessly with remote MCP servers across the web and desktop apps. Developers can build and host servers that enhance Claude’s capabilities, while users can discover and connect any number of these to Claude.
+>
+> What this means is that you can bring your own remote MCP server to claude.ai. Users just need a URL to equip the LLM with new tools and capabilities.
 
 ### References and further reading
 - https://github.com/modelcontextprotocol/typescript-sdk
@@ -322,3 +304,4 @@ const response = await generateText({
 - https://www.pulsemcp.com
 - https://github.com/github/github-mcp-server
 - https://github.com/invariantlabs-ai/mcp-scan
+- https://github.com/modelcontextprotocol/inspector

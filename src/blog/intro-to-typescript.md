@@ -3,7 +3,7 @@ title: "Intro to TypeScript"
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "Feb 11 2025"
+updatedDate: "May 2 2025"
 ---
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
@@ -258,20 +258,13 @@ interface Animal {
   color?: string; // optional property
 }
 
-let dog: Animal;
-dog = {
-  kind: 'mammal',
-  weight: 10,
-};
-
 // Type Alias
-// `interface` and `type` are compatible here, because their shape (structure) is the same.
+// `interface` and `type` are compatible here, because their shape is the same.
 type Animal = {
   kind: string;
   weight: number;
   color?: string;
 };
-let dog: Animal;
 
 // Union Type (a type can be one of multiple types, type A = X | Y)
 // Narrow down the types of values: typeof, truthiness, instanceof...
@@ -293,7 +286,8 @@ type Employee = {
 };
 let person: Student & Employee;
 
-// Interfaces are faster than type intersections.
+// Interfaces using `extends` are faster than type intersections (can cache)
+
 // Merge incompatible types
 interface User1 {
   age: number;
@@ -307,6 +301,35 @@ interface User extends User1 {  // raise an error
   age: string;
 }
 
+// Index signatures in types vs interfaces
+interface KnownAttributes {
+  x: number;
+  y: number;
+}
+const knownAttributes: KnownAttributes = { x: 1, y: 2 };
+
+type RecordType = Record<string, number>;
+const oi: RecordType = knownAttributes;  // Error (interface could later be extended)
+// Index signature for type 'string' is missing in type 'KnownAttributes'.
+
+type KnownAttributes = {
+  x: number;
+  y: number;
+};
+const knownAttributes: KnownAttributes = { x: 1, y: 2 };
+
+type RecordType = Record<string, number>;
+const oi: RecordType = knownAttributes;  // works
+```
+
+**Summary of Type vs Interface:**
+- Interfaces can't express unions or mapped types. Type aliases can express any type.
+- Interfaces can use `extends`, types can't.
+- When you're working with objects that inherit from each other, use interfaces. `extends` makes TypeScript's type checker run slightly faster than using `&`.
+- Interfaces with the same name in the same scope merge their declarations.
+- Type aliases have an implicit index signature of `Record<PropertyKey, unknown>`, but interfaces don't.
+
+```ts
 // `typeof` operator takes any object and extracts the shape of it.
 // It is not the same as the `typeof` operator used at runtime
 const albumSales = {
