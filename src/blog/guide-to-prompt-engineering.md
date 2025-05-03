@@ -56,7 +56,11 @@ Output:
 ## Tips and Techniques for Designing Prompts
 You can start with simple prompts and keep adding more elements and context as you aim for better results. When you have a big task that involves many different subtasks, you can try to break down the task into simpler subtasks and keep building up as you get better results.
 
-> Fun hack: show your prompt to a real human being. If they don’t understand, speak to them until they do. Then anything you needed to tell them verbally, add it to the prompt.
+> 李继刚关于提示工程的演讲：
+> - 当一个事情，你知道，AI 也知道，这个很好理解，你就简单说，提示词要精简。
+> - 一个事情，你知道，AI 不知道，例如企业内部信息，一些 AI 在公域上搞不到的信息，你告诉它这个事的结构、形式，通过 few-shot 把模式喂给它，它会 get。
+> - 你不知道，AI 知道，这个也容易理解，AI 知道很多你不知道的事情，你提问就行了。
+> - 你不知道，AI 也不知道，大概就像科研，超出了普通人的范畴。
 
 You can design effective prompts by using commands to instruct the model what you want to achieve such as "Write", "Classify", "Summarize", "Translate", "Order", etc. It's also recommended that some clear separator like "###" is used to separate the instruction and context.
 
