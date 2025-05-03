@@ -3,7 +3,7 @@ title: "Reading Dan's new articles"
 description: ""
 added: "Apr 20 2025"
 tags: [react, code]
-updatedDate: "Apr 27 2025"
+updatedDate: "May 3 2025"
 ---
 
 Dan is really a good writer. He recently published several articles this April, which is uncommon in recent years. I'm particularly drawn to his storytelling style that captivates readers from beginning to end. Instead of sharing his original texts here, I'll show some code from his articles that demonstrates key ideas.
@@ -864,4 +864,145 @@ export function LikeButton({ postId, likeCount, isLiked }) {
 
 // 'use server' opens a door from the client to the server, 
 // 'use client' opens a door from the server to the client.
+```
+
+## Functional HTML
+
+```js
+// 1. Serialize our imaginary HTML into a JSON tree
+<html>
+  <body>
+    <p style="color: purple">Hello, Alice</p>
+    <p style="color: pink">Hello, Bob</p>
+  </body>
+</html>
+
+// ["html", {
+//   children: ["body", {
+//     children: [
+//       ["p", {
+//         children: "Hello, Alice",
+//         style: { color: "purple" }
+//       }],
+//       ["p", {
+//         children: "Hello, Bob",
+//         style: { color: "pink" }
+//       }]
+//     ]
+//   }]
+// }]
+```
+
+```js
+// 2. Our “imaginary HTML” allows us to speak the user’s language
+<html>
+  <body>
+    <Greeting username="alice123" />
+    <Greeting username="bob456" />
+  </body>
+</html>
+ 
+async function Greeting({ username }) {
+  const filename = `./${username.replace(/\W/g, '')}.json`;
+  const person = JSON.parse(await readFile(filename, 'utf8'));
+  return (
+    <p style={{ color: person.favoriteColor }}>
+      Hello, {person.name}
+    </p>
+  );
+}
+```
+
+```js
+// 3. We want the function to run later
+// Client Reference is not a function, so the server 
+// that serializes our JSON does not need to do anything with it.
+import { onLike } from './onLike';
+ 
+<button onClick={onLike}>
+  Like
+</button>
+
+// ["button", {
+//   children: "Like",
+//   onClick: "/src/bundle.js#onLike"
+// }]
+
+'use client'; // Serialize me as a Client Reference
+ 
+export function onLike() {
+  alert('You liked this.');
+}
+```
+
+```js
+// 4. Another pattern is to make it callable by the client
+<button onClick={onLike}>
+  Like
+</button>
+
+// ["button", {
+//   children: "Like",
+//   onClick: "/api?fn=onLike"
+// }]
+
+async function onLike() {
+  'use server'; // Serialize me as a Server Reference
+  const likes = Number(await readFile('./likes.txt', 'utf8'));
+  await writeFile('./likes.txt', likes + 1, 'utf8');
+}
+```
+
+```js
+// 5. Compose our own tags on both sides
+import { LikeButton } from './LikeButton';
+ 
+<>
+  <PersonalizedLikeButton username="alice123" />
+  <PersonalizedLikeButton username="bob456" />
+</>
+ 
+async function PersonalizedLikeButton({ username }) {
+  const filename = `./${username.replace(/\W/g, '')}.txt`;
+  const color = await readFile(filename);
+  return <LikeButton color={color} />;
+}
+
+'use client';
+export function LikeButton({ color }) {
+  function onLike() {
+    alert('You liked this.');
+  }
+ 
+  return (
+    <button onClick={onLike} style={{ color }}>
+      Like
+    </button>
+  );
+}
+```
+
+```js
+// 6. Streaming
+// The downside is that rendering the entire page is blocked
+// until all of the Async Server Tags resolve.
+
+// We can specify that a server should serialize our tags to JSON without blocking
+// but leave “holes” whenever a part of the content is not yet available.
+// We could then stream in the contents of those holes as they resolve on the server.
+
+["article", {
+  children: [
+    ["header", {
+      children: 'Welcome to Overreacted'
+    }],
+    /* HOLE_1 */,
+    /* HOLE_2 */,
+    ["footer", {
+      children: 'Thanks for reading'
+    }]
+  ]
+}]
+/* HOLE_1: */["article", { children: [["p", "Here is a piece of HTML:", ...]]}]
+/* HOLE_2: */["ul", { className: "comments", children: [["li", { children: "Server rendering sucks, you should only do things on the client" }]] }]
 ```

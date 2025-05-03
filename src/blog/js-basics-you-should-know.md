@@ -234,6 +234,8 @@ Object.prototype.toString.call(new Map())     // '[object Map]'
 - `Number.isInteger()` returns true if the given value is an integer, otherwise return false. If the value is NaN or Infinity, return false.
 - `Number.isNaN()` determines whether the passed value is the number value NaN, and returns false if the input is not of the Number type. Note that `Number.isNaN()` doesn't attempt to convert the parameter to a number, so non-numbers always return false.
 
+> The `length` property of an array is a 32-bit unsigned integer, which limits the maximum number of entries an array can have. Because the length property represents the number of entries, and it’s zero-based, the maximum length is `2^32 - 1`.
+
 > Tweet IDs are big numbers, bigger than `2^53`. The Twitter API now returns them as both integers and strings, so that in Javascript you can just use the string ID, but if you tried to use the integer version in JS, things would go very wrong. This particular issue doesn’t happen in Python, because Python has integers. Read more about [Examples of floating point problems](https://jvns.ca/blog/2023/01/13/examples-of-floating-point-problems/).
 
 ### Deal with floating point number precision

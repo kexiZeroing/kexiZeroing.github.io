@@ -89,46 +89,88 @@ var App = React.render(Component);
 */
 ```
 
-### Simple React custom renderer
-```jsx
-const React = {
-  createElement: (tag, props, ...children) => {
-    if (typeof tag === "function") {
-      return tag(props);
+### Simplified version of virtual DOM diffing and rendering
+https://gist.github.com/developit/2038b141b31287faa663f410b6649a87
+
+```js
+// JSX constructor, similar to createElement()
+// Use /** @jsx h */ comment
+export const h = (type, props, ...children) => ({
+  type,
+  props,
+  children,
+  key: props && props.key
+});
+
+export const render = (
+  newVNode,
+  dom,
+  oldVNode = dom._vnode || (dom._vnode = {}),
+  currentChildIndex
+) => {
+  if (Array.isArray(newVNode)) {
+    return newVNode.map((child, i) => render(child, dom, oldVNode._normalizedChildren?.[i]));
+  }
+  // Handle components
+  // Here components have a different signature compared to React:
+	// (props, state, updateFn) => VNode;
+  else if (typeof newVNode.type === 'function') {
+    newVNode.state = oldVNode.state || {};
+    const props = { ...newVNode.props, children: newVNode.children };
+    const renderResult = newVNode.type(
+      props,
+      newVNode.state,
+      nextState => {
+        Object.assign(newVNode.state, nextState);
+        render(newVNode, dom, newVNode);
+    });
+
+    render(renderResult, dom, oldVNode.rendered || {});
+  }
+  // Handle DOM elements and text nodes
+  else {
+    // assumes the types match here
+    newVNode.dom = oldVNode.dom || (newVNode.type ? document.createElement(newVNode.type) : new Text(newVNode.props));
+
+    // Update props
+    if (newVNode.type) {
+      for (const name in newVNode.props || {}) {
+        const value = newVNode.props[name];
+        if (value !== (oldVNode.props?.[name])) {
+          // DOM Properties like value, checked, className
+          name in newVNode.dom ? (newVNode.dom[name] = value) : newVNode.dom.setAttribute(name, value);
+        }
+      }
+    } else if (newVNode.props !== oldVNode.props) {
+      // document.createTextNode("Hello").data
+      newVNode.dom.data = newVNode.props;
     }
-    let element = { tag, props: { ...props, children } };
-    return element;
-  }
-}
 
-const render = (reactElementOrText, container) => {
-  if (['string', 'number'].includes(typeof reactElementOrText)) {
-    container.appendChild(document.createTextNode(String(reactElementOrText)));
-    return;
-  }
+    // Newly created node won’t have a parentNode and needs to be inserted
+    if (!newVNode.dom.parentNode) {
+      dom.insertBefore(newVNode.dom, dom.childNodes[currentChildIndex] || null);
+    }
 
-  let actualElement = document.createElement(reactElementOrText.tag);
-  if (reactElementOrText.props) {
-    Object.keys(reactElementOrText.props).filter(p => p !== children).forEach(p => {
-      actualElement.setAttribute(p, reactElementOrText.props[p])
-    })
-  }
-  if (reactElementOrText.props.children) {
-    reactElementOrText.props.children.forEach(child => {
-      render(child, actualElement)
-    })
-  }
-  container.appendChild(actualElement);
-}
+    // Diff children
+    const newChildren = newVNode.children.flat();
+    const oldChildren = oldVNode._normalizedChildren || [];
+    newVNode._normalizedChildren = newChildren.map((child, i) => {
+      const nextNewChild = typeof child === 'string' ? h('', child) : child;
+      // Find oldChild with matching key
+      const matchingOldChild = oldChildren.find(oldChild => oldChild?.key === nextNewChild.key) || {};
+      return render(nextNewChild, newVNode.dom, matchingOldChild, i);
+    });
 
-const App = () => (
-  <div className="react-div">
-    <h1>Hello</h1>
-    <p>Some text here</p>
-  </div>
-)
-
-render(<App />, document.querySelector("#app"));
+    // Remove old children if there are any
+		if (oldVNode._normalizedChildren) {
+			oldVNode._normalizedChildren.map(oldChild => {
+				oldChild && oldChild.dom.remove();
+			});
+		}
+    
+    Object.assign(oldVNode, newVNode);
+  }
+};
 ```
 
 ### How reconciliation works
