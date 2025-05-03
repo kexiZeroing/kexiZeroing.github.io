@@ -122,6 +122,8 @@ Windows 95 style UI component library for React: https://github.com/react95-io/R
 
 An AI chatbot in Win95 style: https://wingpt.vercel.app
 
+Github repos and users with a Windows 95 style: https://github95.vercel.app
+
 The Steve Jobs Archive: https://stevejobsarchive.com
 
 A web scraping and browser automation library: https://crawlee.dev
@@ -597,6 +599,8 @@ Your on-machine AI agent automating engineering tasks seamlessly: https://block.
 Google's 69-page paper on Prompt Engineering: https://www.kaggle.com/whitepaper-prompt-engineering
 
 GPT-4o Image Prompts Gallery: https://github.com/ImgEdify/Awesome-GPT4o-Image-Prompts
+
+Up-to-date documentation you can talk to for every repo in the world: https://deepwiki.com
 
 ---
 

@@ -438,6 +438,8 @@ type DistributiveOmit<T, K extends PropertyKey> = T extends any
 type Distributive = DistributiveOmit<Union, 'c'>; // Omit<A, "c"> | Omit<B, "c">
 ```
 
+When you're working with React and TypeScript, you may ask how do I figure out the type of a component's props? How do I get all the types that a div or span accepts? The answer is in a single place: `ComponentProps`.
+
 ```tsx
 // https://www.totaltypescript.com/react-component-props-type-helper
 import { ComponentProps } from "react"

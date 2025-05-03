@@ -6,7 +6,7 @@ tags: [AI]
 updatedDate: "Apr 24 2025"
 ---
 
-This is my learning notes from the [Vercel AI SDK Masterclass](https://www.youtube.com/watch?v=kDlqpN1JyIw) tutorial by Nico Albanese.
+This is my learning notes from the [AI Engineer workshop](https://www.youtube.com/watch?v=kDlqpN1JyIw) tutorial by Nico Albanese.
 
 > AI SDK is like an ORM for LLMs. It provides a simple interface to interact with different LLM providers, making it easy to switch between them without changing your code.
 
@@ -59,6 +59,22 @@ const main = async () => {
 }
  
 main()
+```
+
+## Stream Text
+
+```js
+import { openai } from '@ai-sdk/openai';
+import { streamText } from 'ai';
+
+const result = streamText({
+  model: openai('gpt-4o'),
+  prompt: 'Invent a new holiday and describe its traditions.',
+});
+
+for await (const textPart of result.textStream) {
+  process.stdout.write(textPart);
+}
 ```
 
 ## Tools (or Function Calling)
