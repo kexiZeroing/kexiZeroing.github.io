@@ -287,14 +287,23 @@ Before React Server Components, all React components are “client” components
 
 A common misconception here is that components with `"use client"` only run in browser. Client components still get pre-rendered to the initial HTML on the server (SSR). The `"use client"` doesn't mean the component is "client only", it means that we send the code for this component to the client and hydrate it.
 
-Btw, wrapping your root layout in the client component does not automatically turn your entire app into a client rendering. The client component gets hydrated on the client. The children can stay server components (do not hydrate on the client).
+Also note that wrapping your root layout in the client component does not automatically turn your entire app into a client rendering. The children can stay server components. (It's about the structure of the import, not the rendering.) So if you want to have server components inside a client component, you need to use the children pattern to pass them down.
 
 ```jsx
+// layout.tsx
+return (
+  <body>
+    <ThemeContextProvider>{children}</ThemeContextProvider>
+  </body>
+)
+
+// ThemeContext.tsx
 "use client";
 
-export function Providers({ children }: { children: React.ReactNode }) {
-  const theme = ...
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
+export default function ThemeContextProvider(
+  { children }: { children: React.ReactNode }
+) {
+  return <div>{children}</div>;
 }
 ```
 
