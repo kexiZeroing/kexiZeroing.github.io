@@ -151,31 +151,6 @@ app.use('/', (request, response) => {
 > Understand Node stream:  
 > The HTTP response object is a writable stream. All streams are instances of `EventEmitter`. They emit events that can be used to read and write data. The `pipe()` function reads data from a readable stream as it becomes available and writes it to a destination writable stream. All that the `pipe` operation does is subscribe to the relevant events on the source and call the relevant functions on the destination. The `pipe` method is the easiest way to consume streams.
 
-### How Suspense works
-One of the key benefits of React Suspense is that it lets you render as you fetch. Basically the React Component wrapped in Suspense tags, will start to try to render continuosly and **it expects for a method that throws a new promise** until the original promise is not resolved, that's how it knows that it has to keep rendering the fallback. So you need to pass a resource with a very specific shape, that's why you need a wrapper. Fetching libraries like react-query or SWR will implement the wrapper themselves, so you won't have to care of that part.
-
-```js
-// Use Suspense without a 3rd party library
-const OuterComponent = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <DataLoader />
-    </Suspense>
-  );
-}
-
-let data;
-
-const DataLoader = () => {
-  if (!data) {
-    throw fetchUserProfile(userId)
-      .then((profile) => { data = profile });
-  }
-
-  return <UserProfile data={data} />
-}
-```
-
 ### Streaming in Next.js
 Streaming enables you to progressively render UI from the server, which allows you to break down the page's HTML into smaller chunks and progressively send those chunks from the server to the client. This enables parts of the page to be displayed sooner, without waiting for all the data to load before any UI can be rendered. Streaming is built into the Next.js App Router by default.
 

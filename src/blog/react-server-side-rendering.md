@@ -9,12 +9,7 @@ updatedDate: "Dec 23 2024"
 ## Adding Server-Side Rendering
 SSR focuses on initial page load, sending pre-rendered HTML to the client that must then be hydrated with downloaded JavaScript before it behaves as a typical React app. SSR also only happens one time: when directly navigating to a page.
 
-> Debunking the Myth: SSR Isn't Expensive: https://t3.gg/blog/post/ssr-is-not-expensive
-> - SSR Overhead Is Minimal
-> - SSR Can Actually Reduce Other Cloud Costs
-> - SSR Delivers a Better User Experience
-
-Let’s create a simple React component App. We will render this component on the server-side and hydrate it on the client-side.
+Let’s create a simple React component App. We will render this component on the server-side and hydrate it on the client-side. *(The HTML React creates on the server must perfectly match what React tries to create in the browser.)*
 
 ```js
 // client/components/App/index.js
@@ -47,7 +42,7 @@ const cdnHost = `http://localhost:5000`;
 
 app.get('/', (req, res) => {
   // This turns the React component App into an HTML string
-  const jsx = ReactDOMServer.renderToString(<App />)
+  const jsx = ReactDOMServer.renderToString(<App initialData={someData} />)
   const clientBundleStyle = `<link rel="stylesheet" href="${cdnHost}/styles/bundle.css">`
   // This loads the JS code to “hydrate” the markup with interactivity.
   const clientBundleScript = `<script src="${cdnHost}/scripts/bundle.js"></script>`
@@ -63,6 +58,7 @@ app.get('/', (req, res) => {
       </head>
       <body>
         <div id='ssr-app'>${jsx}</div>
+        <script>window.__INITIAL_DATA__ = ${JSON.stringify(someData)}</script>
         ${clientBundleScript}
       </body>
     </html>
@@ -73,6 +69,8 @@ app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`)
 })
 ```
+
+> The `window.__INITIAL_DATA__` is used for hydration. When React "hydrates" the server-rendered HTML on the client, it needs the same data that was used on the server. The client doesn't need to re-fetch the same data that the server already used.
 
 In the client-side entry point, we will “hydrate” the React component that was SSR-ed into the root DOM container with the ID "ssr-app".
 
