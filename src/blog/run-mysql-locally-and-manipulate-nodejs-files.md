@@ -3,7 +3,7 @@ title: "Run MySQL locally and some Node.js operations"
 description: ""
 added: "Aug 7 2024"
 tags: [code]
-updatedDate: "Sep 24 2024"
+updatedDate: "May 4 2025"
 ---
 
 ## Run MySQL locally and query it with Express
@@ -112,6 +112,155 @@ app.post("/todos", async (req, res) => {
 app.listen(3000, () => {
   console.log("Server started on http://localhost:3000");
 });
+```
+
+### Prisma in Next.js
+
+```
+Next.js Server(server components, server actions, API route) <--> ORM (Prisma) <--> Database
+```
+
+Running `npx prisma init --datasource-provider sqlite` creates a new prisma directory with a `schema.prisma` file. You're now ready to model your data.
+
+```
+# This is your Prisma schema file
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+```
+
+```
+1. one-to-many relationship
+
+model User {
+  id     Int     @id @default(autoincrement())
+  posts  Post[]
+}
+
+model Post {
+  id        Int    @id @default(autoincrement())
+  author    User   @relation(fields: [authorId], references: [id])
+  authorId  Int
+}
+
+"author" will not become a column in the database. The way to read this is that "authorId" field references the "id" field on the User model.
+```
+
+```
+2. many-to-many relationship
+
+model User {
+  id     Int     @id @default(autoincrement())
+  posts  Post[]
+}
+
+model Post {
+  id       Int    @id @default(autoincrement())
+  authors  User[]
+}
+```
+
+```
+3. one-to-one relationship
+model User {
+  id     Int      @id @default(autoincrement())
+  post   Post?
+}
+
+model Post {
+  id        Int   @id @default(autoincrement())
+  author    User  @relation(fields: [authorId], references: [id])
+  authorId  Int   @unique
+}
+```
+
+Prisma ORM is not your database. Running `npx prisma db push` first time will create SQLite database `dev.db` that in sync with your schema. `npx prisma studio` shows you a UI what's in the database, and you can manually add a record there.
+
+Now that we have a database with some initial data, we can set up Prisma Client and connect it to our database. For [Next.js integration](https://www.prisma.io/docs/guides/nextjs), add a `lib/prisma.ts` file which creates a Prisma Client (`@prisma/client`) and attaches it to the global object.
+
+```js
+import prisma from '@/lib/prisma'
+
+export default async function Home() {
+  const posts = await prisma.post.findMany();
+  return (
+    <ul>
+      {posts.map((post) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+```js
+// more CRUD
+const post = await prisma.post.findUnique({
+  where: {
+    id: params.id
+  }
+});
+
+const posts = await prisma.post.findMany({
+  where: {
+    published: true,
+    title: {
+      contains: "First"
+    }
+  },
+  orderBy: {
+    createdAt: "desc"
+  },
+  select: {
+    id: true,
+    title: true,
+  },
+  // offset pagination (e.g. get page 2, each page has 10 posts)
+  take: 10,
+  skip: 10,
+});
+
+const user = await prisma.user.findUnique({
+  where: {
+    email: "test@gmail.com"
+  },
+  include: {
+    posts: true
+  }
+})
+
+export async function createPost(formData: FormData) {
+  await prisma.post.create({
+    data: {
+      title: formData.get("title") as string,
+      content: formData.get("content") as string,
+      author: {
+        connect: {
+          email: "test@gmail.com"
+        }
+      }
+    }
+  });
+  // rerender the view
+  revalidatePath("/posts");
+}
+
+await prisma.post.update({
+  where: { id },
+  data: {
+    title: formData.get("title") as string,
+  }
+})
+
+await prisma.post.delete({
+  where: { id },
+})
 ```
 
 ## Manipulate Node.js files
