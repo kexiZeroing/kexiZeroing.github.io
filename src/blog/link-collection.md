@@ -348,8 +348,6 @@ Building a Custom React Renderer by Sophie Alpert: https://www.youtube.com/watch
 
 Deconstructing React by Tejas Kumar: https://www.youtube.com/watch?v=eTcyOCd6v1c
 
-React Fiber Architecture: https://github.com/acdlite/react-fiber-architecture
-
 All Developer Way Articles about React: https://www.developerway.com
 
 Build your own React: https://pomb.us/build-your-own-react

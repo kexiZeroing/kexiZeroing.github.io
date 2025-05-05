@@ -3,7 +3,7 @@ title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
 tags: [react]
-updatedDate: "Apr 14 2025"
+updatedDate: "May 5 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -199,6 +199,19 @@ Note that here React still re-renders the component, but the DOM node for the `<
 
 Read this article: https://cekrem.github.io/posts/react-reconciliation-deep-dive
 
+### What is Fiber
+React Fiber was introduced in React 16, which is a reimplementation of React's core algorithm. At it's core, Fiber is a JavaScript object that represents a unit of work. It's a lightweight representation of a component tree that React can work on.
+
+React processes Fibers and when done, it commits the changes to the DOM. This happens in two phases:
+
+1. **Render phase:** During this phase, React does asynchronous work behind the scenes. It processes all Fibers. Because it happens asynchronously, work can be prioritized, paused, resumed, and aborted. Internal functions like `beginWork()` and `completeWork()` are called during this process.
+
+2. **Commit phase:** Once the render phase is complete, React commits the changes to the DOM by calling `commitWork()`. This is synchronous and can't be interrupted.
+
+Fiber nodes are organized in a tree structure that mirrors the component tree. Each Fiber has a reference to its parent, child, and sibling Fibers. This allows React to traverse the tree efficiently and perform updates.
+
+When React starts rendering, it creates a work-in-progress tree that mirrors the current tree. As React processes the work, it updates the work-in-progress tree. Once the work is complete, React swaps the current tree with the work-in-progress tree.
+
 ### You Might Not Need an Effect
 > Whenever you think of writing `useEffect`, the only sane thing is to NOT do it. Instead, go to the react docs and re-read the page about why you don't need an effect. You really don't. -@TkDodo
 
@@ -293,10 +306,11 @@ export default function App() {
 In early versions (React 17 and earlier), React updated the DOM immediately after each state change. Multiple state updates within a single event cycle would cause multiple, unnecessary re-renders, affecting the application's responsiveness.
 
 ```js
+// React 17
 const handleUpdate = () => {
   setCount(count + 1); // First update
   setFlag(!flag);      // Second update
-  // In pre-batching React, this would cause two separate renders
+  // In pre-batching React, this would cause two separate re-renders
 };
 ```
 
@@ -305,17 +319,13 @@ React 18 introduced batching to prevent these issues. Batching means that React 
 `flushSync` allows you to opt-out of batching for specific updates, forcing them to be processed immediately. This ensures that critical updates are executed in the correct order, even within a batched state update cycle. *(But, use it carefully and not too much, because using it too often can cancel out the performance advantages of batching.)*
 
 ```js
-// https://tigerabrodi.blog/understanding-flushsync-mastering-batching-behavior-in-reactjs
-const receiveMessage = () => {
-  const newMessage = `Message ${messages.length + 1}`;
+import { flushSync } from "react-dom";
 
-  // Update messages and Forces re-render
+const handleClick = () => {
   flushSync(() => {
-    setMessages(prevMessages => [...prevMessages, newMessage]);
+    setCount(count + 1); // Triggers an immediate re-render
   });
-
-  // Scroll to the bottom after messages update
-  endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
+  setFlag(!flag); // Queued state update
 };
 ```
 
