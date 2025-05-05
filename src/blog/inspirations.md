@@ -31,7 +31,6 @@ order: 3
 ## Must read articles
 - https://github.com/reactwg/server-components/discussions/5
 - https://tigerabrodi.blog/why-is-react-server-components-actually-beneficial-full-history
-- https://tigerabrodi.blog/reacts-evolution-from-hooks-to-concurrent-react
 - https://www.developerway.com/posts/react-re-renders-guide
 - https://www.totaltypescript.com/how-to-create-an-npm-package
 - https://www.totaltypescript.com/tsconfig-cheat-sheet

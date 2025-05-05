@@ -1,8 +1,9 @@
 ---
-title: "Next.js Forms are different now"
+title: "React 19 and Next.js Forms have both changed"
 description: ""
 added: "Feb 22 2025"
 tags: [web, react]
+updatedDate: "May 5 2025"
 ---
 
 ## React 19 `useActionState` and `useFormStatus`
@@ -153,6 +154,68 @@ export async function submitMessage(_prevState, formData) {
   return {
     success: true,
   };
+}
+```
+
+### `useOptimistic` use case
+This hook lets you update the UI immediately in response to an action, before the server responds. You pass to it the current state you want to manage, and a function to update the optimistic state. It returns you the optimistic state (which you use for immediate rendering), and a function to update it.
+
+```js
+'use server'
+
+type Todo = {
+  todo: string
+}
+
+export async function addTodo(newTodo: string): Promise<Todo> {
+  // Simulating server delay
+  await new Promise((resolve) => setTimeout(resolve, 3000))
+  return {
+    todo: newTodo + ' test',
+  }
+}
+```
+
+```js
+'use client'
+
+import { useOptimistic, useState, useRef } from 'react'
+import { addTodo } from './actions'
+
+export default function Todos() {
+  const [todos, setTodos] = useState<Todo[]>([])
+  const formRef = useRef<HTMLFormElement>(null)
+
+  const [optimisticTodos, addOptimisticTodo] = useOptimistic<Todo[], string>(
+    todos,
+    (state, newTodo) => [...state, { todo: newTodo }]
+  )
+
+  const formAction = async (formData: FormData) => {
+    const todo = formData.get('todo') as string
+    addOptimisticTodo(todo)
+    formRef.current?.reset()
+
+    try {
+      const result = await addTodo(todo)
+      setTodos((prevTodos) => [...prevTodos, { todo: result.todo }])
+    } catch (error) {
+      console.error('Error adding todo:', error)
+      // Optionally, you could remove the optimistic update here if the server request fails
+    }
+  }
+
+  return (
+    <div>
+      {optimisticTodos.map((m, i) => (
+        <div key={i}>{m.todo}</div>
+      ))}
+      <form action={formAction} ref={formRef}>
+        <input type='text' name='todo' />
+        <button type='submit'>Send</button>
+      </form>
+    </div>
+  )
 }
 ```
 
