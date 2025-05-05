@@ -3,6 +3,7 @@ title: "How common web development tools work under the hood"
 description: ""
 added: "May 4 2025"
 tags: [web, code]
+updatedDate: "May 5 2025"
 ---
 
 ## Compile Vue SFC to JS
@@ -211,25 +212,57 @@ app.use(async function (req, res) {
 ```
 
 ## React Suspense
-The core concept is a renderer that catches a thrown promise, renders a fallback, and re-renders the component when the promise resolves.
+React Suspense operates on a "throw and catch" pattern:
+1. Components "throw" Promises when data isn't ready.
+2. Suspense boundaries "catch" these Promises.
+3. Fallback UI is shown while waiting.
+4. Re-rendering is triggered when the Promise resolves.
 
 ```js
-// Component throws promise if data is not ready
-function Profile() {
-  let data = null;
-  const fetchData = () => new Promise((r) => setTimeout(() => r(data = { name: 'John' }), 1000));
-  
-  return () => {
-    if (!data) throw fetchData();
-    return `<div>Hello, ${data.name}!</div>`;
+const createResource = (somethingReturnsPromise: () => Promise<any>) => {
+  let status = 'pending';
+  let result;
+  let suspender = somethingReturnsPromise().then(
+    r => {
+      status = 'success';
+      result = r;
+    },
+    e => {
+      status = 'error';
+      result = e;
+    }
+  );
+  return {
+    read() {
+      if (status === 'pending') {
+        throw suspender;
+      } else if (status === 'error') {
+        throw result;
+      } else if (status === 'success') {
+        return result;
+      }
+    }
   };
 }
 
+const userDataResource = createResource(() => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve({ name: 'John' }), 1000);
+  });
+});
+
+function Profile() {  
+  // This line will throw a promise if data isn't ready
+  const userData = userDataResource.read();
+  
+  return `<div>Hello, ${userData.name}!</div>`;
+}
+
 // Simplified renderer acting as a Suspense boundary
-function render(component) {
+function render(Component) {
   try {
     // Try to render the component
-    const result = component();
+    const result = Component();
     // Simulate DOM update
     document.body.innerHTML = result;
   } catch (thrown) {
@@ -239,7 +272,7 @@ function render(component) {
       // Wait for promise to resolve
       thrown.then(() => {
         // Schedule re-render after resolution
-        render(component);
+        render(Component);
       });
     } else {
       // Real error, let it bubble up
