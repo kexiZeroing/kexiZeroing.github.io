@@ -158,7 +158,7 @@ By the way, `jsconfig.json` is a descendant of `tsconfig.json`. The presence of 
 ## Basic Static Types
 TypeScript brings along static types to the JavaScript language. **TypeScript's types don't exist at runtime.** They're only used to help you catch errors at compile time.
 
-[ts-reset](https://www.totaltypescript.com/ts-reset) from Total TypeScript is a 'CSS reset' for TypeScript, improving types for common JavaScript API's. For example, `.json()` and `JSON.parse` return unknown, `.filter(Boolean)` behaves exactly how you expect.
+> [ts-reset](https://www.totaltypescript.com/ts-reset) from Total TypeScript is a 'CSS reset' for TypeScript, improving types for common JavaScript API's. For example, `.json()` and `JSON.parse` return unknown, `.filter(Boolean)` behaves exactly how you expect.
 
 ```ts
 let isAwesome: boolean = true;

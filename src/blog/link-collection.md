@@ -336,6 +336,8 @@ Interactive CSS memory space: https://nerdy.dev/notebook
 
 Rich text editor comparison in 2025: https://liveblocks.io/blog/which-rich-text-editor-framework-should-you-choose-in-2025
 
+WebGL globe library: https://github.com/shuding/cobe
+
 ---
 
 ## React ecosystem

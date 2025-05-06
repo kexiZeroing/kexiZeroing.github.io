@@ -34,11 +34,11 @@ User                App                        LLM               MCP Server
 ### MCP server and client
 MCP uses a client-server design where applications can connect to multiple resources.
 
-The **MCP host** is the program that's going to access the MCP servers. This might be Claude Desktop, Cursor, Windsurf, or any other application that supports MCP. (LLM + MCP Client)
+The **MCP host** is the program that's going to access the MCP servers. This might be Claude Desktop, Cursor, Windsurf, or any other application that supports MCP. Any application implementing the MCP protocol to allow connections to MCP servers is a host.
 
 On this host, you're going to run one or multiple **MCP clients** - each client will maintain a relationship to a single MCP server. When the host starts up, each client will connect to an MCP server. See https://www.pulsemcp.com/clients
 
-The **MCP server** is the server that's going to be running the tools that the host wants to call. This server could be running locally, or it could be running on a remote server. See https://www.pulsemcp.com/servers
+The **MCP server** is the most interesting concept for 99% of us. The server is the program that exposes a set of capabilities to the host application. If you want to allow a host to read emails, you can connect it to a Gmail MCP Server. If you want the host to post in Slack, you connect it to a Slack MCP Server. If you have some custom functionality you want an LLM to perform, you can build a new MCP server. The server could be running locally, or it could be running on a remote server. See https://www.pulsemcp.com/servers
 
 > You can also check out these [Goose tutorials](https://block.github.io/goose/docs/category/tutorials), showing you exactly how you can use some of the popular MCP servers with Goose, or use Goose's Tutorial extension to get extra help walking you through using or building extensions.
 
