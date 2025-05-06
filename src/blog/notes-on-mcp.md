@@ -3,7 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "May 2 2025"
+updatedDate: "May 6 2025"
 ---
 
 ### Historical context: The Path to MCP
@@ -77,15 +77,15 @@ The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for commun
 ```
 
 ### The simplest MCP server
+You can start with https://github.com/betterstack-community/mcp-template-ts
 
-```ts
+```js
 // npm i @modelcontextprotocol/sdk zod
-
+// server-logic.js
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-const server = new McpServer({
+export const server = new McpServer({
   name: "Weather Service",
   version: "1.0.0",
 });
@@ -106,9 +106,43 @@ server.tool(
     };
   },
 );
+```
+
+The stdio transport enables communication through standard input/output streams. This is particularly useful for local integrations and command-line tools.
+
+```js
+// 1. use stdio
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { server } from "./server-logic.js";
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
+```
+
+SSE transport enables server-to-client streaming with HTTP POST requests for client-to-server communication.
+
+```js
+// 2. use sse
+import express from "express";
+import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import { server } from "./server-logic.js";
+
+const app = express();
+
+let transport;
+app.get("/sse", async (req, res) => {
+  transport = new SSEServerTransport("/messages", res);
+  await server.connect(transport);
+});
+
+app.post("/messages", async (req, res) => {
+  await transport.handlePostMessage(req, res);
+});
+
+const port = process.env.PORT || 8081;
+app.listen(port, () => {
+  console.log(`MCP SSE Server is running on http://localhost:${port}/sse`);
+});
 ```
 
 Claude Desktop is the first MCP-compatible app, and it's the easiest way to test MCP. Open your Claude Desktop App configuration at `~/Library/Application Support/Claude/claude_desktop_config.json` in a text editor. After updating your configuration file, you need to restart Claude for Desktop. See the [documentation](https://modelcontextprotocol.io/quickstart/user) for more details.
@@ -144,152 +178,52 @@ claude
 
 > Most MCP servers work "locally" (over a mechanism called `stdio`): you download a copy of the source code and run the code on your own computer. Servers rely on a command line tool either `npx` or `uvx` to download and run the server's code on your local machine. With both `npx` and `uvx` working, you're ready to use MCP servers with Claude Desktop.
 
-### MCP servers over HTTP
-The server can be hosted on the cloud, and the client can communicate with it via an HTTP connection. This is the mechanism called SSE, which enables an MCP server to be used over the internet. Most MCP servers today do not support this yet.
+### AI SDK MCP clients
+The SDK supports connecting to MCP servers via either stdio (for local tools) or SSE (for remote servers). Once connected, you can use MCP tools directly with the AI SDK. The client exposes a `tools` method for retrieving tools from a MCP server.
 
 ```js
-// Still use the server we had in the previous example
+import { experimental_createMCPClient as createMCPClient } from 'ai';
+import { openai } from '@ai-sdk/openai';
 
-import express from "express";
-import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
-
-const app = express();
-
-let transport: SSEServerTransport | undefined =
-  undefined;
-
-app.get("/sse", async (req, res) => {
-  transport = new SSEServerTransport("/messages", res);
-  await server.connect(transport);
+const mcpClient = await createMCPClient({
+  transport: {
+    type: 'sse',
+    url: 'http://localhost:8081/sse',
+  },
+  name: 'My MCP Server',
 });
 
-app.post("/messages", async (req, res) => {
-  if (!transport) {
-    res.status(400);
-    res.json({ error: "No transport" });
-    return;
-  }
-  await transport.handlePostMessage(req, res);
-});
-
-app.listen(3000, () => {
-  console.log("Server started on port 3000");
+// The client's tools method acts as an adapter between MCP tools and AI SDK tools.
+// https://sdk.vercel.ai/docs/ai-sdk-core/tools-and-tool-calling#using-mcp-tools
+const response = await generateText({
+  model: openai('gpt-4o'),
+  tools: await mcpClient.tools(),
+  prompt: 'Find products under $100',
 });
 ```
 
-Run the server: `npx tsx ./path-to-file.ts`
+```js
+// Sometimes it's good to hint to the AI that you want it to use tools.
+// export default async function getTools() {
+//   const tools = await mcpClient.tools();
+//   return {
+//     ...tools,
+//     getProducts,
+//     recommendGuitar,
+//   };
+// }
+const SYSTEM_PROMPT = `You are an AI for a music store.
 
-### Create an MCP client that can connect to any MCP server
-https://github.com/alejandro-ao/mcp-clients
+There are products available for purchase. You can recommend a product to the user.
+You can get a list of products by using the getProducts tool.
 
-```ts
-// anthropic sdk
-import { Anthropic } from "@anthropic-ai/sdk";
-import { Tool } from "@anthropic-ai/sdk/resources/messages/messages.mjs";
-
-// mcp sdk
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-
-class MCPClient {
-  private mcp: Client;
-  private llm: Anthropic;
-  private transport: StdioClientTransport | null = null;
-  private tools: Tool[] = [];
-
-  constructor() {
-    this.llm = new Anthropic({
-      apiKey: ANTHROPIC_API_KEY,
-    });
-    this.mcp = new Client({ name: "mcp-client-cli", version: "1.0.0" });
-  }
-
-  // Connect to the MCP
-  async connectToServer(serverScriptPath: string) {
-    const isJs = serverScriptPath.endsWith(".js");
-    const isPy = serverScriptPath.endsWith(".py");
-    const command = isPy ? "python3" : process.execPath;  // '/usr/local/bin/node' 
-
-    this.transport = new StdioClientTransport({
-      command,
-      args: [serverScriptPath],
-    });
-    await this.mcp.connect(this.transport);
-
-    // Register tools
-    const toolsResult = await this.mcp.listTools();
-    this.tools = toolsResult.tools.map((tool) => {
-      return {
-        name: tool.name,
-        description: tool.description,
-        input_schema: tool.inputSchema,
-      };
-    });
-
-    console.log(
-      "Connected to server with tools:",
-      this.tools.map(({ name }) => name)
-    );
-  }
-
-  async processQuery(query: string) {
-    const messages = [
-      {
-        role: "user",
-        content: query,
-      },
-    ];
-
-    const response = await this.llm.messages.create({
-      model: "claude-3-5-sonnet-20241022",
-      max_tokens: 1000,
-      messages,
-      tools: this.tools,
-    });
-
-    const finalText = [];
-    const toolResults = [];
-
-    // if text -> return response
-    for (const content of response.content) {
-      if (content.type === "text") {
-        finalText.push(content.text);
-      } else if (content.type === "tool_use") {
-        // if tool -> call the tool on mcp server
-        const toolName = content.name;
-        const toolArgs = content.input;
-
-        const result = await this.mcp.callTool({
-          name: toolName,
-          arguments: toolArgs,
-        });
-        toolResults.push(result);
-        finalText.push(
-          `[Calling tool ${toolName} with args ${JSON.stringify(toolArgs)}]`
-        );
-        messages.push({
-          role: "user",
-          content: result.content,
-        });
-
-        const response = await this.llm.messages.create({
-          model: "claude-3-5-sonnet-20241022",
-          max_tokens: 1000,
-          messages,
-        });
-
-        finalText.push(
-          response.content[0].type === "text" ? response.content[0].text : ""
-        );
-      }
-    }
-
-    return finalText.join("\n");
-  }
-}
+You also have access to a fulfillment server that can be used to purchase products.
+You can get a list of products by using the getInventory tool.
+You can purchase a product by using the purchase tool.
+`;
 ```
 
-> Update on 2025.5.2:
+> Update from Anthropic on 2025.5.2:
 > Until now, support for MCP was limited to Claude Desktop through local servers. Today, we're introducing Integrations, allowing Claude to work seamlessly with remote MCP servers across the web and desktop apps. Developers can build and host servers that enhance Claude’s capabilities, while users can discover and connect any number of these to Claude.
 >
 > What this means is that you can bring your own remote MCP server to claude.ai. Users just need a URL to equip the LLM with new tools and capabilities.
@@ -305,3 +239,4 @@ class MCPClient {
 - https://github.com/github/github-mcp-server
 - https://github.com/invariantlabs-ai/mcp-scan
 - https://github.com/modelcontextprotocol/inspector
+- https://www.youtube.com/watch?v=eD0uBLr-eP8
