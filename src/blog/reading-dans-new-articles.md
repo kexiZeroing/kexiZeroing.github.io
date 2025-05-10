@@ -3,7 +3,7 @@ title: "Reading Dan's new articles"
 description: ""
 added: "Apr 20 2025"
 tags: [react, code]
-updatedDate: "May 3 2025"
+updatedDate: "May 10 2025"
 ---
 
 Dan is really a good writer. He recently published several articles this April, which is uncommon in recent years. I'm particularly drawn to his storytelling style that captivates readers from beginning to end. Instead of sharing his original texts here, I'll show some code from his articles that demonstrates key ideas.
@@ -1006,3 +1006,39 @@ export function LikeButton({ color }) {
 /* HOLE_1: */["article", { children: [["p", "Here is a piece of HTML:", ...]]}]
 /* HOLE_2: */["ul", { className: "comments", children: [["li", { children: "Server rendering sucks, you should only do things on the client" }]] }]
 ```
+
+## RSC for Astro Developers
+
+```astro
+---
+// 1. Astro Components execute exclusively on the server or during the build. 
+// 2. Client Islands are components written for React. This is your typical frontend stuff.  
+
+import { readFile } from 'fs/promises';
+import { LikeButton } from './LikeButton';
+ 
+const { slug } = Astro.props;
+const title = await readFile(`./posts/${slug}/title.txt`, 'utf8');
+---
+<article>
+  <h1>{title}</h1>
+  <LikeButton client:load />
+</article>
+```
+
+```js
+import { useState } from 'react';
+ 
+export function LikeButton() {
+  const [liked, setLiked] = useState(false);
+  return (
+    <button onClick={() => setLiked(!liked)}>
+      {liked ? '❤️' : '🤍'} Like
+    </button>
+  );
+}
+```
+
+> In Astro, the fundamental output format is HTML.
+> 
+> In RSC, the fundamental output format is a React tree (which can be turned to HTML, but can also be fetched as JSON).
