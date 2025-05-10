@@ -1312,6 +1312,27 @@ React.useEffect(async () => {
 }, [userId])
 ```
 
+Another common mistake is to use `forEach` loop with async functions. The `forEach` loop is synchronous, meaning it doesn’t wait for the inner async function to complete. To fix this, you can use a `for...of` loop with `await`.
+
+```js
+const userIds = [1, 2, 3];
+// Wrong
+async function fetchUsers() {
+  userIds.forEach(async (id) => {
+    const user = await fetchUserById(id);
+    console.log(`Fetched user: ${user.name}`);
+  });
+}
+
+// Correct
+async function fetchUsers() {
+  for (const id of userIds) {
+    const user = await fetchUserById(id);
+    console.log(`Fetched user: ${user.name}`);
+  }
+}
+```
+
 ```js
 // wait 1 second
 // await new Promise(resolve => setTimeout(resolve, 1000));

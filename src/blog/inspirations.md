@@ -33,7 +33,7 @@ order: 3
 - https://tigerabrodi.blog/why-is-react-server-components-actually-beneficial-full-history
 - https://www.developerway.com/posts/react-re-renders-guide
 - https://www.totaltypescript.com/how-to-create-an-npm-package
-- https://www.totaltypescript.com/tsconfig-cheat-sheet
+- https://www.totaltypescript.com/books/total-typescript-essentials/configuring-typescript
 - https://philipwalton.com/articles/the-state-of-es5-on-the-web
 - https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
 - https://tania.dev/how-to-use-webpack

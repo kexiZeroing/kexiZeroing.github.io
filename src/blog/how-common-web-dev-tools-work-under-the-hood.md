@@ -3,8 +3,18 @@ title: "How common web development tools work under the hood"
 description: ""
 added: "May 4 2025"
 tags: [web, code]
-updatedDate: "May 5 2025"
+updatedDate: "May 10 2025"
 ---
+
+## TOC
+- [TOC](#toc)
+- [Compile Vue SFC to JS](#compile-vue-sfc-to-js)
+- [Vite dev server](#vite-dev-server)
+- [React Server Components](#react-server-components)
+- [React Suspense](#react-suspense)
+- [Simple bundler](#simple-bundler)
+- [Hot Module Replacement](#hot-module-replacement)
+- [Source Maps](#source-maps)
 
 ## Compile Vue SFC to JS
 High level compilation process: 
@@ -210,6 +220,10 @@ app.use(async function (req, res) {
   }
 })
 ```
+
+## React Server Components
+- https://github.com/bholmesdev/simple-rsc
+- https://www.youtube.com/watch?v=F83wMYl9GWM&t=496s
 
 ## React Suspense
 React Suspense operates on a "throw and catch" pattern:

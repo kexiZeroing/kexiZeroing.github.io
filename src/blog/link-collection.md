@@ -450,6 +450,8 @@ Clerk official SDK for Vue: https://clerk.com/changelog/2025-01-07-vue-and-nuxt-
 
 Vue Dashboard Template made with Nuxt UI Pro: https://github.com/nuxt-ui-pro/dashboard-vue
 
+A collection of ready-to-use plugins and composables: https://www.vue.equipment
+
 ---
 
 ## Browsers related
@@ -601,6 +603,8 @@ Google's 69-page paper on Prompt Engineering: https://www.kaggle.com/whitepaper-
 GPT-4o Image Prompts Gallery: https://github.com/ImgEdify/Awesome-GPT4o-Image-Prompts
 
 Up-to-date documentation you can talk to for every repo in the world: https://deepwiki.com
+
+CLI for interacting with MCP servers: https://github.com/f/mcptools
 
 ---
 

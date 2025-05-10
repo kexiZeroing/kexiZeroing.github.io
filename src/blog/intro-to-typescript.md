@@ -407,6 +407,10 @@ const albumAwards: Record<string, boolean> = {};
 type PngFile = `${string}.png`;
 let myImage: PngFile = "my-image.png";
 
+type Headers = {
+  Authorization: `Bearer ${string}`;
+}
+
 type ColorShade = 100 | 200 | 300;
 type Color = "red" | "blue" | "green";
 type ColorPalette = `${Color}-${ColorShade}`;

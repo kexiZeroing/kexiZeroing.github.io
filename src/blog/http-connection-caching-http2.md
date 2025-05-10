@@ -3,7 +3,7 @@ title: "HTTP connection, caching and HTTP/2"
 description: ""
 added: "Nov 20 2022"
 tags: [web]
-updatedDate: "Oct 29 2024"
+updatedDate: "May 10 2025"
 ---
 
 ## Connection management
@@ -91,6 +91,55 @@ When visiting an HTTPS page in Google Chrome, the browser alerts you to mixed co
 Content security policy (CSP) is a multi-purpose browser feature that you can use to manage mixed content at scale. The `upgrade-insecure-requests` CSP directive instructs the browser to upgrade insecure URLs before making network requests. As with browser automatic upgrading, if the resource is not available over HTTPS, the upgraded request fails and the resource is not loaded. This maintains the security of your page.
 
 > The HTTP Strict-Transport-Security response header (often abbreviated as `HSTS`) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. This is more secure than simply configuring a HTTP to HTTPS (301) redirect on your server, where the initial HTTP connection is still vulnerable to a man-in-the-middle attack.
+
+### Chunked transfer encoding
+In HTTP/1.1, use `transfer-encoding: chunked` in response header like below, and we could keep writing response `res.write()`, till we use `res.end()` to finish the streaming process.
+
+```js
+res.writeHead(200, {
+  'Content-Type': 'text/html',
+  'Transfer-Encoding': 'chunked'
+});
+```
+
+Here’s what’s happening:
+- Each chunk starts with its length in hexadecimal.
+- The data follows the length, and the next chunk starts after a newline.
+- The response ends with a zero-length chunk.
+
+Note that HTTP/2 specification explicitly forbids the use of the `Transfer-Encoding` header. HTTP/2 and later provide more efficient mechanisms for data streaming than chunked transfer. Usage of the header in HTTP/2 may likely result in a specific protocol error.
+
+```js
+const http2 = require('http2');
+const fs = require('fs');
+
+const server = http2.createSecureServer({
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.crt'),
+});
+
+server.on('stream', (stream, headers) => {
+  stream.respond({
+    ':status': 200,
+    'content-type': 'text/html',
+  });
+
+  stream.write('<!DOCTYPE html><html><head><title>HTTP/2 Streaming</title></head><body>');
+
+  setTimeout(() => {
+    stream.write('<p>First chunk of content streamed.</p>');
+  }, 1000);
+
+  setTimeout(() => {
+    stream.write('<p>Final chunk of content streamed.</p>');
+    stream.end('</body></html>');
+  }, 2000);
+});
+
+server.listen(3000, () => {
+  console.log('HTTP/2 server running at https://localhost:3000/');
+});
+```
 
 ## HTTP caching
 The HTTP cache stores a response associated with a request and reuses the stored response for subsequent requests. Proper operation of the cache is critical to the health of the system.

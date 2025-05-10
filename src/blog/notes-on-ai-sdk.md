@@ -122,6 +122,8 @@ Now we only have the tool results and the model hasn't actually answered the que
 
 When `maxSteps` is set to a number greater than 1 and the model generates a tool call, the AI SDK will trigger a new generation passing in the tool result until there are no further tool calls or the maximum number of tool steps is reached.
 
+> If you just need the tool's call result, you can directly access it from `message.toolInvocations` (no need for `maxSteps`). It's when you need to feed the result of the tool invocation back to LLM for it to interpret and respond that's when you need `maxSteps`.
+
 ```js
 const main = async () => {
   const result = await generateText({
