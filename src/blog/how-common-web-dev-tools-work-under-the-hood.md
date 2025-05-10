@@ -225,6 +225,81 @@ app.use(async function (req, res) {
 - https://github.com/bholmesdev/simple-rsc
 - https://www.youtube.com/watch?v=F83wMYl9GWM&t=496s
 
+```js
+// 1. Add server rendering
+app.get("/:path", async (req, res) => {
+  const page = await import(join(process.cwd(), "dist", "pages", req.params.path));
+  const Component = page.default;
+  const html = renderToString(
+    <Layout>
+      <Component {...req.query} />
+      <script src="/client.js"></script>
+    </Layout>
+  );
+  res.end(html);
+})
+```
+
+If we directly call `renderToString()` for a server component and send it to the client, React will complain *"Error: Objects are not valid as a React child (found: [object Promise])"*. Trying to render a Promise object as a child in a React component is an error.
+
+```js
+// 2. We need to turn it into React element (js object) and send to the client
+const createReactTree = async (jsx) => {
+  // if (typeof jsx === 'string') ...
+  if (typeof jsx === 'object') {
+    if (jsx.$$typeof === Symbol.for("react.element")) {
+      if (typeof jsx.type === 'string') {
+        return {
+          ...jsx,
+          props: await createReactTree(jsx.props),
+        }
+      }
+      if (typeof jsx.type === 'function') {
+        const Component = jsx.type;
+        const props = jsx.props;
+        const returnedJsx = await Component(props);
+        return await createReactTree(returnedJsx);
+      }
+    }
+  }
+}
+```
+
+A Symbol value like `Symbol.for('react.element')` doesn't "survive" JSON serialization. On the server, we're going to substutute it with a special string like `"$"`. On the client, we'll replace `"$"` back with the original Symbol.
+
+```js
+// 3. Take the jsx tree we made into HTML and send RSC output to the client
+const reactTree = await createReactTree(<Component />);
+
+const html = `${renderToString(reactTree)}
+<script>
+window.__initialMarkup=\`${JSON.stringify(reactTree, escapeJsx)}\`;
+</script>
+<script src="/client.js"></script>`;
+
+res.end(html);
+
+const escapeJsx = (key, value) => {
+  if (value === Symbol.for("react.element")) {
+    return "$";
+  }
+  return value;
+};
+```
+
+```js
+// 4. Client hydrate the RSC output
+const revive = (k, v) => {
+  if (v === "$") {
+    return Symbol.for("react.element");
+  }
+  return v;
+};
+
+const markup = JSON.parse(window.__initialMarkup, revive);
+const root = hydrateRoot(document, markup);
+```
+
 ## React Suspense
 React Suspense operates on a "throw and catch" pattern:
 1. Components "throw" Promises when data isn't ready.
