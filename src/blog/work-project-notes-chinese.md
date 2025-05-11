@@ -660,13 +660,13 @@ Advantages over `localStorage`:
 "winclient": "cross-env PLATFORM_ENV=client npm run pack:windows",
 ```
 
-**遥控器** 就是常规的页面，使用 webpack 构建（入口 `src/renderer/pages/remote/remote.js`），它要建立 ws 连接，角色是 REMOTE：
+**遥控器** 就是常规的页面，一个独立的 SPA 使用 webpack 构建产出放在 `dist/web` 目录下 (打包后在 `path.join(process.resourcesPath, 'app.asar.unpacked', 'web')`)。它要建立 ws 连接，角色是 REMOTE：
 - 接收 hello 指令，把 client 5-8 屏加进屏幕列表中
 - 接收 guest 指令，获取到嘉宾数据，可以显示主嘉宾
 - 接收 scene 指令，激活屏变化，更新当前屏的指令集
 - 发送 ws 消息，包括 开启、重启、关闭、选择屏幕、选择指令
 
-**server 端主机**启动一个 ws 服务 (`new WebSocketServer({ port })`)，接收遥控器和 client 端发送过来的消息，如果是 client 端消息，需要转发给遥控器。如果是遥控器通知开启、关闭等，需要通过 `emitter.emit` 传递处理，并且转发给另一台主机 client 端。上下文 context 中保存着当前激活的屏幕和之前激活的屏幕序号。
+**server 端主机**启动一个 ws 服务 (`new WebSocketServer({ port })`)，接收遥控器和 client 端发送过来的消息，如果是 client 端消息，需要转发给遥控器。如果是遥控器通知开启、关闭等，需要通过 `emitter.emit` 传递处理，并且转发给另一台主机 client 端。上下文 context 中保存着当前激活的屏幕和之前激活的屏幕序号。此外，它还启动了一个 express 服务，作为遥控器的 web 服务端，处理页面展示和嘉宾图片上传。
 
 ```js
 wss.clients.forEach((client) => {
