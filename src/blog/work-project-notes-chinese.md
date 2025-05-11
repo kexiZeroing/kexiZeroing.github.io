@@ -3,7 +3,7 @@ title: "Notes on work projects (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Apr 24 2025"
+updatedDate: "May 11 2025"
 ---
 
 ### 项目是怎么跑起来的
@@ -101,8 +101,10 @@ The `DefinePlugin` allows you to create global constants that are replaced at co
 
 ```js
 new webpack.DefinePlugin({
-  'process.env.NODE_ENV': JSON.stringify('development')
-}),
+  'process.env.NODE_ENV': '"production"',
+  'process.env.BUILD_ENV': buildEnv ? `"${buildEnv}"`: '""',
+  'process.env.PLATFORM_ENV': platFormEnv ? `"${platFormEnv}"`: '""'
+})
 ```
 
 #### difference between `--watch` and `--hot`
@@ -650,3 +652,63 @@ Advantages over `localStorage`:
 8. Electron 参考项目:
    - https://github.com/liou666/polyglot
    - https://github.com/replit/desktop
+
+#### 展厅项目架构
+打包遥控器页面 + 一台 server 端主机 + 一台 client 端主机
+```
+"winserver": "npm run build:web && cross-env PLATFORM_ENV=server npm run pack:windows",
+"winclient": "cross-env PLATFORM_ENV=client npm run pack:windows",
+```
+
+**遥控器** 就是常规的页面，使用 webpack 构建（入口 `src/renderer/pages/remote/remote.js`），它要建立 ws 连接，角色是 REMOTE：
+- 接收 hello 指令，把 client 5-8 屏加进屏幕列表中
+- 接收 guest 指令，获取到嘉宾数据，可以显示主嘉宾
+- 接收 scene 指令，激活屏变化，更新当前屏的指令集
+- 发送 ws 消息，包括 开启、重启、关闭、选择屏幕、选择指令
+
+**server 端主机**启动一个 ws 服务 (`new WebSocketServer({ port })`)，接收遥控器和 client 端发送过来的消息，如果是 client 端消息，需要转发给遥控器。如果是遥控器通知开启、关闭等，需要通过 `emitter.emit` 传递处理，并且转发给另一台主机 client 端。上下文 context 中保存着当前激活的屏幕和之前激活的屏幕序号。
+
+```js
+wss.clients.forEach((client) => {
+  if (client.role === RemoteClientRoleMap.CLIENT) {
+    // ...
+    client.send(msg);
+  }
+})
+```
+
+**client 端主机**建立 ws 连接 (`new WebSocket(wssURL)`)，角色是 CLIENT，接收启动、重启、关闭、激活屏幕、指令控制等消息，都会通过 `emitter.emit` 发送给 `ipc-exhibition-hall` 这个 service，它会在主进程的入口文件中被注册上。
+
+**主进程入口**
+```js
+// 根据安装包配置参数 确定是否是server端
+// isServer = process.env.PLATFORM_ENV === 'server';
+if(isServer) {
+  remoteWSServer.start();
+  // 方便发送消息
+  global.rain.remoteWSServer = remoteWSServer;
+} else {
+  global.rain.remoteWSClinet = remoteWSClinet;
+
+  setTimeout(()=>{
+    remoteWSClinet.startConnect();
+  }, 1000)
+}
+```
+
+**通信服务 ipc-exhibition-hall 文件**
+- 接收开启、重启、关闭等 emitter 的事件，使用 electron 内部的 `app.relaunch`，窗体展示或关闭等方法。
+- 接收遥控器激活屏幕、操作指令等，给指定窗体发送 IPC 消息。（给当前屏发送激活消息、给上一屏发送取消激活消息）
+- 加载每个屏幕对应的窗体，窗体的 x 坐标由 `width * index` 计算得到，`index` 根据是第几个屏幕配置。
+
+```js
+if(isServer) {
+  if (ServerDisplaySerialList.includes(activeIndex)) {
+    exhibitionHallWinMap[activeIndex]?.send('message-from-process', data);
+  }
+} else {
+  if(ClientDisplaySerialList.includes(activeIndex)) {
+    exhibitionHallWinMap[activeIndex]?.send('message-from-process', data);
+  }
+}
+```

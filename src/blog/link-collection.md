@@ -472,6 +472,8 @@ New to the web platform (every month): https://web.dev/blog/web-platform-01-2024
 
 Monitor and track the status of all Web Platform features: https://webstatus.dev
 
+Web platform features explorer: https://web-platform-dx.github.io/web-features-explorer
+
 ---
 
 ## Awesome LLMs
