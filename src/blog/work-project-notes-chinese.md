@@ -683,7 +683,7 @@ wss.clients.forEach((client) => {
 ```js
 // 根据安装包配置参数 确定是否是server端
 // isServer = process.env.PLATFORM_ENV === 'server';
-if(isServer) {
+if (isServer) {
   remoteWSServer.start();
   // 方便发送消息
   global.rain.remoteWSServer = remoteWSServer;
@@ -699,16 +699,30 @@ if(isServer) {
 **通信服务 ipc-exhibition-hall 文件**
 - 接收开启、重启、关闭等 emitter 的事件，使用 electron 内部的 `app.relaunch`，窗体展示或关闭等方法。
 - 接收遥控器激活屏幕、操作指令等，给指定窗体发送 IPC 消息。（给当前屏发送激活消息、给上一屏发送取消激活消息）
+- 处理跨屏幕的 IPC 消息，比如学生作答反馈给老师、语音识别结果发送给学生屏幕展示。
 - 加载每个屏幕对应的窗体，窗体的 x 坐标由 `width * index` 计算得到，`index` 根据是第几个屏幕配置。
 
 ```js
-if(isServer) {
-  if (ServerDisplaySerialList.includes(activeIndex)) {
+ipcMain.on('teaching-screen-ready', async (event, data) => {
+  let index = 1;
+
+  if (config && config.DisplaysEnable) {
+    displaysEnable = config.DisplaysEnable;
+  }
+
+  if (displaysEnable[DisplaySerialNumber.SIXTH_DISPLAY]) {
+    studentWin.show({ index });
+    index += 1;
+  }
+});
+
+// active, launch, restart, close, ExecRemoteCommand...
+emitter.on('xxx', (data) => {
+  // ...
+  if (isServer) {
+    exhibitionHallWinMap[activeIndex]?.send('message-from-process', data);
+  } else {
     exhibitionHallWinMap[activeIndex]?.send('message-from-process', data);
   }
-} else {
-  if(ClientDisplaySerialList.includes(activeIndex)) {
-    exhibitionHallWinMap[activeIndex]?.send('message-from-process', data);
-  }
-}
+})
 ```
