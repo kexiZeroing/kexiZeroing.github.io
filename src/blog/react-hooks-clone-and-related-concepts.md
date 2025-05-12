@@ -363,6 +363,7 @@ React 18:
 
 React 19:
 - https://react.dev/blog/2024/12/05/react-19
-- https://shrutikapoor.dev/posts/react-react19
+- https://www.epicreact.dev/react-19-cheatsheet
+- https://shrutikapoor.dev/posts/React-React19
 - https://www.youtube.com/watch?v=AJOGzVygGcY
 - https://www.youtube.com/watch?v=O3ZtlTwDnbk

@@ -338,6 +338,8 @@ Rich text editor comparison in 2025: https://liveblocks.io/blog/which-rich-text-
 
 WebGL globe library: https://github.com/shuding/cobe
 
+Ready-to-play sound effects for your React app: https://github.com/aediliclabs/react-sounds
+
 ---
 
 ## React ecosystem
