@@ -96,7 +96,7 @@ https://playfulprogramming.com/posts/modern-js-bundleless
 
 1. Create `index.html` and denote our script tag (from our HTML file) as `type="module"`.
 2. Introduce HMR via `browser-sync start --server \"src\" --watch`. The page refreshed while we modify any of the files in src.
-3. Use CDN like `unpkg.com` to load libraries in our app. Remember, we need to have `import` and `export` lines, looking for files labeled something like ES6 or ESM or BROWSER.
+3. Use `unpkg.com` (The CDN for everything on npm) to load libraries in our app. Remember, we need to have `import` and `export` lines, looking for files labeled something like ES6 or ESM or BROWSER.
 4. Not all libraries are bundled to support ESM as a single file. If it does not, we may use `esbuild` to bundle the dependencies.
 5. Leverage an `importmap` to alias the URL to be imported.
 

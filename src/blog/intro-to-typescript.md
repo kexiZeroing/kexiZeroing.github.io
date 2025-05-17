@@ -414,6 +414,10 @@ type Headers = {
 type ColorShade = 100 | 200 | 300;
 type Color = "red" | "blue" | "green";
 type ColorPalette = `${Color}-${ColorShade}`;
+
+// The 'string & {}' trick (loose autocomplete)
+type ModelNames = 'a' | 'b' | 'c' | (string & {});
+const model: ModelNames = 'a';  // autocomplete and can pass in any string
 ```
 
 It's worth noting the similarities between `Exclude/Extract` and `Omit/Pick`. A common mistake is to think that you can `Pick` from a union, or use `Exclude` on an object.
