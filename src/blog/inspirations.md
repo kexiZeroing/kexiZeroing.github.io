@@ -39,6 +39,11 @@ order: 3
 - https://tania.dev/how-to-use-webpack
 - https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation
 
+## Communication problems
+- https://www.neverjust.net
+- https://nohello.net
+- https://xyproblem.info
+
 ## Learn from mistakes
 1. Make a mistake 
 2. Fix the mistake 

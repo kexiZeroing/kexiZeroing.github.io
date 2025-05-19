@@ -312,6 +312,7 @@ function BigSpinner() {
     "use client";
 
     const PostList = ({ promisedPosts }: PostListProps) => {
+      // this will suspend the component and stream data as well
       const posts = use(promisedPosts);
 
       return (

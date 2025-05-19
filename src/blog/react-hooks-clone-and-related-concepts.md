@@ -212,6 +212,32 @@ Fiber nodes are organized in a tree structure that mirrors the component tree. E
 
 When React starts rendering, it creates a work-in-progress tree that mirrors the current tree. As React processes the work, it updates the work-in-progress tree. Once the work is complete, React swaps the current tree with the work-in-progress tree.
 
+```js
+// React's Commit Phase
+// This runs on the main thread
+function commitToDOM() {
+ // React calls DOM APIs
+ // Each call gets added to the call stack
+ mutateDOM() {
+   document.createElement()
+   element.setAttribute()
+   element.appendChild()
+   // ...
+ }
+
+ // remember useLayoutEffect?
+ // Now we'll run all the layout effects
+ // this is synchronous
+ // the code in here gets added to the call stack too
+ runLayoutEffects()
+
+ // Queue useEffect for later
+ queueMicrotask(() => {
+   runEffects()
+ })
+}
+```
+
 ### You Might Not Need an Effect
 > Whenever you think of writing `useEffect`, the only sane thing is to NOT do it. Instead, go to the react docs and re-read the page about why you don't need an effect. You really don't. -@TkDodo
 
@@ -263,6 +289,10 @@ The key to understanding this hook is realizing there's a timing difference. Whe
 
 #### `ref` callback function
 Instead of a ref object, you may pass a function to the ref attribute. When the `<div>` DOM node is added to the screen, React will call your `ref` callback with the DOM node as the argument. When that `<div>` DOM node is removed, React will call your `ref` callback with null. React will also call your `ref` callback whenever you pass a different `ref` callback.
+
+- Called immediately when the element is attached to the DOM. 
+- It runs before `useLayoutEffect`.
+- It's best for immediate DOM measurements or setup.
 
 ```tsx
 const scroller = (node: HTMLDivElement | null) => {
