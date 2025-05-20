@@ -11,6 +11,8 @@ Early AI assistants were limited to text generation, unable to interact with ext
 
 MCP, introduced by Anthropic in late 2024, solves this problem by providing a unified protocol for AI-tool interactions. Instead of custom adapters for each tool, MCP allows developers to expose functionality once, making it accessible to any AI supporting MCP. It also eliminates the inefficiencies of tool-specific APIs by offering a structured, self-describing interface. This enables seamless, scalable AI-tool connectivity, much like how USB standardized device connections.
 
+> This isn't something that you couldn't do before. You could technically write a bunch of code to provide any model with relevant function call definitions, and then implement those functions to do the things the model asks for. But for one, this was very tedious. You'd have to figure out how to do it from scratch each time. Each implementation might be different. And this would all be in code, your Claude desktop app couldn't access these functions.
+
 ### MCP is not magic
 MCP isn't magic — it's a standard way for AI to discover and use tools without learning every API's specific details. An MCP server is like a menu of tools. Each tool has a name, a description, a schema defining what info it needs, and the actual code that makes the API calls. AI applications (like Claude or Cline) can dynamically query these servers to execute tasks such as reading files, querying databases, or creating new integrations.
 
@@ -44,7 +46,7 @@ The **MCP server** is the most interesting concept for 99% of us. The server is 
 
 The client connects to its server using a **transport**. This transport is responsible for sending messages between the client and the server. There are currently two supported transports. You can communicate via `stdio` - in other words, via the terminal. Or you can communicate through HTTP via server-sent events. This is useful if you want to run your server on a remote machine.
 
-The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for communication between client and server.
+The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for communication between client and server. The client launches the MCP server as a subprocess. The server reads JSON-RPC messages from its standard input (stdin) and sends messages to its standard output (stdout).
 
 ```json
 // Client sends...
@@ -77,7 +79,6 @@ The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for commun
 ```
 
 ### The simplest MCP server
-You can start with https://github.com/betterstack-community/mcp-template-ts
 
 ```js
 // npm i @modelcontextprotocol/sdk zod

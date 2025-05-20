@@ -527,6 +527,10 @@ So what JS engines/runtimes do we have now?
 
 For example, [Cloudflare Workers](https://developers.cloudflare.com/workers/learning/how-workers-works) provides a serverless execution environment that allows you to create new applications without configuring or maintaining infrastructure. Under the hood, the Workers runtime uses the V8 engine. The Workers runtime also implements many of the standard APIs available in most modern browsers. Rather than running on an individual’s machine, Workers functions run on Cloudflare’s Edge Network - a growing global network of thousands of machines distributed across hundreds of locations.
 
+Learn Cloudflare Workers 101 
+- https://www.youtube.com/watch?v=H7Qe96fqg1M
+- https://www.youtube.com/watch?v=QTsaAhFvX9o
+
 > *workerd* is a JavaScript / Wasm server runtime based on the same code that powers Cloudflare Workers. The name "workerd" (pronounced "worker dee") comes from the Unix tradition of naming servers with a "-d" suffix standing for "daemon". *A daemon is a background, non-interactive program. It is detached from the keyboard and display of any interactive user.* The name is not capitalized because it is a program name, which are traditionally lower-case in Unix-like environments.
 
 **Cloudflare** is one of the world’s largest internet networks, designed to improve the speed and security of websites, applications, and blogs. It uses a powerful edge network to deliver content from servers closest to users, ensuring fast performance. Cloudflare also protects online properties from threats such as DDoS attacks, malicious bots, and other cyber threats. Additionally, it offers a free DNS service called 1.1.1.1, which enhances privacy by preventing user data from being tracked or used for targeted advertising.

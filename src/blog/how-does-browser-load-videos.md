@@ -53,6 +53,15 @@ Chrome                                         Server
 
 If you skip ahead in the video, the browser will cancel the currently on-going response for the video content. It will then use the the video file’s metadata to map your desired new position to a byte offset and use it for a new range request (`byte=offset-`). When the buffer is full and the browser stops the server from sending more data, the request is technically still on-going, just no data is being sent.
 
+Browsers will automatically pause playback if decoding fails. If `video.error.code === 3`, it typically means a media decode failure, often related to corrupted video or unsupported codecs.
+
+```js
+const video = document.querySelector('video');
+video.addEventListener('error', () => {
+  console.error('Playback error:', video.error);
+});
+```
+
 ## MP4 and WebM
 MP4 and WebM formats are what we would call pseudo-streaming or "progressive download”. These formats do not support adaptive bitrate streaming (adjusts video quality based on network conditions). If you have ever taken an HTML video element and added a "src” attribute that points to an mp4, most players will progressively download the file. The good thing about progressive downloads is that you don’t have to wait for the player to download the entire file before you start watching. You can click play and start watching while the file is being downloaded in the background. Most players will also allow you to drag the playhead to specific places in the video timeline and the player will use byte-range requests to estimate which part of the file you are attempting to seek. What makes MP4 and WebM playback problematic is the lack of adaptive bitrate support. Every user who watches your content must have enough bandwidth available to download the file faster than it can playback the file.
 
