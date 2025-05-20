@@ -1,9 +1,9 @@
 ---
-title: "Run MySQL locally and some Node.js operations"
+title: "Run MySQL locally and use Prisma"
 description: ""
 added: "Aug 7 2024"
 tags: [code]
-updatedDate: "May 4 2025"
+updatedDate: "May 20 2025"
 ---
 
 ## Run MySQL locally and query it with Express
@@ -114,7 +114,7 @@ app.listen(3000, () => {
 });
 ```
 
-### Prisma in Next.js
+## Use Prisma in Next.js
 
 ```
 Next.js Server(server components, server actions, API route) <--> ORM (Prisma) <--> Database
@@ -261,100 +261,4 @@ await prisma.post.update({
 await prisma.post.delete({
   where: { id },
 })
-```
-
-## Manipulate Node.js files
-The `node:fs` module enables interacting with the file system in a way modeled on standard POSIX functions. You can either use the callback APIs or use the promise-based APIs.
-
-> A file descriptor is a way of representing an open file in a computer operating system. It's like a special number that identifies the file, and the operating system uses it to keep track of what's happening to the file. You can use the file descriptor to read, write, move around in the file, and close it. In a runtime like Node.js, the `fs` module abstracts the direct use of file descriptors by providing a more user-friendly API, but it still relies on them behind the scenes to manage file operations.
-
-```js
-const fs = require("node:fs/promises");
-async function open_file() {
-  try {
-    const file_handle = await fs.open("test.js", "r", fs.constants.O_RDONLY);
-    console.log(file_handle.fd); // Print the value of the file descriptor `fd`
-  } catch (err) {
-    // i.e. ENOENT error stands for "Error NO ENTry" (File in path doesn't exist)
-  }
-}
-```
-
-Using `__dirname` and the `path` module ensures that you are referencing the correct path regardless of the current working directory you’re in. `__dirname` represents the absolute path of the directory containing the current JavaScript file. `path.join()` method joins all given path segments together using the platform-specific separator as a delimiter, then normalizes the resulting path.
-
-```js
-import fs from 'node:fs/promises';
-import path from 'node:path';
-
-try {
-  const filePath = path.join(__dirname, 'test.txt');
-  const stats = await fs.stat(filePath);
-  stats.isFile(); // true
-  stats.isDirectory(); // false
-  stats.isSymbolicLink(); // false
-  stats.size; // 1024000 //= 1MB
-} catch (err) {
-  console.log(err);
-}
-```
-
-```js
-import fs from 'node:fs';
-fs.readFile('/Users/joe/test.txt', 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log(data);
-});
-
-import fs from 'node:fs/promises';
-try {
-  const data = await fs.readFile('/Users/joe/test.txt', { encoding: 'utf8' });
-  console.log(data);
-} catch (err) {
-  console.log(err);
-}
-```
-
-```js
-const fs = require('node:fs/promises');
-try {
-  const content = 'Some content!';
-  await fs.writeFile('/Users/joe/test.txt', content);
-} catch (err) {
-  console.log(err);
-}
-
-const fs = require('node:fs/promises');
-try {
-  const content = 'Some content!';
-  await fs.appendFile('/Users/joe/test.txt', content);
-} catch (err) {
-  console.log(err);
-}
-```
-
-## Memory Usage in Node.js (V8)
-- RSS (Resident Set Size): Total memory allocated for the Node.js process, including all parts of the memory: code, stack, and heap.
-- Heap Total: Memory allocated for JavaScript objects. This is the total size of the allocated heap.
-- Heap Used: Memory actually used by the JavaScript objects. This shows how much of the heap is currently in use.
-- External: Memory used by C++ objects that are linked to JavaScript objects. This memory is managed outside the V8 heap.
-- Array Buffers: Memory allocated for ArrayBuffer objects, which are used to store fixed-length binary data.
-
-```js
-console.log('Initial Memory Usage:', process.memoryUsage());
-
-setInterval(() => {
-  const memoryUsage = process.memoryUsage();
-  console.log(`RSS: ${memoryUsage.rss}`);
-}, 1000);
-
-// Initial Memory Usage: {
-//   rss: 38502400,
-//   heapTotal: 4702208,
-//   heapUsed: 2559000,
-//   external: 1089863,
-//   arrayBuffers: 10515
-// }
 ```
