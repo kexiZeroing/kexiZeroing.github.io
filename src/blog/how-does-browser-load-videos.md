@@ -255,6 +255,18 @@ A **[codec](https://api.video/what-is/codec)** is a hardware or software tool th
 
 The **bitrate** of a file is measured by the number of bits being transmitted over a period of time. For video it is typically measured in kilobytes per second (kbps) or megabytes per second (mbps). Video bitrate is often confused with video resolution terms like 720p, 1080p, 4K, etc. Video resolution is the number of pixels that make up an image on your screen; video bitrate is the amount of information per second in video. A higher bitrate results in better quality but also larger file sizes. 
 
+| Resolution      | Typical Bitrate | Good for…               |
+| --------------- | --------------- | ----------------------- |
+| 360p            | 0.5–1 Mbps      | Low-end mobile          |
+| 480p (SD)       | 1–2 Mbps        | Mobile/tablet streaming |
+| 720p (HD)       | 2.5–4 Mbps      | Web HD                  |
+| 1080p (Full HD) | 5–8 Mbps        | Standard desktop/TV     |
+| 4K (UHD)        | 15–25 Mbps      | High-end devices        |
+
+> You can estimate file size from bitrate: 
+> File Size (MB) = (Bitrate in Mbps × Duration in seconds) ÷ 8  
+> For example, a 10-minute 1080p video at 5 Mbps → 5 × 10 × 7.5 = 375 MB
+
 **VOD(Video on Demand)** is videos that can be accessed on viewer request. Unlike live streaming, VODs are prerecorded programs. With VOD, viewers can watch content they enjoy as frequently as they like. They can also pause, rewind, and view additional content that was not previously available. Streaming is one of two ways to access Video On Demand. The other way is to permanently download video files to a device’s memory. VOD systems typically distribute media using internet connections, so good bandwidth is important for best results for viewers. Popular platforms include Netflix, Hulu, Disney, Amazon Prime Video and many others.
 
 Some of the most popular **streaming protocols include RTMP, HLS, and WebRTC**:
