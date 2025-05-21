@@ -9,6 +9,8 @@ updatedDate: "May 21 2025"
 Node.js website (after redesign) has a Learn section added to the site’s main navigation. I spend some time to explore it and write down some notes.
 
 ## Getting Started
+Node.js thrives on an event-driven architecture, making it ideal for real-time I/O.
+
 Building apps that run in the browser is completely different from building a Node.js application. What changes is the ecosystem.
 - In the browser, most of the time what you are doing is interacting with the DOM, or other Web Platform APIs. Those do not exist in Node.js. You don't have the `document`, `window` and all the other objects that are provided by the browser.
 - In Node.js you control the environment. This means that you can write all the modern ES2015+ JavaScript that your Node.js version supports.
@@ -188,6 +190,50 @@ Note that:
 2. `packageJson.exports["."] = filepath` is shorthand for `packageJson.exports["."].default = filepath`
 3. When using "exports" in `package.json`, it is generally a good idea to include `"./package.json": "./package.json"` so that it can be imported.
 4. "exports" can be advisable over "main" because it prevents external access to internal code (users are not depending on things they shouldn't). If you don't need that, "main" is simpler and may be a better option for you.
+
+## Streams
+Streams process data in chunks, significantly reducing memory usage. All streams in Node.js inherit from the `EventEmitter` class, allowing them to emit events at various stages of data processing. These streams can be readable, writable, or both.
+
+`Readable` is the class that we use to sequentially read a source of data. Typical examples of Readable streams in Node.js API are `fs.ReadStream` when reading files, `http.IncomingMessage` when reading HTTP requests, and `process.stdin` when reading from the standard input.
+
+`Writable` streams are useful for creating files, uploading data, or any task that involves sequentially outputting data. While readable streams provide the source of data, writable streams act as the destination for your data. Typical examples of writable streams in the Node.js API are `fs.WriteStream`, `process.stdout`, and `process.stderr`.
+
+When working with streams, we usually want to read from a source and write to a destination, possibly needing some transformation of the data in between. The `.pipe()` method concatenates one readable stream to a writable (or transform) stream. In most cases, it is recommended to use the `pipeline()` method. This is a safer and more robust way to pipe streams together, handling errors and cleanup automatically.
+
+Async iterators are recommended as the standard way of interfacing with the Streams API. In Node.js, all readable streams are asynchronous iterables. This means you can use the `for await...of` syntax to loop through the stream's data as it becomes available, handling each piece of data with the efficiency and simplicity of asynchronous code.
+
+```js
+import fs from 'fs';
+import { pipeline } from 'stream/promises';
+
+// Read the current file and output its contents in uppercase letters
+await pipeline(
+  fs.createReadStream(import.meta.filename),
+  async function* (source) {
+    for await (const chunk of source) {
+      yield chunk.toString().toUpperCase();
+    }
+  },
+  process.stdout
+);
+
+// try {
+//   await pipeline(
+//     sourceStream,
+//     transform1,
+//     transform2,
+//     destinationStream
+//   );
+// } catch (err) { }
+
+// Without pipeline, you would need to write:
+
+// sourceStream
+//   .pipe(transform1)
+//   .pipe(transform2)
+//   .pipe(destinationStream)
+//   .on('error', (err) => { });
+```
 
 ## Memory
 V8 divides memory into several parts, with two primary areas being the heap and the stack. 
