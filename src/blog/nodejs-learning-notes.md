@@ -3,6 +3,7 @@ title: "Node.js learning notes"
 description: ""
 added: "May 20 2025"
 tags: [web]
+updatedDate: "May 21 2025"
 ---
 
 Node.js website (after redesign) has a Learn section added to the site’s main navigation. I spend some time to explore it and write down some notes.
@@ -14,6 +15,8 @@ Building apps that run in the browser is completely different from building a No
 - Node.js supports both the CommonJS and ES module systems, while in the browser, we are starting to see the ES Modules standard being implemented.
 
 Undici is an HTTP client library that powers the fetch API in Node.js. It was written from scratch and does not rely on the built-in HTTP client in Node.js. It includes a number of features that make it a good choice for high-performance applications.
+
+> Undici means eleven in Italian *(1.1 -> 11 -> Eleven -> Undici)*. Undici is a replacement for `http.request` because we could not improve `http.request` without breaking everybody.
 
 Since Node.js v21, the WebSocket API has been enhanced using the Undici library, introducing a built-in WebSocket client. This simplifies real-time communication for Node.js applications. In Node.js v22.4.0 release, the WebSocket API was marked as stable, indicating it's ready for production use.
 
@@ -174,3 +177,54 @@ console.log(process.env.USER_KEY); // "foobar"
 Node.js v20 introduced experimental support for `.env` files. You can use the `--env-file` flag to specify an environment file when running your Node.js application.
 
 Node.js since v7 provides the `readline` module to get input from a readable stream such as the `process.stdin` stream, which during the execution of a Node.js program is the terminal input, one line at a time.
+
+## Modules
+There are 2 main options, which cover almost all use-cases: 
+- Write source code and publish in CJS; CJS is consumable by both CJS and ESM in all versions of node. 
+- Write source code and publish in ESM; ESM is consumable by both ESM and CJS (a CJS module now can `require()` an ES Module without a flag as of 23.0.0 and 22.12.0). 
+
+Note that: 
+1. It's generally best to publish only 1 format, either CJS or ESM. Not both. 
+2. `packageJson.exports["."] = filepath` is shorthand for `packageJson.exports["."].default = filepath`
+3. When using "exports" in `package.json`, it is generally a good idea to include `"./package.json": "./package.json"` so that it can be imported.
+4. "exports" can be advisable over "main" because it prevents external access to internal code (users are not depending on things they shouldn't). If you don't need that, "main" is simpler and may be a better option for you.
+
+## Memory
+V8 divides memory into several parts, with two primary areas being the heap and the stack. 
+
+Memory for JavaScript objects, arrays, and functions is allocated in the heap. The size of the heap is not fixed, and exceeding the available memory can result in an "out-of-memory" error, causing your application to crash.
+
+V8's memory management is based on the generational hypothesis, the idea that most objects die young. Therefore, it separates the heap into generations to optimize garbage collection:
+- **New Space**: This is where new, short-lived objects are allocated. Objects here are expected to "die young", so garbage collection occurs frequently, allowing memory to be reclaimed quickly.
+- **Old Space**: Objects that survive multiple garbage collection cycles in the New Space are promoted to the Old Space. These are usually long-lived objects, such as user sessions, cache data, or persistent state. Because these objects tend to last longer, garbage collection in this space occurs less often but is more resource-intensive.
+
+The `process.memoryUsage()` method provides insights into how much memory your Node.js process is using. By monitoring these values over time, you can identify if memory usage is increasing unexpectedly.
+
+- RSS (Resident Set Size): Total memory allocated for the Node.js process, including all parts of the memory: code, stack, and heap.
+- Heap Total: Memory allocated for JavaScript objects. This is the total size of the allocated heap.
+- Heap Used: Memory actually used by the JavaScript objects. This shows how much of the heap is currently in use.
+- External: Memory used by C++ objects that are linked to JavaScript objects. This memory is managed outside the V8 heap.
+- Array Buffers: Memory allocated for ArrayBuffer objects, which are used to store fixed-length binary data.
+
+```js
+console.log('Initial Memory Usage:', process.memoryUsage());
+
+setInterval(() => {
+  const memoryUsage = process.memoryUsage();
+  console.log(`RSS: ${memoryUsage.rss}`);
+}, 1000);
+
+// Initial Memory Usage: {
+//   rss: 38502400,
+//   heapTotal: 4702208,
+//   heapUsed: 2559000,
+//   external: 1089863,
+//   arrayBuffers: 10515
+// }
+```
+
+Node.js offers several command-line flags to fine-tune memory-related settings, allowing you to optimize memory usage in your application.
+
+`--max-old-space-size` sets a limit on the size of the Old Space in the V8 heap, where long-lived objects are stored. If your application uses a significant amount of memory, you might need to adjust this limit. For example, `node --max-old-space-size=4096 app.js` sets the Old Space size to 4096 MB (4 GB), which is particularly useful if your application is handling a large amount of persistent data, like caching or user session information.
+
+`--max-semi-space-size` controls the size of the New Space in the V8 heap. New Space is where newly created objects are allocated and garbage collected frequently. Increasing this size can reduce the frequency of minor garbage collection cycles.
