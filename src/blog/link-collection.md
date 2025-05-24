@@ -28,8 +28,6 @@ Modern JavaScript-based web development: https://fullstackopen.com/en
 
 Bash Commands and Tips: https://dev.to/awwsmm/101-bash-commands-and-tips-for-beginners-to-experts-30je
 
-Learn Node.js: https://nodejs.org/en/learn
-
 Docker Guide: https://www.robertcooper.me/docker-guide
 
 Tail Call Optimization: https://www.youtube.com/watch?v=-PX0BV9hGZY
@@ -41,8 +39,6 @@ What happens when we type google.com in a browser: https://github.com/vasanthk/h
 Machine Learning for Beginners: https://github.com/microsoft/ML-For-Beginners
 
 Artificial Intelligence for Beginners: https://github.com/microsoft/AI-For-Beginners
-
-Get Started Building AI Agents: https://github.com/microsoft/ai-agents-for-beginners
 
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 

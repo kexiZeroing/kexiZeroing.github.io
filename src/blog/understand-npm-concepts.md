@@ -14,16 +14,17 @@ updatedDate: "May 1 2025"
 3. Listed dependencies in `package-lock.json` file have mixed (sha1/sha512) integrity checksum. npm changed the integrity checksum from sha1 to sha512. Only packages published with npm@5 or later will include a sha512 integrity hash.
 4. Ignoring the lock file and pinning the exact version of a dependency in `package.json` is not a good idea since their dependencies (and deps of their deps) are not explicitly pinned to a version. This can result in different versions of same dependencies being installed when running `npm install` at different times.
 
-> Two fields are mandatory in `package.json`:
-> - `name`, can be scoped
-> - `version`, has to be a valid SemVer number
-> 
-> Package code entry points:
-> - `main`, default entry point (CJS or ESM)
-> - `module`, ESM-specific entry point
-> - `exports`, modern entry points, more flexible
+> Don't pin your dependencies to a specific version and ignore the lock file. The problem is that the depenencies have their denpendencies, and those dependencies have their denpendencies, all the way down. These dependencies use caret (`^`) meaning they are not pinned. So the code you run locally may not be the same as the code your CI/CD pipeline runs.
 
 #### Benefits of `exports` field
+Two fields are mandatory in `package.json`:
+- `name`, can be scoped
+- `version`, has to be a valid SemVer number
+ 
+Package code entry points:
+- `main`, default entry point (CJS or ESM)
+- `module`, ESM-specific entry point
+- `exports`, modern entry points, more flexible
 
 ```json
 // package.json
