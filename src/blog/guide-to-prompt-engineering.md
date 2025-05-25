@@ -379,6 +379,7 @@ if (available === "readily") {
 - https://github.com/webmachinelearning/writing-assistance-apis
 - https://github.com/webmachinelearning/translation-api
 - https://github.com/oslook/chrome-ai-playground
+- https://chrome.dev/web-ai-demos
 
 ## Fine-tuning
 GPT-3 has been pre-trained on a vast amount of text from the open internet. When given a prompt with just a few examples, it can often intuit what task you are trying to perform and generate a plausible completion. This is often called "few-shot learning."

@@ -74,6 +74,7 @@ https://codepen.io/jh3y/pen/abGPKGO
   }
 
   .char:after {
+    /* with `attr()` you can use the value of an HTML attribute in your CSS */
     content: attr(data-char);
     position: absolute;
     inset: 0;
@@ -336,6 +337,7 @@ Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick
 https://codepen.io/bigxixi/pen/abjEMbg
 
 ### Animation with View Transitions
+If you are making DOM changes, such as adding and removing elements from the DOM, a great solution for smooth animations is view transitions. The view transition is set up like: First, in CSS, give each card an individual `view-transition-name`. Then, in JavaScript, wrap the DOM mutation in a view transition `document.startViewTransition`.
 
 - Getting started with View Transitions on multi-page apps: https://daverupert.com/2023/05/getting-started-view-transitions
 - Example of view transitions for multi-page sites: https://mpa-view-transitions-sandbox.netlify.app
