@@ -24,11 +24,16 @@ const isActive = Astro.url.pathname === href || Astro.url.pathname === `${href}/
 		font-size: 18px;
 		color: var(--blue);
 		font-weight: 500;
+		padding-bottom: 2px; /* Added padding */
+		border-bottom: 2px solid transparent; /* Add transparent border for spacing */
+		transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out; /* Added transition */
 	}
 	a.active, a:hover {
 		font-weight: bold;
-		font-style: italic;
-		text-decoration: underline;
+		/* font-style: italic; (removed) */
+		/* text-decoration: underline; (removed) */
+		border-bottom: 2px solid var(--blue); /* Changed from text-decoration */
+		color: var(--blue); /* Explicitly set color */
 	}
 	.link-icon {
 		margin-left: -4px;
