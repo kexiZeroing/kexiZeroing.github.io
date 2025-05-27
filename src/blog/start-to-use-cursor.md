@@ -26,6 +26,10 @@ You can see all keyboard shortcuts by pressing `Cmd + R` then `Cmd + S`.
 
 For models, enabling Auto-select configures Cursor to select the premium model best fit for the immediate task and with the highest reliability based on current demand. This feature can detect degraded output performance and automatically switch models to resolve it.
 
+To view your current usage, you can visit the dashboard at [cursor.com/dashboard](https://www.cursor.com/dashboard)
+
+> Cursor lets you input your own API keys for various LLM providers to send as many AI messages as you want at your own cost. To use your own API key, go to Cursor Settings > Models and enter your API keys.
+
 ## Tab
 Cursor Tab is our native autocomplete feature. You can accept a suggestion by pressing `Tab`, or reject it by pressing `Esc`.
 
