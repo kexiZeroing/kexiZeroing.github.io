@@ -178,6 +178,8 @@ Writing down and searching through every UUID: https://eieio.games/blog/writing-
 
 Hypertext TV shared schedule for the web: https://hypertext.tv
 
+Desktop environment in the browser: https://github.com/DustinBrett/daedalOS
+
 ---
 
 ## CSS related

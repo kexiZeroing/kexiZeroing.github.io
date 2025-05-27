@@ -1,0 +1,127 @@
+---
+title: "Start to use Cursor"
+description: ""
+added: "May 27 2025"
+tags: [other]
+---
+
+## Get Started
+Migrate VS Code settings:
+1. `Cmd + Shift + P` and type Cursor Settings (or `Cmd + Shift + J` to open Cursor settings)
+2. Navigate to General > Account
+3. Under “VS Code Import”, click the Import button
+
+This will transfer your Extensions, Themes, Settings, Keybindings.
+
+We made Activity Bar Orientation horizontal by default. If you prefer vertical:
+1. `Cmd + Shift + P` -> Preferences: Open Settings (UI)
+2. Search for `workbench.activityBar.orientation` and set it to `vertical`
+
+Start exploring Cursor’s AI-powered features:
+- Tab: Press `Tab` for intelligent code completions
+- CMD-K: Use `Cmd + K` for inline code edits
+- Chat: Use `Cmd + I` to open the unified AI interface with Ask, Edit, and Agent modes
+​
+You can see all keyboard shortcuts by pressing `Cmd + R` then `Cmd + S`.
+
+For models, enabling Auto-select configures Cursor to select the premium model best fit for the immediate task and with the highest reliability based on current demand. This feature can detect degraded output performance and automatically switch models to resolve it.
+
+## Tab
+Cursor Tab is our native autocomplete feature. You can accept a suggestion by pressing `Tab`, or reject it by pressing `Esc`.
+
+To turn the feature on or off, hover over “Cursor Tab” icon on the status bar in the bottom right of the application. You can disable Cursor Tab for comments by going to Cursor Settings -> Features -> Cursor Tab and unchecking “Suggestions in Comments”.
+
+In TypeScript project, Tab can automatically import modules and functions from elsewhere in your project, without you having to manually type the import statement.
+
+## Chat (Cmd + I)
+Chat (previously “Composer”) is Cursor’s AI assistant that lives in your sidebar, letting you interact with your codebase through natural language.
+
+Sometimes you may want to revert to a previous state of your codebase. Cursor helps you with this by automatically creating checkpoints of your codebase at each request you make, as well every time the AI makes changes to your codebase. To revert to a previous state, you can click the “Restore Checkpoint” button that appears within the input box of a previous request. 
+
+Agent is the default and most autonomous mode in Cursor, designed to handle complex coding tasks with minimal guidance. It has all tools enabled to autonomously explore your codebase, read documentation, browse the web, edit files, and run terminal commands to complete tasks efficiently.
+
+Ask is a “read-only” mode for the Chat made to ask questions, explore, and learn about a codebase. It is a built-in mode in Cursor that has search tools enabled by default.
+
+Manual mode is designed for making targeted code modifications when you know exactly what changes are needed and where. To make use of Manual mode, you need to explicitly mention the files you want to edit using the `@` symbol. *e.g. “In @src/utils/helpers.ts and @src/components/UserProfile.tsx, rename the function `getUserData` to `fetchUserProfile` and update all call sites within these files.”*
+
+## Inline Edit (Cmd + K)
+We call the bar that appears when you press `Cmd + K` the “Prompt Bar”. It works similarly to the AI input box for chat, in which you can type normally, or use `@` symbols to reference other context.
+
+If no code is selected when you press `Cmd + K`, Cursor will generate new code based on the prompt you type in the prompt bar. For in-place edits, you can simply select the code you want to edit and type into the prompt bar.
+
+When your changes might affect multiple files or you need more advanced capabilities, use `Cmd + L` to send your selected code to the Agent. This seamlessly transitions your work to Chat mode.
+
+## Context
+When a project is opened, each Cursor instance will initialize indexing for that workspace. After the initial indexing setup is complete, Cursor will automatically index any new files added to your workspace to keep your codebase context current. Behind the scenes, Cursor computes embeddings for each file in your codebase, and will use these to improve the accuracy of your codebase answers.
+
+The status of your codebase indexing is under Cursor Settings > Features > Codebase Indexing.
+
+You can control which directories and files Cursor can access by adding a `.cursorignore` file to your root directory. Cursor makes its best effort to block access to files listed in `.cursorignore` from codebase indexing, Tab, Chat, Cmd-K, and `@` symbol references. Files listed in `.cursorindexingignore` will not be included in Cursor’s index but can still be accessed by Cursor’s AI-assisted features.
+
+In Cursors input boxes, you can use `@` symbols by typing `@`. A popup menu will appear with a list of suggestions, and it will automatically filter to only show the most relevant suggestions based on your input.
+
+## Rules
+LLMs do not retain memory between completions. Rules solve this by providing persistent, reusable context at the prompt level. When a rule is applied, its contents are included at the start of the model context. Rules apply to both `Chat` and `Cmd-K`.
+
+Project rules live in `.cursor/rules`. Each rule is stored as a file and version-controlled. Each rule file is written in MDC (`.mdc`), a lightweight format that supports metadata and content in a single file.
+
+You can use `Cmd + Shift + P` > “New Cursor Rule” to create a rule quickly from inside Cursor. This will create a new rule file in the `.cursor/rules` directory. You can also generate rules directly in a conversation using the `/Generate Cursor Rules` command.
+
+> The `.cursorrules` file in the root of your project is still supported, but will be deprecated. We recommend migrating to the Project Rules format for more control, flexibility, and visibility.
+
+You can organize rules by placing them in `.cursor/rules` directories throughout your project structure. For example:
+
+```
+project/
+  .cursor/rules/        # Project-wide rules
+  backend/
+    server/
+      .cursor/rules/    # Backend-specific rules
+  frontend/
+    .cursor/rules/      # Frontend-specific rules
+```
+
+Nested rules automatically attached when files in their directory are referenced. This is particularly useful in monorepos or projects with distinct components that need their own specific guidance.
+
+## MCP
+Think of MCP as a plugin system for Cursor - it allows you to extend the Agent’s capabilities by connecting it to various data sources and tools through standardized interfaces.
+
+Cursor supports two transport types for MCP servers:
+- For stdio servers, the command should be a valid shell command that Cursor can run.
+- For SSE servers, the URL should be the URL of the SSE endpoint, e.g. `http://example.com:8000/sse`.
+
+The MCP configuration file uses a JSON format with the following structure:
+
+```json
+// This example demonstrated an MCP server using the stdio format
+// Cursor automatically runs this process for you
+{
+  "mcpServers": {
+    "server-name": {
+      "command": "npx",
+      "args": ["-y", "mcp-server"],
+      "env": {
+        "API_KEY": "value"
+      }
+    }
+  }
+}
+
+// This example demonstrated an MCP server using the SSE format
+// The user should manually setup and run the server
+// This could be networked, to allow others to access it too
+{
+  "mcpServers": {
+    "server-name": {
+      "url": "http://localhost:3000/sse",
+      "env": {
+        "API_KEY": "value"
+      }
+    }
+  }
+}
+```
+
+The Chat Agent will automatically use any MCP tools that are listed under `Available Tools` on the MCP settings page if it determines them to be relevant. To prompt tool usage intentionally, simply tell the agent to use the tool, referring to it either by name or by description. You can also enable or disable individual MCP tools from the settings page to control which tools are available to the Agent.
+
+> MCP servers offer two main capabilities: tools and resources. Tools are available in Cursor today, and allow Cursor to execute the tools offered by an MCP server, and use the output in its further steps. However, resources are not yet supported in Cursor. We are hoping to add resource support in future releases.
