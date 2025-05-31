@@ -39,6 +39,17 @@ print(decoded_text)
 # Apple is a fruit
 ```
 
+```js
+// npm install js-tiktoken
+// This is a pure JS port of the original tiktoken library.
+
+import { Tiktoken } from "js-tiktoken/lite";
+import o200k_base from "js-tiktoken/ranks/o200k_base";
+
+const enc = new Tiktoken(o200k_base);
+assert(enc.decode(enc.encode("hello world")) === "hello world");
+```
+
 > Language models don't see text like you and I, instead they see a sequence of tokens. Byte pair encoding (BPE) is a way of converting text into tokens used in GPT.
 > - It's reversible and lossless, so you can convert tokens back into the original text.
 > - It compresses the text: the token sequence is shorter than the bytes corresponding to the original text. On average, in practice, each token corresponds to about 4 bytes.

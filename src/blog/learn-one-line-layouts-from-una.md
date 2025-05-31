@@ -17,7 +17,7 @@ updatedDate: "Mar 8 2024"
 }
 ```
 
-First specify `grid` as the `display` method, and then write `place-items: center` on the same element. `place-items` is a shorthand to set both `align-items` and `justify-items` at once.
+First specify `grid` as the `display` method, and then write `place-items: center` on the same element. `place-items` is a shorthand to set both `align-items` and `justify-items` at once. If the second value is not set, the first value is also used for it.
 
 - The `justify-items` property is set on the grid container to align the items inside their grid areas on the inline axis. In flexbox layouts, this property is ignored.
 - The `justify-content` property controls the alignment of grid columns; The `justify-items` property aligns grid items within their columns (not the entire container).

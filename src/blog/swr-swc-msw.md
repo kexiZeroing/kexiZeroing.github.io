@@ -396,6 +396,10 @@ Oxc is building a parser, linter, formatter, transpiler, minifier, resolver ... 
 
 [Oxlint](https://oxc-project.github.io/docs/guide/usage/linter.html) is a JavaScript linter designed to catch erroneous or useless code without requiring any configurations by default. It is generally available at December 12, 2023.
 
+> Rolldown is a Rust-based next-generation bundler. Oxc acts as foundational layer for Rolldown, providing the necessary building blocks for efficient JavaScript and TypeScript processing.
+>
+> With [rolldown-vite](https://voidzero.dev/posts/announcing-rolldown-vite), esbuild is no longer required. Instead, all internal transformations and minification are handled by Oxc.
+
 ### Biome - Toolchain of the web
 - Biome is a fast formatter that scores 96% compatibility with Prettier.
 - Biome is a performant (and pre-configured) linter that features more than 170 rules from ESLint, TypeSCript ESLint, and other sources.
