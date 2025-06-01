@@ -241,3 +241,4 @@ You can purchase a product by using the purchase tool.
 - https://github.com/invariantlabs-ai/mcp-scan
 - https://github.com/modelcontextprotocol/inspector
 - https://www.youtube.com/watch?v=eD0uBLr-eP8
+- https://github.com/vercel-labs/mcp-for-next.js

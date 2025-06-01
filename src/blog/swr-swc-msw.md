@@ -3,7 +3,7 @@ title: "SWR, SWC, and MSW"
 description: ""
 added: "Oct 25 2023"
 tags: [web]
-updatedDate: "Feb 25 2025"
+updatedDate: "Jun 1 2025"
 ---
 
 SWR, SWC, and MSW, three similar names, are always mentioned in the context of web development, but they are totally different things. In this article, we will learn each of them and where they are used.
@@ -396,9 +396,18 @@ Oxc is building a parser, linter, formatter, transpiler, minifier, resolver ... 
 
 [Oxlint](https://oxc-project.github.io/docs/guide/usage/linter.html) is a JavaScript linter designed to catch erroneous or useless code without requiring any configurations by default. It is generally available at December 12, 2023.
 
-> Rolldown is a Rust-based next-generation bundler. Oxc acts as foundational layer for Rolldown, providing the necessary building blocks for efficient JavaScript and TypeScript processing.
->
-> With [rolldown-vite](https://voidzero.dev/posts/announcing-rolldown-vite), esbuild is no longer required. Instead, all internal transformations and minification are handled by Oxc.
+### Rolldown - Fast Rust-based bundler
+[Rolldown](https://rolldown.rs) is a Rust-based next-generation bundler with Rollup-compatible API. Oxc acts as foundational layer for Rolldown, providing the necessary building blocks for efficient JavaScript and TypeScript processing.
+
+Rolldown is primary designed to serve as the underlying bundler in Vite, with the goal to replace esbuild and Rollup (which are currently used in Vite as dependencies) with one unified build tool. Although designed for Vite, Rolldown is also fully capable of being used as a standalone, general-purpose bundler. It can serve as a drop-in replacement for Rollup in most cases.
+
+> 1. A deep analysis on why bundlers are still needed: https://rolldown.rs/guide/in-depth/why-bundlers
+> 
+> 2. Try out the Rolldown-powered Vite today by using the [rolldown-vite](https://voidzero.dev/posts/announcing-rolldown-vite) package instead of the default vite package. It is a drop-in replacement, as Rolldown will become the default bundler for Vite in the future.
+
+[tsdown](https://tsdown.dev) is built on top of Rolldown. While Rolldown is a powerful and general-purpose tool, tsdown is optimized specifically for building libraries. It includes features like automatic TypeScript declaration generation and multiple output formats.
+
+`tsdown` was heavily inspired by `tsup`, and even incorporates parts of its codebase. While `tsup` is built on top of esbuild, `tsdown` leverages the power of Rolldown to deliver a faster and more powerful bundling experience.
 
 ### Biome - Toolchain of the web
 - Biome is a fast formatter that scores 96% compatibility with Prettier.
