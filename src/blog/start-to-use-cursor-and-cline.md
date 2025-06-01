@@ -1,11 +1,12 @@
 ---
-title: "Start to use Cursor"
+title: "Start to use Cursor and Cline"
 description: ""
 added: "May 27 2025"
 tags: [other]
+updatedDate: "Jun 1 2025"
 ---
 
-## Get Started
+## Cursor Get Started
 Migrate VS Code settings:
 1. `Cmd + Shift + P` and type Cursor Settings (or `Cmd + Shift + J` to open Cursor settings)
 2. Navigate to General > Account
@@ -28,14 +29,14 @@ To view your current usage, you can visit the dashboard at [cursor.com/dashboard
 
 > Cursor lets you input your own API keys for various LLM providers to send as many AI messages as you want at your own cost. To use your own API key, go to Cursor Settings > Models and enter your API keys.
 
-## Tab
+### Tab
 Cursor Tab is our native autocomplete feature. You can accept a suggestion by pressing `Tab`, or reject it by pressing `Esc`.
 
 To turn the feature on or off, hover over “Cursor Tab” icon on the status bar in the bottom right of the application. You can disable Cursor Tab for comments by going to Cursor Settings -> Features -> Cursor Tab and unchecking “Suggestions in Comments”.
 
 In TypeScript project, Tab can automatically import modules and functions from elsewhere in your project, without you having to manually type the import statement.
 
-## Chat (Cmd + I)
+### Chat (Cmd + I)
 Chat (previously “Composer”) is Cursor’s AI assistant that lives in your sidebar, letting you interact with your codebase through natural language.
 
 Sometimes you may want to revert to a previous state of your codebase. Cursor helps you with this by automatically creating checkpoints of your codebase at each request you make, as well every time the AI makes changes to your codebase. To revert to a previous state, you can click the “Restore Checkpoint” button that appears within the input box of a previous request. 
@@ -46,14 +47,14 @@ Ask is a “read-only” mode for the Chat made to ask questions, explore, and l
 
 Manual mode is designed for making targeted code modifications when you know exactly what changes are needed and where. To make use of Manual mode, you need to explicitly mention the files you want to edit using the `@` symbol. *e.g. “In @src/utils/helpers.ts and @src/components/UserProfile.tsx, rename the function `getUserData` to `fetchUserProfile` and update all call sites within these files.”*
 
-## Inline Edit (Cmd + K)
+### Inline Edit (Cmd + K)
 We call the bar that appears when you press `Cmd + K` the “Prompt Bar”. It works similarly to the AI input box for chat, in which you can type normally, or use `@` symbols to reference other context.
 
 If no code is selected when you press `Cmd + K`, Cursor will generate new code based on the prompt you type in the prompt bar. For in-place edits, you can simply select the code you want to edit and type into the prompt bar.
 
 When your changes might affect multiple files or you need more advanced capabilities, use `Cmd + L` to send your selected code to the Agent. This seamlessly transitions your work to Chat mode.
 
-## Context
+### Context
 When a project is opened, each Cursor instance will initialize indexing for that workspace. After the initial indexing setup is complete, Cursor will automatically index any new files added to your workspace to keep your codebase context current. Behind the scenes, Cursor computes embeddings for each file in your codebase, and will use these to improve the accuracy of your codebase answers.
 
 The status of your codebase indexing is under Cursor Settings > Features > Codebase Indexing.
@@ -62,7 +63,7 @@ You can control which directories and files Cursor can access by adding a `.curs
 
 In Cursors input boxes, you can use `@` symbols by typing `@`. A popup menu will appear with a list of suggestions, and it will automatically filter to only show the most relevant suggestions based on your input.
 
-## Rules
+### Rules
 LLMs do not retain memory between completions. Rules solve this by providing persistent, reusable context at the prompt level. When a rule is applied, its contents are included at the start of the model context. Rules apply to both `Chat` and `Cmd-K`.
 
 Project rules live in `.cursor/rules`. Each rule is stored as a file and version-controlled. Each rule file is written in MDC (`.mdc`), a lightweight format that supports metadata and content in a single file.
@@ -85,7 +86,7 @@ project/
 
 Nested rules automatically attached when files in their directory are referenced. This is particularly useful in monorepos or projects with distinct components that need their own specific guidance.
 
-## MCP
+### MCP
 Think of MCP as a plugin system for Cursor - it allows you to extend the Agent’s capabilities by connecting it to various data sources and tools through standardized interfaces.
 
 Cursor supports two transport types for MCP servers:
@@ -127,3 +128,33 @@ The MCP configuration file uses a JSON format with the following structure:
 The Chat Agent will automatically use any MCP tools that are listed under `Available Tools` on the MCP settings page if it determines them to be relevant. To prompt tool usage intentionally, simply tell the agent to use the tool, referring to it either by name or by description. You can also enable or disable individual MCP tools from the settings page to control which tools are available to the Agent.
 
 > MCP servers offer two main capabilities: tools and resources. Tools are available in Cursor today, and allow Cursor to execute the tools offered by an MCP server, and use the output in its further steps. However, resources are not yet supported in Cursor. We are hoping to add resource support in future releases.
+
+## Cline 
+Cline is a VS Code extension that brings AI-powered coding assistance directly to your editor.
+
+Plan & Act modes represent Cline’s approach to structured AI development, emphasizing thoughtful planning before implementation. Plan mode is where you and Cline figure out what you’re trying to build and how you’ll build it. In this mode, Cline can read your entire codebase to understand the context, and won’t make any changes to your files. Once you’ve got a plan, you switch to Act mode. This mode allows Cline to execute against the agreed plan and make changes to your codebase.
+
+### Context Window
+Context window determines how much information the model can “remember” and process at once during your conversation. This includes your conversation and the assistant’s response. Different models have different context window sizes.
+
+Cline helps you manage this limitation with its Context Window Progress Bar, which shows:
+- Input tokens (what you’ve sent to the model)
+- Output tokens (what the model has generated)
+- A visual representation of how much of your context window you’ve used
+- The total capacity for your chosen model
+
+### Cline rules
+You can create a rule by clicking the `+` button in the Rules tab. This will open a new file in your IDE which you can use to write your rule. Your rule will be stored in the `.clinerules` directory in your project (if it’s a Workspace Rule) or in the `Documents/Cline/Rules` directory (if it’s a Global Rule).
+
+### `@` Mentions
+`@` mentions are one of Cline’s most powerful features, letting you seamlessly bring external context into your conversations. These mentions let you reference files, folders, problems, terminal output, git changes, and even web content directly in your conversations.
+
+1. When you send a message, Cline scans the text for `@` mention patterns using regular expressions.
+2. For each detected mention, Cline determines the mention type, fetches the relevant content, and formats the content appropriately.
+3. The original message is enhanced with structured data, and this enhanced message with all the embedded content is sent to the AI model.
+
+### Tools
+Cline has access to the following tools for various tasks:
+- File Operations: `write_to_file`, `read_file`, `search_files`, `list_files`
+- Terminal Operations: `execute_command`, `list_code_definition_names`
+- MCP Tools: `use_mcp_tool`, `access_mcp_resource`
