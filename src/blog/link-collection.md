@@ -180,6 +180,8 @@ Hypertext TV shared schedule for the web: https://hypertext.tv
 
 Desktop environment in the browser: https://github.com/DustinBrett/daedalOS
 
+The avatar library you've always been looking for: https://www.dicebear.com
+
 ---
 
 ## CSS related

@@ -318,6 +318,11 @@ function TodoList() {
 // If they return within 5 minutes, the cached data is still there!
 ```
 
+For most queries `const { isPending, isError, data, error } = useQuery()`, it's usually sufficient to check for the `isPending` state, then the `isError` state, then finally, assume that the data is available and render the successful state.
+- `isPending` or `status === 'pending'`: If there's no cached data and no query attempt was finished yet.
+- `isFetching` is true whenever the `queryFn` is executing, which includes initial pending as well as background refetches.
+- `isLoading` Is true whenever the first fetch for a query is in-flight. Is same as `isFetching && isPending`.
+
 Query keys are reactive. When a key changes, React Query knows it needs fresh data. You don't manually trigger refetches, you just change the key, and React Query handles the rest. Your UI becomes a reflection of your query keys.
 
 ```js
