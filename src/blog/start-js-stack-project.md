@@ -237,7 +237,20 @@ module.exports = {
 ### Polyfills and Transpilers
 When Babel compiles your code, what it's doing is taking your syntax and running it through various syntax transforms in order to get browser compatible syntax. What it's not doing is adding any new JavaScript primitives or any properties you may need to the browser's global namespace. One way you can think about it is that when you compile your code, you're transforming it. When you add a polyfill, you're adding new functionality to the browser. For example, Babel can transform `arrow functions` into regular functions, so, they can be compiled. However, there's nothing Babel can do to transform `Promises` or `Math.trunc` into native syntax that browsers understand, so they need to be polyfilled.
 
-With syntax transforms, I recommend `babel-preset-env`. For polyfills, the most popular one is `core-js`.
+**It's crucial to understand the difference between language syntax and runtime API:**
+
+- If a browser or Babel doesn't understand a piece of syntax, you'll usually see a compile-time error, such as: `SyntaxError: Unexpected token 'async'`.
+- Runtime APIs are part of the standard library and only available if the JavaScript engine (e.g., the browser) supports them. Babel does not polyfill runtime APIs. If a browser doesn’t support it, you’ll get a runtime error.
+
+| Feature                    | Type        | Babel Transforms? | Error Type   | Fix if Unsupported                                                      |
+| -------------------------- | ----------- | ----------------- | ------------ | ----------------------------------------------------------------------- |
+| `async/await`              | Syntax      | ✅ Yes             | Compile-time | Use `@babel/plugin-transform-async-to-generator` or `@babel/preset-env` |
+| Arrow functions            | Syntax      | ✅ Yes             | Compile-time | Babel                                                                   |
+| `Array.prototype.includes` | Runtime API | ❌ No              | Runtime      | Polyfill via `core-js`                                                  |
+| `Promise`                  | Runtime API | ❌ No              | Runtime      | Polyfill via `core-js`                                                  |
+| `Object.assign`            | Runtime API | ❌ No              | Runtime      | Polyfill or use lodash                                                  |
+
+With syntax transforms, I recommend `@babel/preset-env`. For polyfills, the most popular one is `core-js`.
 
 `core-js` provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.
 
