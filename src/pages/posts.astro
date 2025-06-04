@@ -43,6 +43,9 @@ const groupedByYear: YearGroup[] = Object.entries(restPosts).map(([year, posts])
 		),
 	}))
 	.sort((a, b) => Number(b.year) - Number(a.year));
+
+const allTags = Array.from(new Set(posts.flatMap(post => post.data.tags || [])));
+const allYears = groupedByYear.map(group => group.year);
 ---
 
 <!DOCTYPE html>
@@ -61,6 +64,20 @@ const groupedByYear: YearGroup[] = Object.entries(restPosts).map(([year, posts])
 				border: 0;
   			border-top: 1px dashed var(--gray);
 				margin: 2em 0;
+			}
+			.filter-list {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1em;
+				margin-bottom: 1em;
+			}
+			.tag-name {
+				color: var(--purple);
+				text-decoration: none;
+				font-size: 0.9em;
+				&:hover {
+					color: var(--blue);
+				}
 			}
 		</style>
 	</head>
@@ -81,6 +98,19 @@ const groupedByYear: YearGroup[] = Object.entries(restPosts).map(([year, posts])
 				))}
 			</ul>
 			<hr />
+			<div>
+				<h4>Filters</h4>
+				<div class="filter-list">
+					{allTags.map(tag => (
+						<a class="tag-name" href={`/tag/${tag}`}>#{tag}</a>
+					))}
+				</div>
+				<div class="filter-list">
+					{allYears.map(year => (
+						<a class="tag-name" href={`/tag/${year}`}>{year}</a>
+					))}
+				</div>
+			</div>
 			<ul>
 				{groupedByYear.map((group) => (
 					<li>

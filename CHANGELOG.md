@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.1.4](2025-06-04)
+- Add filters in posts page
+
 ## [1.1.3] (2025-02-15)
 - Upgrade tailwind css to v4
 - Start to use `CHANGELOG.md` file
