@@ -163,6 +163,18 @@ import json from "./foo.json" with { type: "json" };
 import("foo.json", { with: { type: "json" } })
 ```
 
+### The code you write vs. the code that runs in the browser.
+Do you know what any of those do? In one sense, they’re all “non-standard” in terms of their ability to run natively on the web platform (none of these imports would work if dropped into a browser). On the other hand, they’re also pretty “standard” in terms of their prevalence across many codebases.
+
+```js
+import icon from './icon.svg';
+import data from './data.json';
+import styles from './styles.css';
+import foo from '~/foo.js';
+```
+
+If you saw that code, you’d have to take a step back and inspect your build tools (and plugins) to know what that code will do at runtime, as it won’t work as-written in the browser.
+
 ### Import maps
 In common module systems, such as CommonJS, or a module bundler like webpack, the import specifier was mapped to a specific file, and users only needed to apply the bare module specifier (usually the package name) in the import statement, and concerns around module resolution were taken care of automatically.
 
@@ -208,54 +220,3 @@ Today, `import moment from "moment"` throws, as such bare specifiers are reserve
 It's a hard problem now to take an NPM library and figure out how to download it and use it from a `<script>` tag without needing to involve some sort of convoluted build system.
 
 Read: https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
-
-## Getting started with Node.js ESM
-In May, 2020, Node.js v12.17.0 made ESM support available to all Node.js applications without experimental flags. Read more at https://formidable.com/blog/2021/node-esm-and-exports
-
-The `package.json` file contains a field `"type": "module"` (defaults to CommonJS when not set). This will make Node.js interpret all files in the package as ESM files. When migrating to `mjs`, change the `module.exports` to the ESM `export` statement and all the `require` to the respective `import` statements.
-
-> CJS is the default; you have to opt-in to ESM mode. You can opt-in to ESM mode by renaming your script from `.js` to `.mjs`. Alternately, you can set `"type": "module"` in package.json, and then you can opt-out of ESM by renaming scripts from `.js` to `.cjs`.
-
-### ESM and CJS are completely different
-Since the dawn of Node, Node modules were written as CommonJS modules. We use `require()` to import them. When implementing a module for other people to use, we can define `exports`, either "named exports" by setting `module.exports.foo = 'bar'` or a "default export" by setting `module.exports = 'baz'`.
-
-ESM changes a bunch of stuff in JavaScript. Switching the default from CJS to ESM would be a big break in backwards compatibility. Three guidelines for library authors to follow if they need to support CJS and ESM:
-
-1. Provide a CJS version of your library. This ensures that your library can work in older versions of Node. *ESM scripts can import CJS scripts, but only by using the "default import” syntax `import _ from 'lodash'`, not the "named import" syntax `import { shuffle } from 'lodash'`.*
-   
-2. Provide a thin ESM wrapper for your CJS named exports. It’s easy to write an ESM wrapper for CJS libraries, but it’s not possible to write a CJS wrapper for ESM libraries.
-   ```js
-   // esm/wrapper.js
-   import cjsModule from '../index.js';
-   export const foo = cjsModule.foo; 
-   ```
-
-3. Add an `exports` map to your `package.json`. Be aware that adding an `exports` map is always a "semver major" breaking change. By default, your users can reach into your package and `require()` any script they want, even files that you intended to be internal. The `exports` map ensures that users can only require/import the entry points that you deliberately expose.
-   ```json
-   "exports": {
-      "require": "./index.js",
-      "import": "./esm/wrapper.js"
-   }
-   ```
-
-### Requiring ESM in Node.js
-The capability to `require()` ESM modules in Node.js marks an incredible milestone. This feature allows packages to be published as ESM-only while still being consumable by CJS codebases with minimal modifications.
-
-**Updates for Node.js 22:** Support for require()ing ESM graphs is now enabled through experimental flag. We intend to enable it by default in the future to allow package authors to publish ESM-only packages while maintaining support for CJS users, and help the ecosystem migrate to ESM incrementally.
-
-> Update: In the release of version 22.12.0, it is now no longer behind a flag on v22.x. Users can check `process.features.require_module` to see whether `require(esm)` is enabled in the current Node.js instance.
-
-```js
-// Define a module in a file named 'math-utils.mjs'
-export function square(x) {
-  return x ** 2;
-}
-
-// main.js - ​Synchronously require the ES module in a CommonJS file
-// $ node --experimental-require-module main.js
-const mathUtils = require('./math-utils.mjs');
-​
-console.log(mathUtils.square(2));
-```
-
-Node 23 was released on Oct 2024 that you can now `require()` files that use ESM (import/export), which lets you import an ES Module in CommonJS and have it just work. Previously, if you wanted to use a “module” from your CommonJS file, you would need to do use dynamic import `await import('some/module/file.mjs')` and you can’t just put this at the top of your file.

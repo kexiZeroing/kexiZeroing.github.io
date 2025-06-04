@@ -190,6 +190,26 @@ Note that:
 2. `packageJson.exports["."] = filepath` is shorthand for `packageJson.exports["."].default = filepath`
 3. When using "exports" in `package.json`, it is generally a good idea to include `"./package.json": "./package.json"` so that it can be imported.
 4. "exports" can be advisable over "main" because it prevents external access to internal code (users are not depending on things they shouldn't). If you don't need that, "main" is simpler and may be a better option for you.
+5. CJS is the default; you have to opt-in to ESM mode. You can opt-in to ESM mode by renaming your script from `.js` to `.mjs`. Alternately, you can set `"type": "module"` in package.json, and then you can opt-out of ESM by renaming scripts from `.js` to `.cjs`.
+
+### Requiring ESM in Node.js
+The capability to `require()` ESM modules in Node.js marks an incredible milestone. This feature allows packages to be published as ESM-only while still being consumable by CJS codebases with minimal modifications.
+
+Node 23 was released on Oct 2024 that you can now `require()` files that use ESM (import/export), which lets you import an ES Module in CommonJS and have it just work. Previously, if you wanted to use a “module” from your CommonJS file, you would need to do use dynamic import `await import('some/module/file.mjs')` and you can’t just put this at the top of your file.
+
+> Update: In the release of version 22.12.0, it is now no longer behind a flag on v22.x. Users can check `process.features.require_module` to see whether `require(esm)` is enabled in the current Node.js instance.
+
+```js
+// Define a module in a file named 'math-utils.mjs'
+export function square(x) {
+  return x ** 2;
+}
+
+// main.js - ​Synchronously require the ES module in a CommonJS file
+const mathUtils = require('./math-utils.mjs');
+​
+console.log(mathUtils.square(2));
+```
 
 ## Streams
 Streams process data in chunks, significantly reducing memory usage. All streams in Node.js inherit from the `EventEmitter` class, allowing them to emit events at various stages of data processing. These streams can be readable, writable, or both.

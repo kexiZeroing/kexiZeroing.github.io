@@ -69,6 +69,33 @@ var c = Object.create(null);
 Object.setPrototypeOf(d, foo.prototype);
 ```
 
+```js
+function Animal (name) {
+  let animal = {}
+  animal.name = name
+
+  return animal
+}
+
+Animal.prototype.eat = ...
+const leo = Animal('Leo')
+leo.eat() // fail, the returned object isn’t delegating to Animal.prototype
+
+// should be
+function Animal (name) {
+  let animal = Object.create(Animal.prototype)
+  animal.name = name
+
+  return animal
+}
+
+// or
+function Animal (name) {
+  this.name = name
+}
+const leo = new Animal('Leo')
+```
+
 ## Classes
 JavaScript classes are primarily syntactical sugar over existing prototype-based inheritance. The class syntax does not introduce a new object-oriented model to JavaScript. **The body of a class is executed in strict mode**.
 
