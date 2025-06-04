@@ -3,7 +3,7 @@ title: "SWR, SWC, and MSW"
 description: ""
 added: "Oct 25 2023"
 tags: [web]
-updatedDate: "Jun 1 2025"
+updatedDate: "Jun 4 2025"
 ---
 
 SWR, SWC, and MSW, three similar names, are always mentioned in the context of web development, but they are totally different things. In this article, we will learn each of them and where they are used.
@@ -291,13 +291,13 @@ function App() {
 
 To manage client state in a React app, we have lots of options available, starting from the built-in hooks like `useState` and `useReducer`, all the way up to community maintained solutions like redux or zustand. But what are our options for managing server state in a React app? Historically, there weren't many. That is, until React Query came along.
 
-While React Query goes very well with data fetching, a better way to describe it is as an async state manager that is also acutely aware of the needs of server state. In fact, React Query doesn't fetch any data for you. You provide it a promise (whether from fetch, axios, graphql, etc.), and React Query will then take the data that the promise resolves with and make it available wherever you need it throughout your entire application.
+A better way to describe React Query is as an async state manager that is also acutely aware of the needs of server state. In fact, React Query doesn't fetch any data for you. You provide it a promise (whether from fetch, axios, graphql, etc.), and React Query will then take the data that the promise resolves with and make it available wherever you need it throughout your entire application.
 
 > A common mistake people do is try to combine useEffect and useQuery. useQuery already handles the state for you. If you're using a useEffect to somehow manage what you get from useQuery, you're doing it wrong.
 
-`staleTime` is the duration until a query transitions from fresh to stale. As long as the query is fresh, data will always be read from the cache only - no network request will happen. If the query is stale (which per default is: instantly), **you will still get data from the cache, but a background refetch can happen**. 
+The library operates on well-chosen defaults. `staleTime` is the duration until a query transitions from fresh to stale. As long as the query is fresh, data will always be read from the cache only - no network request will happen. If the query is stale (which per default is: instantly), **you will still get data from the cache, but a background refetch can happen**. 
 
-As long as a query is being actively used, the cached data will be kept in memory. What about inactive queries? `gcTime` is the duration until inactive queries will be removed from the cache. This defaults to 5 minutes, which means that if a query is not being used for 5 minutes, the cache for that query will be cleaned up.
+As long as a query is being actively used, the cached data will be kept in memory. What about inactive queries? `gcTime` is the duration until inactive queries will be removed from the cache. This defaults to 5 minutes, which means that if a query is not being used for 5 minutes, the cache for that query will be cleaned up. Queries transition to the inactive state as soon as there are no observers registered, so when all components which use that query have unmounted.
 
 > - `staleTime`: How long before data is considered stale, when should revalidation happen? (default: 0)
 > - `gcTime`: How long before inactive data is garbage collected, when should the cache be cleared? (default: 5 minutes)
@@ -318,18 +318,29 @@ function TodoList() {
 // If they return within 5 minutes, the cached data is still there!
 ```
 
+If you see a refetch that you are not expecting, it is likely because you went to a different browser tab, and then came back to your app. React Query is doing a `refetchOnWindowFocus`, and data on the screen will be updated if something has changed on the server in the meantime.
+
+The `enabled` option is a very powerful one that can be used in Dependent Queries—queries depend on previous ones to finish before they can execute. To achieve this, it's as easy as using the `enabled` option to tell a query when it is ready to run.
+
 For most queries `const { isPending, isError, data, error } = useQuery()`, it's usually sufficient to check for the `isPending` state, then the `isError` state, then finally, assume that the data is available and render the successful state.
 - `isPending` or `status === 'pending'`: If there's no cached data and no query attempt was finished yet.
 - `isFetching` is true whenever the `queryFn` is executing, which includes initial pending as well as background refetches.
 - `isLoading` Is true whenever the first fetch for a query is in-flight. Is same as `isFetching && isPending`.
 
-Query keys are reactive. When a key changes, React Query knows it needs fresh data. You don't manually trigger refetches, you just change the key, and React Query handles the rest. Your UI becomes a reflection of your query keys.
+Query keys are reactive. When a key changes, React Query knows it needs fresh data. You don't manually trigger refetches, you just change the key, and React Query handles the rest. Your UI becomes a reflection of your query keys. *(I don't think I have ever passed a variable to the `queryFn` that was not part of the `queryKey`)*
 
 ```js
 function TodoList({ filter }) {
+  const queryClient = useQueryClient();
+  
   const { data } = useQuery({
     queryKey: ["todos", filter],
     queryFn: () => fetchTodos(filter),
+    // To prevent loading state when you switch for the first time,
+    // we can pre-fill the newly created cache entry with `initialData`.
+    initialData: () => {
+      return queryClient.getQueryData(['todos', 'all']);
+    },
   });
 }
 

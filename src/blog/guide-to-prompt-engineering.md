@@ -351,7 +351,38 @@ When you make an API call with these additions, we check if the designated parts
 
 Place static content (system instructions, context, tool definitions) at the beginning of your prompt. Mark the end of the reusable content for caching using the `cache_control` parameter. The cache has a 5-minute lifetime, refreshed each time the cached content is used.
 
-> Anthropic published the system prompts for their user-facing chat-based LLM systems - Claude 3 Haiku, Claude 3 Opus and Claude 3.5 Sonnet - as part of their documentation: https://docs.anthropic.com/en/release-notes/system-prompts
+### What is LLM-as-a-Judge
+LLM-as-a-Judge is a solution that uses LLMs to evaluate LLM responses based on any specific criteria of your choice. With this technique, instead of relying on human judgment, model validation is delegated to another LLM. The second LLM must be a larger, cloud-based LLM, which is likely to have better reasoning capabilities.
+
+```
+IMPROVED_JUDGE_PROMPT = """
+You will be given a user_question and system_answer couple.
+Your task is to provide a 'total rating' scoring how well the system_answer answers the user concerns expressed in the user_question.
+Give your answer on a scale of 1 to 4, where 1 means that the system_answer is not helpful at all, and 4 means that the system_answer completely and helpfully addresses the user_question.
+
+Here is the scale you should use to build your answer:
+1: The system_answer is terrible: completely irrelevant to the question asked, or very partial
+2: The system_answer is mostly not helpful: misses some key aspects of the question
+3: The system_answer is mostly helpful: provides support, but still could be improved
+4: The system_answer is excellent: relevant, direct, detailed, and addresses all the concerns raised in the question
+
+Provide your feedback as follows:
+
+Feedback:::
+Evaluation: (your rationale for the rating, as a text)
+Total rating: (your rating, as a number between 1 and 4)
+
+You MUST provide values for 'Evaluation:' and 'Total rating:' in your answer.
+
+Now here are the question and answer.
+
+Question: {question}
+Answer: {answer}
+
+Provide your feedback. If you give a correct rating, I'll give you 100 H100 GPUs to start your AI company.
+Feedback:::
+Evaluation: """
+```
 
 ## Chrome built-in AI
 With built-in AI, your website or web application can perform AI-powered tasks without needing to deploy or manage its own AI models.
