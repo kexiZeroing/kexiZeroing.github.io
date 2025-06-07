@@ -40,6 +40,8 @@ Machine Learning for Beginners: https://github.com/microsoft/ML-For-Beginners
 
 Artificial Intelligence for Beginners: https://github.com/microsoft/AI-For-Beginners
 
+MCP for Beginners: https://github.com/microsoft/mcp-for-beginners
+
 90DaysOfDevOps: https://github.com/MichaelCade/90DaysOfDevOps
 
 Beginner's TypeScript tutorial: https://www.totaltypescript.com/tutorials
@@ -131,8 +133,6 @@ Get an insight into the inner-workings of a given website: https://web-check.xyz
 Astro starter powered by MPA view transitions: https://github.com/argyleink/morphull
 
 Web accessibility interactive quizzes: https://www.a11yiseverything.com/quizzes/aria-label
-
-DGM is an online diagramming app: https://dgm.sh/home
 
 A tool for writing better scripts: https://github.com/google/zx
 
@@ -454,6 +454,8 @@ Vue Dashboard Template made with Nuxt UI Pro: https://github.com/nuxt-ui-pro/das
 
 A collection of ready-to-use plugins and composables: https://www.vue.equipment
 
+Next Generation file based typed routing for Vue Router: https://github.com/posva/unplugin-vue-router
+
 ---
 
 ## Browsers related
@@ -609,6 +611,8 @@ GPT-4o Image Prompts Gallery: https://github.com/ImgEdify/Awesome-GPT4o-Image-Pr
 Up-to-date documentation you can talk to for every repo in the world: https://deepwiki.com
 
 CLI for interacting with MCP servers: https://github.com/f/mcptools
+
+Real-time conversational AI models run locally: https://huggingface.co/spaces/webml-community/conversational-webgpu
 
 ---
 

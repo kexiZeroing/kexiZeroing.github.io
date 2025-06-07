@@ -78,6 +78,10 @@ setTimeout(() => {
 }, 1000);
 ```
 
+Each JavaScript module is a singleton. If both `a.js` and `b.js` import the `c` function from the `c.js` file, the `c` function is defined once despite having been imported twice. JavaScript module system guarantee that the code inside each individual module executes at most once, no matter how many times and from how many places that module gets imported.
+
+> Under the hood, module systems usually do this by holding a `Map` that keeps track of which modules (keyed by their filename) have already been loaded, and what their exported values are. If the engine sees an import to a module it has already loaded, it’s not going to run the module again. Instead, it will read that module’s exports from an in-memory cache.
+
 ### Default exports and renaming
 The other type of export called the default export — this is designed to make it easy to have a default function provided by a module. Note that **the lack of curly braces both in export and import statements**. This is because there is only one default export allowed per module. **A default export can be imported with any name**.
 

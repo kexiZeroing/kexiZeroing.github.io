@@ -10,6 +10,8 @@ This is my learning notes from the [AI Engineer workshop](https://www.youtube.co
 
 > AI SDK is like an ORM for LLMs. It provides a simple interface to interact with different LLM providers, making it easy to switch between them without changing your code.
 
+> Here is an Gemini AI SDK Cheatsheet: https://patloeber.com/gemini-ai-sdk-cheatsheet. It has code snippets to start building with Gemini and the AI SDK.
+
 ## Generate Text
 
 Make your first LLM call.

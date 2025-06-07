@@ -265,6 +265,7 @@ function App() {
     queryFn: () => fetch(...).then(res => res.json()),
   })
 
+  // const queryClient = useQueryClient()
   const newPostMutation = useMutation({
     mutationFn: async (newTitle) => {
       const response = await fetch(...)
@@ -272,7 +273,7 @@ function App() {
     },
     onSuccess: (data) => {
       // update the cache
-      queryClient.invalidateQueries(['post'])
+      queryClient.invalidateQueries({ queryKey: ['post'] })
     }
   })
 
@@ -321,6 +322,15 @@ function TodoList() {
 If you see a refetch that you are not expecting, it is likely because you went to a different browser tab, and then came back to your app. React Query is doing a `refetchOnWindowFocus`, and data on the screen will be updated if something has changed on the server in the meantime.
 
 The `enabled` option is a very powerful one that can be used in Dependent Queries—queries depend on previous ones to finish before they can execute. To achieve this, it's as easy as using the `enabled` option to tell a query when it is ready to run.
+
+```js
+export const useContactDetails = (contactId: string | undefined) =>
+  useQuery({
+    queryKey: ["contacts", contactId],
+    queryFn: () => getContact(contactId!),
+    enabled: !!contactId,
+  });
+```
 
 For most queries `const { isPending, isError, data, error } = useQuery()`, it's usually sufficient to check for the `isPending` state, then the `isError` state, then finally, assume that the data is available and render the successful state.
 - `isPending` or `status === 'pending'`: If there's no cached data and no query attempt was finished yet.
