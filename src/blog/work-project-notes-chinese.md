@@ -3,7 +3,7 @@ title: "Notes on work projects (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "May 11 2025"
+updatedDate: "Jun 8 2025"
 ---
 
 ### 项目是怎么跑起来的
@@ -258,6 +258,15 @@ prefixOss=`echo ${CI_COMMIT_REF_NAME} | sed -e "s/\_/-/g" -e "s/\//-/g"`
 The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning it's not a tag build). If that's the case, it uses sed to perform an in-place replacement in the `package.json` file. Specifically, it looks for lines that start with "version": "[0-9\.]+" and replaces them with a new version format `0.0.0-${prefixOss}-${CI_COMMIT_SHORT_SHA}`. This script appears to be adjusting versioning and paths based on the branch or tag being built in a CI/CD pipeline.
 
 > The `s` command is for substitute, to replace text -- the format is `s/[text to select]/[text to replace]/`. For example, `sed 's/target/replacement/g' file.txt` will globally substitute the word `target` with `replacement`.
+
+#### 基于 Docker + Terraform + GitLab CI/CD 的部署
+整体目标：通过 GitLab CI/CD 自动构建包含 Terraform 配置的 Docker 镜像，在容器中执行计划（plan）与部署（apply），实现多个项目环境的基础设施部署。
+
+- `Dockerfile.base`：使用阿里云镜像，安装了各种工具 aliyun CLI、terraform、ossutil64、websocat，添加了阿里云的 AK/SK 凭据和配置 profile（方便后续 terraform 操作时访问阿里云资源）。
+- `Dockerfile`：基于 `Dockerfile.base` 生成一个新的部署镜像，拷贝了 terraform 配置，对每个环境都做了 `terraform init` 和 `terraform plan`。这里的计划是提前计算好的“基础设施变更内容”，保存下来，后续可以直接 apply。
+- `gitlab-ci.yml`：使用 `kaniko` 工具构建镜像，用 Dockerfile 构建出包含所有 Terraform 配置和计划的镜像，并推送到私有仓库，保证部署时拿到同样的镜像和计划。
+- Test 阶段：运行刚构建的镜像，执行 `/root/scripts/show_plan.sh`，打印出所有计划内容，即对每个模块用 `terraform show` 展示 plan 文件的内容，确保没有问题。
+- Deploy 阶段：部署脚本核心就是 `terraform apply /root/plan/{env}`。在镜像构建阶段就把所有 plan 做好，在部署阶段只需要 apply，可控且快速。
 
 ### 实时检测 web 应用更新
 当应用发布新版本时，考虑及时通知用户并引导其刷新页面以加载最新资源。

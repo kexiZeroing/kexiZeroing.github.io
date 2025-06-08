@@ -614,6 +614,8 @@ CLI for interacting with MCP servers: https://github.com/f/mcptools
 
 Real-time conversational AI models run locally: https://huggingface.co/spaces/webml-community/conversational-webgpu
 
+Cloudflare Workers AI: https://playground.ai.cloudflare.com
+
 ---
 
 ## Machine Learning
