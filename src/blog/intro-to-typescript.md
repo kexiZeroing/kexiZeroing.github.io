@@ -389,6 +389,8 @@ type SellAlbumReturn = ReturnType<typeof sellAlbum>  // number
 // unwrap the Promise type and provide the type of the resolved value
 type User = Awaited<ReturnType<typeof fetchUser>>
 
+type CustomAwaited<T> = T extends Promise<infer U> ? U : T
+
 // Indexed access types
 type AlbumTitle = Album["title"];
 type AlbumPropertyTypes = Album["title" | "isSingle" | "releaseYear"];
@@ -414,6 +416,10 @@ type Headers = {
 type ColorShade = 100 | 200 | 300;
 type Color = "red" | "blue" | "green";
 type ColorPalette = `${Color}-${ColorShade}`;
+
+// "name:Bill" -> { key: "name", value: "Bill" }
+type KeyValueSplitter<T extends string> = T extends `${infer K}:${infer V}` ? 
+  { key: K; value: V } : never;
 
 // The 'string & {}' trick (loose autocomplete)
 type ModelNames = 'a' | 'b' | 'c' | (string & {});
@@ -580,7 +586,7 @@ type AlbumWithUppercaseKeys = {
 };
 
 type AttributeGetters = {
-  [K in keyof Attributes as `get${Capitalize<K>}`]: () => Attributes[K];
+  [K in keyof T as `get${Capitalize<K>}`]: () => T[K];
 };
 ```
 
