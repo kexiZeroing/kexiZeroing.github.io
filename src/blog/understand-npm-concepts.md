@@ -3,7 +3,7 @@ title: "Understand npm concepts"
 description: ""
 added: "Dec 14 2022"
 tags: [web]
-updatedDate: "May 1 2025"
+updatedDate: "Jun 9 2025"
 ---
 
 ### package.json and package-lock.json
@@ -340,26 +340,8 @@ catalogs:
 }
 ```
 
-#### corepack
-Instead of installing `yarn` or `pnpm` globally, Corepack manages them for you behind the scenes. When you run a package manager command, Corepack intercepts it, checks what version you need, downloads it if necessary, and runs your command with the correct version.
-
-Corepack makes sure you're using the correct package manager for your project. Since v16.13, Node.js is shipping Corepack for managing package managers. This is an experimental feature, so you need to enable it by running `corepack enable pnpm`. To configure the package manager for your project, add the `packageManager` field to your `package.json`:
-
-```json
-{
-  // npm
-  "packageManager": "npm@10.8.1",
-  // pnpm
-  "packageManager": "pnpm@9.1.4",
-  // yarn
-  "packageManager": "yarn@3.1.1"
-}
-```
-
-You can use `corepack use pnpm@x.y.z` to ask Corepack to update your local `package.json` to use the package manager of your choice. *(Corepack intercepts calls to `pnpm` or `yarn` to make sure you're using them correctly.)* You must specify an exact version of the package manager you want to use - not a range. Now, if you try to `npm install` in a project that has `packageManager` set to `pnpm`, corepack will show an error. And if you try to `pnpm install` there, corepack will automatically download and use the correct pnpm version.
-
 #### monorepo setup
-Monorepos are specified using a `pnpm-workspace.yaml` file instead of the `"workspaces"` field in `package.json` that npm and yarn use.
+Monorepos are specified using a `pnpm-workspace.yaml` file alongside `packages.json`, with a list of paths to directories in `packages` property.
 
 ```yml
 # The only field in this config file
@@ -368,11 +350,73 @@ packages:
   - packages/*
 ```
 
+```json
+// root package.json
+{
+  "name": "awesome-monorepo",
+  "scripts": {
+    "build": "pnpm --filter=@awesome/* run build",
+    "clean": "rimraf 'packages/*/{dist,node_modules}' && rimraf node_modules",
+  }
+}
+
+// packages/utils/package.json
+{
+  "name": "@awesome/utils",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+  }
+}
+
+// packages/api-client/package.json
+{
+  "name": "@awesome/api-client",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+  },
+  "dependencies": {
+    "@awesome/utils": "workspace:*"
+  }
+}
+```
+
 To add a local dependency within a monorepo, in your `package.json` "dependencies" field you'll prefix your local dependencies' version-range strings with `"workspace:^"` *(`workspace:` indicates that the dependency should be resolved from the local workspace packages rather than pulling from an external registry. `^` means the version should follow the semver caret (^) range rule.)* `workspace:*` uses the exact version of the dependency as defined in its `package.json` within the workspace.
 
-Check out the example:
-- https://www.youtube.com/watch?v=KIgPJT806D0
-- https://github.com/w3cj/monorepo-example-tasks-app
+```sh
+# Development dependencies for the workspace root
+# Adding a new dependency to the root workspace package fails, 
+# unless the `--ignore-workspace-root-check` or `-w` flag is used.
+pnpm add -Dw typescript @types/node eslint
+
+# Add React to a package
+pnpm add react react-dom --filter @awesome/api-client
+
+# Add multiple packages to multiple filters
+pnpm add lodash --filter @awesome/utils --filter @awesome/api-client
+
+# Install to all packages matching pattern
+pnpm add dayjs --filter "@awesome/*"
+
+# Add @awesome/utils as dependency to @awesome/api-client
+pnpm add @awesome/utils --filter @awesome/api-client
+
+# Use wildcard version for latest workspace version
+pnpm add @awesome/utils@workspace:* --filter @awesome/api-client
+```
+
+> There is not much difference between `pnpm add` and `pnpm install`. We use `pnpm add` when we want to add a new dependency; We use `pnpm install` when we have an existing project with the lockfile and we want to install all dependencies from the lockfile. The only difference is that `pnpm add` will fail when executed without args. `pnpm install` will work in both cases.
+>
+> You can run all of your `package.json` scripts via `pnpm <script-name>`. You can also run your installed binaries with `pnpm <command>`. For example, you might want to run local versions of Typescript (`pnpm tsc`) or eslint (`pnpm eslint`). npm uses a separate command (`npx`) to run binaries.
 
 ### npm scripts
 npm scripts are a set of built-in and custom scripts defined in the `package.json` file. Their goal is to provide a simple way to execute repetitive tasks.
