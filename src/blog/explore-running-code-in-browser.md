@@ -118,35 +118,6 @@ const moduleURL = URL.createObjectURL(
 // import { greeting } from moduleURL;
 ```
 
-To tie everything together, we need to automatically transform our import statements to use the URLs we've created. We can do this with a custom Babel plugin:
-
-> The plugin is defined as an object with a `visitor` property. The `ImportDeclaration` method will be called for every import declaration in the code being transformed. The `path` parameter represents the current path being traversed in the Abstract Syntax Tree (AST).
-
-```js
-import { transform } from '@babel/core';
-
-const transformImportSourcePlugin = {
-  visitor: {
-    ImportDeclaration(path) {
-      // Transform the import source to a URL
-      path.node.source.value = getModuleURL(path.node.source.value);
-    }
-  }
-};
-
-const babelTransformWithPlugin = (code) => {
-  return transform(code, {
-    presets: ['react', 'typescript'],
-    plugins: [transformImportSourcePlugin]
-  }).code;
-};
-```
-
-> Babel's core packages:
-> - `babel-core`: The core module that wraps everything in our transform api (used for integrations)
-> - `babel-parser`: babel-parser (Babylon) is a JavaScript parser used in Babel
-> - `babel-generator`: Prints a string from an AST
-
 ### CodeSandbox and StackBlitz
 **Sandpack** is a component toolkit for creating live-running code editing experiences, powered by the online bundler used on CodeSandbox. https://sandpack.codesandbox.io
 

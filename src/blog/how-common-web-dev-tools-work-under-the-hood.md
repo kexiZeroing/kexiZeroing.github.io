@@ -3,7 +3,7 @@ title: "How common web development tools work under the hood"
 description: ""
 added: "May 4 2025"
 tags: [web, code]
-updatedDate: "May 10 2025"
+updatedDate: "Jun 9 2025"
 ---
 
 ## TOC
@@ -15,6 +15,7 @@ updatedDate: "May 10 2025"
 - [Simple bundler](#simple-bundler)
 - [Hot Module Replacement](#hot-module-replacement)
 - [Source Maps](#source-maps)
+- [Babel Transpiler and Plugin](#babel-transpiler-and-plugin)
 
 ## Compile Vue SFC to JS
 High level compilation process: 
@@ -653,3 +654,117 @@ It means: col 26 is mapping to source[0] line 9, col 14
 ```
 
 <img alt="how source maps work" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/source-map-under-the-hood.png" width="600" />
+
+## Babel Transpiler and Plugin
+You give Babel some JavaScript code, Babel modifies the code, and generates the new code back out. Each of these steps involve creating or working with an Abstract Syntax Tree or AST.
+
+```js
+function square(n) {
+  return n * n;
+}
+
+// https://astexplorer.net/#/Z1exs6BWMq
+{
+  type: "FunctionDeclaration",
+  id: {
+    type: "Identifier",
+    name: "square"
+  },
+  params: [{
+    type: "Identifier",
+    name: "n"
+  }],
+  body: {
+    type: "BlockStatement",
+    body: [{
+      type: "ReturnStatement",
+      argument: {
+        type: "BinaryExpression",
+        operator: "*",
+        left: {
+          type: "Identifier",
+          name: "n"
+        },
+        right: {
+          type: "Identifier",
+          name: "n"
+        }
+      }
+    }]
+  }
+}
+```
+
+There are two ways to transform JavaScript with Babel.
+1. Manual AST Transformation (Using `@babel/parser`, `@babel/traverse`, and `@babel/generator`).
+2. Babel Plugin + `babel.transformSync`. You focus only on the transformation logic (`visitor` function), and let Babel take care of parsing, walking, and generating code.
+
+The following is the general template of using babel to do code transformation:
+
+```js
+import { parse } from '@babel/parser';
+import traverse from '@babel/traverse';
+import generate from '@babel/generator';
+
+const code = 'const n = 1';
+
+// parse the code -> ast
+const ast = parse(code);
+
+// transform the ast
+traverse(ast, {
+  enter(path) {
+    // in this example change all the variable `n` to `x`
+    if (path.isIdentifier({ name: 'n' })) {
+      path.node.name = 'x';
+    }
+  },
+});
+
+// generate code <- ast
+const output = generate(ast, { /* generator options */ });
+console.log(output.code); // 'const x = 1;'
+```
+
+Another way is writing a custom plugin (may integrate into build tools). They have same functional output.
+
+```js
+import babel from '@babel/core';
+
+const code = 'const n = 1';
+
+const renameVariablePlugin = (options = {}) => {
+  const { from = 'n', to = 'x' } = options;
+  return {
+    visitor: {
+      Identifier(path) {
+        if (path.node.name === from) {
+          path.node.name = to;
+        }
+      }
+    }
+  };
+};
+
+// OPTION 1: Using babel.transformSync
+const result = babel.transformSync(code, {
+  plugins: [[renameVariablePlugin, { from: 'n', to: 'x' }]]
+});
+
+console.log(result.code); // 'const x = 1;'
+
+// OPTION 2: Using babel-loader in webpack
+rules: [
+  {
+    test: /\.js$/,
+    use: {
+      loader: 'babel-loader',
+      options: {
+        plugins: [
+          [path.resolve('./babel-plugin.js'), { from: 'n', to: 'x' }]
+        ]
+      }
+    }
+  }
+]
+```

@@ -37,7 +37,6 @@ order: 3
 - https://philipwalton.com/articles/the-state-of-es5-on-the-web
 - https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
 - https://tania.dev/how-to-use-webpack
-- https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation
 
 ## Communication problems
 - https://www.neverjust.net
