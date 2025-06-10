@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.42.1",
-    "@types/dom-chromium-ai": "^0.0.6",
+    "@types/dom-chromium-ai": "^0.0.7",
     "@types/node": "^20.11.28",
     "undici": "^7.2.0"
   },

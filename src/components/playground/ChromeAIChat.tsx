@@ -11,7 +11,7 @@ const ChromeAIChat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [modelStatus, setModelStatus] = useState('');
   // https://www.npmjs.com/package/@types/dom-chromium-ai
-  const [session, setSession] = useState<AILanguageModel | null>(null);
+  const [session, setSession] = useState<LanguageModel | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -25,17 +25,18 @@ const ChromeAIChat = () => {
   useEffect(() => {
     const checkAvailability = async () => {
       try {
-        const capabilities = await window.ai.languageModel.capabilities();
-        switch (capabilities.available) {
-          case 'readily':
+        const availability = await LanguageModel.availability();
+        switch (availability) {
+          case 'available':
             setModelStatus('Model is ready');
-            const newSession = await window.ai.languageModel.create();
+            const newSession = await LanguageModel.create();
             setSession(newSession);
             break;
-          case 'after-download':
+          case 'downloadable':
+          case 'downloading':
             setModelStatus('Model is downloading...');
             break;
-          case 'no':
+          case 'unavailable':
             setModelStatus('Model not available');
             break;
         }
