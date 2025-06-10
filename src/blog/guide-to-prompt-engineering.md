@@ -392,17 +392,16 @@ You'll access built-in AI capabilities primarily with task APIs, such as a trans
 > Expert models focus on a specific use case, resulting in higher performance and quality. The models are unlike very versatile LLMs. For example, a translation API could be built with an expert model that's focused on translating content to new languages. Expert models tend to have low hardware requirements.
 
 ```js
-// https://github.com/tomayac/prompt-api-playground
-// ai.assistant -> ai.languageModel
-const available = (await ai.languageModel.capabilities()).available;
+const session = await LanguageModel.create();
 
-if (available === "readily") {
-  const session = await window.ai.languageModel.create();
-  const stream = session.promptStreaming(`Tell me a joke`);
+// Prompt the model and wait for the whole result to come back.
+const result = await session.prompt("Write me a poem.");
+console.log(result);
 
-  for await (const chunk of stream) {
-    console.log(chunk);
-  }
+// Prompt the model and stream the result:
+const stream = session.promptStreaming("Write me a poem.");
+for await (const chunk of stream) {
+  console.log(chunk);
 }
 ```
 
