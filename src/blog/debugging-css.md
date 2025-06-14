@@ -322,6 +322,29 @@ btn.addEventListener("click", () => {
 });
 ```
 
+- Instead of hardcoding a specific value inside our keyframe definition, we can access a CSS variable. With a little help from `calc`, we can flip that value to its negative counterpart, so that we can oscillate to/from a dynamic value.
+
+```html
+<style>
+  @keyframes oscillate {
+    from {
+      transform: translateX(calc(var(--amount) * -1));
+    }
+    to {
+      transform: translateX(var(--amount));
+    }
+  }
+  .ball {
+    animation: oscillate 1000ms infinite alternate;
+  }
+</style>
+
+<div class="ball" style="--amount: 8px"></div>
+<div class="ball" style="--amount: 16px"></div>
+<div class="ball" style="--amount: 32px"></div>
+<div class="ball" style="--amount: 64px"></div>
+```
+
 - CSS background image on background color.
 
 ```css

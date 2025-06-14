@@ -355,6 +355,8 @@ packages:
 {
   "name": "awesome-monorepo",
   "scripts": {
+    "dev": "pnpm run -r --parallel --aggregate-output dev",
+    // "build": "pnpm run -r build",
     "build": "pnpm --filter=@awesome/* run build",
     "clean": "rimraf 'packages/*/{dist,node_modules}' && rimraf node_modules",
   }
@@ -401,12 +403,6 @@ pnpm add -Dw typescript @types/node eslint
 # Add React to a package
 pnpm add react react-dom --filter @awesome/api-client
 
-# Add multiple packages to multiple filters
-pnpm add lodash --filter @awesome/utils --filter @awesome/api-client
-
-# Install to all packages matching pattern
-pnpm add dayjs --filter "@awesome/*"
-
 # Add @awesome/utils as dependency to @awesome/api-client
 pnpm add @awesome/utils --filter @awesome/api-client
 
@@ -417,6 +413,8 @@ pnpm add @awesome/utils@workspace:* --filter @awesome/api-client
 > There is not much difference between `pnpm add` and `pnpm install`. We use `pnpm add` when we want to add a new dependency; We use `pnpm install` when we have an existing project with the lockfile and we want to install all dependencies from the lockfile. The only difference is that `pnpm add` will fail when executed without args. `pnpm install` will work in both cases.
 >
 > You can run all of your `package.json` scripts via `pnpm <script-name>`. You can also run your installed binaries with `pnpm <command>`. For example, you might want to run local versions of Typescript (`pnpm tsc`) or eslint (`pnpm eslint`). npm uses a separate command (`npx`) to run binaries.
+> 
+> `pnpm dlx` (`pnpx` is an alias for `pnpm dlx`) fetches a package from the registry without installing it as a dependency, hotloads it, and runs whatever default command binary it exposes. e.g. `pnpm dlx create-vue my-app`
 
 ### npm scripts
 npm scripts are a set of built-in and custom scripts defined in the `package.json` file. Their goal is to provide a simple way to execute repetitive tasks.
