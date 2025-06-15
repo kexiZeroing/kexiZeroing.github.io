@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Markdown from 'react-markdown';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -13,6 +14,7 @@ const ChromeAIChat = () => {
   // https://www.npmjs.com/package/@types/dom-chromium-ai
   const [session, setSession] = useState<LanguageModel | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -59,7 +61,10 @@ const ChromeAIChat = () => {
     setIsLoading(true);
 
     try {
-      const stream = session.promptStreaming(userMessage);
+      abortControllerRef.current = new AbortController();
+      const stream = session.promptStreaming(userMessage, {
+        signal: abortControllerRef.current.signal,
+      });
       let accumulatedResponse = '';
 
       setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
@@ -76,12 +81,24 @@ const ChromeAIChat = () => {
         });
       }
     } catch (error) {
-      console.error('Error:', error);
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'Sorry, I encountered an error processing your request.' 
-      }]);
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        // Don't append an error message in this case
+      } else {
+        console.error('Error:', error);
+        setMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: 'Sorry, I encountered an error processing your request.' 
+        }]);
+      }
     } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleStop = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
       setIsLoading(false);
     }
   };
@@ -103,7 +120,7 @@ const ChromeAIChat = () => {
                   : 'bg-gray-100 text-gray-800'
               }`}
             >
-              {message.content}
+              <Markdown>{message.content}</Markdown>
             </div>
           </div>
         ))}
@@ -119,13 +136,23 @@ const ChromeAIChat = () => {
           disabled={isLoading || !session}
           className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button
-          type="submit"
-          disabled={isLoading || !session}
-          className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
-        >
-          Send
-        </button>
+        {isLoading ? (
+          <button
+            type="button"
+            onClick={handleStop}
+            className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+          >
+            Stop
+          </button>
+        ) : (
+          <button
+            type="submit"
+            disabled={!session}
+            className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          >
+            Send
+          </button>
+        )}
       </form>
     </div>
   );
