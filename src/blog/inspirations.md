@@ -83,3 +83,14 @@ While Product Engineers focus on building and enhancing features that solve end 
 3. Avoiding conflict. Giving tough feedback used to make me anxious. Now, I see those conversations as opportunities to grow—both for me and my team.
 4. Micromanaging. Instead of solving problems for my team, I guide them to find their own solutions and give them room to decide the best path forward without me lighting the way. Delegation isn’t just about efficiency. It’s about trust.
 5. Treating self-care as optional. Burnout isn’t a badge of honor. Being busy isn't something to brag about. When I take the time to care of myself, I lead with clarity and empathy. It's a win for everyone.
+
+## Good engineer and bad engineer by Matheus Lima
+- Bad engineers measure their worth by the complexity of their solutions. They build elaborate architectures for simple problems, write clever code that requires a PhD to understand, and mistake motion for progress. Good engineers reach for simple solutions first, write code their junior colleagues can maintain, and have the confidence to choose “boring” technology that just works.
+
+- Bad engineers treat code reviews as battles to be won. They defend every line like it’s their firstborn child, taking feedback as personal attacks. Good engineers see code reviews differently — they’re opportunities to teach and learn, not contests. They’ll often review their own PR first, leaving comments like “This feels hacky, any better ideas?”
+
+- Bad engineers guard knowledge like treasure, making themselves indispensable through obscurity. Good engineers document as they go, pair with juniors, and celebrate when someone else can maintain their code. They know job security comes from impact, not from being a single point of failure.
+
+- Bad engineers chase the newest framework, the hottest language, the latest trend. They’ve rewritten the same app four times in four different frameworks. Good engineers are pragmatists. They’ll choose the tech that the team knows, the solution that can be hired for, the approach that lets them focus on the actual problem.
+
+- Bad engineers write code. Good engineers solve problems. Bad engineers focus on themselves. Good engineers focus on their team. Bad engineers optimize for looking smart. Good engineers optimize for being useful.

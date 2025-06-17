@@ -16,7 +16,7 @@ Building apps that run in the browser is completely different from building a No
 - In Node.js you control the environment. This means that you can write all the modern ES2015+ JavaScript that your Node.js version supports.
 - Node.js supports both the CommonJS and ES module systems, while in the browser, we are starting to see the ES Modules standard being implemented.
 
-Undici is an HTTP client library that powers the fetch API in Node.js. It was written from scratch and does not rely on the built-in HTTP client in Node.js. It includes a number of features that make it a good choice for high-performance applications.
+[Undici](https://undici.nodejs.org) is an HTTP client library that powers the fetch API in Node.js. It was written from scratch and does not rely on the built-in HTTP client in Node.js. It includes a number of features that make it a good choice for high-performance applications.
 
 > Undici means eleven in Italian *(1.1 -> 11 -> Eleven -> Undici)*. Undici is a replacement for `http.request` because we could not improve `http.request` without breaking everybody.
 

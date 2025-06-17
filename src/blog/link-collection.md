@@ -647,3 +647,5 @@ Visual explanations of core machine learning concepts: https://mlu-explain.githu
 Learning material for Artificial Intelligence: https://aman.ai
 
 Understanding Large Language Model by Under The Hood: https://www.youtube.com/playlist?list=PLUfbC589u-FSwnqsvTHXVcgmLg8UnbIy3
+
+Neural Networks Zero to Hero: https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ
