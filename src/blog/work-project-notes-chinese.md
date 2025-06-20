@@ -3,7 +3,7 @@ title: "Notes on work projects (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Jun 8 2025"
+updatedDate: "Jun 20 2025"
 ---
 
 ### 项目是怎么跑起来的
@@ -410,6 +410,45 @@ vue vite 打包后白屏问题，推测就是 webview 版本太旧了，使用 [
 
 > 1. 当小程序基于 WebView 环境下时，WebView 的 JS 逻辑、DOM 树创建、CSS 解析、样式计算、Layout、Paint 都发生在同一线程，在 WebView 上执行过多的 JS 逻辑可能阻塞渲染，导致界面卡顿（Chrome 的渲染进程是多线程的）。以此为前提，小程序同时考虑了性能与安全，采用了 AppService 和 WebView 的双线程模型。
 > 2. 为了进一步优化小程序性能，在 WebView 渲染之外新增了一个渲染引擎 Skyline，拥有更接近原生渲染的性能体验。Skyline 创建了一条渲染线程来负责 Layout, Composite 和 Paint 等渲染任务，并在 AppService 中划出一个独立的上下文，来运行之前 WebView 承担的 JS 逻辑、DOM 树创建等逻辑。
+
+### 课堂业务
+```
+Lesson(classroomID, lessonID, teacher, allStudents, checkinStudents, presentation)
+Presentation(presentationID, slideIndex, content, problems)
+
+1. start lesson
+- sql getClassroomId from a universityId
+- local presentation json data -> getTitle()
+- sql all students(role=1 -> teacher, role=5 -> allStudents)
+- API.NEW_LESSON(teacherId, classroomId, presentationTitle) -> get a lessonID
+
+2. upload presentation
+- API.NEW_PRESENTATION(presentationContent, teacherId, lessonId)
+- parse slides, get content and problem slides
+
+3. connectWS
+- sql app_openid, weixin_unionid, user_id... from teacherId
+- API.GET_USER_INFO to get Auth
+- new WebSocket to send op=hello, userId, role, auth
+
+4. checkin
+- API.LESSON_CHECK_IN(studentId, lessonId, source)
+
+5. showPresentation
+- get presentation curent slide
+- ws send op=showpresentation, lessonId, presentationId, slideId
+
+6. rollcall
+- Based on the mode, eligiblePool is checked in students or all students
+- Count how many times each student has been called
+- Find minimum call count among called students
+- Create fair selection pools "neverCalled" and "leastCalled"
+- selectionPool is assigned as "neverCalled" first, then "leastCalled"
+- Randomly select a student from the selectionPool
+
+7. end lesson
+- API.END_LESSON(teacherId, lessonId)
+```
 
 ### HTTP 请求相关
 - 通过 `axios.defaults.headers['xyz'] = 'abc'` 这样的方式添加需要的请求头

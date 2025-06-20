@@ -3,7 +3,7 @@ title: "A quick way to serve HTTPS localhost"
 description: ""
 added: "Dec 31 2023"
 tags: [web]
-updatedDate: "Jan 2 2024"
+updatedDate: "Jun 20 2025"
 ---
 
 As we all know HTTPS is designed to provide a secure connection by encrypting the data exchanged between a user's web browser and the server. Sometimes we need a secure connection for our Node.js web server. This article will help you understand how to do it.
@@ -59,6 +59,14 @@ Keep in mind that while this approach is useful for local development, when depl
 
 > To assign a name to your local IP address for local development, you can either modify the Hosts file or use something like [ngrok](https://ngrok.com/docs/getting-started) to put your application on the internet.
 
+```sh
+brew install ngrok
+
+ngrok config add-authtoken xxxx
+
+ngrok http http://localhost:8080
+```
+
 ## Integrate with Node.js
 Finally, let's combine the certificates we generated with the Node Express server.
 
@@ -89,4 +97,40 @@ const server = https.createServer(credentials, app);
 server.listen(port, () => {
   console.log(`Server running at https://localhost:${port}`);
 });
+```
+
+In most dev cases using `mkcert`, you just need `key` + `cert`. Here is a Rspack dev server example:
+
+```js
+devServer: {
+  host: '0.0.0.0',
+  server: {
+    type: 'https',
+    options: {
+      key: fs.readFileSync(path.resolve(__dirname, 'key.pem')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'cert.pem')),
+    },
+  },
+}
+```
+
+## Install a certificate on your mobile device
+Browsers and operating systems only trust known, public CAs (like Let's Encrypt, DigiCert, etc.). `mkcert` creates its own private CA on your dev computer. Your computer trusts this CA, because `mkcert` adds it automatically, but your phone doesn't know or trust it by default.
+
+```sh
+# generate root CA 
+mkcert -CAROOT
+
+# You’ll see something like:
+# /Users/your-name/Library/Application Support/mkcert
+# Inside this folder, find:
+# rootCA.pem
+
+# iOS prefers .crt extension, so rename:
+cp rootCA.pem rootCA.crt
+
+# Airdrop rootCA.crt to your iPhone
+
+# Then, trust the certificate in iPhone:
+# Settings → General → About → Certificate Trust Settings
 ```
