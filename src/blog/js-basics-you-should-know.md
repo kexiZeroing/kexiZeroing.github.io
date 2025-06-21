@@ -3,7 +3,7 @@ title: "JavaScript basics you should know"
 description: ""
 added: "Aug 3 2020"
 tags: [js]
-updatedDate: "Sep 29 2024"
+updatedDate: "Jun 21 2025"
 ---
 
 ## let and const
@@ -979,6 +979,64 @@ const calc = calculator(10);
 calc.next();    // {value: 5, done: false}
 calc.next(7);   // {value: 14, done: false}
 calc.next(100); // {value: 14000, done: true}
+```
+
+### Iterator helper methods
+The new proposal introduces a collection of new methods on the Iterator prototype, to allow general usage and consumption of iterators. All of the iterator-producing methods in this proposal are **lazy**. They will only consume the iterator when they need the next item from it.
+
+```js
+function* naturals() {
+  let i = 0;
+  while (true) {
+    yield i;
+    i += 1;
+  }
+}
+
+const result = naturals()
+  .map(value => {
+    return value * value;
+  });
+result.next(); //  {value: 0, done: false};
+result.next(); //  {value: 1, done: false};
+result.next(); //  {value: 4, done: false};
+
+const result = naturals()
+  .filter(value => {
+    return value % 2 == 0;
+  });
+result.next(); //  {value: 0, done: false};
+result.next(); //  {value: 2, done: false};
+
+const result = naturals()
+  .take(3);
+result.next(); //  {value: 0, done: false};
+result.next(); //  {value: 1, done: false};
+result.next(); //  {value: 2, done: false};
+result.next(); //  {value: undefined, done: true};
+
+const result = naturals()
+  .drop(3);
+result.next(); //  {value: 3, done: false};
+result.next(); //  {value: 4, done: false};
+
+const result = naturals()
+  .take(5)
+  .reduce((sum, value) => {
+    return sum + value;
+  }, 3);
+
+result // 13
+
+const result = naturals()
+  .take(5)
+  .toArray();
+
+result // [0, 1, 2, 3, 4]
+
+// To find the first element in an iterator that matches.
+// Can be used without `take` on infinite iterators.
+naturals().find(v => v > 1); // 2
 ```
 
 ## Promise
