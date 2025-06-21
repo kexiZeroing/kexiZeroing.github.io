@@ -560,9 +560,7 @@ Find the best cursor rules for your framework and language: https://cursor.direc
 
 React Components for AI Chat: https://github.com/Yonom/assistant-ui
 
-Introducing the Realtime API: https://openai.com/index/introducing-the-realtime-api
-
-Realtime API updates — WebRTC: https://platform.openai.com/docs/guides/realtime-webrtc
+OpenAI Realtime API updates: https://platform.openai.com/docs/guides/realtime
 
 Audio input and output for the OpenAI Chat Completion API: https://simonwillison.net/2024/Oct/18/openai-audio
 
@@ -615,6 +613,8 @@ CLI for interacting with MCP servers: https://github.com/f/mcptools
 Real-time conversational AI models run locally: https://huggingface.co/spaces/webml-community/conversational-webgpu
 
 Cloudflare Workers AI: https://playground.ai.cloudflare.com
+
+An open-source database of AI models: https://models.dev
 
 ---
 

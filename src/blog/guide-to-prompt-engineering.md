@@ -384,33 +384,6 @@ Feedback:::
 Evaluation: """
 ```
 
-## Chrome built-in AI
-With built-in AI, your website or web application can perform AI-powered tasks without needing to deploy or manage its own AI models.
-
-You'll access built-in AI capabilities primarily with task APIs, such as a translation API or a summarization API. Task APIs are designed to run inference against the best model for the assignment. In Chrome, these APIs are built to run inference against Gemini Nano with fine-tuning or an expert model.
-
-> Expert models focus on a specific use case, resulting in higher performance and quality. The models are unlike very versatile LLMs. For example, a translation API could be built with an expert model that's focused on translating content to new languages. Expert models tend to have low hardware requirements.
-
-```js
-const session = await LanguageModel.create();
-
-// Prompt the model and wait for the whole result to come back.
-const result = await session.prompt("Write me a poem.");
-console.log(result);
-
-// Prompt the model and stream the result:
-const stream = session.promptStreaming("Write me a poem.");
-for await (const chunk of stream) {
-  console.log(chunk);
-}
-```
-
-- https://github.com/webmachinelearning/prompt-api
-- https://github.com/webmachinelearning/writing-assistance-apis
-- https://github.com/webmachinelearning/translation-api
-- https://github.com/oslook/chrome-ai-playground
-- https://chrome.dev/web-ai-demos
-
 ## Fine-tuning
 GPT-3 has been pre-trained on a vast amount of text from the open internet. When given a prompt with just a few examples, it can often intuit what task you are trying to perform and generate a plausible completion. This is often called "few-shot learning."
 

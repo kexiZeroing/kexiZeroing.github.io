@@ -32,6 +32,8 @@ User                App                        LLM               MCP Server
 ```
 
 > How similar is this to tool calling? Tool calling lets LLMs invoke functions to interact with the real world, typically within the same process. MCP enables tool execution in a separate process, either locally or remotely, fully decoupling the server from the client.
+> 
+> Most MCP servers work "locally" (over a mechanism called `stdio`): you download a copy of the source code and run the code on your own computer. Servers rely on a command line tool either `npx` or `uvx` to download and run the server's code on your local machine.
 
 ### MCP server and client
 MCP uses a client-server design where applications can connect to multiple resources.
@@ -177,8 +179,6 @@ claude
 # Actually run Claude Code
 ```
 
-> Most MCP servers work "locally" (over a mechanism called `stdio`): you download a copy of the source code and run the code on your own computer. Servers rely on a command line tool either `npx` or `uvx` to download and run the server's code on your local machine. With both `npx` and `uvx` working, you're ready to use MCP servers with Claude Desktop.
-
 ### AI SDK MCP clients
 The SDK supports connecting to MCP servers via either stdio (for local tools) or SSE (for remote servers). Once connected, you can use MCP tools directly with the AI SDK. The client exposes a `tools` method for retrieving tools from a MCP server.
 
@@ -238,7 +238,6 @@ You can purchase a product by using the purchase tool.
 - https://glama.ai/mcp/servers
 - https://www.pulsemcp.com
 - https://github.com/github/github-mcp-server
-- https://github.com/invariantlabs-ai/mcp-scan
 - https://github.com/modelcontextprotocol/inspector
-- https://www.youtube.com/watch?v=eD0uBLr-eP8
 - https://github.com/vercel-labs/mcp-for-next.js
+- https://github.com/punkpeye/fastmcp
