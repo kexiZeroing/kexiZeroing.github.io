@@ -160,3 +160,11 @@ Cline has access to the following tools for various tasks:
 - File Operations: `write_to_file`, `read_file`, `search_files`, `list_files`
 - Terminal Operations: `execute_command`, `list_code_definition_names`
 - MCP Tools: `use_mcp_tool`, `access_mcp_resource`
+
+## Coding agent and agent mode in GitHub Copilot
+- Agent mode: a real‑time collaborator that sits in your editor, works with you, and edits files based on your needs.
+- Coding agent: an asynchronous teammate that lives in the cloud, takes on issues, and sends you fully tested pull requests while you do other things. *(Requires Copilot Pro+ or Copilot Enterprise)*
+
+**Agent mode** transforms Copilot Chat into an orchestrator of tools (`read_file`, `edit_file`, `run_in_terminal`, etc.). Give it a natural‑language goal—“add OAuth to our Flask app and write tests”—and it plans, edits files, runs the test suite, reads failures, fixes them, and loops until green. You watch the steps, intervene when you like, and keep all changes local.
+
+Where agent mode lives in the IDE, **coding agent** lives in your repos. Assign an issue to Copilot, and it spins up a secure cloud workspace (via GitHub Actions), figures out a plan, edits code on its own branch, runs your tests/linters, and opens a pull request tagging you for review.

@@ -3,7 +3,7 @@ title: "Explore running code in browser"
 description: ""
 added: "Aug 25 2023"
 tags: [other]
-updatedDate: "Dev 11 2024"
+updatedDate: "Jun 21 2025"
 ---
 
 ## Interactive blog-cells
@@ -29,6 +29,22 @@ console.log(data);
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/blog-cells@0.4.1/dist/blog-cells.css" />
 <script type="module" src="https://cdn.jsdelivr.net/npm/blog-cells@0.4.1/dist/blog-cells.js"></script>
+
+## `<syntax-highlight>` element
+Syntax Highlighting custom element uses the CSS Custom Highlight API for syntax highlighting.
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/syntax-highlight-element/+esm"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/syntax-highlight-element/dist/themes/prettylights.min.css">
+
+<syntax-highlight language="js">
+  const greeting = "Hello, World!";
+  console.log(greeting);
+</syntax-highlight>
+```
+
+- https://andreruffert.github.io/syntax-highlight-element
+- https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API
 
 ## Notes on running code online in browser
 JSX isn't natively understood by browsers, so we need to transform it into regular JavaScript. This is typically done using Babel. In this case, we're using `@babel/standalone`, which is a browser version of Babel.

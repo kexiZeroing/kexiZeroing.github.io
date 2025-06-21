@@ -182,6 +182,8 @@ Desktop environment in the browser: https://github.com/DustinBrett/daedalOS
 
 The avatar library you've always been looking for: https://www.dicebear.com
 
+Universal visualizer and analyzer for JavaScript and CSS: https://sonda.dev
+
 ---
 
 ## CSS related
@@ -615,6 +617,8 @@ Real-time conversational AI models run locally: https://huggingface.co/spaces/we
 Cloudflare Workers AI: https://playground.ai.cloudflare.com
 
 An open-source database of AI models: https://models.dev
+
+The AI browser automation framework: https://www.stagehand.dev
 
 ---
 
