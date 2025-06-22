@@ -229,6 +229,11 @@ You can purchase a product by using the purchase tool.
 >
 > What this means is that you can bring your own remote MCP server to claude.ai. Users just need a URL to equip the LLM with new tools and capabilities.
 
+### Your API is not an MCP
+1. LLMs are terrible at selection from a long list of tools.
+2. Your existing API descriptions are probably not ready for LLM consumption. Writing for LLM is different than writing for humans.
+3. APIs are designed for resource management, not for humans. LLMs are human-like.
+
 ### References and further reading
 - https://github.com/modelcontextprotocol/typescript-sdk
 - https://www.aihero.dev/model-context-protocol-tutorial

@@ -334,7 +334,24 @@ There are two points in time that you can integrate dynamic content into a Jamsa
 - **Build time** - During the build process, a Jamstack site can call out to any number of external API services to fetch data to pre-generate static pages. You can think of it like a content cache that applies to all your site’s users.
 - **Run time** - This should typically be content that is user specific, needs to update frequently, or is in response to a specific user action. For example, an ecommerce site may have product details populated at build time, but things like the current inventory, shipping options/prices based upon the user’s location, or the user’s shopping cart would all be populated at run time in the browser. As you may notice, in this example, the content on a single page (product details) may be a combination of both pre-rendered (build time) content (i.e. the product name, photo and description) and run time content (i.e. the product inventory and shipping options based on location).
 
-> What type of website are you building? https://whattheframework.netlify.app
+> In Next.js, `generateStaticParams` can be used in combination with dynamic route segments (e.g. `/posts/[id]`) to statically generate routes at build time. `generateStaticParams` replaces the `getStaticPaths` function in the Pages Router.
+>
+> Note that `cookies`/`headers` is a Dynamic API whose returned values cannot be known ahead of time. Using it in a layout or page will opt a route into dynamic rendering.
+
+```js
+// Generate static params for all posts at build time
+export async function generateStaticParams() {
+  const posts = await prisma.post.findMany({
+    select: {
+      id: true,
+    },
+  });
+ 
+  return posts.map((post) => ({
+    id: post.id.toString(),
+  }))
+}
+```
 
 ## Headless UI and shadcn/ui
 The web platform is severely lacking in terms of UI components. There's pretty minimal by way of built-in components, and for many that do exist, they are extremely difficult to style. What's best is to get a "headless" UI library: One which handles the logic of accessible, reusable components, but leaves the styling up to you. Headless UI components separate the logic & behavior of a component from its visual representation. They offer maximum visual flexibility by providing no interface.
