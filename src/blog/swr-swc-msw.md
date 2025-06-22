@@ -3,7 +3,7 @@ title: "SWR, SWC, and MSW"
 description: ""
 added: "Oct 25 2023"
 tags: [web]
-updatedDate: "Jun 4 2025"
+updatedDate: "Jun 22 2025"
 ---
 
 SWR, SWC, and MSW, three similar names, are always mentioned in the context of web development, but they are totally different things. In this article, we will learn each of them and where they are used.
@@ -257,39 +257,6 @@ const Bookmarks = ({ category }) => {
 };
 ```
 
-```jsx
-// besides `useQuery`, there's also `useMutation`
-function App() {
-  const postQuery = useQuery({
-    queryKey: ['post'],
-    queryFn: () => fetch(...).then(res => res.json()),
-  })
-
-  // const queryClient = useQueryClient()
-  const newPostMutation = useMutation({
-    mutationFn: async (newTitle) => {
-      const response = await fetch(...)
-      return response.json()
-    },
-    onSuccess: (data) => {
-      // update the cache
-      queryClient.invalidateQueries({ queryKey: ['post'] })
-    }
-  })
-
-  return (
-    <div>
-      { postQuery.data.map(post => <div key={post.id}>{post.title}</div>) }
-      <button
-        disabled={newPostMutation.isLoading}
-        onClick={() => newPostMutation.mutate('My new post')}>
-        Create new
-      </button>
-    </div>
-  )
-}
-```
-
 #### TanStack Query details
 To manage client state in a React app, we have lots of options available, starting from the built-in hooks like `useState` and `useReducer`, all the way up to community maintained solutions like redux or zustand. But what are our options for managing server state in a React app? Historically, there weren't many. That is, until React Query came along.
 
@@ -352,6 +319,13 @@ function TodoList({ filter }) {
     initialData: () => {
       return queryClient.getQueryData(['todos', 'all']);
     },
+    // `initialData` goes straight to the cache, 
+    // while `placeholderData` is not persisted to the cache.
+    placeholderData: (previousData) => previousData,
+    // Transform or select a part of the data returned by the query function
+    select: (data) => { ... },
+    // Refetch every 5 seconds
+    refetchInterval: 5000,
   });
 }
 
@@ -362,6 +336,79 @@ useQuery({
   queryKey: ["search", search],
   queryFn: () => searchItems(search),
 });
+```
+
+```jsx
+// besides `useQuery`, there's also `useMutation`
+function App() {
+  const postQuery = useQuery({
+    queryKey: ['post'],
+    queryFn: () => fetch(...).then(res => res.json()),
+  })
+
+  // const queryClient = useQueryClient()
+  const newPostMutation = useMutation({
+    mutationFn: async (newTitle) => {
+      const response = await fetch(...)
+      return response.json()
+    },
+    onSuccess: (data) => {
+      // update the cache
+      queryClient.invalidateQueries({ queryKey: ['post'] })
+    },
+    onError: () => {
+      // roll back the optimistic update
+    },
+    onSettled: () => {
+      // always run this, regardless of success or error
+    },
+  })
+
+  return (
+    <div>
+      { postQuery.data.map(post => <div key={post.id}>{post.title}</div>) }
+      <button
+        disabled={newPostMutation.isLoading}
+        onClick={() => newPostMutation.mutate('My new post')}>
+        Create new
+      </button>
+    </div>
+  )
+}
+```
+
+```js
+// pagination example
+const {
+  data,
+  fetchNextPage,
+  hasNextPage,
+  isFetching,
+  isFetchingNextPage,
+} = useInfiniteQuery({
+  queryKey: ['users'],
+  queryFn: getUsers,
+  initialPageParam: 1,
+  // fetch('/api/users?cursor=0')
+  // { data: [...], nextCursor: 3}
+  // fetch('/api/users?cursor=3')
+  // { data: [...], nextCursor: 6}
+  getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+})
+```
+
+```js
+// prefetching example
+const queryClient = useQueryClient()
+const prefetch = () => {
+  queryClient.prefetchQuery({...})
+}
+
+return (
+  <button onMouseEnter={prefetch} onFocus={prefetch} onClick={...}>
+    Show Details
+  </button>
+)
 ```
 
 > [Pinia Colada](https://pinia-colada.esm.dev) is the smart data fetching layer for Vue.js. You don't even need to learn Pinia to use Pinia Colada because it exposes its own composables. 
