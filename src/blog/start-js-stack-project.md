@@ -274,6 +274,19 @@ For a site to serve users code that contains both ES5 helpers and untranspiled E
 
 **Live Reload** refreshes the entire app when a file changes. For example, if you were four links deep into your navigation and saved a change, live reloading would restart the app and load the app back to the initial route. **Hot Reload** only refreshes the files that were changed without losing the state of the app. (Webpack's **Hot Module Replacement** replaces the modules that have been modified on the fly without reloading the entire page). The advantage of this is that it doesn't lose your app state, e.g. your inputs on your form fields, your currently selected tab.
 
+### Next.js app router and pages router
+Pages in the `app` directory are Server Components by default. This is different from the pages directory where pages are Client Components. The `app` directory uses nested folders to define routes and a special `page.js` file to make a route segment publicly accessible.
+
+In app, you should use the three new hooks imported from `next/navigation`: `useRouter()`, `usePathname()`, and `useSearchParams()`.
+
+In the pages directory,`getServerSideProps` is used to fetch data on the server and forward props to the default exported React component in the file. In the App Router, we can colocate our data fetching inside our React components using Server Components.
+
+In the pages directory, `getStaticProps` function is used to pre-render a page at build time. In the app directory, data fetching with `fetch()` set `{ cache: 'force-cache' }`, which will cache the request data until manually invalidated. This is similar to `getStaticProps` in the pages directory.
+
+In the pages directory, `getStaticPaths` function is used to define the dynamic paths that should be pre-rendered at build time. In the app directory, `getStaticPaths` is replaced with `generateStaticParams`.
+
+> With Next.js 15, `fetch` requests are no longer cached by default. Next.js fetches the resource from the remote server on every request in development, but will fetch once during next build because the route will be statically prerendered. If Dynamic APIs are detected on the route, Next.js will fetch the resource on every request.
+
 ## Set up Prettier and ESLint
 Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
 

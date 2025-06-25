@@ -161,6 +161,17 @@ new webpack.DefinePlugin({
 
 4. The `sideEffects` property of `package.json` declares whether a module has side effects on import. When side effects are present, unused modules and unused exports may not be tree shaken due to the limitations of static analysis.
 
+#### 打包工具构建时静态分析
+```
+Critical dependency: the require function is used in a way in which dependencies cannot be statically extracted.
+```
+
+这样的 warning，是因为 `require(...)` 是运行时动态行为，它无法静态知道你到底引用了哪个模块，因此构建出的 bundle 不完整或存在不确定性。Webpack 支持懒加载语法 `(resolve) => require(['...'], resolve);`，表示“这段代码用到的模块是异步加载的，请打包成一个 chunk。” 这种语法是 Webpack 的特定实现，并非 ES 的官方标准，构建工具无法完全静态分析，在迁移到 Rspack 或Vite 时容易报错。
+
+> `resolve => require(['...'], resolve)` 其实是 Webpack 兼容 AMD 风格的写法，webpack 看到这是个 `require([], callback)` 就知道你想异步加载模块。
+
+`import()` 是来做“动态模块加载”的语法，构建工具能很好地支持它，每个 `import('./xxx')` 的路径生成一份 chunk 文件，并在需要时异步加载。
+
 #### webpack-bundle-analyzer（检查打包体积）
 It will create an interactive treemap visualization of the contents of all your bundles when you build the application. There are two ways to configure webpack bundle analyzer in a webpack project. Either as a plugin or using the command-line interface. 
 

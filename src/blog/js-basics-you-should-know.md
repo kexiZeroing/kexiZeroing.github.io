@@ -1359,6 +1359,11 @@ function safeAwait(promise) {
 // const [ err, data ] = await safeAwait(myPromise())
 ```
 
+> Top level await (introduced in ES2022):  
+> You can use the `await` keyword on its own (outside of an async function) at the top level of a module. 
+>
+> It only works in JavaScript modules, not in CommonJS (`require`) or traditional `<script>` tags without `type="module"`. Also, `.cjs` files in Node.js don’t support top-level await.
+
 Now you should understand why the below code will throw an error. The `useEffect` hook isn't expecting us to return a promise. It expects us to return either nothing or a cleanup function. A quick fix is to create a separate async function within our effect.
 
 ```js
