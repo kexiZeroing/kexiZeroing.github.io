@@ -354,7 +354,7 @@ Open Activity Monitor, you’ll see a column named “Kind”. If the app says �
 | top | 动态显示 cpu /内存/进程等情况
 | du -sh /dir | 指定某个⽬录的⼤⼩
 | groups | 查看所在用户组
-| find /dir -name *.bin | 在指定⽬录搜索文件
+| find . -type f -name "*.txt" | 在指定⽬录搜索文件
 | cat -n file1 | 查看内容并标示⾏数
 | tail -f /log | 实时查看添加到⽂件中的内容
 | grep foo hello.txt | 在⽂件中查找关键词

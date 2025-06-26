@@ -8,6 +8,16 @@ updatedDate: "Apr 05 2023"
 
 ## Setting up development environment
 1. The first step is getting around the firewall. You may download [clashX](https://github.com/yichengchen/clashX/releases) and acquire subscription links from ss.
+    
+    > Tell command-line programs to use a proxy server. It affects many CLI tools and libraries.
+    ```sh
+    export http_proxy=http://127.0.0.1:7890
+    export https_proxy=http://127.0.0.1:7890
+
+    # romove the proxy
+    unset http_proxy
+    unset https_proxy
+    ```
 
 2. Install [Homebrew](https://brew.sh) package manager, and you can install almost any app from the command line. Make sure everything is up to date `brew update`. (M1 installation at `/opt/homebrew/`, Intel at `/usr/local/Cellar/`)
 
