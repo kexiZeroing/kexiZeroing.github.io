@@ -3,7 +3,7 @@ title: "Notes on work projects (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
-updatedDate: "Jun 20 2025"
+updatedDate: "Jun 27 2025"
 ---
 
 ### 项目是怎么跑起来的
@@ -279,89 +279,37 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 - Test 阶段：运行刚构建的镜像，执行 `/root/scripts/show_plan.sh`，打印出所有计划内容，即对每个模块用 `terraform show` 展示 plan 文件的内容，确保没有问题。
 - Deploy 阶段：部署脚本核心就是 `terraform apply /root/plan/{env}`。在镜像构建阶段就把所有 plan 做好，在部署阶段只需要 apply，可控且快速。
 
-### 实时检测 web 应用更新
-当应用发布新版本时，考虑及时通知用户并引导其刷新页面以加载最新资源。
-
-1. 使用 Web Worker API 在浏览器后台轮询请求 `index.html` 文件，不会影响主线程运行。
-2. 请求 `index.html` 文件，对比本地和请求响应头的 ETag 的字段值。
-3. 如果 ETag 字段值不一致，说明有更新，则弹出更新提示。
-4. 当页面不可见时（例如切换标签页或最小化窗口），停止实时检测任务；再次可见时，恢复实时检测任务。
-
-Vercel's Skew Protection is a mechanism to eliminate version skew between web clients and servers.
-```jsx
-function useSkewProtectionBusted() {
-  const { data, error, isFetching } = useQuery({
-    queryKey: ["skew-protection-buster_NOSTORE"],
-    queryFn: async () => {
-      const res = await fetch("/api/server-version?dpl=LATEST", {
-        cache: "no-store", // Ensure no caching
-      });
-      return res.json() as Promise<{ VERCEL_DEPLOYMENT_ID: string }>;
-    },
-    staleTime: 0,
-    gcTime: 0,
-    refetchInterval: 30_000, // Refetch every 30 seconds
-  });
-
-  if (isFetching || error || !data) return false;
-  // If they do not match, the client is outdated (return true)
-  return data.VERCEL_DEPLOYMENT_ID !== process.env.NEXT_PUBLIC_VERCEL_DEPLOYMENT_ID;
-}
-
-export function SkewProtectionBuster() {
-  const isBusted = useSkewProtectionBusted();
-
-  useEffect(() => {
-    if (isBusted) {
-      toast("Client out of date", {
-        description: "Please refresh to get the latest version",
-        action: {
-          label: "Refresh now",
-          onClick: () => window.location.reload(),
-        },
-      });
-    }
-  }, [isBusted]);
-
-  return null; // No UI component, just logic
-}
-```
-
-### 后端模板
-有些 url 请求是后端直出页面返回 html，通过类似 `render_to_response(template, data)` 的方法，将数据打到模板中，模板里会引用 `xx/static/js` 路径下的 js 文件，这些 js 使用 require 框架，导入需要的其他 js 文件或 tpl 模板，再结合业务逻辑使用 underscore 的 template 方法（`_.template(xx)`）可以将 tpl 渲染为 html，然后被 jquery `.html()` 方法插入到 DOM 中。
-
-- 请求 `/web?old=1` 后端会返回 html 扫码登录页面，这里面有一个 `/static/vue/login.js?_dt=xxxxx`，里面有登录和加载网页版首页的逻辑，这样就会展示出 h5 中的页面，其中的 iframe 可以嵌套任意 pc 或 h5 中的页面（只要有路由支持），这个 iframe 的链接自然也可以被单独访问。
-- h5 发起的第一次页面请求是走服务器，后端返回一个模板 html，这里面有一个 app 元素是 Vue 挂载的地方，前端通过一个老的 vue router API `router.start(App, 'app')` 创建 vue 实例并进行挂载 (https://github.com/vuejs/vue-router/blob/1.0/docs/en/api/start.md)，这之后才会被前端路由接管。而且这个 html 只能在手机端访问（根据 ua），否则会跳到 web 端的逻辑。
-
-```py
-# urls.py
-urlpatterns = [
-  url(r'^v/index', foo.index),
-  url(r'^web', foo.web),
-]
-
-# views.py
-# def index(request):
-return render_to_response('foo/vue_index.html', context)
-
-# def web(request):
-return render_to_response('foo/login.html', context)
-
-# import scripts in above template html
-<script>
-var isInIframe = window.frames.length !== parent.frames.length;
-var ua = window.navigator.userAgent;
-      
-if (!isInIframe && !ua.toLowerCase().match(/micromessenger|android|iphone/i)) {
-  window.location.href = '/web/?next=' + window.location.pathname;
-} 
-</script>
-<script src="https://cdn.example.com/assets/login.js"></script>
-```
-
 ### 登录逻辑
 - 二维码登录先使用 websocket 连接，message 中定义不同的 `op` 代表不同的操作，比如 requestlogin 会返回微信生成的二维码（包括 qrcode, ticket, expire_seconds 等）, 扫码成功返回类型是 loginsuccess，并附带 OpenID, UnionID, Name, UserID, Auth 等信息，前端拿到这些信息后可以请求后端登录的 http 接口，拿到 sessionid，并被种在 cookie 里。
 - 账密登录，前端使用 [JSEncrypt](http://travistidwell.com/jsencrypt/) 给密码加密并请求后端登录接口，成功的话后端会把 sessionid 种在 cookie 里。
+
+```js
+(messenger) ws op case 'requestlogin':
+
+(messenger) await rainSquare.getQrcode() -> loginId = uuidV4() -> request `${config.HOST.INNER_NODE}/wechat/wxapi/qrcode` with loginid and expire_seconds
+
+(messenger) let { loginid, qrcode, ticket } = results.body;
+
+(messenger) rainSquare.qrcodes[qrcodeInfo.loginid].ws = ws;
+
+(drop) app.use('/wechat/drop', ...)
+
+(drop) pipeMsg: (msg) => {
+  // 将消息推送到Redis队列
+  client.rpush(listKey, JSON.stringify(msg), callback)
+}
+
+// https://developers.weixin.qq.com/doc/subscription/guide/product/message/Receiving_event_pushes.html
+(pipe) handleMessage: MsgType is event -> new WXEvent(this) -> case 'SCAN' -> new EventScan() -> request APIS.SPY_LOGIN with loginid
+  
+(messenger) app.post('/api/login', ...) -> request APIS.USERINFO -> square.publish(op: 'loginsuccess') -> redis publish
+
+(messenger) square.onMessage and case 'loginsuccess':
+
+(messenger) let ws = this.qrcodes[loginid].ws -> ws.send(msg)
+
+(frontend) case 'loginsuccess' -> Api.pc_web_login with UserID and Auth
+```
 
 > 常规的扫码登录原理（涉及 PC 端、手机端、服务端）：
 > 1. PC 端携带设备信息向服务端发起生成二维码的请求，生成的二维码中封装了 uuid 信息，并且跟 PC 设备信息关联起来，二维码有失效时间。PC 端轮询检查是否已经扫码登录。
