@@ -294,3 +294,39 @@ Node.js offers several command-line flags to fine-tune memory-related settings, 
 `--max-old-space-size` sets a limit on the size of the Old Space in the V8 heap, where long-lived objects are stored. If your application uses a significant amount of memory, you might need to adjust this limit. For example, `node --max-old-space-size=4096 app.js` sets the Old Space size to 4096 MB (4 GB), which is particularly useful if your application is handling a large amount of persistent data, like caching or user session information.
 
 `--max-semi-space-size` controls the size of the New Space in the V8 heap. New Space is where newly created objects are allocated and garbage collected frequently. Increasing this size can reduce the frequency of minor garbage collection cycles.
+
+## Cluster
+Clusters of Node.js processes can be used to run multiple instances of Node.js that can distribute workloads among their application threads.
+- Primary Process: The main process that manages worker processes. It doesn't handle requests directly but coordinates the workers.
+- Worker Processes: Child processes that handle the actual work (like serving HTTP requests). Each worker is a separate Node.js process.
+
+```js
+import cluster from 'node:cluster';
+import http from 'node:http';
+import { availableParallelism } from 'node:os';
+import process from 'node:process';
+
+const numCPUs = availableParallelism();
+
+if (cluster.isPrimary) {
+  console.log(`Primary ${process.pid} is running`);
+
+  // Fork workers.
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+  });
+} else {
+  // Workers can share any TCP connection
+  // In this case it is an HTTP server
+  http.createServer((req, res) => {
+    res.writeHead(200);
+    res.end('hello world\n');
+  }).listen(8000);
+
+  console.log(`Worker ${process.pid} started`);
+}
+```

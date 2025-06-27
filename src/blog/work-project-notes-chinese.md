@@ -284,6 +284,10 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 - 账密登录，前端使用 [JSEncrypt](http://travistidwell.com/jsencrypt/) 给密码加密并请求后端登录接口，成功的话后端会把 sessionid 种在 cookie 里。
 
 ```js
+// Node.js 利用多核CPU，每个核心一个工作进程，主进程管理工作进程，负责创建、重启、关闭，
+// 工作进程运行实际的业务服务（HTTP/WebSocket等）
+
+// 下面都是在 worker 进程中执行
 (messenger) ws op case 'requestlogin':
 
 (messenger) await rainSquare.getQrcode() -> loginId = uuidV4() -> request `${config.HOST.INNER_NODE}/wechat/wxapi/qrcode` with loginid and expire_seconds
@@ -304,6 +308,7 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
   
 (messenger) app.post('/api/login', ...) -> request APIS.USERINFO -> square.publish(op: 'loginsuccess') -> redis publish
 
+// redis发布订阅
 (messenger) square.onMessage and case 'loginsuccess':
 
 (messenger) let ws = this.qrcodes[loginid].ws -> ws.send(msg)
