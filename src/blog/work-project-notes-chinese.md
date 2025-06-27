@@ -300,8 +300,12 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 
 (drop) pipeMsg: (msg) => {
   // 将消息推送到Redis队列
+  // listKey: config.REDIS.KEYS.PIPE_QUEUE
   client.rpush(listKey, JSON.stringify(msg), callback)
 }
+
+// 阻塞地从列表中取元素，常用于“任务队列”消费
+(pipe) new Consumer(listKey, Handle, config).start() -> this.client.blpop(listKey, 0, ...)
 
 // https://developers.weixin.qq.com/doc/subscription/guide/product/message/Receiving_event_pushes.html
 (pipe) handleMessage: MsgType is event -> new WXEvent(this) -> case 'SCAN' -> new EventScan() -> request APIS.SPY_LOGIN with loginid
