@@ -488,51 +488,20 @@ const sharedMessage = inject('sharedMessage');
 1. Provide/Inject is best suited for sharing dependencies like form contexts, themes, or service instances, rather than global state management. If multiple components rely on the same data structure, consider Vuex or Pinia.
 2. Since `provide` passes values by reference, you may need to use `ref()` or `reactive()` to ensure reactivity.
 
-### Vue router and Suspense
-
-```vue
-<template>
-  <nav>
-    <router-link to="/">first</router-link> /
-    <router-link to="/second">second</router-link>
-  </nav>
-  <main>
-    <RouterView v-slot="{ Component }">
-      <template v-if="Component">
-        <KeepAlive>
-          <Suspense>
-            <!-- main content -->
-            <component :is="Component"></component>
-
-            <!-- loading state -->
-            <template #fallback> Loading... </template>
-          </Suspense>
-        </KeepAlive>
-      </template>
-    </RouterView>
-  </main>
-</template>
-
-<script>
-import { watchEffect } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-
-export default {
-  setup() {
-    const route = useRoute()
-    const router = useRouter()
-    // Route isn't reactive
-    watchEffect(() => console.log('Route changed', route))
-    // But its properties are
-    watchEffect(() => console.log('Path changed', route.path))
-    // useRouter also works
-    watchEffect(() => console.log('[Router] Path changed', router.currentRoute.value))
-  },
-}
-</script>
+### Namespaced Components
+```ts
+// form.ts
+export { default as Form } from "./Form.vue";
+export { default as Input } from "./FormInput.vue";
 ```
 
-`v-slot="{ Component }"` exposes a scoped slot, where `Component` is the dynamically loaded component for the current route. The scoped slot gives you more programmatic control over the rendering process, making it easier to add transitions, loading states, or additional wrapping logic around your route components.
+```js
+import * as AppForm from "./form";
+
+<AppForm.Form>
+  <AppForm.Input v-model="msg" />
+</AppForm.Form>
+```
 
 ### Renderless Components
 Renderless components can be an alternative to composables when finding ways to design reusable logic in your Vue apps. As you might guess, they don't render anything. Instead, they handle all the logic inside a script section and then expose properties through a scoped slot.

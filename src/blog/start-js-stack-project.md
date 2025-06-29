@@ -3,7 +3,7 @@ title: "Start a Javascript stack project"
 description: ""
 added: "Jun 16 2022"
 tags: [web]
-updatedDate: "Mar 21 2025"
+updatedDate: "Jun 29 2025"
 ---
 
 ## Start a modern web project
@@ -523,12 +523,12 @@ In a fully hosted solution, the service provider takes care of hosting the softw
 In a self-hosted solution, the user is responsible for installing, configuring, and maintaining the software on their own servers or infrastructure. Users have full control over the environment. Examples: WordPress, GitLab.
 
 ### Netlify functions
-The serverless functions can be run by [Netlify Dev](https://cli.netlify.com/netlify-dev) in the same way they would be when deployed to the cloud. Once you've configured the functions directory in your `netlify.toml`, the functions will be accessible through netlify dev server. e.g. at `http://localhost:8888/.netlify/functions/{function-name}`.
+The serverless functions can be run by [Netlify Dev](https://docs.netlify.com/cli/local-development) in the same way they would be when deployed to the cloud. Once you've configured the functions directory in your `netlify.toml`, the functions will be accessible through netlify dev server. e.g. at `http://localhost:8888/.netlify/functions/{function-name}`.
 
 Go through the guide (mainly on traditional serverless functions): https://www.netlify.com/blog/intro-to-serverless-functions/
 
 ```js
-// netlify/functions/hello-world.js
+// .netlify/functions/hello-world.js
 export const handler = async () => {
   return {
     statusCode: 200,
@@ -547,6 +547,30 @@ fetchBtn.addEventListener('click', async () => {
 
   responseText.innerText = JSON.stringify(response)
 })
+```
+
+#### [A real example](https://nba-player-lookup.netlify.app) deployed to Netlify
+Environment variables starting with `VITE_` are embedded into your JavaScript bundle during build. So your deployed JS literally contains something like `const XX_API_KEY = "xxx` instead of `import.meta.env.VITE_XX_API_KEY`. Anyone can view your source code and find the API key.
+
+Here's how to fix this properly using Netlify Functions. The API key lives securely on the server side in `.netlify/functions/nba-api.js`. Your frontend calls `/.netlify/functions/nba-api?endpoint=/players`. The Netlify function makes the actual API call with the secret key, and the key never reaches the browser.
+
+In our case, since we're using a Netlify Function to securely proxy the API (to avoid CORS issues and keep the API key secure), the `netlify.toml` is essential.
+- Build Configuration: Tells Netlify how to build your app
+- Functions Directory: Tells Netlify where to find serverless functions
+- SPA Routing: Handles client-side routing for React apps
+
+```toml
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[functions]
+  directory = ".netlify/functions"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 ```
 
 ### What is "edge compute"?
