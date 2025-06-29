@@ -620,6 +620,10 @@ An open-source database of AI models: https://models.dev
 
 The AI browser automation framework: https://www.stagehand.dev
 
+Context7 MCP Server -- Up-to-date code docs for LLMs: https://github.com/upstash/context7
+
+List of automated AI to support software collaboration: https://github.com/githubnext/awesome-continuous-ai
+
 ---
 
 ## Machine Learning

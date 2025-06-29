@@ -1,9 +1,9 @@
 ---
-title: "Start to use Cursor and Cline"
+title: "Start to use Cursor, Cline and Gemini CLI"
 description: ""
 added: "May 27 2025"
 tags: [other]
-updatedDate: "Jun 1 2025"
+updatedDate: "Jun 29 2025"
 ---
 
 ## Cursor Get Started
@@ -168,3 +168,53 @@ Cline has access to the following tools for various tasks:
 **Agent mode** transforms Copilot Chat into an orchestrator of tools (`read_file`, `edit_file`, `run_in_terminal`, etc.). Give it a natural‑language goal—“add OAuth to our Flask app and write tests”—and it plans, edits files, runs the test suite, reads failures, fixes them, and loops until green. You watch the steps, intervene when you like, and keep all changes local.
 
 Where agent mode lives in the IDE, **coding agent** lives in your repos. Assign an issue to Copilot, and it spins up a secure cloud workspace (via GitHub Actions), figures out a plan, edits code on its own branch, runs your tests/linters, and opens a pull request tagging you for review.
+
+## Gemini CLI
+Gemini CLI brings the capabilities of Gemini models to your terminal in an interactive Read-Eval-Print Loop (REPL) environment. Gemini CLI consists of a client-side application (`packages/cli`) that communicates with a local server (`packages/core`), which in turn manages requests to the Gemini API and its AI models. Gemini CLI also contains a variety of tools for tasks such as performing file system operations, running shells, and web fetching, which are managed by `packages/core`.
+
+- Query and edit large codebases in and beyond Gemini's 1M token context window.
+- Generate new apps from PDFs or sketches, using Gemini's multimodal capabilities.
+- Automate operational tasks, like querying pull requests or handling complex rebases.
+- Use tools and MCP servers to connect new capabilities.
+- Ground your queries with the Google Search tool, built in to Gemini.
+
+```sh
+# CLI Commands: https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/commands.md
+
+# Save and resume conversation history
+/chat list
+/chat save <tag>
+/chat resume <tag>
+
+# Replace the entire chat context with a summary. 
+# This saves on tokens used for future tasks while 
+# retaining a high level summary of what has happened.
+/compress
+
+# Display a list of tools that are currently available within Gemini CLI.
+# https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/index.md
+/tools
+
+# List MCP servers
+# Configure the MCP server in `.gemini/settings.json` file
+/mcp
+
+# Manage the AI's instructional context
+# (hierarchical memory loaded from GEMINI.md files).
+/memory add <text to remember>
+/memory show
+```
+
+Gemini CLI uses `settings.json` files for persistent configuration.
+- User settings file at `~/.gemini/settings.json`. Applies to all Gemini CLI sessions for the current user.
+- Project settings file at `.gemini/settings.json` within your project's root directory.
+
+Gemini CLI can be run in a non-interactive mode, which is useful for scripting and automation. In this mode, you pipe input to the CLI, it executes the command, and then it exits.
+
+```sh
+echo "What is fine tuning?" | gemini
+
+gemini -p "What is fine tuning?"
+```
+
+The core system prompt lives in [packages/core/src/core/prompts.ts](https://github.com/google-gemini/gemini-cli/blob/main/packages/core/src/core/prompts.ts) or read it [here](https://gist.github.com/simonw/9e5f13665b3112cea00035df7da696c6).

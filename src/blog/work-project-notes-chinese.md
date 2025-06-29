@@ -542,6 +542,8 @@ Launch your Node.js process using the `--inspect-brk` flag (`node server.js --in
 
 - Reading content with `textContent` is much faster than `innerText` *(`innerText` had the overhead of checking to see if the element was visible or not yet)*. The `insertAdjacentHTML` method is much faster than `innerHTML` because it doesn’t have to destroy the DOM first before inserting.
 
+- The `DOMParser()` constructor creates a new DOMParser object that can be used to parse the text of a document using the `parseFromString()` method. It parses a string containing either HTML or XML, returning an HTMLDocument or an XMLDocument. e.g. `parser.parseFromString("<p>Hello</p>", "text/html")`
+
 - HTML files input change event doesn't fire upon selecting the same file. You can put `this.value = null` at the end of the `onchange` event, which will reset the input's value and trigger the `onchange` event again.
 
 - If we are appending each list item to the DOM as we create it, this is inefficient because the DOM is updated each time we append a new list item. Instead, we can create a document fragment using `document.createDocumentFragment()` and append all of the list items to the fragment. Then, we can append the fragment to the DOM. This way, the DOM is only updated once.

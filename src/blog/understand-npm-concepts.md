@@ -289,6 +289,9 @@ With [pkg.pr.new](https://github.com/stackblitz-labs/pkg.pr.new), each of your c
 It uses a CLI and GitHub Actions to publish unreleased packages to a temporary npm-compatible registry. You can trigger continuous releases by running: `npx pkg-pr-new publish` from your GitHub actions setup.
 
 ```sh
+# First, install the GitHub application on your repositories.
+
+# Then, create continuous releases.
 npx pkg-pr-new publish
 
 npm i https://pkg.pr.new/tinylibs/tinybench/tinybench@a832a55
