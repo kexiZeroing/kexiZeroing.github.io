@@ -60,7 +60,7 @@ B-trees and database indexes: https://planetscale.com/blog/btrees-and-database-i
 
 Chrome urls: [chrome://chrome-urls](chrome://chrome-urls/)
 
-Let Me DuckDuckGo That For You: https://lmddgtfy.net
+Everything I googled as a senior software engineer: https://localghost.dev/blog/everything-i-googled-in-a-week-as-a-senior-software-engineer
 
 A collective list of free APIs: https://github.com/public-apis/public-apis
 

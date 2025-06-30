@@ -3,7 +3,7 @@ title: "React 19 and Next.js Forms have both changed"
 description: ""
 added: "Feb 22 2025"
 tags: [web, react]
-updatedDate: "May 5 2025"
+updatedDate: "Jun 30 2025"
 ---
 
 ## React 19 `useActionState` and `useFormStatus`
@@ -158,7 +158,7 @@ export async function submitMessage(_prevState, formData) {
 ```
 
 ### `useOptimistic` use case
-This hook lets you update the UI immediately in response to an action, before the server responds. You pass to it the current state you want to manage, and a function to update the optimistic state. It returns you the optimistic state (which you use for immediate rendering), and a function to update it.
+This hook lets you update the UI immediately in response to an action, before the server responds. You pass to it the current state you want to manage, and a (optional) function to update the optimistic state. It returns you the optimistic state (which you use for immediate rendering), and a function to update it.
 
 ```js
 'use server'
@@ -218,6 +218,36 @@ export default function Todos() {
   )
 }
 ```
+
+The optimistic updater function is just for calculating what the UI should look like immediately. The server action (often wrapped in `useTransition`) does the actual work of making that change permanent. If the server action fails, the optimistic update gets thrown away and the UI reverts to the real state. If it succeeds, the optimistic state should match the new real state, so there's no visual change when they swap.
+
+### React 19 `cache` hook
+`cache` is only for use with React Server Components, and lets you cache the result of a data fetch or computation.
+
+```js
+const cachedFetchReport = cache(fetchReport);
+
+function WeatherReport({city}) {
+  const report = cachedFetchReport(city);
+  // ...
+}
+
+function App() {
+  const city = "Los Angeles";
+  return (
+    <>
+      <WeatherReport city={city} />
+      <WeatherReport city={city} />
+    </>
+  );
+}
+```
+
+In this case the second instance of `WeatherReport` will be able to skip duplicate work and read from the same cache as the first `WeatherReport`. `cache` is recommended for memoizing data fetches, unlike `useMemo` which should only be used for computations.
+
+> - Use `cache` in Server Components to memoize work that can be shared across components.
+> - Use `useMemo` for caching a expensive computation in a Client Component across renders.
+> - Use `memo` to prevent a component re-rendering if its props are unchanged.
 
 ## Next.js sever actions and `<Form>` component
 Next.js Server Actions is a feature that allows you to run server-side code directly from client components. It is part of Next.js's full-stack framework features, eliminating the need for API routes for basic form handling.

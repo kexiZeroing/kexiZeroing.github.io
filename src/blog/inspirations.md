@@ -38,7 +38,7 @@ order: 3
 - https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
 - https://tania.dev/how-to-use-webpack
 - https://leerob.com/ai
-- https://localghost.dev/blog/everything-i-googled-in-a-week-as-a-senior-software-engineer
+- https://aurorascharff.no/posts/managing-advanced-search-param-filtering-next-app-router
 
 ## Communication problems
 - https://www.neverjust.net
