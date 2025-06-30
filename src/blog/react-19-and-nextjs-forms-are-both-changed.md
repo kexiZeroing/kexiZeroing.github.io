@@ -221,6 +221,20 @@ export default function Todos() {
 
 The optimistic updater function is just for calculating what the UI should look like immediately. The server action (often wrapped in `useTransition`) does the actual work of making that change permanent. If the server action fails, the optimistic update gets thrown away and the UI reverts to the real state. If it succeeds, the optimistic state should match the new real state, so there's no visual change when they swap.
 
+```js
+const [optimisticCategories, setOptimisticCategories] = useOptimistic(searchParams.getAll('category'))
+
+startTransition(() => {
+  setOptimisticCategories(newCategories) // Optimistic (temporary)
+  router.push(`?${params.toString()}`)   // Real update (URL change)
+});
+```
+
+1. When `useOptimistic` is called without an `updateFn` (second parameter), it defaults to a simple replacement function.
+2. `setOptimisticCategories(newCategories)` immediately updates the local state and re-renders the component with the new `optimisticCategories` value.
+3. `optimisticCategories` temporarily overrides what the URL actually says. Users see their click immediately, even though the URL is still updating.
+4. Meanwhile, `router.push()` updates the URL and triggers any server-side filtering, but the UI doesn't wait for this to complete.
+
 ### React 19 `cache` hook
 `cache` is only for use with React Server Components, and lets you cache the result of a data fetch or computation.
 

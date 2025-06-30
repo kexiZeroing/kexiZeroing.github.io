@@ -320,6 +320,17 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 (frontend) case 'loginsuccess' -> Api.pc_web_login with UserID and Auth
 ```
 
+```
+// getQrcode
+
+1. 从 Redis 缓存中获取已有的二维码
+2. 检查二维码是否过期 (expire_seconds > now)
+3. 检查冷却时间 (cooldown < now)
+4. 如果可用直接返回，否则生成新的二维码
+5. 设置冷却时间 (防止立即重复使用) 和过期时间
+6. 更新二维码池
+```
+
 > 常规的扫码登录原理（涉及 PC 端、手机端、服务端）：
 > 1. PC 端携带设备信息向服务端发起生成二维码的请求，生成的二维码中封装了 uuid 信息，并且跟 PC 设备信息关联起来，二维码有失效时间。PC 端轮询检查是否已经扫码登录。
 > 2. 手机（已经登录过）进行扫码，将手机端登录的信息凭证（token）和二维码 uuid 发送给服务端，此时的手机一定是登录的，不存在没登录的情况。服务端生成一个一次性 token 返回给移动端，用作确认时候的凭证。
@@ -530,10 +541,6 @@ Launch your Node.js process using the `--inspect-brk` flag (`node server.js --in
 > 2. 默认情况下将使用 OSS 的 Bucket 地址作为 HOST 地址（如 `***.oss-cn-hangzhou.aliyuncs.com`）。如果源站 OSS Bucket 绑定了自定义域名（如 `origin.developer.aliyundoc.com`），则需要配置回源 HOST 为自定义域名。
 > 3. 加速域名即网站域名、是终端用户实际访问的域名。CNAME 域名是 CDN 生成的，当您在阿里云 CDN 控制台添加加速域名后，系统会为加速域名分配一个 `*.*kunlun*.com` 形式的 CNAME 域名。
 > 4. 添加加速域名后，需要在 DNS 解析服务商处，添加一条 CNAME 记录，将加速域名的 DNS 解析记录指向 CNAME 域名，记录生效后该域名所有的请求都将转向 CDN 节点，达到加速效果。CNAME 域名将会解析到具体哪个节点 IP 地址，将由 CDN 的调度系统综合多个条件来决定。
-
-### 秒杀系统设计
-- https://github.com/resumejob/How-to-design-a-spike-system
-- https://github.com/sunshineshu/-How-to-design-a-spike-system/blob/master/SUMMARY.md
 
 ### 日常开发 Tips and Tricks
 - The `input` event is fired every time the value of the element changes. This is unlike the `change` event, which only fires when the value is committed, such as by pressing the enter key or selecting a value from a list of options. Note that `onChange` in React behaves like the browser `input` event. *(in React it is idiomatic to use `onChange` instead of `onInput`)*
