@@ -550,6 +550,9 @@ fetchBtn.addEventListener('click', async () => {
 ```
 
 #### [A real example](https://nba-player-lookup.netlify.app) deployed to Netlify
+
+> Bolt doesn’t have built-in hosting for your projects. Instead, it connects to Netlify to provide one-click deployments and hosting. Netlify provides hosting, automated deployment, domain registration, and monitoring tools.
+
 Environment variables starting with `VITE_` are embedded into your JavaScript bundle during build. So your deployed JS literally contains something like `const XX_API_KEY = "xxx` instead of `import.meta.env.VITE_XX_API_KEY`. Anyone can view your source code and find the API key.
 
 Here's how to fix this properly using Netlify Functions. The API key lives securely on the server side in `.netlify/functions/nba-api.js`. Your frontend calls `/.netlify/functions/nba-api?endpoint=/players`. The Netlify function makes the actual API call with the secret key, and the key never reaches the browser.

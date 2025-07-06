@@ -134,6 +134,10 @@ Cline is a VS Code extension that brings AI-powered coding assistance directly t
 
 Plan & Act modes represent Cline’s approach to structured AI development, emphasizing thoughtful planning before implementation. Plan mode is where you and Cline figure out what you’re trying to build and how you’ll build it. In this mode, Cline can read your entire codebase to understand the context, and won’t make any changes to your files. Once you’ve got a plan, you switch to Act mode. This mode allows Cline to execute against the agreed plan and make changes to your codebase.
 
+If you’re new to Cline - for anything you want to do:
+- write your prompt, select “plan”, run it.
+- once that’s done, assuming you don’t want it to change anything it planned, press “act”.
+
 > Cline doesn't index your codebase (Code doesn't work in chunks and moves fast). Instead, it begins by understanding the architecture. Using ASTs, Cline extracts a high-level map of your code – the classes, functions, methods, and their relationships. No index or embeddings. Just intelligent exploration, building context by following the natural structure of your code.
 
 ### Context Window

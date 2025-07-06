@@ -167,6 +167,8 @@ import json from "./foo.json" with { type: "json" };
 import("foo.json", { with: { type: "json" } })
 ```
 
+> Update on June 2025: Import Attributes and JSON Modules in ES2025. Import attributes now let you import JSON and other non-JavaScript assets natively, without bundler magic. You can now do this in plain JavaScript: `import config from './config.json' with { type: 'json' };`.
+
 ### The code you write vs. the code that runs in the browser.
 Do you know what any of those do? In one sense, they’re all “non-standard” in terms of their ability to run natively on the web platform (none of these imports would work if dropped into a browser). On the other hand, they’re also pretty “standard” in terms of their prevalence across many codebases.
 

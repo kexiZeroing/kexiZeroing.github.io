@@ -6,7 +6,7 @@ tags: [css]
 updatedDate: "Mar 8 2024"
 ---
 
-[Una Kravets](https://una.im) builds an amazing site with [1-Line Layouts](https://1linelayouts.glitch.me) demos showing how robust and impactful a single-line of styling code can be. There is a lot to learn, but it is all worth learning and empowers you to do great things.
+[Una Kravets](https://una.im) builds an amazing site with [1-Line Layouts](https://1linelayouts.com) demos showing how robust and impactful a single-line of styling code can be. There is a lot to learn, but it is all worth learning and empowers you to do great things.
 
 ### 01. Super Centered
 

@@ -39,15 +39,7 @@ function foo(bar: number): string {
 }
 ```
 
-However, running any code that requires transformations, like the code below still needs the use of `--experimental-transform-types`:
-
-```ts
-enum MyEnum {
-  A,
-  B,
-}
-console.log(MyEnum.A);
-```
+> Update on 2025/07/04: Type Stripping support in upstream Node v22. This backport means the Node LTS will be able to run `*.ts` directly. No need to opt-in with a flag. No noisy console warning. It just works.
 
 Other than the built-in support, you have 2 options: use a runner (which handles much of the complexity for you), or handle it all yourself via transpilation (using the TypeScript compiler `tsc`).
 

@@ -12,9 +12,15 @@ updatedDate: "July 22 2023"
 
 动态页面不是请求某一个文件，请求某一个文件只能是静态的（js 也属于是静态资源）。浏览器请求的是一个 url，服务端匹配这个 url，配数据和模板去渲染页面，匹配不到就是 404 错误。如果服务器端有错误（smarty 报错，php 报错，数据库报错等）就会返回 500，这些都是服务器端解析的时候发生的错误，而标签、样式、js 等都会在浏览器端解析。所有页面公用一个模板，符合 MVC，PHP 控制器根据 url 的不同，在渲染页面（即调用模板）时 assign 不同的数据。比如 `bj.fang.lianjia.com/loupan/p_aaa/ `和 `bj.fang.lianjia.com/loupan/p_bbb/` 是两个不同的楼盘页面，PHP 控制器会让这样的 url 都调用同一个模板，页面显示同样的布局和样式，只是数据不同（模板和数据是分离的）。
 
-> 在模板文件中查看 php assign 给 tpl 的变量，比如 `<script type="text/javascript">window.aaa = {json_encode($commentlist)}</script>`
+在模板文件中查看 php assign 给 tpl 的变量，比如 `<script type="text/javascript">window.aaa = {json_encode($commentlist)}</script>`
 
 一定要分清哪些是在服务器端做的事情，哪些是在浏览器端做的事情。在服务端的又分为 nginx 和 fastCGI 两部分，fastCGI 是由 CGI（common gateway interface，通用网关接口）发展而来，用来提高 CGI 程序的性能，是 http 服务器（nginx、apache）和动态脚本语言（php）之间的通信接口。
+
+> 1. Both CGI and FastCGI just describe how to pass a bunch of values — such as HTTP headers, the request body and client input — to the server-side part of your website.
+> 
+> 2. CGI works by starting, executing and terminating a process for every incoming request. The nascent web community quickly learned that this was a bad idea, and invented technologies like PHP and FastCGI to help avoid that extra overhead and keep code resident in-memory instead.
+> 
+> 3. FastCGI is a protocol that defines how your web server (Apache, nginx, lighttpd, etc.) communicates to your CGI program (your server side application in PHP, Ruby, Python, etc.) about the requests it receives. It's an extension of CGI. To make use of FastCGI, most web servers have a module installed by default to handle all of this.
 
 Web server（如 nginx）只是内容的分发者。比如，请求 `/index.html`，那么 server 会去文件系统中找到这个文件，发送给浏览器，这里分发的是静态数据。如果现在请求的是 `/index.php`，nginx 知道这个不是静态文件，需要去找 PHP 解析器来处理，那么它会把这个请求简单处理后交给 PHP 解析器。Nginx 会传哪些数据给 PHP 解析器呢？要有 url、查询字符串、POST 数据、HTTP header，CGI 就是规定要传哪些数据、以什么样的格式传递给后方处理这个请求的协议（是 php 文件的执行环境）。接下来 PHP 解析器会解析 `php.ini` 文件，初始化执行环境，然后处理请求，再以 CGI 规定的格式返回处理后的结果，退出进程。最后 server 再把结果返回给浏览器。
 
