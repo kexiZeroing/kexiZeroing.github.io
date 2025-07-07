@@ -3,7 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "May 6 2025"
+updatedDate: "July 7 2025"
 ---
 
 ### Historical context: The Path to MCP
@@ -89,12 +89,13 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
 export const server = new McpServer({
-  name: "Weather Service",
+  name: "weather-mcp-server",
   version: "1.0.0",
 });
 
 server.tool(
   "getWeather",
+  "Tool to get the weather for a city",
   { city: z.string().describe('The city to get the weather for') },
   async ({ city }) => {
     // await fetch('wheather API') 
@@ -108,6 +109,27 @@ server.tool(
       ],
     };
   },
+);
+```
+
+> The `register*` methods (`registerTool`, `registerPrompt`, `registerResource`) are the recommended approach for new code. The older methods (`tool`, `prompt`, `resource`) remain available for backwards compatibility. The optional `title` field for better UI presentation. The title is used as a display name, while `name` remains the unique identifier.
+
+```js
+// Using registerTool (recommended)
+server.registerTool(
+  "fetch-weather",
+  {
+    title: "Weather Fetcher",
+    description: "Get weather data for a city",
+    inputSchema: { city: z.string() }
+  },
+  async ({ city }) => {
+    const response = await fetch(`https://api.weather.com/${city}`);
+    const data = await response.text();
+    return {
+      content: [{ type: "text", text: data }]
+    };
+  }
 );
 ```
 
@@ -157,6 +179,13 @@ Claude Desktop is the first MCP-compatible app, and it's the easiest way to test
       "command": "node",
       "args": [
         "/ABSOLUTE/PATH/TO/PARENT/FOLDER/weather/build/index.js"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking",
       ]
     }
   }

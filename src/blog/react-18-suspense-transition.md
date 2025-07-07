@@ -92,6 +92,7 @@ We can also use `useDeferredValue` for the query used in rendering the list, all
 function App() {
   const [query, setQuery] = useState('');
   // Get a deferred version of that value
+  // tell React to defer updating the value until high priority work is done
   const deferredQuery = useDeferredValue(query);
 
   return (
