@@ -1,10 +1,12 @@
 ---
-title: "Chrome built-in AI"
+title: "Built-in AI and run local LLMs"
 description: ""
 added: "Jun 21 2025"
 tags: [AI]
+updatedDate: "July 7 2025"
 ---
 
+## Chrome built-in AI
 With built-in AI, your website or web application can perform AI-powered tasks, without needing to deploy, manage, or self-host AI models.
 - Local processing of sensitive data
 - Snappy user experience
@@ -18,7 +20,7 @@ You'll access built-in AI capabilities primarily with task APIs, such as a trans
 - https://github.com/webmachinelearning/translation-api
 - https://chrome.dev/web-ai-demos
 
-## Get started
+### Get started
 The Prompt API, Summarizer API, Writer API, and Rewriter API download Gemini Nano, which is designed to run locally on desktop and laptop computers. These APIs don't work on mobile devices.
 
 API status:
@@ -42,7 +44,7 @@ To confirm Gemini Nano has downloaded and works as intended, open DevTools and t
 > 2. Go to `chrome://components`
 > 3. Confirm that **Optimization Guide On Device Model** is present. This means Gemini Nano is either available or downloading. If there's no version number listed, click **Check for update** to force the download.
 
-## API usage
+### API usage
 Before translating text from one language to another, you must first determine what language is used in the given text.
 
 ```js
@@ -125,3 +127,49 @@ for await (const chunk of stream) {
   console.log(chunk);
 }
 ```
+
+## Run open-source LLMs locally on your computer 
+1. Ollama + OpenWebUI
+   - https://github.com/kexiZeroing/langchain-llamaindex-ollama
+   - https://github.com/ollama/ollama/blob/main/docs/faq.md
+   - https://github.com/ollama/ollama-js
+   - https://github.com/open-webui/open-webui
+   - https://simonwillison.net/2024/Dec/27/open-webui
+
+2. LM Studio
+   - https://lmstudio.ai
+   - https://huggingface.co/blog/yagilb/lms-hf
+
+3. GPT4All
+   - https://github.com/nomic-ai/gpt4all
+
+4. Vercel AI Chatbot Template
+   - https://github.com/vercel/ai-chatbot
+
+5. Transformers.js uses ONNX Runtime to run models in the browser
+   - https://huggingface.co/docs/transformers.js/index
+   - https://huggingface.co/onnx-community
+
+
+```js
+import { pipeline } from "@huggingface/transformers";
+const segmenter = await pipeline(
+  "background-removal",       // Task
+  "onnx-community/BEN2-ONNX", // Custom model
+);
+const result = await segmenter("input.png");
+```
+
+You can run any GGUF (GPT-Generated Unified Format), a binary format that is optimized for quick loading and saving of models, on the Hugging Face Hub directly with ollama. All you need to do is:
+
+```sh
+# https://huggingface.co/docs/hub/en/ollama
+ollama run hf.co/{username}/{repository}
+
+# run the Llama 3.2 1B
+ollama run hf.co/bartowski/Llama-3.2-1B-Instruct-GGUF:latest
+```
+
+> Mirror site of huggingface.co in China
+> - https://hf-mirror.com
+> - https://zhuanlan.zhihu.com/p/663712983

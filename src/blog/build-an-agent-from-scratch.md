@@ -5,7 +5,7 @@ added: "Mar 22 2025"
 tags: [AI]
 ---
 
-> This post is organized using an LLM based on [Kam Lasater's talk](https://kamlasater.com/talks/agents-2025) and [the accompanying code](https://github.com/mfdtrade/agent-talk-2025).
+> This first part of the post is organized using an LLM based on [Kam Lasater's talk](https://kamlasater.com/talks/agents-2025) and [the accompanying code](https://github.com/mfdtrade/agent-talk-2025).
 
 At its core, an agent can be defined with this simple equation:
 
@@ -349,12 +349,81 @@ This creates a complete agent lifecycle:
                           +------------------+
 ```
 
-## Conclusion
+## How agents work under the hood
+Workflows use "predefined code paths", whereas agents "dynamically direct their own processes". The difference between them is the degree of autonomy. Agents have more autonomy, workflows run on deterministic execution paths.
 
-Understanding the fundamental components of agents helps demystify what's happening when you use more complex agent frameworks. At their core, agents are simply:
+ReAct is a very popular implementation of an agent and involves basically the loop of Action-Observation-Thinking to perform tasks. (Lets LLM choose an action, observe result, think, and choose action again.)
 
-- An LLM that can make decisions
-- Tools that extend its capabilities
-- A planning mechanism to organize work
-- A loop that continues until goals are met
-- Memory to track state and progress
+Delving into the LangChain codebase, we find that this orchestration is performed by the following prompt:
+```
+Answer the following questions as best you can. You have access to the following tools:
+
+${tools}
+
+Use the following format:
+
+Question: the input question you must answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [search, calculator]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Thought: I now know the final answer
+Final Answer: the final answer to the original input question
+
+Begin!
+
+Question: ${question}
+Thought:
+```
+
+The full code can be found at https://github.com/ColinEberhardt/langchain-mini
+
+```js
+const googleSearch = async (question) =>
+  await fetch(
+    `https://serpapi.com/search?api_key=${process.env.SERPAPI_API_KEY}&q=${question}`
+  )
+    .then((res) => res.json())
+    .then((res) => res.answer_box?.answer || res.answer_box?.snippet);
+
+const tools = {
+  search: {
+    description:
+      "a search engine. useful for when you need to answer questions about current events. input should be a search query.",
+    execute: googleSearch,
+  },
+  calculator: {
+    description:
+      "Useful for getting the result of a math expression. The input to this tool should be a valid mathematical expression that could be executed by a simple calculator.",
+    // import { Parser } from "expr-eval"
+    execute: (input) => Parser.evaluate(input).toString(),
+  },
+};
+
+// construct the prompt, with our question and the tools that the chain can use
+let prompt = promptTemplate.replace("${question}", question).replace(
+  "${tools}",
+  Object.keys(tools)
+    .map((toolname) => `${toolname}: ${tools[toolname].description}`)
+    .join("\n")
+);
+
+// allow the LLM to iterate until it finds a final answer
+while (true) {
+  const response = await completePrompt(prompt);
+
+  // add this to the prompt
+  prompt += response;
+
+  const action = response.match(/Action: (.*)/)?.[1];
+  if (action) {
+    // execute the action specified by the LLMs
+    const actionInput = response.match(/Action Input: "?(.*)"?/)?.[1];
+    const result = await tools[action.trim()].execute(actionInput);
+    prompt += `Observation: ${result}\n`;
+  } else {
+    return response.match(/Final Answer: (.*)/)?.[1];
+  }
+}
+```

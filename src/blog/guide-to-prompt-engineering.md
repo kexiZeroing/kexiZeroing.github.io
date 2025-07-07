@@ -3,7 +3,7 @@ title: "A guide to Prompt Engineering"
 description: ""
 added: "Apr 5 2023"
 tags: [AI]
-updatedDate: "Feb 10 2025"
+updatedDate: "July 7 2025"
 ---
 
 Prompt Engineering refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of LLMs on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs.
@@ -351,38 +351,83 @@ When you make an API call with these additions, we check if the designated parts
 
 Place static content (system instructions, context, tool definitions) at the beginning of your prompt. Mark the end of the reusable content for caching using the `cache_control` parameter. The cache has a 5-minute lifetime, refreshed each time the cached content is used.
 
-### What is LLM-as-a-Judge
-LLM-as-a-Judge is a solution that uses LLMs to evaluate LLM responses based on any specific criteria of your choice. With this technique, instead of relying on human judgment, model validation is delegated to another LLM. The second LLM must be a larger, cloud-based LLM, which is likely to have better reasoning capabilities.
+## OpenAI Responses vs. Chat Completions
+The Responses API and Chat Completions API are two different ways to interact with OpenAI's models. As model capabilities evolve, the Responses API is a flexible foundation for building action-oriented applications, with built-in tools: Web search, File search, Computer use. *Currently the file search and computer use tools are only available using the new Responses API.*
 
+```js
+// api-mode=chat
+import OpenAI from "openai";
+const client = new OpenAI();
+
+const completion = await client.chat.completions.create({
+  model: "gpt-4.1",
+  messages: [
+    {
+      role: "user",
+      content: "Write a one-sentence bedtime story about a unicorn.",
+    },
+  ],
+});
+
+console.log(completion.choices[0].message.content);
 ```
-IMPROVED_JUDGE_PROMPT = """
-You will be given a user_question and system_answer couple.
-Your task is to provide a 'total rating' scoring how well the system_answer answers the user concerns expressed in the user_question.
-Give your answer on a scale of 1 to 4, where 1 means that the system_answer is not helpful at all, and 4 means that the system_answer completely and helpfully addresses the user_question.
 
-Here is the scale you should use to build your answer:
-1: The system_answer is terrible: completely irrelevant to the question asked, or very partial
-2: The system_answer is mostly not helpful: misses some key aspects of the question
-3: The system_answer is mostly helpful: provides support, but still could be improved
-4: The system_answer is excellent: relevant, direct, detailed, and addresses all the concerns raised in the question
+```js
+// api-mode=responses
+import OpenAI from "openai";
+const client = new OpenAI();
 
-Provide your feedback as follows:
+const response = await client.responses.create({
+  model: "gpt-4.1",
+  input: [
+    {
+      role: "user",
+      content: "Write a one-sentence bedtime story about a unicorn.",
+    }
+  ]
+});
 
-Feedback:::
-Evaluation: (your rationale for the rating, as a text)
-Total rating: (your rating, as a number between 1 and 4)
-
-You MUST provide values for 'Evaluation:' and 'Total rating:' in your answer.
-
-Now here are the question and answer.
-
-Question: {question}
-Answer: {answer}
-
-Provide your feedback. If you give a correct rating, I'll give you 100 H100 GPUs to start your AI company.
-Feedback:::
-Evaluation: """
+console.log(response.output_text);
 ```
+
+The Chat Completions API is an industry standard for building AI applications, and we intend to continue supporting this API indefinitely. If you don't need built-in tools for your application, you can confidently continue using Chat Completions.
+
+## Structured Outputs
+You might want to extract information from text, classify data, or generate synthetic data. Structured Outputs is available in latest large language models, starting with GPT-4o.
+
+```js
+const ResearchPaperExtraction = z.object({
+  title: z.string(),
+  authors: z.array(z.string()),
+  abstract: z.string(),
+  keywords: z.array(z.string()),
+});
+
+const response = await openai.responses.parse({
+  model: "gpt-4o-2024-08-06",
+  input: [
+    {
+      role: "system",
+      content:
+        "You are an expert at structured data extraction. You will be given unstructured text from a research paper and should convert it into the given structure.",
+    },
+    { role: "user", content: "..." },
+  ],
+  text: {
+    format: zodTextFormat(ResearchPaperExtraction, "research_paper_extraction"),
+  },
+});
+
+// await openai.chat.completions.parse({
+//   model: "",
+//   messages: [],
+//   response_format: zodResponseFormat(ResearchPaperExtraction, "research_paper_extraction"),
+// });
+
+const research_paper = response.output_parsed;
+```
+
+The AI SDK standardises structured object generation across model providers with the `generateObject` and `streamObject` functions.
 
 ## Fine-tuning
 GPT-3 has been pre-trained on a vast amount of text from the open internet. When given a prompt with just a few examples, it can often intuit what task you are trying to perform and generate a plausible completion. This is often called "few-shot learning."
