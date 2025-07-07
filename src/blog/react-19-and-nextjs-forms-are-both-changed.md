@@ -234,6 +234,9 @@ startTransition(() => {
 2. `setOptimisticCategories(newCategories)` immediately updates the local state and re-renders the component with the new `optimisticCategories` value.
 3. `optimisticCategories` temporarily overrides what the URL actually says. Users see their click immediately, even though the URL is still updating.
 4. Meanwhile, `router.push()` updates the URL and triggers any server-side filtering, but the UI doesn't wait for this to complete.
+5. `useOptimistic` is designed to work seamlessly with React's concurrent rendering and transitions. It keeps your UI in sync with the "real" state, and automatically falls back if the action fails or completes.
+
+More examples can be found at https://www.epicreact.dev/use-optimistic-to-make-your-app-feel-instant-zvyuv
 
 ### React 19 `cache` hook
 `cache` is only for use with React Server Components, and lets you cache the result of a data fetch or computation.

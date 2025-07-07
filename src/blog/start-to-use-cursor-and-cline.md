@@ -3,7 +3,7 @@ title: "Start to use Cursor, Cline and Gemini CLI"
 description: ""
 added: "May 27 2025"
 tags: [other]
-updatedDate: "Jun 29 2025"
+updatedDate: "July 7 2025"
 ---
 
 ## Cursor Get Started
@@ -68,6 +68,19 @@ LLMs do not retain memory between completions. Rules solve this by providing per
 
 Project rules live in `.cursor/rules`. Each rule is stored as a file and version-controlled. Each rule file is written in MDC (`.mdc`), a lightweight format that supports metadata and content in a single file.
 
+```mdc
+---
+description: This rule provides comprehensive best practices and coding standards for developing Astro projects.
+globs: *.astro
+---
+# Astro Library Best Practices and Coding Standards
+
+This document outlines the recommended best practices and coding standards for developing Astro projects to ensure maintainability, performance, and security.
+
+## 1. Code Organization and Structure
+...
+```
+
 You can use `Cmd + Shift + P` > “New Cursor Rule” to create a rule quickly from inside Cursor. This will create a new rule file in the `.cursor/rules` directory. You can also generate rules directly in a conversation using the `/Generate Cursor Rules` command.
 
 > The `.cursorrules` file in the root of your project is still supported, but will be deprecated. We recommend migrating to the Project Rules format for more control, flexibility, and visibility.
@@ -85,6 +98,10 @@ project/
 ```
 
 Nested rules automatically attached when files in their directory are referenced. This is particularly useful in monorepos or projects with distinct components that need their own specific guidance.
+
+- https://github.com/PatrickJS/awesome-cursorrules
+- https://cursorlist.com
+- https://cursor.directory
 
 ### MCP
 Think of MCP as a plugin system for Cursor - it allows you to extend the Agent’s capabilities by connecting it to various data sources and tools through standardized interfaces.
@@ -172,6 +189,13 @@ Cline has access to the following tools for various tasks:
 **Agent mode** transforms Copilot Chat into an orchestrator of tools (`read_file`, `edit_file`, `run_in_terminal`, etc.). Give it a natural‑language goal—“add OAuth to our Flask app and write tests”—and it plans, edits files, runs the test suite, reads failures, fixes them, and loops until green. You watch the steps, intervene when you like, and keep all changes local.
 
 Where agent mode lives in the IDE, **coding agent** lives in your repos. Assign an issue to Copilot, and it spins up a secure cloud workspace (via GitHub Actions), figures out a plan, edits code on its own branch, runs your tests/linters, and opens a pull request tagging you for review.
+
+Microsoft have released the GitHub Copilot Chat client for VS Code under an open source (MIT) license. So far this is just the extension that provides the chat component of Copilot. The agent instructions can be found in [prompts/node/agent/agentInstructions.tsx](https://github.com/microsoft/vscode-copilot-chat/blob/main/src/extension/prompts/node/agent/agentInstructions.tsx).
+
+### Adding repository custom instructions
+Create a `.github/copilot-instructions.md` file in your repository's root directory and add natural language instructions in Markdown format. These instructions will guide Copilot's behavior across your project.
+
+- https://github.com/github/awesome-copilot
 
 ## Gemini CLI
 Gemini CLI brings the capabilities of Gemini models to your terminal in an interactive Read-Eval-Print Loop (REPL) environment. Gemini CLI consists of a client-side application (`packages/cli`) that communicates with a local server (`packages/core`), which in turn manages requests to the Gemini API and its AI models. Gemini CLI also contains a variety of tools for tasks such as performing file system operations, running shells, and web fetching, which are managed by `packages/core`.
