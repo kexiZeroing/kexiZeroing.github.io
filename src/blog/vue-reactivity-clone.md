@@ -48,16 +48,37 @@ The virtual DOM was created to address performance issues caused by frequent man
 
 ```js
 let activeEffect = null
-let dep = new Set()
+
+// targetMap: Map<target, depsMap>
+// depsMap: Map<key, dep>
+// dep: Set<effect>
+const targetMap = new Map()
 
 function track(target, key) {
   if (activeEffect) {
-    // in reality, get the dep from depsMap of targetMap
+    let depsMap = targetMap.get(target)
+    if (!depsMap) {
+      depsMap = new Map()
+      targetMap.set(target, depsMap)
+    }
+    
+    let dep = depsMap.get(key)
+    if (!dep) {
+      dep = new Set()
+      depsMap.set(key, dep)
+    }
+    
     dep.add(activeEffect)
   }
 }
 
 function trigger(target, key) {
+  const depsMap = targetMap.get(target)
+  if (!depsMap) return
+  
+  const dep = depsMap.get(key)
+  if (!dep) return
+  
   dep.forEach(effect => effect())
 }
 
@@ -83,10 +104,15 @@ function effect(fn) {
   activeEffect = null
 }
 
+// targetMap: Map {
+//   product → Map {
+//     'price' → Set { effect1, effect2 }
+//     'quantity' → Set { effect1, effect3 }
+//   }
+// }
 let product = reactive({ price: 10, quantity: 4 })
 let total = 0
 
-// watcher
 effect(() => {
   total = product.price * product.quantity
   console.log('total changed ', total)

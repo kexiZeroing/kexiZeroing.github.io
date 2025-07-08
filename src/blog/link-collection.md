@@ -82,6 +82,8 @@ Driving game run in a browser: https://slowroads.io/
 
 Summer Afternoon: https://summer-afternoon.vlucendo.com/
 
+You're not a front-end developer until you've..: https://www.nicchan.me/blog/youre-not-a-front-end-developer-until-youve/
+
 Neal.Fun: https://neal.fun/
 
 HTTP Cats: https://http.cat/
@@ -437,6 +439,8 @@ New to the web platform (every month): https://web.dev/blog/web-platform-01-2024
 Monitor and track the status of all Web Platform features: https://webstatus.dev
 
 Web platform features explorer: https://web-platform-dx.github.io/web-features-explorer
+
+What's new in ECMAScript: https://pawelgrzybek.com/whats-new-in-ecmascript-2025
 
 ---
 

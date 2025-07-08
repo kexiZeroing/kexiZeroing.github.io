@@ -3,7 +3,7 @@ title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
 tags: [react]
-updatedDate: "May 5 2025"
+updatedDate: "July 8 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -88,6 +88,47 @@ var App = React.render(Component);
   {count: 2, text: "pear"}`
 */
 ```
+
+### JSX Basics
+
+```js
+const React = {
+  createElement(type, props, ...children) {
+    if (typeof type === 'function') {
+      return type(props)
+    }
+    const element = { type, props: { ...props, children } }
+    return element
+  }
+}
+
+const App = () => (
+  <div className="react">
+    <h1>Hello</h1>
+    <p>some text here</p>
+  </div>
+)
+
+const render = (reactElement, container) => {
+  if (['string', 'number'].includes(typeof reactElement)) {
+    container.appendChild(document.createTextNode(String(reactElement)))
+    return
+  }
+
+  const actualElement = document.createElement(reactElement.type)
+  if (reactElement.props) {
+    // set attributes for each reactElement.props (filter out children)
+  }
+  if (reactElement.props.children) {
+    // render recursively
+  }
+  container.appendChild(actualElement)
+}
+
+render(<App />, document.querySelector('#app'))
+```
+
+> You might recall that you needed to `import React from 'react'` to write JSX correctly. Starting with React 17, React introduced a new JSX transform that automatically imports special functions in the React package and calls them behind the scenes.
 
 ### How reconciliation works
 If we had two components of the same type:
