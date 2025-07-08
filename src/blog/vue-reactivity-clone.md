@@ -47,7 +47,6 @@ The virtual DOM was created to address performance issues caused by frequent man
 <img alt="Vue3 reactivity" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/ba9fd338-ae71-43ab-88cc-52086aa8700a.png" width="650" />
 
 ```js
-// https://www.youtube.com/watch?v=HezB8UEU5Rg
 let activeEffect = null
 let dep = new Set()
 

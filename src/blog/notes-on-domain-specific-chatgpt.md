@@ -77,7 +77,6 @@ print(embedded_query) # [-0.0013594045786472937, -0.03437049808954925, ...]
 In data analysis, *cosine similarity* is a measure of similarity between two non-zero vectors defined in an inner product space. Cosine similarity is the cosine of the angle between the vectors; that is, it is the dot product of the vectors divided by the product of their lengths.
 
 ### Word2Vec - Continuous Bag of Words
-Watch this: https://www.youtube.com/watch?v=hVM8qGRTaOA
 
 ```
 The quick brown fox jumps over the lazy dog.

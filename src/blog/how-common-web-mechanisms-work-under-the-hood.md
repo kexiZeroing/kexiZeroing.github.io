@@ -224,8 +224,6 @@ app.use(async function (req, res) {
 ```
 
 ## React Server Components
-- https://github.com/bholmesdev/simple-rsc
-- https://www.youtube.com/watch?v=F83wMYl9GWM&t=496s
 
 ```js
 // 1. Add server rendering

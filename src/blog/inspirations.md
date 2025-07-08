@@ -38,7 +38,20 @@ order: 3
 - https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
 - https://tania.dev/how-to-use-webpack
 - https://leerob.com/ai
-- https://aurorascharff.no/posts/managing-advanced-search-param-filtering-next-app-router
+
+## Must watch videos
+Tejas Kumar:  
+- https://www.youtube.com/watch?v=3RzhNYhjVAw&t=460s
+- https://www.youtube.com/watch?v=F83wMYl9GWM&t=496s
+- https://www.youtube.com/watch?v=eTcyOCd6v1c
+
+Aurora Scharff: 
+- https://www.youtube.com/watch?v=O3ZtlTwDnbk
+- https://www.youtube.com/watch?v=CvAySC5ex9c
+
+Shruti Kapoor:
+- https://www.youtube.com/watch?v=Z-NCLePa2x8
+- https://www.youtube.com/watch?v=ExZUdkfu-KE
 
 ## Communication problems
 - https://www.neverjust.net

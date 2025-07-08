@@ -89,90 +89,6 @@ var App = React.render(Component);
 */
 ```
 
-### Simplified version of virtual DOM diffing and rendering
-https://gist.github.com/developit/2038b141b31287faa663f410b6649a87
-
-```js
-// JSX constructor, similar to createElement()
-// Use /** @jsx h */ comment
-export const h = (type, props, ...children) => ({
-  type,
-  props,
-  children,
-  key: props && props.key
-});
-
-export const render = (
-  newVNode,
-  dom,
-  oldVNode = dom._vnode || (dom._vnode = {}),
-  currentChildIndex
-) => {
-  if (Array.isArray(newVNode)) {
-    return newVNode.map((child, i) => render(child, dom, oldVNode._normalizedChildren?.[i]));
-  }
-  // Handle components
-  // Here components have a different signature compared to React:
-	// (props, state, updateFn) => VNode;
-  else if (typeof newVNode.type === 'function') {
-    newVNode.state = oldVNode.state || {};
-    const props = { ...newVNode.props, children: newVNode.children };
-    const renderResult = newVNode.type(
-      props,
-      newVNode.state,
-      nextState => {
-        Object.assign(newVNode.state, nextState);
-        render(newVNode, dom, newVNode);
-    });
-
-    render(renderResult, dom, oldVNode.rendered || {});
-  }
-  // Handle DOM elements and text nodes
-  else {
-    // assumes the types match here
-    newVNode.dom = oldVNode.dom || (newVNode.type ? document.createElement(newVNode.type) : new Text(newVNode.props));
-
-    // Update props
-    if (newVNode.type) {
-      for (const name in newVNode.props || {}) {
-        const value = newVNode.props[name];
-        if (value !== (oldVNode.props?.[name])) {
-          // DOM Properties like value, checked, className
-          name in newVNode.dom ? (newVNode.dom[name] = value) : newVNode.dom.setAttribute(name, value);
-        }
-      }
-    } else if (newVNode.props !== oldVNode.props) {
-      // document.createTextNode("Hello").data
-      newVNode.dom.data = newVNode.props;
-    }
-
-    // Newly created node won’t have a parentNode and needs to be inserted
-    if (!newVNode.dom.parentNode) {
-      dom.insertBefore(newVNode.dom, dom.childNodes[currentChildIndex] || null);
-    }
-
-    // Diff children
-    const newChildren = newVNode.children.flat();
-    const oldChildren = oldVNode._normalizedChildren || [];
-    newVNode._normalizedChildren = newChildren.map((child, i) => {
-      const nextNewChild = typeof child === 'string' ? h('', child) : child;
-      // Find oldChild with matching key
-      const matchingOldChild = oldChildren.find(oldChild => oldChild?.key === nextNewChild.key) || {};
-      return render(nextNewChild, newVNode.dom, matchingOldChild, i);
-    });
-
-    // Remove old children if there are any
-		if (oldVNode._normalizedChildren) {
-			oldVNode._normalizedChildren.map(oldChild => {
-				oldChild && oldChild.dom.remove();
-			});
-		}
-    
-    Object.assign(oldVNode, newVNode);
-  }
-};
-```
-
 ### How reconciliation works
 If we had two components of the same type:
 
@@ -245,7 +161,6 @@ When developing an application in React 18+, you may encounter an issue where th
 
 - https://react.dev/learn/you-might-not-need-an-effect
 - https://eslint-react.xyz/docs/rules/hooks-extra-no-direct-set-state-in-use-effect
-- https://www.youtube.com/watch?v=bGzanfKVFeU
 
 ### Referencing values with `ref`s
 When you want a component to “remember” some information, but you don’t want that information to trigger new renders, you can use a `ref`. Typically, you will use a ref when your component needs to “step outside” React and communicate with external APIs. (e.g. storing timeout IDs, DOM elements)
@@ -379,21 +294,3 @@ export const withLoggingOnClick = (Component) => {
   };
 };
 ```
-
-### What's new in React 17+
-React 17:
-- https://legacy.reactjs.org/blog/2020/10/20/react-v17.html
-- https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html
-
-React 18:
-- https://react.dev/blog/2022/03/29/react-v18
-- https://www.youtube.com/watch?v=Z-NCLePa2x8
-- https://www.youtube.com/watch?v=ytudH8je5ko
-- https://tigerabrodi.blog/reacts-evolution-from-hooks-to-concurrent-react
-
-React 19:
-- https://react.dev/blog/2024/12/05/react-19
-- https://www.epicreact.dev/react-19-cheatsheet
-- https://shrutikapoor.dev/posts/React-React19
-- https://www.youtube.com/watch?v=AJOGzVygGcY
-- https://www.youtube.com/watch?v=O3ZtlTwDnbk

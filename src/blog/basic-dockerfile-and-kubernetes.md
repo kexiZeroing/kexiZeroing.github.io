@@ -21,7 +21,7 @@ Docker-compose is a tool that accepts a YAML file that specifies a cross contain
 > 1. An image is a logical grouping of layers plus metadata about what to do when creating a container and how to assemble the layers. Part of that metadata is that each layer knows its parent's ID. When you docker run an image, docker creates a container: it unpacks all the layers in the correct order, creating a new "root" file system separate from the host.
 > 2. A layer is a change on an image, or an intermediate image. Every command you specify (FROM, RUN, COPY, etc.) in your Dockerfile causes the previous image to change, thus creating a new layer. If you make a change to your Dockerfile, docker will rebuild only the layer that was changed and the ones after that. This is called layer caching.
 
-Docker Crash Course for developers and hands on examples by CJ: https://www.youtube.com/watch?v=RHjXPN_h1YA
+Note that during `docker build`, `RUN` commands actually execute and `CMD` is stored in the image's config layer as part of the image manifest. During `docker run`, only the `CMD` command runs. All the `RUN` commands have already been executed and their results are "baked into" the image.
 
 ### A Dockerfile for a NodeJS application
 This is a valid Dockerfile for a NodeJS application. But we can improve it a lot.

@@ -500,7 +500,6 @@ Must-read articles on React Server Components:
 - https://www.joshwcomeau.com/react/server-components
 - https://github.com/reactwg/server-components/discussions/5
 - https://vercel.com/blog/understanding-react-server-components
-- https://www.youtube.com/watch?v=CvAySC5ex9c
 
 ## React Server Actions
 React Server Actions allow you to run asynchronous code directly on the server. They eliminate the need to create API endpoints to mutate your data. Instead, you write asynchronous functions that execute on the server and can be invoked from your Client or Server Components. *(Server actions let us put our API endpoint back into the component boundary in the same way that server components let us move `getServerSideProps` into the component boundary.)*
