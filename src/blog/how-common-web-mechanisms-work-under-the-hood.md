@@ -1,9 +1,9 @@
 ---
-title: "How common web development tools work under the hood"
+title: "How common web mechanisms work under the hood"
 description: ""
 added: "May 4 2025"
 tags: [web, code]
-updatedDate: "Jun 9 2025"
+updatedDate: "July 8 2025"
 ---
 
 ## TOC
@@ -16,6 +16,7 @@ updatedDate: "Jun 9 2025"
 - [Hot Module Replacement](#hot-module-replacement)
 - [Source Maps](#source-maps)
 - [Babel Transpiler and Plugin](#babel-transpiler-and-plugin)
+- [Background job](#background-job)
 
 ## Compile Vue SFC to JS
 High level compilation process: 
@@ -300,6 +301,59 @@ const revive = (k, v) => {
 const markup = JSON.parse(window.__initialMarkup, revive);
 const root = hydrateRoot(document, markup);
 ```
+
+A neat pattern with RSC is to create a promise that starts on the server and later finishes on the client.
+
+```jsx
+// server
+ <Suspense fallback={<div>loading...</div>}>
+  <ClientComponent promise={promise} />
+</Suspense>
+
+// client
+use(promise);
+```
+
+If you use JSON to serialize a promise, it gets completely lost. A clever way to do this is to use a stream. The stream is able to represent the promise at each stage of its lifecycle. And streams are sharable over the network.
+
+```js
+function serializePromise(promise) {
+  const stream = new ReadableStream({
+    async start(controller) {
+      controller.enqueue("promise:create");
+
+      const value = await promise;
+      controller.enqueue(`promise:resolve:${value}`);
+      controller.close();
+    },
+  });
+
+  return stream;
+}
+
+async function test() {
+  const promise = new Promise((resolve) => {
+    setTimeout(() => resolve("Hello"), 2000);
+  });
+
+  const stream = serializePromise(promise);
+  const reader = stream.getReader();
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) {
+      console.log("Stream closed");
+      break;
+    }
+    console.log("Stream value:", value);
+  }
+}
+```
+
+React internal packages are responsible for serializing and deserializing data between the server and client. These packages are exposed through bundler specific implementations that your application ends up consuming.
+
+- On the server, React can serialize a promise using the `renderToReadableStream` from `react-server-dom-webpack/server`.
+- On the client, we read the stream and recreate the promise React serialized on the server. This is done using `createFromReadableStream` from `react-server-dom-webpack/client`.
 
 ## React Suspense
 React Suspense operates on a "throw and catch" pattern:
@@ -767,4 +821,76 @@ rules: [
     }
   }
 ]
+```
+
+## Background job
+When a user submits work, you create a job record with a unique ID, send that ID to Inngest, and immediately return the job ID to the user. Your Inngest function then updates this same database record with the results when processing completes. The user's frontend polls an endpoint that checks the job status in the database until it shows completed, allowing them to retrieve the final results.
+
+```js
+// inngest/inngest.ts
+import { Inngest } from "inngest";
+// Create a client to send and receive events
+export const inngest = new Inngest({ 
+  id: "process-summarization",
+});
+
+// inngest/functions.ts
+const processSummarization = inngest.createFunction(
+  { id: "process-summarization" },
+  { event: "text/summary.requested" },
+  async ({ event }) => {
+    const { text, jobId } = event.data;
+    const summary = await generateSummary(text);
+
+    // Save result
+    await db.jobs.update(jobId, {
+      status: 'completed',
+      result: summary
+    });
+
+    return { summary }
+  },
+);
+
+export const functions = [processSummarization];
+
+// actions.ts
+const jobId = crypto.randomUUID();
+await db.jobs.create({
+  id: jobId,
+  status: 'pending',
+});
+
+// This doesn't block - it sends the event and returns immediately
+await inngest.send({
+  name: "text/summary.requested",
+  data: {
+    text: formData.get("text") as string,
+    jobId,
+  },
+});
+
+// Your user gets a response right away
+return Response.json({ jobId, status: 'pending' });
+
+// api/inngest/route.ts
+import { inngest } from "@/inngest/inngest"
+import { functions } from "@/inngest/functions"
+import { serve } from "inngest/next"
+
+// Inngest periodically calls your endpoint to:
+// GET = Function registration/sync calls
+// POST = Actual function execution
+// PUT = Function updates
+export const { GET, POST, PUT } = serve({
+  client: inngest,
+  functions,
+});
+
+// User polls for result
+// GET /api/jobs/:jobId
+export async function GET(request: Request, { params }) {
+  const job = await db.jobs.findById(params.jobId);
+  return Response.json(job);
+}
 ```
