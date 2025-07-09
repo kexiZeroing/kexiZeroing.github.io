@@ -49,10 +49,6 @@ Aurora Scharff:
 - https://www.youtube.com/watch?v=O3ZtlTwDnbk
 - https://www.youtube.com/watch?v=CvAySC5ex9c
 
-Shruti Kapoor:
-- https://www.youtube.com/watch?v=Z-NCLePa2x8
-- https://www.youtube.com/watch?v=ExZUdkfu-KE
-
 ## Communication problems
 - https://www.neverjust.net
 - https://nohello.net

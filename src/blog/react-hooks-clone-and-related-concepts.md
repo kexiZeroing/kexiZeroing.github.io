@@ -288,33 +288,6 @@ export default function App() {
 }
 ```
 
-### batching and flushSync in rendering
-In early versions (React 17 and earlier), React updated the DOM immediately after each state change. Multiple state updates within a single event cycle would cause multiple, unnecessary re-renders, affecting the application's responsiveness.
-
-```js
-// React 17
-const handleUpdate = () => {
-  setCount(count + 1); // First update
-  setFlag(!flag);      // Second update
-  // In pre-batching React, this would cause two separate re-renders
-};
-```
-
-React 18 introduced batching to prevent these issues. Batching means that React groups multiple state updates into a single re-render cycle. This approach ensures that the UI is updated efficiently, reflecting all state changes in one go.
-
-`flushSync` allows you to opt-out of batching for specific updates, forcing them to be processed immediately. This ensures that critical updates are executed in the correct order, even within a batched state update cycle. *(But, use it carefully and not too much, because using it too often can cancel out the performance advantages of batching.)*
-
-```js
-import { flushSync } from "react-dom";
-
-const handleClick = () => {
-  flushSync(() => {
-    setCount(count + 1); // Triggers an immediate re-render
-  });
-  setFlag(!flag); // Queued state update
-};
-```
-
 ### Higher Order Components
 HOCs are wrapper components that help provide additional functionality to existing components. While hooks probably replaced most of shared logic concerns, there are still use cases where higher-order components could be useful. For example, you want to fire analytics event on every click of every button, dropdown and link everywhere.
 

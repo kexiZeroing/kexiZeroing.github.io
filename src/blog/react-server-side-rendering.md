@@ -145,32 +145,6 @@ export default ClientOnly;
 > Fix Next.js error: Event handlers cannot be passed to client component:  
 > You use `<Card onClick={() => console.log(1)} />` to pass a function from the server to the client. The issue here is the function is not serializable. The workaround is to make both of them client components.
 
-`useSyncExternalStore` can be more appropriate if your data exists outside the React tree. It takes in three parameters: `useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?)`, and returns the current snapshot of the external data you’re subscribed to. Any changes in the external store will be immediately reflected, and React will re-render the UI based on snapshot changes.
-
-- `subscribe` is a callback that takes in a function that subscribes to the external store data.
-- `getSnapshot` is a function that returns the current snapshot of external store data.
-- `getServerSnapshot` is an optional parameter that sends you a snapshot of the initial store data. You can use it on the server when generating the HTML or during the initial hydration of the server data.
-
-Note that on the server, React will only call `getServerSnapshot()`. On the client during hydration, it will initially call `getServerSnapshot()`, too — before calling `getSnapshot()`. This ensures that both environments start with the exact same value.
-
-```js
-// This is your external "store"
-let lastUpdated = new Date()
-
-// A no-op subscription function — tells React we won't update
-const emptySubscribe = () => () => {}
-
-function LastUpdated() {
-  const date = React.useSyncExternalStore(
-    emptySubscribe,
-    () => lastUpdated.toLocaleDateString(),
-    () => null // safe for server-side render
-  )
-
-  return date ? <span>Last updated at: {date}</span> : null
-}
-```
-
 ### Understand the "children pattern"
 React components re-render themselves and all their children when the state is updated. In this case, on every mouse move the state of `MovingComponent` is updated, its re-render is triggered, and as a result, `ChildComponent` will re-render as well.
 

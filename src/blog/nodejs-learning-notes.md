@@ -208,7 +208,7 @@ Streams process data in chunks, significantly reducing memory usage. All streams
 
 `Readable` is the class that we use to sequentially read a source of data. Typical examples of Readable streams in Node.js API are `fs.ReadStream` when reading files, `http.IncomingMessage` when reading HTTP requests, and `process.stdin` when reading from the standard input.
 
-`Writable` streams are useful for creating files, uploading data, or any task that involves sequentially outputting data. While readable streams provide the source of data, writable streams act as the destination for your data. Typical examples of writable streams in the Node.js API are `fs.WriteStream`, `process.stdout`, and `process.stderr`.
+`Writable` streams are useful for creating files, uploading data, or any task that involves sequentially outputting data. While readable streams provide the source of data, writable streams act as the destination for your data. The HTTP response object is a writable stream. Typical examples of writable streams in the Node.js API are `fs.WriteStream`, `process.stdout`, and `process.stderr`.
 
 When working with streams, we usually want to read from a source and write to a destination, possibly needing some transformation of the data in between. The `.pipe()` method concatenates one readable stream to a writable (or transform) stream. In most cases, it is recommended to use the `pipeline()` method. This is a safer and more robust way to pipe streams together, handling errors and cleanup automatically.
 

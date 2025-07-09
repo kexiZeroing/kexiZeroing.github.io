@@ -300,58 +300,7 @@ const markup = JSON.parse(window.__initialMarkup, revive);
 const root = hydrateRoot(document, markup);
 ```
 
-A neat pattern with RSC is to create a promise that starts on the server and later finishes on the client.
-
-```jsx
-// server
- <Suspense fallback={<div>loading...</div>}>
-  <ClientComponent promise={promise} />
-</Suspense>
-
-// client
-use(promise);
-```
-
-If you use JSON to serialize a promise, it gets completely lost. A clever way to do this is to use a stream. The stream is able to represent the promise at each stage of its lifecycle. And streams are sharable over the network.
-
-```js
-function serializePromise(promise) {
-  const stream = new ReadableStream({
-    async start(controller) {
-      controller.enqueue("promise:create");
-
-      const value = await promise;
-      controller.enqueue(`promise:resolve:${value}`);
-      controller.close();
-    },
-  });
-
-  return stream;
-}
-
-async function test() {
-  const promise = new Promise((resolve) => {
-    setTimeout(() => resolve("Hello"), 2000);
-  });
-
-  const stream = serializePromise(promise);
-  const reader = stream.getReader();
-
-  while (true) {
-    const { value, done } = await reader.read();
-    if (done) {
-      console.log("Stream closed");
-      break;
-    }
-    console.log("Stream value:", value);
-  }
-}
-```
-
-React internal packages are responsible for serializing and deserializing data between the server and client. These packages are exposed through bundler specific implementations that your application ends up consuming.
-
-- On the server, React can serialize a promise using the `renderToReadableStream` from `react-server-dom-webpack/server`.
-- On the client, we read the stream and recreate the promise React serialized on the server. This is done using `createFromReadableStream` from `react-server-dom-webpack/client`.
+> React internal packages are responsible for serializing and deserializing data between the server and client. These packages are exposed through bundler specific implementations that your application ends up consuming.
 
 ## React Suspense
 React Suspense operates on a "throw and catch" pattern:

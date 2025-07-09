@@ -364,9 +364,9 @@ React Server Components in AI Applications by Tejas: https://www.youtube.com/wat
 
 React's evolution from Hooks to Concurrent React: https://tigerabrodi.blog/reacts-evolution-from-hooks-to-concurrent-react
 
-React 19 Cheat Sheet: https://www.epicreact.dev/react-19-cheatsheet
-
 What's new in React 19 by Lydia Hallie: https://www.youtube.com/watch?v=AJOGzVygGcY
+
+React 19 Cheat Sheet: https://www.epicreact.dev/react-19-cheatsheet
 
 ---
 

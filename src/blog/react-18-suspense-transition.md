@@ -3,10 +3,10 @@ title: "React 18 Suspense and startTransition"
 description: ""
 added: "Oct 7 2023"
 tags: [react]
-updatedDate: "May 5 2025"
+updatedDate: "July 9 2025"
 ---
 
-Concurrent React is a new feature introduced in React 18 that changes how React handles rendering and updates. A key property of Concurrent React is that rendering is interruptible. With synchronous rendering, once an update starts rendering, nothing can interrupt it until the user can see the result on screen. In a concurrent render, React may start rendering an update, pause in the middle, then continue later. It may even abandon an in-progress render altogether.
+**Concurrent React** is a new feature introduced in React 18 that changes how React handles rendering and updates. A key property of Concurrent React is that rendering is interruptible. With synchronous rendering, once an update starts rendering, nothing can interrupt it until the user can see the result on screen. In a concurrent render, React may start rendering an update, pause in the middle, then continue later. It may even abandon an in-progress render altogether.
 
 ## New Root API
 Concurrent React is opt-in — it’s only enabled when you use a concurrent feature. The new root API in React 18 enables the new concurrent renderer, which allows you to opt-into concurrent features. 
@@ -28,6 +28,33 @@ root.render(<App />);
 import { hydrateRoot } from 'react-dom/client';
 
 hydrateRoot(document.getElementById('root'), <App />);
+```
+
+## Automatic Batching
+Before React 18, updates outside events were not batched. This meant that React updated the DOM immediately after each state change. Multiple state updates within a single event cycle would cause multiple, unnecessary re-renders, affecting the application's responsiveness.
+
+```js
+// React 17
+const handleUpdate = () => {
+  setCount(count + 1); // First update
+  setFlag(!flag);      // Second update
+  // In pre-batching React, this would cause two separate re-renders
+};
+```
+
+React 18 introduced automatic batching to prevent these issues. Batching means that React groups multiple state updates into a single re-render cycle. This approach ensures that the UI is updated efficiently, reflecting all state changes in one go.
+
+`flushSync` allows you to opt-out of batching for specific updates, forcing them to be processed immediately. This ensures that critical updates are executed in the correct order, even within a batched state update cycle. *(But, use it carefully and not too much, because using it too often can cancel out the performance advantages of batching.)*
+
+```js
+import { flushSync } from "react-dom";
+
+const handleClick = () => {
+  flushSync(() => {
+    setCount(count + 1); // Triggers an immediate re-render
+  });
+  setFlag(!flag); // Queued state update
+};
 ```
 
 ## Transitions
@@ -110,7 +137,7 @@ function App() {
 
 If we didn't use `useDeferredValue`, the expensive computation ("List" component here) would run on every keystroke, which could lead to performance issues. By deferring the update of the text value, we ensure that the expensive computation only runs when the text value has stabilized.
 
-## New Suspense Features 
+## Suspense on the server
 Suspense allows you to render a fallback component while a component is waiting for some asynchronous operations. With React 18, Suspense can be used on the server.
 
 Suspense is used on the client in React 16, but it would throw an error when used in SSR. Suspense and code-splitting using `React.lazy` were not compatible with SSR, until React 18.
@@ -149,10 +176,6 @@ async function renderToHTML() {
 `<Suspense>` allows for server-side HTML streaming and selective hydration on the client:
 1. To opt into **streaming HTML** on the server, you’ll need to switch from `renderToString` to the new `renderToPipeableStream` method.
 2. To opt into **selective hydration** on the client, you’ll need to switch to `hydrateRoot` on the client and then start wrapping parts of your app with `<Suspense>`.
-3. Only Suspense-enabled data sources will activate the Suspense component. Server Components integrate with Suspense out of the box.
-
-> Understand Node stream:  
-> The HTTP response object is a writable stream. All streams are instances of `EventEmitter`. They emit events that can be used to read and write data. The `pipe()` function reads data from a readable stream as it becomes available and writes it to a destination writable stream. All that the `pipe` operation does is subscribe to the relevant events on the source and call the relevant functions on the destination. The `pipe` method is the easiest way to consume streams.
 
 ## Suspense and `startTransition`
 These two APIs are designed for different use cases and can absolutely be used together. Read from https://github.com/reactwg/react-18/discussions/94
@@ -201,6 +224,39 @@ function BigSpinner() {
 
 - When you initially load data on an unloaded page (ex. navigating to a new page). Suspense is a way to specify fallbacks instead of content, so it should used in this case.
 - When you load new data on a page that has already loaded (ex. tab navigations). In this case, it's bad to hide something the user has already seen. In this case, `startTransition` lets you show a pending indicator until that render completes, and avoid retriggering Suspense boundaries.
+
+## New API `useId` and `useSyncExternalStore`
+The `useId` hook is used to generate unique IDs for elements within a component. This is particularly useful for accessibility purposes, such as linking form inputs with their labels. It ensures that IDs are unique across the entire application, even if the component is rendered multiple times.
+
+> Do not call `useId` to generate keys in a list:
+> 
+> The point of keys is that it uniquely identifies your item in the list - so when you move it down or up it still has the same id as it had in the other place. You don't get that with `useId`, and you don't get that using index.
+
+`useSyncExternalStore` can be more appropriate if your data exists outside the React tree. It takes in three parameters: `useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?)`, and returns the current snapshot of the external data you’re subscribed to. Any changes in the external store will be immediately reflected, and React will re-render the UI based on snapshot changes.
+
+- `subscribe` is a callback that takes in a function that subscribes to the external store data.
+- `getSnapshot` is a function that returns the current snapshot of external store data.
+- `getServerSnapshot` is an optional parameter that sends you a snapshot of the initial store data. You can use it on the server when generating the HTML or during the initial hydration of the server data.
+
+Note that on the server, React will only call `getServerSnapshot()`. On the client during hydration, it will initially call `getServerSnapshot()`, too — before calling `getSnapshot()`. This ensures that both environments start with the exact same value.
+
+```js
+// This is your external "store"
+let lastUpdated = new Date()
+
+// A no-op subscription function — tells React we won't update
+const emptySubscribe = () => () => {}
+
+function LastUpdated() {
+  const date = React.useSyncExternalStore(
+    emptySubscribe,
+    () => lastUpdated.toLocaleDateString(),
+    () => null // safe for server-side render
+  )
+
+  return date ? <span>Last updated at: {date}</span> : null
+}
+```
 
 ## How to fetch data in React
 > **Render-as-you-fetch** is a pattern that lets you start fetching the data you will need at the same time you start rendering the component using that data. Used along with `Suspense`, the data call is made while the component is being rendered. While the data is being loaded the component is in a suspended state and `Suspense` is used to show a fallback UI.
