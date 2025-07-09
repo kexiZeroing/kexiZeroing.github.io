@@ -285,6 +285,27 @@ In the pages directory, `getStaticProps` function is used to pre-render a page a
 
 In the pages directory, `getStaticPaths` function is used to define the dynamic paths that should be pre-rendered at build time. In the app directory, `getStaticPaths` is replaced with `generateStaticParams`.
 
+```js
+export default function Listing(props) {
+  return <ListingLayout listings={props.listings} />
+}
+
+// This function gets called at build time on server-side.
+// It may be called again, on a serverless function, if
+// revalidation is enabled and a new request comes in
+export async function getStaticProps(props) {
+  const data = await fetch(`https://example.com/api/listings/${props.params.id}`)
+  const { listings } = await data.json()
+  return { props: { listings } }
+}
+
+export async function getStaticPaths() {
+  const data = await fetch(`https://example.com/api/listings`)
+  const { listings } = await data.json()
+  return { paths: listings.map(listing => ({ params: { id: listing.id } })) }
+}
+```
+
 > With Next.js 15, `fetch` requests are no longer cached by default. Next.js fetches the resource from the remote server on every request in development, but will fetch once during next build because the route will be statically prerendered. If Dynamic APIs are detected on the route, Next.js will fetch the resource on every request.
 
 ## Set up Prettier and ESLint

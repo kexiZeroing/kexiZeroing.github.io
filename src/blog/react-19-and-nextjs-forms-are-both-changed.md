@@ -31,6 +31,9 @@ function App() {
       // call API
       setIsPending(false);
     }, [1000]);
+
+    // or use [isPending, startTransition] from `useTransition`
+    // to remove isPending state
   };
 
   return (
@@ -48,8 +51,8 @@ function App() {
 ```js
 // React 19
 function RenderName({ name }) {
-  // https://react.dev/reference/react-dom/hooks/useFormStatus
-  // `useFormStatus` will only return status information for a parent <form>
+  // 1. `useFormStatus` must be called from a component that is rendered inside a <form>
+  // 2. `useFormStatus` will only return status information for a parent <form>
   const { pending } = useFormStatus();
   return <div>{pending ? "Loading" : `Hello in React 19 ${name}` }</div>;
 }
@@ -83,7 +86,7 @@ function App() {
 'use server';
 
 export const submitFormAction = async (previousState, formData) => {
-  const name = formData.get("name");
+  const name = formData.get("inputName");
   await new Promise((res) => setTimeout(res, 1000));
   return { ...previousState, name: name };
 };
