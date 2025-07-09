@@ -5,7 +5,7 @@ added: "Sep 28 2024"
 tags: [react, code]
 ---
 
-This post is my learning notes from the article [How to control a React component with the URL](https://buildui.com/posts/how-to-control-a-react-component-with-the-url).
+This post is my learning notes from the article [How to control a React component with the URL](https://buildui.com/posts/how-to-control-a-react-component-with-the-url). You can also [watch the video](https://www.youtube.com/watch?v=fYqMPvPvVAc) from the author.
 
 When you build a searchable table, you may have code below.
 
@@ -121,8 +121,6 @@ Learning how to spot duplicated sources of truth is a big step in leveling up as
 - See if the effect is setting some state
 - Check to see whether that state is already represented in some other component or external system, and
 - If it is, eliminate it
-
-> STOP using useState, instead put state in URL: https://www.youtube.com/watch?v=ukpgxEemXsk
 
 ```js
 // client component

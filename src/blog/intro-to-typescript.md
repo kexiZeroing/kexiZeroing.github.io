@@ -3,7 +3,7 @@ title: "Intro to TypeScript"
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "May 2 2025"
+updatedDate: "July 9 2025"
 ---
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
@@ -155,6 +155,23 @@ Run `tsc --noEmit` that tells TypeScript that we just want to check types and no
 
 By the way, `jsconfig.json` is a descendant of `tsconfig.json`. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
 
+## Structural typing
+TypeScript uses structural typing. This system is different than the type system employed by some other popular languages you may have used (e.g. Java, C#, etc.)
+
+The idea behind structural typing is that two types are compatible if their members are compatible. For example, in C# or Java, two classes named `MyPoint` and `YourPoint`, both with public `int` properties x and y, are not interchangeable, even though they are identical. But in a structural type system, the fact that these types have different names is irrelevant. Because they have the same members with the same types, they are identical.
+
+```ts
+interface Something<T> {
+  name: string;
+}
+let x: Something<number>;
+let y: Something<string>;
+// Why is A<string> assignable to A<number> for interface A<T>?
+x = y;
+```
+
+TypeScript uses a structural type system. When determining compatibility between `Something<number>` and `Something<string>`, we examine each member of each type. If all of the members are compatible, then the types themselves are compatible. But because `Something<T>` doesn't use `T` in any member, it doesn't matter what type `T` is - it has no bearing on whether the types are compatible.
+
 ## Basic Static Types
 TypeScript brings along static types to the JavaScript language. **TypeScript's types don't exist at runtime.** They're only used to help you catch errors at compile time.
 
@@ -301,25 +318,22 @@ interface User extends User1 {  // raise an error
   age: string;
 }
 
-// Index signatures in types vs interfaces
-interface KnownAttributes {
-  x: number;
-  y: number;
+
+// Object types in TypeScript aren't "sealed" / "closed" / "final". 
+// In other words, if you have a variable of type `{ a: string }`, 
+// it's possible that the variable points to a value like `{ a: "hello", b: 42 }`.
+interface Dimensions {
+  width: number;
+  height: number;
+  depth?: number;
 }
-const knownAttributes: KnownAttributes = { x: 1, y: 2 };
 
-type RecordType = Record<string, number>;
-const oi: RecordType = knownAttributes;  // Error (interface could later be extended)
-// Index signature for type 'string' is missing in type 'KnownAttributes'.
-
-type KnownAttributes = {
-  x: number;
-  y: number;
+const p = {
+  width: 32,
+  height: 14,
+  depht: 11 // <-- fine
 };
-const knownAttributes: KnownAttributes = { x: 1, y: 2 };
-
-type RecordType = Record<string, number>;
-const oi: RecordType = knownAttributes;  // works
+const q: Dimensions = p; // also fine
 ```
 
 **Summary of Type vs Interface:**
@@ -437,6 +451,8 @@ Omit<UserObj, 'id'>
 Pick<UserObj, 'id'>
 ```
 
+> `Exclude<T, U>` isn't the same as `T & not U`. `Exclude` is a type alias whose only effect is to filter unions. For example, `Exclude<string, "hello">` just means `string`. It doesn't mean "any string except "hello"", because `string` is not a union, and thus no filtering occurs.
+
 ```ts
 // built-in Omit and Pick are not distributive over union types
 type A = { a: string; c: boolean, d: number };
@@ -501,6 +517,7 @@ async function fetchData(): Promise<number> {
 
 > The empty object type `{}` is unique. Instead of representing an empty object, it actually represents anything that isn't `null` or `undefined`. `{}` can accept a number of other types: string, number, boolean, function, symbol, and objects containing properties.
 >
+> - Primitives are `{}`, and `{}` doesn't mean object. *(a string is a valid `{}`)*
 > - The only difference between `{}` and `unknown` is that `unknown` contains every single JavaScript value, including `null` and `undefined`.
 > - Unlike `{}`, `object` type does not include primitive types.
 
@@ -590,7 +607,7 @@ type AttributeGetters = {
 };
 ```
 
-**Generic Types**: Instead of working with a specific type, we work with a parameter that is then substituted for a specific type. Type parameters are denoted within angle brackets at function heads or class declarations. [Generics are not scary](https://ts.chibicode.com/generics). They’re like regular function parameters, but instead of values, it deals with types.
+**Generic Types**: Instead of working with a specific type, we work with a parameter that is then substituted for a specific type. Type parameters are denoted within angle brackets at function heads or class declarations. [Generics are not scary](https://ts.chibicode.com/generics). They’re like regular function parameters, but instead of values, it deals with types. *Generics are erased during compilation.*
 
 ```ts
 type ResourceStatus<TContent> =
@@ -787,7 +804,7 @@ How does TypeScript know that `.map` exists on an array, but `.transform` doesn'
 }
 ```
 
-Note that skip declaration files in `node_modules`, **it also skips all declaration files.** "Declaration files" sounds like where you put your type declarations. But this is a bad idea. `skipLibCheck` will ignore these files, meaning you won't get type checking on them. Instead, put your types in regular TypeScript files.
+The "lib" in `skipLibCheck` refers to any `.d.ts` file. In other words, there is no distinction made between `.d.ts` files which are "yours" (say, in your files list) and "not yours" (say, in `node_modules/@types`). "Declaration files" sounds like where you put your type declarations. But this is a bad idea. `skipLibCheck` will ignore these files, meaning you won't get type checking on them. Instead, put your types in regular TypeScript files.
 
 > Different browsers support different features. But TypeScript only ships one set of DOM types. So how does it know what to include? TypeScript's policy is that if a feature is supported in two major browsers, it's included in the DOM types.
 

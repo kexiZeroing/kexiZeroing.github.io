@@ -358,6 +358,8 @@ The creative library of animated React components: https://www.reactbits.dev
 
 Neobrutalism-styled components based on shadcn/ui: https://www.neobrutalism.dev
 
+Customizable, high-quality components for AI applications: https://www.prompt-kit.com
+
 React Server Components in AI Applications by Tejas: https://www.youtube.com/watch?v=fsAYMNl1Cj0
 
 React's evolution from Hooks to Concurrent React: https://tigerabrodi.blog/reacts-evolution-from-hooks-to-concurrent-react
@@ -453,8 +455,6 @@ Vercel AI SDK Cookbook: https://sdk.vercel.ai/cookbook
 Awesome ChatGPT Prompts: https://prompts.chat
 
 Prompt Engineering Guide: https://github.com/dair-ai/Prompt-Engineering-Guide
-
-An open-source ChatGPT UI: https://github.com/mckaywrigley/chatbot-ui
 
 Chatbot Arena - Benchmarking LLMs in the Wild: https://lmarena.ai
 
