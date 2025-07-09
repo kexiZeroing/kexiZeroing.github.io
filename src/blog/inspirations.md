@@ -46,8 +46,11 @@ Tejas Kumar:
 - https://www.youtube.com/watch?v=eTcyOCd6v1c
 
 Aurora Scharff: 
-- https://www.youtube.com/watch?v=O3ZtlTwDnbk
+- https://www.youtube.com/watch?v=O3ZtlTwDnbk&t=300s
 - https://www.youtube.com/watch?v=CvAySC5ex9c
+
+Lee Robinson:
+- https://www.youtube.com/watch?v=h2BcitZPMn4
 
 ## Communication problems
 - https://www.neverjust.net

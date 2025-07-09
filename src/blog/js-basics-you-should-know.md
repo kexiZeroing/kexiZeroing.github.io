@@ -799,6 +799,10 @@ JSON.parse('{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}}', (key, value) => {
 // 1 2 4 6 5 3 ""
 ```
 
+> In most cases the document is not really corrupt, but isn’t valid JSON because JSON is very strict. You can use [jsonrepair](https://github.com/josdejong/jsonrepair) to repair invalid JSON documents.
+>
+> This library is basically an extended JSON parser. It parses the provided JSON document character by character, reading it into a data structure. When it encounters a parse error, instead of throwing an error, it looks whether this error has a cause that is solvable. For example, when encountering two unexpected characters `//`, it knows that this is a comment, and it will skip the comment and move on.
+
 ## Symbol
 Symbol is a primitive data type and the `Symbol()` function returns a value of type symbol. It resembles a built-in object class, but is incomplete as a constructor because it does not support the syntax `new Symbol()`. 
 

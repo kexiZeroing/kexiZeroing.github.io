@@ -277,7 +277,9 @@ For a site to serve users code that contains both ES5 helpers and untranspiled E
 ### Next.js app router and pages router
 Pages in the `app` directory are Server Components by default. This is different from the pages directory where pages are Client Components. The `app` directory uses nested folders to define routes and a special `page.js` file to make a route segment publicly accessible.
 
-In app, you should use the three new hooks imported from `next/navigation`: `useRouter()`, `usePathname()`, and `useSearchParams()`.
+In App Router, you should use the three new hooks imported from `next/navigation`: `useRouter()`, `usePathname()`, and `useSearchParams()`. They are all client-side hooks; For server-side equivalents, you can use the `headers()`, `cookies()`, or access `params` via props in Server Components.
+
+The App Router fully embraces web standard Request/Response APIs. Instead of `pages/api/*`, you can now place `route.ts` files anywhere inside the `app/` directory.
 
 In the pages directory,`getServerSideProps` is used to fetch data on the server and forward props to the default exported React component in the file. In the App Router, we can colocate our data fetching inside our React components using Server Components.
 
@@ -290,9 +292,6 @@ export default function Listing(props) {
   return <ListingLayout listings={props.listings} />
 }
 
-// This function gets called at build time on server-side.
-// It may be called again, on a serverless function, if
-// revalidation is enabled and a new request comes in
 export async function getStaticProps(props) {
   const data = await fetch(`https://example.com/api/listings/${props.params.id}`)
   const { listings } = await data.json()

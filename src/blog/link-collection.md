@@ -166,6 +166,8 @@ Universal bundle analyzer: https://sonda.dev
 
 Converting files and office documents to Markdown: https://github.com/microsoft/markitdown
 
+Native desktop automation that controls your mouse: https://github.com/nut-tree/nut.js, https://www.npmjs.com/package/@nut-tree-fork/nut-js
+
 ---
 
 ## CSS related
