@@ -24,7 +24,10 @@ Vite doesn't set out to be a new bundler. Rather, it's a pre-configured build en
 
 > `esbuild`, which is written in Go, 10-100x faster than JavaScript-based bundlers, does the transpile things transforming into plain javascript. It will process and prebundle the dependencies into something works in the browser as native es-module. `vite --force` will ignore the dependency cache and reforce to process all the dependencies.
 
-> `esbuild` is highly optimized and compiled to native code. Using a JS runtime introduces a bottleneck that makes reaching those speeds impossible. However, [esbuild-loader](https://github.com/privatenumber/esbuild-loader) can still speed up your build by removing the bottlenecks created by babel-loader, ts-loader, Terser, etc.
+```sh
+# esbuild can resolve all the imports and bundle everything into one file
+esbuild script.js --bundle --minify --outfile=bundle.js
+```
 
 Vite only support ES Modules, and parsing the native ES Modules means it will read the `export` and `import` lines from your code. It will convert those lines into HTTP requests back to the server, where it will again read the `export` and `import` lines and make new requests. Vite also leverages HTTP headers to speed up full page reloads: source code module requests are made conditional via `304 Not Modified`, and dependency module requests are strongly cached via `Cache-Control` header.
 

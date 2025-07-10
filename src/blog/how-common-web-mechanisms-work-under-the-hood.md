@@ -300,7 +300,7 @@ const markup = JSON.parse(window.__initialMarkup, revive);
 const root = hydrateRoot(document, markup);
 ```
 
-> React internal packages are responsible for serializing and deserializing data between the server and client. These packages are exposed through bundler specific implementations that your application ends up consuming.
+> React internal packages are responsible for serializing (`packages/react-server`) and deserializing (`packages/react-client`) data between the server and client. These packages are exposed through bundler specific implementations that your application ends up consuming.
 
 ## React Suspense
 React Suspense operates on a "throw and catch" pattern:

@@ -1,9 +1,9 @@
 ---
-title: "Reading Dan's new articles"
+title: "Reading Dan's new articles about RSC"
 description: ""
 added: "Apr 20 2025"
 tags: [react, code]
-updatedDate: "May 10 2025"
+updatedDate: "July 10 2025"
 ---
 
 Dan is really a good writer. He recently published several articles this April, which is uncommon in recent years. I'm particularly drawn to his storytelling style that captivates readers from beginning to end. Instead of sharing his original texts here, I'll show some code from his articles that demonstrates key ideas.
@@ -1020,6 +1020,7 @@ import { LikeButton } from './LikeButton';
 const { slug } = Astro.props;
 const title = await readFile(`./posts/${slug}/title.txt`, 'utf8');
 ---
+
 <article>
   <h1>{title}</h1>
   <LikeButton client:load />
@@ -1042,3 +1043,41 @@ export function LikeButton() {
 > In Astro, the fundamental output format is HTML.
 > 
 > In RSC, the fundamental output format is a React tree (which can be turned to HTML, but can also be fetched as JSON).
+
+## Why Does RSC Integrate with a Bundler
+Consider this `<Counter>` tag. How do you serialize it?
+
+```jsx
+import { Counter } from './client';
+
+<Counter initialCount={10} />
+
+// client component
+'use client';
+import { useState, useEffect } from 'react';
+ 
+export function Counter({ initialCount }) {
+  const [count, setCount] = useState(initialCount);
+  // ...
+}
+```
+
+It’s reasonable to assume its code is being served by our app as a static JS asset—which we can refer to in the JSON. It’s almost like a `<script>` tag:
+
+```js
+{
+  type: '/src/client.js#Counter', // "Load src/client.js and grab Counter"
+  props: {
+    initialCount: 10
+  }
+}
+```
+
+On the client, you could load it by generating a `<script>` tag. However, loading imports one by one from their source files over the network is inefficient. You don’t want to create a waterfall. We already know how to fix this from two decades of working on client-side applications: bundling.
+
+For this reason, RSC integrates with bundlers.
+- First, during the build, their job is to find the files with `'use client'` and to actually create the bundle chunks for those entry points.
+- Then, on the server, these bindings teach React how to send modules to the client. For example, a bundler might refer to a module like `'chunk123.js#Counter'`.
+- On the client, they teach React how to ask the bundler runtime to load those modules.
+
+Thanks to these three things, React Server will know how to serialize a module when it encounters one—and the React Client will know how to deserialize it. The API to serialize a tree with the React Server is exposed via bundler bindings.

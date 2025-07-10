@@ -196,8 +196,9 @@ import { name as circleName } from "https://example.com/shapes/circle.js";
 // https://www.skypack.dev
 import React from "https://cdn.skypack.dev/react";
 // or 
-import React from "https://esm.sh/react@19/?dev"
-import ReactDOMClient from "https://esm.sh/react-dom@19/client?dev"
+// esm.sh translates anything into an ES Module
+import React from "https://esm.sh/react@19"
+import ReactDOMClient from "https://esm.sh/react-dom@19/client"
 ```
 
 > UMD builds removed in React 19:

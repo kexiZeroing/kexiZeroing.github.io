@@ -226,6 +226,7 @@ Document loaders make it easy to create Documents from a variety of sources. For
 
 - Google Drive Loader: https://github.com/gkamradt/langchain-tutorials/blob/main/loaders/Google%20Drive%20Loader.ipynb
 - YouTube Loader: https://github.com/gkamradt/langchain-tutorials/blob/main/loaders/YouTube%20Loader.ipynb
+- WebBaseLoader: https://python.langchain.com/docs/integrations/document_loaders/web_base
 
 ```js
 // text_loader.ts
@@ -278,6 +279,8 @@ export const run = async () => {
    */
 };
 ```
+
+> Suppose you have a set of documents and want to summarize their content. **Map-reduce** operations are essential for efficient task decomposition and parallel processing. In the map step, the documents are split into batches, and each document is summarized individually using a LLM. Then, in the reduce step, those individual summaries are consolidated into a single global summary. The map step is typically parallelized over the input documents.
 
 ### LangChain Expression Language (LCEL)
 LangChain Expression Language is a declarative system designed for easily building multi-step computational chains, from simple prototypes to complex, production-level applications. It simplifies the process of setting up complex computational tasks by allowing users to state “what” outcome is needed rather than detailing “how” to achieve it.

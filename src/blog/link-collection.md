@@ -360,7 +360,7 @@ The creative library of animated React components: https://www.reactbits.dev
 
 Neobrutalism-styled components based on shadcn/ui: https://www.neobrutalism.dev
 
-Customizable, high-quality components for AI applications: https://www.prompt-kit.com
+A custom registry of open source shadcn/ui components: https://www.kibo-ui.com
 
 React Server Components in AI Applications by Tejas: https://www.youtube.com/watch?v=fsAYMNl1Cj0
 
@@ -500,7 +500,7 @@ Starter project for the Vercel AI SDK RAG guide: https://github.com/vercel/ai-sd
 
 Semantic Image Search with Vercel AI SDK: https://github.com/vercel-labs/semantic-image-search
 
-Anthropic's educational courses: https://github.com/anthropics/courses
+Anthropic courses (all free): https://anthropic.skilljar.com
 
 Quickly get started with building applications using the Anthropic API: https://github.com/anthropics/anthropic-quickstarts
 
