@@ -402,9 +402,10 @@ Then it leaves us with the decision about how to style things. This is where [sh
 
 ```sh
 # start at an empty directory (it will help you to create a Next.js project)
+# to create dashboard page with sidebar components
 npx shadcn@latest init sidebar-01
 
-# import components from v0
+# install components from v0
 npx shadcn add "https://v0.dev/chat/xxx"
 
 # Look for https://v0.dev/chat/xxx/json to know how it works
@@ -413,8 +414,12 @@ npx shadcn@latest init http://localhost:8080/simple.json
 
 # Add simple-ai components (chat interface components)
 # https://github.com/Alwurts/simple-ai
-npx shadcn@latest add https://simple-ai.alwurts.com/registry/chat-message.json
+npx shadcn@latest add https://simple-ai.dev/r/chat-message.json
 ```
+
+<img alt="shadcn registry" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/shadcn-registry.png" width="600">
+
+> If you want a different theme, just go Shadcn "themes" -> "Customize" and click "Copy code", repalce everything in the `@layer base` in `global.css`.
 
 To understand shadcn/ui, first we need to know what does `cva (class-variance-authority)` do. It basically is a function, that allows us to define variants for the element we want to style. A simple variant definition has a name and a list of possible values, each with a list of classes that should apply.
 

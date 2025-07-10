@@ -145,6 +145,8 @@ Key points:
 - Vite pre-bundles dependencies using esbuild.
 - Vite serves source code over native ESM. This is essentially letting the browser take over part of the job of a bundler: Vite only needs to transform and serve source code on demand, as the browser requests it.
 
+> Vite bridges the gap between the way we want to write code and the way the browser understands code. It does this by providing a development server runtime that transforms our code to a format the browser understands. It also provides a builder that transforms our code to a production ready format with a lot of optimizations.
+
 ```js
 import MagicString from 'magic-string';
 import { init, parse as parseEsModule } from 'es-module-lexer';
