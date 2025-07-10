@@ -54,6 +54,28 @@ The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for commun
 // Client sends...
 {
   "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/list"
+}
+
+// Server sends back...
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "tools": [
+    {
+      "name": "createGitHubIssue",
+      "description": "Create a GitHub issue",
+      "inputSchema": {
+        ...
+      },
+    }
+  ]
+}
+
+// Client sends...
+{
+  "jsonrpc": "2.0",
   "id": 2,
   "method": "tools/call",
   "params": {

@@ -70,15 +70,11 @@ Project rules live in `.cursor/rules`. Each rule is stored as a file and version
 
 ```mdc
 ---
-description: This rule provides comprehensive best practices and coding standards for developing Astro projects.
-globs: *.astro
+description: xxx
+globs: **/**
 ---
-# Astro Library Best Practices and Coding Standards
 
-This document outlines the recommended best practices and coding standards for developing Astro projects to ensure maintainability, performance, and security.
-
-## 1. Code Organization and Structure
-...
+...content goes here...
 ```
 
 You can use `Cmd + Shift + P` > “New Cursor Rule” to create a rule quickly from inside Cursor. This will create a new rule file in the `.cursor/rules` directory. You can also generate rules directly in a conversation using the `/Generate Cursor Rules` command.
@@ -196,6 +192,8 @@ Microsoft have released the GitHub Copilot Chat client for VS Code under an open
 Create a `.github/copilot-instructions.md` file in your repository's root directory and add natural language instructions in Markdown format. These instructions will guide Copilot's behavior across your project.
 
 - https://github.com/github/awesome-copilot
+
+> By the way, Claude includes a System Prompts release notes section in its docs. This section logs updates made to the default system prompts used on Claude.ai and in the mobile apps. The system prompt does not affect the API. Check it out here: https://docs.anthropic.com/en/release-notes/system-prompts
 
 ## Gemini CLI
 Gemini CLI brings the capabilities of Gemini models to your terminal in an interactive Read-Eval-Print Loop (REPL) environment. Gemini CLI consists of a client-side application (`packages/cli`) that communicates with a local server (`packages/core`), which in turn manages requests to the Gemini API and its AI models. Gemini CLI also contains a variety of tools for tasks such as performing file system operations, running shells, and web fetching, which are managed by `packages/core`.
