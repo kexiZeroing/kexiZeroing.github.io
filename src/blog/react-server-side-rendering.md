@@ -3,7 +3,7 @@ title: "React Server Side Rendering and Server Components"
 description: ""
 added: "July 8 2023"
 tags: [react]
-updatedDate: "Jun 8 2025"
+updatedDate: "July 11 2025"
 ---
 
 ## Adding Server-Side Rendering
@@ -235,9 +235,11 @@ const app = express();
 app.use(express.static("./dist"));
 
 const pages = readdirSync(join(process.cwd(), "pages")).map(
+  // remove '.tsx' extension
   file => file.split(".")[0]
 );
 
+// app.get("/:page", async (req, res) => {
 pages.forEach((page) => {
   app.get(`/${page}`, async (req, res) => {
     const mod = await import(`./pages/${page}`);
@@ -264,8 +266,12 @@ pages.forEach((page) => {
     `)
 
     // replace `res.send` with `renderToPipeableStream` to use React concurrent features
-    // const { pipe } = renderToPipeableStream(<Component {...props} />, { ... })
-    // pipe(res)
+    // (this change only in framework code)
+    // 
+    // const { pipe } = renderToPipeableStream(<Component {...props} />, {
+    //   bootstrapScripts: ["/client.js"]
+    // });
+    // pipe(res);
   });
 });
 
@@ -406,38 +412,37 @@ const escapeJsx = (key, value) => {
 }
 ```
 
-Note that if we directly send `renderToString(<Component>)` to the client, React will complain *"Error: Objects are not valid as a React child (found: [object Promise])"*. The code doesn't support RSC yet. We need transform JSX into an object that client React can recognize, which the function `createReactTree` does.
+Note that if we directly send `renderToString(<Component>)` to the client, React will complain *"Error: Objects are not valid as a React child (found: [object Promise])"*. Before `renderToString`, we need to go through the React tree, find async components, wait for their data, unwrap them, and then turn them into a string. This is what the function `createReactTree` does.
 
 ```js
 async function createReactTree(jsx) {
-  if (
-    typeof jsx === "string" ||
-    typeof jsx === "number" ||
-    typeof jsx === "boolean" ||
-    jsx == null
-  ) {
+  if (['string', 'number', 'boolean'].includes(typeof jsx)) {
     return jsx;
-  } else if (Array.isArray(jsx)) {
-    return Promise.all(jsx.map((child) => renderJSXToClientJSX(child)));
-  } else if (jsx != null && typeof jsx === "object") {
+  } 
+  if (Array.isArray(jsx)) {
+    return await Promise.all(jsx.map(createReactTree));
+  }
+  if (typeof jsx === "object") {
     if (jsx.$$typeof === Symbol.for("react.element")) {
       if (typeof jsx.type === "string") {
         return {
           ...jsx,
-          props: await renderJSXToClientJSX(jsx.props),
+          props: await createReactTree(jsx.props),
         };
-      } else if (typeof jsx.type === "function") {
+      }
+      if (typeof jsx.type === "function") {
         const Component = jsx.type;
         const props = jsx.props;
-        const returnedJsx = await Component(props);
-        return renderJSXToClientJSX(returnedJsx);
-      } else throw new Error("Not implemented.");
+        const rendered = await Component(props);
+        return createReactTree(rendered);
+      }
     } else {
+      // just an object and that is props (unwrap and wait for them)
       return Object.fromEntries(
         await Promise.all(
           Object.entries(jsx).map(async ([propName, value]) => [
             propName,
-            await renderJSXToClientJSX(value),
+            await createReactTree(value),
           ])
         )
       );
@@ -446,7 +451,7 @@ async function createReactTree(jsx) {
 }
 ```
 
-> The goal on the client is to reconstruct the React element tree. It is much easier to accomplish this from this format than from html, where we’d have to parse the HTML to create the React elements. Note that the reconstruction of the React element tree is important, as this allows us to merge subsequent changes to the React tree with minimal commits to the DOM.
+Now data are fetched on the server and they are all in markup, but we still need React on the client. The goal is to reconstruct the React element tree. Note that the reconstruction of the React element tree is important, as this allows us to merge subsequent changes to the React tree with minimal commits to the DOM.
 
 ```js
 // We need to hydrate the root with the initial client JSX on the client.
@@ -468,12 +473,34 @@ function reviveJSX(key, value) {
     return value;
   }
 }
+
+const navigate = (to: string) => {
+  // server sends jsx tree to the client and client render it,
+  // leading to smooth navigation
+  // {
+  //   $$typeof: "$",
+  //   props: { children: [{ $$typeof: "$", type: "body" ... },
+  //   type: "html"
+  // }
+  fetch(`${to}&jsx`)
+    .then((r) => r.text())
+    .then((data) => {
+      root.render(JSON.parse(data, revive));
+    });
+};
+
+window.addEventListener("click", (e: any) => {
+  if (e.target.tagName !== "A") return;
+
+  e.preventDefault();
+  window.history.pushState(null, '', e.target.href);
+  navigate(e.target.href);
+});
 ```
 
 Must-read articles on React Server Components: 
 - https://www.joshwcomeau.com/react/server-components
 - https://github.com/reactwg/server-components/discussions/5
-- https://vercel.com/blog/understanding-react-server-components
 
 ## React Server Actions
 React Server Actions allow you to run asynchronous code directly on the server. They eliminate the need to create API endpoints to mutate your data. Instead, you write asynchronous functions that execute on the server and can be invoked from your Client or Server Components. *(Server actions let us put our API endpoint back into the component boundary in the same way that server components let us move `getServerSideProps` into the component boundary.)*

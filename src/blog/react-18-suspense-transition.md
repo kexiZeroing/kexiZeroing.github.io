@@ -3,10 +3,12 @@ title: "React 18 Suspense and startTransition"
 description: ""
 added: "Oct 7 2023"
 tags: [react]
-updatedDate: "July 9 2025"
+updatedDate: "July 11 2025"
 ---
 
 **Concurrent React** is a new feature introduced in React 18 that changes how React handles rendering and updates. A key property of Concurrent React is that rendering is interruptible. With synchronous rendering, once an update starts rendering, nothing can interrupt it until the user can see the result on screen. In a concurrent render, React may start rendering an update, pause in the middle, then continue later. It may even abandon an in-progress render altogether.
+
+> Fiber architecture allows using double buffering. You have two buffers of the current state and next state, and you can either throw away the next state if a higher priority update comes in or you can switch the current state to the next state seamlessly.
 
 ## New Root API
 Concurrent React is opt-in — it’s only enabled when you use a concurrent feature. The new root API in React 18 enables the new concurrent renderer, which allows you to opt-into concurrent features. 
@@ -113,13 +115,14 @@ function App() {
 }
 ```
 
-We can also use `useDeferredValue` for the query used in rendering the list, allowing React to prioritize more urgent input changes over re-rendering the list. `useTransition` returns *isPending* and `useDeferredValue` you can do *value !== deferredValue*.
+We can also use `useDeferredValue` for the query used in rendering the list, allowing React to prioritize more urgent input changes over re-rendering the list, like `debounce` but the timing is set by React. During updates, React will first attempt a re-render with the old value, and then try another re-render in the background with the new value.
+
+`useTransition` returns *isPending* and `useDeferredValue` you can check if *value !== deferredValue*.
 
 ```jsx
 function App() {
   const [query, setQuery] = useState('');
-  // Get a deferred version of that value
-  // tell React to defer updating the value until high priority work is done
+  // It lets you defer updating a part of the UI
   const deferredQuery = useDeferredValue(query);
 
   return (
@@ -133,6 +136,11 @@ function App() {
     </div> 
   )
 }
+
+// never rerender the list unless the query changes
+const List = React.memo(({ q }) => {
+  /* filter the list based on the query */
+})
 ```
 
 If we didn't use `useDeferredValue`, the expensive computation ("List" component here) would run on every keystroke, which could lead to performance issues. By deferring the update of the text value, we ensure that the expensive computation only runs when the text value has stabilized.
