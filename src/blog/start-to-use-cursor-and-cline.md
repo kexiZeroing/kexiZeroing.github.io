@@ -235,6 +235,23 @@ Gemini CLI uses `settings.json` files for persistent configuration.
 - User settings file at `~/.gemini/settings.json`. Applies to all Gemini CLI sessions for the current user.
 - Project settings file at `.gemini/settings.json` within your project's root directory.
 
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "browsermcp": {
+      "command": "npx",
+      "args": ["@browsermcp/mcp@latest"]
+    }
+  }
+}
+```
+
+> Tip: Always mention "use context7" at the end of your prompts to make sure the AI uses the Context7 server for the most current documentation and examples.
+
 Gemini CLI can be run in a non-interactive mode, which is useful for scripting and automation. In this mode, you pipe input to the CLI, it executes the command, and then it exits.
 
 ```sh

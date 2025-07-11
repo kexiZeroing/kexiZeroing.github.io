@@ -119,6 +119,8 @@ This will create a `dist/index.js` (for ESM) and a `dist/index.cjs` (for CJS). A
 
 `tsup` also creates declaration files for each of your outputs. `index.d.ts` for ESM and `index.d.cts` for CJS. This means you don't need to specify types in your `package.json`. TypeScript can automatically find the declaration file it needs.
 
+> Tiger Abrodi has a template for creating libraries for React: https://github.com/tigerabrodi/tsup-react-library-template
+
 ### npm install and npm ci
 `npm install` reads `package.json` to create a list of dependencies and uses `package-lock.json` to inform which versions of these dependencies to install. If a dependency is not in `package-lock.json` it will be added by `npm install`.
 

@@ -3,7 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "July 7 2025"
+updatedDate: "July 11 2025"
 ---
 
 ### Historical context: The Path to MCP
@@ -40,11 +40,9 @@ MCP uses a client-server design where applications can connect to multiple resou
 
 The **MCP host** is the program that's going to access the MCP servers. This might be Claude Desktop, Cursor, Windsurf, or any other application that supports MCP. Any application implementing the MCP protocol to allow connections to MCP servers is a host.
 
-On this host, you're going to run one or multiple **MCP clients** - each client will maintain a relationship to a single MCP server. When the host starts up, each client will connect to an MCP server. See https://www.pulsemcp.com/clients
+On this host, you're going to run one or multiple **MCP clients** - each client will maintain a relationship to a single MCP server. The host creates a client instance to communicate with a specific MCP server, and the client handles the low-level details of the protocol.
 
-The **MCP server** is the most interesting concept for 99% of us. The server is the program that exposes a set of capabilities to the host application. If you want to allow a host to read emails, you can connect it to a Gmail MCP Server. If you want the host to post in Slack, you connect it to a Slack MCP Server. If you have some custom functionality you want an LLM to perform, you can build a new MCP server. The server could be running locally, or it could be running on a remote server. See https://www.pulsemcp.com/servers
-
-> You can also check out these [Goose tutorials](https://block.github.io/goose/docs/category/tutorials), showing you exactly how you can use some of the popular MCP servers with Goose, or use Goose's Tutorial extension to get extra help walking you through using or building extensions.
+The **MCP server** is the most interesting concept for 99% of us. The server is the program that exposes a set of capabilities to the host application. If you want to allow a host to read emails, you can connect it to a Gmail MCP Server. If you want the host to post in Slack, you connect it to a Slack MCP Server. If you have some custom functionality you want an LLM to perform, you can build a new MCP server. The server could be running locally, or it could be running on a remote server.
 
 The client connects to its server using a **transport**. This transport is responsible for sending messages between the client and the server. There are currently two supported transports. You can communicate via `stdio` - in other words, via the terminal. Or you can communicate through HTTP via server-sent events. This is useful if you want to run your server on a remote machine.
 
@@ -54,7 +52,7 @@ The client connects to its server using a **transport**. This transport is respo
 | `HTTP with SSE` | Used for remote connections over HTTP. Deprecated in the 2025-03-26 version of MCP but still in use. |
 | `Streamable HTTP` | A more flexible remote HTTP transport that provides more options for deployment than the outgoing SSE version. |
 
-The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for communication between client and server. The client launches the MCP server as a subprocess. The server reads JSON-RPC messages from its standard input (stdin) and sends messages to its standard output (stdout).
+The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for communication between client and server. This simple contract allows for incredible flexibility. Your server doesn’t need to know anything about the LLM, and the LLM doesn’t need to know anything about your server’s internal implementation. They just need to speak the common language of MCP.
 
 ```json
 // Client sends...
@@ -290,6 +288,8 @@ You can purchase a product by using the purchase tool.
 1. LLMs are terrible at selection from a long list of tools.
 2. Your existing API descriptions are probably not ready for LLM consumption. Writing for LLM is different than writing for humans.
 3. APIs are designed for resource management, not for humans. LLMs are human-like.
+
+Each tool should do one thing and do it well. The `name` and `description` of your tools and their parameters are your primary interface with the LLM. Be clear, concise, and unambiguous. Log every single tool invocation. Record the tool name, the exact parameters it was called with, and the result it returned. This is invaluable for debugging.
 
 ### References and further reading
 - https://github.com/modelcontextprotocol/typescript-sdk
