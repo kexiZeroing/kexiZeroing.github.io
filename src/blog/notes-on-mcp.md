@@ -48,6 +48,12 @@ The **MCP server** is the most interesting concept for 99% of us. The server is 
 
 The client connects to its server using a **transport**. This transport is responsible for sending messages between the client and the server. There are currently two supported transports. You can communicate via `stdio` - in other words, via the terminal. Or you can communicate through HTTP via server-sent events. This is useful if you want to run your server on a remote machine.
 
+| Transport | Notes |
+|    ---    |  ---  |
+| `STDIO` | Typically used when the MCP Server is running on the same computer as the Client. Able to access local resources such as files if needed. |
+| `HTTP with SSE` | Used for remote connections over HTTP. Deprecated in the 2025-03-26 version of MCP but still in use. |
+| `Streamable HTTP` | A more flexible remote HTTP transport that provides more options for deployment than the outgoing SSE version. |
+
 The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for communication between client and server. The client launches the MCP server as a subprocess. The server reads JSON-RPC messages from its standard input (stdin) and sends messages to its standard output (stdout).
 
 ```json

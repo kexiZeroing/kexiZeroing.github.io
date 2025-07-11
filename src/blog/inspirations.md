@@ -30,9 +30,9 @@ order: 3
 
 ## Must read articles
 - https://github.com/reactwg/server-components/discussions/5
-- https://tigerabrodi.blog/why-is-react-server-components-actually-beneficial-full-history
 - https://www.developerway.com/posts/react-re-renders-guide
-- https://www.totaltypescript.com/how-to-create-an-npm-package
+- https://tigerabrodi.blog/why-is-react-server-components-actually-beneficial-full-history
+- https://tigerabrodi.blog/chronological-guide-building-and-publishing-a-react-library
 - https://www.totaltypescript.com/books/total-typescript-essentials/configuring-typescript
 - https://philipwalton.com/articles/the-state-of-es5-on-the-web
 - https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
