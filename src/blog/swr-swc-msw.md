@@ -303,7 +303,9 @@ export const useContactDetails = (contactId: string | undefined) =>
 For most queries `const { isPending, isError, data, error } = useQuery()`, it's usually sufficient to check for the `isPending` state, then the `isError` state, then finally, assume that the data is available and render the successful state.
 - `isPending` or `status === 'pending'`: If there's no cached data and no query attempt was finished yet.
 - `isFetching` is true whenever the `queryFn` is executing, which includes initial pending as well as background refetches.
-- `isLoading` Is true whenever the first fetch for a query is in-flight. Is same as `isFetching && isPending`.
+- `isLoading` is true whenever the query is currently fetching for the first time. It's the same as `isFetching && isPending`.
+
+> When `enabled` is false: If the query does not have cached data, then the query will start in the `status === 'pending'` and `fetchStatus === 'idle'` state. The query will not automatically fetch on mount.
 
 Query keys are reactive. When a key changes, React Query knows it needs fresh data. You don't manually trigger refetches, you just change the key, and React Query handles the rest. Your UI becomes a reflection of your query keys. *(I don't think I have ever passed a variable to the `queryFn` that was not part of the `queryKey`)*
 

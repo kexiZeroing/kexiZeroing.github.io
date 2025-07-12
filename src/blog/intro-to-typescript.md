@@ -71,21 +71,19 @@ By default all visible `"@types"` packages are included in your compilation. Pac
 
 `strict` option acts as shorthand for enabling several different type checking options, including catching potential `null` or `undefined` issues and stronger checks for function parameters, among others. Without `noUncheckedIndexedAccess` enabled, TS assumes that indexing will always return a valid value, even if the index is out of bounds. This means that we have to handle the possibility of `undefined` values when accessing array or object indices.
 
-`target` tells TS which ES specification you want the transpiled code to support. Whatever you choose for `target` affects the default value of `lib` which in turn tells TS what type definitions to include in your project. Does your code run in the DOM? If yes, set `lib` to `["dom", "dom.iterable", "es2022"]`. If not, set it to `["es2022"]`.
-
-> `target` doesn't polyfill. While target can transpile newer syntaxes into older environments, it won't do the same with API's that don't exist in the target environment.
+`target` tells TS which ES specification you want the transpiled code to support. `target` doesn't polyfill. If you're not sure what to specify for target, keep it up to date with the version you have specified in `lib`. `lib` tells TS what type definitions to include in your project. Does your code run in the DOM? If yes, set `lib` to `["dom", "dom.iterable", "es2022"]`. If not, set it to `["es2022"]`.
 
 `module` is a setting with a bunch of different options, which specifies how TS should treat your imports and exports. But really, there are only two modern options. `NodeNext` tells TypeScript that your code will be run by Node.js. And `Preserve` tells TypeScript that an external bundler will handle the bundling (also set `noEmit` to true).
+
+> How does TS know what module system (ESM or CJS) to emit?
+> 1. The way this is decided is via `module`. You can hardcode this by choosing some older options. `module: CommonJS` will always emit CommonJS syntax, and `module: ESNext` will always emit ESM syntax.
+> 2. Using the recommended `module: NodeNext`, we know that a given module might be an ES module or it might be a CJS module, based on its file extension(`mts`, `.cts`) and/or the `type` field in the nearest `package.json` file.
 
 `module: "NodeNext"` also implies `moduleResolution: "NodeNext"`. `NodeNext` is a shorthand for the most up-to-date Node.js module behavior. `module: "Preserve"` implies `moduleResolution: "Bundler"`.
 
 TypeScript has built-in support for transpiling JSX syntax, and the `jsx` option tells TS how to handle JSX syntax. `preserve` means keeps JSX syntax as-is. `react` transforms JSX into `React.createElement` calls *(for React 16 and earlier)*. `react-jsx` transforms JSX into `_jsx` calls, and automatically imports from `react/jsx-runtime` *(for React 17 and later)*.
 
 By default `moduleDetection` set to `auto`, if we don't have any `import` or `export` statements in a `.ts` file, TypeScript treats it as a script. **By adding the `export {}` statement, you're telling TS that the `.ts` is a module**. `moduleDetection: force` will treat all files as modules, and you will need to use `import` and `export` statements to access functions and variables across files.
-
-How does TS know what module system (ESM or CJS) to emit?
-1. The way this is decided is via `module`. You can hardcode this by choosing some older options. `module: CommonJS` will always emit CommonJS syntax, and `module: ESNext` will always emit ESM syntax.
-2. Using the recommended `module: NodeNext`, we know that a given module might be an ES module or it might be a CJS module, based on its file extension(`mts`, `.cts`) and/or the `type` field in the nearest `package.json` file.
 
 Relative import paths [need explicit file extensions in ES imports](https://www.totaltypescript.com/relative-import-paths-need-explicit-file-extensions-in-ecmascript-imports) when `--moduleResolution` is `node16` or `nodenext` *(currently identical to `node16`)*.
 1. Most bundlers let you omit the file extension when importing files. But TS rules like `moduleResolution: NodeNext` force you to specify the file extension. This can feel really weird when you're working in `.ts` files, but writing `.js` on your imports. Why do we need to do it? Well, it's the spec. **The Node spec requires that you use `.js` file extensions for all ESM imports and exports. By default, TypeScript does not change the specifiers of imported modules.** If you want to go back to the old style, then specify `moduleResolution: Bundler` and bundle your code with a tool like esbuild.
@@ -106,8 +104,6 @@ add(1, 2);
 ```
 
 Since TypeScript 5.0, `verbatimModuleSyntax` is the recommended way to enforce `import type`. When it is set to true, any imports or exports without a `type` modifier are left around. Anything that uses the `type` modifier is dropped entirely. You may get the message when enabling `verbatimModuleSyntax` (as expected): *'SomeType' is a type and must be imported using a type-only import.*
-
-> TypeScript import elision: If an import is not used as a value, or the compiler can detect that the import doesn't refer to a value at runtime, the compiler will drop the import during emit.
 
 ```ts
 // Erased away entirely
