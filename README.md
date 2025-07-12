@@ -1,6 +1,10 @@
 # Welcome to My Blog
 https://kexizeroing.github.io
 
+Hi, I’m Kexi. I’m a web developer based in China, working mostly with Vue, React, and Node.js. I enjoy building clean and useful web apps, and I'm always learning and trying to improve.
+
+I’m hoping to connect with more developers around the world, just to exchange ideas, maybe join some online or offline meetups. If there's a chance to collaborate or explore a remote opportunity, that would be amazing.
+
 ## Notes
 - The site is powered by Astro and deployed at GitHub Pages.
 - Blog pictures are uploaded by [PicGo](https://github.com/Molunerfinn/PicGo).
