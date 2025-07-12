@@ -318,7 +318,6 @@ interface User extends User1 {  // raise an error
   age: string;
 }
 
-
 // Object types in TypeScript aren't "sealed" / "closed" / "final". 
 // In other words, if you have a variable of type `{ a: string }`, 
 // it's possible that the variable points to a value like `{ a: "hello", b: 42 }`.
@@ -499,9 +498,11 @@ async function fetchData(): Promise<number> {
 // type test = Expect<Equal<typeof data, number>>;
 ```
 
-**Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, which is a safe type). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all and is used for situations that should never occur.
+**Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, which is a safe type). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all *(only assignable to itself)* and is used for situations that should never occur.
 
-`any` doesn't really fit into our definition of 'wide' and 'narrow' types. It breaks the type system. It's not really a type at all - it's a way of opting out of TypeScript's type checking. Using `any` is rightly considered harmful by most of the community. There are [ESLint rules](https://typescript-eslint.io/rules/no-explicit-any) to prevent its use. *TypeScript's `--noImplicitAny` compiler option prevents an implied `any`, but doesn't prevent `any` from being explicitly used the way this rule does.*
+`any` doesn't really fit into our definition of 'wide' and 'narrow' types. It breaks the type system. It's not really a type at all - it's a way of opting out of TypeScript's type checking. Using `any` is rightly considered harmful by most of the community. TypeScript's `--noImplicitAny` compiler option prevents an implied `any`, but doesn't prevent `any` from being explicitly used the way this rule does.
+
+> By marking a variable as `any`, you're telling the compiler to ignore any type errors that might occur. `any` bypasses type checks — it's like an escape hatch.
 
 ```
                     unknown
@@ -515,11 +516,11 @@ async function fetchData(): Promise<number> {
                     never
 ```
 
-> The empty object type `{}` is unique. Instead of representing an empty object, it actually represents anything that isn't `null` or `undefined`. `{}` can accept a number of other types: string, number, boolean, function, symbol, and objects containing properties.
->
-> - Primitives are `{}`, and `{}` doesn't mean object. *(a string is a valid `{}`)*
-> - The only difference between `{}` and `unknown` is that `unknown` contains every single JavaScript value, including `null` and `undefined`.
-> - Unlike `{}`, `object` type does not include primitive types.
+The empty object type `{}` is unique. Instead of representing an empty object, it actually represents anything that isn't `null` or `undefined`. `{}` can accept a number of other types: string, number, boolean, function, symbol, and objects containing properties.
+
+- Primitives are `{}`, and `{}` doesn't mean object. *(a string is a valid `{}`)*
+- The only difference between `{}` and `unknown` is that `unknown` contains every single JavaScript value, including `null` and `undefined`.
+- Unlike `{}`, `object` type does not include primitive types.
 
 **Value Types**: We can narrow down primitive types to values.
 ```ts

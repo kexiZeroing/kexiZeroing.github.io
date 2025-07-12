@@ -143,18 +143,6 @@ new webpack.DefinePlugin({
         ]
       ]
     }
-
-    // if you're using Webpack and `babel-loader`
-    {
-      test: /\.js$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          type: 'module'
-        }
-      }
-    }
     ```
 
     > [es-toolkit](https://github.com/toss/es-toolkit) is a modern JavaScript utility library that's 2-3 times faster and up to 97% smaller—a major upgrade to lodash.

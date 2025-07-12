@@ -422,6 +422,8 @@ Clerk official SDK for Vue: https://clerk.com/changelog/2025-01-07-vue-and-nuxt-
 
 Next Generation file based typed routing for Vue Router: https://github.com/posva/unplugin-vue-router
 
+Full Stack App Build by CJ: https://www.youtube.com/watch?v=DK93dqmJJYg
+
 ---
 
 ## Browsers related

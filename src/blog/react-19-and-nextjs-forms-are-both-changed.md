@@ -241,25 +241,26 @@ startTransition(() => {
 
 More examples can be found at https://www.epicreact.dev/use-optimistic-to-make-your-app-feel-instant-zvyuv
 
-### React 19 `cache` hook
-`cache` is only for use with React Server Components, and lets you cache the result of a data fetch or computation.
+### React 19 `cache` function
+`cache` is only for use with React Server Components, not client components, and lets you cache the result of a data fetch or computation. It wraps around a function and remembers what that function returned for specific inputs. When multiple components need the same data, they get the cached result instead of fetching it again.
 
 ```js
-const cachedFetchReport = cache(fetchReport);
+import { cache } from "react";
 
-function WeatherReport({city}) {
-  const report = cachedFetchReport(city);
+// Create a memoized function outside components
+const getUser = cache(async (userId) => {
+  return await db.getUser(userId);
+});
+
+// Use it in multiple components
+function ProfileHeader({ userId }) {
+  const user = getUser(userId);
   // ...
 }
 
-function App() {
-  const city = "Los Angeles";
-  return (
-    <>
-      <WeatherReport city={city} />
-      <WeatherReport city={city} />
-    </>
-  );
+function ProfileStats({ userId }) {
+  const user = getUser(userId);
+  // ...
 }
 ```
 

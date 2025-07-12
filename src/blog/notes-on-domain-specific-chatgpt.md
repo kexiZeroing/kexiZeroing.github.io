@@ -76,28 +76,6 @@ print(embedded_query) # [-0.0013594045786472937, -0.03437049808954925, ...]
 
 In data analysis, *cosine similarity* is a measure of similarity between two non-zero vectors defined in an inner product space. Cosine similarity is the cosine of the angle between the vectors; that is, it is the dot product of the vectors divided by the product of their lengths.
 
-### Word2Vec - Continuous Bag of Words
-
-```
-The quick brown fox jumps over the lazy dog.
-
-e.g. Context word: fox, over. Target word: jumps
-window size = 3
-```
-
-1. One-hot encoding for each word. Context words are the input features.
-2. The hidden layer contains neurons equal to the # of dimensions in the embedding space. The output layer contains neurons equal to the size of the vocabulary.
-3. The target word act as the label. We calculate the loss between the predicted and actual target word. Backpropagation is used to adjust the model weights.
-4. Slide the window across the text to train with the next set of context words and target words.
-5. After training the model, we can use the weights matrix as the embedding matrix. This 8x3 matrix becomes a lookup table for the embeddings. (# of rows = vocabulary size, # of columns = embedding dimensions)
-6. Take the dot product of the one-hot encoding vector with the embedding matrix to get the embedding vector for each word.
-7. The transformer architecture processes all words in parallel. We need to inform the model about the position of each word in the sentence. This is done by adding positional vectors to the word embeddings. This positional information can either be another trainable layer or a static numerical representation unique to each word.
-
-<img alt="embedding-layer" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/embedding-layer.png" width="600" />
-
-<br>
-<img alt="embedding-matrix" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/embedding-matrix.png" width="600" />
-
 ### Self Attention Mechanism
 Tokenaizer -> Embedding (capture semantic meaning) -> Attention (capture contextual meaning)
 
