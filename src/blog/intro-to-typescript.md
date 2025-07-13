@@ -13,19 +13,7 @@ Every time you write JavaScript in e.g. VS Code, TypeScript runs behind the curt
 ## Setting up TypeScript
 To start off, the TypeScript compiler will need to be installed in order to convert TypeScript files into JavaScript files. To do this, TypeScript can either be installed globally or only available at the project level.
 
-```sh
-# use npm
-npm install --global typescript
-npm install --save-dev typescript
-
-# use yarn
-yarn global add typescript
-yarn add --dev typescript
-```
-
 A `tsconfig.json` file is used to configure TypeScript project settings. The `tsconfig.json` file should be put in the project's root directory. You can run the `tsc --init` to generate a `tsconfig.json` file with some default options set and a bunch of other options commented out. In order to transpile the TypeScript code to JavaScript, the `tsc` command needs to be run. Running `tsc` will have the TypeScript compiler search for the `tsconfig.json` file which will determine the project's root directory as well as which options to use when compiling the TypeScript.
-
-By default all visible `"@types"` packages are included in your compilation. Packages in `node_modules/@types` of any enclosing folder are considered visible. If `types` is specified, only packages listed will be included in the global scope.
 
 ```json
 {

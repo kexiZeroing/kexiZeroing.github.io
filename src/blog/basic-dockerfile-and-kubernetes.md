@@ -1,5 +1,5 @@
 ---
-title: "A basic Dockerfile and Intro to Kubernetes"
+title: "A basic Dockerfile and intro to Kubernetes"
 description: ""
 added: "Mar 12 2023"
 tags: [devops]

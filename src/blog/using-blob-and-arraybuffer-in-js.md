@@ -3,7 +3,7 @@ title: "Using Blob and ArrayBuffer in JavaScript"
 description: ""
 added: "Nov 18 2022"
 tags: [js]
-updatedDate: "Aug 15 2023"
+updatedDate: "July 13 2025"
 ---
 
 ## Blob concepts
@@ -57,6 +57,49 @@ input.addEventListener('change', e => {
 In summary, we can represent file contents in two primary forms, depending on how you’re using it:
 1. **Data URIs** (Base64 encoded strings) — these are great when you’re stuffing the data directly into an HTML attribute (e.g. `<img src="data:image/png...">`).
 2. **Blobs** (or Binary Objects) — useful when you’re dynamically updating HTML attributes like we did with the image preview example. We see that an `<input type=file>` uses Blobs. When you want someone to see a Blob, you don’t just add the Blob directly in the `<img>` or `<a href="...">`. You have to give it an Object URL first.
+
+### Creating an image with watermark
+The `HTMLCanvasElement.toDataURL()` method returns a data URL containing a representation of the image. The desired file format *(`image/png`, `image/jpeg` or `image/webp`)* and image quality *(a number between 0 and 1 indicating the image quality)* may be specified. If the file format is not specified, then the data will be exported as `image/png`.
+
+```js
+function watermakImageWithText(originalImage, watermarkText) {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+
+  const canvasWidth = originalImage.width;
+  const canvasHeight = originalImage.height;
+
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
+
+  context.drawImage(originalImage, 0, 0, canvasWidth, canvasHeight);
+
+  // adding watermark text in the bottom right corner
+  context.globalAlpha = 0.5;
+  context.fillStyle = "blue";
+  context.font = "bold 40px serif";
+  // get width of text
+  const metrics = context.measureText(watermarkText);
+  context.fillText(watermarkText, canvasWidth - metrics.width - 20, canvasHeight - 20);
+
+  return canvas.toDataURL();
+}
+```
+
+Data URLs, URLs prefixed with the `data:` scheme, allow content creators to embed small files inline in documents. They are composed of four parts: a prefix (`data:`), a MIME type, an optional base64 token if non-textual, and the data itself: `data:[<mediatype>][;base64],<data>`
+
+`toDataURL()` encodes the whole image in an in-memory string. For larger images, this can have performance implications, and may even overflow browsers' URL length limit when assigned to `HTMLImageElement.src`. You should generally prefer `HTMLCanvasElement.toBlob()` instead, in combination with `URL.createObjectURL()`.
+
+```js
+// toDataURL() result:
+// grows with image size (base64 string contains all pixel data)
+data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQAAAALQC.....
+
+// toBlob() + createObjectURL() result:
+// blob:[origin]/[UUID]
+// The UUID part is always the same length 
+blob:https://example.com/550e8400-e29b-41d4-a716-446655440000"
+```
 
 ## Difference between an ArrayBuffer and a Blob
 ArrayBuffer object is used to represent generic, fixed-length raw binary data buffer. You cannot directly manipulate the contents of an ArrayBuffer; instead, you create one of the typed array objects or a DataView object which represents the buffer in a specific format, and use that to read and write the contents of the buffer.
@@ -152,28 +195,4 @@ console.log(bufferOne);
 const emptyBuf = Buffer.alloc(10);
 
 // Output: <Buffer 00 00 00 00 00 00 00 00 00 00>
-```
-
-### Different ways to convert an image URL to Base64
-
-```js
-async function urlToBase64(url) {
-  const response = await fetch(url);
-  const arrayBuffer = await response.arrayBuffer();
-  const base64 = Buffer.from(arrayBuffer).toString('base64');
-  return base64; // Raw Base64 string without the "data:image/jpeg;base64," prefix
-}
-```
-
-```js
-async function urlToBase64(url) {
-  const response = await fetch(url);
-  const blob = await response.blob();
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob); // Base64-encoded data URI, including the MIME type prefix
-  });
-}
 ```
