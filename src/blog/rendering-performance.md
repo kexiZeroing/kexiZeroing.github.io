@@ -89,6 +89,8 @@ If you know that a particular resource should be prioritized, use `<link rel="pr
 Another one, `<link rel="prefetch">` is a low priority resource hint that allows the browser to fetch resources in the background (idle time) that might be needed later, and store them in the browser's cache. It is helpful when you know you’ll need that resource on a subsequent page, and you want to cache it ahead of time. Prefetching can be achieved through the use of resource hints such as `rel=prefetch` or `rel=preload`, via libraries such as [quicklink](https://github.com/GoogleChromeLabs/quicklink) or [Guess.js](https://github.com/guess-js/guess). *(Before visitors click on a link, they hover over that link. Between these two events, 200 ms to 300 ms usually pass by. [InstantClick](http://instantclick.io) makes use of that time to preload the page, so that the page is already there when you click.)*
 
 > In Next.js production environment, whenever `<Link>` components appear in the browser's viewport, Next.js automatically prefetches the code for the linked route in the background. By the time the user clicks the link, the code for the destination page will already be loaded in the background, and this is what makes the page transition near-instant.
+>
+> You can opt out of prefetching by setting the `prefetch` prop to `false` on the `<Link>` component. 
 
 Resource hints like `preconnect` and `dns-prefetch` are executed as the browser sees fit. The `preload`, on the other hand, is mandatory for the browser. Modern browsers are already pretty good at prioritizing resources, that's why it's important to use `preload` sparingly and only preload the most critical resources.
 

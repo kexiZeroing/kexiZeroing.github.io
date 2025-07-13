@@ -415,7 +415,7 @@ return (
 
 > [Pinia Colada](https://pinia-colada.esm.dev) is the smart data fetching layer for Vue.js. You don't even need to learn Pinia to use Pinia Colada because it exposes its own composables. 
 > 
-> Pinia Colada shares similarities with TanStack Query and has adapted some of its APIs for easier migration. However, Pinia Colada is tailored specifically for Vue, resulting in a lighter library with better and official integrations like Data Loaders. If you're familiar with TanStack Query, you'll find Pinia Colada intuitive and easy to use.
+> Pinia Colada shares similarities with TanStack Query and has adapted some of its APIs for easier migration. However, Pinia Colada is tailored specifically for Vue, resulting in a lighter library with better and official integrations like Data Loaders. If you're familiar with TanStack Query, you'll find Pinia Colada intuitive and easy to use. The size of Pinia Colada is much smaller.
 
 ## SWC - Rust-based platform for the Web
 SWC (stands for Speedy Web Compiler) is a super-fast TypeScript / JavaScript compiler written in Rust, and can be used for both compilation and bundling. SWC is 20x faster than babel on a single-core benchmark, 68x faster than babel on a multicore benchmark. 

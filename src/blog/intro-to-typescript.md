@@ -947,10 +947,6 @@ if (productIdParam) {
 > [Valibot](https://github.com/fabian-hiller/valibot) is very similar to Zod, helping you validate data easily using a schema. The biggest difference is the modular design and the ability to reduce the bundle size to a minimum.
 >
 > [ArkType](https://github.com/arktypeio/arktype) is a TypeScript-first runtime validation library designed to offer concise, composable, and powerful type definitions with zero dependencies, optimized from editor to runtime.
-> 
-> JSON Schema is a declarative language for defining structure and constraints for JSON data.
-> - Zod to JSON Schema: https://github.com/StefanTerdell/zod-to-json-schema
-> - JSON Schema to Zod: https://github.com/StefanTerdell/json-schema-to-zod
 
 <br>
 <img alt="izod-and-arktype" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/zod-and-arktype.png" width="600">

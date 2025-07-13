@@ -477,8 +477,9 @@ Presentation(presentationID, slideIndex, content, problems)
 
 Use `$fetch`, `useFetch`, or `useAsyncData` in Nuxt: https://masteringnuxt.com/blog/when-to-use-fetch-usefetch-or-useasyncdata-in-nuxt-a-comprehensive-guide
 
-- The `useFetch` composable is the best choice to load initial data once on the server. It prevents extra calls after hydration.
-- The `$fetch` method is more direct for forms or user-triggered actions. It doesn’t store SSR data in the Nuxt payload and doesn’t automatically prevent re-fetching.
+- The `useFetch` composable is the best choice to load initial data once on the server. It prevents extra calls after hydration. By default, `useFetch` block navigation until their requests are done. If we prefer to load data after navigation, we should pass `lazy: true`.
+- The `$fetch` is a HTTP client that runs on both the server and the client, powered by `ofetch`. It is more direct for forms or user-triggered actions.
+- `$fetch` is the simplest way to make a network request. `useFetch` is wrapper around `$fetch` that fetches data only once in universal rendering.
 
 **Preventing Duplicate Requests:**
 1. UI Blocking

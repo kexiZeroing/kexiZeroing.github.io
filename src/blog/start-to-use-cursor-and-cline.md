@@ -191,6 +191,7 @@ Microsoft have released the GitHub Copilot Chat client for VS Code under an open
 ### Adding repository custom instructions
 Create a `.github/copilot-instructions.md` file in your repository's root directory and add natural language instructions in Markdown format. These instructions will guide Copilot's behavior across your project.
 
+- https://code.visualstudio.com/docs/copilot/copilot-customization
 - https://github.com/github/awesome-copilot
 
 > By the way, Claude includes a System Prompts release notes section in its docs. This section logs updates made to the default system prompts used on Claude.ai and in the mobile apps. The system prompt does not affect the API. Check it out here: https://docs.anthropic.com/en/release-notes/system-prompts

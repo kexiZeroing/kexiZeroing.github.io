@@ -424,6 +424,8 @@ Next Generation file based typed routing for Vue Router: https://github.com/posv
 
 Full Stack App Build by CJ: https://www.youtube.com/watch?v=DK93dqmJJYg
 
+The creative library of animated Vue components: https://vue-bits.dev
+
 ---
 
 ## Browsers related
