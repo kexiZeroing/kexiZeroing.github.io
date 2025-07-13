@@ -3,7 +3,7 @@ title: "Intro to TypeScript"
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "July 9 2025"
+updatedDate: "July 13 2025"
 ---
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
@@ -12,6 +12,8 @@ Every time you write JavaScript in e.g. VS Code, TypeScript runs behind the curt
 
 ## Setting up TypeScript
 To start off, the TypeScript compiler will need to be installed in order to convert TypeScript files into JavaScript files. To do this, TypeScript can either be installed globally or only available at the project level.
+
+Run `tsc --noEmit` that tells TypeScript that we just want to check types and not create any output files. If everything in our code is all right, `tsc` exits with no error. `tsc --noEmit --watch` will add a `watch` mode so TypeScript reruns type-checking every time you save a file.
 
 A `tsconfig.json` file is used to configure TypeScript project settings. The `tsconfig.json` file should be put in the project's root directory. You can run the `tsc --init` to generate a `tsconfig.json` file with some default options set and a bunch of other options commented out. In order to transpile the TypeScript code to JavaScript, the `tsc` command needs to be run. Running `tsc` will have the TypeScript compiler search for the `tsconfig.json` file which will determine the project's root directory as well as which options to use when compiling the TypeScript.
 
@@ -106,36 +108,13 @@ How multiple `tsconfig.json` files can be composed together?
 1. Your IDE determines which `tsconfig.json` to use by looking for the closest one to the current `.ts` file.
 2. When you have multiple `tsconfig.json` files, it's common to have shared settings between them. We can create a new `tsconfig.base.json` file that can be extended from.
 
-```
-project
-  ├── client
-  │   └── tsconfig.json
-  ├── server
-  │   └── tsconfig.json
-  └── tsconfig.json
-```
-
-```json
-// server/tsconfig.json
-{
-  "extends": "../tsconfig.base.json",
-  "compilerOptions": {
-    "lib": [
-      "es2022"
-    ]
-  }
-}
-```
-
 See examples:
 - https://github.com/vuejs/tsconfig/blob/main/tsconfig.json
 - https://www.totaltypescript.com/tsconfig-cheat-sheet
 - https://deno.com/blog/intro-to-tsconfig
 - https://github.com/tsconfig/bases
 
-Run `tsc --noEmit` that tells TypeScript that we just want to check types and not create any output files. If everything in our code is all right, `tsc` exits with no error. `tsc --noEmit --watch` will add a `watch` mode so TypeScript reruns type-checking every time you save a file.
-
-> `json` doesn't normally allow comments, but comments are valid in `tsconfig.json`. It's officially supported by TypeScript and VSCode understands it too. What's going on here is [jsonc](https://github.com/microsoft/node-jsonc-parser), or "JSON with JavaScript style comments", a proprietary format used by a bunch of Microsoft products, most notably Typescript and VSCode.
+> `json` doesn't normally allow comments, but comments are valid in `tsconfig.json`. It's officially supported by TypeScript, and VSCode understands it too. What's going on here is [jsonc](https://github.com/microsoft/node-jsonc-parser), or "JSON with JavaScript style comments", a proprietary format used by a bunch of Microsoft products, most notably Typescript and VSCode.
 
 By the way, `jsconfig.json` is a descendant of `tsconfig.json`. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
 
@@ -152,14 +131,13 @@ let x: Something<number>;
 let y: Something<string>;
 // Why is A<string> assignable to A<number> for interface A<T>?
 x = y;
-```
 
-TypeScript uses a structural type system. When determining compatibility between `Something<number>` and `Something<string>`, we examine each member of each type. If all of the members are compatible, then the types themselves are compatible. But because `Something<T>` doesn't use `T` in any member, it doesn't matter what type `T` is - it has no bearing on whether the types are compatible.
+// `Something<T>` doesn't use `T` in any member,
+// it doesn't matter what type `T` is.
+```
 
 ## Basic Static Types
 TypeScript brings along static types to the JavaScript language. **TypeScript's types don't exist at runtime.** They're only used to help you catch errors at compile time.
-
-> [ts-reset](https://www.totaltypescript.com/ts-reset) from Total TypeScript is a 'CSS reset' for TypeScript, improving types for common JavaScript API's. For example, `.json()` and `JSON.parse` return unknown, `.filter(Boolean)` behaves exactly how you expect.
 
 ```ts
 let isAwesome: boolean = true;
@@ -209,14 +187,6 @@ enum ThemeColors {
   Secondary = 'secondary',
   Dark = 'dark',
   DarkSecondary = 'darkSecondary',
-}
-
-// Real-world examples of TS enums
-enum LogLevel {
-  ERROR,
-  WARNING,
-  INFO,
-  DEBUG
 }
 
 // An object marked "as const" accomplishes the same thing
@@ -289,19 +259,6 @@ let person: Student & Employee;
 
 // Interfaces using `extends` are faster than type intersections (can cache)
 
-// Merge incompatible types
-interface User1 {
-  age: number;
-};
-type User2 = {
-  age: string;
-};
-
-type User = User1 & User2;  // => never
-interface User extends User1 {  // raise an error 
-  age: string;
-}
-
 // Object types in TypeScript aren't "sealed" / "closed" / "final". 
 // In other words, if you have a variable of type `{ a: string }`, 
 // it's possible that the variable points to a value like `{ a: "hello", b: 42 }`.
@@ -320,6 +277,8 @@ const q: Dimensions = p; // also fine
 ```
 
 **Summary of Type vs Interface:**
+https://www.totaltypescript.com/type-vs-interface-which-should-you-use
+
 - Interfaces can't express unions or mapped types. Type aliases can express any type.
 - Interfaces can use `extends`, types can't.
 - When you're working with objects that inherit from each other, use interfaces. `extends` makes TypeScript's type checker run slightly faster than using `&`.
@@ -344,36 +303,18 @@ type AlbumSalesType = typeof albumSales;
 // Runtime typeof
 typeof albumSales; // "object"
 
-function createUser(name: string, role: 'admin' | 'maintenance') {
-  return {
-    name,
-    role,
-    createdAt: new Date()
-  }
-}
-
-const user = createUser('Stefan', 'admin')
-type User = typeof user
-
 // Built-in Helper Types (https://www.typescriptlang.org/docs/handbook/utility-types.html)
 const fieldsToUpdate: Partial<Todo>
 const todo: Readonly<Todo>
 const readOnlyGenres: readonly string[] = ["rock", "pop", "country"]
+type TodoPreview = Omit<Todo, "description">
+type TodoPreview = Pick<Todo, "title" | "completed">
+
 // The `as const` assertion made the entire object deeply read-only,
 // including all nested properties. (js `Object.freeze` only at the first level)
 const albumAttributes = {
   status: "on-sale",
 } as const;
-const cats: Record<string, string | number>
-type TodoPreview = Omit<Todo, "description">
-type TodoPreview = Pick<Todo, "title" | "completed">
-
-// https://www.totaltypescript.com/const-type-parameters
-const myFunc = <const T extends string[]>(input: T) => {
-  return input
-}
-const result = myFunc(['a', 'b']) // myFunc(['a', 'b'] as const)
-type myFuncType = typeof result  // ['a', 'b'], not string[]
 
 // Derive types from functions
 function sellAlbum(album: Album, price: number, quantity: number) {
@@ -396,9 +337,6 @@ type AlbumPropertyTypes = Album[keyof Album];
 interface AlbumAwards {
   [iCanBeAnything: string]: boolean;
 }
-const albumAwards: {
-  [index: string]: boolean;
-} = {};
 // more concise way
 const albumAwards: Record<string, boolean> = {};
 
@@ -436,19 +374,18 @@ Pick<UserObj, 'id'>
 
 > `Exclude<T, U>` isn't the same as `T & not U`. `Exclude` is a type alias whose only effect is to filter unions. For example, `Exclude<string, "hello">` just means `string`. It doesn't mean "any string except "hello"", because `string` is not a union, and thus no filtering occurs.
 
+Every function has a return type. If we don’t explicitly type or infer, the return type is by default `void`, and `void` is a keyword in JavaScript returning `undefined`. If the function is asynchronous, its return type must be a Promise, e.g. `Promise<number>` means that our function must return a Promise that resolves to a number.
+
 ```ts
-// built-in Omit and Pick are not distributive over union types
-type A = { a: string; c: boolean, d: number };
-type B = { b: number; c: boolean, d: number };
-type Union = A | B;
+async function fetchData(): Promise<number> {
+  const response = await fetch("https://api.example.com/data");
+  const data = await response.json();
 
-type NonDistributive = Omit<Union, 'c'>; // { d: number; }
+  return data;
+}
 
-type DistributiveOmit<T, K extends PropertyKey> = T extends any
-  ? Omit<T, K>
-  : never;
-
-type Distributive = DistributiveOmit<Union, 'c'>; // Omit<A, "c"> | Omit<B, "c">
+// Expect<Equal<typeof data, number>>
+const data = await fetchData();
 ```
 
 When you're working with React and TypeScript, you may ask how do I figure out the type of a component's props? How do I get all the types that a div or span accepts? The answer is in a single place: `ComponentProps`.
@@ -468,25 +405,9 @@ type MyDivProps = ComponentProps<"div"> & {
 type MyCompProps = ComponentProps<typeof MyComp>
 ```
 
-In TypeScript, every function has a return type. If we don’t explicitly type or infer, the return type is by default `void`, and `void` is a keyword in JavaScript returning `undefined`. If the function is asynchronous, its return type must be a Promise, e.g. `Promise<number>` means that our function must return a Promise that resolves to a number.
-
-```ts
-async function fetchData(): Promise<number> {
-  const response = await fetch("https://api.example.com/data");
-  const data = await response.json();
-
-  return data;
-}
-
-// const data = await fetchData();
-// type test = Expect<Equal<typeof data, number>>;
-```
-
 **Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, which is a safe type). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all *(only assignable to itself)* and is used for situations that should never occur.
 
-`any` doesn't really fit into our definition of 'wide' and 'narrow' types. It breaks the type system. It's not really a type at all - it's a way of opting out of TypeScript's type checking. Using `any` is rightly considered harmful by most of the community. TypeScript's `--noImplicitAny` compiler option prevents an implied `any`, but doesn't prevent `any` from being explicitly used the way this rule does.
-
-> By marking a variable as `any`, you're telling the compiler to ignore any type errors that might occur. `any` bypasses type checks — it's like an escape hatch.
+`any` doesn't really fit into our definition of 'wide' and 'narrow' types. It's not really a type at all - it's a way of opting out of TypeScript's type checking. By marking a variable as `any`, you're telling the compiler to ignore any type errors that might occur. Using `any` is considered harmful by most of the community.
 
 ```
                     unknown
@@ -504,7 +425,6 @@ The empty object type `{}` is unique. Instead of representing an empty object, i
 
 - Primitives are `{}`, and `{}` doesn't mean object. *(a string is a valid `{}`)*
 - The only difference between `{}` and `unknown` is that `unknown` contains every single JavaScript value, including `null` and `undefined`.
-- Unlike `{}`, `object` type does not include primitive types.
 
 **Value Types**: We can narrow down primitive types to values.
 ```ts
