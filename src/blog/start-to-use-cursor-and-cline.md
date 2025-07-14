@@ -2,7 +2,7 @@
 title: "Start to use Cursor, Cline and Gemini CLI"
 description: ""
 added: "May 27 2025"
-tags: [other]
+tags: [AI]
 updatedDate: "July 7 2025"
 ---
 
