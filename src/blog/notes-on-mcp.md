@@ -16,23 +16,6 @@ MCP, introduced by Anthropic in late 2024, solves this problem by providing a un
 ### MCP is not magic
 MCP isn't magic — it's a standard way for AI to discover and use tools without learning every API's specific details. An MCP server is like a menu of tools. Each tool has a name, a description, a schema defining what info it needs, and the actual code that makes the API calls. AI applications (like Claude or Cline) can dynamically query these servers to execute tasks such as reading files, querying databases, or creating new integrations.
 
-```
-User                App                        LLM               MCP Server
-
-                    ------------ initialize connection   ------------> 
-                    <----------- response with available tools -------
---- send query ---->
-                    -- send query with MCP tools ->
-                    <-- response with tool call ---
-                    -------------- send tool call ------------------->
-                    <------------ responds with tool response --------
-                    ---- send tool response ------>
-                    <- response with final answer -
-<-- final answer ---                  
-```
-
-> How similar is this to tool calling? Tool calling lets LLMs invoke functions to interact with the real world, typically within the same process. MCP enables tool execution in a separate process, either locally or remotely, fully decoupling the server from the client.
-> 
 > Most MCP servers work "locally" (over a mechanism called `stdio`): you download a copy of the source code and run the code on your own computer. Servers rely on a command line tool either `npx` or `uvx` to download and run the server's code on your local machine.
 
 ### MCP server and client
