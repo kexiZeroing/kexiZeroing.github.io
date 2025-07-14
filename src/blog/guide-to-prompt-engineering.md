@@ -398,6 +398,7 @@ const response = await openai.responses.parse({
   },
 });
 
+// import { zodResponseFormat } from 'openai/helpers/zod';
 // await openai.chat.completions.parse({
 //   model: "",
 //   messages: [],

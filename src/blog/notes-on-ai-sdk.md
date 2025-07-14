@@ -521,4 +521,38 @@ export async function codingAgent(prompt: string) {
 }
 ```
 
-Note that if you omit `stopWhen`, the tool is called but you get an empty response. The reason is that the language model can generate either text or tool call. It doesn't do both at the same time. So in this case, the language model generates a tool call, we execute the tool and have a tool result. But our step is complete, and by default every request you make with the AI SDK will just be one single step. With the SDK, you can describe the stop conditions for when this loop should stop using `stopWhen` property. *(Without the SDK, you have to manually wrap the entire call in a while loop, manage message history, and define some stop conditions.)*
+Note that if you omit `stopWhen`, the tool is called but you get an empty response. The reason is that the language model can generate either text or tool call. It doesn't do both at the same time. So in this case, the language model generates a tool call, we execute the tool and have a tool result. But our step is complete, and by default every request you make with the AI SDK will just be one single step. With the SDK, you can describe the stop conditions for when this loop should stop using `stopWhen` property.
+
+Without the SDK, you have to manually wrap the entire call in a while loop, manage message history, and define some stop conditions.
+
+> At its core, an agent can be defined with this simple equation:
+> 
+> agent = llm + memory + planning + tools + while loop
+
+```js
+export async function completeWithTools(args) {
+  const completion = await openai.chat.completions.create(args)
+
+  if (completion.choices[0].message.tool_calls) {
+    const toolCalls = completion.choices[0].message.tool_calls;
+    args.messages.push(completion.choices[0].message);
+
+    await Promise.all(toolCalls.map(async (toolCall) => {
+      const toolArgs = JSON.parse(toolCall.function.arguments);
+      const result = await tools.functions[toolCall.function.name](toolArgs);
+
+      args.messages.push({
+        role: "tool",
+        tool_call_id: toolCall.id,
+        content: result
+      });
+    }))
+
+    // This recursion creates a natural "while" loop
+    // that continues until the LLM decides it has completed the task.
+    return completeWithTools(args)
+  }
+  
+  return completion
+}
+```
