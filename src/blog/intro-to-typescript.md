@@ -61,7 +61,7 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
 
 `strict` option acts as shorthand for enabling several different type checking options, including catching potential `null` or `undefined` issues and stronger checks for function parameters, among others. Without `noUncheckedIndexedAccess` enabled, TS assumes that indexing will always return a valid value, even if the index is out of bounds. This means that we have to handle the possibility of `undefined` values when accessing array or object indices.
 
-`target` tells TS which ES specification you want the transpiled code to support. `target` doesn't polyfill. If you're not sure what to specify for target, keep it up to date with the version you have specified in `lib`. `lib` tells TS what type definitions to include in your project. Does your code run in the DOM? If yes, set `lib` to `["dom", "dom.iterable", "es2022"]`. If not, set it to `["es2022"]`.
+`target` tells TS which ES specification you want the transpiled code to support. `target` doesn't polyfill. `lib` tells TS what type definitions to include in your project. If you don’t specify it explicitly, TypeScript will choose a default set of libraries based on your `target`. Basically, set `lib` to `["dom", "dom.iterable", "es2022"]` if your code run in the DOM, and set it to `["es2022"]` if not.
 
 `module` is a setting with a bunch of different options, which specifies how TS should treat your imports and exports. But really, there are only two modern options. `NodeNext` tells TypeScript that your code will be run by Node.js. And `Preserve` tells TypeScript that an external bundler will handle the bundling (also set `noEmit` to true).
 
@@ -356,6 +356,11 @@ type ColorPalette = `${Color}-${ColorShade}`;
 type KeyValueSplitter<T extends string> = T extends `${infer K}:${infer V}` ? 
   { key: K; value: V } : never;
 
+// { key: "name", value: "Bill" } -> "name:Bill"
+type KVJoin<T extends Record<string, string>> = {
+  [K in keyof T]: `${K}:${T[K]}`;
+}[keyof T];
+
 // The 'string & {}' trick (loose autocomplete)
 type ModelNames = 'a' | 'b' | 'c' | (string & {});
 const model: ModelNames = 'a';  // autocomplete and can pass in any string
@@ -375,18 +380,6 @@ Pick<UserObj, 'id'>
 > `Exclude<T, U>` isn't the same as `T & not U`. `Exclude` is a type alias whose only effect is to filter unions. For example, `Exclude<string, "hello">` just means `string`. It doesn't mean "any string except "hello"", because `string` is not a union, and thus no filtering occurs.
 
 Every function has a return type. If we don’t explicitly type or infer, the return type is by default `void`, and `void` is a keyword in JavaScript returning `undefined`. If the function is asynchronous, its return type must be a Promise, e.g. `Promise<number>` means that our function must return a Promise that resolves to a number.
-
-```ts
-async function fetchData(): Promise<number> {
-  const response = await fetch("https://api.example.com/data");
-  const data = await response.json();
-
-  return data;
-}
-
-// Expect<Equal<typeof data, number>>
-const data = await fetchData();
-```
 
 When you're working with React and TypeScript, you may ask how do I figure out the type of a component's props? How do I get all the types that a div or span accepts? The answer is in a single place: `ComponentProps`.
 
@@ -476,9 +469,19 @@ function printUser(user: User) {
   Object.keys(user).forEach((key) => {
     // TS error: type 'string' can't be used to index type 'User'
     console.log(user[key])
-    // should be
-    console.log(user[key as keyof User])
   })
+}
+
+// `Object.keys()` returns string[], not Array<keyof T>
+// fix 1
+console.log(user[key as keyof User])
+
+// fix 2
+Object.keys(user) as Array<keyof User>
+
+// fix 3
+for (const key in user) {
+  console.log(user[key])
 }
 ```
 
@@ -489,8 +492,10 @@ const searchParams = new URLSearchParams(window.location.search)
 const id = searchParams.get("id") // string | null
 
 const id = searchParams.get("id") as string;
-const albumSales = "Heroes" as unknown as number;
-const obj = {} as { a: number; b: number };
+
+const x = "Heroes" as number; // Error: 'string' is not assignable to type 'number'
+const x = "Heroes" as unknown as number;  // this works
+
 searchParams.get("id")!;
 console.log(user.profile!.bio);
 ```
@@ -550,17 +555,6 @@ type StrictOmit<T, K extends keyof T> = Omit<T, K>;
 // Conditional types
 type ToArray<T> = T extends any[] ? T : T[];
 ```
-
-Here is an example from type challenges. It creates a type that transforms each key-value pair in an object T into a string of the format `"<key>: <value>"`. The result is a union of those string values.
-
-```ts
-type Excuse<T extends Record<string, string>> = {
-  [K in keyof T]: `${K & string}: ${T[K]}`;
-}[keyof T];
-```
-
-1. The reason for using `${K & string}` instead of `${K}` is to ensure that the key is explicitly treated as a string. This is important when K might be a union of string-like types or symbols, and we only want to generate string-based template literals.
-2. The last part `[keyof T]` accesses the values of the object generated by the mapped type. Specifically, this creates a union type of all the string values produced by the mapped type for each key.
 
 ### Understanding `infer`
 The `infer` keyword is a powerful tool for extracting types from complex structures. It allows you to "infer" a type variable from a more complex type.
@@ -650,7 +644,6 @@ const routes = {
 routes.awdkjanwdkjn;
 ```
 
-> The takeaway here:
 > - Use `as` when you want to tell TypeScript that you know more than it does.
 > - Use `satisfies` when you want to make sure a value is checked without changing the inference on that value.
 > - The rest of the time, use variable annotations.
@@ -697,21 +690,19 @@ declare module "*.png" {
 }
 ```
 
-How does TypeScript know that `.map` exists on an array, but `.transform` doesn't? TypeScript ships with a bunch of declaration files that describe the JavaScript environment. For example, `map` is defined in `lib.es5.d.ts`, `replaceAll` is in `lib.es2021.string.d.ts`. Looking at the code in `node_modules/typescript/lib`, you'll see dozens of declaration files that describe the JavaScript environment. Another set of declaration files that ship with TypeScript are the DOM types, which are defined in a file called `lib.dom.d.ts`. *The `lib` setting in `tsconfig.json` lets you choose which `.d.ts` files are included in your project. By default, this inherits from the `target` setting.*
+How does TypeScript know that `.map` exists on an array, but `.transform` doesn't? TypeScript ships with a bunch of declaration files that describe the JavaScript environment. For example, `map` is defined in `lib.es5.d.ts`, `replaceAll` is in `lib.es2021.string.d.ts`. Looking at the code in `node_modules/typescript/lib`, you'll see dozens of declaration files that describe the JavaScript environment. Another set of declaration files that ship with TypeScript are the DOM types, which are defined in a file called `lib.dom.d.ts`. The `lib` setting in `tsconfig.json` lets you choose which `.d.ts` files are included in your project. *`lib: ["es2022"]` does include the features from earlier ECMAScript versions like ES5, ES2015, ES2021, etc.*
 
 ```json
 {
   "compilerOptions": {
     "target": "es2022",
-    // "lib": ["es2022", "dom", "dom.iterable"] is implied
+    "lib": ["es2022", "dom", "dom.iterable"],
     "skipLibCheck": true,
   }
 }
 ```
 
-The "lib" in `skipLibCheck` refers to any `.d.ts` file. In other words, there is no distinction made between `.d.ts` files which are "yours" (say, in your files list) and "not yours" (say, in `node_modules/@types`). "Declaration files" sounds like where you put your type declarations. But this is a bad idea. `skipLibCheck` will ignore these files, meaning you won't get type checking on them. Instead, put your types in regular TypeScript files.
-
-> Different browsers support different features. But TypeScript only ships one set of DOM types. So how does it know what to include? TypeScript's policy is that if a feature is supported in two major browsers, it's included in the DOM types.
+The "lib" in `skipLibCheck` refers to any `.d.ts` file. In other words, there is no distinction made between `.d.ts` files which are "yours" (say, in your files list) and "not yours" (say, in `node_modules/@types`). `skipLibCheck` will ignore all these files, meaning you won't get type checking on them. Instead, so put your types in regular TypeScript files.
 
 When you install a library with npm, you're downloading JavaScript to your file system, but not every library bundles `.d.ts` files. The [DefinitelyTyped GitHub repository](https://github.com/DefinitelyTyped/DefinitelyTyped) was built to house high-quality type definitions for numerous popular JavaScript libraries that didn't ship definitions of their own. By **installing a package with `@types/*`** as a dev dependency, you can add type definitions that TypeScript will be able to use immediately.
 
@@ -743,7 +734,7 @@ declare global {
 declare var __INITIAL_DATA__: InitialData;
 
 
-// 2. Augment the window interface
+// 2. Augment the window interface using "declaration merging" feature
 declare global {
   interface Window {
     __INITIAL_DATA__: InitialData;
@@ -751,9 +742,7 @@ declare global {
 }
 ```
 
-Interfaces in TypeScript have an odd property. When multiple interfaces with the same name in the same scope are created, TypeScript automatically merges them. This is known as declaration merging. This is very different from `type`, which would give you an error if you tried to declare the same type twice.
-
-Another example is to specify an environment variable as a string in the global scope. This will be slightly different than the solution for modifying `window`. Inside of `@types/node` from DefinitelyTyped, the `ProcessEnv` interface is responsible for environment variables. It can be found inside of the `NodeJS` namespace.
+Another example is to specify an environment variable as a string in the global scope. This will be slightly different than the solution for modifying `window`. In the `@types/node` package provided by DefinitelyTyped, there is a `NodeJS` namespace, which includes the `ProcessEnv` interface. This interface defines the shape of `process.env` and is where you can add custom environment variable types. *(`NodeJS.Global`, `NodeJS.ProcessEnv`, `NodeJS.Process`, etc)*
 
 ```ts
 declare namespace NodeJS {
@@ -763,17 +752,6 @@ declare namespace NodeJS {
 }
 ```
 
-### Importing types
-With `import type`, only the type information is imported, and the import is removed from the emitted JavaScript.
-
-```ts
-// entire line as a type import
-import type { Album } from "./album";
-
-// combine runtime imports with type imports
-import { type Album, createAlbum } from "./album";
-```
-
 ### How to use @ts-expect-error
 `@ts-expect-error` lets you specify that an error will occur on the next line of the file, which is helpful letting us be sure that an error will occur. If `@ts-expect-error` doesn't find an error, it will source an error itself: *Unused '@ts-expect-error' directive*.
 
@@ -781,7 +759,7 @@ When you actually want to ignore an error, you'll be tempted to use `@ts-ignore`
 
 Sometimes, you'll want to ignore an error that later down the line gets fixed. If you're using `@ts-ignore`, it'll just ignore the fact that the error is gone. But with `@ts-expect-error`, you'll actually get a hint that the directive is now safe to remove. So if you're choosing between them, pick `@ts-expect-error`.
 
-Finally, The `@ts-nocheck` directive will completely remove type checking for a file. To use it, add the directive at the top of your file.
+The `@ts-nocheck` directive will completely remove type checking for a file. To use it, add the directive at the top of your file.
 
 ## Building the Validation Schema with Zod
 [Zod](https://github.com/colinhacks/zod) is a TypeScript-first schema declaration and validation library. With Zod, you declare a validator once and Zod will automatically infer the static TypeScript type. It's easy to compose simpler types into complex data structures.
@@ -800,14 +778,14 @@ mySchema.parse(12); // => throws ZodError
 mySchema.safeParse("tuna"); // => { success: true; data: "tuna" }
 mySchema.safeParse(12); // => { success: false; error: ZodError }
 
-const User = z.object({
+const userSchema = z.object({
   username: z.string(),
 });
 
-User.parse({ username: "Ludwig" });
+userSchema.parse({ username: "Ludwig" });
 
 // extract the inferred type
-type User = z.infer<typeof User>;
+type User = z.infer<typeof userSchema>;
 // { username: string }
 ```
 
@@ -832,24 +810,6 @@ const formSchema = z
 
 // We can use this type to tell `react-hook-form` what our data should look like.
 type FormSchemaType = z.infer<typeof formSchema>;
-```
-
-```js
-// URL parameter validation via Zod (use Zod to validate runtime inputs)
-const productIdSchema = z.coerce.number().positive();
-
-const searchParams = new URLSearchParams(window.location.search);
-const productIdParam = searchParams.get("productId");
-
-if (productIdParam) {
-  const result = productIdSchema.safeParse(productIdParam);
-  if (result.success) {
-    const productId = result.data; // This will be a number
-    console.log("Valid URL parameter:", productId);
-  } else {
-    console.error("Invalid URL parameter:", result.error);
-  }
-}
 ```
 
 > [Valibot](https://github.com/fabian-hiller/valibot) is very similar to Zod, helping you validate data easily using a schema. The biggest difference is the modular design and the ability to reduce the bundle size to a minimum.
