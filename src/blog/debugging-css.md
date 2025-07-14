@@ -3,7 +3,7 @@ title: "Debugging CSS"
 description: ""
 added: "Oct 10 2021"
 tags: [css]
-updatedDate: "Apr 13 2025"
+updatedDate: "July 14 2025"
 ---
 
 - A fundamental concept for CSS layout is inline vs. block elements. Inline means elements only take up the space they need, and do not affect flow. Applying `margin` or `padding` to an inline element will only work in the "inline" direction (left/right) not the "block" direction (top/bottom).
@@ -22,7 +22,9 @@ updatedDate: "Apr 13 2025"
 
 - `margin: auto` is a popular way to center an element, and it’s important to mention that auto margins (e.g. `margin-right: auto`) will take up the extra space and apply it to the element's margin. 
 
-- You can’t set a percentage-based height for an element unless the height of its parent is explicitly defined. You can use `body { height: 100vh }` to make the `body` element take up the full height of the viewport. (In grid layout, elements don’t shrinkwrap around their children. Instead, children will automatically grow to fill their grid cell. This means that we don’t have to set `height: 100%.`)
+- You can’t set a percentage-based height for an element unless the height of its parent is explicitly defined. You can use `body { height: 100vh }` to make the `body` element take up the full height of the viewport.
+
+- Children of parents with `min-height` can't inherit the height property. The easiest workaround is to add `height: 1px;` to the parent. Alternatively you may set `min-height: inherit;` to the child. 
 
 - Elements are grouped into stacking contexts. When we give an element a `z-index`, that value is only compared against other elements in the same context. `z-index` values are not global. By default, a plain HTML document will have a single stacking context that encompasses all nodes. But there are many ways to create stacking contexts, e.g., combining relative or absolute positioning with `z-index`; Setting position to `fixed` or `sticky`; Setting `opacity` to a value less than 1; Adding a `z-index` to a child inside a `display: flex` or `display: grid` container; Using `transform`, `filter`, `perspective`.
 
@@ -33,13 +35,6 @@ updatedDate: "Apr 13 2025"
 - A common mistake when showing a border on hover is to add the border only on hover. If the border is 1 pixel, then the element will jump by that much when the user hovers over it. To avoid the jump, add the border to the normal state with a transparent color.
 
 - Unlike border, `outline` is drawn outside the element's border and may overlap other content. Also, the outline is not a part of the element's dimensions; the element's total width and height is not affected by the width of the outline. You can override it with a custom one, but don’t remove that outline under any circumstances, because it will affect the accessibility of the website.
-
-  ```css
-  /* debug your CSS layouts with one line */
-  * {
-    outline: 1px solid #f00 !important;
-  }
-  ```
 
 - Find element that is causing the showing of horizontal scrollbar.
 
@@ -67,45 +62,6 @@ updatedDate: "Apr 13 2025"
 - While the default `min-width` value is 0 (zero), for flex items it is `auto`. This can make block elements take up much more space than desired, resulting in overflow. The solution is to add `min-width: 0;` to the flex item.
 
 - `flex-basis` is more of a suggestion than a hard constraint. At a certain point, there isn't enough space for all of the elements to sit at their assigned size, and so they have to compromise, in order to avoid an overflow. The default value for `flex-grow` is 0. The default value for `flex-shrink` is 1.
-
-  ```css
-  .masonry {
-    max-width: 80vw;
-    margin: auto;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.25em;
-  }
-  .masonry .column {
-    flex-grow: 1;
-  }
-  .masonry .column img {
-    width: 100%;
-  }
-  ```
-
-- How we compare a design against implementation? We can take the original design as an image and place it above the page in the browser. Thanks to CSS backgrounds and pseudo-elements, this is possible. Please make sure that the browser width is equal to the design width and no other element in the same stacking context has a higher `z-index` than the pseudo-element. Also, you will notice that nothing is hoverable or clickable, that’s because the pseudo-element is covering the page. We can allow interactivity by setting `pointer-events: none` (the specified HTML element is never the target of pointer events).
-
-  ```css
-  body {
-    position: relative;
-  }
-
-  body:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 100;
-    width: 100%;
-    height: 100%;
-    background-image: url('example.png');
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  ```
 
 - You can add infinite borders using `box-shadow` if you want to apply multiple borders on one div. `box-shadow` is described by X and Y offsets relative to the element, blur and spread radius, and color. You can set multiple effects separated by commas.
 
@@ -157,30 +113,13 @@ updatedDate: "Apr 13 2025"
   }
   ```
 
-- The styles for flexbox columns are built with the `order` property to reposition the columns. With CSS grid, it isn’t needed at all as we can reorder the layout by positioning an element on any grid lines we want.
-
-  ```css
-  .c-newspaper {
-    grid-template-columns: 1fr 2fr 1fr;
-  }
-  /* The first column is placed from line 2 to line 3 */
-  .c-newspaper__col:first-child {
-    grid-column: 2/3;
-  }
-  /* The last column is placed from line 3 to line 4 */
-  .c-newspaper__col:last-child {
-    grid-column: 3/4;
-  }
-  ```
-
-  > There’s a lot of advantages to grid, like `minmax()`/`repeat()` functions. Grid is also required for any 2D layout as flex can’t handle that, and it tends to be better when you have more intentionally defined values for rows and/or columns. Also, you get the `fr` unit which is really handy.
-
 - The `grid-template-areas` property specifies areas within the grid layout (limited to rectangular grid areas). Once the template areas are defined, we can reference them in CSS and assign each named area to its designated element by using the `grid-area` property.
 
   ```css
   .page {
     display: grid;
     grid-template-columns: 200px 1fr;
+    /* rows are implicitly created */
     grid-template-areas:
       "aside main"
       "footer footer";
@@ -210,9 +149,7 @@ updatedDate: "Apr 13 2025"
 
 - A dialog is a component in a web page or app that usually contains an action or some task to perform. Dialogs have a role of `dialog`, which the browser will assign automatically for you when you use the `<dialog>` element. You can also create dialogs with ARIA: apply `role="dialog"` to an element like `<div>`. If it is a modal dialog, add `aria-modal="true"` when it shows, and remove it when it is dismissed. Dialogs can be modal (when shown with `dialog.showModal()`) or non modal (when shown with `dialog.show()`). When `<dialog>`s are modal, the browser will treat the content outside of the dialog as inert, and prevent keyboard focus from reaching web content outside of the dialog. If a `<dialog>` is not modal, the other content is not treated as inert. Browsers will close modal dialogs when users press `Escape`. Non-modal dialogs don't get this default behaviour, developers can add it where it makes sense. Check out the [slides](https://talks.hiddedevries.nl/G9mATs/slides) about how to build dialogs and popovers.
 
-  > `<dialog>` examples demo (default, error, wait, notify, confirm, transitioned, light dismiss, fully customized): https://codepen.io/argyleink/pen/VwJvqrW
-
-- CSS `unset` will remove all properties set directly on the matched element, and revert to inheriting from the cascade - like a parent element or `<body>` (if the property naturally inherits from its parent); `inherit` is pretty straight-forward that inherits all defined properties from its parent element (to inherit those non-inheritable properties). `revert` will set the property to the user agent stylesheet value — AKA the default browser style. `initial` is the nuclear option. This will reset a CSS property as if no CSS rules had been written for that value, which means it’s gonna remove the style all together.
+- CSS `unset` resets to `inherit` if the property is inherited and to `initial` for non-inherited properties. `inherit` is pretty straight-forward that inherits all defined properties from its parent element (to inherit those non-inheritable properties). `revert` will set the property to the user agent stylesheet value — AKA the default browser style. `initial` is the nuclear option. This will reset a CSS property as if no CSS rules had been written for that value, which means it’s gonna remove the style all together.
 
   ```html
   <!-- What color is the <p> tag’s text? -->
@@ -226,8 +163,6 @@ updatedDate: "Apr 13 2025"
     .hello { color: unset; }
   </style>
   ```
-
-  > Children of parents with `min-height` can't inherit the height property. The easiest workaround is to add `height: 1px;` to the parent. Alternatively you may set `min-height: inherit;` to the child. 
 
 - Stop re-inventing the wheel and just use `<button>` to create a button. If you're worried about default button styles, use `all: unset`. This one line of CSS will strip all default browser styles so you can apply your own.
 
@@ -300,64 +235,3 @@ updatedDate: "Apr 13 2025"
   ```
 
 - CSS animations are pretty sweet, but they typically require explicit sizes, you couldn't use the intrinsic sizing keywords like `auto`, `min-content`, or `fit-content`. [From Chrome 129](https://developer.chrome.com/docs/css-ui/animate-to-height-auto), you can declare `interpolate-size: allow-keywords` on `:root` to enable transitioning to and from intrinsic sizing keywords for the entire document.
-
-- If you wanted to pause a CSS Keyframe animation using JavaScript, how would you do it? You can use the element’s `getAnimations` method to get an array of all the animations on the element. From there you can loop through the array and call the `pause()` method on each animation.
-
-```js
-btn.addEventListener("click", () => {
-  const animations = document.querySelector(".circle")
-    .getAnimations();
-  
-  if (btn.textContent === "Pause Animation") {
-    animations.forEach((animation) => {
-      animation.pause();
-    });
-    btn.textContent = "Play Animation";
-  } else {
-    animations.forEach((animation) => {
-      animation.play();
-    });
-    btn.textContent = "Pause Animation";
-  }
-});
-```
-
-- Instead of hardcoding a specific value inside our keyframe definition, we can access a CSS variable. With a little help from `calc`, we can flip that value to its negative counterpart, so that we can oscillate to/from a dynamic value.
-
-```html
-<style>
-  @keyframes oscillate {
-    from {
-      transform: translateX(calc(var(--amount) * -1));
-    }
-    to {
-      transform: translateX(var(--amount));
-    }
-  }
-  .ball {
-    animation: oscillate 1000ms infinite alternate;
-  }
-</style>
-
-<div class="ball" style="--amount: 8px"></div>
-<div class="ball" style="--amount: 16px"></div>
-<div class="ball" style="--amount: 32px"></div>
-<div class="ball" style="--amount: 64px"></div>
-```
-
-- CSS background image on background color.
-
-```css
-{
-  background-image: url('images/foo.png');
-  background-color: #6DB3F2;
-}
-
-{
-  background: url('images/foo.png'), #6DB3F2;
-}
-```
-
-**The second one is not shorthand for the first.** In the first method, last property (color) takes precedence. The use of the comma in the background property sets multiple backgrounds which get layered on top of each other. The image will be on top, color underneath (opposite of the first method).
-
-> MDN docs: You can apply multiple backgrounds to elements. These are layered atop one another with the first background you provide on top and the last background listed in the back. Only the last background can include a background color. You can do this with both the shorthand `background` property and the individual properties except for `background-color`.
