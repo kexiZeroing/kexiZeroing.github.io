@@ -13,7 +13,7 @@ The Retina screen doubled the PPI while keeping the same screen size, meaning th
 
 > There is a distinction between the physical pixels in a screen and the software pixels we write in CSS. With high-resolution screens, something that is `1px` in our CSS will likely take up multiple physical hardware pixels, and we don’t really have any way in pure CSS to specify a literal device pixel. Every time a user changes their screen's resolution or zooms in, they're changing how software pixels map onto hardware pixels.
 
-A standard resolution image has a scale factor of 1.0 and is referred to as an @1x image. High resolution images have a scale factor of 2.0 or 3.0 and are referred to as @2x and @3x images. Suppose you have a standard resolution @1x image that’s 100px by 100px, then the @2x version of this image would be 200px by 200px. The @3x version would be 300px by 300px. *(iPhone X, iPhone 8 Plus, iPhone 7 Plus, and iPhone 6s Plus = @3x; Retina displays and all other high-resolution iOS devices = @2x)*
+A standard resolution image has a scale factor of 1.0 and is referred to as an @1x image. High resolution images have a scale factor of 2.0 or 3.0 and are referred to as @2x and @3x images. Suppose you have a standard resolution @1x image that’s 100px by 100px, then the @2x version of this image would be 200px by 200px. The @3x version would be 300px by 300px. *(iPhone X, iPhone 8 Plus, iPhone 7 Plus, and iPhone 6s Plus = @3x; Retina displays and all other high-resolution iOS devices = @2x)* Their display size in CSS doesn't change.
 
 There is another issue in the workplace. Look at the number of pixels in the PSDs. The @2x PSD has four times as many pixels. The @3x has nine times as many. Designers have been working @2x or @3x and then begin to spec their design for developers. The developers get a complete spec in which they need to divide everything by 2 or 3.
 
@@ -71,7 +71,9 @@ What’s wrong with creating animations using `setTimeout` or `setInterval`? Fir
 
 > For scripts that rely on WindowTimers like `setInterval()` or `setTimeout()` things get confusing when the site which the script is running on loses focus. Chrome, Firefox and maybe others throttle the frequency at which they invoke those timers to a maximum of once per second in such a situation. However this is only true for the main thread and does not affect the behavior of Web Workers. Therefore it is possible to avoid the throttling by using a worker to do the actual scheduling. This is exactly what [worker-timers](https://github.com/chrisguttandin/worker-timers) does. It is a replacement for `setInterval()` and `setTimeout()` which works in unfocused windows.
 
-`requestAnimationFrame` is a native API for running any type of animation in the browser. (Browser vendors have decided, *“hey, why don’t we just give you an API for that, and we can probably optimize some things for you.”* So it’s a basic API using for animation, whether that be DOM-based styling changes, canvas or WebGL) You don’t need to specify an interval rate, and that all depends on the frame rate of the browser, typically it’s 60fps. **The key difference here is that you are requesting the browser to draw your animation at the next available opportunity, not at a predetermined interval**. It has also been hinted that browsers could choose to optimize performace based on element visibility and battery status, causing animations to stop if the current window is not visible. Using `requestAnimationFrame`, it will group all of your animations into a single repaint, and all the animation code runs before the rendering and painting event.
+`requestAnimationFrame` is a native API for running any type of animation in the browser. Browser vendors have decided, *“hey, why don’t we just give you an API for that, and we can probably optimize some things for you.”* So it’s a basic API using for animation, whether that be DOM-based styling changes, canvas or WebGL. You don’t need to specify an interval rate, and that all depends on the frame rate of the browser, typically it’s 60fps. The key difference here is that you are requesting the browser to draw your animation at the next available opportunity, not at a predetermined interval. It has also been hinted that browsers could choose to optimize performace based on element visibility and battery status, causing animations to stop if the current window is not visible. Using `requestAnimationFrame`, it will group all of your animations into a single repaint, and all the animation code runs before the rendering and painting event.
+
+**The browser will not render anything while JavaScript is still running.**
 
 ```javascript
 // Does this cause the element to flash for a brief millisecond?
@@ -79,44 +81,14 @@ document.body.appendChild(el)
 el.style.display = 'none'
 
 // No. All this code takes place before a rendering is ever triggered.
-```
-
-### A simple FPS meter
-1. Calculates the current FPS by dividing 1000 (milliseconds in a second) by the time elapsed since the last frame. e.g. `1000 / 16.67 = 60 fps`
-2. Maintains a rolling window of FPS measurements and calculates the average FPS across these measurements.
-3. If the average FPS falls below 45, it calls a callback function.
-4. It uses requestAnimationFrame to continue measuring with each new frame.
-
-```js
-// https://github.com/wesbos/fps-meter
-const measureFrame = (timestamp: number) => {  
-  // Calculate FPS
-  const currentFPS = 1000 / (timestamp - this.lastFrameTime);
-  this.lastFrameTime = timestamp;
-  
-  // Add current FPS to history and maintain size limit
-  this.frames.push(currentFPS);
-  if (this.frames.length > this.maxFrames) {
-    this.frames.shift();
-  }
-  
-  // Check if average FPS is below threshold
-  const avgFPS = this.getAverageFPS();
-  if (avgFPS && avgFPS < 45 && this.lowFPSCallback) {
-    this.lowFPSCallback(avgFPS);
-  }
-  
-  // Continue measuring
-  requestAnimationFrame(measureFrame);
-};
+// This all happens within one JS tick, 
+// before the browser has had a chance to repaint the screen.
 ```
 
 ## requestIdleCallback
-The `window.requestIdleCallback()` method queues a function to be called during a browser's idle periods. This enables developers to perform background and low priority work on the main event loop, without impacting latency-critical events such as animation and input response. Functions are generally called in first-in-first-out order; however, callbacks which have a timeout specified may be called out-of-order if necessary in order to run them before the timeout elapses.
+The `window.requestIdleCallback()` method queues a function to be called during a browser's idle periods. This enables developers to perform background and low priority work on the main event loop, without impacting latency-critical events such as animation and input response.
 
 [main-thread-scheduling](https://github.com/astoilkov/main-thread-scheduling) lets you run computationally heavy tasks on the main thread while ensuring your app's UI doesn't freeze.
-
-> Consider a "search-as-you-type" application. This app needs to be responsive to user input, i.e. users typing in the search-box. At the same time, any animations on the page must be rendered smoothly, and the work for fetching and preparing search results and updating the page must also progress quickly. It is easy for any long running script work to hold up the main thread and cause responsiveness issues for typing, rendering animations, or updating search results.
 
 ## Animations Overview
 Modern browsers can animate two CSS properties cheaply: `transform` and `opacity`. If you animate anything else, the chances are you're not going to hit a silky smooth 60 frames per second.
@@ -150,24 +122,7 @@ By placing the things that will be animated or transitioned onto a new layer, th
 ### Infinite scrolling performance analysis
 Our goal is to create an infinite vertical scroll of two divs (each `100vh` tall) that continuously loop, with `div 1` smoothly following `div 2` to create a seamless experience.
 
-```js
-const scrollContent = (timestamp) => {
-  if (!lastTimestamp) lastTimestamp = timestamp;
-  const elapsed = timestamp - lastTimestamp;
-  lastTimestamp = timestamp;
-  
-  const totalHeight = scrollContainer.scrollHeight - window.innerHeight;
-  scrollContainer.scrollTop += scrollSpeed * elapsed;
-  
-  if (scrollContainer.scrollTop >= totalHeight - 10) {
-    scrollContainer.scrollTop = 0;
-  }
-  
-  requestAnimationFrame(scrollContent);
-};
-```
-
-Performance Issues:
+The performance issues of changing `scrollTop` with `requestAnimationFrame`:
 - Each frame requires DOM writes (`scrollTop +=`), which can trigger layout recalculations.
 - The `scrollTop` manipulation can cause browser repaints, especially with large content.
 - If the main thread is busy, `requestAnimationFrame` callbacks may be delayed.
