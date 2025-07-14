@@ -42,41 +42,17 @@ To build with container queries, you must first set containment on a parent elem
 }
 ```
 
-```js
-// before
-const cardContainer = document.querySelector('.card-container');
-const cards = cardContainer.children;
-
-function adjustLayout() {
-  if (cardContainer.offsetWidth > 900) {
-    cards.forEach(card => card.style.width = '33.33%');
-  } else if (cardContainer.offsetWidth > 600) {
-    cards.forEach(card => card.style.width = '50%');
-  } else {
-    cards.forEach(card => card.style.width = '100%');
-  }
-}
-
-window.addEventListener('resize', adjustLayout);
-adjustLayout();
-```
+When a containment context is given a name, it can be specifically targeted using the `@container` at-rule instead of the nearest ancestor with containment.
 
 ```css
-/* after */
-.card-container {
+.container {
   container-type: inline-size;
+  container-name: card-container;
 }
-.card {
-  width: 100%;
-}
-@container (min-width: 600px) {
+
+@container card-container (max-width: 400px) {
   .card {
-    width: 50%;
-  }
-}
-@container (min-width: 900px) {
-  .card {
-    width: 33.33%;
+    grid-template-columns: 1fr;
   }
 }
 ```
@@ -85,6 +61,11 @@ Use the `container-type` property a value of `size`, `inline-size`, or `normal`.
 - `size`: the query will be based on the *inline and block* dimensions of the container.
 - `inline-size`: the query will be based on the *inline* dimensions of the container.
 - `normal`: The element is not a query container for any container size queries, but remains a query container for container style queries.
+
+<figure>
+  <img alt="logical properties" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/logical-properties.png" width="500">
+  <figcaption>logical properties</figcaption>
+</figure>
 
 When applying styles to a container using container queries, you can use container query length units. These units specify a length relative to the dimensions of a query container.
 - `cqw`: 1% of a query container's width
@@ -110,24 +91,6 @@ There is also the possiblity to use style queries, which enables applying styles
 ```
 
 > Style queries are still experimental. A good reminder that mentioning "container queries" isn't enough now, we need to specify either size or style. Read more at: https://ishadeed.com/article/css-container-style-queries
-
-### Scroll state queries
-Chrome 133 introduces scroll state container queries. Before scroll state queries, you’d need to use JavaScript to understand if an element was stuck, snapped, or scrollable. Now there's a more performant method to trigger style changes when an element is stuck to an edge, is snapped on an axis, or is overflowing.
-
-```css
-.stuck-top {
-  container-type: scroll-state;
-  position: sticky;
-  top: 0px;
-
-  > nav {
-    @container scroll-state(stuck: top) {
-      background: Highlight;
-      color: HighlightText;
-    }
-  }
-}
-```
 
 ## The `:has()` selector
 The CSS `:has()` pseudo-class enables developers to check if a parent element contains children with specific parameters. For example, `p:has(span)` indicates a paragraph selector, which has a `span` inside of it. You can use this to style the parent paragraph itself, or style anything within it.
@@ -177,6 +140,31 @@ Use Case 3: We can check the input state like a checkbox or radio button.
 - The `:has()` pseudo-class itself doesn’t add any specificity weight to the selector. Like `:is()` and `:not()`, the specificity of `:has()` is equal to the highest specificity selector in the selector list.
 
 ```css
+/* styles will be applied on the h1 and h3 elements */
+h1 {
+  font-family: sans-serif;
+}
+h2:invalid-pseudo {
+  font-family: sans-serif;
+}
+h3 {
+  font-family: sans-serif;
+}
+
+/* the entire rule will not be parsed */
+h1,
+h2:invalid-pseudo,
+h3 {
+  font-family: sans-serif;
+}
+
+/* has same effect as the first example */
+:is(h1, h2:maybe-unsupported, h3) {
+  font-family: sans-serif;
+}
+```
+
+```css
 /* Specificity: 0 0 1 */
 :is(h1, h2, h3, h4, h5, h6) {
   color: #666;
@@ -186,19 +174,6 @@ Use Case 3: We can check the input state like a checkbox or radio button.
 :where(h1, h2, h3, h4, h5, h6) {
   color: #666;
 }
-```
-
-```js
-// Specificity is a triple that has three components (A,B,C)
-const compare = (s1, s2) => {
-  if (s1.a === s2.a) {
-    if (s1.b === s2.b) {
-      return s1.c - s2.c;
-    }
-    return s1.b - s2.b;
-  }
-  return s1.a - s2.a;
-};
 ```
 
 > A side note: Selectors matching happens from right to left. For example:
