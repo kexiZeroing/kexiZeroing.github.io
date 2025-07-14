@@ -131,7 +131,6 @@ for await (const chunk of stream) {
 ## Run open-source LLMs locally on your computer 
 1. Ollama + OpenWebUI
    - https://github.com/kexiZeroing/langchain-llamaindex-ollama
-   - https://github.com/ollama/ollama/blob/main/docs/faq.md
    - https://github.com/ollama/ollama-js
    - https://github.com/open-webui/open-webui
    - https://simonwillison.net/2024/Dec/27/open-webui
@@ -143,10 +142,7 @@ for await (const chunk of stream) {
 3. GPT4All
    - https://github.com/nomic-ai/gpt4all
 
-4. Vercel AI Chatbot Template
-   - https://github.com/vercel/ai-chatbot
-
-5. Transformers.js uses ONNX Runtime to run models in the browser
+4. Transformers.js uses ONNX Runtime to run models in the browser
    - https://huggingface.co/docs/transformers.js/index
    - https://huggingface.co/onnx-community
 
@@ -160,7 +156,7 @@ const segmenter = await pipeline(
 const result = await segmenter("input.png");
 ```
 
-You can run any GGUF (GPT-Generated Unified Format), a binary format that is optimized for quick loading and saving of models, on the Hugging Face Hub directly with ollama. All you need to do is:
+You can run any GGUF (GPT-Generated Unified Format), a binary format that is optimized for quick loading and saving of models, on the Hugging Face Hub directly with ollama. *(Tools like Ollama and LM Studio abstract away much of the complexity, often relying on GGUF models behind the scenes.)* All you need to do is:
 
 ```sh
 # https://huggingface.co/docs/hub/en/ollama

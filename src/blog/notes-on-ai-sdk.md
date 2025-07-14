@@ -1,9 +1,9 @@
 ---
-title: "Notes on AI SDK"
+title: "Notes on AI SDK (building agents)"
 description: ""
 added: "Apr 22 2025"
 tags: [AI]
-updatedDate: "July 7 2025"
+updatedDate: "July 14 2025"
 ---
 
 This is my learning notes from the [AI Engineer workshop](https://www.youtube.com/watch?v=kDlqpN1JyIw) tutorial by Nico Albanese.
