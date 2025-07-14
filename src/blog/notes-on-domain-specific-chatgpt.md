@@ -3,11 +3,11 @@ title: "Notes on domain-specific ChatGPT"
 description: ""
 added: "Mar 25 2023"
 tags: [AI]
-updatedDate: "Mar 22 2025"
+updatedDate: "July 14 2025"
 ---
 
 ## What are Vector Embeddings?
-Vector embeddings are central to many NLP, recommendation, and search algorithms. Sometimes we have a dataset with columns of numeric values or values that can be translated into them. Other times we come across something more abstract like an entire document of text. We create vector embeddings, which are just lists of numbers, for data like this to perform various operations with them. A whole paragraph of text or any other object can be reduced to a vector.
+Vector embeddings are central to many NLP, recommendation, and search algorithms. We create vector embeddings, which are just lists of numbers, to perform various operations with them. A whole paragraph of text or any other object can be reduced to a vector.
 
 There is something special about vectors that makes them so useful. This representation makes it possible to translate semantic similarity as perceived by humans to proximity in a vector space. In other words, when we represent real-world objects and concepts such as images, audio recordings, news articles, and user profiles as vector embeddings, the semantic similarity of these objects and concepts can be quantified by how close they are to each other as points in vector spaces.
 
@@ -20,23 +20,14 @@ Tokens are the basic units of data processed by LLMs. In the context of text, a 
 
 In the context of GPT, each piece of text is represented by the ID of the corresponding token in the final vocabulary. If a word is not in the vocabulary, it’s broken down into smaller tokens that are in the vocabulary. The key point is that the assignment of token IDs is not arbitrary but based on the frequency of occurrence and combination patterns in the language data the model was trained on.
 
-```py
-# Tokens are vectors based on a specific tokenizer.
+```
 # Online playground for OpenAPI tokenizers: https://tiktokenizer.vercel.app
+# Tokenizer - OpenAI API: https://platform.openai.com/tokenizer
 
-import tiktoken
- 
-tokenizer=tiktoken.encoding_for_model("gpt-4")
- 
-text = "Apple is a fruit"
- 
-token=tokenizer.encode(text)
-print(token)
-# [27665, 374, 264, 14098]
- 
-decoded_text = tokenizer.decode(token)
-print(decoded_text)
-# Apple is a fruit
+"Apple is a fruit"
+
+-> ['Apple', ' is', ' a', ' fruit']
+-> [32352, 382, 261, 15310]
 ```
 
 ```js
@@ -58,11 +49,9 @@ assert(enc.decode(enc.encode("hello world")) === "hello world");
 
 <img alt="BPE-tokenize" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/BPE-tokenize.png" width="450" />
 
-Token IDs are a straightforward numerical representation of tokens. It is a basic form of vectorization. They do not capture any deeper relationships or patterns between the tokens.
-
 Embeddings are advanced vector representations of tokens. They try to capture the most nuance, connections, and semantic meanings between tokens. Each embedding is generally a series of real numbers on a vector space computed by a neural network. They are the “real inputs” of LLMs.
 
-Embeddings are, in fact, a subset of the model’s weights. They are the weights associated with the input layer (in the case of feedforward networks) or the embedding layer (in models like Transformers).
+If you load a model from libraries, the embedding table is included automatically as part of the model’s weights. The model looks up each token ID in the embedding table to get token embeddings. These are token-level embeddings. To get an embedding for the whole sentence, you need to combine these token embeddings into one vector that represents the full sentence.
 
 ```py
 from langchain_openai.embeddings import OpenAIEmbeddings
@@ -137,7 +126,6 @@ const { data: documents } = await supabaseClient.rpc('match_documents', {
   match_count: 10, // Choose the number of matches
 })
 
-// https://platform.openai.com/tokenizer
 const tokenizer = new GPT3Tokenizer({ type: 'gpt3' })
 let tokenCount = 0
 let contextText = ''
@@ -288,45 +276,6 @@ for (let i = 0; i < docs.length; i += chunkSize) {
     embeddings,
   );
 }
-```
-
-## An AI of Dan Abramov using RAG (Retrieval Augmented Generation)
-https://github.com/TejasQ/danGPT
-
-1. Turn the query into a vector using the same embeddings model.
-2. Search the vector database for the most similar vectors to the query vector, or vectors "near" the query vector in dimensional space.
-3. Retrieve many original texts from the most similar vectors.
-4. Take those original texts and feed them as context into a generative AI model,such as OpenAI's `gpt-3.5-turbo`.
-5. The generative AI model then generates a response based on the context it was given, prentending to be Dan.
-
-```js
-export const text2vec = async (texts: string[]) => {
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-  const embedding = await openai.embeddings.create({
-    model: "text-embedding-3-small",
-    dimensions: 1024,
-    input: texts,
-  });
-
-  return embedding.data.map((d) => d.embedding);
-};
-
-export const search = async (query: string) => {
-  const astraClient = new AstraDB(
-    process.env.ASTRA_DB_APPLICATION_TOKEN,
-    process.env.ASTRA_DB_API_ENDPOINT
-  );
-  const collection = await astraClient.collection('danGPT');
-  const [$vector] = await text2vec([query]);
-  const results = (
-    await collection
-      .find({}, { sort: { $vector }, limit: 100, includeSimilarity: true })
-      .toArray()
-  ).filter((r) => r.$similarity > 0.7);
-
-  return results;
-};
 ```
 
 ## Vector Database
