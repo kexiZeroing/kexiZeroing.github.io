@@ -248,16 +248,13 @@ const main = async () => {
 Furthermore, we can use the `describe` function to help refine the generation.
 
 ```js
-const main = async () => {
-  const result = await generateObject({
-    model: openai("gpt-4o-mini"),
-    prompt: "Please come up with 3 definitions for AI agents.",
-    schema: z.object({
-      definitions: z.array(z.string().describe("Use as much jargon as possible. It should be completely incoherent.")),
-    }),
-  })
-  console.log(result.object.definitions)
-}
+await generateObject({
+  model: openai("gpt-4o-mini"),
+  prompt: "Please come up with 3 definitions for AI agents.",
+  schema: z.object({
+    definitions: z.array(z.string().describe("Use as much jargon as possible. It should be completely incoherent.")),
+  }),
+})
 ```
 
 ## Deep Research
@@ -294,8 +291,6 @@ const main = async () => {
   //   'qualifications for NCAA Division 1 shotput',
   // ]
 }
- 
-main()
 ```
 
 Now we need to map these queries to web search results. We use [Exa](https://exa.ai) for this.
@@ -305,24 +300,17 @@ import Exa from 'exa-js'
  
 const exa = new Exa(process.env.EXA_API_KEY)
  
-type SearchResult = {
-  title: string
-  url: string
-  content: string
-}
- 
 const searchWeb = async (query: string) => {
   const { results } = await exa.searchAndContents(query, {
     numResults: 1,
     livecrawl: 'always', // not use cache
   })
   return results.map(
-    (r) =>
-      ({
-        title: r.title,
-        url: r.url,
-        content: r.text,
-      }) as SearchResult
+    (r) =>({
+      title: r.title,
+      url: r.url,
+      content: r.text,
+    })
   )
 }
 ```
@@ -533,4 +521,4 @@ export async function codingAgent(prompt: string) {
 }
 ```
 
-Note that if you omit `stopWhen`, the tool is called but you get an empty response. The reason is that the language model can generate either text or tool call. It doesn't do both at the same time. So in this case, the language model generates a tool call, we execute the tool and have a tool result. But our step is complete, and by default every request you make with the AI SDK will just be one single step. With the SDK, you can describe the stop conditions for when this loop should stop using `stopWhen ` property. *(Without the SDK, you have to manually wrap the entire call in a while loop, manage message history, and define some stop conditions.)*
+Note that if you omit `stopWhen`, the tool is called but you get an empty response. The reason is that the language model can generate either text or tool call. It doesn't do both at the same time. So in this case, the language model generates a tool call, we execute the tool and have a tool result. But our step is complete, and by default every request you make with the AI SDK will just be one single step. With the SDK, you can describe the stop conditions for when this loop should stop using `stopWhen` property. *(Without the SDK, you have to manually wrap the entire call in a while loop, manage message history, and define some stop conditions.)*
