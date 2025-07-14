@@ -3,7 +3,7 @@ title: "CSS effects collection"
 description: ""
 added: "Dec 5 2022"
 tags: [css]
-updatedDate: "Mar 20 2025"
+updatedDate: "July 14 2025"
 ---
 
 ### TOC
@@ -11,11 +11,9 @@ updatedDate: "Mar 20 2025"
 - [Rainbow Artword](#rainbow-artword)
 - [Hover Text Effects](#hover-text-effects)
 - [Apple-style OS dock](#apple-style-os-dock)
-- [3D Flip Hover Effects](#3d-flip-hover-effects)
 - [Color Palettes](#color-palettes)
-- [3D Clock](#3d-clock)
-- [Animation with View Transitions](#animation-with-view-transitions)
 - [Filter and backdrop filter](#filter-and-backdrop-filter)
+- [Animation with View Transitions](#animation-with-view-transitions)
 - [Scroll-driven animations](#scroll-driven-animations)
 - [Reveal hover effect](#reveal-hover-effect)
 - [Gradient border card](#gradient-border-card)
@@ -116,110 +114,6 @@ https://codepen.io/jh3y/pen/GRwwWoV
   flex: calc(0.2 + (sin(30deg) * 1.5));
   translate: 0 calc(sin(30deg) * -75%);
 }
-```
-
-### 3D Flip Hover Effects
-<img alt="3D Flip Hover" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/Screen%20Shot%202023-02-18%20at%207.06.16%20PM.png" width="200">
-
-https://codepen.io/rikanutyy/pen/PEJBxX
-
-```html
-<style>
-  .card {
-    color: #013243;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300px;
-    height: 400px;
-    background: #e0e1dc;
-    transform-style: preserve-3d;
-    transform: translate(-50%,-50%) perspective(2000px);
-    box-shadow: inset 300px 0 50px rgba(0,0,0,.5), 20px 0 60px rgba(0,0,0,.5);
-    transition: 1s;
-  }
-
-  .card:hover {
-    transform: translate(-50%,-50%) perspective(2000px) rotate(15deg) scale(1.2);
-    box-shadow: inset 20px 0 50px rgba(0,0,0,.5), 0 10px 100px rgba(0,0,0,.5);
-  }
-
-  .card:before {
-    content:'';
-    position: absolute;
-    top: -5px;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: #BAC1BA;
-    transform-origin: bottom;
-    transform: skewX(-45deg);
-  }
-
-  .card:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -5px;
-    width: 5px;
-    height: 100%;
-    background: #92A29C;
-    transform-origin: left;
-    transform: skewY(-45deg);
-  }
-
-  .card .imgBox {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-origin: left;
-    transition: .7s;
-  }
-
-  .card .bark {
-    position: absolute;
-    background: #e0e1dc;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: .7s;
-  }
-
-  .card .imgBox img {
-    min-width: 250px;
-    max-height: 400px;
-  }
-
-  .card:hover .imgBox {
-    transform: rotateY(-135deg);
-  }
-
-  .card:hover .bark {
-    opacity: 1;
-    transition: .6s;
-    box-shadow: 300px 200px 100px rgba(0, 0, 0, .4) inset;
-  }
-
-  .card .details {
-    position: absolute;
-    top: 0;
-    left: 0;
-    box-sizing: border-box;
-    padding: 0 0 0 20px;
-    z-index: -1;
-    margin-top: 70px;
-  }
-</style>
-
-<div class="card">
-  <div class="imgBox">
-    <div class="bark"></div>
-    <img src="https://placekitten.com/300/400">
-  </div>
-  <div class="details">
-    <h4>HAPPY BIRTHDAY</h4>
-  </div>
-</div>
 ```
 
 ### Color Palettes
@@ -331,13 +225,49 @@ Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick
 }
 ```
 
-### 3D Clock
-<img alt="3D Clock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/3dclock.jpg" width="300">
+### Filter and backdrop filter
+[backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) has the same effect as [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter), with one notable difference — backdrop filters apply only to areas behind the element instead of to the element and its children. Filters, on the other hand, apply directly to the element and its children, and don’t affect anything behind the element.
 
-https://codepen.io/bigxixi/pen/abjEMbg
+<figure>
+  <img alt="filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a9f0c5e0-6f17-4068-b481-17bfac204791.png" width="500">
+  <figcaption>filter example</figcaption>
+</figure>
+
+<figure>
+  <img alt="backdrop-filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/t0635k.png" width="500">
+  <figcaption>backdrop-filter example</figcaption>
+</figure>
+
+```html
+<div class="parent">
+  <div class="blur">Blur</div>
+  <div class="invert">Invert</div>
+  <div class="hue">Hue</div>
+  <div class="grayscale">Grayscale</div>
+</div>
+<style>
+.parent {
+  background-image: url("/images/neue-donau.webp");
+}
+.blur {
+  backdrop-filter: blur(5px);
+}
+.invert {
+  backdrop-filter: invert(1);
+}
+.hue {
+  backdrop-filter: hue-rotate(260deg);
+}
+.grayscale {
+  backdrop-filter: grayscale(100%);
+}
+</style>
+```
 
 ### Animation with View Transitions
 If you are making DOM changes, such as adding and removing elements from the DOM, a great solution for smooth animations is view transitions. The view transition is set up like: First, in CSS, give each card an individual `view-transition-name`. Then, in JavaScript, wrap the DOM mutation in a view transition `document.startViewTransition`.
+
+The property `view-transition-name` assigns a unique name to an element so the browser can track and animate it across transitions. If an element has the same name before and after, the browser says, “Ah! Same element. I'll animate the change (like move, resize, etc.).” If it doesn’t have a name or if names don’t match, the browser thinks it’s a completely different element and does a basic cross-fade. For example, say you navigate a box, the browser will animate the `.box` moving from 0px to 300px if `view-transition-name: box` is present. Without it, the browser would just fade out the first box and fade in the second.
 
 - Getting started with View Transitions on multi-page apps: https://daverupert.com/2023/05/getting-started-view-transitions
 - Example of view transitions for multi-page sites: https://mpa-view-transitions-sandbox.netlify.app
@@ -432,45 +362,6 @@ Tag selection: https://codepen.io/dannymoerkerke/pen/VYZxYdy
 https://codepen.io/argyleink/pen/GRPRJyM
 
 <img alt="just the tabs" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/245b6eaa-8117-430d-a2aa-faa40e0e51a2.png" width="450">
-
-### Filter and backdrop filter
-[backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) has the same effect as [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter), with one notable difference — backdrop filters apply only to areas behind the element instead of to the element and its children. Filters, on the other hand, apply directly to the element and its children, and don’t affect anything behind the element.
-
-<figure>
-  <img alt="filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a9f0c5e0-6f17-4068-b481-17bfac204791.png" width="500">
-  <figcaption>filter example</figcaption>
-</figure>
-
-<figure>
-  <img alt="backdrop-filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/t0635k.png" width="500">
-  <figcaption>backdrop-filter example</figcaption>
-</figure>
-
-```html
-<div class="parent">
-  <div class="blur">Blur</div>
-  <div class="invert">Invert</div>
-  <div class="hue">Hue</div>
-  <div class="grayscale">Grayscale</div>
-</div>
-<style>
-.parent {
-  background-image: url("/images/neue-donau.webp");
-}
-.blur {
-  backdrop-filter: blur(5px);
-}
-.invert {
-  backdrop-filter: invert(1);
-}
-.hue {
-  backdrop-filter: hue-rotate(260deg);
-}
-.grayscale {
-  backdrop-filter: grayscale(100%);
-}
-</style>
-```
 
 ### Scroll-driven animations
 At its simplest, the `animation-timeline` property lets us link any keyframe animation to the progress of scroll. They still run from 0-100%. But now, 0% is the scroll start position and 100% is the scroll end position.
