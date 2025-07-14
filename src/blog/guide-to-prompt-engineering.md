@@ -157,24 +157,10 @@ We can observe that the model has somehow learned how to perform the task by pro
 - The format you use also plays a key role in performance, even if you just use random labels, this is much better than no labels at all.
 - Few-shot can be expensive in terms of token usage and restricts the input length due to limited context length.
 
-Furthermore, chat is not a radically new feature, but rather a way in which auto-completion is being utilized. For example, in [llama.cpp](https://github.com/ggerganov/llama.cpp) (which rewriting the Python code to C++, so it runs significantly faster even on CPUs), we can find a file `chat-with-bob.txt` in the `prompts/` subfolder. It contains the following content:
-
-```
-Transcript of a dialog, where the User interacts with an Assistant named Bob. Bob is helpful, kind, honest, good at writing, and never fails to answer the User's requests immediately and with precision.
-
-User: Hello, Bob.
-Bob: Hello. How may I help you today?
-User: Please tell me the largest city in Europe.
-Bob: Sure. The largest city in Europe is Moscow, the capital of Russia.
-User:
-```
-
-The chat mode feeds the AI assistant's conversation transcript to the network for completion, starting with a prompt, followed by a sample format (question, answer). This creates the entire illusion of chat, even though the model is still just completing the "transcript" of a conversation between a human and AI.
-
 ### Chain-of-Thought Prompting
 It seems like few-shot prompting is not enough to get reliable responses for the type of reasoning problem. Chain-of-Thought (CoT) prompting enables complex reasoning capabilities through intermediate reasoning steps. You can combine it with few-shot prompting to get better results on more complex tasks that require reasoning before responding.
 
-<img alt="chain-of-thought" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hcqvzcmxovj31080h2n0i.jpg" width="650">
+<img alt="chain-of-thought" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hcqvzcmxovj31080h2n0i.jpg" width="700">
 
 Prompt:
 > The odd numbers in this group add up to an even number: 4, 8, 9, 15, 12, 2, 1.  
@@ -250,12 +236,6 @@ Another interesting translation example from [Baoyu's blog](https://baoyu.io/blo
 
   请根据直译和反思的结果，重新意译，并输出最终翻译结果，不包含任何其他信息。
   ```
-
-### Prefill Claude's response for greater output control
-When using Claude, you have the ability to guide its responses by prefilling the `Assistant` message. Your API request doesn't have to end with a 'user' turn. You can include an 'assistant' turn at the end of the messages array, and Claude will then start its response as if it already output the text you prefilled. This technique allows you to direct Claude’s actions, skip preambles, enforce specific formats like JSON or XML, and even help Claude maintain character consistency in role-play scenarios.
-
-- Prefilling `{` forces Claude to directly output the JSON object.
-- Prefilling a bracketed `[ROLE_NAME]` can remind Claude stay in character.
 
 ### Prompt tips for OpenAI’s new o1
 OpenAI's latest release, o1, unlocks new reasoning capabilities, but there’s a catch: prompts should be fundamentally different than the way you prompt GPT-3 and GPT-4, due to the new Chain-of-Thought architecture.
@@ -434,49 +414,4 @@ GPT-3 has been pre-trained on a vast amount of text from the open internet. When
 
 Fine-tuning improves on few-shot learning by training on many more examples than can fit in the prompt, letting you achieve better results on a wide number of tasks. Once a model has been fine-tuned, you won't need to provide examples in the prompt anymore. This saves costs and enables lower-latency requests.
 
-> In fact, ChatGPT will say that it doesn't know a thing. This is because it was fine-tuned to follow a conversational pattern. Fine-tuning is slow, difficult, and expensive. It is 100x more difficult than prompt engineering. So what is fine-tuning good for then? If you need a highly specific and reliable pattern (ChatGPT is a pattern, Email is a pattern, JSON/HTML/XML is a pattern), then fine-tuning is what you need.
-
-### An ELI5 explanation for LoRA
-Finetuning pre-trained LLMs is an effective method to tailor these models to suit specific business requirements and align them with target domain data. However, as LLMs are “large,” updating multiple layers in a transformer model can be very expensive, so researchers started developing parameter-efficient alternatives. **Low-rank adaptation (LoRA)** is such a technique.
-
-When we train fully connected (i.e., “dense”) layers in a neural network, the weight matrices usually have full rank, which is a technical term meaning that a matrix does not have any linearly dependent (i.e., “redundant”) rows or columns. In contrast, low rank means that the matrix has redundant rows or columns.
-
-The key in LoRA lies in this hypothesis: any fine tuning of a dense layer actually only adds a low rank weight matrix deltaW to the existing trained weight matrix W. It’s proved and validated in LoRA and previous studies, even if W has a rank of 12288, deltaW just need to have a rank of 1 or 2 to retain similar performance.
-
-So the fine tuning is simplified to training deltaW, which has the same number of weights as the original weight W. But we can exploit the fact that deltaW a low rank matrix, which can be decomposed to to the multiplication of two low rank matrix A & B. If W is 12288x12288, the deltaW only need to have 12288x1 + 1x12288 weights, resulting in only 1/6144 weights need to be trained.
-
-### OpenAI Fine-tuning capability
-Fine-tuning lets you get more out of the models available through the API. Once you have determined that fine-tuning is the right solution, you’ll need to prepare data for training the model. You provide a list of training examples and the model learns from those examples to predict the completion to a given prompt. Your data must be a JSONL document, where each line is a prompt-completion pair corresponding to a training example.
-
-- Large (ideally thousands or tens of thousands of examples)
-- High-quality (consistently formatted and cleaned of incomplete or incorrect examples)
-- Representative (training data should be similar to the data upon which you’ll use your model)
-- Sufficiently specified (containing enough information in the input to generate what you want to see in the output)
-
-```json
-{"prompt": "burger -->", "completion": " edible"}
-{"prompt": "paper towels -->", "completion": " inedible"}
-{"prompt": "vino -->", "completion": " edible"}
-{"prompt": "bananas -->", "completion": " edible"}
-{"prompt": "dog toy -->", "completion": " inedible"}
-```
-
-```
-# Prepare training data
-# CSV, TSV, XLSX, JSON file -> output into a JSONL file ready for fine-tuning
-openai tools fine_tunes.prepare_data -f <LOCAL_FILE>
-
-# Create a fine-tuned model
-openai api fine_tunes.create -t <TRAIN_FILE_ID_OR_PATH> -m <BASE_MODEL>
-
-# List all created fine-tunes
-openai api fine_tunes.list
-
-# Retrieve the state of a fine-tune. The resulting object includes
-# job status (which can be one of pending, running, succeeded, or failed)
-# and other information
-openai api fine_tunes.get -i <YOUR_FINE_TUNE_JOB_ID>
-
-# Use a fine-tuned model
-openai api completions.create -m <FINE_TUNED_MODEL> -p <YOUR_PROMPT>
-```
+A popular technique for fine-tuning is LoRA (Low-Rank Adaptation). LoRA allows you to fine-tune large language models efficiently by injecting a small number of trainable parameters into the model without modifying the original weights. In simple terms, "low-rank" means a simpler or smaller version of something big. In machine learning, large matrices (tables of numbers) are often used to represent information. Sometimes, the information in a large matrix can be closely approximated using smaller, simpler matrices. This is called a low-rank approximation.

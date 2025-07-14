@@ -23,18 +23,12 @@ Start exploring Cursor’s AI-powered features:
 - CMD-K: Use `Cmd + K` for inline code edits
 - Chat: Use `Cmd + I` to open the unified AI interface with Ask, Edit, and Agent modes
 ​
-For models, enabling Auto-select configures Cursor to select the premium model best fit for the immediate task and with the highest reliability based on current demand. This feature can detect degraded output performance and automatically switch models to resolve it.
+Cursor lets you input your own API keys for various LLM providers to send as many AI messages as you want at your own cost. To use your own API key, go to Cursor Settings > Models and enter your API keys.
 
 To view your current usage, you can visit the dashboard at [cursor.com/dashboard](https://www.cursor.com/dashboard)
 
-> Cursor lets you input your own API keys for various LLM providers to send as many AI messages as you want at your own cost. To use your own API key, go to Cursor Settings > Models and enter your API keys.
-
 ### Tab
 Cursor Tab is our native autocomplete feature. You can accept a suggestion by pressing `Tab`, or reject it by pressing `Esc`.
-
-To turn the feature on or off, hover over “Cursor Tab” icon on the status bar in the bottom right of the application. You can disable Cursor Tab for comments by going to Cursor Settings -> Features -> Cursor Tab and unchecking “Suggestions in Comments”.
-
-In TypeScript project, Tab can automatically import modules and functions from elsewhere in your project, without you having to manually type the import statement.
 
 ### Chat (Cmd + I)
 Chat (previously “Composer”) is Cursor’s AI assistant that lives in your sidebar, letting you interact with your codebase through natural language.
@@ -59,7 +53,7 @@ When a project is opened, each Cursor instance will initialize indexing for that
 
 The status of your codebase indexing is under Cursor Settings > Features > Codebase Indexing.
 
-You can control which directories and files Cursor can access by adding a `.cursorignore` file to your root directory. Cursor makes its best effort to block access to files listed in `.cursorignore` from codebase indexing, Tab, Chat, Cmd-K, and `@` symbol references. Files listed in `.cursorindexingignore` will not be included in Cursor’s index but can still be accessed by Cursor’s AI-assisted features.
+You can control which directories and files Cursor can access by adding a `.cursorignore` file to your root directory. Cursor makes its best effort to block access to files listed in `.cursorignore` from codebase indexing, Tab, Chat, Cmd-K, and `@` symbol references.
 
 In Cursors input boxes, you can use `@` symbols by typing `@`. A popup menu will appear with a list of suggestions, and it will automatically filter to only show the most relevant suggestions based on your input.
 
@@ -85,12 +79,11 @@ You can organize rules by placing them in `.cursor/rules` directories throughout
 
 ```
 project/
-  .cursor/rules/        # Project-wide rules
+  .cursor/rules/    # Project-wide rules
   backend/
-    server/
-      .cursor/rules/    # Backend-specific rules
+    .cursor/rules/  # Backend-specific rules
   frontend/
-    .cursor/rules/      # Frontend-specific rules
+    .cursor/rules/  # Frontend-specific rules
 ```
 
 Nested rules automatically attached when files in their directory are referenced. This is particularly useful in monorepos or projects with distinct components that need their own specific guidance.
@@ -184,7 +177,7 @@ Cline has access to the following tools for various tasks:
 
 **Agent mode** transforms Copilot Chat into an orchestrator of tools (`read_file`, `edit_file`, `run_in_terminal`, etc.). Give it a natural‑language goal—“add OAuth to our Flask app and write tests”—and it plans, edits files, runs the test suite, reads failures, fixes them, and loops until green. You watch the steps, intervene when you like, and keep all changes local.
 
-Where agent mode lives in the IDE, **coding agent** lives in your repos. Assign an issue to Copilot, and it spins up a secure cloud workspace (via GitHub Actions), figures out a plan, edits code on its own branch, runs your tests/linters, and opens a pull request tagging you for review.
+While agent mode lives in the IDE, **coding agent** lives in your repos. Assign an issue to Copilot, and it spins up a secure cloud workspace (via GitHub Actions), figures out a plan, edits code on its own branch, runs your tests/linters, and opens a pull request tagging you for review.
 
 Microsoft have released the GitHub Copilot Chat client for VS Code under an open source (MIT) license. So far this is just the extension that provides the chat component of Copilot. The agent instructions can be found in [prompts/node/agent/agentInstructions.tsx](https://github.com/microsoft/vscode-copilot-chat/blob/main/src/extension/prompts/node/agent/agentInstructions.tsx).
 
@@ -194,7 +187,8 @@ Create a `.github/copilot-instructions.md` file in your repository's root direct
 - https://code.visualstudio.com/docs/copilot/copilot-customization
 - https://github.com/github/awesome-copilot
 
-> By the way, Claude includes a System Prompts release notes section in its docs. This section logs updates made to the default system prompts used on Claude.ai and in the mobile apps. The system prompt does not affect the API. Check it out here: https://docs.anthropic.com/en/release-notes/system-prompts
+### Claude System Prompts 
+Claude includes a System Prompts release notes section in its docs. This section logs updates made to the default system prompts used on Claude.ai and in the mobile apps. The system prompt does not affect the API. Check it out here: https://docs.anthropic.com/en/release-notes/system-prompts
 
 ## Gemini CLI
 Gemini CLI brings the capabilities of Gemini models to your terminal in an interactive Read-Eval-Print Loop (REPL) environment. Gemini CLI consists of a client-side application (`packages/cli`) that communicates with a local server (`packages/core`), which in turn manages requests to the Gemini API and its AI models. Gemini CLI also contains a variety of tools for tasks such as performing file system operations, running shells, and web fetching, which are managed by `packages/core`.
