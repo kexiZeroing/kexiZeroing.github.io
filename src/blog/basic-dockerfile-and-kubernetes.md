@@ -43,7 +43,7 @@ CMD [ "node", "index.js" ]
 FROM node:19.7.0-bullseye-slim
 ```
 
-2. Set the working directory to provide a dedicated place in the filesystem with your app. By default, the working directory would be the root path (/) but you should set it to something else based on the conventions of your specific language and framework.
+1. Set the working directory to provide a dedicated place in the filesystem with your app. By default, the working directory would be the root path (/) but you should set it to something else based on the conventions of your specific language and framework. Note that `WORKDIR` is inside the image, and it does not affect or reference local machine paths.
 
 ```dockerfile
 FROM node:19.7.0-bullseye-slim
@@ -160,12 +160,7 @@ Dockerfile
 
 **Kaniko** is a tool that enables building container images from a Dockerfile inside a Kubernetes cluster (runs in a containerized environment like a CI/CD pipeline) without requiring a Docker daemon. Kaniko builds container images by parsing the Dockerfile and executing each command within a container isolated from the host environment. Instead of using a Docker daemon, Kaniko simulates the Docker builder by providing its own implementations of Docker commands like ADD, COPY, RUN, etc.
 
-1. You gather all your blocks (your source code) and decide how to arrange them using instructions (your Dockerfile). You tell a magical builder (Kaniko) how to build your toy house using these instructions, without needing the usual building tools (Docker).
-2. This packed version (a Docker image) can be sent to a special storage box (the container registry) so anyone can use it later. You told the builder (Kaniko) in step 1 where to store the house once it's packed.
-3. Now, you have to make sure that when the kids want to play with your house in the playground (your servers or Kubernetes), they are using the right version. So, you update the playground instructions (Terraform configuration) with the newest version of your house.
-4. The playground helpers (Terraform) read the updated plan you prepared. Terraform will actually deploy it, which means they replace the old toy house with the new one.
-
-### Docker Multi-stage builds
+### Docker multi-stage builds
 Most of the time, we COPY files from the host to the container image. However, you can also COPY files straight from other images `COPY --from=<image>`. Every FROM instruction defines a stage.
 
 - The order of stages in the Dockerfile matters - it's impossible to `COPY --from` a stage defined below the current stage.
@@ -194,48 +189,12 @@ RUN rm -rf ./*
 COPY --from=build /app/dist .
 ```
 
+`COPY --from=build` means copy the contents of the `/app/dist` directory from the build stage into the current working directory of the current stage, which is where Nginx serves static files. If you omit `--from=build` and just write `COPY /app/dist .`, Docker will try to copy the path `/app/dist` from your local machine, not from the previous build stage.
+
 ### Deploy Next.js app with Docker
 Next.js can be deployed to any hosting provider that supports Docker containers. You can use this approach when deploying to container orchestrators such as Kubernetes or when running inside a container in any cloud provider.
 
 To add support for Docker to an existing project, just copy the [Dockerfile](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile) into the root of the project.
-
-### Minimal pattern for building and deploying a custom site using GitHub Actions and GitHub Page
-
-```yaml
-name: Publish site
-
-on:
-  push:
-  workflow_dispatch:
-
-permissions:
-  pages: write
-  id-token: write
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Build the site
-      run: |
-        mkdir _site
-        echo '<h1>Hello, world!</h1>' > _site/index.html
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-```
-
-Anything that goes in that `_site/` directory will be published to the GitHub Pages site. [github.com/simonw/minimal-github-pages-from-actions](https://github.com/simonw/minimal-github-pages-from-actions) is an example repository that uses this exact YAML configuration.
 
 ## Intro to Kubernetes
 Let's say you have an app which you have containerized (Monoliths were broken into microservices). So you run a bunch of containers to serve your app to users. But how do you manage these different containers? This is where K8s comes to the rescue. Kubernetes is a container orchestration tool for managing production-ready containerized workloads and services that allows for declarative setup as well as automation.
@@ -298,11 +257,11 @@ spec:
 > Deployment manages the desired state of your application. Service provides a stable network endpoint to access those containers. The key to their interaction is the label selector. The Deployment defines labels for its Pods in the template section, and the Service uses a selector to choose which Pods to route traffic to.
 > 
 > Example Workflow:
-> a. Deployment creates Pods with specific labels.
-> b. Service is created with a selector matching those labels.
-> c. Clients send requests to the Service.
-> d. Service routes each request to one of the Pods managed by the Deployment.
-> e. If Pods are added/removed, the Service's routing table updates automatically.
+> - a. Deployment creates Pods with specific labels.
+> - b. Service is created with a selector matching those labels.
+> - c. Clients send requests to the Service.
+> - d. Service routes each request to one of the Pods managed by the Deployment.
+> - e. If Pods are added/removed, the Service's routing table updates automatically.
 
 **Horizontal Pod Autoscaling (HPA)** is a crucial feature in Kubernetes that enables automatic adjustment of the number of running pods based on observed CPU or memory utilization. The key components of HPA: 
 - The Metrics Server collects and serves container resource metrics, playing a pivotal role in HPA functionality.
