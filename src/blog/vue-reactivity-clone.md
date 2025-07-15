@@ -37,7 +37,7 @@ The virtual DOM was created to address performance issues caused by frequent man
 ```js
 let activeEffect = null
 
-// targetMap: Map<target, depsMap>
+// targetMap: WeakMap<target, depsMap>
 // depsMap: Map<key, dep>
 // dep: Set<effect>
 const targetMap = new Map()
@@ -93,7 +93,7 @@ function effect(fn) {
 }
 
 // targetMap: Map {
-//   product → Map {
+//   product → depsMap: Map {
 //     'price' → Set { effect1, effect2 }
 //     'quantity' → Set { effect1, effect3 }
 //   }
@@ -110,57 +110,60 @@ product.quantity = 5
 product.price = 12
 ```
 
-
+<br>
 <img alt="Vue2 reactivity" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/6a6e5dab-2f12-4dd2-ab94-f47dec512c71.png" width="650" />
 
 ```js
-let target = null
-let product = { price: 10, quantity: 4 }
-let total = 0
+let activeEffect = null
 
 class Dep {
   constructor() {
-    this.subscribers = []
+    this.subscribers = new Set()
   }
-  depend () {
-    if (target && !this.subscribers.includes(target)) {
-      this.subscribers.push(target)
+
+  depend() {
+    if (activeEffect) {
+      this.subscribers.add(activeEffect)
     }
   }
+
   notify() {
-    this.subscribers.forEach(sub => sub())
+    this.subscribers.forEach(effect => effect())
   }
 }
 
-Object.keys(product).forEach(key => {
-  let value = product[key]
+function defineReactive(target) {
+  Object.keys(target).forEach(key => {
+    let value = target[key]
+    const dep = new Dep()
 
-  const dep = new Dep()
-  Object.defineProperty(product, key, {
-    get() {
-      dep.depend()
-      return value
-    },
-    set(newVal) {
-      if (newVal !== value) {
-        value = newVal
-        dep.notify()
+    Object.defineProperty(target, key, {
+      get() {
+        dep.depend() // track logic
+        return value
+      },
+      set(newVal) {
+        if (newVal !== value) {
+          value = newVal
+          dep.notify() // trigger logic
+        }
       }
-    }
+    })
   })
-})
 
-function watcher(fn) {
-  target = fn
-  target()
-  // ensures that each watcher only collects the dependencies it directly uses
-  target = null
+  return target
 }
 
-// 1. update computed properties
-// 2. trigger watch callbacks 
-// 3. creates a watcher for the component's render function
-watcher(() => {
+function effect(fn) {
+  activeEffect = fn
+  activeEffect()
+  activeEffect = null
+}
+
+let product = defineReactive({ price: 10, quantity: 4 })
+let total = 0
+
+effect(() => {
   total = product.price * product.quantity
   console.log('total changed ', total)
 })
