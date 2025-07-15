@@ -43,7 +43,7 @@ CMD [ "node", "index.js" ]
 FROM node:19.7.0-bullseye-slim
 ```
 
-1. Set the working directory to provide a dedicated place in the filesystem with your app. By default, the working directory would be the root path (/) but you should set it to something else based on the conventions of your specific language and framework. Note that `WORKDIR` is inside the image, and it does not affect or reference local machine paths.
+2. Set the working directory to provide a dedicated place in the filesystem with your app. By default, the working directory would be the root path (/) but you should set it to something else based on the conventions of your specific language and framework. Note that `WORKDIR` is inside the image, and it does not affect or reference local machine paths.
 
 ```dockerfile
 FROM node:19.7.0-bullseye-slim

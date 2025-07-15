@@ -11,6 +11,23 @@ Use the template https://stackblitz.com/edit/vue3-vite-starter to start.
 
 In a Vue component, `<script setup>` can be used alongside normal `<script>` using the options API. It works because the `<script setup>` block is compiled into the component's `setup()` function. A normal `<script>` may be needed, for example, we need to run side effects or create objects that should only execute once in module scope (outside the `export default {}`).
 
+```vue
+<script>
+console.log('module loaded') // runs ONCE
+
+export default {
+  name: 'MyComponent',
+  created() {
+    console.log('in created') // runs EVERY time component is created
+  }
+}
+</script>
+```
+
+> Each `.vue` file is turned into a JavaScript ES module. So:
+> - Top-level code in `<script>` runs once when the module is loaded.
+> - Code inside `<script setup>` or in lifecycle hooks runs every time a new component instance is created.
+
 Components using `<script setup>` are closed by default - i.e. the public instance of the component will not expose any of the bindings declared inside `<script setup>`. To explicitly expose properties, use the `defineExpose` compiler macro.
 
 ### Date Countdown
