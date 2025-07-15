@@ -3,7 +3,7 @@ title: "Learn from Advent of Vue"
 description: ""
 added: "Dec 27 2022"
 tags: [vue]
-updatedDate: "Feb 4 2025"
+updatedDate: "July 15 2025"
 ---
 
 ### Code Structure
@@ -206,36 +206,6 @@ watch(count, watchFn('sync'), { flush: 'sync' }); // Count is 0
 ```
 
 ### Write better Vue composables
-Passing props and events back and forth through the component hierarchy creates a lot of complexity. A more straightforward solution is to create a shared data store that any component can import:
-
-```js
-import { reactive, toRefs } from 'vue'
-const state = reactive({ user: { name: 'Alice' } })
-
-export function useUserStore() {
-  // Without toRefs, if you were to destructure the returned state like this:
-  // const { user } = useUserStore()
-  // You would lose reactivity because destructuring breaks the reactive connection. T
-  return toRefs(state)
-}
-```
-
-> Without `toRefs`, if you were to destructure the returned state `const { user } = useUserStore()`, you would lose reactivity because destructuring breaks the reactive connection. The `user` variable would just be a static copy of the value at the time of destructuring. With `toRefs`, each property becomes an individual `ref` that maintains its reactive connection to the original state. If you only ever used the state as a whole object (like `state.user.name`) and never destructured it, then you wouldn't need `toRefs`.
-
-A giant component might put all its refs and methods in one place, so that setup quickly becomes unmanageable. Instead, an inline composable can group logic and provide it locally.
-
-```vue
-<script setup>
-function useCounter() {
-  const count = ref(0)
-  const increment = () => count.value++
-  return { count, increment }
-}
-
-const { count, increment } = useCounter()
-</script>
-```
-
 We abandon the options API for the composition API, and the idea is not that we write everything the same way as the options API but not having the data/computed/watch options.
 
 ```js
@@ -306,34 +276,6 @@ export default {
 }
 ```
 
-### Custom Directives
-
-```html
-<div class="w-full h-full flex flex-col justify-center items-center text-center gap-12">
-  <p v-christmas>Red + Green (default)</p>
-  <p v-christmas:red>Red only</p>
-  <p v-christmas:green>Green only</p>
-  <p v-christmas="5">Slower Animation</p>
-</div>
-```
-
-```js
-// main.js
-const app = createApp(App)
-
-app.directive('christmas', (el, binding) => {
-  const duration = binding.value ?? 2 // the length of the animation in seconds
-  const color = binding.arg ?? 'red-green' // the class to add for the different colors
-
-  // this will be called for both `mounted` and `updated`
-  el.classList.add('christmas-text', color)
-
-  el.style.animationDuration = duration + 's'
-})
-
-app.mount('#app')
-```
-
 ### Writable Computed Refs
 
 ```js
@@ -353,7 +295,7 @@ fullName.value = 'Michael Thiessen';
 console.log(lastName.value);      // 'Thiessen'
 ```
 
-A common mistake using `computed` is non reactive value as a dependency. Often developers need some reactivity when working with browser API’s, but the APIs are not reactive. To get around this, we will use VueUse library that adds reactivity to web browser APIs.
+A common mistake using `computed` is non reactive value as a dependency. Often developers need some reactivity when working with browser API’s, but the APIs are not reactive. To get around this, we will use VueUse library that adds reactivity to web browser APIs. *(VueUse makes non‑reactive browser data reactive by storing it in `ref` or `reactive` objects and updating those values using browser event listeners or polling.)*
 
 ```js
 const videoPlayer = ref<HTMLVideoElement>();
@@ -405,6 +347,10 @@ const { playing: videoPlaying} = useMediaControls(videoRef, {
   </SlotsScoped>
 </template>
 ```
+
+> `<template v-slot="{ number, message }">` is same as `<template #default="{ number, message }">`
+> 
+> `<template v-slot:display="{ number, message }"` is same as `<template #display="{ number, message }">`
 
 ### Async Components
 Vue allows us to divide an app into smaller chunks by loading components asynchronously with the help of the `defineAsyncComponent()` function, which accepts a loader function that returns a Promise that resolves to the imported component.
@@ -461,6 +407,37 @@ export default {
 </script>
 ```
 
+### Custom Directives
+
+```html
+<div class="w-full h-full flex flex-col justify-center items-center text-center gap-12">
+  <p v-christmas>Red + Green (default)</p>
+  <p v-christmas:red>Red only</p>
+  <p v-christmas:green>Green only</p>
+  <p v-christmas="5">Slower Animation</p>
+</div>
+```
+
+```js
+// main.js
+const app = createApp(App)
+
+app.directive('christmas', (el, binding) => {
+  const duration = binding.value ?? 2 // the length of the animation in seconds
+  const color = binding.arg ?? 'red-green' // the class to add for the different colors
+
+  // this will be called for both `mounted` and `updated`
+  el.classList.add('christmas-text', color)
+
+  el.style.animationDuration = duration + 's'
+})
+
+app.mount('#app')
+```
+
+- `el` is the DOM element the directive is bound to. You can manipulate it directly to set styles, classes, listeners, etc.
+- `binding` is an object containing data about the binding. It includes `value` (v-christmas="myValue"), `arg` (v-christmas:color), `modifiers` (v-christmas.foo.bar), etc.
+
 ### Global Properties
 It's possible to add global properties to your Vue app in both Vue 2 and Vue 3. Prefixing global properties with a `$` helps prevent naming conflicts with other variables, and it's a standard convention that makes it easy to spot when a value is global.
 
@@ -487,8 +464,6 @@ import { inject } from 'vue'
 const myGlobalVariable = inject('myGlobalVariable')
 </script>
 ```
-
-> [Solving Prop Drilling in Vue](https://alexop.dev/posts/solving-prop-drilling-in-vue): Instead of event buses, use Pinia for state, composables for logic, and provide/inject for component trees.
 
 ### How to Use Provide/Inject
 Vue’s Provide/Inject API is a powerful feature that allows components to share data without prop drilling. It is not meant for global state management but rather for local component hierarchies.
@@ -523,7 +498,7 @@ import * as AppForm from "./form";
 ### Renderless Components
 Renderless components can be an alternative to composables when finding ways to design reusable logic in your Vue apps. As you might guess, they don't render anything. Instead, they handle all the logic inside a script section and then expose properties through a scoped slot.
 
-Many components are contentless components. They provide a container, and you have to supply the content. Think of a button, a menu, or a card component. Slots allow you to pass in whatever markup and components you want, and they also are relatively open-ended, giving you lots of flexibility.
+Contentless components provide a container, and you have to supply the content. Think of a button, a menu, or a card component. Slots allow you to pass in whatever markup and components you want, and they also are relatively open-ended, giving you lots of flexibility.
 
 ```vue
 <!-- NorthPoleDistance.vue -->
@@ -607,6 +582,8 @@ export function useCheckboxToggle() {
 ### Render function
 When using the render function instead of templates, you'll be using the `h` function a lot (`hyperscript` - "JavaScript that produces HTML"). It creates a virtual node, an object that Vue uses internally to track updates and what it should be rendering. These render functions are essentially what is happening "under the hood" when Vue compiles your single file components to be run in the browser.
 
+If you write render functions, you can use runtime-only builds and save bundle size. No template compiler needed if you don’t use templates.
+
 ```vue
 <script>
 import { h } from 'vue'
@@ -623,46 +600,4 @@ export default {
   }
 }
 </script>
-```
-
-```js
-// vue-vdom.js
-// Create a virtual node
-export function h(tag, props, children) {
-  return { tag, props, children }
-}
-
-// tag: h1
-// props: { class: 'text-red-500'}
-// children: 'Hello'
-// Add a virtual node onto the DOM
-export function mount(vnode, container) {
-  const el = document.createElement(vnode.tag)
-  vnode.el = el
-
-  for (const key in vnode.props) {
-    if (key.startsWith('on')) {
-      el.addEventListener(key.slice(2).toLowerCase(), vnode.props[key])
-    }
-    el.setAttribute(key, vnode.props[key])
-  }
-
-  if (typeof vnode.children === 'string') {
-    // Text
-    el.textContent = vnode.children
-  } else if (Array.isArray(vnode.children)) {
-    // Array of vnodes
-    vnode.children.forEach(child => mount(child, el))
-  } else {
-    // Single vnode
-    mount(vnode.children, el)
-  }
-
-  container.appendChild(el)
-}
-
-// Remove a vnode from the real DOM
-export function unmount(vnode) {
-  vnode.el.parentNode.removeChild(vnode.el)
-}
 ```
