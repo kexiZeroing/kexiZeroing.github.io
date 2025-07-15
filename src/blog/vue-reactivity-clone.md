@@ -110,6 +110,10 @@ product.quantity = 5
 product.price = 12
 ```
 
+> Purpose of `if (activeEffect)` check and `activeEffect = null`
+> 1. prevent dependency collection outside of the effect. Prevents unrelated property accesses from being tracked. *e.g. `console.log(product.price)` is just reading, not inside an effect.*
+> 2. Avoid memory leaks.
+
 <br>
 <img alt="Vue2 reactivity" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/6a6e5dab-2f12-4dd2-ab94-f47dec512c71.png" width="650" />
 

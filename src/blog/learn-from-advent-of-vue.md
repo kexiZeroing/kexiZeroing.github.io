@@ -28,7 +28,7 @@ export default {
 > - Top-level code in `<script>` runs once when the module is loaded.
 > - Code inside `<script setup>` or in lifecycle hooks runs every time a new component instance is created.
 
-The data option in a component must be a function that returns an object, rather than an object itself. This is because the object returned from a function is created every time a new instance of the component is created, while an object assigned directly to the data option would be shared across all instances.
+The `data` option defined in a component in Vue 2 must be a function (that returns an object), rather than an object. This is because the object returned from a function is created every time a new instance of the component is created, while an object assigned directly to the `data` option would be shared across all instances.
 
 Components using `<script setup>` are closed by default - i.e. the public instance of the component will not expose any of the bindings declared inside `<script setup>`. To explicitly expose properties, use the `defineExpose` compiler macro.
 
