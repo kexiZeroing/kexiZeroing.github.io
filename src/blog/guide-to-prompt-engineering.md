@@ -331,6 +331,9 @@ When you make an API call with these additions, we check if the designated parts
 
 Place static content (system instructions, context, tool definitions) at the beginning of your prompt. Mark the end of the reusable content for caching using the `cache_control` parameter. The cache has a 5-minute lifetime, refreshed each time the cached content is used.
 
+### Claude System Prompts
+Claude includes a System Prompts release notes section in its docs. This section logs updates made to the default system prompts used on Claude.ai and in the mobile apps. The system prompt does not affect the API. Check it out here: https://docs.anthropic.com/en/release-notes/system-prompts
+
 ## OpenAI Responses vs. Chat Completions
 The Responses API and Chat Completions API are two different ways to interact with OpenAI's models. As model capabilities evolve, the Responses API is a flexible foundation for building action-oriented applications, with built-in tools: Web search, File search, Computer use. *Currently the file search and computer use tools are only available using the new Responses API.*
 
@@ -372,7 +375,7 @@ console.log(response.output_text);
 
 The Chat Completions API is an industry standard for building AI applications, and we intend to continue supporting this API indefinitely. If you don't need built-in tools for your application, you can confidently continue using Chat Completions.
 
-## Structured Outputs
+### Structured Outputs
 You might want to extract information from text, classify data, or generate synthetic data. Structured Outputs is available in latest large language models, starting with GPT-4o.
 
 ```js

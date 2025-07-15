@@ -308,7 +308,6 @@ chain.invoke({
   "question": "Who is Mary's sister?"
 })
 
-```py
 from langchain_community.vectorstores import DocArrayInMemorySearch
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 
