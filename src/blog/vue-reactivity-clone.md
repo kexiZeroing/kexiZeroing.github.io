@@ -22,18 +22,6 @@ console.log(sentence)
 // should log "React is awesome" if 'sentence' is reactive.
 ```
 
-### Why Vue need to use `.value` to access the ref property?
-The `.value` syntax is used in Vue 3 to access the value of a ref property because refs are designed to be reactive objects rather than simple values. When you create a ref, you are actually creating an object with a single property named `value`. The `value` property holds the actual value that the ref represents, and any changes to the `value` property trigger reactivity. When we access the ref directly, we are accessing the object, not the value.
-
-When you create a reactive object with `reactive()`, you can access its properties directly using dot notation, without needing to use `.value`. This is because reactive objects use JavaScript's built-in getters and setters to intercept property access and modification, allowing Vue to track dependencies and trigger reactivity as needed.
-
-- `reactive()` only takes objects, NOT JS primitives.
-- `ref()` is calling `reactive()` behind the scenes.
-- `ref()` has a `.value` property for reassigning, `reactive()` does not have this and therefore CANNOT be reassigned.
-
-### Why Vue component data needs to be a function?
-To ensure that each instance has its own unique set of data, the data option in a component must be a function that returns an object, rather than an object itself. This is because the object returned from a function is created every time a new instance of the component is created, while an object assigned directly to the data option would be shared across all instances. Methods, computed property definitions, and lifecycle hooks are created and stored only once, and run against every instance of a component.
-
 ### Shortcomings of React `useState()`
 React `useState()` returns a state, the value. This means that `useState()` has no idea how the state value is used inside the component. The implication is that once you notify React of state change through a call to `setState()`, React has no idea which part of the page has changed and therefore must re-render the whole component.
 

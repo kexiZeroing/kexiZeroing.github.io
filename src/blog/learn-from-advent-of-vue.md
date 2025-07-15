@@ -28,6 +28,8 @@ export default {
 > - Top-level code in `<script>` runs once when the module is loaded.
 > - Code inside `<script setup>` or in lifecycle hooks runs every time a new component instance is created.
 
+The data option in a component must be a function that returns an object, rather than an object itself. This is because the object returned from a function is created every time a new instance of the component is created, while an object assigned directly to the data option would be shared across all instances.
+
 Components using `<script setup>` are closed by default - i.e. the public instance of the component will not expose any of the bindings declared inside `<script setup>`. To explicitly expose properties, use the `defineExpose` compiler macro.
 
 ### Date Countdown
@@ -68,6 +70,15 @@ state.value.count = 2
 // does trigger change
 state.value = { count: 2 }
 ```
+
+### Why Vue need to use `.value` to access the ref property?
+The `.value` syntax is used in Vue 3 to access the value of a ref property because refs are designed to be reactive objects rather than simple values. When you create a ref, you are actually creating an object with a single property named `value`. The `value` property holds the actual value that the ref represents, and any changes to the `value` property trigger reactivity. When we access the ref directly, we are accessing the object, not the value.
+
+When you create a reactive object with `reactive()`, you can access its properties directly using dot notation, without needing to use `.value`. This is because reactive objects use JavaScript's built-in getters and setters to intercept property access and modification, allowing Vue to track dependencies and trigger reactivity as needed.
+
+- `reactive()` only takes objects, NOT JS primitives.
+- `ref()` is calling `reactive()` behind the scenes.
+- `ref()` has a `.value` property for reassigning, `reactive()` does not have this and therefore CANNOT be reassigned.
 
 ### `defineProps` and compiler macros
 You don't need to import `defineProps` from Vue. `defineProps`, `defineEmits`, and `defineExpose` are **compiler macros** that are compiled away, and they are not actual functions in the Vue package. These are just hints for the compiler to create them nicely.
