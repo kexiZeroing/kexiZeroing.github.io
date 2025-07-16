@@ -986,7 +986,7 @@ calc.next(100); // {value: 14000, done: true}
 ```
 
 ### Iterator helper methods
-The new proposal introduces a collection of new methods on the Iterator prototype, to allow general usage and consumption of iterators. All of the iterator-producing methods in this proposal are **lazy**. They will only consume the iterator when they need the next item from it.
+The new standard in ES2025 introduces a collection of new methods on the Iterator prototype, to allow general usage and consumption of iterators. All of the iterator-producing methods in this proposal are **lazy**. They will only consume the iterator when they need the next item from it.
 
 ```js
 function* naturals() {
@@ -1240,23 +1240,6 @@ Promise.any([pErr, pSlow, pFast]).then((value) => {
 });
 ```
 
-Promise with the concurrency control: https://github.com/sindresorhus/promise-fun
-```js
-import pMap from 'p-map';
-
-const urls = [
-  'https://sindresorhus.com',
-  'https://avajs.dev',
-  'https://github.com',
-  ...
-];
-
-const mapper = url => fetchStats(url); //=> Promise
-
-const result = await pMap(urls, mapper, {concurrency: 5});
-console.log(result);
-```
-
 Implement a basic JavaScript Promise class from scratch, including the ability to resolve, reject, and chain promises using `.then()` and `.catch()` methods.
 
 ```js
@@ -1282,39 +1265,7 @@ class MyPromise {
       }
     };
 
-    try {
-      executor(resolve, reject);
-    } catch (error) {
-      reject(error);
-    }
-  }
-
-  _handleCallback(callback) {
-    const { onFulfilled, onRejected, resolve, reject } = callback;
-
-    if (this.state === 'fulfilled') {
-      if (typeof onFulfilled === 'function') {
-        try {
-          const result = onFulfilled(this.value);
-          resolve(result);
-        } catch (error) {
-          reject(error);
-        }
-      } else {
-        resolve(this.value);
-      }
-    } else if (this.state === 'rejected') {
-      if (typeof onRejected === 'function') {
-        try {
-          const result = onRejected(this.value);
-          resolve(result);
-        } catch (error) {
-          reject(error);
-        }
-      } else {
-        reject(this.value);
-      }
-    }
+    executor(resolve, reject);
   }
 
   then(onFulfilled, onRejected) {
@@ -1328,18 +1279,6 @@ class MyPromise {
       }
     });
   }
-
-  catch(onRejected) {
-    return this.then(null, onRejected);
-  }
-
-  static resolve(value) {
-    return new MyPromise(resolve => resolve(value));
-  }
-
-  static reject(reason) {
-    return new MyPromise((_, reject) => reject(reason));
-  }
 }
 ```
 
@@ -1351,33 +1290,10 @@ Async functions can contain zero or more `await` expressions. Await expressions 
 - The `await` keyword is only valid inside async functions.
 - Use of `async / await` enables the use of ordinary `try / catch` blocks around asynchronous code.
 
-```js
-// Helper buddy for removing async/await try/catch
-function safeAwait(promise) {
-  return promise.then(data => {
-    if (data instanceof Error) return [data]
-    return [null, data]
-  }).catch(err => [err])
-}
-
-// const [ err, data ] = await safeAwait(myPromise())
-```
-
 > Top level await (introduced in ES2022):  
 > You can use the `await` keyword on its own (outside of an async function) at the top level of a module. 
 >
 > It only works in JavaScript modules, not in CommonJS (`require`) or traditional `<script>` tags without `type="module"`. Also, `.cjs` files in Node.js don’t support top-level await.
-
-Now you should understand why the below code will throw an error. The `useEffect` hook isn't expecting us to return a promise. It expects us to return either nothing or a cleanup function. A quick fix is to create a separate async function within our effect.
-
-```js
-React.useEffect(async () => {
-  const url = `${API}/get-profile?id=${userId}`
-  const res = await fetch(url)
-  const json = await res.json()
-  setUser(json)
-}, [userId])
-```
 
 Another common mistake is to use `forEach` loop with async functions. The `forEach` loop is synchronous, meaning it doesn’t wait for the inner async function to complete. To fix this, you can use a `for...of` loop with `await`.
 
@@ -1466,26 +1382,6 @@ async function parallel() {
 
 > Concurrency is when two or more tasks can start, run, and complete in overlapping time periods. It doesn't necessarily mean they'll ever be running at the same instant. For example, multitasking on a single-core machine. Parallelism is when tasks literally run at the same time, e.g., on a multicore processor.
 
-```ts
-// try...catch for await
-function catchError<T>(promise: Promise<T>): Promise<[undefined, T] | [Error]> {
-  return promise
-    .then(data => {
-      return [undefined, data] as [undefined, T]
-    })
-    .catch(err => {
-      return [err]
-    })
-}
-
-const [error, user] = await catchError(getUser(1))
-if (error) {
-  console.error('There was an error:', error.message)
-} else {
-  console.log(user)
-}
-```
-
 ### `for await...of`
 The `for await..of` loop is a handy tool when working with asynchronous operations. It allows us to iterate over the results of promises or asynchronous generators in a more readable and intuitive way.
 
@@ -1520,51 +1416,3 @@ const asyncIterable = {
   }
 })();
 ```
-
-## What is a JavaScript test
-
-```js
-import { assert, describe, expect, it } from 'vitest'
-
-describe('suite name', () => {
-  it('foo', () => {
-    assert.equal(Math.sqrt(4), 2)
-  })
-
-  it('bar', () => {
-    expect(1 + 1).eq(2)
-  })
-})
-```
-
-> Before, we needed to write lots of defensive code to check if we passed weird things into methods. Now, we can use Typescript to make sure that never happens. We still need to test our business logic, but by using Typescript, we can write fewer unit tests.
-
-```js
-import { expect, test } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
-import Link from '../components/Link.jsx'
-
-test('Link changes the state when hovered', async () => {
-  render(
-    <Link page="http://antfu.me">Anthony Fu</Link>,
-  )
-
-  const link = screen.getByText('Anthony Fu')
-
-  expect(link).toHaveAccessibleName('Link is normal')
-
-  await userEvent.hover(link)
-
-  expect(link).toHaveAccessibleName('Link is hovered')
-
-  await userEvent.unhover(link)
-
-  expect(link).toHaveAccessibleName('Link is normal')
-})
-```
-
-- [Jest](https://jestjs.io) is a JavaScript testing framework built on top of Jasmine and maintained by Meta. It works out of the box for most JavaScript projects. Jest finds tests, runs the tests, and determines whether the tests passed or failed. Additionally, it offers functions for test suites, test cases, and assertions.
-- [Vitest](https://vitest.dev) is a popular alternative to Jest, especially when being used in Vite. It also comes with a test runner, test suites (describe-block), test cases (it-block), and assertions (expect).
-- [React Testing Library](https://github.com/testing-library/react-testing-library) is not a test runner. It provides virtual DOMs for testing React components. If you are using create-react-app, Jest and React Testing Library comes by default with the installation. Enzyme and React Testing Library are two similar things and alternatives to each other.
-- [Playwright](https://github.com/microsoft/playwright) enables reliable end-to-end testing for modern web apps. It allows testing Chromium, Firefox and WebKit with a single API. Playwright is built to enable cross-browser web automation. Headless execution is supported for all browsers on all platforms.
