@@ -3,7 +3,7 @@ title: "Using ES modules"
 description: ""
 added: "Aug 12 2020"
 tags: [js]
-updatedDate: "Nov 24 2024"
+updatedDate: "July 16 2025"
 ---
 
 ## ES Modules
@@ -147,12 +147,9 @@ import('./modules/square.js').then((Module) => {
 ```
 
 ### Import Attributes
-The Import Attributes proposal, formerly known as Import Assertions, adds an inline syntax for module import statements to pass on more information alongside the module specifier. The initial application for such attributes will be to support additional types of modules in a common way across JavaScript environments, starting with JSON modules.
+> Previously, only `.js` JavaScript modules can be safely imported natively in all browsers. Other file types require either build tools (Vite, Webpack, etc.) or manual DOM manipulation (e.g., using `<link>` or `<img>` tags).
 
-```js
-// Executes JS if it responds with a JavaScript MIME type (e.g. `text/javascript`)
-import data from 'https://evil.com/data.json';
-```
+The Import Attributes proposal adds an inline syntax for module import statements to pass on more information alongside the module specifier. The initial application for such attributes will be to support additional types of modules in a common way across JavaScript environments, starting with JSON modules.
 
 File extensions can’t be used to make a module type determination because they aren’t a reliable indicator of content type on the web. On the web, there is a widespread [mismatch between file extension and the HTTP Content Type header](https://github.com/tc39/proposal-import-attributes/blob/master/content-type-vs-file-extension.md).
 
@@ -160,26 +157,13 @@ When a developer wants to import a JSON module, they must use an import assertio
 
 ```js
 // https://github.com/tc39/proposal-import-attributes
-// Status: Stage 3
 import json from "./foo.json" with { type: "json" };
 
 // dynamic import
 import("foo.json", { with: { type: "json" } })
 ```
 
-> Update on June 2025: Import Attributes and JSON Modules in ES2025. Import attributes now let you import JSON and other non-JavaScript assets natively, without bundler magic. You can now do this in plain JavaScript: `import config from './config.json' with { type: 'json' };`.
-
-### The code you write vs. the code that runs in the browser.
-Do you know what any of those do? In one sense, they’re all “non-standard” in terms of their ability to run natively on the web platform (none of these imports would work if dropped into a browser). On the other hand, they’re also pretty “standard” in terms of their prevalence across many codebases.
-
-```js
-import icon from './icon.svg';
-import data from './data.json';
-import styles from './styles.css';
-import foo from '~/foo.js';
-```
-
-If you saw that code, you’d have to take a step back and inspect your build tools (and plugins) to know what that code will do at runtime, as it won’t work as-written in the browser.
+> Update on June 2025: Import Attributes and JSON Modules are now in ES2025. Import attributes now let you import JSON and other non-JavaScript assets natively, without bundler magic. You can now do this in plain JavaScript: `import config from './config.json' with { type: 'json' };`.
 
 ### Import maps
 In common module systems, such as CommonJS, or a module bundler like webpack, the import specifier was mapped to a specific file, and users only needed to apply the bare module specifier (usually the package name) in the import statement, and concerns around module resolution were taken care of automatically.
@@ -222,8 +206,3 @@ Today, `import moment from "moment"` throws, as such bare specifiers are reserve
 > A valid module specifier map is a JSON object that each value must be either a valid absolute URL or a valid URL string that starts with "/", "./", or "../".
 
 *Update at 2023-03-28:* [JavaScript import maps are now supported cross-browser](https://web.dev/import-maps-in-all-modern-browsers). A modern way to use ES modules is with the `<script type="importmap">` tag. This tag allows you to define a mapping of external module names to their corresponding URLs, which makes it easier to include and use external modules in your code.
-
-### Importing a frontend Javascript library without a build system
-It's a hard problem now to take an NPM library and figure out how to download it and use it from a `<script>` tag without needing to involve some sort of convoluted build system.
-
-Read: https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
