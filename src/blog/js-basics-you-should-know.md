@@ -239,25 +239,20 @@ Object.prototype.toString.call(new Map())     // '[object Map]'
 > Tweet IDs are big numbers, bigger than `2^53`. The Twitter API now returns them as both integers and strings, so that in Javascript you can just use the string ID, but if you tried to use the integer version in JS, things would go very wrong. This particular issue doesn’t happen in Python, because Python has integers. Read more about [Examples of floating point problems](https://jvns.ca/blog/2023/01/13/examples-of-floating-point-problems/).
 
 ### Deal with floating point number precision
-Avoiding Integers and Floats for Monetary Values:
-- **Floats:** Using floats for monetary values is risky because of the inherent imprecision of floating-point arithmetic. Since floats are represented in binary, some decimal values can't be accurately represented, which leads to small rounding errors.
-- **Integers:** While integers avoid the precision issue of floats, they are not ideal unless you are consistently working with values like cents (e.g., 100 = $1.00). This approach requires converting back and forth between dollars and cents, which can introduce unnecessary complexity.
-
-1. Using Decimals. Decimals represent exact decimal numbers, avoiding the imprecision that floats can introduce. Many programming languages have libraries or data types (e.g., Python’s `decimal.Decimal`, Java’s `BigDecimal`) that offer this precision. JavaScript does not natively support decimals, but third-party libraries like `decimal.js` offer arbitrary-precision decimal support. Decimals are stored differently from floats. They store numbers as base-10 (decimal) fractions. They typically store three components: *Mantissa*, *Exponent*, and *Sign*, that preserves its exact value without converting to binary.
-
-```
-Example Decimal Storage: Let's say you store the number `123.45` as a decimal:
-
-Mantissa: 12345
-Exponent: -2
-Sign: Positive
-```
+1. JavaScript’s Number type uses binary floating-point, which can introduce precision errors with decimal values like `0.1 + 0.2`. Decimal libraries like `decimal.js` avoid this by representing numbers in base-10, preserving exact decimal values *(represent decimal numbers as strings or arrays of digits, and perform manual arithmetic in base-10)*.
 
 2. You need to replace equality tests with comparisons that allow some amount of tolerance. Do not do `if (x == y) { ... }`. Instead do `if (abs(x - y) < myToleranceValue) { ... }`.
 
 3. `toPrecision()` returns a string representing this number to the specified number of significant digits.
 
 ```js
+const n = 123.456;
+
+n.toFixed(2);  // '123.46'
+n.toFixed(5);  // '123.45600'
+n.toPrecision(4); // '123.5'
+n.toPrecision(5); // '123.46'
+
 const fixNumber = num => Number(num.toPrecision(5));
 
 // fixNumber(0.3 - 0.1) => 0.2
@@ -313,13 +308,6 @@ function Person() {
 
 var p = new Person();
 ```
-
-Figure out what the `"this"` is referencing:
-1. Is there an object to the left of the dot? If so, that's what the "this" keyword is referencing. (Implicit Binding)
-2. Was the function invoked with "call", "apply", or "bind"? If so, it'll explicitly state what the "this" keyword is referencing. (Explicit Binding)
-3. Was the function invoked using the "new" keyword? If so, the "this" keyword is referencing the newly created object that was made by the JavaScript interpreter. (new Binding)
-4. Is "this" inside of an arrow function? If so, its reference may be found lexically in the enclosing scope. (Lexical Binding)
-5. Are you in "strict mode"? If yes, the "this" keyword is undefined. If not, "this" is referencing the "window" object. (window Binding)
 
 ### Function.prototype.call() / apply()
 While the syntax of `call()` function is almost identical to that of `apply()`, the fundamental difference is that `call()` accepts an argument list, while `apply()` accepts a single array of arguments (or an array-like object). They provide a new value of `this` to the function. With call or apply, you can write a method once and then inherit it in another object, without having to rewrite the method for the new object. If the first argument is not passed, the value of `this` is bound to the global object (the value of `this` will be undefined in strict mode).
