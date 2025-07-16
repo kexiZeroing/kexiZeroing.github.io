@@ -144,6 +144,16 @@ It will allow you to add instance properties directly as a property on the class
 > Note that code run in the Chrome console can access private properties outside the class. This is a DevTools-only relaxation of the JavaScript syntax restriction.
 
 ```js
+class A {
+  name = 'abc'
+}
+// is equivalent to
+class A {
+  constructor() {
+    this.name = 'abc'
+  }
+}
+
 class Car {
   // private field, # as a part of the property name
   #milesDriven = 0  
@@ -374,45 +384,4 @@ const personProxy = new Proxy(person, {
     return Reflect.deleteProperty(obj, prop);
   },
 });
-```
-
-```js
-// time machine
-function createTimeMachine(data, onUpdate) {
-  return new Proxy(
-    {
-      states: [stucturedClone(data)],
-      currentIndex: 0,
-    },
-    {
-      set(target, prop, value) {
-        target.states.push(stucturedClone({
-           ...target.states[target.currentIndex],
-           [prop]: value
-        }))
-        target.currentIndex++
-        onUpdate()
-      },
-
-      get(target, prop) {
-        const currentState = target.states[target.currentIndex]
-        if (prop === 'currentState') {
-          return currentState
-        } else if (prop === 'backward') {
-          return () => {
-            target.currentIndex--
-            onUpdate()
-          }
-        } else if (prop === 'forward') {
-          return () => {
-            target.currentIndex++
-            onUpdate()
-          }
-        } else {
-          return currentState[prop]
-        }
-      }
-    }
-  )
-}
 ```

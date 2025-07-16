@@ -120,24 +120,9 @@ function replacer(match, p1, p2, p3, offset, string) {
 'abc123#$'.replace(/([^\d]*)(\d*)([^\w]*)/, replacer); // abc-123-#$
 ```
 
-### Avoid string comparisons
-Javascript makes it easy to hide the real cost of string comparisons. If you need to compare strings in C, you’d use the `strcmp(a, b)` function. Javascript uses `===` instead, so you don’t see the `strcmp`. But it’s there, and a string comparison will usually require comparing each of the characters in the string with the ones in the other string; string comparison is O(n). With the advent of TypeScript this should be easily avoidable, as enums are integers by default.
-
-Integers are usually passed by value in JS engines, whereas strings are always passed as pointers, and memory accesses are expensive.
-
-```ts
-// No
-enum Position {
-  TOP    = 'TOP',
-  BOTTOM = 'BOTTOM',
-}
-
-// Yes
-enum Position {
-  TOP,    // = 0
-  BOTTOM, // = 1
-}
-```
+> - `\d`: Matches any digit character. Equivalent to `[0-9]`.
+> - `\w`: Matches any word character, where a word character includes letters (A–Z, a–z), numbers (0–9), and underscore (_).
+> - `\s`: Matches any whitespace or line terminator character.
 
 ## Array
 
@@ -233,7 +218,6 @@ Array(1, 2, 3);    // [1, 2, 3]
 
 > 1. `Array()` can be called with or without `new`. Both create a new Array instance.
 > 2. The `length` property of an array is a 32-bit unsigned integer, which limits the maximum number of entries an array can have, which is `Math.pow(2, 32) - 1`.
-> 3. Arrays can contain "empty slots" (not the same as slots filled with the value `undefined`), which are called sparse arrays.
 
 ### Array.prototype.fill()
 The fill method takes up to three arguments `value`, `start` and `end`. The start and end arguments are optional with default values of 0 and the length of the this object. `fill()` is intentionally generic, it does not require that its `this` value be an Array object.
@@ -244,8 +228,6 @@ Array(3).fill(4)  // [4, 4, 4]
 // Objects by reference
 var arr = Array(3).fill({}) // [{}, {}, {}];
 arr[0].hi = "hi"; // [{ hi: "hi" }, { hi: "hi" }, { hi: "hi" }]
-
-[].fill.call({ length: 3 }, 4);  // {0: 4, 1: 4, 2: 4, length: 3}
 
 // compare with Array.from
 const array = Array.from({ length: 3 }, () => ({}));
@@ -286,7 +268,7 @@ function implementMapUsingReduce(list, func) {
 ```
 
 ### Array.prototype.splice()
-It changes the contents of an array by removing or replacing existing elements or adding new elements in place.
+It changes the contents of an array by removing or replacing existing elements or adding new elements in place. This function returns an array containing the deleted elements.
 
 ```js
 var arrDeletedItems = array.splice(start[, deleteCount[, item1[, item2[, ...]]]])
@@ -302,27 +284,6 @@ var removed = myFish.splice(3, 1);
 // replace
 var myFish = ['angel', 'clown', 'trumpet', 'sturgeon'];
 var removed = myFish.splice(0, 2, 'parrot', 'anemone', 'blue');
-```
-
-Move an array item to a different position.
-
-```js
-export function arrayMoveMutable(array, fromIndex, toIndex) {
-  const startIndex = fromIndex < 0 ? array.length + fromIndex : fromIndex;
-	
-  if (startIndex >= 0 && startIndex < array.length) {
-    const endIndex = toIndex < 0 ? array.length + toIndex : toIndex;
-
-    const [item] = array.splice(fromIndex, 1);
-    array.splice(endIndex, 0, item);
-  }
-}
-
-export function arrayMoveImmutable(array, fromIndex, toIndex) {
-  const newArray = [...array];
-  arrayMoveMutable(newArray, fromIndex, toIndex);
-  return newArray;
-}
 ```
 
 ### Flatten array
