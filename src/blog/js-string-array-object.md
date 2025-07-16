@@ -488,23 +488,6 @@ language.current = 'EN';
 console.log(language.log); // ['EN']
 ```
 
-```ts
-// a general purpose memoizer
-function lazy<T>(getter: () => T): { value: T } {
-  return {
-    get value() {
-      const value = getter();
-      Object.defineProperty(this, 'value', { value });
-      return value;
-    },
-  };
-}
-
-const myValue = lazy(() => 'Hello, world');
-myValue.value;  // compute value
-myValue.value;  // return cached value
-```
-
 ### Object.keys(), Object.values(), Object.entries()
 - Object.keys() returns an array whose elements are strings corresponding to the enumerable properties found directly upon object. 
 - Object.values() returns an array of a given object's own enumerable property values, in the same order as that provided by a `for...in` loop (the difference being that **for-in loop enumerates properties in the prototype chain as well**).
@@ -567,7 +550,7 @@ Object.prototype.isPrototypeOf(baz); // true
 ```
 
 ### toString() and valueOf()
-Every object has a `toString()` method that is automatically called when the object is to be represented as a text value or when an object is referred to in a manner in which a string is expected. **For Numbers, `toString()` takes an optional parameter radix, the value of radix must be minimum 2 and maximum 36**.
+Every object has a `toString()` method that is automatically called when the object is to be represented as a text value. For Numbers, `toString()` takes an optional parameter radix, the value of radix must be minimum 2 and maximum 36.
 
 You can create a function to be called in place of the default `toString()` method. The `toString()` method you create can be any value you want, but it will be most useful if it carries information about the object.
 
@@ -626,7 +609,8 @@ obj === o1; // true
 It creates a new object, using an existing object as the prototype of the newly created object.
 
 ```js
-const o1 = Object.create({});   // create a normal object
+const o1 = Object.create({});  // create a normal object
+Object.create() // TypeError: Object prototype may only be an Object or null
 
 const o2 = Object.create(null); // create a totally empty object (without prototype)
 // Is equivalent to:
@@ -658,8 +642,6 @@ Rectangle.prototype.constructor = Rectangle;
 var rect = new Rectangle();
 rect instanceof Rectangle  // true
 rect instanceof Shape      // true
-
-// ** In modern code, the class syntax should be preferred in any case.**
 ```
 
 ### Object.freeze()
@@ -681,24 +663,6 @@ obj.quaxxor = "the friendly duck";  // silently doesn't add the property
 
 // Attempted changes through Object.defineProperty, throw a TypeError in strict mode.
 Object.defineProperty(obj, "foo", { value: "eit" });
-```
-
-```js
-// protect against prototype pollution
-[
-  Object,
-  Object.prototype,
-  Function,
-  Function.prototype,
-  Array,
-  Array.prototype,
-  String,
-  String.prototype,
-  Number,
-  Number.prototype,
-  Boolean,
-  Boolean.prototype,
-].forEach(Object.freeze);
 ```
 
 ### Object.is()
@@ -725,7 +689,7 @@ The Map object holds key-value pairs and remembers the original insertion order 
 Object is similar to Map, and Objects have been used as Maps historically; however, there are important differences that make using a Map preferable in certain cases:
 - The keys of an Object are String and Symbol, whereas they can be any value for a Map, including functions, objects, and any primitive.
 - The keys in Map are ordered while keys added to object are not. Thus, when iterating over it, a Map object returns keys in order of insertion.
-- You can get the size of a Map easily with the `size` property, while the number of properties in an Object must be determined manually. (A Map is iterable, whereas a objects is not iterable.)
+- You can get the size of a Map easily with the `size` property, while the number of properties in an Object must be determined manually. **(A Map is iterable, whereas a objects is not iterable.)**
 
 ```js
 var myMap = new Map();
@@ -815,10 +779,10 @@ Array.from(mySet2)
 // intersection
 var intersection = new Set([...set1].filter(x => set2.has(x)));
 
-// Newly available 2024
 const odds = new Set([1, 3, 5, 7, 9]);
 const squares = new Set([1, 4, 9]);
 
+// Newly available in ES2025
 console.log(odds.intersection(squares)); // Set(2) { 1, 9 }
 console.log(odds.difference(squares)); // Set(3) { 3, 5, 7 }
 console.log(odds.union(squares)); // Set(6) { 1, 3, 5, 7, 9, 4 }
