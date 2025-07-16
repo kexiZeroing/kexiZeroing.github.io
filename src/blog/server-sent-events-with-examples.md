@@ -38,6 +38,7 @@ app.get('/real-time-updates', (req, res) => {
 
     // Use `res.write()` to send data to client.
     // If we use `res.send()` or `res.end()` it will close the connection.
+    // `res.send()` is in Express, not in Node.js
     res.write(`id: ${data.id}\n`);
     res.write(`data: ${JSON.stringify(data)}\n\n`);
   }, 1000);
