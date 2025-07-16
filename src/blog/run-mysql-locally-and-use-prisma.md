@@ -2,7 +2,7 @@
 title: "Run MySQL locally and use Prisma"
 description: ""
 added: "Aug 7 2024"
-tags: [code]
+tags: [web, code]
 updatedDate: "May 20 2025"
 ---
 

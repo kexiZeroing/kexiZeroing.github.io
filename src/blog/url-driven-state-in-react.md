@@ -2,7 +2,7 @@
 title: "URL-driven state in React"
 description: ""
 added: "Sep 28 2024"
-tags: [react, code]
+tags: [react]
 ---
 
 This post is my learning notes from the article [How to control a React component with the URL](https://buildui.com/posts/how-to-control-a-react-component-with-the-url). You can also [watch the video](https://www.youtube.com/watch?v=fYqMPvPvVAc) from the author.
