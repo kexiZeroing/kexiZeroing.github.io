@@ -1197,12 +1197,27 @@ class MyPromise {
       }
     });
   }
-}
 
-// What `_handleCallback` should do:
-// 1. Look at the promise's current state (fulfilled or rejected).
-// 2. Run the matching callback function with the promise's value.
-// 3. Pass the callback's return value to resolve the new promise.
+  // Take whatever that callback function returns,
+  // and use it to resolve the new promise that then() created.
+  _handleCallback(callback) {
+    const { onFulfilled, onRejected, resolve, reject } = callback;
+    
+    if (this.state === 'fulfilled') {
+      if (typeof onFulfilled === 'function') {
+        resolve(onFulfilled(this.value));
+      } else {
+        resolve(this.value);
+      }
+    } else if (this.state === 'rejected') {
+      if (typeof onRejected === 'function') {
+        resolve(onRejected(this.value));
+      } else {
+        reject(this.value);
+      }
+    }
+  }
+}
 ```
 
 ## async and await
