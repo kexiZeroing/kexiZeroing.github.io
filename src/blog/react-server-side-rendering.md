@@ -370,7 +370,7 @@ async function createReactTree(jsx) {
 }
 ```
 
-Now data are fetched on the server and they are all in markup, but we still need React on the client. The goal is to reconstruct the React element tree. Note that the reconstruction of the React element tree is important, as this allows us to merge subsequent changes to the React tree with minimal commits to the DOM.
+The client receives this pre-resolved JSX along with the server-rendered HTML markup. During hydration, the client reconstructs the React element tree from the serialized JSX data, allowing React to take control of the DOM and handle subsequent user interactions and state changes efficiently.
 
 ```js
 // We need to hydrate the root with the initial client JSX on the client.
