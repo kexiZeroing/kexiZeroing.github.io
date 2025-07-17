@@ -388,6 +388,8 @@ fetch(url).then(async response => {
             controller.close();
             return;
           }
+          // Content-Length and byteLength are not directly comparable 
+          // if compression is involved
           loaded += value.byteLength;
           console.log(`Progress: ${Math.round(loaded / total * 100)}%`);
           controller.enqueue(value);

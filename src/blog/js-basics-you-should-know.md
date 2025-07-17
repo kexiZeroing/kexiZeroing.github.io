@@ -964,9 +964,9 @@ naturals().find(v => v > 1); // 2
 ```
 
 ## Promise
-A `Promise` is a proxy for a value not necessarily known when the promise is created. The Promise object represents the eventual completion or failure of an asynchronous operation and its success value or failure reason. Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.
+The Promise object represents the eventual completion or failure of an asynchronous operation and its success value or failure reason. Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.
 
-A Promise is in one of these states: `pending`, `fulfilled`, `rejected`. A promise is said to be `settled` if it is either fulfilled or rejected, but not pending. A pending promise can either be fulfilled with a value or rejected with an error. When either of these options happens, the associated handlers queued up by a promise's `then` method are called. Note that **promises are guaranteed to be asynchronous**, so an action for an already "settled" promise will occur only after the stack has cleared and a clock-tick has passed. **Promise executor functions should not be async** (Don't do any awaiting inside the Promise constructor).
+A Promise is in one of these states: `pending`, `fulfilled`, `rejected`. A promise is said to be `settled` if it is either fulfilled or rejected, but not pending. A pending promise can either be fulfilled with a value or rejected with an error. When either of these options happens, the associated handlers queued up by a promise's `then` method are called. Note that **promises are guaranteed to be asynchronous**, so an action for an already "settled" promise will occur only after the stack has cleared and a clock-tick has passed. Promise executor functions should not be async (don't do any awaiting inside the Promise constructor).
 
 ```js
 let p = function() {
@@ -1125,9 +1125,7 @@ Promise.allSettled([
 //   {status: "fulfilled", value: 99},
 //   {status: "rejected",  reason: Error: an error}
 // ]
-```
 
-```js
 // use Promise.allSettled() for async error handling
 const profilePromise = fetch(endpoint).then(response => response.json());
 const [ result ] = await Promise.allSettled([profilePromise]);
@@ -1200,6 +1198,11 @@ class MyPromise {
     });
   }
 }
+
+// What `_handleCallback` should do:
+// 1. Look at the promise's current state (fulfilled or rejected).
+// 2. Run the matching callback function with the promise's value.
+// 3. Pass the callback's return value to resolve the new promise.
 ```
 
 ## async and await
@@ -1215,7 +1218,7 @@ Async functions can contain zero or more `await` expressions. Await expressions 
 >
 > It only works in JavaScript modules, not in CommonJS (`require`) or traditional `<script>` tags without `type="module"`. Also, `.cjs` files in Node.js don’t support top-level await.
 
-Another common mistake is to use `forEach` loop with async functions. The `forEach` loop is synchronous, meaning it doesn’t wait for the inner async function to complete. To fix this, you can use a `for...of` loop with `await`.
+Another common mistake is to use `forEach` loop with async functions. The `forEach` loop is synchronous, meaning it doesn’t wait for the inner async function to complete. So the loop completes immediately, even if the await inside hasn't resolved yet. To fix this, you can use a `for...of` loop with `await`.
 
 ```js
 const userIds = [1, 2, 3];
@@ -1237,9 +1240,6 @@ async function fetchUsers() {
 ```
 
 ```js
-// wait 1 second
-// await new Promise(resolve => setTimeout(resolve, 1000));
-
 function resolveAfter2Seconds() {
   return new Promise(resolve => {
     setTimeout(function() {
