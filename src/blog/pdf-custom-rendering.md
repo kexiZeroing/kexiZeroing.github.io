@@ -19,6 +19,7 @@ When it comes to the Web, almost every modern browser supports viewing of PDF do
 - Getting started with PDF.js: https://mozilla.github.io/pdf.js/getting_started
 
 ## Prebuilt overview
+If you want to use PDF.js in your app, you should use the pre-built version, which is provided via the `pdfjs-dist` package.
 
 ```
 ├── build/
@@ -112,7 +113,7 @@ In this demo, PDF.js-related libraries are imported from [UNPKG](https://unpkg.c
 ## Rendering Text-Layers
 PDF.js gives you the ability to render text layers atop PDF pages that have been rendered using canvas. This time you will not only see PDF pages being rendered but you can also select and copy text from them.
 
-According to the up-to-date [example](https://github.com/mozilla/pdf.js/blob/master/examples/components/pageviewer.html) on how to get a text layer, we need to also import `web/pdf_viewer.js` and `web/pdf_viewer.css`.
+According to the [example](https://github.com/mozilla/pdf.js/blob/master/examples/components/pageviewer.html) on how to get a text layer, we need to also import `web/pdf_viewer.js` and `web/pdf_viewer.css`.
 
 ```html
 <!DOCTYPE html>
@@ -148,7 +149,6 @@ According to the up-to-date [example](https://github.com/mozilla/pdf.js/blob/mas
     });
 
     // Display pdf loading progress
-    // https://github.com/mozilla/pdf.js/blob/88c7c8b5bfae61a20d7cb5fb27b3749b98a48d02/src/display/api.js#L636
     loadingTask.onProgress = (progressData) => {
       const { loaded, total } = progressData
       console.log('progress: ', loaded / total)

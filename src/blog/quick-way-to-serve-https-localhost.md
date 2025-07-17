@@ -46,7 +46,8 @@ To initiate a SSL session, a client will send a SSL Client Hello packet followin
 ```sh
 brew install mkcert
 
-# Generate and install the local CA
+# Created a new local CA
+# The local CA is now installed in the system
 mkcert -install
 
 # Generate a certificate for your local development server.
@@ -118,7 +119,7 @@ devServer: {
 Browsers and operating systems only trust known, public CAs (like Let's Encrypt, DigiCert, etc.). `mkcert` creates its own private CA on your dev computer. Your computer trusts this CA, because `mkcert` adds it automatically, but your phone doesn't know or trust it by default.
 
 ```sh
-# generate root CA 
+# generate root CA `rootCA.pem` file
 mkcert -CAROOT
 
 # You’ll see something like:

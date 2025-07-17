@@ -7,11 +7,9 @@ updatedDate: "Feb 13 2023"
 ---
 
 ## Node-Sass installation
-Node-sass is a library that allows binding for Node.js to LibSass, the C version of Sass's stylesheet preprocessor. It compiles `.scss` files to CSS with speed and automatically through connected middleware.
+Node-sass is a Node.js tool that uses LibSass to compile SASS into CSS. LibSass is written in C++, it’s easy to embed LibSass within other programming languages and provide a native-feeling API. Calling out to LibSass via the C++ API is very fast, which means LibSass is substantially faster in JavaScript than Dart Sass-compiled-to-JS.
 
-> LibSass is written in C++, it’s easy to embed LibSass within other programming languages and provide a native-feeling API. Calling out to LibSass via the C++ API is very fast, which means LibSass is substantially faster in JavaScript than Dart Sass-compiled-to-JS.
-
-node-sass 的安装过程大致是先下载 node-sass 包，安装时根据 node 版本和 node-sass 版本拉取对应的 `binding.node` 编译器（sass 的编译比较特殊，需要下载对应版本的编译器才能编译）。如果能拉下 `binding.node` 就算安装成功，如果找不到对应的 `binding.node` 就算失败了，然后就会尝试本地 build，需要 python 环境。
+node-sass 是一个让 Node.js 可以使用 LibSass（Sass 的 C 语言实现）来编译 scss 文件的工具。node-sass 的安装过程大致是先下载 node-sass 包，安装时根据 node 版本和 node-sass 版本拉取对应的 `binding.node` 编译器（sass 的编译比较特殊，需要下载对应版本的编译器才能编译）。如果能拉下 `binding.node` 就算安装成功，如果找不到对应的 `binding.node` 就算失败了，然后就会尝试本地 build，需要 python 环境。
 
 node-sass 的 install 和 postinstall 会分别执行 `scripts/install.js` 和 `scripts/build.js`，在脚本里面可以找到安装过程会失败的原因： 
 - 如果没有设置 `SASS_BINARY_SITE`，默认会从 Github 下载 `binding.node`，这里涉及国内的网络问题。解决办法就是使用国内镜像或者给 npm 设置代理，可以参考[这篇文章](https://juejin.cn/post/6946530710324772878)。脚本的具体执行可以看 `lib/extensions.js` 中的 `getBinaryUrl()` 和 `getBinaryName()` 函数。
