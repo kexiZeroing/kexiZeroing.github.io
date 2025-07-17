@@ -156,6 +156,76 @@ Note that here React still re-renders the component, but the DOM node for the `<
 
 Read this article: https://cekrem.github.io/posts/react-reconciliation-deep-dive
 
+### Understand the "children pattern"
+React components re-render themselves and all their children when the state is updated. In this case, on every mouse move the state of `MovingComponent` is updated, its re-render is triggered, and as a result, `ChildComponent` will re-render as well.
+
+```jsx
+const MovingComponent = () => {
+  const [state, setState] = useState({ x: 100, y: 100 });
+
+  return (
+    <div
+      onMouseMove={(e) => setState({ x: e.clientX - 20, y: e.clientY - 20 })}
+      style={{ left: state.x, top: state.y }}
+    >
+      <ChildComponent />
+    </div>
+  );
+};
+```
+
+The way to fight this, other than `React.memo`, is to extract `ChildComponent` outside and pass it as children. React "children" is just a prop. When children are passed through props, React doesn't recreate them on each render. The child component's element is created when the JSX is evaluated. Once created, it's just passed down as a prop reference that stays stable across re-renders.
+
+```jsx
+// https://www.developerway.com/posts/react-elements-children-parents
+const MovingComponent = ({ children }) => {
+  const [state, setState] = useState({ x: 100, y: 100 });
+
+  return (
+    <div
+      onMouseMove={(e) => setState({ x: e.clientX - 20, y: e.clientY - 20 })}
+      style={{ left: state.x, top: state.y }}>
+      // children now will not be re-rendered!
+      {children}
+    </div>
+  );
+};
+
+const SomeOutsideComponent = () => {
+  return (
+    <MovingComponent>
+      <ChildComponent />
+    </MovingComponent>
+  );
+};
+```
+
+`React.memo` is a higher order component that accepts another component as a prop. It will only render the component if there is any change in the props. *(Hey React, I know that this component is pure. You don't need to re-render it unless its props change.)*
+
+`useMemo` is used to memoize a calculation result, which focuses on avoiding heavy calculation.
+
+`useCallback` will return a memoized version of the callback that only changes if one of the inputs has changed. This is useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders. Note that `useCallback(fn, deps)` is equivalent to `useMemo(() => fn, deps)`.
+
+```js
+const PageMemoized = React.memo(Page);
+
+const App = () => {
+  const [state, setState] = useState(1);
+  const onClick = useCallback(() => {
+    console.log('Do something on click');
+  }, []);
+
+  return (
+    // will NOT re-render because onClick is memoized
+    <PageMemoized onClick={onClick} />
+    // WILL re-render because value is not memoized
+    <PageMemoized onClick={onClick} value={[1, 2, 3]} />
+  );
+};
+```
+
+> `useCallback` and `useMemo` for props don’t prevent re-renders by themselves. You can probably remove 90% of all `useMemo` and `useCallback` in your app right now, and the app will be fine and might even become slightly faster.
+
 ### What is Fiber
 React Fiber was introduced in React 16, which is a reimplementation of React's core algorithm. At it's core, Fiber is a JavaScript object that represents a unit of work. It's a lightweight representation of a component tree that React can work on.
 

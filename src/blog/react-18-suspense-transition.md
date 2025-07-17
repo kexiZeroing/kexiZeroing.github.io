@@ -3,7 +3,7 @@ title: "React 18 Suspense and startTransition"
 description: ""
 added: "Oct 7 2023"
 tags: [react]
-updatedDate: "July 11 2025"
+updatedDate: "July 17 2025"
 ---
 
 **Concurrent React** is a new feature introduced in React 18 that changes how React handles rendering and updates. A key property of Concurrent React is that rendering is interruptible. With synchronous rendering, once an update starts rendering, nothing can interrupt it until the user can see the result on screen. In a concurrent render, React may start rendering an update, pause in the middle, then continue later. It may even abandon an in-progress render altogether.
@@ -120,6 +120,7 @@ We can also use `useDeferredValue` for the query used in rendering the list, all
 function App() {
   const [query, setQuery] = useState('');
   // It lets you defer updating a part of the UI
+  // Users don't notice the deferral because urgent UI stays responsive
   const deferredQuery = useDeferredValue(query);
 
   return (
@@ -215,7 +216,7 @@ The `useId` hook is used to generate unique IDs for elements within a component.
 > 
 > The point of keys is that it uniquely identifies your item in the list - so when you move it down or up it still has the same id as it had in the other place. You don't get that with `useId`, and you don't get that using index.
 
-Sometimes you have data that lives outside of React - like browser APIs, third-party libraries, or global state managers. React doesn't automatically know when this external data changes, so your components won't re-render when they should. `useSyncExternalStore` is a React Hook that lets you subscribe to an external store, and it returns the current snapshot of the store which you can use in your rendering logic.
+Sometimes you have data that lives outside of React - like browser APIs, third-party libraries, or global state managers. React doesn't automatically know when this external data changes, so your components won't re-render when they should. `useSyncExternalStore` is essentially **a notification system that bridges React and external data**. It tells React "Hey, this external thing changed, you should re-render!" In response, React says "I can't track external data myself, so help me by telling me when it changes. I'll make sure your UI stays in sync and give you the current value of that external data to use in your component."
 
 `useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?)`:
 - `subscribe` ia a function that takes a single `callback` argument and subscribes it to the store. It should return a cleanup function.
