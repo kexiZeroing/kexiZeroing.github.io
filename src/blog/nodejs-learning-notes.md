@@ -3,10 +3,10 @@ title: "Node.js learning notes"
 description: ""
 added: "May 20 2025"
 tags: [web]
-updatedDate: "May 21 2025"
+updatedDate: "July 17 2025"
 ---
 
-Node.js website (after redesign) has a Learn section added to the site’s main navigation. I spend some time to explore it and write down some notes.
+Node.js website (after redesign) has a Learn section added to the site’s main navigation. I spend some time to explore it and other sources I came across along the way.
 
 ## Getting Started
 Node.js thrives on an event-driven architecture, making it ideal for real-time I/O.
@@ -58,17 +58,6 @@ All of the I/O methods in the Node.js standard library provide asynchronous vers
 Let's consider a case where each request to a web server takes 50ms to complete and 45ms of that 50ms is database I/O that can be done asynchronously. Choosing non-blocking asynchronous operations frees up that 45ms per request to handle other requests. This is a significant difference in capacity just by choosing to use non-blocking methods instead of blocking methods.
 
 Node.js provides Promise-based versions of many of its core APIs, especially in cases where asynchronous operations were traditionally handled with callbacks. This makes it easier to work with Node.js APIs and Promises, and reduces the risk of "callback hell."
-
-In addition to Promises, Node.js provides several other mechanisms for scheduling tasks in the event loop.
-
-`queueMicrotask()` is used to schedule a microtask, which is a lightweight task that runs after the currently executing script but before any other I/O events or timers. Similar to Promise callbacks.
-
-`process.nextTick()` is used to schedule a callback to be executed immediately after the current operation completes (before the event loop continues.) Has the highest priority.
-
-`setImmediate()` is used to execute a callback after the current event loop cycle finishes and all I/O events have been processed.
-
-> 1. A `process.nextTick` callback is added to `process.nextTick` queue. A `Promise.then()` callback is added to promises microtask queue. A `setTimeout`, `setImmediate` callback is added to macrotask queue.
-> 2. Event loop executes tasks in `process.nextTick` queue first, and then executes promises microtask queue, and then executes macrotask queue.
 
 ## Manipulating Files
 The `node:fs` module enables interacting with the file system in a way modeled on standard POSIX functions. You can either use the callback APIs or use the promise-based APIs.
@@ -173,16 +162,9 @@ Node.js v20 introduced experimental support for `.env` files. You can use the `-
 Node.js since v7 provides the `readline` module to get input from a readable stream such as the `process.stdin` stream, which during the execution of a Node.js program is the terminal input, one line at a time.
 
 ## Modules
-There are 2 main options, which cover almost all use-cases: 
-- Write source code and publish in CJS; CJS is consumable by both CJS and ESM in all versions of node. 
-- Write source code and publish in ESM; ESM is consumable by both ESM and CJS (a CJS module now can `require()` an ES Module without a flag as of 23.0.0 and 22.12.0). 
-
-Note that: 
-1. It's generally best to publish only 1 format, either CJS or ESM. Not both. 
-2. `packageJson.exports["."] = filepath` is shorthand for `packageJson.exports["."].default = filepath`
+1. CJS is the default; you have to opt-in to ESM mode. You can opt-in to ESM mode by renaming your script from `.js` to `.mjs`. Alternately, you can set `"type": "module"` in package.json, and then you can opt-out of ESM by renaming scripts from `.js` to `.cjs`.
+2. "exports" can be advisable over "main" because it prevents external access to internal code (users are not depending on things they shouldn't). If you don't need that, "main" is simpler and may be a better option for you.
 3. When using "exports" in `package.json`, it is generally a good idea to include `"./package.json": "./package.json"` so that it can be imported.
-4. "exports" can be advisable over "main" because it prevents external access to internal code (users are not depending on things they shouldn't). If you don't need that, "main" is simpler and may be a better option for you.
-5. CJS is the default; you have to opt-in to ESM mode. You can opt-in to ESM mode by renaming your script from `.js` to `.mjs`. Alternately, you can set `"type": "module"` in package.json, and then you can opt-out of ESM by renaming scripts from `.js` to `.cjs`.
 
 ### Requiring ESM in Node.js
 The capability to `require()` ESM modules in Node.js marks an incredible milestone. This feature allows packages to be published as ESM-only while still being consumable by CJS codebases with minimal modifications.

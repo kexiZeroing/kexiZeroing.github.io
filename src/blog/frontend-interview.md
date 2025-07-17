@@ -146,44 +146,7 @@ Function.prototype.myBind = function(context, ...args1) {
 };
 ```
 
-6. Calling the same function over and over again is wasteful if we know that the function is pure. We can create a memoized version of a function that we don't have to reexecute it if we keep using the same value.
-
-```js
-function memoize(fn) {
-  let cachedArg;
-  let cachedResult;
-  return function(arg) {
-    if (cachedArg === arg) {
-      return cachedResult;
-    }
-    cachedArg = arg;
-    cachedResult = fn(arg);
-    return cachedResult;
-  };
-}
-```
-
-7. Implement the deep clone method.
-```js
-function deepClone(obj) {
-  if (obj === null || typeof obj !== 'object') {
-    return obj;
-  }
-  let copy = Array.isArray(obj) ? [] : {};
-  
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      copy[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key];
-    }
-  }
-  return copy;
-}
-
-// `for...in` iterates over all enumerable properties, including those inherited.
-// `Object.keys()` gets only own enumerable property names.
-```
-
-8. Convert a list of objects into a tree.
+6. Convert a list of objects into a tree.
 ```js
 let list = [
   { id: 1, name: 'node1', pid: 0 },
@@ -216,7 +179,7 @@ function listToTree(list) {
 }
 ```
 
-9. Use `setTimeout` to invoke a function multiple times in the fixed interval.
+7. Use `setTimeout` to invoke a function multiple times in the fixed interval.
 ```js
 function repeat(func, times, ms, immediate) {
   let count = 0;
@@ -242,7 +205,7 @@ const repeatFunc = repeat(console.log, 4, 3000, true);
 repeatFunc("hello");
 ```
 
-10. Implement the functionality of `lodash.get`.
+8. Implement the functionality of `lodash.get`.
 ```js
 // _.get(object, path, [defaultValue])
 function get(obj, path, defaultValue = undefined) {
@@ -267,7 +230,7 @@ console.log(get(obj, 'a.b.d', 'default')); // 'default'
 console.log(get(obj, 'x.y.z', 'not found')); // 'not found'
 ```
 
-11. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
+9. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
 
 ```js
 const app = { middlewares: [] };
@@ -314,7 +277,7 @@ const compose = (middlewares) => {
 app.compose = compose(app.middlewares);
 ```
 
-12. Implement the render function to convert the virtual dom JSON to real DOM.
+10. Implement the render function to convert the virtual dom JSON to real DOM.
 ```js
 function render(vnode) {
   const { tag, props, children } = vnode;
@@ -345,7 +308,7 @@ function render(vnode) {
 }
 ```
 
-13. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
+11. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
 
 ```js
 // written by Dan Abramov
@@ -407,7 +370,7 @@ async function renderJSXToHTML(jsx) {
 }
 ```
 
-14. Check if an object has circular references.
+12. Check if an object has circular references.
 
 ```js
 // `JSON.stringify` throws if one attempts to encode an object with circular references.
@@ -449,7 +412,7 @@ function hasCircularReference(obj) {
 }
 ```
 
-15. Implement a streaming function that processes text data from a server, where messages need to be displayed character by character as they arrive.
+13. Implement a streaming function that processes text data from a server, where messages need to be displayed character by character as they arrive.
 
 > Key Term: Streaming breaks up a resource you want to send or receive over a network into smaller chunks. This is common for browsers when receiving media assets, such as video buffering or partial loading of images.
 
@@ -491,7 +454,7 @@ const handleSearch = async () => {
         return;
       }
       const chunk = decoder.decode(value, { stream: true });
-      elResult.textContent += chunk;  // setResult(prev => prev + chunk);
+      elResult.textContent += chunk;
       read();
     };
 
