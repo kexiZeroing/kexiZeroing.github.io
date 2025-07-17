@@ -3,9 +3,10 @@ title: "URL-driven state in React"
 description: ""
 added: "Sep 28 2024"
 tags: [react]
+updatedDate: "July 17 2025"
 ---
 
-This post is my learning notes from the article [How to control a React component with the URL](https://buildui.com/posts/how-to-control-a-react-component-with-the-url). You can also [watch the video](https://www.youtube.com/watch?v=fYqMPvPvVAc) from the author.
+This post is my learning notes from the article [How to control a React component with the URL](https://buildui.com/posts/how-to-control-a-react-component-with-the-url) written by Sam Selikoff. You can also [watch the video](https://www.youtube.com/watch?v=fYqMPvPvVAc) from the author.
 
 When you build a searchable table, you may have code below.
 
@@ -123,7 +124,6 @@ Learning how to spot duplicated sources of truth is a big step in leveling up as
 - If it is, eliminate it
 
 ```js
-// client component
 "use client";
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -141,7 +141,7 @@ export default function ProductPage() {
 }
 
 // changing to server component also works
-// need to validate the data from the URL (using Zod)
+// `searchParams` prop is a promise in the new Next version
 export default function ProductPage({ searchParams }) {
   const selectedColor = searchParams.color;
   const selectedSize = searchParams.size;
