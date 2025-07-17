@@ -115,7 +115,6 @@ export default function MessageInput({ userId }) {
           required
           minLength={1}
           name="content"
-          className="italic outline-none"
           placeholder="Type a message..."
         />
         <input type="hidden" name="userId" value={userId} />
@@ -166,13 +165,8 @@ This hook lets you update the UI immediately in response to an action, before th
 ```js
 'use server'
 
-type Todo = {
-  todo: string
-}
-
 export async function addTodo(newTodo: string): Promise<Todo> {
-  // Simulating server delay
-  await new Promise((resolve) => setTimeout(resolve, 3000))
+  await new Promise((resolve) => setTimeout(resolve, 2000))
   return {
     todo: newTodo + ' test',
   }
@@ -204,7 +198,6 @@ export default function Todos() {
       setTodos((prevTodos) => [...prevTodos, { todo: result.todo }])
     } catch (error) {
       console.error('Error adding todo:', error)
-      // Optionally, you could remove the optimistic update here if the server request fails
     }
   }
 
@@ -222,7 +215,9 @@ export default function Todos() {
 }
 ```
 
-The optimistic updater function is just for calculating what the UI should look like immediately. The server action (often wrapped in `useTransition`) does the actual work of making that change permanent. If the server action fails, the optimistic update gets thrown away and the UI reverts to the real state. If it succeeds, the optimistic state should match the new real state, so there's no visual change when they swap.
+> For native HTML forms, `action` is the URL that processes the form submission. `<form action={formAction}>` where `formAction` is a JavaScript function is a React feature. It is a client-side form action, stays on the same page and doesn't navigate anywhere. `useActionState` is optional and primarily designed for handling pending states and return values from your form actions.
+
+The optimistic updater function is just for calculating what the UI should look like immediately. The server action does the actual work of making that change permanent. If the server action fails, the optimistic update gets thrown away and the UI reverts to the real state. If it succeeds, the optimistic state should match the new real state, so there's no visual change when they swap.
 
 ```js
 const [optimisticCategories, setOptimisticCategories] = useOptimistic(searchParams.getAll('category'))
@@ -236,13 +231,11 @@ startTransition(() => {
 1. When `useOptimistic` is called without an `updateFn` (second parameter), it defaults to a simple replacement function.
 2. `setOptimisticCategories(newCategories)` immediately updates the local state and re-renders the component with the new `optimisticCategories` value.
 3. `optimisticCategories` temporarily overrides what the URL actually says. Users see their click immediately, even though the URL is still updating.
-4. Meanwhile, `router.push()` updates the URL and triggers any server-side filtering, but the UI doesn't wait for this to complete.
+4. Meanwhile, `router.push()` updates the URL and triggers any server-side filtering, but the UI doesn't wait for this to complete. `isPending` becomes true when you call `startTransition`, then stays true until everything triggered by that transition (including Server Component re-renders) completes.
 5. `useOptimistic` is designed to work seamlessly with React's concurrent rendering and transitions. It keeps your UI in sync with the "real" state, and automatically falls back if the action fails or completes.
 
-More examples can be found at https://www.epicreact.dev/use-optimistic-to-make-your-app-feel-instant-zvyuv
-
 ### React 19 `cache` function
-`cache` is only for use with React Server Components, not client components, and lets you cache the result of a data fetch or computation. It wraps around a function and remembers what that function returned for specific inputs. When multiple components need the same data, they get the cached result instead of fetching it again.
+`cache` is **only for use with React Server Components**, not client components, and lets you cache the result of a data fetch or computation. It wraps around a function and remembers what that function returned for specific inputs. When multiple components need the same data, they get the cached result instead of fetching it again.
 
 ```js
 import { cache } from "react";
@@ -264,8 +257,6 @@ function ProfileStats({ userId }) {
 }
 ```
 
-In this case the second instance of `WeatherReport` will be able to skip duplicate work and read from the same cache as the first `WeatherReport`. `cache` is recommended for memoizing data fetches, unlike `useMemo` which should only be used for computations.
-
 > - Use `cache` in Server Components to memoize work that can be shared across components.
 > - Use `useMemo` for caching a expensive computation in a Client Component across renders.
 > - Use `memo` to prevent a component re-rendering if its props are unchanged.
@@ -273,32 +264,10 @@ In this case the second instance of `WeatherReport` will be able to skip duplica
 ## Next.js sever actions and `<Form>` component
 Next.js Server Actions is a feature that allows you to run server-side code directly from client components. It is part of Next.js's full-stack framework features, eliminating the need for API routes for basic form handling.
 
-<img alt="next-server-actions-1" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/next-server-actions-1.png" width="600">
+<img alt="next-server-actions-1" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/next-server-actions-1.png" width="650">
 
-<img alt="next-server-actions-2" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/next-server-actions-2.png" width="600">
+<img alt="next-server-actions-2" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/next-server-actions-2.png" width="650">
 <br>
-
-```ts
-// contact-form.tsx
-import { submitFormAction } from "./action";
-
-export default function ContactForm() {
-  return (
-    <form action={submitFormAction}>
-      <input type="email" name="email" />
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
-
-// action.ts
-"use server";
-
-export async function submitFormAction(formData: FormData) {
-  const email = formData.get("email");
-  console.log(email);
-}
-```
 
 `useActionState` helps you deal with loading and error states.
 
@@ -320,7 +289,7 @@ return (
 export async function submitFormAction(previousState: string, formData: FormData) {
   await new Promise((res) => setTimeout(res, 1000));
   const email = formData.get("email");
-  return email;
+  return { email };
 }
 ```
 
@@ -331,27 +300,35 @@ The Next.js `<Form>` component extends the HTML `<form>` element to provide pref
 
 ```ts
 import Form from 'next/form'
-
-export default function SearchForm() {
+ 
+export default function Page() {
   return (
-    // The url will be `/posts?title=xxx`
-    <Form action="/posts">
-      <input type="text" name="title" />
-      <button type="submit">Search</button>
+    // URL will be /search?query=abc
+    <Form action="/search">
+      <input name="query" />
+      <button type="submit">Submit</button>
     </Form>
   )
 }
 
-// posts/page.tsx
-export default async function PostsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
-  const title = (await searchParams).title || '';
-  const res = await fetch(`/api/posts?title=${title}`);
-  const posts = await res.json();
+// Perform mutations by passing a function to the action prop
+export default function Page() {
+  return (
+    <Form action={createPost}>
+      <input name="title" />
+      <button type="submit">Create Post</button>
+    </Form>
+  )
+}
 
-  return <div>...</div>;
+// app/posts/actions.ts
+'use server'
+import { redirect } from 'next/navigation'
+ 
+export async function createPost(formData: FormData) {
+  // Create a new post
+  // ...
+  
+  redirect(`/posts/${data.id}`)
 }
 ```

@@ -500,27 +500,40 @@ Must-read articles on React Server Components:
 - https://www.joshwcomeau.com/react/server-components
 - https://github.com/reactwg/server-components/discussions/5
 
-## React Server Actions
-React Server Actions allow you to run asynchronous code directly on the server. They eliminate the need to create API endpoints to mutate your data. Instead, you write asynchronous functions that execute on the server and can be invoked from your Client or Server Components. *(Server actions let us put our API endpoint back into the component boundary in the same way that server components let us move `getServerSideProps` into the component boundary.)*
+### Why Does RSC Integrate with a Bundler
+Consider this `<Counter>` tag. How do you serialize it?
 
-An advantage of invoking a Server Action within a Server Component is progressive enhancement - forms work even if JavaScript is disabled on the client.
+```jsx
+import { Counter } from './client';
 
-```js
-// Server Component
-export default function Page() {
-  async function create(formData: FormData) {
-    'use server';
+<Counter initialCount={10} />
+
+// client component
+'use client';
+import { useState, useEffect } from 'react';
  
-    // Logic to mutate data...
-  }
- 
-  return <form action={create}>...</form>;
+export function Counter({ initialCount }) {
+  const [count, setCount] = useState(initialCount);
+  // ...
 }
 ```
 
-Behind the scenes, Server Actions create a POST API endpoint. This is why you don't need to create API endpoints manually when using Server Actions. Server actions are different from regular server-side code. They are specifically designed to be invoked from the client-side, usually through form submissions or other user interactions. If you need to "expose" server functions to the client, you can use `"use server"`.
-- Next.js creates a unique identifier for each server action. This identifier links the client-side request to the correct server-side function.
-- Next.js automatically generates an API endpoint for each server action. These endpoints are created during the compilation process and are not visible in your codebase. The generated endpoints handle the incoming requests from the client and route them to the corresponding server action. The request includes a special header called "Next-Action" which contains the unique identifier of the server action.
-- Server Actions integrate with Next.js' caching and revalidation architecture. `revalidatePath` accepts a relative URL string where it will clear the cache and revalidate the data for that path after a server action.
+It’s reasonable to assume its code is being served by our app as a static JS asset—which we can refer to in the JSON. It’s almost like a `<script>` tag:
 
-> *Server Actions have officially been renamed to Server Functions.* Until September 2024, we referred to all Server Functions as “Server Actions”. If a Server Function is passed to an action prop or called from inside an action then it is a Server Action, but not all Server Functions are Server Actions. The naming in this documentation has been updated to reflect that Server Functions can be used for multiple purposes.
+```js
+{
+  type: '/src/client.js#Counter', // "Load src/client.js and grab Counter"
+  props: {
+    initialCount: 10
+  }
+}
+```
+
+On the client, you could load it by generating a `<script>` tag. However, loading imports one by one from their source files over the network is inefficient. You don’t want to create a waterfall. We already know how to fix this from two decades of working on client-side applications: bundling.
+
+For this reason, RSC integrates with bundlers.
+- First, during the build, their job is to find the files with `'use client'` and to actually create the bundle chunks for those entry points.
+- Then, on the server, these bindings teach React how to send modules to the client. For example, a bundler might refer to a module like `'chunk123.js#Counter'`.
+- On the client, they teach React how to ask the bundler runtime to load those modules.
+
+Thanks to these three things, React Server will know how to serialize a module when it encounters one—and the React Client will know how to deserialize it. The API to serialize a tree with the React Server is exposed via bundler bindings.
