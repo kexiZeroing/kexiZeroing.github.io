@@ -35,7 +35,12 @@ To start off with, let's take a look at the HTML that makes up the player. First
 
 Even though this player will define its own custom control set, the `controls` attribute is still added to the `<video>` element, and the player's default control set is switched off later with JavaScript. Doing things this way still allows users who have JavaScript turned off to still have access to the browser's native controls.
 
-A poster image is defined for the video, and the `preload` attribute is set to `metadata`, which informs the browser that it should initially only attempt to load the metadata from the video file rather than the entire video file. This provides the player with data such as video duration and format. *(Setting `preload="none"` tells the browser to avoid downloading the video file until the user requests playback.)*
+The `poster` attribute specifies the URL of the image to show while the video is downloading. The `preload` attribute is set to `metadata`, which informs the browser that it should initially only attempt to load the metadata from the video file rather than the entire video file. This provides the player with data such as video duration and format.
+
+> The default value for `preload` is different for each browser. The spec advises it to be set to `metadata`.
+> - `auto`: Indicates that the whole video file can be downloaded, even if the user is not expected to use it.
+> - `metadata`: Indicates that only video metadata (e.g., length) is fetched.
+> - `none`: Indicates that the video should not be preloaded.
 
 The next step is to define a custom control set, also in HTML, which will be used to control the video.
 
@@ -118,7 +123,9 @@ Two volume control buttons have been defined, one for increasing the volume and 
 
 ```js
 function alterVolume(dir) {
+  // might be something like 0.6999999 due to floating point imprecision
   const currentVolume = Math.floor(video.volume * 10) / 10;
+
   if (dir === '+' && currentVolume < 1) {
     video.volume += 0.1;
   } else if (dir === '-' && currentVolume > 0) {
@@ -159,13 +166,15 @@ video.addEventListener('timeupdate', () => {
 });
 ```
 
+> The `timeupdate` event frequency is dependent on the system load, but will be thrown between about 4Hz and 66Hz (assuming the event handlers don't take longer than 250ms to run). User agents are encouraged to vary the frequency of the event based on the system load and the average cost of processing the event each time, so that the UI updates are not any more frequent than the user agent can comfortably handle while decoding the video.
+
 ### Skip Ahead
 Another feature of most browser default video control sets is the ability to click on the video's progress bar to "skip ahead" to a different point in the video. This can also be achieved by adding a `click` event listener to the `progress` element:
 
 ```js
 progress.addEventListener('click', (e) => {
   const rect = progress.getBoundingClientRect();
-  const pos = (e.pageX  - rect.left) / progress.offsetWidth;
+  const pos = (e.pageX - rect.left) / progress.offsetWidth;
   video.currentTime = pos * video.duration;
 });
 ```
@@ -175,12 +184,10 @@ If the browser is currently in fullscreen mode, then it must be exited and vice 
 
 ```js
 function handleFullscreen() {
-  if (document.fullscreenElement !== null) {
-    // The document is in fullscreen mode
+  if (document.fullscreenElement) {
     document.exitFullscreen();
     setFullscreenData(false);
   } else {
-    // The document is not in fullscreen mode
     videoContainer.requestFullscreen();
     setFullscreenData(true);
   }
@@ -217,7 +224,7 @@ TimeRanges are a series of non-overlapping ranges of time, with start and stop t
 - `start(index)`: The start time, in seconds, of a time range.
 - `end(index)`: The end time, in seconds, of a time range.
 
-Without any user interaction there is usually only one time range, but if you jump about in the media more than one time range can appear.
+Without any user interaction there is usually only one time range, but if you jump about in the media more than one time range can appear. *The time ranges are ordered by start time in ascending order.*
 
 ```js
 // represents two buffered time ranges:
@@ -232,37 +239,22 @@ audio.buffered.end(1);   // returns 19
 If we wish to create our own custom player, it is better perhaps to give an indication of how much media has actually downloaded — this what the browser's native players seem to display.
 
 ```js
-window.onload = () => {
-  const audio = document.getElementById('my-audio');
-
-  // The progress event is fired as data is downloaded, 
-  // this is a good event to react to if we want to display buffering progress.
-  audio.addEventListener('progress', () => {
-    const duration = audio.duration;
-    if (duration > 0) {
-      for (let i = 0; i < audio.buffered.length; i++) {
-        if (
-          audio.buffered.start(audio.buffered.length - 1 - i) <
-          audio.currentTime
-        ) {
-          document.getElementById('buffered-amount').style.width = `${
-            (audio.buffered.end(audio.buffered.length - 1 - i) * 100) / duration
-          }%`;
-          break;
-        }
+// The progress event is fired as data is downloaded, 
+// this is a good event to react to if we want to display buffering progress.
+audio.addEventListener('progress', () => {
+  const duration = audio.duration;
+  if (duration > 0) {
+    for (let i = 0; i < audio.buffered.length; i++) {
+      // find the buffered range closest to the current playback position
+      if (audio.buffered.start(audio.buffered.length - 1 - i) < audio.currentTime) {
+        document.getElementById('buffered-amount').style.width = `${
+          (audio.buffered.end(audio.buffered.length - 1 - i) * 100) / duration
+        }%`;
+        break;
       }
     }
-  });
-
-  // The timeupdate event is fired 4 times a second as the media plays,
-  // and that's where we increment our playing progress bar.
-  audio.addEventListener('timeupdate', () => {
-    const duration = audio.duration;
-    if (duration > 0) {
-      document.getElementById('progress-amount').style.width = `${audio.currentTime / duration * 100}%`;
-    }
-  });
-};
+  }
+});
 ```
 
 ### Mobile Web Video Playback
@@ -285,7 +277,7 @@ video.addEventListener('ended', function () {
 });
 ```
 
-Prevent automatic fullscreen. On iOS, `video` elements automatically enter fullscreen mode when media playback begins. I recommend you set the `playsinline` attribute of the `video` element to force it to play inline on iPhone and not enter fullscreen mode when playback begins. Note that this has no side effects on other browsers.
+Prevent automatic fullscreen. On iOS, `video` elements automatically enter fullscreen mode when media playback begins. Set the `playsinline` attribute of the `video` element to force it to play inline on iPhone and not enter fullscreen mode when playback begins. Note that this has no side effects on other browsers.
 
 When user clicks the "fullscreen button", let's exit fullscreen mode with `document.exitFullscreen()` if fullscreen mode is currently in use by the document. Otherwise, request fullscreen on the video container with the method `requestFullscreen()` if available or fallback to `webkitEnterFullscreen()` on the video element only on iOS.
 
@@ -346,18 +338,21 @@ document.addEventListener('visibilitychange', function () {
 });
 ```
 
-If you use the new *Intersection Observer API*, you can be even more granular at no cost. This API lets you know when an observed element enters or exits the browser's viewport. Let's show/hide a mute button based on the video visibility in the page.
+If you use the Intersection Observer API, you can be even more granular at no cost. This API lets you know when an observed element enters or exits the browser's viewport. We want the video to autoplay when it is visible and probably pause when it's not visible.
 
 ```js
-if ('IntersectionObserver' in window) {
-  function onIntersection(entries) {
-    entries.forEach(function (entry) {
-      muteButton.hidden = video.paused || entry.isIntersecting;
-    });
-  }
-  var observer = new IntersectionObserver(onIntersection);
-  observer.observe(video);
+function onIntersection(entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) {
+      video.play();
+    } else {
+      video.pause();
+    }
+  });
 }
+
+let observer = new IntersectionObserver(onIntersection);
+observer.observe(video);
 ```
 
 > Some notes about compatibility issues especially on iOS:
