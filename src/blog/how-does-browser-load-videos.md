@@ -76,6 +76,7 @@ HTTP Live Streaming sends audio and video as a series of small files, called med
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <video id="video" controls></video>
 <script>
+  // return false on Safari (MSE may not be used)
   if (Hls.isSupported()) {
     const video = document.getElementById('video');
     const hls = new Hls();
@@ -84,6 +85,13 @@ HTTP Live Streaming sends audio and video as a series of small files, called med
     hls.attachMedia(video);
 
     hls.on(Hls.Events.MANIFEST_PARSED, function () {
+      video.play();
+    });
+  }
+  // this is the MIME type for HLS m3u8 playlists
+  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+    video.addEventListener('loadedmetadata', function () {
       video.play();
     });
   }
