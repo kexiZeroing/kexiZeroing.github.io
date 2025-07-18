@@ -159,8 +159,6 @@ console.log(process.env.USER_KEY); // "foobar"
 
 Node.js v20 introduced experimental support for `.env` files. You can use the `--env-file` flag to specify an environment file when running your Node.js application.
 
-Node.js since v7 provides the `readline` module to get input from a readable stream such as the `process.stdin` stream, which during the execution of a Node.js program is the terminal input, one line at a time.
-
 ## Modules
 1. CJS is the default; you have to opt-in to ESM mode. You can opt-in to ESM mode by renaming your script from `.js` to `.mjs`. Alternately, you can set `"type": "module"` in package.json, and then you can opt-out of ESM by renaming scripts from `.js` to `.cjs`.
 2. "exports" can be advisable over "main" because it prevents external access to internal code (users are not depending on things they shouldn't). If you don't need that, "main" is simpler and may be a better option for you.
@@ -188,9 +186,9 @@ console.log(mathUtils.square(2));
 ## Streams
 Streams process data in chunks, significantly reducing memory usage. All streams in Node.js inherit from the `EventEmitter` class, allowing them to emit events at various stages of data processing. These streams can be readable, writable, or both.
 
-`Readable` is the class that we use to sequentially read a source of data. Typical examples of Readable streams in Node.js API are `fs.ReadStream` when reading files, `http.IncomingMessage` when reading HTTP requests, and `process.stdin` when reading from the standard input.
+`Readable` is the class that we use to sequentially read a source of data. Typical examples of Readable streams in Node.js API are `fs.ReadStream` when reading files, `http.IncomingMessage` (i.e. `req`) when reading HTTP requests, and `process.stdin` when reading from the standard input.
 
-`Writable` streams are useful for creating files, uploading data, or any task that involves sequentially outputting data. While readable streams provide the source of data, writable streams act as the destination for your data. The HTTP response object is a writable stream. Typical examples of writable streams in the Node.js API are `fs.WriteStream`, `process.stdout`, and `process.stderr`.
+`Writable` streams are useful for creating files, uploading data, or any task that involves sequentially outputting data. **While readable streams provide the source of data, writable streams act as the destination for your data.** `http.ServerResponse` (i.e. `res`) is a writable stream. Typical examples of writable streams in the Node.js API are `fs.WriteStream`, `process.stdout`, and `process.stderr`.
 
 When working with streams, we usually want to read from a source and write to a destination, possibly needing some transformation of the data in between. The `.pipe()` method concatenates one readable stream to a writable (or transform) stream. In most cases, it is recommended to use the `pipeline()` method. This is a safer and more robust way to pipe streams together, handling errors and cleanup automatically.
 
@@ -230,13 +228,17 @@ await pipeline(
 ```
 
 ## Memory
-V8 divides memory into several parts, with two primary areas being the heap and the stack. 
-
 Memory for JavaScript objects, arrays, and functions is allocated in the heap. The size of the heap is not fixed, and exceeding the available memory can result in an "out-of-memory" error, causing your application to crash.
 
 V8's memory management is based on the generational hypothesis, the idea that most objects die young. Therefore, it separates the heap into generations to optimize garbage collection:
 - **New Space**: This is where new, short-lived objects are allocated. Objects here are expected to "die young", so garbage collection occurs frequently, allowing memory to be reclaimed quickly.
 - **Old Space**: Objects that survive multiple garbage collection cycles in the New Space are promoted to the Old Space. These are usually long-lived objects, such as user sessions, cache data, or persistent state. Because these objects tend to last longer, garbage collection in this space occurs less often but is more resource-intensive.
+
+Node.js offers several command-line flags to fine-tune memory-related settings, allowing you to optimize memory usage in your application.
+
+`--max-old-space-size` sets a limit on the size of the Old Space in the V8 heap, where long-lived objects are stored. If your application uses a significant amount of memory, you might need to adjust this limit. For example, `node --max-old-space-size=4096 app.js` sets the Old Space size to 4096 MB (4 GB), which is particularly useful if your application is handling a large amount of persistent data, like caching or user session information.
+
+`--max-semi-space-size` controls the size of the New Space in the V8 heap. New Space is where newly created objects are allocated and garbage collected frequently. Increasing this size can reduce the frequency of minor garbage collection cycles.
 
 The `process.memoryUsage()` method provides insights into how much memory your Node.js process is using. By monitoring these values over time, you can identify if memory usage is increasing unexpectedly.
 
@@ -261,46 +263,4 @@ setInterval(() => {
 //   external: 1089863,
 //   arrayBuffers: 10515
 // }
-```
-
-Node.js offers several command-line flags to fine-tune memory-related settings, allowing you to optimize memory usage in your application.
-
-`--max-old-space-size` sets a limit on the size of the Old Space in the V8 heap, where long-lived objects are stored. If your application uses a significant amount of memory, you might need to adjust this limit. For example, `node --max-old-space-size=4096 app.js` sets the Old Space size to 4096 MB (4 GB), which is particularly useful if your application is handling a large amount of persistent data, like caching or user session information.
-
-`--max-semi-space-size` controls the size of the New Space in the V8 heap. New Space is where newly created objects are allocated and garbage collected frequently. Increasing this size can reduce the frequency of minor garbage collection cycles.
-
-## Cluster
-Clusters of Node.js processes can be used to run multiple instances of Node.js that can distribute workloads among their application threads.
-- Primary Process: The main process that manages worker processes. It doesn't handle requests directly but coordinates the workers.
-- Worker Processes: Child processes that handle the actual work (like serving HTTP requests). Each worker is a separate Node.js process.
-
-```js
-import cluster from 'node:cluster';
-import http from 'node:http';
-import { availableParallelism } from 'node:os';
-import process from 'node:process';
-
-const numCPUs = availableParallelism();
-
-if (cluster.isPrimary) {
-  console.log(`Primary ${process.pid} is running`);
-
-  // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
-
-  cluster.on('exit', (worker, code, signal) => {
-    console.log(`worker ${worker.process.pid} died`);
-  });
-} else {
-  // Workers can share any TCP connection
-  // In this case it is an HTTP server
-  http.createServer((req, res) => {
-    res.writeHead(200);
-    res.end('hello world\n');
-  }).listen(8000);
-
-  console.log(`Worker ${process.pid} started`);
-}
 ```

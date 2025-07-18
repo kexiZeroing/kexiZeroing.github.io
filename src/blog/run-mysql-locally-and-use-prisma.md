@@ -52,7 +52,7 @@ mkdir hello-prisma
 cd hello-prisma
 
 npm init -y
-npm install prisma
+npm install prisma @prisma/client
 npx prisma init
 ```
 
@@ -125,6 +125,11 @@ Running `npx prisma init --datasource-provider sqlite` creates a new prisma dire
 ```
 # This is your Prisma schema file
 
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
 model Post {
   id        Int      @id @default(autoincrement())
   title     String
@@ -149,7 +154,8 @@ model Post {
   authorId  Int
 }
 
-"author" will not become a column in the database. The way to read this is that "authorId" field references the "id" field on the User model.
+Note: "author" will not become a column in the database.
+The way to read this is that "authorId" field references the "id" field on the User model.
 ```
 
 ```
@@ -185,6 +191,21 @@ Prisma ORM is not your database. Running `npx prisma db push` first time will cr
 Now that we have a database with some initial data, we can set up Prisma Client and connect it to our database. For [Next.js integration](https://www.prisma.io/docs/guides/nextjs), add a `lib/prisma.ts` file which creates a Prisma Client (`@prisma/client`) and attaches it to the global object.
 
 ```js
+// lib/prisma.ts
+import { PrismaClient } from "@prisma/client";
+
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+export const prisma = globalForPrisma.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+
+export default prisma;
+```
+
+> When working with a framework like Next.js, it is important to use a singleton pattern for the Prisma Client instance. Otherwise, you may run into issues with hot reloading and multiple instances of the Prisma Client in development mode.
+
+```js
 import prisma from '@/lib/prisma'
 
 export default async function Home() {
@@ -201,12 +222,6 @@ export default async function Home() {
 
 ```js
 // more CRUD
-const post = await prisma.post.findUnique({
-  where: {
-    id: params.id
-  }
-});
-
 const posts = await prisma.post.findMany({
   where: {
     published: true,
@@ -233,32 +248,5 @@ const user = await prisma.user.findUnique({
   include: {
     posts: true
   }
-})
-
-export async function createPost(formData: FormData) {
-  await prisma.post.create({
-    data: {
-      title: formData.get("title") as string,
-      content: formData.get("content") as string,
-      author: {
-        connect: {
-          email: "test@gmail.com"
-        }
-      }
-    }
-  });
-  // rerender the view
-  revalidatePath("/posts");
-}
-
-await prisma.post.update({
-  where: { id },
-  data: {
-    title: formData.get("title") as string,
-  }
-})
-
-await prisma.post.delete({
-  where: { id },
 })
 ```
