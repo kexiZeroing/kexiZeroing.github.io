@@ -91,6 +91,23 @@ path.extname(notes); // .txt
 Using `__dirname` and the `path` module ensures that you are referencing the correct path regardless of the current working directory you’re in. `__dirname` represents the absolute path of the directory containing the current JavaScript file. `path.join()` method joins all given path segments together using the platform-specific separator as a delimiter, then normalizes the resulting path.
 
 ```js
+import { fileURLToPath } from "node:url";
+import path from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+console.log('import.meta.url:', import.meta.url);
+// --> file:///home/users/projects/example.js
+console.log('__filename:', __filename);
+// --> /home/users/projects/example.js
+console.log('__dirname:', __dirname);
+// --> /home/users/projects
+console.log('directory path:', fileURLToPath(new URL('.', import.meta.url)));
+// --> /home/users/projects
+```
+
+```js
 import fs from 'node:fs/promises';
 import path from 'node:path';
 

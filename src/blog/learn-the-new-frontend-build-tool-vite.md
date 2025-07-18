@@ -20,7 +20,7 @@ Once you've built the app, you may test it locally by running `npm run preview` 
 ## Webpack and Vite
 When you start the app in development, Webpack will bundle all of your code, and start the webpack-dev-server, the Express.js web server which will serve the bundled code. Within the bundled js file contains all modules for the app and need to regenerate the entire file when we change a file for HMR. It can often take an long wait to spin up a dev server, and even with HMR, file edits can take a couple seconds to be reflected in the browser.
 
-Vite doesn't set out to be a new bundler. Rather, it's a pre-configured build environment using the Rollup bundler and a tool for local development. Vite [pre-bundles dependencies](https://vitejs.dev/guide/dep-pre-bundling.html) in development mode using esbuild.
+Vite doesn't set out to be a new bundler. Rather, it's a pre-configured build environment using the Rollup bundler and a tool for local development. Vite pre-bundles dependencies in development mode using esbuild.
 
 > `esbuild`, which is written in Go, 10-100x faster than JavaScript-based bundlers, does the transpile things transforming into plain javascript. It will process and prebundle the dependencies into something works in the browser as native es-module. `vite --force` will ignore the dependency cache and reforce to process all the dependencies.
 
@@ -64,10 +64,9 @@ Vite's current unbundle mechanism is not suitable for large web app development,
 - Pre-bundle them to improve page loading speed and convert CommonJS / UMD modules to ESM. The pre-bundling step is performed with esbuild.
 - Rewrite the imports to valid URLs like `/node_modules/.vite/deps/my-dep.js?v=f3sf2ebd` so that the browser can import them properly.
 - Vite caches dependency requests via HTTP headers.
+- This only happens during development. In production, a real full bundle is created via Rollup.
 
-> Why bundle a dependency and become dependency free?
-> 1. Dependency is CommonJS and you're targeting browsers. (convert dependencies that are shipped as CommonJS or UMD into ESM first)
-> 2. Using only a small part of the dependency. (converts dependencies with many internal modules into a single module), also reduce the number of requests to the server for better performance.
+By default, Vite will automatically analyze the project and draw a "optimization boundary" around all the package imports. The "optimization boundary" is used to pre-bundle the dependencies into ESM and put them into `node_modules/.vite/deps`. Option `optimizeDeps.include` and `optimizeDeps.exclude` are used to opt-in/opt-out certain package imports to/from the "optimization boundary".
 
 To better understand how it works, you can open the browser DevTools and check the "Network" panel. You will see all the requests to the Vite dev server. And some of them point to the `node_modules/.vite/deps` folder.
 
@@ -76,31 +75,14 @@ To better understand how it works, you can open the browser DevTools and check t
 import react from "/node_modules/.vite/deps/react.js?v=<hash>";
 // originally 'react-dom/client'
 import reactDom_client from "/node_modules/.vite/deps/react-dom_client.js?v=<hash>";
-```
 
-Whatever the source of a package import is in CJS or ESM, the eventual requested content will always be in ESM. For CJS package import (with `exports.xxx` in it), Vite will transform the package code (`node_module/foo/foo-cjs.cjs`) into ESM via default export. And it will be eventually imported as default in the importer file.
-
-```js
 // import cjs file
 import { foo as fooCjs } from 'foo/foo-cjs.cjs'
 
 // The above import has been resolved into this
 import foo_fooCjs from "/node_modules/.vite/deps/foo_foo-cjs__cjs.js?v=<hash>";
 const fooCjs = foo_fooCjs["foo"];
-
-// What is node_modules/.vite/deps/foo_foo-cjs__cjs.js under the hood
-// It imports a builtin helper `__commonJS` to wrap the CJS code into ESM
-import { __commonJS } from "/node_modules/.vite/deps/chunk-<hash1>.js?v=<hash2>";
-
-var require_foo_cjs = __commonJS({
-  "node_modules/foo/foo-cjs.cjs"(exports) {
-    exports.foo = "foo-cjs";
-  }
-});
-export default require_foo_cjs();
 ```
-
-By default, Vite will automatically analyze the project and draw a "optimization boundary" around all the package imports. The "optimization boundary" is used to pre-bundle the dependencies into ESM and put them into `node_modules/.vite/deps`. Option `optimizeDeps.include` and `optimizeDeps.exclude` are used to opt-in/opt-out certain package imports to/from the "optimization boundary". Never exclude CJS package imports, otherwise the import will not resolved into `node_modules/.vite/deps/xxx` anymore, and will be pointed to the original package imports.
 
 ### TypeScript
 - Vite supports importing `.ts` files out of the box.
@@ -109,17 +91,13 @@ By default, Vite will automatically analyze the project and draw a "optimization
 
 > While Vite and other tools handle the actual transpilation of TypeScript to JavaScript, they don't provide type checking out of the box. This means that you could introduce errors into your code and Vite would continue running the dev server without telling you. Fortunately, we can configure TypeScript's CLI to allow for type checking without interfering with our other tools. By setting `noEmit` to true, this makes TypeScript act more like a linter than a transpiler.
 
-> Linters such as ESLint and type checkers such as TypeScript are both valuable assets for developers. They are two kinds of static analysis tooling that analyze code and report on detected issues.
-> - ESLint checks that code adheres to best practices and is consistent, enforcing what you should write.
-> - TypeScripts checks that code is “type-safe”, enforcing what you can write.
-
 ### CSS
 - Importing `.css` files will inject its content to the page via a `<style>` tag with HMR support.
 - Vite is pre-configured to support CSS `@import` inlining via `postcss-import`.
 - Vite does provide built-in support for `.scss`, `.sass`, `.less`, `.stylus` files. There is no need to install Vite-specific plugins for them, but the corresponding pre-processor itself must be installed.
 
 ### Static Assets
-- Importing a static asset will return the resolved public URL when it is served. For example, imgUrl will be `/img.png` during development, and become `/assets/img.2d8efhg.png` in the production build. `url()` references in CSS are handled the same way.
+- Importing a static asset will return the resolved public URL when it is served. The image is included in the module graph. For example, imgUrl will be `/img.png` during development, and become `/assets/img.2d8efhg.png` in the production build. `url()` references in CSS are handled the same way.
 - Common image, media, and font filetypes are detected as assets automatically.
 - If you have assets that are must retain the exact same file name (without hashing) or you simply don't want to have to import an asset first just to get its URL, then you can place the asset in a special `public` directory under your project root. **Assets in this directory will be served at root path `/` during dev, and copied to the root of the dist directory as-is**.
 
@@ -146,19 +124,11 @@ Vite exposes env variables on the special `import.meta.env` object. Some built-i
 
 Vite uses dotenv (`.env`) to load additional environment variables, and the loaded env variables are also exposed to your client source code via `import.meta.env`. To prevent accidentally leaking env variables to the client, only variables prefixed with `VITE_` are exposed to your Vite-processed code.
 
-## Dynamic Image URL
-`import.meta.url` is a native ESM feature that exposes the current module's URL. Combining it with the native [URL constructor](https://developer.mozilla.org/en-US/docs/Web/API/URL), we can obtain the full, resolved URL of a static asset using relative path from a JavaScript module.
+The `import.meta` meta-property exposes context-specific metadata to a JavaScript module. It contains information about the module, such as the module's URL. `import.meta` is available in JavaScript modules; using it outside of a module is a syntax error.
 
-> The `import.meta` meta-property exposes context-specific metadata to a JavaScript module. It contains information about the module, such as the module's URL. `import.meta` is available in JavaScript modules; using it outside of a module is a syntax error.
-> 
+For example, `import.meta.url` is a native ESM feature that exposes the current module's URL. Using `new URL('.', import.meta.url)` gets the directory URL.
+
 > `import.meta.glob` to import multiple modules from the file system is a Vite-only feature and is not a web or ES standard. It is a way to import many files at once using glob patterns to find matching file paths.
-
-```js
-import fs from "node:fs/promises";
-
-const fileURL = new URL("./someFile.txt", import.meta.url);
-fs.readFile(fileURL, "utf8").then(console.log);
-```
 
 ```js
 // only in Vite
