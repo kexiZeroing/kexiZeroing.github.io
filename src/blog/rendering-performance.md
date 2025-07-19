@@ -3,7 +3,7 @@ title: "Rendering performance"
 description: ""
 added: "Oct 16 2021"
 tags: [web]
-updatedDate: "Feb 9 2025"
+updatedDate: "July 19 2025"
 ---
 
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
@@ -48,9 +48,13 @@ To measure Core Web Vitals for soft navigations, we need a standardized way that
 Google Chrome’s `web-vitals.js` library has an [experimental soft-nav branch](https://github.com/GoogleChrome/web-vitals/tree/soft-navs#report-metrics-for-soft-navigations-experimental) that already includes working code that you can use to report Web Vitals for soft navigations.
 
 ### Optimize your server
+For at least half of the origins with poor LCP, the TTFB of 2,270 milliseconds alone nearly guarantees that the LCP can't be faster than the 2.5 second "good" threshold. Additionally, the median site with poor LCP spends nearly four times longer waiting to start downloading the main LCP image than it does actually downloading it, highlighting that slow server response and delayed resource fetching are major factors in poor LCP performance.
+
 Instead of just immediately serving a static page on a browser request, many server-side web frameworks need to create the web page dynamically. This could be due to pending results from a database query or because components need to be generated into markup by a UI framework. Many web frameworks that run on the server have performance guidance that you can use to speed up this process.
 
-> The Server Timing API lets you pass request-specific timing data from your server to the browser using response headers. For example, you can indicate how long it took to look up data in a database for a particular request, which can be useful in debugging performance issues caused by slowness on the server. The Server-Timing header can contain one or more metrics, separated by commas (`Server-Timing: db;dur=53, app;dur=47.2`). Each metric has a name, an optional duration, and an optional description. These components are separated by semi-colons.
+> The Server Timing API lets you pass request-specific timing data from your server to the browser using response headers. Chrome display Server-Timing entries in the Performance tab (in the waterfall timeline), helping identify slow server components.
+> 
+> For example, you can indicate how long it took to look up data in a database for a particular request, which can be useful in debugging performance issues caused by slowness on the server. The Server-Timing header can contain one or more metrics, separated by commas (`Server-Timing: db;dur=53, app;dur=47.2`). Each metric has a name, an optional duration, and an optional description. These components are separated by semi-colons.
 
 If the content on your web page is being hosted on a single server, your website will load slower for users that are geographically farther away because their browser requests literally have to travel around the world. Consider [using a CDN](https://web.dev/content-delivery-networks) to ensure that your users never have to wait for network requests to faraway servers.
 
@@ -73,10 +77,11 @@ While `dns-prefetch` only performs a DNS lookup, `preconnect` establishes a full
 ### Render blocking JavaScript and CSS
 Generally speaking, when loading resources into web pages, there are three possible blocking states: Non-blocking, Render blocking, and Parser blocking.
 
-- `<link rel=stylesheet href=app.css>`: This will block the rendering of subsequent content, but not its parsing. The browser is free to continue parsing the HTML and building out the DOM, but cannot display any of it until `app.css` is fully fetched and parsed. Stylesheets are render blocking.
-- `<script src=app.js></script>`: This will block parsing (and therefore also rendering) of subsequent content. The browser may not parse or construct any DOM until `app.js` is fully fetched and parsed. Scripts are parser blocking. The presence of any of `async`, `defer` or `type=module` attributes on a `<script>` will cause it to be non-blocking. Therefore, `<script>`s can occupy either extreme: non-blocking, the fastest option; or parser blocking, the slowest option.`
+- Stylesheets block rendering but not parsing. It needs styles to correctly render the content.
+- Classic scripts block parsing (and therefore also rendering). The browser stops parsing the HTML entirely until the script is downloaded, parsed, and executed.
+- Adding `async`, `defer` or `type=module` attributes allows HTML parsing and initial rendering to begin earlier than a classic script. But only `defer` and `type="module"` guarantee they won’t interfere with rendering.
 
-Browsers will not run any synchronous JS if any CSS is still in flight. This is because the JS could read/write from/to the CSSOM, so the browser will build the CSSOM first. Statistically, this isn’t behaviour you actually need or want very often, so placing JS after CSS often leads to main thread inefficiencies that you could probably circumvent.
+For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. The good thing about defer is that you can guarantee the order of the script execution. *When you have both async and defer, `async` takes precedence and the script will be async.*
 
 If you know that a particular resource should be prioritized, use `<link rel="preload">` to fetch it sooner. By preloading a certain resource, you are telling the browser that you would like to fetch it sooner than the browser would discover it because you are certain that it is important for the current page. **Preloading is best suited for resources typically discovered late by the browser**. The browser caches preloaded resources so they are available immediately when needed. It doesn't execute the scripts or apply the stylesheets. Supplying the `as` attribute helps the browser set the priority of the prefetched resource according to its type and determine whether the resource already exists in the cache.
 
@@ -86,7 +91,12 @@ If you know that a particular resource should be prioritized, use `<link rel="pr
 <link rel="preload" as="image" href="img.png">
 ```
 
-Another one, `<link rel="prefetch">` is a low priority resource hint that allows the browser to fetch resources in the background (idle time) that might be needed later, and store them in the browser's cache. It is helpful when you know you’ll need that resource on a subsequent page, and you want to cache it ahead of time. Prefetching can be achieved through the use of resource hints such as `rel=prefetch` or `rel=preload`, via libraries such as [quicklink](https://github.com/GoogleChromeLabs/quicklink) or [Guess.js](https://github.com/guess-js/guess). *(Before visitors click on a link, they hover over that link. Between these two events, 200 ms to 300 ms usually pass by. [InstantClick](http://instantclick.io) makes use of that time to preload the page, so that the page is already there when you click.)*
+Another one, `<link rel="prefetch">` is a low priority resource hint that allows the browser to fetch resources in the background (idle time) that might be needed later, and store them in the browser's cache. It is helpful when you know you’ll need that resource on a subsequent page, and you want to cache it ahead of time.
+
+Tools can be used:
+- [quicklink](https://github.com/GoogleChromeLabs/quicklink)
+- [Guess.js](https://github.com/guess-js/guess)
+- [InstantClick](http://instantclick.io)
 
 > In Next.js production environment, whenever `<Link>` components appear in the browser's viewport, Next.js automatically prefetches the code for the linked route in the background. By the time the user clicks the link, the code for the destination page will already be loaded in the background, and this is what makes the page transition near-instant.
 >
@@ -100,69 +110,51 @@ The `fetchpriority` attribute (available in Chrome 101 or later) is a hint and n
 > - Warm connections to origins: `rel=preconnect`. Don’t preconnect Too Many Origins.
 > - Fetch late-found resources: `rel=preload`
 > - Fetch next-page navigations: `rel=prefetch`
-> - `rel="prerender"` goes a step beyond prefetching and actually renders the whole page as if the user had navigated to it, but keeps it in a hidden background renderer process ready to be used if the user actually navigates there. (*deprecated*)
 > - Read more: [Preload, prefetch and other <link> tags](https://3perf.com/blog/link-rels).
 
 For images loading, the `decoding=async` attribute of the `<img>` is one of the most misunderstood things out there. Images are not typically render-blocking and if they were the web would be a very slow and painful place to be. **Modern browsers all decode images off the main thread** leaving it free for other stuff, and decoding images is very fast compared to network downloads. Don’t worry about setting it. Leave it to the default and move on to more important things. Stop propagating this myth that this is a magic attribute to speed up your images in any noticeable way. Other attributes like `loading=lazy` (on offscreen images only) and `fetchpriority=high` (on important images only) will have a much larger impact.
 
-For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. The good thing about defer is that you can guarantee the order of the script execution. *When you have both async and defer, `async` takes precedence and the script will be async.*
+> When an image appears to load gradually from top to bottom, it's because it's being downloaded sequentially (the byte stream is arranged top-down). As data arrives, the browser begins rendering the image line by line. Decoding plays a role but is typically fast enough not to be noticeable.
 
+@addyosmani [JavaScript Loading Priorities in Chrome](https://addyosmani.com/blog/script-priorities):
 <img alt="JavaScript Loading Priorities" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/addyosmani.com_blog_script-priorities%20(1).png" width="800">
 
-*from @addyosmani [JavaScript Loading Priorities in Chrome](https://addyosmani.com/blog/script-priorities)*
+### The DOMContentLoaded event
+The `DOMContentLoaded` event fires once all of your deferred JavaScript (`<script defer>` and `<script type="module">`) has finished running. It doesn't wait for other things like images, subframes, and async scripts to finish loading.
 
-> Inlining important styles eliminates the need to make a round-trip request to fetch CSS.
-> 
-> Take font inlining as an example, Next.js and Angular have support for inlining Google and Adobe fonts. They will download the content of `<link rel='stylesheet' href='https://fonts.googleapis.com/xxx' />` at build time, and inline it's content (replace link tag with a style tag) at serve/render time. This eliminates the extra round trip that the browser has to make to fetch the font declarations.
-
-#### APIs to help you assess loading performance in the field
-Navigation Timing measures the speed of requests for HTML documents. Resource Timing measures the speed of requests for document-dependent resources such as CSS, JavaScript, images, and so on.
+- The `DOMContentLoaded` as measured and emitted by the Navigation Timing API is actually referred to as `domContentLoadedEventStart`.
+- `domContentLoadedEventEnd` event captures the time at which all JS wrapped in a `DOMContentLoaded` event listener has finished running.
+- `domInteractive` is the event before `domContentLoadedEventStart`. This is the moment the browser has finished parsing all synchronous DOM work. Basically, the browser is now at the `</html>` tag and ready to run your deferred JavaScript.
 
 ```js
-// Get Navigation Timing entries:
-performance.getEntriesByType('navigation');
+window.addEventListener('load', (event) => {
+  const timings = window.performance.timing;
+  const start   = timings.navigationStart;
 
-// Get Resource Timing entries:
-performance.getEntriesByType('resource');
+  console.log('Ready to start running `defer`ed code: ' + (timings.domInteractive - start + 'ms'));
+  console.log('`defer`ed code finished: ' + (timings.domContentLoadedEventEnd - start + 'ms'));
+  console.log('`defer`ed code duration: ' + (timings.domContentLoadedEventStart - timings.domInteractive + 'ms'));
+  console.log('`DOMContentLoaded`- wrapped code duration: ' + (timings.domContentLoadedEventEnd - timings.domContentLoadedEventStart + 'ms'));
+});
 ```
-
-Chrome 107 comes with a new `renderBlockingStatus` field on ResourceTiming entries. Use it to find and monitor all the render blocking resources in a page.
-```js
-// get all resources
-window.performance.getEntriesByType('resource')
-  // filter out the blocking ones and log their names
-  .filter(({renderBlockingStatus}) => renderBlockingStatus === 'blocking')
-  .forEach(({name}) => console.log(name))
-```
-
-### Common misconceptions about how to optimize LCP
-For most pages on the web, the LCP element is an image. It's natural then to assume that the best way to improve LCP is to optimize your LCP image. However, when we started looking at field performance data for users in Chrome, we found that image download time is almost never the bottleneck. Instead, other parts of LCP are a much bigger problem.
-
-LCP sub-part breakdown: Time to First Byte -> Resource load delay -> Resource load duration -> Element render delay 
-
-1. There is not a lot of time being spent in image load duration. In fact, it's the shortest LCP sub-part, in all LCP buckets. The load duration is longer for poor-LCP origins compared to good-LCP origins, but that's still not where time is largely being spent.
-2. For at least half of the origins with poor LCP, the TTFB of 2,270 milliseconds alone nearly guarantees that the LCP can't be faster than the 2.5 second "good" threshold.
-3. The median site with poor LCP spends almost four times as long waiting to start downloading the LCP image as it does actually downloading it.
 
 ### The Speculation Rules API
-- https://developer.chrome.com/docs/web-platform/prerender-pages
-- https://developer.chrome.com/docs/devtools/application/debugging-speculation-rules
-- https://developer.chrome.com/blog/search-speculation-rules
-
 A page can be prerendered in one of four ways, all of which aim to make navigations quicker:
 1. When you type a URL into the Chrome omnibox, Chrome may automatically prerender the page for you, if it has high confidence you will visit that page. (View Chrome's predictions for URLs in the `chrome://predictors` page)
 2. When you use the bookmarks bar, Chrome may automatically prerender the page for you on holding the pointer over one of the bookmark buttons.
 3. When you type a search term into the Chrome address bar, Chrome may automatically prerender the search results page, when instructed to do so by the search engine.
-4. Sites can use the *Speculation Rules API*, to programmatically tell Chrome which pages to prerender. This replaces what `<link rel="prerender"...>` used to do and allows sites to proactively prerender a page based on speculation rules on the page.
+4. Sites can use the Speculation Rules API, to programmatically tell Chrome which pages to prerender. This replaces what `<link rel="prerender"...>` *(deprecated)* used to do and allows sites to proactively prerender a page based on speculation rules on the page.
 
-> For a greater than 50% confidence level, Chrome proactively preconnects to the domain, but does not prerender the page. For a greater than 80% confidence level (shown in green), Chrome will prerender the URL.
+Developers can insert JSON instructions onto their pages to inform the browser about which URLs to prerender. Speculation rules can be added in either the `<head>` or the `<body>` of the main frame. To specify the pages you want prerendered, you can use two types of rules:
+- URL List Rules: Use a list of URL strings to specify which pages to prerender.
+- Document Rules: Use conditions to determine when a page should be prerendered.
 
-Developers can insert JSON instructions onto their pages to inform the browser about which URLs to prerender. Speculation rules can be added in either the `<head>` or the `<body>` of the main frame.
-- The Speculation Rules API used to include a `source` key which was set to **list** for list URLs or **document** for document URLs but this can be implied from the presence of a `urls` or `where` key (which are mutually exclusive).
-- The document rules (available from Chrome 121), which prerenders links found in the document based on `href` selectors or CSS selectors.
-- An `eagerness` setting is used to indicate when the speculations should fire. The default eagerness for list rules is `immediate`. The default eagerness for document rules is `conservative`. The `moderate` option is a middle ground that would prerender a link when holding the pointer over the link for 200 milliseconds or on the pointerdown event.
+The speculation rules API allows you to specify an `eagerness` setting to control when a page is prerendered.
+- immediate: The page is prerendered or prefetched immediately.
+- moderate: The page is prerendered or prefetched when the user hovers over a link for 200 milliseconds.
+- conservative: The page is prerendered or prefetched when the user initiates a click on the link.
 
-Speculation rules can also be used to just prefetch pages, without a full prerender. Unlike the older `<link rel="prefetch">` resource hint which just prefetched to the HTTP disk cache, documents loaded via speculation rules are processed in the same way that navigations are (but then not rendered) and are held in memory so will be available quicker to the browser once needed. *Prefetch speculation rules only prefetch the document, not its subresources.*
+Speculation rules can also be used to just prefetch pages, without a full prerender. You can think of prefetching as a lighter version of prerendering. Prefetch speculation rules only prefetch the document, not its subresources.
 
 ```html
 <script type="speculationrules">
@@ -191,41 +183,17 @@ Speculation rules can also be used to just prefetch pages, without a full preren
 
 > 1. Speculation rules can be statically included in the page's HTML, or dynamically inserted into the page by JavaScript based on application logic.
 > 2. Speculation rules are for full page navigations, not SPAs. SPAs can still benefit for the initial load.
-> 3. Prerendering does use additional memory and network bandwidth. Be careful not to over-prerender, at a cost of user resources. Only prerender when there is a high likelihood of the page being navigated to.
-> 4. At present, speculation rules are restricted to pages opened within the same tab, but we are working to reduce that restrictions. By default prerender is restricted to same-origin pages.
-
-### The DOMContentLoaded event
-The `DOMContentLoaded` event fires once all of your deferred JavaScript (`<script defer>` and `<script type="module">`) has finished running. It doesn't wait for other things like images, subframes, and async scripts to finish loading. If we want to capture this data more deliberately ourselves, we need to lean on the Navigation Timing API, which gives us access to a suite of milestone timings.
-
-- The `DOMContentLoaded` as measured and emitted by the Navigation Timing API is actually referred to as `domContentLoadedEventStart`.
-- `domContentLoadedEventEnd` event captures the time at which all JS wrapped in a `DOMContentLoaded` event listener has finished running.
-- `domInteractive` is the event immediately before `domContentLoadedEventStart`. This is the moment the browser has finished parsing all synchronous DOM work. Basically, the browser is now at the `</html>` tag and ready to run your deferred JavaScript.
-
-```js
-window.addEventListener('load', (event) => {
-  const timings = window.performance.timing;
-  const start   = timings.navigationStart;
-
-  console.log('Ready to start running `defer`ed code: ' + (timings.domInteractive - start + 'ms'));
-  console.log('`defer`ed code finished: ' + (timings.domContentLoadedEventEnd - start + 'ms'));
-  console.log('`defer`ed code duration: ' + (timings.domContentLoadedEventStart - timings.domInteractive + 'ms'));
-  console.log('`DOMContentLoaded`- wrapped code duration: ' + (timings.domContentLoadedEventEnd - timings.domContentLoadedEventStart + 'ms'));
-});
-
-// PerformanceTiming is deprecated
-// Use the PerformanceNavigationTiming interface instead
-performance.getEntriesByType('navigation')[0]
-```
+> 3. At present, speculation rules are restricted to pages opened within the same tab, but we are working to reduce that restrictions. By default prerender is restricted to same-origin pages.
 
 ### Back/forward cache
 bfcache has been supported in both Firefox and Safari for many years. Since Chrome version 96, bfcache is enabled for all users across desktop and mobile. bfcache is an in-memory cache that stores a complete snapshot of a page (including the JavaScript heap) as the user is navigating away. With the entire page in memory, the browser can quickly restore it if the user decides to return.
 
-1. If a page contains embedded iframes, then the iframes themselves are not eligible for the bfcache. For example, if you navigate to another page within an iframe, but then go back, the browser will go "back" within the iframe rather than in the main frame, but the back navigation within the iframe won't use the bfcache.
-2. Because bfcache works with browser-managed navigations, it doesn't work for "soft navigations" within a single-page app.
-3. The `pageshow` event fires right after the `load` event when the page is initially loading and any time the page is restored from bfcache. The `pageshow` event has a `persisted` property, which is true if the page was restored from bfcache and false otherwise.
-4. The most important way to optimize for bfcache in all browsers is to never use the `unload` event. This event is extremely unreliable. In most browsers, especially on mobile, the code often won't run and it has a negative impact on a site's performance, by preventing the usage of bfcache. Use the `pagehide` event instead.
-5. Any pages using `Cache-Control: no-store` won't be eligible for bfcache.
-6. When a page is put into the bfcache, it pauses all scheduled JavaScript tasks and resumes them when the page is taken out of the cache. If your page has open IndexedDB connection, in-progress fetch, or open WebSocket connection, we strongly recommend closing connections during the `pagehide` and reopen or reconnect to those APIs during the `pageshow` event when the page is restored from the bfcache.
+Some common reasons why bfcache might not work:
+- The page has unload or beforeunload event handlers.
+- The page keeps active connections (WebSocket, media streams).
+- The page is using `Cache-Control: no-store`.
+
+If you want to check if your page is eligible for bfcache, Chrome DevTools has a bfcache indicator in the Performance tab. The `pageshow` event fires right after the `load` event when the page is initially loading and any time the page is restored from bfcache. The `pageshow` event has a `persisted` property, which is true if the page was restored from bfcache and false otherwise.
 
 ### Best practices for fonts
 
@@ -284,3 +252,4 @@ When faced with a web font that has not yet loaded, the browser is faced with a 
 - Get All That Network Activity Under Control with Priority Hints: https://www.macarthur.me/posts/priority-hints
 - Get your `<head>` in order: https://github.com/rviscomi/capo.js
 - Inline your app's critical CSS and lazy-load the rest: https://github.com/GoogleChromeLabs/critters
+- Blazing Fast Websites with Speculation Rules: https://www.debugbear.com/blog/speculation-rules
