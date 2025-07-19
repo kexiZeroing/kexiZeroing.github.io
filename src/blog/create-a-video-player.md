@@ -35,7 +35,9 @@ To start off with, let's take a look at the HTML that makes up the player. First
 
 Even though this player will define its own custom control set, the `controls` attribute is still added to the `<video>` element, and the player's default control set is switched off later with JavaScript. Doing things this way still allows users who have JavaScript turned off to still have access to the browser's native controls.
 
-The `poster` attribute specifies the URL of the image to show while the video is downloading. The `preload` attribute is set to `metadata`, which informs the browser that it should initially only attempt to load the metadata from the video file rather than the entire video file. This provides the player with data such as video duration and format.
+The `poster` attribute specifies the URL of the image to show while the video is downloading, or until the user hits the play button. The `preload` attribute is set to `metadata`, which informs the browser that it should initially only attempt to load the metadata from the video file rather than the entire video file. This provides the player with data such as video duration and format.
+
+> Note that if you have a `<video>` with no `poster` attribute, you don't see a thumb on iOS. The trick is to put `#t=0.001` at the end of the `src`. Caveat here is that it then downloads extra Byte Ranges of data from the video, so it costs bandwidth.
 
 > The default value for `preload` is different for each browser. The spec advises it to be set to `metadata`.
 > - `auto`: Indicates that the whole video file can be downloaded, even if the user is not expected to use it.

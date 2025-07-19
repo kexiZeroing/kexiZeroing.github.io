@@ -76,6 +76,8 @@ Images of source code: https://carbon.now.sh, https://ray.so
 
 Manage node_modules in the system: https://github.com/voidcosmos/npkill
 
+The world smallest office suite: https://github.com/zserge/awfice
+
 Interactive website with live coding: https://www.strml.net/
 
 Driving game run in a browser: https://slowroads.io/

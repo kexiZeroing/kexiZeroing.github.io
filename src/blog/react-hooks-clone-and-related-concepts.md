@@ -14,10 +14,14 @@ const React = (function() {
   let idx = 0;
 
   function useState(initVal) {
-    const state = hooks[idx] || initVal;
+    const state = hooks[idx] ?? initVal;
     const _idx = idx;
     const setState = newVal => {
-      hooks[_idx] = newVal;
+      if (typeof newVal === 'function') {
+        hooks[_idx] = newVal(hooks[_idx]);
+      } else {
+        hooks[_idx] = newVal;
+      }
     };
     idx++;
     return [state, setState];

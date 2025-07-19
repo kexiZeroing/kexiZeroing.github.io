@@ -70,7 +70,7 @@ const compiledCode = babelTransform(jsxCode);
 console.log(compiledCode);
 ```
 
-Monaco Editor can provide a rich editing experience for the JSX code.
+Monaco Editor (https://github.com/microsoft/monaco-editor) can provide a rich editing experience for the JSX code. It is a browser based code editor that powers VS Code, but it's an overkill for websites that only need to show read-only codeblocks.
 
 ```js
 import * as monaco from 'https://esm.sh/monaco-editor@0.30.1';

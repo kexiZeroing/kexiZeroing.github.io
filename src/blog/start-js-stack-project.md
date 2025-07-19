@@ -256,24 +256,6 @@ With syntax transforms, I recommend `@babel/preset-env`. For polyfills, the most
 
 `core-js` is used by most of the popular websites. We can check it using `window['__core-js_shared__'].versions`, see details at https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md
 
-### The current state of ES5 on the web today
-https://philipwalton.com/articles/the-state-of-es5-on-the-web/
-
-**It turns out that most sites on the internet ship code that is transpiled to ES5, yet still doesn’t work in IE 11**, which meaning the transpiler and polyfill bloat is being downloaded by 100% of their users, but benefiting none of them.
-
-- 89% of sites serve at least 1 JavaScript file containing untranspiled ES6+ syntax.
-- 79% of sites serve at least 1 JavaScript file containing ES5 helper code.
-- 68% of sites serve at least 1 JavaScript file containing both ES5 helper code as well as untranspiled ES6+ syntax in the same file.
-
-For a site to serve users code that contains both ES5 helpers and untranspiled ES6+ syntax, there’s really only two plausible explanations:
-1. The site doesn’t need to support ES5 browsers, but some of their dependencies transpile to ES5, so therefore ES5 code appears in their output.
-2. The site intended to support ES5 browsers, but they didn’t realize that some of their dependencies publish untranspiled ES6+ syntax, and they didn’t configure their bundler to transpile code in `node_modules`.
-
-### Live Reload and Hot Reload
-> When a file is edited, the dev server recompiles with the changes, then pushes a notification to the client code in the browser. The app code can then subscribe to "some file changed" notifications, re-import the new version of the code, and swap out the old code for the new code as the app is still running.
-
-**Live Reload** refreshes the entire app when a file changes. For example, if you were four links deep into your navigation and saved a change, live reloading would restart the app and load the app back to the initial route. **Hot Reload** only refreshes the files that were changed without losing the state of the app. (Webpack's **Hot Module Replacement** replaces the modules that have been modified on the fly without reloading the entire page). The advantage of this is that it doesn't lose your app state, e.g. your inputs on your form fields, your currently selected tab.
-
 ### Next.js app router and pages router
 Pages in the `app` directory are Server Components by default. This is different from the pages directory where pages are Client Components. The `app` directory uses nested folders to define routes and a special `page.js` file to make a route segment publicly accessible.
 
