@@ -2,7 +2,7 @@
 title: "Data Fetching with TanStack Query"
 description: ""
 added: "Aug 24 2024"
-tags: [React]
+tags: [react]
 updatedDate: "July 18 2025"
 ---
 
