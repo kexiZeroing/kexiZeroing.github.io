@@ -31,9 +31,6 @@ Domain sharding is used to load resources from multiple domains/subdomains in an
 
 But another limit is that browsers have a total limit of concurrent connections regardless of the number of different domains used. And adding multiple domains can, however, introduce performance losses. Web browsers have to perform a DNS lookup on each additional domain and maintain connections to each domain, resulting in slower initial load times. Unless you have a very specific immediate need, **don't use this deprecated technique; switch to HTTP/2 instead**. In HTTP/2, domain sharding is no longer useful and the HTTP/2 connection is able to handle parallel requests very well.
 
-### Always set timeouts when making network calls
-Modern applications don’t crash; they hang. One of the main reasons for it is the assumption that the network is reliable. It isn’t. You are leaking sockets if your asynchronous network calls don’t return. Client-side timeouts are as crucial as server-side ones. There is a maximum number of sockets your browser can open for a particular host. If you make network requests that never returns, you are going to exhaust the socket pool. When the pool is exhausted, you are no longer able to connect to the host. As a rule of thumb, always set timeouts when making network calls. And if you build libraries, always set reasonable default timeouts and make them configurable for your clients.
-
 ### HTTP and socket
 HTTP is an application protocol and used mostly for browsing the internet. HTTP itself can't be used to transport information to/from a remote end point. Instead it relies on an underlying protocol which in HTTP's case is TCP. TCP provides a reliable link between two computers (if packet get lost - it is re-transmitted). TCP itself rides on top of IP, which provides unified addressing to communicate between computers. Basically it means if you are communicating HTTP, you are doing it with TCP/IP underneath.
 
@@ -41,13 +38,11 @@ Sockets are an API that most operating systems provide to be able to talk with t
 
 WebSocket is another application level protocol over TCP protocol. A webSocket runs over a regular socket, but runs its own connection scheme and framing protocol on top of the regular socket.
 
-Btw, [PartySocket](https://www.npmjs.com/package/partysocket) is a tiny abstraction on top of websockets that adds reconnections/buffering/resilience. Use it as a drop in replacement for your ws `import { WebSocket } from “partysocket”`.
+> [PartySocket](https://www.npmjs.com/package/partysocket) is a tiny abstraction on top of websockets that adds reconnections/buffering/resilience. Use it as a drop in replacement for your ws `import { WebSocket } from “partysocket”`.
 
 WebSockets are stateful, making them challenging to scale in distributed systems. Systems typically use:
 - Consistent Hashing for Load Balancing – Ensures that a reconnecting client is routed to the correct server.
-- Cross-Server Communication – Messages need to be passed between WebSocket servers to ensure continuity for users, regardless of which server they land on.
-
-> You must design your system for scale if you plan to load balance multiple WebSocket servers. Each client connects to one of your servers, where it then opens a persistent WebSocket connection. Because each server has only its own list of connected clients, messages passed to one server must be shared with the other servers somehow. Similarly, when you want to broadcast a message to all clients, all servers must receive and relay it. A typical way to solve this is to store messages in a shared database like Redis or pass messages between servers using a Publish/Subscribe framework like Kafka or RabbitMQ.
+- Cross-Server Communication – Messages need to be passed between WebSocket servers to ensure continuity for users, regardless of which server they land on. A typical way to do this is to store messages in a shared database like Redis or pass messages between servers using a Publish/Subscribe framework like Kafka or RabbitMQ.
 
 ### Redirections
 In HTTP, redirection is triggered by a server sending a special redirect response to a request. Redirect responses have status codes that start with `3`, and a `Location` header holding the URL to redirect to. When browsers receive a redirect, they immediately load the new URL provided in the `Location` header. **However, browsers always send a `GET` request to that new URL**.
@@ -69,24 +64,17 @@ The `308 (Permanent Redirect)` status code, that is similar to `301 (Moved Perma
 ### Mixed content
 An HTTPS page that includes content fetched using cleartext HTTP is called a mixed content page. Pages like this are only partially encrypted, leaving the unencrypted content accessible to sniffers and man-in-the-middle attackers. There are two categories for mixed content: mixed passive/display content and mixed active content.
 
-- *Mixed passive/display content* is content served over HTTP that is included in an HTTPS webpage, but that cannot alter other portions of the webpage. For example, an attacker could replace an image served over HTTP with an inappropriate image or message to the user. (img src attribute, video src attribute, etc.)
-- *Mixed active content* is content that has access to all or parts of the Document Object Model of the HTTPS page. This type of mixed content can alter the behavior of the HTTPS page and potentially steal sensitive data from the user. (script src attribute, iframe src attribute, xhr requests, fetch, etc.)
+- **Mixed passive/display content** is content served over HTTP that is included in an HTTPS webpage, but that cannot alter other portions of the webpage. For example, an attacker could replace an image served over HTTP with an inappropriate image or message to the user. (img src attribute, video src attribute, etc.)
+- **Mixed active content** is content that has access to all or parts of the Document Object Model of the HTTPS page. This type of mixed content can alter the behavior of the HTTPS page and potentially steal sensitive data from the user. (script src attribute, iframe src attribute, xhr requests, fetch, etc.)
 
-When visiting an HTTPS page in Google Chrome, the browser alerts you to mixed content as errors and warnings in the JavaScript console. Mixed active content is blocked by default.
+When visiting an HTTPS page in Chrome, the browser alerts you to mixed content as errors and warnings in the JavaScript console. Mixed active content is blocked by default.
 
-Content security policy (CSP) is a multi-purpose browser feature that you can use to manage mixed content at scale. The `upgrade-insecure-requests` CSP directive instructs the browser to upgrade insecure URLs before making network requests. As with browser automatic upgrading, if the resource is not available over HTTPS, the upgraded request fails and the resource is not loaded. This maintains the security of your page.
+The `upgrade-insecure-requests` CSP directive instructs the browser to upgrade insecure URLs before making network requests. As with browser automatic upgrading, if the resource is not available over HTTPS, the upgraded request fails and the resource is not loaded. *(“If this page loads HTTP resources (images, scripts, etc.), automatically upgrade them to HTTPS.”)*
 
-> The HTTP Strict-Transport-Security response header (often abbreviated as `HSTS`) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. This is more secure than simply configuring a HTTP to HTTPS (301) redirect on your server, where the initial HTTP connection is still vulnerable to a man-in-the-middle attack.
+The HTTP `Strict-Transport-Security` response header (often abbreviated as `HSTS`) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. *(“Always access this site over HTTPS, even if the user types http)*
 
 ### Chunked transfer encoding
-In HTTP/1.1, use `transfer-encoding: chunked` in response header like below, and we could keep writing response `res.write()`, till we use `res.end()` to finish the streaming process.
-
-```js
-res.writeHead(200, {
-  'Content-Type': 'text/html',
-  'Transfer-Encoding': 'chunked'
-});
-```
+In HTTP/1.1, use `transfer-encoding: chunked` in response header, and we could keep writing response `res.write()`, till we use `res.end()` to finish the streaming process.
 
 Here’s what’s happening:
 - Each chunk starts with its length in hexadecimal.
@@ -130,11 +118,7 @@ server.listen(3000, () => {
 ## HTTP caching
 The HTTP cache stores a response associated with a request and reuses the stored response for subsequent requests. Proper operation of the cache is critical to the health of the system.
 
-- A private cache is a cache tied to a specific client — typically a browser cache. This cache is especially useful when users hit the "back" button or click a link to see a page they’ve just looked at. If a response contains personalized content and you want to store the response only in the private cache, you must specify a `private` directive: `Cache-Control: private`.
-
-- A shared cache is a cache that stores responses to be reused by more than one user. While browser caching (private cache) helps with many requests by the same user, it doesn't solve the issue of many users making requests, because each user has their own browser with their own cache. To fix this, you need a shared cache. For example, an ISP might have set up a web proxy as part of its local network infrastructure to serve many users so that popular resources are reused a number of times, reducing network traffic and latency.
-
-> Cloudflare caches only static assets by default, such as images, fonts, scripts, etc. The HTML containing the page content is not cached, because if you have an e-commerce store, for example, each user will have their own shopping cart, and if you cache that, the next user will see the previous one's items. Sites without dynamic content can opt in to cache everything. This makes it possible for an edge to serve entire pages all by itself, without having to contact your server. This way, you can have a very weak server, yet handle thousands of requests per second, because the load is mainly on the CDN.
+While **private cache** (browser cache) helps with many requests by the same user, it doesn't solve the issue of many users making requests, because each user has their own browser with their own cache. To fix this, you need a **shared cache**. For example, an ISP might have set up a web proxy as part of its local network infrastructure to serve many users so that popular resources are reused a number of times, reducing network traffic and latency.
 
 ### Controlling caching
 There are many directives in the `Cache-Control` spec, and it may be difficult to understand all of them. But most websites can be covered by a combination of a handful of patterns.
@@ -153,9 +137,7 @@ In HTTP/1.0, freshness used to be specified by the `Expires` header. However, th
 
 To ensure that the latest versions of resources will always be transferred, it's common practice to make the default `Cache-Control` value include `no-cache`. In addition, if the service implements cookies and the content is personalized for each user, `private` must be given too.
 
-`max-age=0` means that the response is immediately stale, and `must-revalidate` means that it must not be reused without revalidation once it is stale — so, in combination, the semantics seem to be the same as `no-cache` *(The cached response must be validated by the client before each use, even if fresh)*. But now HTTP/1.1-conformant servers are widely deployed, there's no reason to ever use that combination — you should instead just use `no-cache`.
-
-The `no-cache` directive does not prevent the storing of responses but instead prevents the reuse of responses without revalidation. If you don't want a response stored in any cache, use `no-store`.
+**`no-cache` means don’t use the response without validating, even if it’s still fresh.** It does not prevent the storing of responses but instead prevents the reuse of responses without revalidation. If you don't want a response stored in any cache, use `no-store`.
 
 `s-maxage` is similar to `max-age` but it applies to proxies (CDN) instead of clients. Web proxy caches work on the same principle, but a much larger scale. Use `public` and `s-maxage` for general resources, which generate shared cache for every user, and only the first user needs to wait on response.
 
@@ -164,13 +146,9 @@ The `no-cache` directive does not prevent the storing of responses but instead p
 `stale-if-error=86400` indicates that the cache can reuse a stale response for an extra 1 day (86400s) when an error is encountered. Here, an error is considered any response with a status code of 500, 502, 503, or 504.
 
 #### `Cache-Control` as a Request Header
-One thing we’re probably less used to is `Cache-Control`’s employment as a request header. It determines whether the browser retrieves content from the cache or forces a network request. The most common way you’re ever likely to see a `Cache-Control` request header is when you refresh or hard refresh a page.
+One thing we’re probably less familiar with is the use of the `Cache-Control` as a request header, which influences how the browser decides whether to use a cached response or fetch fresh content from the network. The most common time you’ll encounter `Cache-Control` in a request is when refreshing a page.
 
-In Chrome, even if the page is still fresh, refreshing it will dispatch a request to the network with `Cache-Control: max-age=0` and `If-Modified-Since | If-None-Match`. All other subresources on the page are fetched as per their caching headers, so there is no specific behaviour here.
-
-A hard refresh causes both the main document and all of its subresources to be requested with the `Cache-Control: no-cache`.
-
-Note that `max-age=0` means the response is considered stale after zero seconds and therefore should be revalidated, and `no-cache` means don’t fetch this response from cache without revalidating it first. Where they differ is that `max-age=0` permits caches to reuse a response if revalidation isn’t possible (e.g. no network access); `no-cache` is much stricter—it means the cache must always revalidate before releasing a response, or return an error if revalidation fails.
+In Chrome, even if the page is still fresh, refreshing it will dispatch a request to the network with `Cache-Control: max-age=0` and `If-Modified-Since | If-None-Match`. A hard refresh means bypass the cache entirely, fetching both the main document and all subresources from the network. These requests typically include the header `Cache-Control: no-cache`.
 
 ### Freshness and Cache validation
 Before the expiration time, the resource is fresh; after the expiration time, the resource is stale. Stale responses are not immediately discarded. HTTP has a mechanism to transform a stale response into a fresh one by asking the origin server. This is called validation. Validation is done by using a conditional request that includes an `If-Modified-Since` or `If-None-Match` request header. The server will respond with `304 Not Modified` if the content has not changed. **Since this response only indicates "no change", there is no response body — there's just a status code — so the transfer size is extremely small.** The response can also include headers that update the expiration time of the cached resource.
@@ -181,57 +159,10 @@ Before the expiration time, the resource is fresh; after the expiration time, th
 
 In short, by adding `Cache-Control: no-cache` to the response along with `Last-Modified` and `ETag`, the client will receive a `200 OK` response if the requested resource has been updated, or will otherwise receive a `304 Not Modified` response if the requested resource has not been updated.
 
-[cachified](https://github.com/epicweb-dev/cachified) is a simple API to make your app faster. It wraps virtually everything that can store by key to act as cache with ttl/max-age, stale-while-revalidate, parallel fetch protection and type-safety support.
-
-```ts
-import { LRUCache } from 'lru-cache';
-import { cachified, CacheEntry } from '@epic-web/cachified';
-
-const lru = new LRUCache<string, CacheEntry>({ max: 1000 });
-
-function getUserById(userId: number) {
-  return cachified({
-    key: `user-${userId}`,
-    cache: lru,
-    async getFreshValue() {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/users/${userId}`,
-      );
-      return response.json();
-    },
-    /* 5 minutes until cache gets invalid
-     * Optional, defaults to Infinity */
-    ttl: 300_000,
-  });
-}
-
-console.log(await getUserById(1));
-// > logs the user with ID 1
-
-// 2 minutes later
-console.log(await getUserById(1));
-// > logs the exact same user-data
-// Cache was filled an valid. `getFreshValue` was not invoked
-
-// 10 minutes later
-console.log(await getUserById(1));
-// > logs the user with ID 1 that might have updated fields
-// Cache timed out, `getFreshValue` got invoked to fetch a fresh copy of the user
-```
-
-### Refresh behaviors in Chrome
-- Press enter in URL bar: You tell the browser to navigate to some page and apply normal resource caching behavior just like clicking a link.
-
-- Normal reload: This will use the cache but revalidate everything during page load, looking for "304 Not Modified" responses. *(browsers send `cache-control: max-age=0` - bypasses local cache)*
-
-- Hard reload: Don't use anything in the cache and force the browser do re-download when making the request.
-
-- Empty Cache and Hard Reload: Right-click on the Network requests in DevTools, select "Clear browser cache" and then reload the page.
-
 ### Revved resources
 They are some resources that would benefit the most from caching, but this makes them very difficult to update. This is typical of the resources included and linked from each web pages: JavaScript and CSS files change infrequently, but when they change you want them to be updated quickly.
 
-Web developers invented a technique called `revving`. Infrequently updated files are named in a specific way: a revision (or version) number is added to the filename, and it doesn't need to be a classical version string like `1.1.3`. It can be anything that prevent collisions, like a hash or a date. Each new revision is considered as a resource that never changes and that can have an expiration time very far in the future. In order to have the new versions, all the links to them must be changed. This additional complexity is usually taken care of by the tool chain used by web developers.
+Web developers invented a technique called `revving` *(short for "revisioned")*. Infrequently updated files are named in a specific way: a revision (or version) number is added to the filename, and it doesn't need to be a classical version string like `1.1.3`. It can be anything that prevent collisions, like a hash or a date. Each new revision is considered as a resource that never changes and that can have an expiration time very far in the future. In order to have the new versions, all the links to them must be changed. This additional complexity is usually taken care of by the tool chain used by web developers.
 
 ## HTTP/2
 - Brief History of HTTP: https://hpbn.co/brief-history-of-http
@@ -258,7 +189,7 @@ The "layer" refers to a design choice to introduce a new optimized encoding mech
 - The frame is the smallest unit of communication that carries a specific type of data, e.g., HTTP headers, message payload, and so on. Frames from different streams may be interleaved and then reassembled via the embedded stream identifier in the header of each frame.
 
 ### Request and Response Multiplexing
-With HTTP/1.x, if the client wants to make multiple parallel requests, then multiple TCP connections must be used. This behavior is a consequence of the HTTP/1.x delivery model, which ensures that only one response can be delivered at a time per connection. The new binary framing layer in HTTP/2 removes these limitations, and enables full request and response multiplexing, by allowing the client and server to **break down an HTTP message into independent frames, interleave them, and then reassemble them on the other end**.
+With HTTP/1.x, if the client wants to make multiple parallel requests, then multiple TCP connections must be used. This behavior is a consequence of the HTTP/1.x delivery model, which ensures that only one response can be delivered at a time per connection. The new binary framing layer in HTTP/2 removes these limitations, and enables full request and response multiplexing, by allowing the client and server to **break down an HTTP message into independent frames, interleave them, and then reassemble them on the other end**. All HTTP/2 connections are persistent, and only one connection per origin is required.
 
 <img alt="multiplexing" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8aquuwp3gj319o0dedhk.jpg" width="700" />
 
@@ -269,12 +200,10 @@ The client is transmitting a DATA frame (stream 5) to the server, while the serv
 - Use a single connection to deliver multiple requests and responses in parallel
 - Remove unnecessary HTTP/1.x workarounds such as concatenated files, image sprites, and domain sharding
 
-All HTTP/2 connections are persistent, and only one connection per origin is required. And reduced number of connections is a important feature for improving performance of HTTPS deployments: this translates to fewer expensive TLS handshakes, better session reuse, and an overall reduction in required client and server resources.
-
 ### Stream Prioritization
-HTTP/2 standard **allows each stream to have an associated weight and dependency**: Each stream may be assigned an integer weight between 1 and 256; Each stream may be given an explicit dependency on another stream. The combination of stream dependencies and weights allows the client to expresses how it would prefer to receive the responses. In turn, the server can use this information to prioritize stream processing by controlling the allocation of CPU, memory, and other resources, and once the response data is available, allocation of bandwidth to ensure optimal delivery of high-priority responses to the client.
+HTTP/2 standard **allows each stream to have an associated weight and dependency**: Each stream may be assigned an integer weight between 1 and 256; Each stream may be given an explicit dependency on another stream. The combination of stream dependencies and weights allows the client to expresses how it would prefer to receive the responses. In turn, the server can use this information to prioritize stream processing, and once the response data is available, allocation of bandwidth to ensure optimal delivery of high-priority responses to the client.
 
-> Not all resources have equal priority when rendering a page in the browser: the HTML document itself is critical to construct the DOM; the CSS is required to construct the CSSOM; both DOM and CSSOM construction can be blocked on JavaScript resources; and remaining resources, such as images, are often fetched with lower priority. 
+> Not all resources have equal priority when rendering a page in the browser: the HTML document itself is critical to construct the DOM; the CSS is required to construct the CSSOM; both DOM and CSSOM construction can be blocked on JavaScript resources; and remaining resources, such as images, are often fetched with lower priority.
 
 HTTP/1.x must rely on the use of parallel connections, which enables limited parallelism of up to six requests per origin. As a result, requests are queued on the client until a connection is available, which adds unnecessary network latency. It is eliminated in HTTP/2 because the browser can dispatch all requests the moment they are discovered, and the browser can communicate its stream prioritization preference via stream dependencies and weights, allowing the server to further optimize response delivery.
 
@@ -284,9 +213,7 @@ Each HTTP transfer carries a set of headers that describe the transferred resour
 - It allows the transmitted header fields to be encoded via a static Huffman code, which reduces their individual transfer size.
 - It requires that both the client and server maintain and update an indexed list of previously seen header fields, which is then used as a reference to efficiently encode previously transferred values.
 
-In HTTP/2, `:method`, `:scheme`, `:authority`, and `:path` are pseudo-header fields. It tries to compress headers and strip headers that are equal to the headers sent in the previous request. 
-
-> Clients that generate HTTP/2 requests directly should use the ":authority" pseudo-header field instead of the "Host" header field.
+In HTTP/2, `:method`, `:scheme`, `:authority`, and `:path` are pseudo-header fields. It tries to compress headers and strip headers that are equal to the headers sent in the previous request. Clients that generate HTTP/2 requests directly should use the `:authority` pseudo-header field instead of the `Host` header field.
 
 ```
 # HTTP/1.x
