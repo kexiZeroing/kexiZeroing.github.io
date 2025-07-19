@@ -2,7 +2,7 @@
 title: "PDF custom rendering"
 description: ""
 added: "Nov 6 2022"
-tags: [web]
+tags: [other]
 updatedDate: "Jun 30 2023"
 ---
 

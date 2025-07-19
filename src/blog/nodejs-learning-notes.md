@@ -2,7 +2,7 @@
 title: "Node.js learning notes"
 description: ""
 added: "May 20 2025"
-tags: [web]
+tags: [js]
 updatedDate: "July 17 2025"
 ---
 

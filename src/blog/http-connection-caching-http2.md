@@ -71,7 +71,7 @@ When visiting an HTTPS page in Chrome, the browser alerts you to mixed content a
 
 The `upgrade-insecure-requests` CSP directive instructs the browser to upgrade insecure URLs before making network requests. As with browser automatic upgrading, if the resource is not available over HTTPS, the upgraded request fails and the resource is not loaded. *(“If this page loads HTTP resources (images, scripts, etc.), automatically upgrade them to HTTPS.”)*
 
-The HTTP `Strict-Transport-Security` response header (often abbreviated as `HSTS`) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. *(“Always access this site over HTTPS, even if the user types http)*
+The HTTP `Strict-Transport-Security` response header (often abbreviated as `HSTS`) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. *(“Always access this site over HTTPS, even if the user types http.”)*
 
 ### Chunked transfer encoding
 In HTTP/1.1, use `transfer-encoding: chunked` in response header, and we could keep writing response `res.write()`, till we use `res.end()` to finish the streaming process.

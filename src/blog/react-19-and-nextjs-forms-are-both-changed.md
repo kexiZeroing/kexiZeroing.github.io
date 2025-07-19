@@ -2,7 +2,7 @@
 title: "React 19 and Next.js Forms have both changed"
 description: ""
 added: "Feb 22 2025"
-tags: [web, react]
+tags: [react]
 updatedDate: "Jun 30 2025"
 ---
 
