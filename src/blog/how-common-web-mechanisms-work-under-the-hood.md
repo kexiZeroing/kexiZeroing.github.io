@@ -2,7 +2,7 @@
 title: "How common web mechanisms work under the hood"
 description: ""
 added: "May 4 2025"
-tags: [web, code]
+tags: [web]
 updatedDate: "July 8 2025"
 ---
 

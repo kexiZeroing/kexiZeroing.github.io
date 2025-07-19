@@ -2,7 +2,7 @@
 title: "Vue reactivity clone"
 description: ""
 added: "Jun 18 2023"
-tags: [vue, code]
+tags: [vue]
 updatedDate: "July 27 2024"
 ---
 
