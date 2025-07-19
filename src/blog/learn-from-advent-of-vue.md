@@ -6,9 +6,14 @@ tags: [vue]
 updatedDate: "July 15 2025"
 ---
 
-### Code Structure
-Use the template https://stackblitz.com/edit/vue3-vite-starter to start.
+### Before coding
+Vue 3 becomes the new default version on February 7, 2022. When Vue first started, it was just a runtime library. Over the years, it has evolved into a framework that encompasses many sub projects.
 
+The [Vue Language Tools](https://github.com/vuejs/language-tools) are essential for providing language features such as autocompletion, type checking, and diagnostics when working with Vue’s SFCs. While `Volar` powers the language tools, the official extension for Vue is titled `Vue - Official` now on the VSCode marketplace.
+
+Vue DevTools is designed to enhance the Vue developer experience. There are multiple options to add this tool to your projects by [Vite plugin](https://devtools.vuejs.org/guide/vite-plugin), [Standalone App](https://devtools.vuejs.org/guide/standalone), or Chrome Extension. Note that The v7 version of devtools only supports Vue3. If your application is still using Vue2, please install the v6 version.
+
+### Code Structure
 In a Vue component, `<script setup>` can be used alongside normal `<script>` using the options API. It works because the `<script setup>` block is compiled into the component's `setup()` function. A normal `<script>` may be needed, for example, we need to run side effects or create objects that should only execute once in module scope (outside the `export default {}`).
 
 ```vue
@@ -594,6 +599,8 @@ export function useCheckboxToggle() {
 When using the render function instead of templates, you'll be using the `h` function a lot (`hyperscript` - "JavaScript that produces HTML"). It creates a virtual node, an object that Vue uses internally to track updates and what it should be rendering. These render functions are essentially what is happening "under the hood" when Vue compiles your single file components to be run in the browser.
 
 If you write render functions, you can use runtime-only builds and save bundle size. No template compiler needed if you don’t use templates.
+- Standalone build: includes both the compiler and the runtime.
+- Runtime only build: since it doesn't include the compiler, you need to either pre-compiled templates in a compile step, or manually written render functions. The npm package will export this build by default, since when consuming Vue from npm, you will likely be using a compilation step, during which vue-loader will perform the template pre-compilation.
 
 ```vue
 <script>

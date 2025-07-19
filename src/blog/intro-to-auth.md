@@ -127,7 +127,7 @@ Access tokens are used to inform an API that the bearer of the token has been au
 ### How to securely store JWTs
 A JWT needs to be stored in a safe place inside the user’s browser. If you store it inside local storage, it’s accessible by any script inside your page. This is as bad as it sounds; an XSS attack could give an external attacker access to the token.
 
-Storing the JWT token in a httponly, secure, same-site cookie is currently considered as the most secure option for SPAs, but in this scenario you will not be able to add its content to the Authorization header. You either need to store tokens directly in the JS code (e.g. in local storage - taking into consideration the risk), or you need to add a proxy between the APIs and your SPA. The proxy will extract the token from the cookie and place it in the Authorization header.
+Storing the JWT token in a httponly, secure, same-site cookie is currently considered as the most secure option for SPAs, but in this scenario you will not be able to add its content to the Authorization header. You either need to store tokens directly in the JS code, or you need to add a proxy between the APIs and your SPA. The proxy will extract the token from the cookie and place it in the Authorization header.
 
 Take [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) for node.js as an example.
 
@@ -171,25 +171,18 @@ const protect = async (req, res, next) => {
 ```
 
 ### What is SSO (Single Sign On)
-Sooner or later web development teams face one problem: you have developed an application at domain X and now you want your new deployment at domain Y to use the same login information as the other domain. In fact, you want more: you want users who are already logged-in at domain X to be already logged-in at domain Y. This is what SSO is all about.
+SSO is an **authentication** method that allows users to authenticate once with a centralized Identity Provider (IdP) and gain access to multiple apps. You should use SSO when you want to authenticate users via a centralized identity provider. Users can log into an IdP and gain access to all the apps and services connected to that IdP without repeatedly authenticating with each.
 
-SSO is an **authentication** method that allows users to authenticate once with a centralized Identity Provider (IdP) and gain access to multiple apps. OAuth is not SSO. OAuth is an authorization protocol.
-- You should use SSO when you want to authenticate users via a centralized identity provider. Users can log into an IdP and gain access to all the apps and services connected to that IdP without repeatedly authenticating with each.
-- You should use OAuth when you want to access or modify data in another service on behalf of a user.
+Different SSO protocols, like CAS (Central authentication service), share session information in different ways, but the essential concept is the same: the IdP handles login, sets a session cookie, and issues tokens or tickets to apps, so you only log in once.
 
-Different SSO protocols (e.g. SAML, CAS) share session information in different ways, but the essential concept is the same: there is a central domain, through which authentication is performed, and then the session is shared with other domains in some way.
-
-1. You try to log in to YouTube, and the application redirects you to the Identity Provider (IDP) for authentication.
-2. The IDP (Google) checks your credentials and confirms your identity. It creates a new session for you on its server and sets a session cookie in your browser.
-3. The IDP also creates a token for YouTube—a small piece of data that contains information about your identity.
-4. Your browser grabs the token and presents it to YouTube.
-5. YouTube checks the token, and if it is valid, lets you in.
-6. Then you want to access Google Drive, and the application redirects you to the IDP.
-7. The IDP recognizes that you are still logged in because you have the session cookie. It doesn't need to ask for your credentials.
-8. Instead, the IDP generates a new token for Drive.
-9. Your browser grabs the token and presents it to Google Drive. If the token is valid, Drive lets you in.
-
-**Central authentication service**, or CAS, is a SSO protocol that allows websites to authenticate users. When a user attempts to access a web application that requires authentication, they are initially redirected to the CAS server for authentication. If authenticated, a service ticket is attached to the URL. When a user accesses another web application, the authentication is handled on the back end, and the user does not even have to be involved. Once the user signs in to the centralized authentication system, a cookie or system data is set to indicate authentication status without need for re-authentication multiple times in the same session.
+1. You try to access YouTube, and it redirects you to Google (the IdP) for authentication.
+2. Upon successful login, Google creates a session cookie in your browser (scoped to the IdP’s domain).
+3. Google generates an authentication token specifically for YouTube and redirects your browser back with it.
+4. YouTube receives the token, validates it, and grants you access.
+5. Later, you access Google Drive, and it also redirects you to Google for authentication.
+6. This time, since the Google session cookie is still valid, no login prompt is shown.
+7. Google issues a new token for Google Drive and redirects you there.
+8. Google Drive validates the token and grants access, without another login.
 
 ### Multi-factor authentication
 MFA is when a user is required to input more than just a password to authenticate. For example, Two factor authentication (2FA) requires users to enter a code from another device in addition to their username and password. The device is the second "factor" (in addition to the password) that is used to verify the user's identity. With this, even if an attacker were able to determine a user's password, they wouldn't be able to log in without also having access to the user's phone. This makes it much harder for an attacker to gain access to a user's account.

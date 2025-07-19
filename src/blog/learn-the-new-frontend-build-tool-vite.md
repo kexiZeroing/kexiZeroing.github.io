@@ -150,6 +150,8 @@ const mdxFiles = import.meta.glob("./content/**.mdx");
 ```
 
 ## From Vue CLI to Vite
+Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use `create-vue` to scaffold Vite-based projects.
+
 1. Remove Vue CLI related dependencies in `package.json`.
 2. Remove `sass-loader` as Vite provides built-in support for the most common pre-processors out of the box.
 3. Add Vite as a dependency, as well as the Vue plugin for Vite.

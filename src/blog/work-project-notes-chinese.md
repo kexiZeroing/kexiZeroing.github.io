@@ -11,34 +11,17 @@ updatedDate: "Jun 27 2025"
 - 项目里面有很多子项目（`pages/*`），借助 webpack 多⼊⼝配置，打包成多个不同的子项目产出，总体结构来自于一个比较老的模板 https://github.com/vuejs-templates/webpack
 - 在 webpack 配置的 entry 里可以看到这些子项目入口，里面列举了所有的入口 js 文件，也可以通过遍历 `src/pages` 得到所有入口。
 - 对于每一个 page，都有对应的 `HtmlWebpackPlugin` 指定它的模板，并注入它需要的 chunks （对应每一个 entry 打包出的 js），本地直接通过 `localhost/xx.html` 访问，线上通过配置 nginx 路由映射访问 `try_files $uri /static/xx.html`
-- 指定 `chunks` 是因为项目是多 entry 会生成多个编译后的 js 文件，chunks 决定使用哪些 js 文件，如果没有指定默认会全部引用。`inject` 值为 true，表明 chunks js 会被注入到 html 文件的 head 中，以 script defer 标签的形式引入。对于 css, 使用 `mini-css-extract-plugin` 从 bundle 中分离出单独的 css 文件并在 head 中以 link 标签引入。*（extract-text-webpack-plugin 是老版本 webpack 用来提取 css 文件的插件，从 webpack v4 被 mini-css-extract-plugin 替代）*
+- 指定 `chunks` 是因为项目是多 entry 会生成多个编译后的 js 文件，chunks 决定使用哪些 js 文件，如果没有指定默认会全部引用。`inject` 值为 true，表明 chunks js 会被注入到 html 文件的 head 中，以 script defer 标签的形式引入。对于 css, 使用 `mini-css-extract-plugin` 从 bundle 中分离出单独的 css 文件并在 head 中以 link 标签引入。
 - 每一个 page 里的 js 文件（入口文件）会创建该子项目的 Vue 实例，指定对应的 component, router, store, 同时会把 `request`, `API`, `i18n` 这些对象挂载在 window 对象上，子组件中不需要单独引用。
 - 每一个 page 有对应的 `router` 文件，这是子项目的路由，而且每个路由加载的 component 都是异步获取，在访问该路由时按需加载。
-- webpack 打包时（`dist/`）会 emit 出所有 `HtmlWebpackPlugin` 生成的 html 文件（这也是浏览器访问的入口），相对每个 entry 打包出的 js 文件 `js/[name].[chunkhash].js`（对应 output.filename），所有异步加载的组件 js `js/[id].[chunkhash].js`（对应 output.chunkFilename）。这些 chunk 基本来自 vue-router 配置的路由 `component: resolve => require(['@/components/foo'], resolve)`，这样懒加载的组件会生成一个 js 文件。
+- webpack 打包时（`dist/`）会 emit 出所有 `HtmlWebpackPlugin` 生成的 html 文件（这也是浏览器访问的入口），相对每个 entry 打包出的 js 文件 `js/[name].[chunkhash].js`（对应 output.filename），所有异步加载的组件 js `js/[id].[chunkhash].js`（对应 output.chunkFilename）。这些 chunk 基本来自 vue-router 配置的路由 `component: () => import('./views/Home.vue')`，这样懒加载的组件会生成一个 js 文件。
 - `copy-webpack-plugin` 用来把那些已经在项目目录中的文件（比如 `public/` 或 `static/`）拷贝到打包后的产出中，这些文件不需要 build，不需要 webpack 的处理。另外可以使用 `ignore: ["**/file.*", "**/ignored-directory/**"]` 这样的语法忽略一些文件不进行拷贝。
 - 图片、音乐、字体等资源的打包处理使用 `url-loader` 结合 `limit` 的设置，如果资源比较大会默认使用 `file-loader` 生成 `img/[name].[hash:7].[ext]` 这样的文件；如果资源小，会自动转成 base64。*（DEPREACTED for v5: please consider migrating to asset modules）*
 - `performance` 属性用来设置当打包资源和入口文件超过一定的大小给出警告或报错，可以分别设置它们的上限和哪些文件被检查。具体多大的文件算“过大”，则需要用到 `maxEntrypointSize` 和 `maxAssetSize` 两个参数，单位是 byte。
-- 对于代码压缩，使用 `terser-webpack-plugin` 来压缩 JS，webpack 5 自带，但如果需要自定义配置，那么仍需要安装该插件，在 webpack 配置文件里设置 `optimization` 来引用这个插件。`HtmlWebpackPlugin` 里设置 `minify` 可以压缩 HTML，production 模式下是默认是 true（会使用 `html-minifier-terser` 插件去掉空格、注释等），自己传入一个 minify 对象，可以定制化[压缩设置](https://github.com/terser/html-minifier-terser#options-quick-reference)。
+- 对于代码压缩，使用 `terser-webpack-plugin` 来压缩 JS，webpack 5 自带，但如果需要自定义配置，那么仍需要安装该插件，在 webpack 配置文件里设置 `optimization` 来引用这个插件。`HtmlWebpackPlugin` 里设置 `minify` 可以压缩 HTML，production 模式下是默认是 true（会使用 `html-minifier-terser` 插件去掉空格、注释等），自己传入一个 minify 对象，可以定制化压缩设置。
 - 对于 js 的压缩使用了 `uglifyjs-webpack-plugin`，里面传入 `compress` 定制化[压缩设置](https://github.com/mishoo/UglifyJS#compress-options)。比如有的项目没有 console 输出，可能就是因为这里设置了 `drop_console`。
 - 使用 `friendly-errors-webpack-plugin` 简化命令行的输出，可以只显示构建成功、警告、错误的提示，从而优化命令⾏的构建日志。
 - webpack 设置请求代理 proxy（其背后使用的是 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)），默认情况下假设前端是 `localhost:3000`，后端是 `localhost:8082`，那么后端通过 `request.getHeader("Host")` 获取的依旧是 `localhost:3000`。如果设置了 `changeOrigin: true`，那么后端才会看到的是 `localhost:8082`, 代理服务器会根据请求的 target 地址修改 Host（这个在浏览器里看请求头是看不到改变的）。如果某个接口 404，一般就是这个路径没有配置代理。
-- 路由中加载组件的方式为 `component: () => import('@/views/About.vue')` 可以做到 code-splitting，这样会单独产出一个文件名为 `About.[hash].js` 的 chunk 文件，路由被访问时才会被加载。
-
-### Vue 项目
-Vue npm 包有不同的 Vue.js 构建版本，可以在 `node_modules/vue/dist` 中看到它们，大致包括完整版、编译器（编译template）、运行时版本、UMD 版本（通过 `<script>` 标签直接用在浏览器中）、CommonJS 版本（用于很老的打包工具）、ES Module 版本。总的来说，Runtime + Compiler 版本是包含编译代码的，可以把编译过程放在运行时做，如果需要在客户端编译模板 (比如传入一个字符串给 template 选项)，就需要加上编译器的完整版。Runtime 版本不包含编译代码，需要借助 webpack 的 `vue-loader` 事先把 `*.vue` 文件内的模板编译成 `render` 函数，在最终打好的包里实际上是不需要编译器的，只用运行时版本即可。
-- Standalone build: includes both the compiler and the runtime.
-- Runtime only build: since it doesn't include the compiler, you need to either pre-compiled templates in a compile step, or manually written render functions. The npm package will export this build by default, since when consuming Vue from npm, you will likely be using a compilation step (with Webpack), during which vue-loader will perform the template pre-compilation.
-
-Vue 3 在 2022 年 2 月代替 Vue 2 成为 Vue 的默认版本。
-- [create-vite](https://github.com/vitejs/vite/tree/main/packages/create-vite) 是 Vite 官方推荐的一个脚手架工具，可以创建基于 Vite 的不同技术栈基础模板。`npm create vite` 可创建一个基于 Vite 的基础空项目。
-- [create-vue](https://github.com/vuejs/create-vue) 是 Vue 官方推出的一个脚手架，可以创建基于 Vite 的 Vue 基础模板。`npm init vue@3` 然后根据命令行的提示操作。
-- [Vue 3 + SSR + Vite](https://github.com/nuxt-contrib/vue3-ssr-starter) Vue 3 + SSR 使用 Vite 进行开发的模板。
-- 如果不习惯 Vite，依然可以使用 [Vue CLI](https://cli.vuejs.org) 作为开发脚手架，它使用的构建工具还是基于 Webpack。使用命令 `vue create hello-vue3` 根据提示创建项目。*(Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use create-vue to scaffold Vite-based projects.)*
-- [Volar](https://blog.vuejs.org/posts/volar-1.0.html) 是 Vue 官方推荐的 VSCode 扩展，用以代替 Vue 2 时代的 Vetur 插件。*(Volar extension is deprecated. Use the Vue - Official extension instead.)*
-
-The [Vue Language Tools](https://github.com/vuejs/language-tools) are essential for providing language features such as autocompletion, type checking, and diagnostics when working with Vue’s SFCs. While `Volar` powers the language tools, the official extension for Vue is titled `Vue - Official` now on the VSCode marketplace.
-
-Vue DevTools is designed to enhance the Vue developer experience. There are multiple options to add this tool to your projects by [Vite plugin](https://devtools.vuejs.org/guide/vite-plugin), [Standalone App](https://devtools.vuejs.org/guide/standalone), or Chrome Extension. Note that The v7 version of devtools only supports Vue3. If your application is still using Vue2, please install the v6 version.
 
 ### 一些 webpack 的配置
 - Webpack 5 boilerplate: https://github.com/taniarascia/webpack-boilerplate
@@ -64,15 +47,9 @@ In a typical application built with webpack, there are three main types of code:
 3. A webpack runtime and manifest that conducts the interaction of all modules. 记录了打包后代码模块之间的依赖关系，需要第一个被加载
 
 #### optimization.splitChunks
-It is necessary to differentiate between **Code Splitting** and **splitChunks**. Code splitting is a feature native to Webpack, which uses the `import('package')` statement to move certain modules to a new Chunk. SplitChunks is essentially a further splitting of the Chunks produced by code splitting.
-
-> Code splitting also has some drawbacks. There’s a delay between loading the entry point chunk (e.g., the top-level app with the client-side router) and loading the initial page (e.g., home). The way to improve this is by injecting a small script in the head of the HTML, when executed, it preloads the necessary files for the current path by manually adding them to the HTML page as link `rel="preload"`.
+It is necessary to differentiate between *Code Splitting* and *splitChunks*. Code splitting is a feature native to Webpack, which uses the dynamic import statement to move certain modules to a new Chunk. SplitChunks is essentially a further splitting of the Chunks produced by code splitting.
 
 After code splitting, many Chunks will be created, and each Chunk will correspond to one ChunkGroup. SplitChunks is essentially splitting Chunk into more Chunks to form a group and to load groups together, for example, under HTTP/2, a Chunk could be split into a group of 20 Chunks for simultaneous loading.
-
-chunks: 'all' | 'initial' | 'async':  
-- `all` means both dynamically imported modules and statically imported modules will be selected for optimization.
-- `initial` means only statically imported modules; `async` means only dynamically imported modules.
 
 #### resolve
 - extensions 数组，在 import 不带文件后缀时，webpack 会自动带上后缀去尝试访问文件是否存在，默认值 `['.js', '.json', '.wasm']`.
@@ -86,17 +63,13 @@ chunks: 'all' | 'initial' | 'async':
 - We often chain the `sass-loader` with the `css-loader` and the `style-loader` to immediately apply all styles to the DOM or the `mini-css-extract-plugin` to extract it into a separate file.
 
 #### load images
-Webpack goes through all the `import` and `require` files in your project, and for all those files which have a `.png|.jpg|.gif` extension, it uses as an input to the webpack `file-loader`. For each of these files, the file loader emits the file in the output directory and resolves the correct URL to be referenced. Note that this config only works for webpack 4, and Webpack 5 has deprecated the `file-loader`. If you are using webpack 5 you should change `file-loader` to `asset/resource`.
+Webpack goes through all the `import` and `require` files in your project, and for all those files which have a `.png|.jpg|.gif` extension, it uses as an input to the webpack `file-loader`. For each of these files, the file loader emits the file in the output directory and resolves the correct URL to be referenced. Note that this config only works for webpack 4, and Webpack 5 has deprecated the `file-loader`. If you are using webpack 5 you should change it to `asset/resource`.
 
 Webpack 4 also has the concept `url-loader`. It first base64 encodes the file and then inlines it. It will become part of the bundle. That means it will not output a separate file like `file-loader` does. If you are using webpack 5, then `url-loader` is deprecated and instead, you should use `asset/inline`.
 
 > Loaders are transformations that are applied to the source code of a module. When you provide a list of loaders, they are applied from right to left, like `use: ['third-loader', 'second-loader', 'first-loader']`. This makes more sense once you look at a loader as a function that passes its result to the next loader in the chain `third(second(first(source)))`.
 
-#### webpack in development
-- `webpack-dev-server` doesn't write any output files after compiling. Instead, it keeps bundle files in memory and serves them as if they were real files mounted at the server's root path.
-- `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.
-- Want to access `webpack-dev-server` from the mobile in local network: run `webpack-dev-server` with `--host 0.0.0.0`, which lets the server listen for requests from the network (all IP addresses on the local machine), not just localhost. But Chrome won't access `http://0.0.0.0:8089` (Safari can open). It's not the IP, it just means it is listening on all the network interfaces, so you can use any IP the host has.
-
+#### webpack.DefinePlugin
 The `DefinePlugin` allows you to create global constants that are replaced at compile time, commonly used to specify environment variables or configuration values that should be available throughout your application during the build process. For example, you might use it to define `process.env.NODE_ENV` as 'production' or 'development' which webpack will literally replace in your code during bundling.
 
 ```js
@@ -107,54 +80,46 @@ new webpack.DefinePlugin({
 })
 ```
 
-#### difference between `--watch` and `--hot`
-- `webpack --watch`: watch for the file changes and compile again when the source files changes. `webpack-dev-server` uses webpack's watch mode by default.
-- `webpack-dev-server --hot`: add the HotModuleReplacementPlugin to the webpack configuration, which will allow you to only reload the component that is changed instead of doing a full page refresh.
+#### webpack in development
+- `webpack-dev-server` doesn't write any output files after compiling. Instead, it keeps bundle files in memory and serves them as if they were real files mounted at the server's root path.
+- `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.
+- Want to access `webpack-dev-server` from the mobile in local network: run `webpack-dev-server` with `--host 0.0.0.0`, which lets the server listen for requests from the network (all IP addresses on the local machine), not just localhost. But Chrome won't access `http://0.0.0.0:8089` (Safari can open). It's not the IP, it just means it is listening on all the network interfaces, so you can use any IP the host has.
 
-  ```js
-  watchOptions: {
-    ignored: /node_modules/,
-    // 监听到变化发生后会等 300ms 再去执行，默认300ms
-    aggregateTimeout: 300,
-    // 判断文件是否发生变化是通过不停询问系统指定文件有没有变化实现的，默认每秒 1000 次
-    poll: 1000,
-  }
-  ```
+#### something related to tree shaking
+Tree shaking means that unused modules will not be included in the bundle (The term was popularized by Rollup). In order to take advantage of tree shaking, you must use ES2015 module syntax. Ensure no compilers transform your ES2015 module syntax into CommonJS modules (this is the default behavior of the popular Babel preset `@babel/preset-env`).
 
-#### something related to bundling/tree shaking
-1. Every component will get its own scope, and when it imports another module, webpack will check if the required file was already included or not in the bundle.
-2. Webpack v5 comes with the latest `terser-webpack-plugin` out of the box. `optimization.minimize` is set to `true` by default, telling webpack to minimize the bundle using the `TerserPlugin`.
-3. Tree shaking means that unused modules will not be included in the bundle (The term was popularized by Rollup). In order to take advantage of tree shaking, you must use ES2015 module syntax. Ensure no compilers transform your ES2015 module syntax into CommonJS modules (this is the default behavior of the popular Babel preset `@babel/preset-env`).
+```js
+// babel.config.js
+// keep Babel from transpiling ES6 modules to CommonJS modules
+export default {
+  presets: [
+    [
+      "@babel/preset-env", {
+        modules: false
+      }
+    ]
+  ]
+}
+```
 
-    > Webpack do tree-shake only happens when you're using a esmodule, while lodash is not. Alternatively, you can try to use [lodash-es](https://github.com/lodash/lodash/blob/4.17.21-es/package.json) written in ES6.
-    > - import cloneDeep from "lodash/cloneDeep"
-    > - import { camelCase } from "lodash-es"
-    > - import * as _ from "lodash-es"
+Webpack do tree-shake only happens when you're using a esmodule, while lodash is not. Alternatively, you can try to use [lodash-es](https://github.com/lodash/lodash/blob/4.17.21-es/package.json) written in ES6. [es-toolkit](https://github.com/toss/es-toolkit) is a modern utility library designed as a lightweight, fast, and tree-shakeable alternative to Lodash and similar libraries.
 
-    ```js
-    // babel.config.js
-    // keep Babel from transpiling ES6 modules to CommonJS modules
-    export default {
-      presets: [
-        [
-          "@babel/preset-env", {
-            modules: false
-          }
-        ]
-      ]
-    }
-    ```
+```js
+import cloneDeep from "lodash/cloneDeep"
+import { camelCase } from "lodash-es"
 
-    > [es-toolkit](https://github.com/toss/es-toolkit) is a modern JavaScript utility library that's 2-3 times faster and up to 97% smaller—a major upgrade to lodash.
-
-4. The `sideEffects` property of `package.json` declares whether a module has side effects on import. When side effects are present, unused modules and unused exports may not be tree shaken due to the limitations of static analysis.
+import { debounce } from 'es-toolkit';
+const debouncedLog = debounce(message => {
+  console.log(message);
+}, 300);
+```
 
 #### 打包工具构建时静态分析
 ```
 Critical dependency: the require function is used in a way in which dependencies cannot be statically extracted.
 ```
 
-这样的 warning，是因为 `require(...)` 是运行时动态行为，它无法静态知道你到底引用了哪个模块，因此构建出的 bundle 不完整或存在不确定性。Webpack 支持懒加载语法 `(resolve) => require(['...'], resolve);`，表示“这段代码用到的模块是异步加载的，请打包成一个 chunk。” 这种语法是 Webpack 的特定实现，并非 ES 的官方标准，构建工具无法完全静态分析，在迁移到 Rspack 或Vite 时容易报错。
+这样的 warning，是因为 `require(...)` 是运行时动态行为，它无法静态知道你到底引用了哪个模块，因此构建出的 bundle 不完整或存在不确定性。Webpack 支持懒加载语法 `(resolve) => require(['...'], resolve);`，表示“这段代码用到的模块是异步加载的，请打包成一个 chunk。” 这种语法是 Webpack 的特定实现，并非 ES 的官方标准，构建工具无法完全静态分析，在迁移到 Rspack 或 Vite 时容易报错。
 
 > `resolve => require(['...'], resolve)` 其实是 Webpack 兼容 AMD 风格的写法，webpack 看到这是个 `require([], callback)` 就知道你想异步加载模块。
 
@@ -200,7 +165,7 @@ Webpack is extensible with "loaders" that can be added to handle particular file
 3. If you want to further optimize the code produced by TSC, use `babel-loader` with `ts-loader`. We need to compile a `.ts` file using `ts-loader` first and then using `babel-loader`.
 4. `ts-loader` does not write any file to disk. It compiles TypeScript files and passes the resulting JavaScript to webpack, which happens in memory.
 
-TypeScript doesn't understand `.vue` files - they aren't actually Typescript modules. So it will throw an error when you try to import `Foo.vue`. The solution is `shims-vue.d.ts` in `src` directory. The filename does not seem to be important, as long as it ends with `.d.ts`. TypeScript looks for `.d.ts` files in the same places it looks for your regular `.ts` files. It basically means, "every time you import a module with the name `*.vue`, then treat it as if it had these contents, and the type of `Foo` will be Vue."
+TypeScript doesn't understand `.vue` files - they aren't actually Typescript modules. So it will throw an error when you try to import `Foo.vue`. The solution is `shims-vue.d.ts` in `src` directory. The filename does not seem to be important, as long as it ends with `.d.ts`. TypeScript looks for `.d.ts` files in the same places it looks for your regular `.ts` files. It basically means, "Any time you import a `.vue` file, treat its default export as a Vue component (i.e., an instance of Vue)."
 
 ```ts
 // shims-vue.d.ts
@@ -210,39 +175,12 @@ declare module "*.vue" {
 }
 ```
 
-If that doesn't help, make sure the module you are trying to import is tracked by TypeScript. It should be covered in your `include` array setting and not be present in the `exclude` array in your `tsconfig.json` file.
+> Important: Above was created in the days before Vue shipped with TypeScript out of the box. Now the best path to get started is through the official CLI.
 
-```json
-{
-  "compilerOptions": {
-    // ...
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "src/**/*.spec.ts"]
-}
-```
+### build 打包
+调用 `webpack()` 传入配置 `webpack.prod.conf` 和一个回调函数，**webpack stats 对象** 作为回调函数的参数，可以通过它获取到 webpack 打包过程中的信息，使用 `process.stdout.write(stats.toString(...))` 输出到命令行中 (`console.log` in Node is just `process.stdout.write` with formatted output)
 
-> Above was created in the days before Vue shipped with TypeScript out of the box. Now the best path to get started is through the official CLI.
-
-#### 配置 babel-loader 选择性编译引入的 sdk 文件
-Transpiling is an expensive process and many projects have thousands of lines of code imported in that babel would need to run over. Your `node_modules` should already be runnable without transpiling and there are simple ways to exclude your `node_modules` but transpile any code that needs it.
-```js
-{
-  test: /\.js$/,
-  exclude: /node_modules\/(?!(my_main_package\/what_i_need_to_include)\/).*/,
-  use: {
-    loader: 'babel-loader',
-    options: ...
-  }
-}
-```
-
-### 本地 build 与上线 build
-1. 使用 [ora](https://www.npmjs.com/package/ora) 做 spinner，提示 building for production...
-2. 使用 [rimraf](https://www.npmjs.com/package/rimraf) 删除打包路径下的资源 (`rimraf` command is an alternative to the Linux command `rm -rf`)
-3. 调用 `webpack()` 传入配置 `webpack.prod.conf` 和一个回调函数，**webpack stats 对象** 作为回调函数的参数，可以通过它获取到 webpack 打包过程中的信息，使用 `process.stdout.write(stats.toString(...))` 输出到命令行中 (`console.log` in Node is just `process.stdout.write` with formatted output)
-4. 使用 [chalk](https://www.npmjs.com/package/chalk) 在命令行中显示一些提示信息。
-5. 补充：目前大多数工程都是通过脚手架来创建的，使用脚手架的时候最明显的就是与命令行的交互，[Inquirer.js](https://github.com/SBoudrias/Inquirer.js) 是一组常见的交互式命令行用户界面。[Commander.js](https://github.com/tj/commander.js) 作为 node.js 命令行解决方案，是开发 node cli 的必备技能。
+使用 [chalk](https://www.npmjs.com/package/chalk) 在命令行中清晰地显示一些提示信息。目前大多数工程都是通过脚手架来创建的，使用脚手架的时候最明显的就是与命令行的交互，[Inquirer.js](https://github.com/SBoudrias/Inquirer.js) 是一组常见的交互式命令行用户界面。[Commander.js](https://github.com/tj/commander.js) 作为 node.js 命令行解决方案，是开发 node cli 的必备技能。
 
 The build job uses Kaniko (a tool for building Docker images in Kubernetes). Its main task is to build a Docker image.
 - For master, dev, or tagged commits: builds and pushes the Docker image
@@ -258,24 +196,10 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 
 > The `s` command is for substitute, to replace text -- the format is `s/[text to select]/[text to replace]/`. For example, `sed 's/target/replacement/g' file.txt` will globally substitute the word `target` with `replacement`.
 
-#### 基于 Docker + Terraform + GitLab CI/CD 的部署
-整体目标：通过 GitLab CI/CD 自动构建包含 Terraform 配置的 Docker 镜像，在容器中执行计划（plan）与部署（apply），实现多个项目环境的基础设施部署。
-
-- `Dockerfile.base`：使用阿里云镜像，安装了各种工具 aliyun CLI、terraform、ossutil64、websocat，添加了阿里云的 AK/SK 凭据和配置 profile（方便后续 terraform 操作时访问阿里云资源）。
-- `Dockerfile`：基于 `Dockerfile.base` 生成一个新的部署镜像，拷贝了 terraform 配置，对每个环境都做了 `terraform init` 和 `terraform plan`。这里的计划是提前计算好的“基础设施变更内容”，保存下来，后续可以直接 apply。
-- `gitlab-ci.yml`：使用 `kaniko` 工具构建镜像，用 Dockerfile 构建出包含所有 Terraform 配置和计划的镜像，并推送到私有仓库，保证部署时拿到同样的镜像和计划。
-- Test 阶段：运行刚构建的镜像，执行 `/root/scripts/show_plan.sh`，打印出所有计划内容，即对每个模块用 `terraform show` 展示 plan 文件的内容，确保没有问题。
-- Deploy 阶段：部署脚本核心就是 `terraform apply /root/plan/{env}`。在镜像构建阶段就把所有 plan 做好，在部署阶段只需要 apply，可控且快速。
-
-### 登录逻辑
-- 二维码登录先使用 websocket 连接，message 中定义不同的 `op` 代表不同的操作，比如 requestlogin 会返回微信生成的二维码（包括 qrcode, ticket, expire_seconds 等）, 扫码成功返回类型是 loginsuccess，并附带 OpenID, UnionID, Name, UserID, Auth 等信息，前端拿到这些信息后可以请求后端登录的 http 接口，拿到 sessionid，并被种在 cookie 里。
-- 账密登录，前端使用 [JSEncrypt](http://travistidwell.com/jsencrypt/) 给密码加密并请求后端登录接口，成功的话后端会把 sessionid 种在 cookie 里。
+### 微信扫码登录逻辑
+二维码登录使用 websocket 连接，message 中定义不同的 `op` 代表不同的操作，比如 requestlogin 会返回微信生成的二维码（包括 qrcode, ticket, expire_seconds 等），扫码成功返回类型是 loginsuccess，并附带 OpenID, UnionID, Name, UserID, Auth 等信息，前端拿到这些信息后可以请求后端登录的 http 接口，拿到 sessionid，并被种在 cookie 里。
 
 ```js
-// Node.js 利用多核CPU，每个核心一个工作进程，主进程管理工作进程，负责创建、重启、关闭，
-// 工作进程运行实际的业务服务（HTTP/WebSocket等）
-
-// 下面都是在 worker 进程中执行
 (messenger) ws op case 'requestlogin':
 
 (messenger) await rainSquare.getQrcode() -> loginId = uuidV4() -> request `${config.HOST.INNER_NODE}/wechat/wxapi/qrcode` with loginid and expire_seconds
@@ -287,7 +211,7 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 (drop) app.use('/wechat/drop', ...)
 
 (drop) pipeMsg: (msg) => {
-  // 将消息推送到Redis队列
+  // 将消息推送到 Redis 队列
   // listKey: config.REDIS.KEYS.PIPE_QUEUE
   client.rpush(listKey, JSON.stringify(msg), callback)
 }
@@ -319,17 +243,11 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 6. 更新二维码池
 ```
 
-> 常规的扫码登录原理（涉及 PC 端、手机端、服务端）：
-> 1. PC 端携带设备信息向服务端发起生成二维码的请求，生成的二维码中封装了 uuid 信息，并且跟 PC 设备信息关联起来，二维码有失效时间。PC 端轮询检查是否已经扫码登录。
-> 2. 手机（已经登录过）进行扫码，将手机端登录的信息凭证（token）和二维码 uuid 发送给服务端，此时的手机一定是登录的，不存在没登录的情况。服务端生成一个一次性 token 返回给移动端，用作确认时候的凭证。
-> 3. 移动端携带上一步的临时 token 确认登录，服务端校对完成后，会更新二维码状态，并且给 PC 端一个正式的 token，后续 PC 端就是持有这个 token 访问服务端。
-> 4. 流程参考 https://github.com/ahu/scan_qrcode_login/blob/master/qr.js
-
 > 常规的密码存储：
 > 
 > A Rainbow Table is a precomputed table of hashes and their inputs. This allows an attacker to simply look up the hash in the table to find the input. This means that if an attacker gets access to your database, they can simply look up the hashes to find the passwords.
 > 
-> To protect against this, password hashing algorithms use a salt. A salt is a random string that is added to the password before hashing. This means that even if two users have the same password, their hashes will be different. This makes it impossible for an attacker to use a rainbow table to find the passwords. In fact a common practice is to simply append the salt to the hash. This will make it so that the salt is always available when you need to verify the password.
+> To protect against this, password hashing algorithms use a salt. A salt is a random string that is added to the password before hashing. This means that even if two users have the same password, their hashes will be different. This makes it impossible for an attacker to use a rainbow table to find the passwords.
 >
 > A great library for generating bcrypt hashes is [bcryptjs](https://github.com/dcodeIO/bcrypt.js) which will generate a random salt for you. This means that you don't need to worry about generating a salt and you can simply store the whole thing as is. Then when the user logs in, you provide the stored hash and the password they provide to bcryptjs's `compare` function will verify the password is correct.
 
@@ -375,9 +293,6 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 
 vue vite 打包后白屏问题，推测就是 webview 版本太旧了，使用 [@vitejs/plugin-legacy](https://github.com/vitejs/vite/tree/main/packages/plugin-legacy) 做兼容。它的内部使用 `@babel/preset-env` 以及 `core-js` 等一系列基础库来进行语法降级和 Polyfill 注入，以解决在旧版浏览器上的兼容性问题。*（默认情况下，Vite 的目标是能够支持原生 ESM script 标签、支持原生 ESM 动态导入 和 import.meta 的浏览器）*
 
-> 1. 当小程序基于 WebView 环境下时，WebView 的 JS 逻辑、DOM 树创建、CSS 解析、样式计算、Layout、Paint 都发生在同一线程，在 WebView 上执行过多的 JS 逻辑可能阻塞渲染，导致界面卡顿（Chrome 的渲染进程是多线程的）。以此为前提，小程序同时考虑了性能与安全，采用了 AppService 和 WebView 的双线程模型。
-> 2. 为了进一步优化小程序性能，在 WebView 渲染之外新增了一个渲染引擎 Skyline，拥有更接近原生渲染的性能体验。Skyline 创建了一条渲染线程来负责 Layout, Composite 和 Paint 等渲染任务，并在 AppService 中划出一个独立的上下文，来运行之前 WebView 承担的 JS 逻辑、DOM 树创建等逻辑。
-
 ### 课堂业务
 ```
 Lesson(classroomID, lessonID, teacher, allStudents, checkinStudents, presentation)
@@ -418,62 +333,11 @@ Presentation(presentationID, slideIndex, content, problems)
 ```
 
 ### HTTP 请求相关
-- 通过 `axios.defaults.headers['xyz'] = 'abc'` 这样的方式添加需要的请求头
-- 统一对 query 参数做处理，拼在 url 后面
-- 加 csrf token，加业务需要的 header
-- 根据不同的错误码做页面跳转
-
-> Some features about Axios:
-> 1. Axios automatically converts the data to JSON returned from the server.
-> 2. In Axios, HTTP error responses (like 404 or 500) automatically reject the promise, so you can handle them using catch block (`err.response`).
-> 3. One of the main selling points of Axios is its wide browser support. Even old browsers like IE11 can run Axios without any issues. This is because it uses `XMLHttpRequest` under the hood. 
-> 4. 注意 Axios 遇到 302 的返回：重定向直接被浏览器拦截处理，浏览器 redirect 后，被视为 Axios 发起了跨域请求，所以抛异常。Axios 捕获异常，进入 catch 逻辑。
-
-  ```js
-  const handleResponse = (res) => {
-    if(res.headers && res.headers['set-auth']) {
-      window.Authorization = res.headers['set-auth'];
-    }
-    
-    // 之后根据状态码做不同处理...
-  }
-
-  export default {
-    get(url, params) {
-      // 统一加请求头
-      axios.defaults.headers['X-Client'] = 'web';
-      if (window.Authorization) {
-        axios.defaults.headers['Authorization'] = 'Bearer ' + window.Authorization;
-      }
-
-      return axios
-        .get(url)
-        .then(function(response) {
-          return response
-        })
-        .then(handleResponse)    // 统一处理 redirect, 赋值 location.href 
-        .catch(errorResponseGet) // 统一处理错误码 4xx, 5xx
-    },
-
-    post(url, params) {
-      // ...
-    }
-  }
-  ```
-
-  ```js
-  // Show progress of Axios during request
-  await axios.get('https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg', {
-    onDownloadProgress: progressEvent => {
-      const percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total * 100)
-      setProgress(percentCompleted)
-    }
-  })
-  .then(res => {
-    console.log("All DONE")
-    return res.data
-  })
-  ```
+Some features about Axios:
+1. Axios automatically converts the data to JSON returned from the server.
+2. In Axios, HTTP error responses (like 404 or 500) automatically reject the promise, so you can handle them using catch block.
+3. One of the main selling points of Axios is its wide browser support. Even old browsers like IE11 can run Axios without any issues. This is because it uses `XMLHttpRequest` under the hood. 
+4. 注意 Axios 遇到 302 的返回：重定向直接被浏览器拦截处理，浏览器 redirect 后，被视为 Axios 发起了跨域请求，所以抛异常。Axios 捕获异常，进入 catch 逻辑。
 
 Use `$fetch`, `useFetch`, or `useAsyncData` in Nuxt: https://masteringnuxt.com/blog/when-to-use-fetch-usefetch-or-useasyncdata-in-nuxt-a-comprehensive-guide
 
@@ -509,16 +373,6 @@ async function makeRequest() {
 }
 ```
 
-### Chrome's `--remote-debugging-port=9222` feature
-1. Launch Chrome with remote debugging: `google-chrome --remote-debugging-port=9222`. Chrome will start an internal HTTP and WebSocket server on port 9222.
-2. Go to `http://localhost:9222/json`, and you'll see JSON metadata for every open tab. Each tab has its own WebSocket debugger endpoint. If you connect to that using a WebSocket client, you can send and receive raw DevTools Protocol commands.
-3. Use Node.js with ws to control the tab. Use `webSocketDebuggerUrl` from the JSON to connect `new WebSocket('ws://localhost:9222/devtools/page/...');`.
-
-#### Debugging Node.js with `--inspect-brk`
-https://www.builder.io/blog/debug-nodejs
-
-Launch your Node.js process using the `--inspect-brk` flag (`node server.js --inspect-brk`). Now, open up any Edge or Chrome dev tools window and click the little green Node.js logo button. A new instance of DevTools will open and connect to the node process.
-
 ### 阿里云 CDN
 阿里云 CDN 对于文件是否支持缓存是以 `X-Cache` 头部来确定，缓存时间是以 `X-Swift-CacheTime` 头部来确认。
 - `Age` 表示该文件在 CDN 节点上缓存的时间，单位为秒。只有文件存在于节点上 Age 字段才会出现，当文件被刷新后或者文件被清除的首次访问，在此前文件并未缓存，无 Age 头部字段。当 Age 为 0 时，表示节点已有文件的缓存，但由于缓存已过期，本次无法直接使用该缓存，需回源校验。
@@ -536,24 +390,18 @@ Launch your Node.js process using the `--inspect-brk` flag (`node server.js --in
 
 - The order in which the events are fired: `mousedown` --> `mouseup` --> `click`. When you add a `blur` event, it is actually fired before the `mouseup` event and after the `mousedown` event of the button. Refer to https://codepen.io/mudassir0909/full/qBjvzL
 
-- Reading content with `textContent` is much faster than `innerText` *(`innerText` had the overhead of checking to see if the element was visible or not yet)*. The `insertAdjacentHTML` method is much faster than `innerHTML` because it doesn’t have to destroy the DOM first before inserting.
-
 - The `DOMParser()` constructor creates a new DOMParser object that can be used to parse the text of a document using the `parseFromString()` method. It parses a string containing either HTML or XML, returning an HTMLDocument or an XMLDocument. e.g. `parser.parseFromString("<p>Hello</p>", "text/html")`
 
 - HTML files input change event doesn't fire upon selecting the same file. You can put `this.value = null` at the end of the `onchange` event, which will reset the input's value and trigger the `onchange` event again.
-
-- If we are appending each list item to the DOM as we create it, this is inefficient because the DOM is updated each time we append a new list item. Instead, we can create a document fragment using `document.createDocumentFragment()` and append all of the list items to the fragment. Then, we can append the fragment to the DOM. This way, the DOM is only updated once.
 
 - Vue parent component will wait for its children to mount before it mounts its own template to the DOM. The order should be: parent created -> child created -> child mounted -> parent mouted.
 
 - Sometimes I need to detect whether a click happens inside or outside of a particular element.
   ```js
   window.addEventListener('mousedown', e => {
-    // Get the element that was clicked
     const clickedEl = e.target;
 
     // `el` is the element you're detecting clicks outside of
-    // https://developer.mozilla.org/en-US/docs/Web/API/Node/contains
     if (el.contains(clickedEl)) {
       // Clicked inside of `el`
     } else {
@@ -562,7 +410,7 @@ Launch your Node.js process using the `--inspect-brk` flag (`node server.js --in
   });
   ```
 
-- Change the style of `:before` pseudo-elements using JS. (It's not possible to directly access pseudo-elements with JS as they're not part of the DOM.)
+- Change the style of `:before` pseudo-elements using JS. It's not possible to directly access pseudo-elements with JS as they're not part of the DOM.
   ```js
   let style = document.querySelector('.foo').style;
   style.setProperty('--background', 'red');
@@ -575,14 +423,6 @@ Launch your Node.js process using the `--inspect-brk` flag (`node server.js --in
     width: 200px;
     height: 200px;
   }
-  ```
-
-- The default behavior of `scrollIntoView()` is that the top of the element will be aligned to the top of the visible area of the scrollable ancestor. If it shifts the complete page, you could either call it with the parameter `false` to indicate that it should aligned to the bottom of the ancestor or just use `scrollTop` instead of `scrollIntoView()`.
-  ```js
-  let target = document.getElementById("target");
-  target.parentNode.scrollTop = target.offsetTop;
-
-  // can also add the css `scroll-behavior: smooth;`
   ```
  
 - npmmirror 已内置[支持类似 unpkg cdn 解析能力](https://zhuanlan.zhihu.com/p/633904268)，可以简单理解为访问 unpkg 地址时，在回源服务里面根据 URL 参数，去 npm registry 下载对应的 npm 包，解压后响应对应的文件内容。即只需要遵循约定的 URL 进行访问，即可在页面中加载任意 npm 包里面的文件内容。
@@ -597,22 +437,9 @@ Launch your Node.js process using the `--inspect-brk` flag (`node server.js --in
   https://registry.npmmirror.com/antd/latest/files
   ```
 
-- 播放器与字幕的跨域问题：由于加了字幕，但字幕地址是跨域的，所以播放器标签上必须加 `crossorigin="anonymous"` 也就是改变了原来请求视频的方式（no-cors 是 HTML 元素发起请求的默认状态；现在会创建一个状态为 anonymous 的 cors 请求，不发 cookie），此时服务端必须响应 `Access-Control-Allow-Origin` 才可以。『播放器不设置跨域 只给字幕配 cors 响应头』这个方案是不行的，因为必须要先发一个 cors 请求才可以，服务端配置的响应头才有用处。
-  1. Add `crossorigin="anonymous"` to the video tag to allow load VTT files from different domains.
-  2. Even if your CORS is set correctly on the server, you may need to have your HTML tag label itself as anonymous for the CORS policy to work.
-  3. 与 HTML 元素不同的是，Fetch API 的 mode 的默认值是 cors；当你发送一个状态为 no-cors 的跨域请求，会发现返回的 response body 是空，也就是说，虽然请求成功，但仍然无法访问返回的资源。
-  4. Unlike classic scripts, module scripts (`<script type="module"`>) require the use of the CORS protocol for cross-origin fetching.
+- 播放器与字幕的跨域问题：由于加了字幕，但字幕地址是跨域的，所以播放器标签上必须加 `crossorigin="anonymous"` 也就是改变了原来请求视频的方式（no-cors 是 HTML 元素发起请求的默认状态；现在会创建一个状态为 anonymous 的 cors 请求，不发 cookie），此时服务端必须响应 `Access-Control-Allow-Origin` 才可以。『播放器不设置跨域 只给字幕配 cors 响应头』这个方案是不行的，因为必须要先发一个 cors 请求才可以，服务端配置的响应头才有用处。换句话说，**只有播放器加了 crossorigin，浏览器才会发出真正的 cors 请求，这时服务器返回的 Access-Control-Allow-Origin 响应头才生效，字幕才能正常加载**
 
-- 针对手机网页的前端开发者调试面板 vConsole (框架无关)
-  ```html
-  <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
-  <script>
-    // VConsole 默认会挂载到 `window.VConsole` 上
-    var vConsole = new window.VConsole();
-  </script>
-  ```
-
-### iframe 技术方案
+### iframe 方案的利弊
 用一句话概括 iframe 的作用就是在一个 web 应用中可以独立的运行另一个 web 应用，这个概念和微前端是类似的。采用 iframe 的优点是使用简单、隔离完美、页面上可以摆放多个 iframe 来组合多应用业务。但是缺点也非常明显：
 - 路由状态丢失，刷新一下，iframe 的 url 状态就丢失了
 - dom 割裂严重，弹窗只能在 iframe 内部展示，无法覆盖全局
@@ -625,18 +452,9 @@ Launch your Node.js process using the `--inspect-brk` flag (`node server.js --in
 3. 浏览器前进后退符合预期
 4. 弹窗全局居中
 5. CSP, sandbox 等安全属性
-6. 腾讯的无界微前端框架 https://wujie-micro.github.io/doc/
 
-### 桌面端 Electron 的本地构建过程
+### 桌面端 Electron 相关
 Electron是一个集成项目，允许开发者使用前端技术开发桌面端应用。其中 **Chromium 基础能力**可以让应用渲染 HTML 页面，执行页面的 JS 脚本，让应用可以在 Cookie 或 LocalStorage 中存取数据。Electron 还继承了 Chromium 的多进程架构，分一个主进程和多个渲染进程，主进程进行核心的调度启动，不同的 GUI 窗口独立渲染，做到进程间的隔离，进程与进程之间实现了 IPC 通信。**Node.js 基础能力**可以让开发者读写本地磁盘的文件，通过 socket 访问网络，创建和控制子进程等。**Electron 内置模块**可以支持创建操作系统的托盘图标，访问操作系统的剪切板，获取屏幕信息，发送系统通知，收集崩溃报告等。
-
-> Node.js（内置 libuv）有自己的消息循环，要想把这个消息循环和应用程序的消息循环合并到一起并不容易。Electron 的做法是创建了一个单独的线程并使用系统调用来轮询 libuv 的 fd (文件描述符)，以获得 libuv 的消息，再把消息交给 GUI 主线程，由主线程的消息循环处理 libuv 的消息。
-
-1. 调用 `greeting()` 方法，根据终端窗口的宽度 `process.stdout.columns` 显示不同样式的问候语。
-2. 使用 `Promise.all()` 同时启动主进程和渲染进程的构建，两者分别有自己的 webpack 配置文件 `webpack.main.config` 和 `webpack.renderer.config`
-3. 对于渲染进程，使用类似 web 端的 webpack 配置，设置入口文件、产出位置、需要的 loaders 和 plugins，并根据是否为 production 环境补充引入一些 plugin，在 npm 脚本打包的时候可以通过 `cross-env BUILD_ENV=abc` 设置一些环境变量。创建一个 WebpackDevServer，传入 webpack 配置，设置代理，监听某一端口，其实这就是启动一个本地服务，使用浏览器也可以访问构建后的页面，这里只是用 electron 的壳子把它加载进来。对于主进程，也使用了 webpack，设置入口文件用来打包产出。
-4. 利用 webpack 编译的 hooks 在构建完成后会打印日志，`logStats()` 函数接收进程名 (Main or Renderer) 和具体输出的内容。
-5. 在主进程和渲染进程都构建完成后，即主进程有一个打包后的 `main.js` 且渲染进程本地服务可以访问，这个时候启动 electron，即通常项目的 npm 脚本会执行 `electron .`，这里是通过 Node API，使用 `child_process.spawn()` 的方式启动 electron 并传入需要的参数，然后对 electron 进程的 stdout 和 stderr 监听，打印对应的日志。
 
 #### 桌面端状态持久化存储
 Electron doesn't have a built-in way to persist user preferences and other data. [electron-store](https://github.com/sindresorhus/electron-store) handles that for you, so you can focus on building your app. The data is saved in a JSON file in `app.getPath('userData')`.
