@@ -3,7 +3,7 @@ title: "Start a Javascript stack project"
 description: ""
 added: "Jun 16 2022"
 tags: [web]
-updatedDate: "Jun 29 2025"
+updatedDate: "July 20 2025"
 ---
 
 ## Start a modern web project
@@ -37,6 +37,7 @@ A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and
 - @mux/mux-node is a Mux API wrapper for Node projects to post a video. Note that this package uses Mux access tokens and secret keys and is intended to be used in server-side code only. Also add @mux/mux-player-react to integrate [Mux](https://docs.mux.com) player into your web application.
 - [next-video](https://next-video.dev) is a react component for adding video to your next.js application. It extends both the `<video>` element and your Next app with features for automatic video optimization. By default next-video uses Mux.
 - react-confetti: create a confetti effect to celebrate the accomplishment of particular steps in an application.
+- [Vaul](https://github.com/emilkowalski/vaul) is an unstyled drawer component for React that can be used as a Dialog replacement on tablet and mobile devices.
 - [next-auth](https://github.com/vercel/next.js/tree/canary/examples/auth) is a complete open-source authentication solution for Next.js applications. [auth-nextjs-tutorial](https://github.com/codegenixdev/auth-nextjs-tutorial) is an example project covering both OAuth providers and traditional credential-based authentication.
  
 > Why Next.js written by @leeerob: I never need to write separate backends for projects I want to create. I can build my entire project with Next.js. I never have to worry about bundler, compiler, or frontend infrastructure. I'm able to use the latest React features, which I personally find to have a great developer experience. Next.js provides a bunch of components that help me keep my site fast.
@@ -126,6 +127,22 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }
+
+// more `clsx` examples
+clsx('foo', true && 'bar', 'baz');
+//=> 'foo bar baz'
+
+clsx({ foo:true, bar:false, baz:isTrue() });
+//=> 'foo baz'
+
+clsx({ foo:true }, { bar:false }, null, { '--foobar':'hello' });
+//=> 'foo --foobar'
+
+clsx(['foo', 0, false, 'bar']);
+//=> 'foo bar'
+
+clsx(['foo'], ['', 0, false, 'bar'], [['baz', [['hello'], 'there']]]);
+//=> 'foo bar baz hello there'
 ```
 
 [Lightning CSS](https://lightningcss.dev) is an extremely fast CSS parser, transformer, and minifier written in Rust. It lets you use modern CSS features and future syntax today. Features such as CSS nesting, custom media queries, high gamut color spaces, logical properties, and new selector features are automatically converted to more compatible syntax based on your browser targets. Lightning CSS is used by Vite, and soon by Tailwind and Next.js. Tools like `postcss` and `autoprefixer` are being replaced by faster, all-in-one Rust toolchains.
@@ -147,27 +164,19 @@ The [browserslist](https://github.com/browserslist/browserslist) configuration *
 - [postcss-preset-env](https://www.npmjs.com/package/postcss-preset-env) is a plugin that allows you to use modern CSS features while automatically adding the necessary fallbacks for older browsers, based on the specified compatibility targets. It includes `Autoprefixer` as part of its feature set. 
 - [cssnano](https://cssnano.co) is a compression tool written on top of the PostCSS ecosystem to compact CSS appropriately.
 
-### Polyfills and Transpilers
-When Babel compiles your code, what it's doing is taking your syntax and running it through various syntax transforms in order to get browser compatible syntax. What it's not doing is adding any new JavaScript primitives or any properties you may need to the browser's global namespace. One way you can think about it is that when you compile your code, you're transforming it. When you add a polyfill, you're adding new functionality to the browser. For example, Babel can transform `arrow functions` into regular functions, so, they can be compiled. However, there's nothing Babel can do to transform `Promises` or `Math.trunc` into native syntax that browsers understand, so they need to be polyfilled.
+### Transpilers and Polyfills
+When Babel compiles your code, what it's doing is taking your syntax and running it through various syntax transforms in order to get browser compatible syntax. What it's not doing is adding any new JavaScript primitives or any properties you may need to the browser's global namespace. When you compile your code, you're transforming it. When you add a polyfill, you're adding new functionality to the browser. For example, Babel can transform `arrow functions` into regular functions, so they can be compiled. However, there's nothing Babel can do to transform `Promise` into native syntax that browsers understand, so they need to be polyfilled.
 
-**It's crucial to understand the difference between language syntax and runtime API:**
+It's important to understand the difference between language syntax and runtime API:
 
-- If a browser or Babel doesn't understand a piece of syntax, you'll usually see a compile-time error, such as: `SyntaxError: Unexpected token 'async'`.
-- Runtime APIs are part of the standard library and only available if the JavaScript engine (e.g., the browser) supports them. Babel does not polyfill runtime APIs. If a browser doesn’t support it, you’ll get a runtime error.
+- Language syntax refers to how the code is written and structured, features like `async/await`, arrow functions, or destructuring. If the JavaScript engine (or Babel) doesn’t understand the syntax, it will throw a compile time error. *(SyntaxError: Unexpected token 'async')*
+- Runtime APIs are methods and features provided by the JavaScript engine or the environment, such as `Promise`, `Object.assign`, or `Array.prototype.includes`. These are not transformed by Babel. If the runtime doesn’t support them, you’ll get a runtime error. *(TypeError: Object.assign is not a function)*
 
-| Feature                    | Type        | Babel Transforms? | Error Type   | Fix if Unsupported                                                      |
-| -------------------------- | ----------- | ----------------- | ------------ | ----------------------------------------------------------------------- |
-| `async/await`              | Syntax      | ✅ Yes             | Compile-time | Use `@babel/plugin-transform-async-to-generator` or `@babel/preset-env` |
-| Arrow functions            | Syntax      | ✅ Yes             | Compile-time | Babel                                                                   |
-| `Array.prototype.includes` | Runtime API | ❌ No              | Runtime      | Polyfill via `core-js`                                                  |
-| `Promise`                  | Runtime API | ❌ No              | Runtime      | Polyfill via `core-js`                                                  |
-| `Object.assign`            | Runtime API | ❌ No              | Runtime      | Polyfill or use lodash                                                  |
-
-With syntax transforms, I recommend `@babel/preset-env`. For polyfills, the most popular one is `core-js`.
+With syntax transforms, use `@babel/preset-env`. For polyfills, the most popular one is `core-js`.
 
 `core-js` provides support for the latest ECMAScript standard and proposals, from ancient ES5 features to bleeding edge features. It is one of the main reasons why developers can use modern ECMAScript features in their development process each day for many years, but most developers just don't know that they have this possibility because of `core-js` since they use `core-js` indirectly as it's provided by their transpilers or frameworks.
 
-`core-js` is used by most of the popular websites. We can check it using `window['__core-js_shared__'].versions`, see details at https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md
+> `core-js` is used by most of the popular websites. We can check it using `window['__core-js_shared__'].versions`, see details at https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md
 
 ### Next.js app router and pages router
 Pages in the `app` directory are Server Components by default. This is different from the pages directory where pages are Client Components. The `app` directory uses nested folders to define routes and a special `page.js` file to make a route segment publicly accessible.
@@ -193,6 +202,7 @@ export async function getStaticProps(props) {
   return { props: { listings } }
 }
 
+// statically generate routes at build time
 export async function getStaticPaths() {
   const data = await fetch(`https://example.com/api/listings`)
   const { listings } = await data.json()
@@ -200,100 +210,16 @@ export async function getStaticPaths() {
 }
 ```
 
-> With Next.js 15, `fetch` requests are no longer cached by default. Next.js fetches the resource from the remote server on every request in development, but will fetch once during next build because the route will be statically prerendered. If Dynamic APIs are detected on the route, Next.js will fetch the resource on every request.
-
-## Set up Prettier and ESLint
-Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
-
-Install npm packages `npm i -D eslint prettier`. ESLint only as an npm package does not provide any editor integration, only the CLI executable. Run `eslint --init` to create a `eslintrc.json` (or `.js`, `.yml`) config file after install eslint globally `npm i -g eslint` (otherwise need to run `./node_modules/eslint/bin/eslint.js --init`), pick the options as you prefer. Add `eslint src` as a lint script which can be run as `npm run lint`, and it shows eslint errors in the Problems tab. Run `npm run lint -- --fix` to fix errors (if not format on save).
-
-Formatting and linting are two separate concerns. Use Prettier for code formatting concerns, and linters for code-quality concerns. Mixing the two can have negative impacts on the performance and understandability of your developer tooling. 
-- `eslint-plugin-prettier` is a legacy plugin developed a long time ago. It runs Prettier as if it were an ESLint rule, applies formatting on `--fix`, and **is not recommended**.
-- `eslint-config-prettier` is the config that turns off all formatting rules. It's recommended by Prettier to be used together with Prettier. You'd still use Prettier itself to actually do the formatting. (Add explicit `yarn prettier --check .` to CI.)
-
-If you don’t use a legacy ESLint shareable config that enables formatting rules, you probably don’t need `eslint-config-prettier`. Adding `eslint-config-prettier` at the end of the "extends" list doesn’t do anything if nothing enabled formatting rules to begin with.
-
-Check out the following resources:
-1. [You Probably Don't Need eslint-config-prettier or eslint-plugin-prettier](https://www.joshuakgoldberg.com/blog/you-probably-dont-need-eslint-config-prettier-or-eslint-plugin-prettier/)
-2. [Reasonable ESLint, Prettier, and TypeScript configs](https://github.com/epicweb-dev/config)
-
-### Lint like a senior developer by CJ
-Watch this: https://www.youtube.com/watch?v=Kr4VxMbF3LY
-
-1. Install `pnpm i -D eslint @antfu/eslint-config`
-2. Update `eslint.config.mjs` using the config from https://gist.github.com/w3cj/21b1f1b4857ecd13d076075a5c5aaf13/
-3. Try to run the script `"lint": "eslint ."` and install the required eslint plugins.
-4. Copy the VS Code support (auto fix on save) settings from https://github.com/antfu/eslint-config to your `.vscode/settings.json`.
-5. Add a `"lint:fix": "eslint --fix ."` script and run it.
-
-### What is Husky
-While working on an enterprise development team, it is important that all code linting and unit tests are passing before committing code, especially if you are using some form of continuous integration. [Git Hooks](https://githooks.com) are a built-in feature of Git that can execute automatically when certain events occur. **Husky**, as a project, is a very popular npm package that allows custom scripts to be ran against your repository to prevent bad `git commit` and `git push`, which makes commits of fixing lint errors doesn't happen.
-
-Install husky `npm i -D husky` and have a "husky" section in the `package.json` file to add git hooks.
-```json
-// package.json
-"husky": {
-  "hooks": {
-    "pre-commit": "npm run lint && npm run test",
-    "pre-push": "npm test"
-  }
-}
-```
-
-## Introducing the Backend For Frontend
-We had server-side functionality which we wanted to expose both via our desktop web UI, and via one or more mobile UIs. We often faced a problem in accommodating these new types of user interface, often as we already had a tight coupling between the desktop web UI and our backed services. However the nature of a mobile experience differs from a desktop web experience. In practice, our mobile devices will want to make different calls, fewer calls, and will want to display different (and probably less) data than their desktop counterparts. This means that we need to add additional functionality to our API backend to support our mobile interfaces.
-
-One solution to this problem is that rather than have a general-purpose API backend, instead you have one backend per user experience - or call it a Backend For Frontend (BFF). The BFF is tightly coupled to a specific UI, and will typically be maintained by the same team as the user interface, thereby making it easier to define and adapt the API as the UI requires.
-
-BFFs can be a useful pattern for architectures where there are a number of backend services, as the need to aggregate multiple downstream calls to deliver user functionality increases. In such situations it will be common for a single call in to a BFF to result in multiple downstream calls to microservices (multiple services hold the pieces of information we want).
-
-The other benefit of using a BFF is that the team creating the interface can be much more fluid in thinking about where functionality lives. For example they could decide to push functionality on to the server-side to promote reuse in the future and simplify a native mobile application, or to allow for the faster release of new functionality. This decision is one that can be made by the team in isolation if they own both the mobile application and the BFF - it doesn't require any cross-team coordination.
-
-## Jamstack
-Jamstack is a web architecture and stands for **J**avascript, **A**PIs, and **M**arkup stack. In this architecture, the frontend and the backend are completely separate. All interactions with the backend and third parties are done using APIs. Markup that incorporates Javascript, is pre-built into static assets, served to a client from a CDN, and relies on reusable APIs for its functionalities. **A Jamstack site is a set of pre-generated static assets served from a CDN.**
-
-> Jamstack is a way of working. It’s not a group of frameworks or services or tied to any particular brands or tech stack. Jamstack is defined by how you build websites, rather than the tools with which you choose to build them.
-
-Jamstack sites have better performance, are easier to secure and scale, and cost a lot less than sites built with traditional architectures (Jamstack hosting providers take care of all of this for you). Pre-building pages ensure that any errors can be detected early enough. Most importantly, Jamstack allows teams to outsource complex services to vendors who provide, maintain, and secure APIs used on their sites. The APIs can provide specific functionality to static sites like payments, authentication, search, image uploads using Paypal, Auth0, Algolia, Cloudinary.
-
-The most common types of Jamstack site build tools include static site generators (SSG) and headless content management systems (CMS). **Static site generators** are build tools that add content to templates and produce static web pages of a site. These generators can be used for Jamstack sites. Some well-known site generators include Hugo, Gatsby, Jekyll, Next.js, etc. 
-
-There are two points in time that you can integrate dynamic content into a Jamsack application:
-- **Build time** - During the build process, a Jamstack site can call out to any number of external API services to fetch data to pre-generate static pages. You can think of it like a content cache that applies to all your site’s users.
-- **Run time** - This should typically be content that is user specific, needs to update frequently, or is in response to a specific user action. For example, an ecommerce site may have product details populated at build time, but things like the current inventory, shipping options/prices based upon the user’s location, or the user’s shopping cart would all be populated at run time in the browser. As you may notice, in this example, the content on a single page (product details) may be a combination of both pre-rendered (build time) content (i.e. the product name, photo and description) and run time content (i.e. the product inventory and shipping options based on location).
-
-> In Next.js, `generateStaticParams` can be used in combination with dynamic route segments (e.g. `/posts/[id]`) to statically generate routes at build time. `generateStaticParams` replaces the `getStaticPaths` function in the Pages Router.
->
-> Note that `cookies`/`headers` is a Dynamic API whose returned values cannot be known ahead of time. Using it in a layout or page will opt a route into dynamic rendering.
-
-```js
-// Generate static params for all posts at build time
-export async function generateStaticParams() {
-  const posts = await prisma.post.findMany({
-    select: {
-      id: true,
-    },
-  });
- 
-  return posts.map((post) => ({
-    id: post.id.toString(),
-  }))
-}
-```
-
 ## Headless UI and shadcn/ui
-The web platform is severely lacking in terms of UI components. There's pretty minimal by way of built-in components, and for many that do exist, they are extremely difficult to style. What's best is to get a "headless" UI library: One which handles the logic of accessible, reusable components, but leaves the styling up to you. Headless UI components separate the logic & behavior of a component from its visual representation. They offer maximum visual flexibility by providing no interface.
+The web platform is severely lacking in terms of UI components. There's pretty minimal by way of built-in components, and for many that do exist, they are extremely difficult to style. What's best is to get a "headless" UI library: One which handles the logic of accessible, reusable components, but leaves the styling up to you. **Headless UI components separate the logic and behavior of a component from its visual representation.** They offer maximum visual flexibility by providing no interface.
+
+> Check out the video [So You Think You Can Build A Dropdown?](https://www.youtube.com/watch?v=lY-RQjWeweo) which goes deep into the complexities of designing and building a fully-accessible dropdown menu.
 
 People constantly have to reinvent the wheel to offer fairly basic functionality, so it’s good that there are libraries to handle the behaviour and accessibility while supporting whatever visual styles you want to make.
-
 - [Headless UI](https://headlessui.com) is a good example, which contains completely unstyled, fully accessible UI components, designed to integrate beautifully with Tailwind CSS.
 - [Radix UI](https://github.com/radix-ui/primitives) is a low-level UI component library with a focus on accessibility, customization and developer experience. You can use these components either as the base layer of your design system, or adopt them incrementally. Try out: https://www.radix-ui.com/themes/playground
 
-Examples:
-1. The video [So You Think You Can Build A Dropdown?](https://www.youtube.com/watch?v=lY-RQjWeweo) is diving deep into the complexities of designing and building a fully-accessible dropdown menu.
-2. [Vaul](https://github.com/emilkowalski/vaul) is an unstyled drawer component for React that can be used as a Dialog replacement on tablet and mobile devices.
-
-Then it leaves us with the decision about how to style things. This is where [shadcn/ui](https://ui.shadcn.com) comes into the picture. It's not a component library, but more of a code registry where you can copy/paste/modify the code to your content. It's built with Tailwind and Radix. `shadcn/ui` is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn@latest add card`, making it even more convenient to use.
+Then it leaves us with the decision about how to style things. This is where shadcn/ui comes into the picture. It's not a component library, but more of a code registry where you can copy/paste/modify the code to your content. It's **built with Tailwind and Radix**. `shadcn/ui` is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn@latest add card`.
 
 If you want a different theme, just go Shadcn "themes" -> "Customize" and click "Copy code", repalce everything in the `@layer base` in `global.css`.
 
@@ -305,7 +231,8 @@ npx shadcn@latest init sidebar-01
 # install components from v0
 npx shadcn add "https://v0.dev/chat/xxx"
 
-# Look for https://v0.dev/chat/xxx/json to know how it works
+# setup and run your own component registry
+# check for https://v0.dev/chat/xxx/json to know how it works
 # https://ui.shadcn.com/docs/registry/getting-started
 # https://github.com/jherr/shadcn-differ-demo/blob/main/simple.json
 npx shadcn@latest init http://localhost:8080/simple.json
@@ -320,10 +247,9 @@ npx shadcn@latest add https://simple-ai.dev/r/chat-message.json
   <figcaption>registry.json and shadcn build</figcaption>
 </figure>
 
-To understand shadcn/ui, first we need to know what does `cva (class-variance-authority)` do. It basically is a function, that allows us to define variants for the element we want to style. A simple variant definition has a name and a list of possible values, each with a list of classes that should apply.
+We also need to know what does `cva (class-variance-authority)` do. It basically is a function, that allows us to define variants for the element we want to style. A simple variant definition has a name and a list of possible values, each with a list of classes that should apply.
 
 ```jsx
-// Using `cva` to handle our variant's classes
 import { cva } from "class-variance-authority";
  
 const buttonVariants = cva(["font-semibold", "border", "rounded"], {
@@ -360,50 +286,6 @@ buttonVariants({ intent: "secondary", size: "small" });
 // => "font-semibold border rounded bg-white text-gray-800 border-gray-400 hover:bg-gray-100 text-sm py-1 px-2"
 ```
 
-[clsx](https://github.com/lukeed/clsx) is used in `cva`. It is a utility for constructing `className` strings conditionally.
-
-```js
-import clsx from 'clsx';
-
-clsx('foo', true && 'bar', 'baz');
-//=> 'foo bar baz'
-
-clsx({ foo:true, bar:false, baz:isTrue() });
-//=> 'foo baz'
-
-clsx({ foo:true }, { bar:false }, null, { '--foobar':'hello' });
-//=> 'foo --foobar'
-
-clsx(['foo', 0, false, 'bar']);
-//=> 'foo bar'
-
-clsx(['foo'], ['', 0, false, 'bar'], [['baz', [['hello'], 'there']]]);
-//=> 'foo bar baz hello there'
-```
-
-Combining `clsx` with `tailwind-merge` allows us to conditionally join Tailwind CSS classes in classNames together without style conflicts.
-- `clsx` is generally used to conditionally apply a given className.
-- `tailwind-merge` overrides conflicting Tailwind CSS classes and keeps everything else untouched.
-
-```js
-import { clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-
-export function cn(...inputs) {
-  return twMerge(clsx(inputs))
-}
-
-// twMerge -> condition && "bg-green-500"
-// clsx -> { "bg-green-500": condition }
-<button className={cn(
-  "bg-blue-500 py-2 px-4",
-  className,
-  {
-    "bg-green-500": condition
-  }
-)}>
-```
-
 ### Design system examples
 A design system is an ever evolving collection of reusable components, guided by rules that ensure consistency and speed, by being the single source of truth for any product development.
 
@@ -417,14 +299,70 @@ A design system is an ever evolving collection of reusable components, guided by
 
 - GOV.UK Design System: https://design-system.service.gov.uk
 
-- Atlassian's Design System: https://atlassian.design
+## Set up Prettier and ESLint
+Install `Prettier` and `ESLint` VSCode plugins and enable `format on save` in settings (execute `save without formatting` command to disable). If you don't see the code formatted automatically on file save then it might be because you have multiple formatters installed in VS Code. Set `Format Document With...` and choose prettier to get it working.
+
+Install npm packages `npm i -D eslint prettier`. ESLint only as an npm package does not provide any editor integration, only the CLI executable. Run `eslint --init` to create a `eslintrc.json` (or `.js`, `.yml`) config file after install eslint globally `npm i -g eslint` (otherwise need to run `./node_modules/eslint/bin/eslint.js --init`), pick the options as you prefer. Add `eslint src` as a lint script which can be run as `npm run lint`, and it shows eslint errors in the Problems tab. Run `npm run lint -- --fix` to fix errors.
+
+Formatting and linting are two separate concerns. Use Prettier for code formatting concerns, and linters for code-quality concerns. Mixing the two can have negative impacts on the performance and understandability of your developer tooling. 
+- `eslint-plugin-prettier` is a legacy plugin developed a long time ago. It runs Prettier as if it were an ESLint rule, applies formatting on `--fix`, and **is not recommended**.
+- `eslint-config-prettier` is the config that turns off all formatting rules. It's recommended by Prettier to be used together with Prettier. You'd still use Prettier itself to actually do the formatting. But if you don’t use a legacy ESLint shareable config that enables formatting rules, you probably don’t need this. Adding `eslint-config-prettier` at the end of the "extends" list doesn’t do anything if nothing enabled formatting rules to begin with.
+
+> Check out the following resources:
+> 1. [You Probably Don't Need eslint-config-prettier or eslint-plugin-prettier](https://www.joshuakgoldberg.com/blog/you-probably-dont-need-eslint-config-prettier-or-eslint-plugin-prettier/)
+> 2. [Reasonable ESLint, Prettier, and TypeScript configs](https://github.com/epicweb-dev/config)
+
+### Lint like a senior developer by CJ
+Watch this: https://www.youtube.com/watch?v=Kr4VxMbF3LY
+
+1. Install `pnpm i -D eslint @antfu/eslint-config`
+2. Update `eslint.config.mjs` using the config from https://gist.github.com/w3cj/21b1f1b4857ecd13d076075a5c5aaf13/
+3. Try to run the script `"lint": "eslint ."` and install the required eslint plugins.
+4. Copy the VS Code support (auto fix on save) settings from https://github.com/antfu/eslint-config to your `.vscode/settings.json`.
+5. Add a `"lint:fix": "eslint --fix ."` script and run it.
+
+### What is Husky
+While working on an enterprise development team, it is important that all code linting and unit tests are passing before committing code, especially if you are using some form of continuous integration. [Git Hooks](https://githooks.com) are a built-in feature of Git that can execute automatically when certain events occur. Husky is a very popular npm package that allows custom scripts to be ran against your repository to prevent bad `git commit` and `git push`, which makes commits of fixing lint errors doesn't happen.
+
+Install husky `npm i -D husky` and have a "husky" section in the `package.json` file to add git hooks.
+```json
+// package.json
+"husky": {
+  "hooks": {
+    "pre-commit": "npm run lint && npm run test",
+    "pre-push": "npm test"
+  }
+}
+```
+
+## Introducing the Backend For Frontend
+We had server-side functionality which we wanted to expose both via our desktop web UI, and via one or more mobile UIs. We often faced a problem in accommodating these new types of user interface, often as we already had a tight coupling between the desktop web UI and our backed services. However the nature of a mobile experience differs from a desktop web experience. In practice, our mobile devices will want to make different calls, fewer calls, and will want to display different (and probably less) data than their desktop counterparts. This means that we need to add additional functionality to our API backend to support our mobile interfaces.
+
+One solution to this problem is that rather than have a general-purpose API backend, instead you have one backend per user experience - or call it a Backend For Frontend (BFF). The BFF is tightly coupled to a specific UI, and will typically be maintained by the same team as the user interface, thereby making it easier to define and adapt the API as the UI requires.
+
+BFFs can be a useful pattern for architectures where there are a number of backend services, as the need to aggregate multiple downstream calls to deliver user functionality increases. In such situations it will be common for a single call in to a BFF to result in multiple downstream calls to microservices (multiple services hold the pieces of information we want).
+
+The other benefit of using a BFF is that the team creating the interface can be much more fluid in thinking about where functionality lives. For example they could decide to push functionality on to the server-side to promote reuse in the future and simplify a native mobile application, or to allow for the faster release of new functionality. This decision is one that can be made by the team in isolation if they own both the mobile application and the BFF - it doesn't require any cross-team coordination.
+
+## Jamstack
+Jamstack is a web architecture and stands for **J**avascript, **A**PIs, and **M**arkup stack. In this architecture, the frontend and the backend are completely separate. All interactions with the backend and third parties are done using APIs. Markup that incorporates Javascript, is pre-built into static assets, served to a client from a CDN, and relies on reusable APIs for its functionalities. **A Jamstack site is a set of pre-generated static assets served from a CDN.**
+
+> Jamstack is a way of working. It’s not a group of frameworks or services or tied to any particular brands or tech stack. Jamstack is defined by how you build websites, rather than the tools with which you choose to build them.
+
+Jamstack sites have better performance, are easier to secure and scale, and cost a lot less than sites built with traditional architectures (Jamstack hosting providers take care of all of this for you). Pre-building pages ensure that any errors can be detected early enough. Most importantly, Jamstack allows teams to outsource complex services to vendors who provide, maintain, and secure APIs used on their sites. The APIs can provide specific functionality to static sites like payments, authentication, search, image uploads using Paypal, Auth0, Algolia, Cloudinary.
+
+The most common types of Jamstack site build tools include static site generators (SSG) and headless content management systems (CMS). **Static site generators** are build tools that add content to templates and produce static web pages of a site. These generators can be used for Jamstack sites. Some well-known site generators include Hugo, Gatsby, Jekyll, Next.js, etc. 
+
+There are two points in time that you can integrate dynamic content into a Jamsack application:
+- **Build time** - During the build process, a Jamstack site can call out to any number of external API services to fetch data to pre-generate static pages. You can think of it like a content cache that applies to all your site’s users.
+- **Run time** - This should typically be content that is user specific, needs to update frequently, or is in response to a specific user action. For example, an ecommerce site may have product details populated at build time, but things like the current inventory, shipping options/prices based upon the user’s location, or the user’s shopping cart would all be populated at run time in the browser. As you may notice, in this example, the content on a single page (product details) may be a combination of both pre-rendered (build time) content (i.e. the product name, photo and description) and run time content (i.e. the product inventory and shipping options based on location).
 
 ## Serverless
-Your code needs to be hosted on a server. Depending on the size of your code and the amount of users you expect to use your product, you might need many servers. Companies used to have their own facilities and warehouses that held their servers and many still do. But for many, this is not ideal. Servers can be difficult to maintain. Maintaining servers and the buildings that house them can become expensive too. That's where AWS and other [cloud providers](https://getdeploying.com) come in.
+Your code needs to be hosted on a server. Depending on the size of your code and the amount of users you expect to use your product, you might need many servers. Companies used to have their own facilities and warehouses that held their servers and many still do. But for many, this is not ideal. Servers can be difficult to maintain. Maintaining servers and the buildings that house them can become expensive too. That's where AWS and other cloud providers come in.
 
 Cloud is basically renting out servers and data storage that's owned by someone else (Serverless does not mean there aren't any servers; You still need servers to host and run your code.) Through the cloud provider (AWS, Azure, or Google Cloud), you gain access to resources like storage services, servers, networking, analytics, AI, and more. There are many other benefits: You pay only for what you use. You can easily spin up and use new servers when needed, allowing you to scale quickly. You can deploy applications globally.
 
-Serverless is just a way of handling how you are using servers. Instead of handling all the infrastructure and server operations yourself you're relying on a cloud provider. There are different families of cloud services:
+Serverless is just a way of handling how you are using servers. Instead of handling all the infrastructure and server operations yourself, you're relying on a cloud provider. There are different families of cloud services:
 - **Infrastructure as a service (IaaS)** - Amazon EC2, Digital Ocean
 - **Platform as a service (PaaS)** - Heroku, AWS Elastic Beanstalk
 - **Software as a service (SaaS)** - Dropbox, iCloud, Slack
@@ -434,17 +372,10 @@ Serverless is just a way of handling how you are using servers. Instead of handl
 >
 > On the backend, you probably don't want to scale Kubernetes yourself. There's now fully-managed Kubernetes (AWS EKS, Google Cloud GKE), as well as Google Cloud Run, which allows you to run and automatically scale stateless serverless containers.
 
-Serverless functions are an approach to writing back-end code that doesn’t require writing a back-end. In the simplest terms: we write a function using our preferred language, like JavaScript; we send that function to a serverless provider; and then we can call that function just like any API using HTTP methods. These Functions are co-located with your code and part of your Git workflow. You can focus on the business needs and developing a better quality application instead of worrying about the infrastructure and maintenance of a traditional server.
-
-### Fully hosted and self hosting solutions
-In a fully hosted solution, the service provider takes care of hosting the software, managing servers, databases, scaling, and maintaining the infrastructure. Users don’t have to worry about setting up or managing the backend infrastructure. Examples: Google Workspace (formerly G Suite), Shopify, Slack.
-
-In a self-hosted solution, the user is responsible for installing, configuring, and maintaining the software on their own servers or infrastructure. Users have full control over the environment. Examples: WordPress, GitLab.
+Serverless functions are an approach to writing back-end code that doesn’t require writing a back-end. In the simplest terms: we write a function using our preferred language, like JavaScript; we send that function to a serverless provider; and then we can call that function just like any API using HTTP methods.
 
 ### Netlify functions
-The serverless functions can be run by [Netlify Dev](https://docs.netlify.com/cli/local-development) in the same way they would be when deployed to the cloud. Once you've configured the functions directory in your `netlify.toml`, the functions will be accessible through netlify dev server. e.g. at `http://localhost:8888/.netlify/functions/{function-name}`.
-
-Go through the guide (mainly on traditional serverless functions): https://www.netlify.com/blog/intro-to-serverless-functions/
+The serverless functions can be run by [Netlify Dev](https://docs.netlify.com/cli/local-development) in the same way they would be when deployed to the cloud. Once you've configured the functions directory in your `netlify.toml`, the functions will be accessible through netlify dev server. e.g. at `http://localhost:8888/.netlify/functions/{function-name}`. Go through the guide: https://www.netlify.com/blog/intro-to-serverless-functions/
 
 ```js
 // .netlify/functions/hello-world.js
@@ -477,9 +408,9 @@ Environment variables starting with `VITE_` are embedded into your JavaScript bu
 Here's how to fix this properly using Netlify Functions. The API key lives securely on the server side in `.netlify/functions/nba-api.js`. Your frontend calls `/.netlify/functions/nba-api?endpoint=/players`. The Netlify function makes the actual API call with the secret key, and the key never reaches the browser.
 
 In our case, since we're using a Netlify Function to securely proxy the API (to avoid CORS issues and keep the API key secure), the `netlify.toml` is essential.
-- Build Configuration: Tells Netlify how to build your app
-- Functions Directory: Tells Netlify where to find serverless functions
-- SPA Routing: Handles client-side routing for React apps
+- Build configuration: Tells Netlify how to build your app
+- Functions directory: Tells Netlify where to find serverless functions
+- SPA routing: Handles client-side routing for React apps
 
 ```toml
 [build]
@@ -499,7 +430,7 @@ In our case, since we're using a Netlify Function to securely proxy the API (to 
 To solve the latency problem, very smart folks came up with the idea of deploying multiple copies of a program and distributing it around the world. When a user makes a request, it can be handled by the closest copy, thus reducing the distance traveled and the time spent in transit.
 
 - The **Origin server** refers to the main computer that stores and runs the original version of your application code.
-- **CDNs** store static content (such as HTML and image files) in multiple locations around the world. When a new request comes in, the closest CDN location to the user can respond with the cached result.
+- **CDNs** store static content in multiple locations around the world. When a new request comes in, the closest CDN location to the user can respond with the cached result.
 - Similar to CDNs, **Edge servers** are distributed to multiple locations around the world. But unlike CDNs, which store static content, some Edge servers can run small snippets of code. This means both caching and code execution can be done at the Edge closer to the user.
 
 > Cloud = a server, somewhere;  
@@ -515,8 +446,6 @@ So what JS engines/runtimes do we have now?
 - Edge-computing providers: a limited JavaScript environment running on CDN Nodes
 
 For example, [Cloudflare Workers](https://developers.cloudflare.com/workers/learning/how-workers-works) provides a serverless execution environment that allows you to create new applications without configuring or maintaining infrastructure. Under the hood, the Workers runtime uses the V8 engine. The Workers runtime also implements many of the standard APIs available in most modern browsers. Rather than running on an individual’s machine, Workers functions run on Cloudflare’s Edge Network - a growing global network of thousands of machines distributed across hundreds of locations.
-
-> *workerd* is a JavaScript / Wasm server runtime based on the same code that powers Cloudflare Workers. The name "workerd" (pronounced "worker dee") comes from the Unix tradition of naming servers with a "-d" suffix standing for "daemon". *A daemon is a background, non-interactive program. It is detached from the keyboard and display of any interactive user.* The name is not capitalized because it is a program name, which are traditionally lower-case in Unix-like environments.
 
 **Cloudflare** is one of the world’s largest internet networks, designed to improve the speed and security of websites, applications, and blogs. It uses a powerful edge network to deliver content from servers closest to users, ensuring fast performance. Cloudflare also protects online properties from threats such as DDoS attacks, malicious bots, and other cyber threats. Additionally, it offers a free DNS service called 1.1.1.1, which enhances privacy by preventing user data from being tracked or used for targeted advertising.
 
