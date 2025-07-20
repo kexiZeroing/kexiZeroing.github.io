@@ -9,7 +9,7 @@ updatedDate: "Mar 29 2025"
 
 1. 假设现在有 20 个异步请求需要发送，但由于某些原因，我们必须将同一时刻的并发请求数量控制在 3 个以内。实现一个并发请求函数，要求最大并发数 maxNum，每当有一个请求返回，就留下一个空位，可以增加新的请求。当所有请求完成后，结果按照 urls 里面的顺序依次输出。
 
-> 由于 http2 支持并发处理，如果后端接口设计基于这个假设，可能不会提供批量获取数据的接口，需要前端通过 id 来逐个获取。但当同时发送上千个请求时，浏览器会变的明显卡顿，虽然这样发送可以更快的获取数据，但会带来不好的用户体验，所以一个解决方案是给并发添加最大数量限制。如果是 http1.1，浏览器会有默认的并发限制，并不需要我们处理这个问题，比如 Chrome 中并发数量是 6 个，所以这个问题的成立是建立在 http2 的基础上。
+> http2 支持并发请求（单个连接多路复用），但当同时发送上千个请求时，消耗大量内存，浏览器会变的明显卡顿，所以一个解决方案是给并发添加最大数量限制。如果是 http1.1，浏览器会有默认的并发限制，并不需要我们处理这个问题，比如 Chrome 中并发数量是 6 个，所以这个问题的成立是建立在 http2 的基础上。
 
 ```js
 const concurrencyRequest = (urls, maxNum) => {
@@ -19,13 +19,13 @@ const concurrencyRequest = (urls, maxNum) => {
       return;
     }
     const results = [];
-    let index = 0; // 下一个请求的下标
-    let count = 0; // 当前请求完成的数量
+    let count = 0;
+    let index = 0;
 
     async function request() {
       if (index === urls.length) return;
-      const i = index; // 保存序号，使得 result 和 url 对应
-      const url = urls[index];
+      const i = index; // 保存序号
+      const url = urls[i];
       index++;
 
       try {
@@ -35,7 +35,6 @@ const concurrencyRequest = (urls, maxNum) => {
         results[i] = err;
       } finally {
         count++;
-        // 判断是否所有的请求都已完成
         if (count === urls.length) {
           resolve(results);
         }
@@ -60,7 +59,7 @@ concurrencyRequest(urls, 3).then(res => {
 })
 ```
 
-2. Implement `Promise.all` and `Promise.resolve` by yourself.
+1. Implement `Promise.all` and `Promise.resolve` by yourself.
 ```js
 Promise._all = function (promises) {
   return new Promise((resolve, reject) => {
@@ -68,7 +67,8 @@ Promise._all = function (promises) {
     const result = [];
     for (let i = 0; i < promises.length; i++) {
       // Use `Promise.resolve(promises[i])` instead of `promises[i].then()`, 
-      // because `promises[i]` could be a non-promise so it won’t have `.then()` method
+      // if it is non-promise value, wrap it
+      // if already promise, `Promise.resolve(promises[i])` returns the same Promise
       Promise.resolve(promises[i]).then(res => {
         result[i] = res;
         counter += 1;
@@ -95,7 +95,7 @@ Promise._resolve = function (value) {
 
 3. Implement `debounce` and `throttle`.
 ```js
-function debounce(fn, time) {
+function debounce(fn, delay) {
   let timer = null
 
   return (...args) => {
@@ -105,7 +105,7 @@ function debounce(fn, time) {
     }
     timer = setTimeout(() => {
       fn(...args)
-    }, time)
+    }, delay)
   }
 }
 

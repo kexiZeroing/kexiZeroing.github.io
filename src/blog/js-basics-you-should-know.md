@@ -1002,6 +1002,10 @@ The methods `promise.then()`, `promise.catch()`, and `promise.finally()` are use
 
 `Promise.resolve()` returns a Promise object that is resolved with a given value. `Promise.reject()` method returns a Promise object that is rejected with a given reason.
 
+> Promise.resolve(p):
+> - If p is a real Promise, `Promise.resolve(p)` returns the same Promise instance, without wrapping or modifying it.
+> - If p is a plain value, it returns a Promise resolved with that value.
+
 ```js
 Promise.resolve('foo')
   // 1. Receive "foo", concatenate "bar" to it, and resolve that to the next then
