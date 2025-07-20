@@ -1,5 +1,5 @@
 ---
-title: "Start a Javascript stack project"
+title: "Start a JavaScript stack project"
 description: ""
 added: "Jun 16 2022"
 tags: [web]
@@ -335,7 +335,72 @@ Install husky `npm i -D husky` and have a "husky" section in the `package.json` 
 }
 ```
 
-## Introducing the Backend For Frontend
+## Background jobs
+When a user submits work, a job record is created in the database with a unique ID. This ID is then sent to Inngest to trigger background processing, and the job ID is immediately returned to the user. Inngest processes the job asynchronously and updates the same database record with the results once processing is complete. Meanwhile, the user's frontend polls an API endpoint that checks the job status in the database. Once the status is marked as "completed," the frontend retrieves and displays the final results.
+
+```js
+// actions.ts
+const jobId = crypto.randomUUID();
+await db.jobs.create({ id: jobId, status: "pending" });
+
+await inngest.send({
+  name: "text/summary.requested",
+  data: { text: formData.get("text"), jobId },
+});
+
+return Response.json({ jobId, status: "pending" });
+```
+
+```js
+// inngest/inngest.ts
+import { Inngest } from "inngest";
+export const inngest = new Inngest({ id: "process-summarization" });
+
+// inngest/functions.ts
+const processSummarization = inngest.createFunction(
+  { id: "process-summarization" },
+  { event: "text/summary.requested" },
+  async ({ event }) => {
+    const { text, jobId } = event.data;
+    const summary = await generateSummary(text);
+
+    // Save result
+    await db.jobs.update(jobId, {
+      status: 'completed',
+      result: summary
+    });
+
+    return { summary }
+  },
+);
+
+export const functions = [processSummarization];
+```
+
+```js
+// api/inngest/route.ts
+import { inngest } from "@/inngest/inngest"
+import { functions } from "@/inngest/functions"
+import { serve } from "inngest/next"
+
+// Inngest periodically calls your endpoint to:
+// GET = Function registration/sync calls
+// POST = Actual function execution
+// PUT = Function updates
+export const { GET, POST, PUT } = serve({
+  client: inngest,
+  functions,
+});
+
+// User polls for result
+// GET /api/jobs/:jobId
+export async function GET(request: Request, { params }) {
+  const job = await db.jobs.findById(params.jobId);
+  return Response.json(job);
+}
+```
+
+## Backend For Frontend
 We had server-side functionality which we wanted to expose both via our desktop web UI, and via one or more mobile UIs. We often faced a problem in accommodating these new types of user interface, often as we already had a tight coupling between the desktop web UI and our backed services. However the nature of a mobile experience differs from a desktop web experience. In practice, our mobile devices will want to make different calls, fewer calls, and will want to display different (and probably less) data than their desktop counterparts. This means that we need to add additional functionality to our API backend to support our mobile interfaces.
 
 One solution to this problem is that rather than have a general-purpose API backend, instead you have one backend per user experience - or call it a Backend For Frontend (BFF). The BFF is tightly coupled to a specific UI, and will typically be maintained by the same team as the user interface, thereby making it easier to define and adapt the API as the UI requires.

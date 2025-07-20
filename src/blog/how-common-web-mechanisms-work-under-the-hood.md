@@ -10,13 +10,11 @@ updatedDate: "July 8 2025"
 - [TOC](#toc)
 - [Compile Vue SFC to JS](#compile-vue-sfc-to-js)
 - [Vite dev server](#vite-dev-server)
-- [React Server Components](#react-server-components)
 - [React Suspense](#react-suspense)
 - [Simple bundler](#simple-bundler)
+- [Babel and AST](#babel-and-ast)
 - [Hot Module Replacement](#hot-module-replacement)
 - [Source Maps](#source-maps)
-- [Babel Transpiler and Plugin](#babel-transpiler-and-plugin)
-- [Background job](#background-job)
 
 ## Compile Vue SFC to JS
 High level compilation process: 
@@ -28,7 +26,7 @@ Parse SFC to blocks -> Compile each block (script, style, template) -> Combine a
 - https://play.vuejs.org
 
 ```js
-import { parse, compileScript, compileTemplate, rewriteDefault } from 'vue/compiler-sfc'
+import { parse, compileScript, compileTemplate, rewriteDefault } from '@vue/compiler-sfc'
 
 function compileSFC(source) {
   const { descriptor } = parse(source)
@@ -42,6 +40,7 @@ function compileSFC(source) {
       id: 'component'
     })
     
+    // rewrites `export default` to use variable '_sfc_main' instead
     const scriptCode = rewriteDefault(
       scriptBlock.content,
       '_sfc_main'
@@ -50,6 +49,7 @@ function compileSFC(source) {
   }
   
   if (template) {
+    // converts template into a render() function
     const templateResult = compileTemplate({
       source: template.content,
       id: 'component'
@@ -143,9 +143,7 @@ const result = compileSFC(sfc)
 ## Vite dev server
 Key points:
 - Vite pre-bundles dependencies using esbuild.
-- Vite serves source code over native ESM. This is essentially letting the browser take over part of the job of a bundler: Vite only needs to transform and serve source code on demand, as the browser requests it.
-
-> Vite bridges the gap between the way we want to write code and the way the browser understands code. It does this by providing a development server runtime that transforms our code to a format the browser understands. It also provides a builder that transforms our code to a production ready format with a lot of optimizations.
+- Vite serves source code over native ESM. This is essentially letting the browser take over part of the job of a bundler. Vite only needs to transform and serve source code on demand, as the browser requests it.
 
 ```js
 import MagicString from 'magic-string';
@@ -157,6 +155,7 @@ import { buildSync, transformSync } from 'esbuild';
 // import xx from 'xx' -> import xx from '/@module/xx'
 async function parseBareImport(code) {
   await init;
+  // get a list of imports
   const parseResult = parseEsModule(code);
   const s = new MagicString(code);
 
@@ -167,6 +166,7 @@ async function parseBareImport(code) {
       // import React from 'react' -> import React from '/@module/react'
       s.overwrite(item.s, item.e, `/@module/${item.n}`);
     } else {
+      // handle relative or absolute imports
       // for css file, use '?import' to differentiate import statement and link tag
       s.overwrite(item.s, item.e, `${item.n}?import`);
     }
@@ -225,85 +225,6 @@ app.use(async function (req, res) {
 })
 ```
 
-## React Server Components
-
-```js
-// 1. Add server rendering
-app.get("/:path", async (req, res) => {
-  const page = await import(join(process.cwd(), "dist", "pages", req.params.path));
-  const Component = page.default;
-  const html = renderToString(
-    <Layout>
-      <Component {...req.query} />
-      <script src="/client.js"></script>
-    </Layout>
-  );
-  res.end(html);
-})
-```
-
-If we directly call `renderToString()` for a server component and send it to the client, React will complain *"Error: Objects are not valid as a React child (found: [object Promise])"*. Trying to render a Promise object as a child in a React component is an error.
-
-```js
-// 2. We need to turn it into React element (js object) and send to the client
-const createReactTree = async (jsx) => {
-  // if (typeof jsx === 'string') ...
-  if (typeof jsx === 'object') {
-    if (jsx.$$typeof === Symbol.for("react.element")) {
-      if (typeof jsx.type === 'string') {
-        return {
-          ...jsx,
-          props: await createReactTree(jsx.props),
-        }
-      }
-      if (typeof jsx.type === 'function') {
-        const Component = jsx.type;
-        const props = jsx.props;
-        const returnedJsx = await Component(props);
-        return await createReactTree(returnedJsx);
-      }
-    }
-  }
-}
-```
-
-A Symbol value like `Symbol.for('react.element')` doesn't "survive" JSON serialization. On the server, we're going to substutute it with a special string like `"$"`. On the client, we'll replace `"$"` back with the original Symbol.
-
-```js
-// 3. Take the jsx tree we made into HTML and send RSC output to the client
-const reactTree = await createReactTree(<Component />);
-
-const html = `${renderToString(reactTree)}
-<script>
-window.__initialMarkup=\`${JSON.stringify(reactTree, escapeJsx)}\`;
-</script>
-<script src="/client.js"></script>`;
-
-res.end(html);
-
-const escapeJsx = (key, value) => {
-  if (value === Symbol.for("react.element")) {
-    return "$";
-  }
-  return value;
-};
-```
-
-```js
-// 4. Client hydrate the RSC output
-const revive = (k, v) => {
-  if (v === "$") {
-    return Symbol.for("react.element");
-  }
-  return v;
-};
-
-const markup = JSON.parse(window.__initialMarkup, revive);
-const root = hydrateRoot(document, markup);
-```
-
-> React internal packages are responsible for serializing (`packages/react-server`) and deserializing (`packages/react-client`) data between the server and client. These packages are exposed through bundler specific implementations that your application ends up consuming.
-
 ## React Suspense
 React Suspense operates on a "throw and catch" pattern:
 1. Components "throw" Promises when data isn't ready.
@@ -316,28 +237,21 @@ const createResource = (somethingReturnsPromise: () => Promise<any>) => {
   let status = 'pending';
   let result;
   let suspender = somethingReturnsPromise().then(
-    r => {
-      status = 'success';
-      result = r;
-    },
-    e => {
-      status = 'error';
-      result = e;
-    }
+    r => { status = 'success'; result = r; },
+    e => { status = 'error'; result = e; }
   );
   return {
     read() {
       if (status === 'pending') {
         throw suspender;
-      } else if (status === 'error') {
+      } else {
         throw result;
-      } else if (status === 'success') {
-        return result;
       }
     }
   };
 }
 
+// A wrapper around a promise that makes Suspense-style
 const userDataResource = createResource(() => {
   return new Promise((resolve) => {
     setTimeout(() => resolve({ name: 'John' }), 1000);
@@ -345,24 +259,23 @@ const userDataResource = createResource(() => {
 });
 
 function Profile() {  
-  // This line will throw a promise if data isn't ready
+  // This line will throw a promise if data isn't ready,
+  // and jump to the nearest catch.
+  // 
+  // `use(promise)` is similar to `userDataResource.read()`
   const userData = userDataResource.read();
   
   return `<div>Hello, ${userData.name}!</div>`;
 }
 
-// Simplified renderer acting as a Suspense boundary
 function render(Component) {
   try {
-    // Try to render the component
     const result = Component();
-    // Simulate DOM update
     document.body.innerHTML = result;
   } catch (thrown) {
     if (thrown instanceof Promise) {
       // Render fallback
       document.body.innerHTML = '<div>Loading...</div>';
-      // Wait for promise to resolve
       thrown.then(() => {
         // Schedule re-render after resolution
         render(Component);
@@ -396,7 +309,6 @@ module.exports = {
   getAST: (path) => {
     const content = fs.readFileSync(path, "utf-8");
     // `sourceType` indicates the mode the code should be parsed in
-    // files with ES6 imports and exports are considered "module" and are otherwise "script".
     return parser.parse(content, {
       sourceType: "module",
     });
@@ -509,8 +421,106 @@ class Compiler {
 // })
 ```
 
+## Babel and AST
+You give Babel some JavaScript code, Babel modifies the code, and generates the new code back out. Each of these steps involve creating or working with an Abstract Syntax Tree.
+
+```js
+function square(n) {
+  return n * n;
+}
+
+// https://astexplorer.net/#/Z1exs6BWMq
+{
+  type: "FunctionDeclaration",
+  id: {
+    type: "Identifier",
+    name: "square"
+  },
+  params: [{
+    type: "Identifier",
+    name: "n"
+  }],
+  body: {
+    type: "BlockStatement",
+    body: [{
+      type: "ReturnStatement",
+      argument: {
+        type: "BinaryExpression",
+        operator: "*",
+        left: {
+          type: "Identifier",
+          name: "n"
+        },
+        right: {
+          type: "Identifier",
+          name: "n"
+        }
+      }
+    }]
+  }
+}
+```
+
+There are two ways to transform JavaScript with Babel.
+1. Manual AST Transformation (Using `@babel/parser`, `@babel/traverse`, and `@babel/generator`).
+2. Babel Plugin + `babel.transformSync`. You focus only on the transformation logic (`visitor` function), and let Babel take care of parsing, walking, and generating code.
+
+The following is the general template of using babel to do code transformation:
+
+```js
+import { parse } from '@babel/parser';
+import traverse from '@babel/traverse';
+import generate from '@babel/generator';
+
+const code = 'const n = 1';
+
+// parse the code -> ast
+const ast = parse(code);
+
+// transform the ast
+traverse(ast, {
+  enter(path) {
+    // in this example change all the variable `n` to `x`
+    if (path.isIdentifier({ name: 'n' })) {
+      path.node.name = 'x';
+    }
+  },
+});
+
+// generate code <- ast
+const output = generate(ast, { /* generator options */ });
+console.log(output.code); // 'const x = 1;'
+```
+
+Another way is writing a custom plugin (may integrate into build tools). They have the same functional output.
+
+```js
+import babel from '@babel/core';
+
+const code = 'const n = 1';
+
+const renameVariablePlugin = (options = {}) => {
+  const { from = 'n', to = 'x' } = options;
+  return {
+    visitor: {
+      Identifier(path) {
+        if (path.node.name === from) {
+          path.node.name = to;
+        }
+      }
+    }
+  };
+};
+
+const result = babel.transformSync(code, {
+  plugins: [[renameVariablePlugin, { from: 'n', to: 'x' }]]
+});
+
+console.log(result.code); // 'const x = 1;'
+```
+
 ## Hot Module Replacement
-Summary of the HMR Implementation:
+Summary of the HMR implementation:
 1. The server uses chokidar to watch JavaScript files in the src directory for changes.
 2. When a file changes, the server sends a WebSocket message to connected clients with information about which file changed.
 3. The server middleware intercepts JavaScript file requests and injects HMR client code along with the original content, enabling each module to be hot-reloadable.
@@ -591,12 +601,11 @@ ws.addEventListener("message", (msg) => {
 ```
 
 ```js
-// included in each module that enables it to be hot-reloadable
+// In each module
+// inserted automatically by a framework
 if (import.meta.hot) {
   import.meta.hot.accept((newModule) => {
-    if (newModule) {
-      // handle updates here
-    }
+    // handle updates here (replace exported values, re-render components, etc.)
   });
 }
 ```
@@ -657,189 +666,3 @@ It means: col 26 is mapping to source[0] line 9, col 14
 ```
 
 <img alt="how source maps work" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/source-map-under-the-hood.png" width="600" />
-
-## Babel Transpiler and Plugin
-You give Babel some JavaScript code, Babel modifies the code, and generates the new code back out. Each of these steps involve creating or working with an Abstract Syntax Tree or AST.
-
-```js
-function square(n) {
-  return n * n;
-}
-
-// https://astexplorer.net/#/Z1exs6BWMq
-{
-  type: "FunctionDeclaration",
-  id: {
-    type: "Identifier",
-    name: "square"
-  },
-  params: [{
-    type: "Identifier",
-    name: "n"
-  }],
-  body: {
-    type: "BlockStatement",
-    body: [{
-      type: "ReturnStatement",
-      argument: {
-        type: "BinaryExpression",
-        operator: "*",
-        left: {
-          type: "Identifier",
-          name: "n"
-        },
-        right: {
-          type: "Identifier",
-          name: "n"
-        }
-      }
-    }]
-  }
-}
-```
-
-There are two ways to transform JavaScript with Babel.
-1. Manual AST Transformation (Using `@babel/parser`, `@babel/traverse`, and `@babel/generator`).
-2. Babel Plugin + `babel.transformSync`. You focus only on the transformation logic (`visitor` function), and let Babel take care of parsing, walking, and generating code.
-
-The following is the general template of using babel to do code transformation:
-
-```js
-import { parse } from '@babel/parser';
-import traverse from '@babel/traverse';
-import generate from '@babel/generator';
-
-const code = 'const n = 1';
-
-// parse the code -> ast
-const ast = parse(code);
-
-// transform the ast
-traverse(ast, {
-  enter(path) {
-    // in this example change all the variable `n` to `x`
-    if (path.isIdentifier({ name: 'n' })) {
-      path.node.name = 'x';
-    }
-  },
-});
-
-// generate code <- ast
-const output = generate(ast, { /* generator options */ });
-console.log(output.code); // 'const x = 1;'
-```
-
-Another way is writing a custom plugin (may integrate into build tools). They have same functional output.
-
-```js
-import babel from '@babel/core';
-
-const code = 'const n = 1';
-
-const renameVariablePlugin = (options = {}) => {
-  const { from = 'n', to = 'x' } = options;
-  return {
-    visitor: {
-      Identifier(path) {
-        if (path.node.name === from) {
-          path.node.name = to;
-        }
-      }
-    }
-  };
-};
-
-// OPTION 1: Using babel.transformSync
-const result = babel.transformSync(code, {
-  plugins: [[renameVariablePlugin, { from: 'n', to: 'x' }]]
-});
-
-console.log(result.code); // 'const x = 1;'
-
-// OPTION 2: Using babel-loader in webpack
-rules: [
-  {
-    test: /\.js$/,
-    use: {
-      loader: 'babel-loader',
-      options: {
-        plugins: [
-          [path.resolve('./babel-plugin.js'), { from: 'n', to: 'x' }]
-        ]
-      }
-    }
-  }
-]
-```
-
-## Background job
-When a user submits work, you create a job record with a unique ID, send that ID to Inngest, and immediately return the job ID to the user. Your Inngest function then updates this same database record with the results when processing completes. The user's frontend polls an endpoint that checks the job status in the database until it shows completed, allowing them to retrieve the final results.
-
-```js
-// inngest/inngest.ts
-import { Inngest } from "inngest";
-// Create a client to send and receive events
-export const inngest = new Inngest({ 
-  id: "process-summarization",
-});
-
-// inngest/functions.ts
-const processSummarization = inngest.createFunction(
-  { id: "process-summarization" },
-  { event: "text/summary.requested" },
-  async ({ event }) => {
-    const { text, jobId } = event.data;
-    const summary = await generateSummary(text);
-
-    // Save result
-    await db.jobs.update(jobId, {
-      status: 'completed',
-      result: summary
-    });
-
-    return { summary }
-  },
-);
-
-export const functions = [processSummarization];
-
-// actions.ts
-const jobId = crypto.randomUUID();
-await db.jobs.create({
-  id: jobId,
-  status: 'pending',
-});
-
-// This doesn't block - it sends the event and returns immediately
-await inngest.send({
-  name: "text/summary.requested",
-  data: {
-    text: formData.get("text") as string,
-    jobId,
-  },
-});
-
-// Your user gets a response right away
-return Response.json({ jobId, status: 'pending' });
-
-// api/inngest/route.ts
-import { inngest } from "@/inngest/inngest"
-import { functions } from "@/inngest/functions"
-import { serve } from "inngest/next"
-
-// Inngest periodically calls your endpoint to:
-// GET = Function registration/sync calls
-// POST = Actual function execution
-// PUT = Function updates
-export const { GET, POST, PUT } = serve({
-  client: inngest,
-  functions,
-});
-
-// User polls for result
-// GET /api/jobs/:jobId
-export async function GET(request: Request, { params }) {
-  const job = await db.jobs.findById(params.jobId);
-  return Response.json(job);
-}
-```
