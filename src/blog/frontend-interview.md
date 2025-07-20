@@ -4,7 +4,7 @@ description: ""
 added: ""
 top: true
 order: 5
-updatedDate: "Mar 29 2025"
+updatedDate: "July 20 2025"
 ---
 
 1. 假设现在有 20 个异步请求需要发送，但由于某些原因，我们必须将同一时刻的并发请求数量控制在 3 个以内。实现一个并发请求函数，要求最大并发数 maxNum，每当有一个请求返回，就留下一个空位，可以增加新的请求。当所有请求完成后，结果按照 urls 里面的顺序依次输出。
@@ -59,7 +59,7 @@ concurrencyRequest(urls, 3).then(res => {
 })
 ```
 
-1. Implement `Promise.all` and `Promise.resolve` by yourself.
+2. Implement `Promise.all` and `Promise.resolve` by yourself.
 ```js
 Promise._all = function (promises) {
   return new Promise((resolve, reject) => {
