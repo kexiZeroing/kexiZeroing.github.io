@@ -181,6 +181,27 @@ Node.js v20 introduced experimental support for `.env` files. You can use the `-
 2. "exports" can be advisable over "main" because it prevents external access to internal code (users are not depending on things they shouldn't). If you don't need that, "main" is simpler and may be a better option for you.
 3. When using "exports" in `package.json`, it is generally a good idea to include `"./package.json": "./package.json"` so that it can be imported.
 
+### CJS `module` and `require`
+CommonJS treats each JavaScript file as a separate module and encloses the entire code within a function wrapper: `(function(exports, require, module, __filename, __dirname) {})`. The five parameters `exports`, `require`, `module`, `__filename`, `__dirname` are available inside each module. Even if you define a global variable in a module using `let` or `const` keywords, the variables are scoped locally to the module rather than being scoped globally.
+
+The `module` parameter refers to the object representing the current module and `exports` is a key of the `module` object which is also an object. `module.exports` is used for defining stuff that can be exported by a module. `exports` parameter and `module.exports` are the same unless you reassign `exports` within your module.
+
+```js
+exports.name = 'Alan';
+exports.test = function () {};
+console.log(module)  // { exports: { name: 'Alan', test: [Function] } }
+
+// exports is a reference and it's no longer same as module.exports if you change the reference
+exports = {
+  name: 'Bob',
+  add: function () {}
+}
+console.log(exports) // { name: 'Bob', add: [Function] }
+console.log(module)  // { exports: { name: 'Alan', test: [Function] } }
+```
+
+`require` keyword refers to a function which is used to import all the constructs exported using the `module.exports` from another module. The value returned by the `require` function in module y is equal to the `module.exports` object in the module x. The require function takes in an argument which can be a name or a path. You should provide the name as an argument when you are using the third-party modules or core modules provided by NPM. On the other hand, when you have custom modules defined by you, you should provide the path of the module as the argument.
+
 ### Requiring ESM in Node.js
 The capability to `require()` ESM modules in Node.js marks an incredible milestone. This feature allows packages to be published as ESM-only while still being consumable by CJS codebases with minimal modifications.
 

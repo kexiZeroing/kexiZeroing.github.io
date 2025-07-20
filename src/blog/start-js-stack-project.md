@@ -7,6 +7,9 @@ updatedDate: "Jun 29 2025"
 ---
 
 ## Start a modern web project
+Start with templates:
+- https://github.com/vitejs/awesome-vite
+- https://vercel.com/templates
 
 ```sh
 # `npm create` is an alias for `npm init`
@@ -16,43 +19,23 @@ npm create vite@latest my-vue-app -- --template vue
 ```
 
 ```sh
-npx create-next-app@latest my-app --typescript --tailwind --eslint
+npx create-next-app@latest my-app
 
 npx shadcn-ui@latest init
 ```
 
-```sh
-# nuxt@latest also works. `nuxi` is the cli package, it's minimal and fast to download
-# When you install nuxt, it re-exports nuxi as both `nuxi` and `nuxt`
-npx nuxi@latest init my-app
-
-# You can build SPA with Nuxt, similar to Vite+Vue but with the power of the Nuxt ecosystem.
-# nuxt.config.js
-export default {
-  ssr: false
-}
-```
-
-Start with templates:
-- https://github.com/vitejs/awesome-vite
-- https://vercel.com/templates
-- https://github.com/TanStack/create-tsrouter-app
-- https://nextjs.org/blog/building-apis-with-nextjs
-
 A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and MySQL:
 - @clerk/nextjs: add authentication and user management to your Next.js application.
-- prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. You can integrate Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database. The fastest way to get started with Prisma is by following the [Quickstart](https://www.prisma.io/docs/getting-started/quickstart).
+- prisma and @prisma/client: an open-source ORM for Node.js and TypeScript. You can integrate Prisma with [PlanetScale](https://planetscale.com/docs/prisma/prisma-quickstart), a MySQL-compatible serverless database.
 - [Neon](https://neon.tech) is a serverless Postgres platform, *Neon is to PostgreSQL as PlanetScale is to MySQL*. Neon provides a generous free tier, making it a good fit for small applications and hobby projects. (PlanetScale has made the decision to stop offering the Hobby tier.)
 - [Upstash](https://upstash.com) is a serverless data platform with Redis, Kafka and Vector Database APIs.
 - zustand: one of many state management libraries for React. It's kinda like Redux, but much simpler.
-- react-hot-toast: lightweight notifications for React.
 - lucide-react: implementation of the lucide icon library for react applications.
 - next-cloudinary: a community-built solution for using Cloudinary in a Next.js project. It includes tools like the `CldImage` component, social cards, and an upload widget.
-- @tanstack/react-table: headless UI for building powerful tables & datagrids for React. ([@tanstack/react-query](https://tanstack.com/query/latest/docs) is more popular.)
 - recharts: chart library to help you to write charts in React.
 - stripe: access to the Stripe API from applications, and use [webhook](https://stripe.com/docs/webhooks) to get real-time updates.
 - @mux/mux-node is a Mux API wrapper for Node projects to post a video. Note that this package uses Mux access tokens and secret keys and is intended to be used in server-side code only. Also add @mux/mux-player-react to integrate [Mux](https://docs.mux.com) player into your web application.
-- [next-video](https://next-video.dev) is a react component for adding video to your next.js application. It extends both the `<video>` element and your Next app with features for automatic video optimization.
+- [next-video](https://next-video.dev) is a react component for adding video to your next.js application. It extends both the `<video>` element and your Next app with features for automatic video optimization. By default next-video uses Mux.
 - react-confetti: create a confetti effect to celebrate the accomplishment of particular steps in an application.
 - [next-auth](https://github.com/vercel/next.js/tree/canary/examples/auth) is a complete open-source authentication solution for Next.js applications. [auth-nextjs-tutorial](https://github.com/codegenixdev/auth-nextjs-tutorial) is an example project covering both OAuth providers and traditional credential-based authentication.
  
@@ -60,7 +43,6 @@ A typical full stack web application with Next.js, React, shadcn/ui, Prisma, and
 
 ### Remix - full stack web framework
 - Remix Tutorial: https://remix.run/start/tutorial
-- React Router Tutorial: https://reactrouter.com/tutorials/address-book
 - Remix Templates: https://remix.run/docs/en/main/guides/templates
 - Remix for Next.js Developers: https://remixfornextdevs.com
 
@@ -85,20 +67,11 @@ export const loader = async ({ params }: LoaderArgs) => {
 
 > An `invariant` function from [tiny-invariant](https://github.com/alexreardon/tiny-invariant) takes a value, and if the value is falsy then the invariant function will throw. If the value is truthy, then the function will not throw.
 
-### Modular architecture of Front-end applications
+### Modular architecture
 <img alt="apple-style-dock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/modular-architecture.png" width="700">
 
 - Components can’t use modules, but can use everything from the UI layer, while modules use components but can’t use pages. And pages only use modules.
 - A module shouldn’t use another module, and a component should’t contain complex logic. If logic is still needed, it should be as simple and easily maintainable as possible, otherwise — it’s a module.
-
-### Writing Modern JavaScript without a Bundler
-https://playfulprogramming.com/posts/modern-js-bundleless
-
-1. Create `index.html` and denote our script tag (from our HTML file) as `type="module"`.
-2. Introduce HMR via `browser-sync start --server \"src\" --watch`. The page refreshed while we modify any of the files in src.
-3. Use `unpkg.com` (The CDN for everything on npm) to load libraries in our app. Remember, we need to have `import` and `export` lines, looking for files labeled something like ES6 or ESM or BROWSER.
-4. Not all libraries are bundled to support ESM as a single file. If it does not, we may use `esbuild` to bundle the dependencies.
-5. Leverage an `importmap` to alias the URL to be imported.
 
 ### Writing CSS in 2024
 **CSS-in-JS libraries** (e.g. styled-components, Emotion for React) allows you to style your components by writing CSS directly in your JavaScript code. The good part includes making styles locally-scoped by default, colocating styles with components, enabling you to reference JavaScript variables in your style rules. But CSS-in-JS adds runtime overhead, the library must "serialize" your styles into plain CSS string that can be inserted into the document. Every time the component renders, the object styles are serialized again. Btw, using CSS-in-JS with newer React features like Server Components and Streaming requires library authors to support the latest version of React.
@@ -110,16 +83,14 @@ https://playfulprogramming.com/posts/modern-js-bundleless
 //   color: ${red};
 // `;
 // 
-// strings: ["width: 100px; height: 100px; color: ", ";"]
-// interpolations: ["red"]
+const styleElement = document.createElement('style');
+document.head.appendChild(styleElement);
+const sheet = styleElement.sheet;
+
 const interleave = (strings, interpolations) => {
   return strings.reduce((output, str, i) => 
     output + str + (interpolations[i] ?? ''), '');
 };
-
-const styleElement = document.createElement('style');
-document.head.appendChild(styleElement);
-const sheet = styleElement.sheet;
 
 export const css = (strings, ...interpolations) => {
   const styleString = interleave(strings, interpolations).trim();
@@ -127,17 +98,17 @@ export const css = (strings, ...interpolations) => {
   // e.g. css-0, css-a
   const className = `css-${sheet.cssRules.length.toString(36)}`;
   
+  // sheet.insertRule(ruleText, index);
   sheet.insertRule(`.${className} { ${styleString} }`, sheet.cssRules.length);
   return className;
 };
 ```
 
-**CSS Modules** are a small but impactful enhancement on top of vanilla CSS. A CSS Module is a CSS file where all class names and animation names are scoped locally by default. They treat the classes defined in each file as unique. Each class name or identifier is renamed to include a unique hash, and a mapping is exported to JavaScript to allow referencing them. CSS Modules are available in almost every [modern bundler and framework](https://github.com/css-modules/css-modules/blob/master/docs/get-started.md).
+**CSS Modules** are a small but impactful enhancement on top of vanilla CSS. A CSS Module is a CSS file where all class names are scoped locally by default. Each class name or identifier is renamed to include a unique hash, and a mapping is exported to JavaScript to allow referencing them. CSS Modules are available in almost every [modern bundler and framework](https://github.com/css-modules/css-modules/blob/master/docs/get-started.md). For example, in Vite or Next.js, any CSS file ending with `.module.css` is considered a CSS modules file. `import styles from './abc.module.css'` and use `styles.foo` as class name.
 
-**Tailwind** uses a compiler to generate only the classes used. So while the utility CSS framework contains many possible class names, only the classes used will be included in the single, compiled CSS file. Tailwind classes are just utilities for normal CSS that adhere to a design system. You can mix and match Tailwind with CSS Modules.
+**Tailwind** uses a compiler to generate the classes only used. So while the utility CSS framework contains many possible class names, only the classes used in your project will be included in the single, compiled CSS file. Tailwind classes are just utilities for normal CSS that adhere to a design system.
 
-> 1. Tailwind CSS is incredibly performance focused and aims to produce the smallest CSS file possible by only generating the CSS you are actually using in your project.
-> 2. The way Tailwind scans your source code for classes is intentionally very simple — we don’t actually parse or execute any of your code in the language it’s written in, we just use regular expressions to extract every string that could possibly be a class name. (Don’t construct class names dynamically)
+> The way Tailwind scans your source code for classes is intentionally very simple — we don’t actually parse or execute any of your code in the language it’s written in, we just use regular expressions to extract every string that could possibly be a class name. So don’t construct class names dynamically.
 
 ```js
 // What `twMerge` and `clsx` solve
@@ -161,35 +132,6 @@ export function cn(...inputs) {
 
 Lightning CSS can be used as a library from JavaScript or Rust, or from a standalone CLI. It can also be wrapped as a plugin in other build tools, and it is built into Parcel out of the box. For example, as a standalone CLI, it can be used to compile, minify, and bundle CSS files: `lightningcss --minify --bundle --targets 'defaults' input.css -o output.css`.
 
-### `module` and `require` in Node.js 
-**Node.js treats each JavaScript file as a separate module and encloses the entire code within a function wrapper**: `(function(exports, require, module, __filename, __dirname) {})`. The five parameters — `exports`, `require`, `module`, `__filename`, `__dirname` are available inside each module. Even if you define a global variable in a module using `let` or `const` keywords, the variables are scoped locally to the module rather than being scoped globally.
-
-The `module` parameter refers to the object representing the current module and `exports` is a key of the `module` object which is also an object. `module.exports` is used for defining stuff that can be exported by a module. `exports` parameter and `module.exports` are the same unless you reassign `exports` within your module.
-
-```js
-exports.name = 'Alan';
-exports.test = function () {};
-console.log(module)  // { exports: { name: 'Alan', test: [Function] } }
-
-// exports is a reference and it's no longer same as module.exports if you change the reference
-exports = {
-  name: 'Bob',
-  add: function () {}
-}
-console.log(exports) // { name: 'Bob', add: [Function] }
-console.log(module)  // { exports: { name: 'Alan', test: [Function] } }
-
-module.exports = {
-  name: 'Bob',
-  add: function () {}
-}
-console.log(module)  // { exports: { name: 'Bob', add: [Function] } }
-```
-
-`require` keyword refers to a function which is used to import all the constructs exported using the `module.exports` from another module. The value returned by the `require` function in module y is equal to the `module.exports` object in the module x. The require function takes in an argument which can be a name or a path. You should provide the name as an argument when you are using the third-party modules or core modules provided by NPM. On the other hand, when you have custom modules defined by you, you should provide the path of the module as the argument.
-
-Modules are cached after the first time they are loaded. This means every call to `require('foo')` will get exactly the same object returned, if it would resolve to the same file.
-
 ### browserslist and postcss for compatibility
 The [browserslist](https://github.com/browserslist/browserslist) configuration *(either in `package.json` or `.browserslistrc`)* uses `caniuse` data for queries to control the outputted JS/CSS so that the emitted code will be compatible with the browsers specified. It will be installed with webpack and used by many popular tools like autoprefixer, babel-preset-env. You can find these tools require `browserslist` in the `package-lock.json` file.
 
@@ -199,40 +141,11 @@ The [browserslist](https://github.com/browserslist/browserslist) configuration *
 - Display target browsers from a browserslist config: https://browsersl.ist/#q=defaults
 - Run `npx browserslist` in project directory to see what browsers was selected by your queries.
 
-`PostCSS` is a tool for transforming CSS with JavaScript plugins. It provides features via its extensive plugin ecosystem to help improve the CSS writing experience. Currently, PostCSS has more than 200 plugins.
+`PostCSS` is a tool for transforming CSS with JavaScript plugins. It provides features via its extensive plugin ecosystem to help improve the CSS writing experience. PostCSS plugins can do pretty much whatever they want with the parsed CSS (using AST).
 - [Autoprefixer](https://github.com/postcss/autoprefixer) is one of the many popular PostCSS plugins. It doesn't add polyfills, only adds prefixes.
 - [postcss-import](https://github.com/postcss/postcss-import) to transform `@import` rules by inlining content. (`postcss-import` is different than the import rule in native CSS. You should avoid the import rule in native CSS, since it can prevent stylesheets from being downloaded concurrently which affects the loading speed and performance.)
 - [postcss-preset-env](https://www.npmjs.com/package/postcss-preset-env) is a plugin that allows you to use modern CSS features while automatically adding the necessary fallbacks for older browsers, based on the specified compatibility targets. It includes `Autoprefixer` as part of its feature set. 
 - [cssnano](https://cssnano.co) is a compression tool written on top of the PostCSS ecosystem to compact CSS appropriately.
-
-```js
-// postcss.config.js
-// This will take care of both vendor prefixes and polyfills
-module.exports = {
-  plugins: [
-    require('postcss-preset-env')({
-      stage: 3, // Determines which CSS features to polyfill. Default is 2
-      features: {
-        // https://github.com/csstools/postcss-plugins/blob/main/plugin-packs/postcss-preset-env/FEATURES.md
-        'nesting-rules': true
-      },
-      browsers: 'last 2 versions, > 1%, not ie <= 8'
-    })
-  ]
-};
-```
-
-```js
-module.exports = {
-  plugins: [
-    require('autoprefixer')({
-      overrideBrowserslist: ['last 2 versions', '> 1%', 'not ie <= 8']
-    })
-  ]
-};
-```
-
-> PostCSS itself is a Node.js module that parses CSS into an abstract syntax tree (AST); passes that AST through any number of "plugin" functions; and then converts that AST back into a string, which you can output to a file. PostCSS plugins can do pretty much whatever they want with the parsed CSS.
 
 ### Polyfills and Transpilers
 When Babel compiles your code, what it's doing is taking your syntax and running it through various syntax transforms in order to get browser compatible syntax. What it's not doing is adding any new JavaScript primitives or any properties you may need to the browser's global namespace. One way you can think about it is that when you compile your code, you're transforming it. When you add a polyfill, you're adding new functionality to the browser. For example, Babel can transform `arrow functions` into regular functions, so, they can be compiled. However, there's nothing Babel can do to transform `Promises` or `Math.trunc` into native syntax that browsers understand, so they need to be polyfilled.
