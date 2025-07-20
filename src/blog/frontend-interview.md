@@ -121,20 +121,7 @@ function throttle(fn, delay) {
 }
 ```
 
-4. Implement calling click event listener only once without using `{once: true}`.
-```js
-function clickOnce(el, cb) {
-  const cb2 = () => {
-    cb();
-    el.removeEventListener('click', cb2, false);
-  }
-  el.addEventListener('click', cb2, false);
-}
-
-clickOnce($0, () => console.log('click'));
-```
-
-5. Implement the `bind` function by yourself.
+4. Implement the `bind` function by yourself.
 
 ```js
 Function.prototype.myBind = function(context, ...args1) {
@@ -146,7 +133,7 @@ Function.prototype.myBind = function(context, ...args1) {
 };
 ```
 
-6. Convert a list of objects into a tree.
+5. Convert a list of objects into a tree.
 ```js
 let list = [
   { id: 1, name: 'node1', pid: 0 },
@@ -179,7 +166,7 @@ function listToTree(list) {
 }
 ```
 
-7. Use `setTimeout` to invoke a function multiple times in the fixed interval.
+6. Use `setTimeout` to invoke a function multiple times in the fixed interval.
 ```js
 function repeat(func, times, ms, immediate) {
   let count = 0;
@@ -187,7 +174,7 @@ function repeat(func, times, ms, immediate) {
   return function inner(...args) { 
     if (count === 0 && immediate) {
       func(...args);
-      count++; 
+      count++;
     }
     if (count >= times) {
       return;
@@ -205,9 +192,8 @@ const repeatFunc = repeat(console.log, 4, 3000, true);
 repeatFunc("hello");
 ```
 
-8. Implement the functionality of `lodash.get`.
+7. Implement the functionality of `lodash.get`.
 ```js
-// _.get(object, path, [defaultValue])
 function get(obj, path, defaultValue = undefined) {
   const keys = Array.isArray(path) ? path : path.split('.');
   let result = obj;
@@ -230,54 +216,7 @@ console.log(get(obj, 'a.b.d', 'default')); // 'default'
 console.log(get(obj, 'x.y.z', 'not found')); // 'not found'
 ```
 
-9. Implement a simple middleware composition system, which is a common pattern in server-side JavaScript environments. `app.use` is used to register middleware functions, and `app.compose` is meant to run them in sequence.
-
-```js
-const app = { middlewares: [] };
-
-app.use = (fn) => {
-  app.middlewares.push(fn);
-};
-
-app.compose = function() {
-  // Your code goes here
-}
-
-app.use(next => {
-  console.log(1);
-  next();
-  console.log(2);
-});
-app.use(next => {
-  console.log(3);
-  next();
-  console.log(4);
-});
-app.use(next => {
-  console.log(5);
-  next();
-  console.log(6);
-});
-
-app.compose();  // Logs: 1, 3, 5, 6, 4, 2
-```
-
-```js
-const compose = (middlewares) => {
-  return () => {
-    const dispatch = (i) => {
-      const fn = middlewares[i];
-      if (!fn) return;
-      fn(() => dispatch(i + 1));
-    };
-    dispatch(0);
-  };
-};
-
-app.compose = compose(app.middlewares);
-```
-
-10. Implement the render function to convert the virtual dom JSON to real DOM.
+8. Implement the render function to convert the virtual dom JSON to real DOM.
 ```js
 function render(vnode) {
   const { tag, props, children } = vnode;
@@ -295,7 +234,7 @@ function render(vnode) {
   }
 
   if (children) {
-    if (typeof children === "string") {
+    if ([string, number].includes(typeof children)) {
       el.textContent = children;
     } else {
       children.forEach((item) => {
@@ -308,7 +247,7 @@ function render(vnode) {
 }
 ```
 
-11. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
+9. You need to send to the browser is HTML — not a JSON tree. Write a function that turns your JSX to an HTML string. That's what React's built-in `renderToString` does.
 
 ```js
 // written by Dan Abramov
@@ -370,51 +309,7 @@ async function renderJSXToHTML(jsx) {
 }
 ```
 
-12. Check if an object has circular references.
-
-```js
-// `JSON.stringify` throws if one attempts to encode an object with circular references.
-function hasCircularReference(obj) {
-  try {
-    JSON.stringify(obj);
-    return false;
-  } catch (e) {
-    return true;
-  }
-}
-
-// use `WeakSet`
-// 1. don’t need to worry about cleaning up the references manually.
-// 2. O(1) time complexity.
-// 3. specifically designed to store objects.
-function hasCircularReference(obj) {
-  const seenObjects = new WeakSet();
-
-  function detect(obj) {
-    if (obj && typeof obj === 'object') {
-      if (seenObjects.has(obj)) {
-        return true;
-      }
-      seenObjects.add(obj);
-
-      for (let key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          if (detect(obj[key])) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-
-  return detect(obj);
-}
-```
-
-13. Implement a streaming function that processes text data from a server, where messages need to be displayed character by character as they arrive.
-
-> Key Term: Streaming breaks up a resource you want to send or receive over a network into smaller chunks. This is common for browsers when receiving media assets, such as video buffering or partial loading of images.
+10. Implement a streaming function that processes text data from a server, where messages need to be displayed character by character as they arrive.
 
 ```js
 // server
@@ -444,21 +339,20 @@ app.get('/ask', async (req, res) => {
 ```js
 // client
 const handleSearch = async () => {
-  fetch(`/ask?question=${input}`).then((res) => {
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();  // binary to text
+  const res = await fetch(`/ask?question=${input}`);
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
 
-    const read = async () => {
-      const { done, value } = await reader.read();
-      if (done) {
-        return;
-      }
-      const chunk = decoder.decode(value, { stream: true });
-      elResult.textContent += chunk;
-      read();
-    };
-
+  const read = async () => {
+    const { done, value } = await reader.read();
+    if (done) {
+      return;
+    }
+    const chunk = decoder.decode(value, { stream: true });
+    elResult.textContent += chunk;
     read();
-  })
+  };
+
+  read();
 }
 ```

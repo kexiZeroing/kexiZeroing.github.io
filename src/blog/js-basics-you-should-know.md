@@ -696,6 +696,18 @@ JSON.stringify({ uno: 1, dos: 2 }, null, '\t');
 // }'
 ```
 
+`JSON.stringify` throws if one attempts to encode an object with circular references.
+```js
+function hasCircularReference(obj) {
+  try {
+    JSON.stringify(obj);
+    return false;
+  } catch (e) {
+    return true;
+  }
+}
+```
+
 `JSON.parse(text[, reviver])` parses a JSON string, constructing the JavaScript value or object described by the string. An optional reviver function can be provided to perform a transformation on the resulting object before it is returned. **`JSON.parse()` does not allow trailing commas and single quotes.**
 
 ```js
