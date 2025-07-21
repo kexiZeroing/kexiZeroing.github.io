@@ -261,7 +261,10 @@ Responses to the POST method aren’t kept by most caches; if you send informati
 
 <img alt="http-post-get" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/post-get-others.png" width="460"> 
 
-As far as security, both GET and POST are equally insecure when sent over plain HTTP — all data is visible to anyone intercepting the network traffic. Only HTTPS makes the request secure in transit, for both GET and POST, since it encrypts the entire request (headers + body + URL path + query string). A packet sniffer will just see encrypted binary blobs, not readable content.
+As far as security, both GET and POST are equally insecure when sent over plain HTTP — all data is visible to anyone intercepting the network traffic. Only HTTPS makes the request secure in transit, for both GET and POST. A packet sniffer will just see encrypted binary blobs, not readable content.
+
+1. HTTPS encrypts the URL path, query string, headers, and body — everything after the domain name.
+2. HTTPS + Set custom DNS to 8.8.8.8 or 1.1.1.1 and your traffic is always private.
 
 > Should data in an HTTPS request appear as encrypted in Chrome developer tools? The browser is obviously going to know what data it is sending, and the Chrome developer tools wouldn't be very helpful if they just showed the encrypted data. These tools are located in the network stack before the data gets encrypted and sent to the server.
 

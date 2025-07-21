@@ -314,7 +314,7 @@ scores = model.predict([
 - Cohere offers an API for reranking documents: https://cohere.com/blog/rerank
 
 > Jina AI Search Foundation Models:
-> - Embedding Models: `jina-embeddings-v3`
+> - Embedding Models: `jina-embeddings-v3`, `jina-embeddings-v4`(multimodal and multilingual)
 > - Reranker Models: `jina-reranker-v2-base-multilingual`
 > - Small Language Models (SLMs): `ReaderLM-v2`
 

@@ -542,8 +542,6 @@ An interactive demo to try the new text-to-speech model: https://www.openai.fm
 
 Run AI Agent in your browser: https://github.com/browser-use/web-ui
 
-Your on-machine AI agent automating engineering tasks seamlessly: https://block.github.io/goose
-
 Google's 69-page paper on Prompt Engineering: https://www.kaggle.com/whitepaper-prompt-engineering
 
 GPT-4o Image Prompts Gallery: https://github.com/ImgEdify/Awesome-GPT4o-Image-Prompts
@@ -561,6 +559,8 @@ The AI browser automation framework: https://www.stagehand.dev
 Context7 MCP Server -- Up-to-date code docs for LLMs: https://github.com/upstash/context7
 
 Discover and share powerful prompts for AI models: https://shumerprompt.com
+
+Open chat interface for all your models: https://github.com/ibelick/zola
 
 ---
 
