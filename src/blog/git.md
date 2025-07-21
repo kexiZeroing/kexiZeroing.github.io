@@ -25,7 +25,6 @@ You’ve made some commits locally (not yet pushed), but everything is terrible,
 >
 > - The remote changes are useless and I want to overwrite them. To do this, I’ll run `git push --force`.
 > - The local changes are useless and I want to overwrite them. To do this, I’ll run `git reset --hard origin/main`.
-> - I want to keep both sets of changes on `main`. To do this, I’ll run `git pull --rebase`. It rebases `main` onto the remote `main` branch.
 
 ## git merge
 ```
@@ -57,11 +56,22 @@ When your branches diverge, you have to create a commit to "join" the two branch
 - `--ff-only`, resolve the merge as a fast-forward when possible. When not possible, refuse to merge and exit with a non-zero status.
 
 ## git pull --rebase vs. --merge
-- When you decide to push your work your push is rejected, because there's been parallel work on the same branch. At this point do a `git pull --rebase` to avoid the extra merge commits. You actually commit on top of the remote branch.
+- When you decide to push your work your push is rejected, because there's been parallel work on the same branch. At this point do a `git pull --rebase` to avoid the extra merge commits. You actually commit on top of the remote branch. It's like doing `git fetch` and `git rebase origin/feature`.
 
 - If you pull remote changes with the flag `--merge`, which is also the default, then your local changes are merged with the remote changes. This results in a merge commit that points to the latest local commit and the latest remote commit.
 
-> Note that `git fetch` is the command that tells your local git to retrieve the latest meta-data info from the original yet doesn't do any file transferring. `git pull` on the other hand does that AND brings those changes from the remote repository.
+```
+# git checkout my-feature
+# git rebase main
+
+A---B---C main
+     \
+      D---E---F my-feature
+
+A---B---C main
+         \
+          D'--E'--F' my-feature (new history)
+```
 
 ## undo a git merge with conflicts
 - Since your pull was unsuccessful then HEAD is the last "valid" commit on your branch: `git reset --hard HEAD`
@@ -269,20 +279,6 @@ git lfs install
 git lfs track "*.psd"
 
 git lfs help
-```
-
-## optimize git repo size
-https://github.com/github/git-sizer
-
-Before the pack it was 3.1 GB. After the repack, it shrunk to the following values:
-
-```sh
-# default value for --window is 10 and --depth is 50.
-git repack -a -d --depth=50 --window=10 -f
-141.584 MB
-
-git repack -a -d --depth=250 --window=1000 -f
-110.484 MB
 ```
 
 ## update your GitHub fork

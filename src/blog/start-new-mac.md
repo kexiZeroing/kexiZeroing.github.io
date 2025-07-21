@@ -8,9 +8,9 @@ updatedDate: "Apr 05 2023"
 
 ## Setting up development environment
 1. The first step is getting around the firewall. You may download [clashX](https://github.com/yichengchen/clashX/releases) and acquire subscription links from ss.
-    
-    > Tell command-line programs to use a proxy server. It affects many CLI tools and libraries.
+
     ```sh
+    # Tell command-line programs to use a proxy server.
     export http_proxy=http://127.0.0.1:7890
     export https_proxy=http://127.0.0.1:7890
 
@@ -41,7 +41,7 @@ updatedDate: "Apr 05 2023"
     > - install an package behind a proxy: `ALL_PROXY=127.0.0.1:7890 brew install <package>`
 
 5. Catalina comes with `zsh` as the default shell. Install [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) and check the `.zshrc` file. 
-    - `robbyrussell` is the default theme, and you can change to use [spaceship prompt](https://github.com/spaceship-prompt/spaceship-prompt) theme. The configuration for the prompt is stored in the `PS1` environment variable. You can see the default value by `echo $PS1`.
+    - `robbyrussell` is the default theme, and you may change to use [spaceship prompt](https://github.com/spaceship-prompt/spaceship-prompt) theme. The configuration for the prompt is stored in the `PS1` environment variable. You can see the default value by `echo $PS1`.
   
     > 'unable to access error': Something is blocking the connection to github. It is likely some kind of firewall, either on your machine or in your network. If it works with a browser on same machine then the browser is probably using a proxy and you need to configure git to use this proxy too.
     > - check if your git uses proxy: `git config --global http.proxy`
@@ -49,7 +49,6 @@ updatedDate: "Apr 05 2023"
     > - reset the proxy: `git config --global --unset http.proxy`
 
 6. Use `nvm` to install Node.js, then install a version of node `nvm install xx.xx`, `nvm use xx.xx` and run `nvm ls`. Use `node -v && npm -v` to check the version.
-   - nvm install script clones the nvm repository to `~/.nvm`, and attempts to add the source lines to the correct profile file like `~/.zshrc` or `~/.bashrc`.
    - `nvm ls-remote` to browse available versions
    - set default node version: `nvm alias default x.y.z` (`nvm alias default node` to make the "latest" default)
    - check npm config: `npm config ls`
@@ -108,7 +107,6 @@ updatedDate: "Apr 05 2023"
 
 10. Add VSCode extentions like `Prettier`, `GitLens`, `Live Server`, `Import Cost`. 
     - Color themes I like: [New Moon Theme](https://github.com/taniarascia/new-moon) or [Nord](https://github.com/nordtheme/visual-studio-code), search and install one from extentions.
-    - Prettier usage: https://prettier.io/docs/en/install.html
     - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost) will display inline in the editor the size of the imported packages.
     - [Markdown PDF](https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf) converts Markdown files to pdf, html, png or jpeg files in VSCode.
     - Add `Emoji Snippets` and `Markdown Emoji` for emoji support :tada: and check https://github.com/ikatyang/emoji-cheat-sheet for emoji shortcode to use.
