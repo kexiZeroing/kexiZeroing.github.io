@@ -76,6 +76,7 @@ let x = 'outer value';
 3. Since arrow functions do not bind `this`, the methods `call()` or `apply()` can only pass in parameters. `thisArg` is ignored.
 4. Arrow functions don't have `arguments`. This array-like object was a workaround to begin with, which now has solved with a rest parameter. 
 5. Arrow functions cannot be used as constructors and will throw an error when used with keyword `new`.
+6. Arrow functions cannot use `yield` within their body and cannot be created as generator functions.
 
 ```js
 const shape = {
@@ -255,6 +256,8 @@ const fixNumber = num => Number(num.toPrecision(5));
 // fixNumber(0.0003 - 0.0001) => 0.0002
 // fixNumber(0.57 * 100) => 57
 ```
+
+4. `Math.trunc()` function returns the integer part of a number by removing any fractional digits. Unlike `Math.floor()`, `Math.ceil()`, or `Math.round()`, it truncates (cuts off) the dot and the digits to the right of it, no matter whether the argument is a positive or negative number.
 
 ### Why `[] + {}` is `"[object Object]"`
 Firstly convert both operands to primitive values, and try `valueOf()` followed by `toString()`. If either of them is a string, do `String(a) + String(b)`, otherwise do `Number(a) + Number(b)`.

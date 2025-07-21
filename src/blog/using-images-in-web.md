@@ -113,7 +113,7 @@ Read more about best practices for web images:
 - https://web.dev/browser-level-image-lazy-loading
 - https://github.com/lovell/sharp
 
-### Let the CDN do the work
+## Let the CDN do the work
 Most images on modern websites are hosted on a CDN that can resize images on the fly and deliver them at the edge.
 
 The library [unpic-img](https://github.com/ascorbic/unpic-img) detects the image CDN, and then uses the CDN's URL API to resize and format images. It then generates the correct srcset and sizes attributes for the image. It uses new features built into modern browsers to handle lazy loading, fetch priority and decoding. It also uses pure CSS to handle responsive resizing of images, preserving aspect ratio and avoiding layout shift.
@@ -157,4 +157,42 @@ into this:
     width: 100%;
   "
 />
+```
+
+### Next.js `<Image>` component
+For local images:
+1. Files inside `public` folder can be referenced by your code starting from the base URL (`/`).
+2. If the image is statically imported, Next.js will automatically determine the intrinsic width and height.
+
+```js
+import Image from 'next/image'
+import ProfileImage from './profile.png'
+ 
+export default function Page() {
+  return (
+    <Image
+      src={ProfileImage}
+      // width={500} automatically provided
+      // height={500} automatically provided
+      // blurDataURL="data:..." automatically provided
+      // placeholder="blur" // Optional blur-up while loading
+    />
+  )
+}
+```
+
+For remote images: 
+1. Since Next.js does not have access to remote files during the build process, you'll need to provide the `width`, `height` and optional `blurDataURL` props manually. *(infer the correct aspect ratio and avoid layout shift)*
+2. To safely allow images from remote servers, you need to define a list of supported URL patterns in `next.config.js`
+
+```js
+import type { NextConfig } from 'next'
+ 
+const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [new URL('https://res.cloudinary.com/**')],
+  },
+}
+ 
+export default nextConfig
 ```
