@@ -8,6 +8,20 @@ updatedDate: "Jun 20 2025"
 
 As we all know HTTPS is designed to provide a secure connection by encrypting the data exchanged between a user's web browser and the server. Sometimes we need a secure connection for our Node.js web server. This article will help you understand how to do it.
 
+## Why do we need HTTPS?
+- **Privacy** means that no one can eavesdrop on your messages.
+- **Integrity** means that the message is not manipulated on the way to its destination (man-in-the-middle attack).
+- **Identification** means that the site that you are visiting is indeed the one you think it is (SSL certificate).
+
+In **symmetric keys**, there is only one key to encrypt and decrypt a message. Anyone with the key can decrypt the message. Even if you know the encryption algorithm, without the key, the message is still nonsense.
+
+With **asymmetric keys**, you have 2 keys. One key is public, the other one is private. They are paired and work together. A message encrypted with a public key can only be decrypted using the corresponding private key.
+
+1. Client Hello: Send a list of SSL/TLS versions and encryption algorithms that I can work with.
+2. Server Hello: Select TLS version and encryption algorithm. Reply with my certificate, which includes my public key, so they can verify who I am.
+3. Client Key Exchange: Check the certificate to make sure they are legit. Generate a "pre-master key" so we can both use it later. Encrypt that pre-master key with server's public key and then send it to him.
+4. Change Cipher Spec: Use my private key to decrypt the "pre-master key". Now they both generate the same "shared secret" that they are going to use as a symmetric key. Everything is now secured and all data going back and forth is encrypted.
+
 ## Certificates
 First, let's talk about certificates. A certificate is a digital document that serves to authenticate the identity of an entity on the internet. This entity could be a website, a server, or even an individual. The most common type of certificate used in web security is an SSL/TLS certificate, which is used for enabling HTTPS. Note that a SSL/TLS certificate typically contains the following information:
 - Public Key: This is a cryptographic key that is used for encrypting data. It's part of a key pair, with the private key being securely stored on the server.

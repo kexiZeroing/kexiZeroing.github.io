@@ -24,8 +24,6 @@ The Missing Semester of Your CS Education: https://missing.csail.mit.edu
 
 High Performance Browser Networking: https://hpbn.co
 
-Bash Commands and Tips: https://dev.to/awwsmm/101-bash-commands-and-tips-for-beginners-to-experts-30je
-
 Docker Guide: https://www.robertcooper.me/docker-guide
 
 Tail Call Optimization: https://www.youtube.com/watch?v=-PX0BV9hGZY
@@ -347,8 +345,6 @@ Create forms and handle data mutations in the Next.js by leerob: https://www.you
 Build Your Own React.js in 400 Lines of Code: https://webdeveloper.beehiiv.com/p/build-react-400-lines-code
 
 React Internals Deep Dive: https://jser.dev/series/react-source-code-walkthrough
-
-Type-safe search params state manager for Next.js: https://nuqs.47ng.com
 
 UI Library for Design Engineers: https://github.com/magicuidesign/magicui
 

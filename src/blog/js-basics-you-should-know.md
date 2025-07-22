@@ -1224,12 +1224,18 @@ class MyPromise {
     
     if (this.state === 'fulfilled') {
       if (typeof onFulfilled === 'function') {
-        resolve(onFulfilled(this.value));
+        const result = onFulfilled(this.value);
+        if (result instanceof MyPromise) {
+          result.then(resolve, reject);
+        } else {
+          resolve(result);
+        }
       } else {
         resolve(this.value);
       }
     } else if (this.state === 'rejected') {
       if (typeof onRejected === 'function') {
+        // assume onRejected returns a value, not a promise
         resolve(onRejected(this.value));
       } else {
         reject(this.value);
