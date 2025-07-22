@@ -221,7 +221,7 @@ People constantly have to reinvent the wheel to offer fairly basic functionality
 
 Then it leaves us with the decision about how to style things. This is where shadcn/ui comes into the picture. It's not a component library, but more of a code registry where you can copy/paste/modify the code to your content. It's **built with Tailwind and Radix**. `shadcn/ui` is a collection of reusable components that can be copied and pasted into your apps. Every component can be installed separately. It also provides a CLI that can be used to easily import components into your project, as simple as `npx shadcn@latest add card`.
 
-If you want a different theme, just go Shadcn "themes" -> "Customize" and click "Copy code", repalce everything in the `@layer base` in `global.css`.
+If you want a different theme, just go Shadcn "themes" -> "Customize" and click "Copy code", repalce everything in the `@layer base` in `global.css`. And you should check out [tweakcn](https://tweakcn.com), which comes with a set of pre-built themes that you can use to customize your project.
 
 ```sh
 # start at an empty directory (it will help you to create a Next.js project)
