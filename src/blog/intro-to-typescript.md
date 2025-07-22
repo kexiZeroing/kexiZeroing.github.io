@@ -812,6 +812,8 @@ const formSchema = z
 type FormSchemaType = z.infer<typeof formSchema>;
 ```
 
+Zod Mini variant was introduced with the release of Zod 4. Use `import * as z from "zod/mini"` to import it. Zod Mini implements the exact same functionality as zod, but using a functional, tree-shakable API. If you're coming from zod, this means you generally will use functions in place of methods.
+
 > [Valibot](https://github.com/fabian-hiller/valibot) is very similar to Zod, helping you validate data easily using a schema. The biggest difference is the modular design and the ability to reduce the bundle size to a minimum.
 >
 > [ArkType](https://github.com/arktypeio/arktype) is a TypeScript-first runtime validation library designed to offer concise, composable, and powerful type definitions with zero dependencies, optimized from editor to runtime.

@@ -219,6 +219,14 @@ Rolldown is primary designed to serve as the underlying bundler in Vite, with th
 > 
 > 2. Try out the Rolldown-powered Vite today by using the [rolldown-vite](https://voidzero.dev/posts/announcing-rolldown-vite) package instead of the default vite package. It is a drop-in replacement, as Rolldown will become the default bundler for Vite in the future.
 
+```json
+{
+  "overrides": {
+    "vite": "npm:rolldown-vite@latest"
+  }
+}
+```
+
 [tsdown](https://tsdown.dev) is built on top of Rolldown. While Rolldown is a powerful and general-purpose tool, tsdown is optimized specifically for building libraries. It includes features like automatic TypeScript declaration generation and multiple output formats.
 
 `tsdown` was heavily inspired by `tsup`, and even incorporates parts of its codebase. While `tsup` is built on top of esbuild, `tsdown` leverages the power of Rolldown to deliver a faster and more powerful bundling experience.

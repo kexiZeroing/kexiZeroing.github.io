@@ -464,6 +464,8 @@ Awesome ChatGPT Prompts: https://prompts.chat
 
 Prompt Engineering Guide: https://github.com/dair-ai/Prompt-Engineering-Guide
 
+Anthropic prompt engineering: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering
+
 Chatbot Arena - Benchmarking LLMs in the Wild: https://lmarena.ai
 
 Understanding GPT tokenizers: https://simonwillison.net/2023/Jun/8/gpt-tokenizers/
@@ -477,10 +479,6 @@ AI chatbot app template built with the Vercel AI SDK: https://github.com/vercel/
 LangChain + Next.js starter template: https://github.com/langchain-ai/langchain-nextjs-template
 
 How to make a QR code with Stable Diffusion: https://stable-diffusion-art.com/qr-code/
-
-LlamaIndex.TS offers the core features of LlamaIndex for popular runtimes like Node.js: https://github.com/run-llama/LlamaIndexTS
-
-A unified interface for accessing and using LLMs: https://openrouter.ai
 
 Fully client-side chat over documents: https://github.com/jacoblee93/fully-local-pdf-chatbot
 
@@ -500,8 +498,6 @@ AI agent stdlib that works with any LLM and AI SDK: https://github.com/transitiv
 
 A Webapp that uses RAG to interact with a PDF directly in the browser: https://pdf.nico.dev
 
-High-Performance In-Browser LLM Inference Engine: https://github.com/mlc-ai/web-llm
-
 Starter project for the Vercel AI SDK RAG guide: https://github.com/vercel/ai-sdk-rag-starter
 
 Semantic Image Search with Vercel AI SDK: https://github.com/vercel-labs/semantic-image-search
@@ -517,8 +513,6 @@ OpenAI Realtime API updates: https://platform.openai.com/docs/guides/realtime
 Audio input and output for the OpenAI Chat Completion API: https://simonwillison.net/2024/Oct/18/openai-audio
 
 AI-powered search engine that is an open source alternative to Perplexity AI: https://github.com/ItzCrazyKns/Perplexica
-
-For LLMs to better code with Jina API: https://github.com/jina-ai/meta-prompt
 
 JavaScript tokenizer for LLaMA 1 and LLaMA 2: https://github.com/belladoreai/llama-tokenizer-js
 
@@ -542,15 +536,11 @@ An interactive demo to try the new text-to-speech model: https://www.openai.fm
 
 Run AI Agent in your browser: https://github.com/browser-use/web-ui
 
-Google's 69-page paper on Prompt Engineering: https://www.kaggle.com/whitepaper-prompt-engineering
-
 GPT-4o Image Prompts Gallery: https://github.com/ImgEdify/Awesome-GPT4o-Image-Prompts
 
 Up-to-date documentation you can talk to for every repo in the world: https://deepwiki.com
 
 Real-time conversational AI models run locally: https://huggingface.co/spaces/webml-community/conversational-webgpu
-
-Cloudflare Workers AI: https://playground.ai.cloudflare.com
 
 An open-source database of AI models: https://models.dev
 
