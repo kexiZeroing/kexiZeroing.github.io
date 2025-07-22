@@ -77,8 +77,8 @@ While `dns-prefetch` only performs a DNS lookup, `preconnect` establishes a full
 ### Render blocking JavaScript and CSS
 Generally speaking, when loading resources into web pages, there are three possible blocking states: Non-blocking, Render blocking, and Parser blocking.
 
-- Stylesheets block rendering but not parsing. It needs styles to correctly render the content.
-- Classic scripts block parsing (and therefore also rendering). The browser stops parsing the HTML entirely until the script is downloaded, parsed, and executed.
+- Stylesheets block rendering but not parsing. It needs styles to correctly render the content ("CSSOM" must be ready before the browser can build the Render Tree and paint).
+- Classic scripts block parsing (and therefore also rendering). JS can modify the DOM as it parses, so the browser stops parsing the HTML entirely until the script is downloaded, parsed, and executed.
 - Adding `async`, `defer` or `type=module` attributes allows HTML parsing and initial rendering to begin earlier than a classic script. But only `defer` and `type="module"` guarantee they won’t interfere with rendering.
 
 For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. The good thing about defer is that you can guarantee the order of the script execution. *When you have both async and defer, `async` takes precedence and the script will be async.*
@@ -137,6 +137,8 @@ window.addEventListener('load', (event) => {
   console.log('`DOMContentLoaded`- wrapped code duration: ' + (timings.domContentLoadedEventEnd - timings.domContentLoadedEventStart + 'ms'));
 });
 ```
+
+The tab spinner stops after the `load` event. This includes all images, stylesheets, scripts (even async or defer), fonts and other subresources.
 
 ### The Speculation Rules API
 A page can be prerendered in one of four ways, all of which aim to make navigations quicker:

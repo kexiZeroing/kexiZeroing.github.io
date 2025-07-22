@@ -48,10 +48,14 @@ assert(enc.decode(enc.encode("hello world")) === "hello world");
 > - It ensures that the most common words are represented as a single token while the rare words are broken down into two or more subword tokens. (Looking for the most frequent pairing, merge them, and perform the same iteration again and again until we reach our token limit or iteration limit.)
 
 <img alt="BPE-tokenize" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/BPE-tokenize.png" width="450" />
+<br>
+<img alt="gpt-tokens" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/gpt-tokens.png" width="600" />
 
 Embeddings are advanced vector representations of tokens. They try to capture the most nuance, connections, and semantic meanings between tokens. Each embedding is generally a series of real numbers on a vector space computed by a neural network. They are the “real inputs” of LLMs.
 
-If you load a model from libraries, the embedding table is included automatically as part of the model’s weights. The model looks up each token ID in the embedding table to get token embeddings. These are token-level embeddings. To get an embedding for the whole sentence, you need to combine these token embeddings into one vector that represents the full sentence.
+If you load a model from libraries, the embedding table is included automatically as part of the model’s weights. The model looks up each token ID in the embedding table (Token Embedding Matrix) to get token embeddings. These are token-level embeddings. To get an embedding for the whole sentence, you need to combine these token embeddings into one vector that represents the full sentence, which yields a sentence-level embedding.
+
+> Token embeddings alone do not capture word order, models add positional information (Position Embedding Matrix) to embeddings. In general, we use the postion in the prompt to define a samll offset to the token's embeddings to slightly move it in the embedding space.
 
 ```py
 from langchain_openai.embeddings import OpenAIEmbeddings

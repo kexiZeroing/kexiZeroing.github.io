@@ -375,6 +375,8 @@ console.log(response.output_text);
 
 The Chat Completions API is an industry standard for building AI applications, and we intend to continue supporting this API indefinitely. If you don't need built-in tools for your application, you can confidently continue using Chat Completions.
 
+> There are many providers that are `openai` compatible. They will give their end points, and you can reuse existing OpenAI clients by switching up the "base URL" property to point to the custom server instead of OpenAI's servers.
+
 ### Structured Outputs
 You might want to extract information from text, classify data, or generate synthetic data. Structured Outputs is available in latest large language models, starting with GPT-4o.
 
