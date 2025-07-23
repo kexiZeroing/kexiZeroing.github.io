@@ -1134,6 +1134,9 @@ function isSame(dict1, dict2) {
 Given two strings s1 and s2, return true if s2 contains a permutation of s1 (one of s1's permutations is the substring of s2).
 
 ```js
+// different from `ransomNote` and `magazine`
+// s1 = "abc"
+// s2 = "aabbcc"
 var checkInclusion = function(s1, s2) {
   let len1 = s1.length;
   let len2 = s2.length;
@@ -1150,8 +1153,8 @@ var checkInclusion = function(s1, s2) {
   }
 
   for (let i = len1; i < len2; i++) {
+    // slide a window 
     count[s2.charCodeAt(i) - 97]--;
-    // the character leaving the window, always maintaining a window of size `len1`
     count[s2.charCodeAt(i - len1) - 97]++;
     if (count.every(e => e === 0)) {
       return true;
