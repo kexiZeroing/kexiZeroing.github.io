@@ -21,8 +21,8 @@ updatedDate: "Feb 16 2025"
 - [Graph DFS](#graph-dfs)
 - [Path Finding](#path-finding)
 - [Heap](#heap)
-- [DP](#dp)
 - [LRU](#lru)
+- [DP](#dp)
 - [LeetCode Problems](#leetcode-problems)
 
 ### Binary Search
@@ -133,7 +133,28 @@ function partition(nums, left, right) {
 
 > 1. Quick sort is an in-place algorithm, but the stack due to recursive calls adds additional storage space proportional to the recursive depth.
 > 
-> 2. It's not recommended to choose the first or last element to be the pivot, your pivot value is always the largest value on already sorted or nearly sorted arrays. So rather than splitting the array into two roughly equal subarrays, you split it into a single sub array that has only one fewer element than you started with. One way to choose the pivot to avoid this is to pick the pivot randomly *(or choose the median of the first, middle and last element)*. This makes it unlikely to hit the worst case, and so on average will work well.
+> 2. It's not recommended to choose the first or last element to be the pivot, your pivot value is always the largest value on already sorted or nearly sorted arrays. One way to choose the pivot to avoid this is to pick the pivot randomly or choose the median of the first, middle and last element. This makes it unlikely to hit the worst case, and so on average will work well.
+
+```js
+function medianOfThree(nums, left, right) {
+  const mid = Math.floor((left + right) / 2);
+  const a = nums[left];
+  const b = nums[mid];
+  const c = nums[right];
+
+  if ((a - b) * (c - a) >= 0) return left;
+  if ((b - a) * (c - b) >= 0) return mid;
+  return right;
+}
+
+function partition(nums, left, right) {
+  const pivotIndex = medianOfThree(nums, left, right);
+  swap(nums, pivotIndex, right);  // Move pivot to end
+  
+  let pivot = nums[right];
+  // ...
+}
+```
 
 ### Merge Sort
 
@@ -167,31 +188,6 @@ function mergeSort(arr) {
   const right = arr.slice(split, arr.length);
 
   return merge(mergeSort(left), mergeSort(right));
-}
-```
-
-Count the number of reverse pairs in an array using the merge sort algorithm. A reverse pair is a pair of numbers (i, j) where `i < j` and `nums[i] > nums[j]`.
-
-```js
-function merge(arr1, arr2, count = 0) {
-  const merged = [];
-  let i = 0;
-  let j = 0;
-  
-  while (i < arr1.length && j < arr2.length) {
-    if (arr1[i] <= arr2[j]) {
-      merged.push(arr1[i]);
-      i++;
-    } else {
-      merged.push(arr2[j]);
-      j++;
-      // Count reverse pairs
-      count += arr1.length - i;
-    }
-  }
-
-  merged.push(...arr1.slice(i), ...arr2.slice(j));
-  return merged;
 }
 ```
 
@@ -295,14 +291,7 @@ The Art of Computer Programming, Vol. 2, section 3.4.2 “Random sampling and sh
 - Fisher-Yates Shuffle
 
 ```js
-/* 
-Fisher-Yates Algorithm
-To shuffle an array a of n elements (indices 0..n-1):
-for i from n−1 downto 1 do
-    j ← random integer such that 0 ≤ j ≤ i
-    exchange a[j] and a[i]
-*/
-
+// Fisher-Yates Algorithm
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -509,36 +498,18 @@ function findPath(graph, start, goal) {
   
   return cameFrom;
 }
-```
 
-```js
-function dijkstra(graph, start, goal) {
-  const pq = new PriorityQueue();
-  pq.enqueue(start, 0);
-  
-  const cameFrom = new Map();
-  const costSoFar = new Map();
-  cameFrom.set(start, null);
-  costSoFar.set(start, 0);
-    
-  while (!pq.isEmpty()) {
-    const current = pq.dequeue();
-      
-    if (current === goal) {
-      break;
-    }
-    
-    for (const next of graph.neighbors(current)) {
-      const newCost = costSoFar.get(current) + graph.cost(current, next);
-      if (!costSoFar.has(next) || newCost < costSoFar.get(next)) {
-        costSoFar.set(next, newCost);
-        pq.enqueue(next, newCost);
-        cameFrom.set(next, current);
-      }
-    }
+function reconstructPath(cameFrom, start, goal) {
+  const path = [];
+  let current = goal;
+
+  while (current !== null) {
+    path.push(current);
+    current = cameFrom.get(current);
   }
-    
-  return { cameFrom, costSoFar };
+
+  path.reverse();  
+  return path[0] === start ? path : [];
 }
 ```
 
@@ -630,6 +601,74 @@ MinHeap.prototype.bubbleDown = function () {
 }
 ```
 
+### LRU
+
+```js
+/* 
+  LRU cache is implemented using a doubly linked list and hash table.
+  - Map is used to search the node in O(1); 
+  - List maintains the order in O(1) with head and tail.
+*/
+
+function DLLNode(key, data) {
+  this.key = key;
+  this.data = data;
+  this.next = null;
+  this.prev = null;
+}
+
+function LRUCache(capacity) {
+  this.map = new Map();
+  this.capacity = capacity;
+  this.head = new DLLNode("", null);
+  this.tail = new DLLNode("", null);
+  this.head.next = this.tail;
+  this.tail.prev = this.head;
+}
+
+LRUCache.prototype.addNode = function(node) {
+  let realTail = this.tail.prev;
+  realTail.next = node;
+  this.tail.prev = node;
+  node.prev = realTail;
+  node.next = this.tail;
+}
+
+LRUCache.prototype.removeNode = function(node) {
+  let prev = node.prev;
+  let next = node.next;
+  prev.next = next;
+  next.prev = prev;
+}
+
+LRUCache.prototype.get = function(key) {
+  let node = this.map.get(key);
+  if (node === undefined) {
+    return -1;
+  } else {
+    this.removeNode(node);
+    this.addNode(node);
+    return node.data;
+  }
+}
+
+LRUCache.prototype.put = function(key, value) {
+  let node = this.map.get(key);
+  if (node) {
+    this.removeNode(node);
+  }
+  let newNode = new DLLNode(key, value);
+  this.addNode(newNode);
+  this.map.set(key, newNode);
+
+  if (this.map.size > this.capacity) {
+    var realHead = this.head.next;
+    this.removeNode(realHead);
+    this.map.delete(realHead.key)
+  }
+}
+```
+
 ### DP
 
 ```js
@@ -711,74 +750,6 @@ let coinChange = function(coins, amount) {
 
   return dp[dp.length - 1] === Number.MAX_VALUE ? -1 : dp[dp.length - 1];
 };
-```
-
-### LRU
-
-```js
-/* 
-  LRU cache is implemented using a doubly linked list and hash table.
-  - Map is used to search the node in O(1); 
-  - List maintains the order in O(1) with head and tail.
-*/
-
-function DLLNode(key, data) {
-  this.key = key;
-  this.data = data;
-  this.next = null;
-  this.prev = null;
-}
-
-function LRUCache(capacity) {
-  this.map = new Map();
-  this.capacity = capacity;
-  this.head = new DLLNode("", null);
-  this.tail = new DLLNode("", null);
-  this.head.next = this.tail;
-  this.tail.prev = this.head;
-}
-
-LRUCache.prototype.addNode = function(node) {
-  let realTail = this.tail.prev;
-  realTail.next = node;
-  this.tail.prev = node;
-  node.prev = realTail;
-  node.next = this.tail;
-}
-
-LRUCache.prototype.removeNode = function(node) {
-  let prev = node.prev;
-  let next = node.next;
-  prev.next = next;
-  next.prev = prev;
-}
-
-LRUCache.prototype.get = function(key) {
-  let node = this.map.get(key);
-  if (node === undefined) {
-    return -1;
-  } else {
-    this.removeNode(node);
-    this.addNode(node);
-    return node.data;
-  }
-}
-
-LRUCache.prototype.put = function(key, value) {
-  let node = this.map.get(key);
-  if (node) {
-    this.removeNode(node);
-  }
-  let newNode = new DLLNode(key, value);
-  this.addNode(newNode);
-  this.map.set(key, newNode);
-
-  if (this.map.size > this.capacity) {
-    var realHead = this.head.next;
-    this.removeNode(realHead);
-    this.map.delete(realHead.key)
-  }
-}
 ```
 
 ### LeetCode Problems
