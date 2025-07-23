@@ -1811,40 +1811,6 @@ var searchRange = function(nums, target) {
 };
 ```
 
-A peak element is an element that is strictly greater than its neighbors (`nums[-1] = nums[n] = -∞`). If the array contains multiple peaks, return the index to any of the peaks.
-
-```js
-var findPeakElement = function(nums) {
-  let n = nums.length;
-  if (n === 1 || nums[0] > nums[1]) {
-    return 0;
-  }
-  if (nums[n-2] < nums[n-1]) {
-    return n-1;
-  }
-
-  let left = 0;
-  let right = n - 1;
-
-  while (left <= right) {
-    let mid = Math.floor((left + right) / 2);
-    let gtLeft = mid === 0 || nums[mid] > nums[mid - 1];
-    let gtRight = mid === n - 1 || nums[mid] > nums[mid + 1];
-    
-    if (gtLeft && gtRight) {
-      return mid;
-    }
-
-    if (nums[mid] < nums[mid + 1]) {
-      left = mid + 1;
-    } else if (nums[mid] > nums[mid + 1]) {
-      right = mid - 1;
-    }
-  }
-  return -1;
-};
-```
-
 a) Find the integer square root; b) Check if a number is the perfect square number.
 
 ```js
@@ -1956,34 +1922,6 @@ var trap = function(height) {
 };
 ```
 
-```js
-// Another solution to use two arrays
-var trap = function(height) {  
-  const n = height.length;
-  // Arrays to store maximum height to the left and right of each position
-  const preMax = new Array(n).fill(0);
-  const postMax = new Array(n).fill(0);
-  
-  preMax[0] = height[0];
-  for (let i = 1; i < n; i++) {
-    preMax[i] = Math.max(preMax[i - 1], height[i]);
-  }
-  
-  postMax[n - 1] = height[n - 1];
-  for (let i = n - 2; i >= 0; i--) {
-    postMax[i] = Math.max(postMax[i + 1], height[i]);
-  }
-  
-  let totalWater = 0;
-  for (let i = 0; i < n; i++) {
-    const waterAtPosition = Math.min(preMax[i], postMax[i]) - height[i];
-    totalWater += Math.max(0, waterAtPosition);
-  }
-  
-  return totalWater;
-};
-```
-
 You are given an integer array `height` of length n. There are n vertical lines. Find two lines that together with the x-axis form a container, such that the container contains the most water.
 
 ```js
@@ -2061,45 +1999,45 @@ var permute = function(nums) {
     }
   }
 
-  // think in backtracking, [] is the chosen
-  // pick an element and permute the rest
   backtrack([]);
   return result;
 };
 ```
 
-Given an integer array nums of unique elements, return all possible subsets.
+```js
+function backtrack(当前路径 path, 可选列表 choices) {
+  if (满足结束条件) {
+    收集结果(path)
+    return
+  }
 
+  for (let choice of choices) {
+    if (当前选择不合法) continue;
+
+    做选择(choice)
+    backtrack(更新后的路径, 剩下的选择)
+    撤销选择(choice)
+  }
+}
 ```
-                [ ]
-          /      |     \
-         /       |      \
-      [1]       [2]     [3]
-    /    \       |
-   /      \      |
-[1,2]    [1,3] [2,3]
-  |
-  |
-[1,2,3]
-```
+
+Given an integer array nums of unique elements, return all possible subsets.
 
 ```js
 var subsets = function(nums) {
   const result = [];
-  const path = [];
-  
-  // `start` means the index we begin to iterate for the current subset
-  function backtrack(start) {
+
+  function backtrack(path, start) {
     result.push([...path]);
-    
+
     for (let i = start; i < nums.length; i++) {
-      path.push(nums[i]); // choose i
-      backtrack(i + 1);   // explore what could follow that
-      path.pop();         // unchoose i
+      path.push(nums[i]);
+      backtrack(path, i + 1);
+      path.pop();
     }
   }
-  
-  backtrack(0);
+
+  backtrack([], 0);
   return result;
 };
 ```
@@ -2108,23 +2046,23 @@ Given two integers n and k, return all possible combinations of k numbers chosen
 
 ```js
 var combine = function(n, k) {
-  const res = [];
-  const path = [];
+  const result = [];
 
-  function backtrack(start) {
+  function backtrack(path, start) {
     if (path.length === k) {
-      res.push([...path]);
+      result.push([...path]);
       return;
     }
-    for (let j = start; j <= n; j++) {
-      path.push(j);
-      backtrack(j + 1);
+
+    for (let i = start; i <= n; i++) {
+      path.push(i);
+      backtrack(path, i + 1);
       path.pop();
     }
   }
 
-  backtrack(1);
-  return res;
+  backtrack([], 1);
+  return result;
 };
 ```
 
@@ -2132,26 +2070,38 @@ Given a string containing digits from 2-9 inclusive, return all possible letter 
 
 ```js
 var letterCombinations = function(digits) {
-  if (digits.length === 0) {
-    return [];
-  }
+  if (!digits.length) return [];
 
-  const phone_map = ["", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
-  const output = [];
-  backtrack("", digits, output);
-  return output;
+  const digitToLetters = {
+    '2': 'abc',
+    '3': 'def',
+    '4': 'ghi',
+    '5': 'jkl',
+    '6': 'mno',
+    '7': 'pqrs',
+    '8': 'tuv',
+    '9': 'wxyz'
+  };
+  const result = [];
 
-  function backtrack(combination, next_digits, output) {
-    if (next_digits.length === 0) {
-      output.push(combination);
+  function backtrack(path, index) {
+    if (path.length === digits.length) {
+      result.push(path.join(''));
       return;
     }
 
-    const letters = phone_map[next_digits[0]];
-    for (const letter of letters) {
-      backtrack(combination + letter, next_digits.slice(1), output);
+    const digit = digits[index];
+    const letters = digitToLetters[digit];
+
+    for (let letter of letters) {
+      path.push(letter);
+      backtrack(path, index + 1);
+      path.pop();
     }
   }
+
+  backtrack([], 0);
+  return result;
 };
 ```
 
