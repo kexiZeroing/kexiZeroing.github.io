@@ -16,7 +16,6 @@ updatedDate: "Feb 16 2025"
 - [Quick Sort](#quick-sort)
 - [Merge Sort](#merge-sort)
 - [Linked List](#linked-list)
-- [Stacks](#stacks)
 - [Shuffle an array](#shuffle-an-array)
 - [Traverse Binary Tree](#traverse-binary-tree)
 - [Graph DFS](#graph-dfs)
@@ -24,7 +23,6 @@ updatedDate: "Feb 16 2025"
 - [Heap](#heap)
 - [DP](#dp)
 - [LRU](#lru)
-- [Simulated Annealing](#simulated-annealing)
 - [LeetCode Problems](#leetcode-problems)
 
 ### Binary Search
@@ -288,66 +286,6 @@ function reverseBetween(head, left, right) {
   p0.next.next = current;
   p0.next = prev;
   return dummy.next;
-}
-```
-
-### Stacks
-
-```js
-// Implement Queue using Stacks
-class MyQueue {
-  constructor() {
-    this.s1 = [];
-    this.s2 = [];
-  }
-
-  push(x) {
-    while (this.s1.length > 0) {
-      this.s2.push(this.s1.pop());
-    }
-    this.s1.push(x);
-    while (this.s2.length > 0) {
-      this.s1.push(this.s2.pop());
-    }
-  }
-
-  pop() {
-    return this.s1.pop();
-  }
-}
-```
-
-```js
-class UndoRedoManager {
-  constructor() {
-    this.undoStack = [];
-    this.redoStack = [];
-  }
-
-  doAction(action) {
-    action();
-
-    this.undoStack.push(action);
-    this.redoStack = [];
-  }
-
-  undo() {
-    if (this.undoStack.length > 0) {
-      const lastAction = this.undoStack.pop();
-      lastAction();
-
-      this.redoStack.push(lastAction);
-    }
-  }
-
-  redo() {
-    if (this.redoStack.length > 0) {
-      const lastUndoneAction = this.redoStack.pop();
-      lastUndoneAction();
-
-      this.undoStack.push(lastUndoneAction);
-    }
-  }
 }
 ```
 
@@ -840,44 +778,6 @@ LRUCache.prototype.put = function(key, value) {
     this.removeNode(realHead);
     this.map.delete(realHead.key)
   }
-}
-```
-
-### Simulated Annealing
-The simulated annealing algorithm was originally inspired from the process of annealing in metal work. Annealing involves heating and cooling a material to alter its physical properties due to the changes in its internal structure. As the metal cools its new structure becomes fixed, consequently causing the metal to retain its newly obtained properties.
-
-In simulated annealing we keep a temperature variable to simulate this heating process. We initially set it high and then allow it to slowly cool as the algorithm runs. While this temperature variable is high the algorithm will be allowed, with more frequency, to accept solutions that are worse than our current solution. This gives the algorithm the ability to jump out of any local optimums it finds itself in early on in execution. As the temperature is reduced so is the chance of accepting worse solutions, therefore allowing the algorithm to gradually focus in on a area of the search space in which hopefully, a close to optimum solution can be found.
-
-```js
-while (currentTemp > tempMin) {
-  for i = 1 to iterationsPerTemp {
-    // Generate a neighbor state
-    neighborState = generateNeighbor(currentState)
-    neighborEnergy = calculateEnergy(neighborState)
-    
-    // Decide whether to accept the neighbor
-    if (neighborEnergy < currentEnergy) {
-      // Always accept better solutions
-      currentState = neighborState
-      currentEnergy = neighborEnergy
-    } else {
-      // Accept worse solutions with a probability that decreases with temperature
-      acceptanceProbability = exp(-(neighborEnergy - currentEnergy) / currentTemp)
-      if (random(0,1) < acceptanceProbability) {
-        currentState = neighborState
-        currentEnergy = neighborEnergy
-      }
-    }
-    
-    // Update best solution found so far
-    if (currentEnergy < bestEnergy) {
-      bestState = currentState
-      bestEnergy = currentEnergy
-    }
-  }
-  
-  // Cool the temperature
-  currentTemp = coolingSchedule(currentTemp)
 }
 ```
 
@@ -2366,23 +2266,6 @@ var removeNthFromEnd = function(head, n) {
 };
 ```
 
-Given a linked list, swap every two adjacent nodes and return its head.
-
-```js
-var swapPairs = function(head) {
-  if (head == null || head.next == null) {
-    return head;
-  }
-  const nextHead = head.next;
-  const skipHead = head.next.next;
-  
-  nextHead.next = head;
-  head.next = swapPairs(skipHead);
-
-  return nextHead;
-};
-```
-
 You are given the heads of two sorted linked lists. Merge the two lists into one sorted list.
 
 ```js
@@ -2544,51 +2427,6 @@ var ladderLength = function(beginWord, endWord, wordList) {
   }
 
   return 0;    
-};
-```
-
-There are a total of `numCourses` courses you have to take, labeled from `0` to `numCourses - 1`. You are given an array prerequisites where `prerequisites[i] = [ai, bi]` indicates that you must take course `bi` first if you want to take course `ai`. Return true if you can finish all courses.
-
-```js
-// Topological Sort
-var canFinish = function(numCourses, prerequisites) {
-  if (numCourses <= 0) {
-    return true;
-  }
-
-  let inDegree = new Array(numCourses).fill(0);
-  let graph = Array.from({ length: numCourses }, () => []);
-
-  prerequisites.forEach(edge => {
-    let parent = edge[1];
-    let child = edge[0];
-    graph[parent].push(child);
-    inDegree[child]++;
-  });
-
-  // Initialize the queue with courses having no prerequisites (inDegree = 0)
-  let queue = [];
-  for (let i = 0; i < numCourses; i++) {
-    if (inDegree[i] === 0) {
-      queue.push(i);
-    }
-  }
-
-  // Process nodes with no prerequisites
-  let counter = 0;
-  while (queue.length > 0) {
-    let course = queue.shift();
-    counter++;
-
-    graph[course].forEach(child => {
-      inDegree[child]--;
-      if (inDegree[child] === 0) {
-        queue.push(child);
-      }
-    });
-  }
-
-  return counter === numCourses;
 };
 ```
 
