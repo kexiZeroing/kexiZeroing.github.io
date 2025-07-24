@@ -520,7 +520,7 @@ function Heap () {
 }
 
 Heap.prototype.swap = function (index1, index2) {
-  var temp = this.items[index1];
+  let temp = this.items[index1];
   this.items[index1] = this.items[index2];
   this.items[index2] = temp;
 }
@@ -661,7 +661,7 @@ LRUCache.prototype.put = function(key, value) {
   this.map.set(key, newNode);
 
   if (this.map.size > this.capacity) {
-    var realHead = this.head.next;
+    let realHead = this.head.next;
     this.removeNode(realHead);
     this.map.delete(realHead.key)
   }
@@ -1562,11 +1562,6 @@ There are n gas stations along a circular route. Your car costs `cost[i]` of gas
 
 ```js
 var canCompleteCircuit = function(gas, cost) {
-  // gas:  [1, 2, 3, 4, 5]
-  // cost: [3, 4, 5, 1, 2]
-  // First, can we know if a solution exists?
-  // If `sum of gas - sum of cost < 0`, there is no way to complete a round trip.
-
   let totalTank = 0;
   let currentTank = 0;
   let start = 0;
@@ -1583,8 +1578,10 @@ var canCompleteCircuit = function(gas, cost) {
   }
   return totalTank < 0 ? -1 : start;
 
-  // The key insight here is that if you can't reach a station j from station i, 
-  // you also can't reach it from any station between i and j.
+  // 关键点：
+  // 1. totalTank >= 0 时，一定存在解
+  // 2. 如果某一段总和小于 0，说明整段任何子区间作为起点都不行
+  // 3. 当 currentTank < 0 时，可以放心地跳过 start ~ i，直接让 start = i + 1
 };
 ```
 
