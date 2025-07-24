@@ -1995,12 +1995,9 @@ var lowestCommonAncestor = function(root, p, q) {
   let left = lowestCommonAncestor(root.left, p, q);
   let right = lowestCommonAncestor(root.right, p, q);
 
-  // p and q are in the right subtree
-  if (!left) return right;
-  // p and q are in the left subtree
-  if (!right) return left;
-  // p and q at different side
-  return root;
+  if (left && right) return root;
+
+  return left ? left : right;
 };
 ```
 
@@ -2008,15 +2005,16 @@ Given a binary search tree (BST), find the lowest common ancestor (LCA) node of 
 
 ```js
 var lowestCommonAncestor = function(root, p, q) {
-  if (!root) return null;
+  if (!root || root === p || root === q) return root;
 
   if (p.val < root.val && q.val < root.val) {
     return lowestCommonAncestor(root.left, p, q);
-  } else if (p.val > root.val && q.val > root.val) {
-    return lowestCommonAncestor(root.right, p, q);
-  } else {
-    return root;
   }
+
+  if (p.val > root.val && q.val > root.val) {
+    return lowestCommonAncestor(root.right, p, q);
+  }
+  return root;
 };
 ```
 
@@ -2119,7 +2117,6 @@ Given the root of a binary tree, determine if it is a valid binary search tree.
 
 ```js
 var isValidBST = function(root) {
-  // Check range of each node
   const helper = (root, min, max) => {
     if (root === null) return true;
     
