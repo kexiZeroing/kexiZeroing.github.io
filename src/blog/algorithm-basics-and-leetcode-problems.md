@@ -455,8 +455,7 @@ function dfs(i, j, visited, params) {
 
 The `visited` array is global or shared across all recursive calls. If you are searching for **one valid path** (e.g., finding a path in a maze), there's no need to restore the visited array. Once a node is marked as visited, it remains visited throughout the traversal. If you are searching for **all possible paths** (e.g., finding all routes in a graph), you must restore the visited array. After exploring a path, you backtrack by marking the node as unvisited to allow its reuse in other paths.
 
-- If you are finding a path in a maze, the visited array doesn’t need to be reset because you only care about finding a path from the start to the end. Once you visit a node, it’s marked as visited, and it remains marked.
-- If you’re looking for all possible paths in a maze, or doing multiple DFS calls from a single node, the visited array must be reset after each recursion to allow revisiting nodes.
+> DFS traversal always needs a way to track visited cells. If you can modify the grid in-place, that's equivalent to using a `visited` array.
 
 ```js
 function escapeMaze(maze, i, j) {
@@ -2375,8 +2374,8 @@ var ladderLength = function(beginWord, endWord, wordList) {
   // bfs
   while (queue.length) {
     // words in the same "level"
-    let n = queue.length;
-    for (let i = 0; i < n; i++) {
+    let size = queue.length;
+    for (let i = 0; i < size; i++) {
       let word = queue.shift();
       if (word === endWord) {
         return steps;
@@ -2388,6 +2387,7 @@ var ladderLength = function(beginWord, endWord, wordList) {
           let newWord = word.slice(0, j) + String.fromCharCode(k + 97) + word.slice(j + 1);
           if (wordSet.has(newWord)) {
             queue.push(newWord);
+            // wordSet acts as a visited tracker 
             wordSet.delete(newWord);
           }
         }
@@ -2405,20 +2405,21 @@ The message is decoded via the following mapping: `"1" -> 'A'` ... `"26" -> 'Z'`
 
 ```js
 var numDecodings = function (s) {
-  let dp = Array(s.length + 1).fill(0);
-  // there is only one way to decode an empty string
-  dp[0] = 1;
-  if (s[0] !== '0') {
-    dp[1] = 1;
-  } else {
+  if (!s || s.length === 0 || s[0] === '0') {
     return 0;
   }
+  let dp = Array(s.length + 1).fill(0);
+
+  dp[0] = 1;
+  dp[1] = 1;
 
   for (let i = 2; i <= s.length; i++) {
     if (s[i - 1] !== '0') {
       dp[i] += dp[i - 1];
     }
-    if (s[i - 2] === '1' || (s[i - 2] === '2' && s[i - 1] <= '6')) {
+
+    const twoDigits = parseInt(s[i - 2] + s[i - 1]);
+    if (twoDigits >= 10 && twoDigits <= 26) {
       dp[i] += dp[i - 2];
     }
   }
@@ -2515,7 +2516,7 @@ var maxProfit = function(prices, fee) {
 
   for (let i = 1; i < prices.length; i++) {
     dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] - prices[i]);
-    dp[i][1] = Math.max(dp[i - 1][0] + prices[i] - fee, dp[i - 1][1]);
+    dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] + prices[i] - fee);
   }
 
   return dp[prices.length - 1][1];
@@ -2523,20 +2524,24 @@ var maxProfit = function(prices, fee) {
 
 // After you sell your stock, you cannot buy stock on the next day
 var maxProfit = function(prices) {
-  // dp[i][0]: Holding a stock after day i.
-  // dp[i][1]: Not holding a stock after day i without entering a cooldown.
-  // dp[i][2]: Just sold a stock on day i.
-  // dp[i][3]: In a cooldown after selling stock.
-  let dp = Array.from(Array(prices.length), () => Array(4).fill(0));
-  dp[0][0] = -prices[0];
+  if (prices.length === 0) return 0;
 
-  for (let i = 1; i < prices.length; ++i) {
-    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] - prices[i], dp[i - 1][3] - prices[i]);
-    dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][3]);
+  // dp[i][0]: Hold or buy
+  // dp[i][1]: Stay idle or cooldown is over
+  // dp[i][2]: Sell today
+  const n = prices.length;
+  const dp = Array.from({ length: n }, () => Array(3).fill(0));
+
+  dp[0][0] = -prices[0];
+  dp[0][1] = 0;
+  dp[0][2] = 0;
+
+  for (let i = 1; i < n; i++) {
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] - prices[i]);
+    dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][2]);
     dp[i][2] = dp[i - 1][0] + prices[i];
-    dp[i][3] = dp[i - 1][2];
   }
 
-  return Math.max(dp[prices.length - 1][1], dp[prices.length - 1][2], dp[prices.length - 1][3]);
+  return Math.max(dp[n - 1][1], dp[n - 1][2]);
 };
 ```
