@@ -196,3 +196,24 @@ const emptyBuf = Buffer.alloc(10);
 
 // Output: <Buffer 00 00 00 00 00 00 00 00 00 00>
 ```
+
+```js
+// Next.js api route 
+export async function POST(request: NextRequest) {
+  const formData = await request.formData();
+  const audioFile = formData.get('audio') as File;
+
+  const bytes = await audioFile.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+  const uploadDir = join(process.cwd(), 'uploads')
+  try {
+    await mkdir(uploadDir, { recursive: true });
+  } catch {}
+
+  const filename = `${memoId}.webm`;
+  const filepath = join(uploadDir, filename);
+  await writeFile(filepath, buffer);
+
+  // some db operation to save...
+}
+```

@@ -186,7 +186,7 @@ Create a `.github/copilot-instructions.md` file in your repository's root direct
 
 - https://code.visualstudio.com/docs/copilot/copilot-customization
 - https://github.com/github/awesome-copilot
-- https://gist.github.com/burkeholland/88af0249c4b6aff3820bf37898c8bacf
+- https://burkeholland.github.io/posts/beast-mode-3-1
 
 ## Gemini CLI
 Gemini CLI brings the capabilities of Gemini models to your terminal in an interactive Read-Eval-Print Loop (REPL) environment. Gemini CLI consists of a client-side application (`packages/cli`) that communicates with a local server (`packages/core`), which in turn manages requests to the Gemini API and its AI models. Gemini CLI also contains a variety of tools for tasks such as performing file system operations, running shells, and web fetching, which are managed by `packages/core`.

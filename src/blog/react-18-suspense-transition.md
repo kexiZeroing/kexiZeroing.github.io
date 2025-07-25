@@ -253,6 +253,8 @@ function MyComponent() {
 
 ## How to fetch data in React
 > **Render-as-you-fetch** is a pattern that lets you start fetching the data you will need at the same time you start rendering the component using that data. Used along with `Suspense`, the data call is made while the component is being rendered.
+>
+> For SPA, "download the JS files -> initializing React -> starting to render React tree, CALLING THE ROUTE LOADERS": We can do it today with React Router v7 and Tanstack Router.
 
 1. React Server Components (server-side data fetching)
     ```jsx

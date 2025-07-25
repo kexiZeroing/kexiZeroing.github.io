@@ -338,6 +338,8 @@ Install husky `npm i -D husky` and have a "husky" section in the `package.json` 
 ## Background jobs
 When a user submits work, a job record is created in the database with a unique ID. This ID is then sent to Inngest to trigger background processing, and the job ID is immediately returned to the user. Inngest processes the job asynchronously and updates the same database record with the results once processing is complete. Meanwhile, the user's frontend polls an API endpoint that checks the job status in the database. Once the status is marked as "completed," the frontend retrieves and displays the final results.
 
+<img alt="inngest-runs" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/inngest-runs.png" width="700">
+
 ```js
 // actions.ts
 const jobId = crypto.randomUUID();
@@ -359,7 +361,7 @@ export const inngest = new Inngest({ id: "process-summarization" });
 // inngest/functions.ts
 const processSummarization = inngest.createFunction(
   { id: "process-summarization" },
-  { event: "text/summary.requested" },
+  { event: "text/summary.requested" }, // when the function is triggered
   async ({ event }) => {
     const { text, jobId } = event.data;
     const summary = await generateSummary(text);
