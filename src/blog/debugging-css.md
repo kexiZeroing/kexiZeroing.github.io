@@ -235,3 +235,16 @@ updatedDate: "July 14 2025"
   ```
 
 - CSS animations are pretty sweet, but they typically require explicit sizes, you couldn't use the intrinsic sizing keywords like `auto`, `min-content`, or `fit-content`. [From Chrome 129](https://developer.chrome.com/docs/css-ui/animate-to-height-auto), you can declare `interpolate-size: allow-keywords` on `:root` to enable transitioning to and from intrinsic sizing keywords for the entire document.
+
+- When the image is less wide than the container and we want the `<figcaption>` to only be as wide as the image is.
+
+```css
+figure {
+  inline-size: fit-content;
+  margin-inline: auto;
+}
+figcaption {
+  /* The element’s inline size is not determined by its children. */
+  contain: inline-size;
+}
+```

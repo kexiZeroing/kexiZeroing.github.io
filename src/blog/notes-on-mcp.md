@@ -12,6 +12,8 @@ Early AI assistants were limited to text generation, unable to interact with ext
 MCP, introduced by Anthropic in late 2024, solves this problem by providing a unified protocol for AI-tool interactions. Instead of custom adapters for each tool, MCP allows developers to expose functionality once, making it accessible to any AI supporting MCP. It also eliminates the inefficiencies of tool-specific APIs by offering a structured, self-describing interface. This enables seamless, scalable AI-tool connectivity, much like how USB standardized device connections.
 
 > This isn't something that you couldn't do before. You could technically write a bunch of code to provide any model with relevant function call definitions, and then implement those functions to do the things the model asks for. But for one, this was very tedious. You'd have to figure out how to do it from scratch each time. Each implementation might be different. And this would all be in code, your Claude desktop app couldn't access these functions.
+>
+> MCP adds another layer: your tools are hosted outside your app, on a separate server. MCP servers make sense when you want your context and tools to be shared across many apps, models, or environments.
 
 ### MCP is not magic
 MCP isn't magic — it's a standard way for AI to discover and use tools without learning every API's specific details. An MCP server is like a menu of tools. Each tool has a name, a description, a schema defining what info it needs, and the actual code that makes the API calls. AI applications (like Claude or Cline) can dynamically query these servers to execute tasks such as reading files, querying databases, or creating new integrations.
@@ -29,11 +31,7 @@ The **MCP server** is the most interesting concept for 99% of us. The server is 
 
 The client connects to its server using a **transport**. This transport is responsible for sending messages between the client and the server. There are currently two supported transports. You can communicate via `stdio` - in other words, via the terminal. Or you can communicate through HTTP via server-sent events. This is useful if you want to run your server on a remote machine.
 
-| Transport | Notes |
-|    ---    |  ---  |
-| `STDIO` | Typically used when the MCP Server is running on the same computer as the Client. Able to access local resources such as files if needed. |
-| `HTTP with SSE` | Used for remote connections over HTTP. Deprecated in the 2025-03-26 version of MCP but still in use. |
-| `Streamable HTTP` | A more flexible remote HTTP transport that provides more options for deployment than the outgoing SSE version. |
+> Transports are how the model talks to your MCP server. Today, StreamableHTTP is the main one. The model uses standard HTTP to hit a URL and create a connection. Optionally, it also allows the use of SSE on the side for real time notifications. The other popular transport is stdio, used in local or CLI environments where the model and tools share the same process.
 
 The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for communication between client and server. This simple contract allows for incredible flexibility. Your server doesn’t need to know anything about the LLM, and the LLM doesn’t need to know anything about your server’s internal implementation. They just need to speak the common language of MCP.
 
