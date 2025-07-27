@@ -80,6 +80,20 @@ new webpack.DefinePlugin({
 })
 ```
 
+#### SplitChunksPlugin
+Since webpack v4, the CommonsChunkPlugin was removed in favor of `optimization.splitChunks` *(`SplitChunksPlugin` can be configured through the `optimization.splitChunks` option)*. It controls how and when Webpack splits chunks of code into separate files. The [default](http://webpack.js.org/plugins/split-chunks-plugin/#defaults) settings works well for most users.
+
+> kinds of `chunks`:
+> - 'async' (default): only split dynamically imported code (via `import()`)
+> - 'initial': only split code from entry points
+> - 'all': split both
+
+Early Next.js configurations:
+- Any sufficiently large third-party module (greater than 160 KB) is split into its own individual chunk
+- A separate frameworks chunk is created for framework dependencies (react, react-dom, and so on)
+- As many shared chunks as needed are created (up to 25)
+- The minimum size for a chunk to be generated is changed to 20 KB
+
 #### webpack in development
 - `webpack-dev-server` doesn't write any output files after compiling. Instead, it keeps bundle files in memory and serves them as if they were real files mounted at the server's root path.
 - `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.

@@ -1,9 +1,9 @@
 ---
-title: "React 19 and Next.js Forms have both changed"
+title: "React 19’s enhanced form handling"
 description: ""
 added: "Feb 22 2025"
 tags: [react]
-updatedDate: "Jun 30 2025"
+updatedDate: "July 27 2025"
 ---
 
 ## React 19 `useActionState` and `useFormStatus`
@@ -234,7 +234,7 @@ startTransition(() => {
 4. Meanwhile, `router.push()` updates the URL and triggers any server-side filtering, but the UI doesn't wait for this to complete. `isPending` becomes true when you call `startTransition`, then stays true until everything triggered by that transition (including Server Component re-renders) completes.
 5. `useOptimistic` is designed to work seamlessly with React's concurrent rendering and transitions. It keeps your UI in sync with the "real" state, and automatically falls back if the action fails or completes.
 
-### React 19 `cache` function
+## React 19 `cache` function
 `cache` is **only for use with React Server Components**, not client components, and lets you cache the result of a data fetch or computation. It wraps around a function and remembers what that function returned for specific inputs. When multiple components need the same data, they get the cached result instead of fetching it again.
 
 ```js
@@ -260,6 +260,35 @@ function ProfileStats({ userId }) {
 > - Use `cache` in Server Components to memoize work that can be shared across components.
 > - Use `useMemo` for caching a expensive computation in a Client Component across renders.
 > - Use `memo` to prevent a component re-rendering if its props are unchanged.
+
+## Support for document metadata
+In React 19, we’re adding support for rendering document metadata tags in components natively. When React renders this component, it will see these tags, and automatically hoist them to the `<head>` section of document.
+
+```js
+function BlogPost() {
+  return (
+    <article>
+      <meta name="author" content="Josh" />
+      <link rel="author" href="https://twitter.com/joshcstory/" />
+      <p>Hello</p>
+    </article>
+  );
+}
+
+function ComponentOne() {
+  return (
+    <Suspense fallback="loading...">
+      <link rel="stylesheet" href="foo" precedence="default" />
+      <link rel="stylesheet" href="bar" precedence="high" />
+      <article class="foo-class bar-class">...</article>
+    </Suspense>
+  )
+}
+```
+
+Your component will suspend while the stylesheet is loading. You must supply the `precedence` prop, which tells React where to place this stylesheet relative to others — stylesheets with higher precedence can override those with lower precedence.
+
+If you render the same stylesheet from multiple components, React will place only a single `<link>` in the document head.
 
 ## Next.js sever actions and `<Form>` component
 Next.js Server Actions is a feature that allows you to run server-side code directly from client components. It is part of Next.js's full-stack framework features, eliminating the need for API routes for basic form handling.

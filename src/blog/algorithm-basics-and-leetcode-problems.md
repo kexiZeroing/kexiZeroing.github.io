@@ -867,6 +867,22 @@ var findKthLargest = function(nums, k) {
 };
 ```
 
+```js
+// Ask to return the top k largest elements
+while (left <= right) {
+  let pos = partition(nums, left, right);
+  if (pos === k - 1) {
+    break;
+  } else if (pos > k - 1) {
+    right = pos - 1;
+  } else {
+    left = pos + 1;
+  }
+}
+
+return nums.slice(0, k).sort((a, b) => b - a); 
+```
+
 Given an array of strings, group anagrams together. i.e. Input: `["eat", "tea", "tan", "ate", "nat", "bat"]`, Output: `[ ["ate","eat","tea"], ["nat","tan"], ["bat"] ]`
 
 ```js

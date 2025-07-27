@@ -420,6 +420,7 @@ window.addEventListener("click", (e: any) => {
 Must-read articles on React Server Components: 
 - https://www.joshwcomeau.com/react/server-components
 - https://github.com/reactwg/server-components/discussions/5
+- https://devongovett.me/blog/parcel-rsc.html
 
 ### Why Does RSC Integrate with a Bundler
 Consider this `<Counter>` tag. How do you serialize it?
