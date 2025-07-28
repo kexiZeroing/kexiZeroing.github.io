@@ -286,9 +286,10 @@ function ComponentOne() {
 }
 ```
 
-Your component will suspend while the stylesheet is loading. You must supply the `precedence` prop, which tells React where to place this stylesheet relative to others — stylesheets with higher precedence can override those with lower precedence.
+React 19 added special support for the `<link>` element. When rendered with the `precedence` prop, stylesheets will be automatically hoisted into the `<head>` and deduplicated. In addition, when rendered inside a `<Suspense>` boundary, React will wait for the stylesheet to load before revealing content that depends on it.
 
-If you render the same stylesheet from multiple components, React will place only a single `<link>` in the document head.
+- Your component will suspend while the stylesheet is loading. You must supply the `precedence` prop, which tells React where to place this stylesheet relative to others — stylesheets with higher precedence can override those with lower precedence.
+- If you render the same stylesheet from multiple components, React will place only a single `<link>` in the document head.
 
 ## Next.js sever actions and `<Form>` component
 Next.js Server Actions is a feature that allows you to run server-side code directly from client components. It is part of Next.js's full-stack framework features, eliminating the need for API routes for basic form handling.

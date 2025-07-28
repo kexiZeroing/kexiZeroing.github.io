@@ -109,6 +109,8 @@ export const css = (strings, ...interpolations) => {
 
 **Tailwind** uses a compiler to generate the classes only used. So while the utility CSS framework contains many possible class names, only the classes used in your project will be included in the single, compiled CSS file. Tailwind classes are just utilities for normal CSS that adhere to a design system.
 
+Tailwind uses a mobile-first breakpoint system. What this means is that unprefixed utilities (like `uppercase`) take effect on all screen sizes, while prefixed utilities (like `md:uppercase`) only take effect at the specified breakpoint and above. To style something for mobile, you need to use the unprefixed version of a utility, not the `sm:` prefixed version.
+
 > The way Tailwind scans your source code for classes is intentionally very simple — we don’t actually parse or execute any of your code in the language it’s written in, we just use regular expressions to extract every string that could possibly be a class name. So don’t construct class names dynamically.
 
 ```js
