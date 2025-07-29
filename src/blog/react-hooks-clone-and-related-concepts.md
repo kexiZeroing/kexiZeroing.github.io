@@ -3,7 +3,7 @@ title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
 tags: [react]
-updatedDate: "July 17 2025"
+updatedDate: "July 29 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -247,6 +247,32 @@ const App = () => {
 ```
 
 > `useCallback` and `useMemo` for props don’t prevent re-renders by themselves. They only create stable references. `React.memo` is what actually checks those references and prevents re-renders.
+>
+> You should treat `useCallback` as a performance optimization only, which means your code should still work if you remove it. It might not work as efficiently as before, but it also shouldn't crash.
+
+Note that in the example above, `ChildComponent` does not automatically re-render because its parent component's states change. But if the parent's parent `SomeOutsideComponent` re-renders, it creates a new React element for `<ChildComponent />` (a new object). That causes `MovingComponent` to re-render, even if nothing inside changed.
+
+For example, rerendering the `<App>` component will break memoization. JSX is just syntactic sugar for `React.createElement`, which will create a new object on every render. So, even though the `<p>` tag looks like it's the same to us, it won't be the same reference.
+
+```js
+function App() {
+  return (
+    <ExpensiveTree>
+      <p>Hello, world!</p>
+    </ExpensiveTree>
+  )
+}
+
+function ExpensiveComponent({ children }) {
+  return (
+    <div>
+      I'm expensive!
+      {children}
+    </div>
+  )
+}
+const ExpensiveTree = React.memo(ExpensiveComponent)
+```
 
 ### What is Fiber
 React Fiber was introduced in React 16 as a complete reimplementation of React's core reconciliation algorithm. At its core, Fiber is a JavaScript object that represents both a unit of work and a node in React's internal tree structure, essentially serving as the modern implementation of React's Virtual DOM.
@@ -337,14 +363,37 @@ function Counter() {
 The key to understanding this hook is realizing there's a timing difference. When your component renders, the hook returns the current value of `ref.current`. After rendering, the effect runs and updates `ref.current` to the new value. On the next render, `ref.current` contains what was the value in the previous render. Note that `useRef()` doesn't create a new ref object on every render. **React's hook system ensures that the same ref object persists across re-renders.**
 
 #### `ref` callback function
-Instead of a ref object, you may pass a function to the `ref` attribute. When the `<div>` DOM node is added to the screen, React will call your `ref` callback with the DOM node as the argument. When that `<div>` DOM node is removed, React will call your `ref` callback with null. React will also call your `ref` callback whenever you pass a different `ref` callback.
+```js
+React.useEffect(() => {
+  // ref.current is always null when this runs
+  ref.current?.focus()
+}, [])
+
+
+{show && <input ref={ref} />}
+```
+
+The input is not rendered at first, ref is still null, then effect runs, does nothing. When input is shown, ref will be filled, but will not be focussed because effect won't run again.
+
+This is where callback refs come into play. Instead of a ref object, you may **pass a function to the `ref` attribute**. When the `<div>` DOM node is added to the screen, React will call your `ref` callback with the DOM node as the argument. When that `<div>` DOM node is removed, React will call your `ref` callback with null. React will also call your `ref` callback whenever you pass a different `ref` callback.
 
 - Called immediately when the element is attached to the DOM.
 - Called with `null` when the element is removed.
-- Runs before `useEffect`, but after `useLayoutEffect`
+- Runs before `useEffect`, but after `useLayoutEffect`.
 - It's best for immediate DOM measurements or setup.
 
+Passing a ref from `useRef` (a RefObject) to a React element is therefore just syntactic sugar for:
+```js
+<input
+  ref={(node) => {
+    ref.current = node;
+  }}
+/>
+```
+
 ```tsx
+// move the function out of the component
+// never re-create the function during a re-render 
 const scroller = (node: HTMLDivElement | null) => {
   node?.scrollIntoView({ behavior: "smooth" });
 };
@@ -361,7 +410,7 @@ const ChatWindow = () => {
 };
 ```
 
-So if you need to interact with DOM nodes directly after they rendered, try not to jump to `useRef` + `useEffect` directly, but consider using [callback refs](https://tkdodo.eu/blog/ref-callbacks-react-19-and-the-compiler) instead.
+So if you need to interact with DOM nodes directly after they rendered, try not to jump to `useRef` + `useEffect` directly, but consider using callback refs instead.
 
 #### `ref` as a prop in React 19
 In React 19, `forwardRef` is no longer necessary. Pass `ref` as a prop instead.
