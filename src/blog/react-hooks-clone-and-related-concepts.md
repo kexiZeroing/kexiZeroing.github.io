@@ -212,6 +212,8 @@ const SomeOutsideComponent = () => {
 
 `useCallback` will return a memoized version of the callback that only changes if one of the inputs has changed. This is useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders. Note that `useCallback(fn, deps)` is equivalent to `useMemo(() => fn, deps)`.
 
+React compares the props of a memoized component with `Object.is` to check if it can skip rendering that sub-tree.
+
 ```js
 // Without memo, it still re-renders even though props didn't change
 const Child = React.memo(({ onClick, items }) => {

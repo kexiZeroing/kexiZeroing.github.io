@@ -265,7 +265,24 @@ Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick
 ```
 
 ### Animation with View Transitions
-If you are making DOM changes, such as adding and removing elements from the DOM, a great solution for smooth animations is view transitions. The view transition is set up like: First, in CSS, give each card an individual `view-transition-name`. Then, in JavaScript, wrap the DOM mutation in a view transition `document.startViewTransition`.
+With just a few lines of CSS, you can trigger smooth visual transitions between pages. On both the current and destination page, add:
+```css
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: fade 0.3s ease both;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+```
+
+For shared element transitions, the set up like: First, in CSS, give each card an individual `view-transition-name`. Then, in JavaScript, wrap the DOM mutation in a view transition `document.startViewTransition`.
 
 The property `view-transition-name` assigns a unique name to an element so the browser can track and animate it across transitions. If an element has the same name before and after, the browser says, “Ah! Same element. I'll animate the change (like move, resize, etc.).” If it doesn’t have a name or if names don’t match, the browser thinks it’s a completely different element and does a basic cross-fade. For example, say you navigate a box, the browser will animate the `.box` moving from 0px to 300px if `view-transition-name: box` is present. Without it, the browser would just fade out the first box and fade in the second.
 

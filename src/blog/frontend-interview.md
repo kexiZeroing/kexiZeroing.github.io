@@ -356,3 +356,5 @@ const handleSearch = async () => {
   read();
 }
 ```
+
+> The morph effect: On submit, the textarea is given a view transition name with a unique incrementing index, then view transition is called and the same name is given to the new message element that's appended into the chat container. This creates the morph effect since the old state is the textarea and the new state is the message bubble.
