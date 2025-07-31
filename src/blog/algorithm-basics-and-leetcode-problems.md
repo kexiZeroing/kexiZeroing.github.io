@@ -904,25 +904,27 @@ var merge = function (nums1, m, nums2, n) {
 };
 ```
 
-Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
 ```js
-var isSubsequence = function (s, t) {
-  if (!s.length) {
-    return true;
-  }
-
+var strStr = function (haystack, needle) {
   let i = 0;
-  for (let j = 0; j < t.length; j++) {
-    if (t[j] === s[i]) {
+  let j = 0;
+
+  while (i < haystack.length) {
+    if (haystack[i] === needle[j]) {
+      j++;
       i++;
-      if (i === s.length) {
-        return true;
+      if (j === needle.length) {
+        return i - j;
       }
+    } else {
+      i = i - j + 1; // 退回j个位置的下一位
+      j = 0;
     }
   }
 
-  return false;
+  return -1;
 };
 ```
 
@@ -1679,20 +1681,20 @@ You are initially positioned at `nums[0]`. Return the minimum number of jumps to
 ```js
 var jump = function(nums) {
   // greedy approach
-  let jumps = 0;
-  let farthest = 0;
+  let res = 0;
+  let reachable = 0;
   let end = 0;
 
   for (let i = 0; i < nums.length - 1; i++) {
-    farthest = Math.max(farthest, i + nums[i]);
+    reachable = Math.max(reachable, i + nums[i]);
 
     if (i === end) {
-      jumps++;
-      end = farthest;
+      res++;
+      end = reachable;
     }
   }
 
-  return jumps;
+  return res;
 };
 
 // i === end 不是实际的跳跃位置
