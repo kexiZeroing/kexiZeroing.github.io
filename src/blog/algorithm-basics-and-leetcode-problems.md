@@ -1578,6 +1578,32 @@ var maxSubArray = function(nums) {
 };
 ```
 
+Given a circular integer array nums of length n, return the maximum possible sum of a non-empty subarray of nums.
+
+```js
+var maxSubarraySumCircular = function (nums) {
+  let total = 0;
+  let curMax = 0, maxSum = -Infinity;
+  let curMin = 0, minSum = Infinity;
+
+  for (let n of nums) {
+    total += n;
+
+    curMax = Math.max(curMax + n, n);
+    maxSum = Math.max(maxSum, curMax);
+
+    curMin = Math.min(curMin + n, n);
+    minSum = Math.min(minSum, curMin);
+  }
+
+  // 如果 maxSum < 0，说明所有数都是负数，只能取最大的那个
+  if (maxSum < 0) return maxSum;
+
+  // 比较最大子数组和（不跨越头尾），有跨越的子数组（中间有一段被跳过）
+  return Math.max(maxSum, total - minSum);
+};
+```
+
 Given a non-empty array of integers nums, the degree of this array is defined as the maximum frequency of any one of its elements. Your task is to find the smallest possible length of a subarray of nums, that has the same degree as nums.
 
 ```js
@@ -1633,7 +1659,6 @@ You are given an integer array nums. Each element in the array represents your m
 
 ```js
 var canJump = function(nums) {
-  // Greedy algorithm
   let reachable = nums[0];
 
   for (let i = 1; i < nums.length; i++) {
@@ -1647,6 +1672,31 @@ var canJump = function(nums) {
 
   return true;
 };
+```
+
+You are initially positioned at `nums[0]`. Return the minimum number of jumps to reach `nums[n - 1]`. 
+
+```js
+var jump = function(nums) {
+  // greedy approach
+  let jumps = 0;
+  let farthest = 0;
+  let end = 0;
+
+  for (let i = 0; i < nums.length - 1; i++) {
+    farthest = Math.max(farthest, i + nums[i]);
+
+    if (i === end) {
+      jumps++;
+      end = farthest;
+    }
+  }
+
+  return jumps;
+};
+
+// i === end 不是实际的跳跃位置
+// 是 “当前这一步走到了之前跳跃能达到的最远边界”
 ```
 
 There are n gas stations along a circular route. Your car costs `cost[i]` of gas to travel from the ith station to its next station. You begin the journey with an empty tank at one of the gas stations. Return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1.
@@ -2363,6 +2413,34 @@ var mergeTwoLists = function(list1, list2) {
 };
 ```
 
+Given a reference of a node in a connected undirected graph. Return a clone of the graph.
+
+```js
+var cloneGraph = function (node) {
+  if (!node) return null;
+
+  // Map<orginal node, cloned node>
+  const visited = new Map(); 
+
+  function dfs(n) {
+    if (visited.has(n)) {
+      return visited.get(n);
+    }
+
+    const clone = new Node(n.val);
+    visited.set(n, clone);
+
+    for (const nei of n.neighbors) {
+      clone.neighbors.push(dfs(nei));
+    }
+
+    return clone;
+  }
+
+  return dfs(node);
+};
+```
+
 Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges are all surrounded by water.
 
 ```js
@@ -2475,9 +2553,7 @@ var ladderLength = function(beginWord, endWord, wordList) {
   let queue = [beginWord];
   let steps = 1;
   
-  // bfs
   while (queue.length) {
-    // words in the same "level"
     let size = queue.length;
     for (let i = 0; i < size; i++) {
       let word = queue.shift();
@@ -2486,7 +2562,6 @@ var ladderLength = function(beginWord, endWord, wordList) {
       }
       
       for (let j = 0; j < word.length; j++) {
-        // replace the char with letters from [a - z]
         for (let k = 0; k < 26; k++) {
           let newWord = word.slice(0, j) + String.fromCharCode(k + 97) + word.slice(j + 1);
           if (wordSet.has(newWord)) {
@@ -2501,7 +2576,43 @@ var ladderLength = function(beginWord, endWord, wordList) {
     steps++;
   }
 
-  return 0;    
+  return 0;
+};
+```
+
+A gene string can be represented by an 8-character long string, with choices from 'A', 'C', 'G', and 'T'. Given the two gene strings `startGene` and `endGene` and the gene bank, return the minimum number of mutations needed to mutate from `startGene` to `endGene`. If there is no such a mutation, return -1.
+
+```js
+var minMutation = function (startGene, endGene, bank) {
+  let step = 0;
+  let queue = [startGene];
+  let bankSet = new Set(bank);
+  let genes = ["A", "C", "G", "T"];
+
+  while (queue.length) {
+    let size = queue.length;
+
+    for (let i = 0; i < size; i++) {
+      let cur = queue.shift();
+      if (cur === endGene) {
+        return step;
+      }
+      for (let j = 0; j < cur.length; j++) {
+        for (let g of genes) {
+          if (cur[j] === g) continue;
+          let newGene = cur.slice(0, j) + g + cur.slice(j + 1);
+
+          if (bankSet.has(newGene)) {
+            queue.push(newGene);
+            bankSet.delete(newGene);
+          }
+        }
+      }
+    }
+    step++;
+  }
+
+  return -1;
 };
 ```
 
