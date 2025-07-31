@@ -928,6 +928,33 @@ var strStr = function (haystack, needle) {
 };
 ```
 
+Given an array of integers citations for their paper, return the researcher's h-index. The h-index is the largest number h such that the researcher has h papers, each cited at least h times.
+
+```js
+// 你要找一个最大的数字 H
+// 满足 至少有 H 个数 ≥ H
+var hIndex = function (citations) {
+  let n = citations.length;
+  let bucket = new Array(n + 1).fill(0);
+
+  for (let c of citations) {
+    if (c >= n) {
+      bucket[n]++;
+    } else {
+      bucket[c]++;
+    }
+  }
+
+  let count = 0;
+  for (let i = n; i >= 0; i--) {
+    count += bucket[i];
+    if (count >= i) {
+      return i;
+    }
+  }
+};
+```
+
 Given an array of strings, group anagrams together. i.e. Input: `["eat", "tea", "tan", "ate", "nat", "bat"]`, Output: `[ ["ate","eat","tea"], ["nat","tan"], ["bat"] ]`
 
 ```js
