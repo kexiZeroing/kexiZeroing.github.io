@@ -172,6 +172,9 @@ const protect = async (req, res, next) => {
 };
 ```
 
+> - React Auth: https://github.com/gitdagray/react_jwt_auth
+> - Next.js App Router Auth: https://github.com/balazsorban44/auth-poc-next
+
 ### What is SSO (Single Sign On)
 SSO is an **authentication** method that allows users to authenticate once with a centralized Identity Provider (IdP) and gain access to multiple apps. You should use SSO when you want to authenticate users via a centralized identity provider. Users can log into an IdP and gain access to all the apps and services connected to that IdP without repeatedly authenticating with each.
 
@@ -185,6 +188,8 @@ Different SSO protocols, like CAS (Central authentication service), share sessio
 6. This time, since the Google session cookie is still valid, no login prompt is shown.
 7. Google issues a new token for Google Drive and redirects you there.
 8. Google Drive validates the token and grants access, without another login.
+
+> SAML (security assertion markup language) is commonly used for SSO. SAML is to OIDC as SOAP is to REST.
 
 ### Multi-factor authentication
 MFA is when a user is required to input more than just a password to authenticate. For example, Two factor authentication (2FA) requires users to enter a code from another device in addition to their username and password. The device is the second "factor" (in addition to the password) that is used to verify the user's identity. With this, even if an attacker were able to determine a user's password, they wouldn't be able to log in without also having access to the user's phone. This makes it much harder for an attacker to gain access to a user's account.

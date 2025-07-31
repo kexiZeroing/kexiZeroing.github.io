@@ -883,6 +883,49 @@ while (left <= right) {
 return nums.slice(0, k).sort((a, b) => b - a); 
 ```
 
+You are given two integer arrays `nums1` and `nums2`, sorted in non-decreasing order, and two integers `m` and `n`, representing the number of elements in nums1 and nums2 respectively. Merge nums1 and nums2 into a single array in non-decreasing order stored inside the array `nums1`.
+
+```js
+var merge = function (nums1, m, nums2, n) {
+  if (!n) return;
+
+  let i = m - 1;
+  let j = n - 1;
+
+  for (let k = m + n - 1; k >= 0; k--) {
+    if (j < 0 || nums1[i] >= nums2[j]) {
+      nums1[k] = nums1[i];
+      i--;
+    } else {
+      nums1[k] = nums2[j];
+      j--;
+    }
+  }
+};
+```
+
+Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+
+```js
+var isSubsequence = function (s, t) {
+  if (!s.length) {
+    return true;
+  }
+
+  let i = 0;
+  for (let j = 0; j < t.length; j++) {
+    if (t[j] === s[i]) {
+      i++;
+      if (i === s.length) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+```
+
 Given an array of strings, group anagrams together. i.e. Input: `["eat", "tea", "tan", "ate", "nat", "bat"]`, Output: `[ ["ate","eat","tea"], ["nat","tan"], ["bat"] ]`
 
 ```js
@@ -933,6 +976,38 @@ var canConstruct = function(ransomNote, magazine) {
     }
   }
   return true;
+};
+```
+
+A happy number is a number defined by starting with any positive integer, replace the number by the sum of the squares of its digits. Repeat the process until the number equals 1. Return true if n is a happy number, and false if not.
+
+```js
+var isHappy = function (n) {
+  let set = new Set();
+
+  function getNext(m) {
+    let num = 0;
+
+    while (m > 0) {
+      let digit = m % 10;
+      num += digit * digit;
+      m = Math.floor(m / 10);
+    }
+    return num;
+  }
+
+  while (true) {
+    let val = getNext(n);
+    if (val === 1) {
+      return true;
+    }
+    if (set.has(val)) {
+      return false;
+    } else {
+      set.add(val);
+    }
+    n = val;
+  }
 };
 ```
 
@@ -2145,6 +2220,25 @@ var isValidBST = function(root) {
 };
 ```
 
+You are given the root of a binary tree containing digits from 0 to 9 only. Each root-to-leaf path in the tree represents a number. Return the total sum of all root-to-leaf numbers.
+
+```js
+var sumNumbers = function (root) {
+  function dfs(node, sum) {
+    if (!node) {
+      return 0;
+    }
+    sum = sum * 10 + node.val;
+    if (!node.left && !node.right) {
+      return sum;
+    }
+    return dfs(node.left, sum) + dfs(node.right, sum);
+  }
+
+  return dfs(root, 0);
+};
+```
+
 Construct binary tree from pre-order and in-order traversal.
 
 ```js
@@ -2458,6 +2552,26 @@ var lengthOfLIS = function(nums) {
     maxLength = Math.max(maxLength, dp[i]);
   }
   return maxLength;
+};
+```
+
+Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words. For example, `s = "leetcode"`, `wordDict = ["leet","code"]`, output is true.
+
+```js
+var wordBreak = function (s, wordDict) {
+  let dp = new Array(s.length + 1).fill(false);
+  dp[0] = true;
+
+  for (let i = 1; i <= s.length; i++) {
+    for (let w of wordDict) {
+      let start = i - w.length;
+      if (start >= 0 && dp[start] && s.slice(start, i) === w) {
+        dp[i] = true;
+        break;
+      }
+    }
+  }
+  return dp[s.length];
 };
 ```
 

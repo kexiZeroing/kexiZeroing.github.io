@@ -708,6 +708,8 @@ myMap.has('key1');
 myMap.delete('key1');
 
 // Iterating with for..of
+// The keys(), values() method of Map instances returns a new map iterator object,
+// not an array.
 for (let key of myMap.keys()) console.log(key);
 for (let value of myMap.values()) console.log(value);
 for (let [key, value] of myMap.entries()) console.log(key + ' = ' + value);
