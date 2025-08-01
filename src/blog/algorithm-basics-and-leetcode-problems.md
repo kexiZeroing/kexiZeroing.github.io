@@ -1283,31 +1283,42 @@ var longestValidParentheses = function(s) {
 };
 ```
 
-Given a string s containing only three types of characters: '(', ')' and '\*', return true if s is valid. '\*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string "".
+Given a string s representing a valid expression, implement a basic calculator to evaluate it. s consists of digits, `'+'`, `'-'`, `'('`, `')'`, and `' '`.
 
 ```js
-var checkValidString = function(s) {
-  // the min and max # of open parentheses that must be matched
-  let leftMin = 0, leftMax = 0;
+var calculate = function (s) {
+  let res = 0;
+  let stack = [];
+  let number = 0;
+  let sign = 1;
 
-  for (let c of s) {
-    if (c === '(') {
-      leftMin++;
-      leftMax++;
-    } else if (c === ')') {
-      leftMin--;
-      leftMax--;
-    } else {
-      leftMin--;  // treating as ')'
-      leftMax++;  // treating as '('
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+    if (c === " ") continue;
+
+    if (c >= "0" && c <= "9") {
+      number = number * 10 + Number(c);
     }
-    if (leftMax < 0) return false;
-    // we must have seen '*' earlier in the string
-    // use '*' to balance the excess of closing parentheses
-    if (leftMin < 0) leftMin = 0;
+    else if (c === "+" || c === "-") {
+      res += number * sign;
+      number = 0;
+      sign = c === "-" ? -1 : 1;
+    }
+    else if (c === "(") {
+      stack.push(res);
+      stack.push(sign);
+      res = 0;
+      sign = 1;
+    }
+    else if (c === ")") {
+      res += number * sign;
+      number = 0;
+      res *= stack.pop();
+      res += stack.pop();
+    }
   }
   
-  return leftMin === 0;
+  return res + number * sign;
 };
 ```
 
@@ -2337,6 +2348,28 @@ var buildTree = function(preorder, inorder) {
 };
 ```
 
+Given an integer array nums where the elements are sorted in ascending order, convert it to a height-balanced binary search tree.
+
+```js
+var sortedArrayToBST = function (nums) {
+  function build (left, right) {
+    if (right < left) {
+      return null;
+    }
+
+    let mid = Math.floor((left + right) / 2);
+    let node = new TreeNode(nums[mid]);
+
+    node.left = build(left, mid - 1);
+    node.right = build(mid + 1, right);
+
+    return node;
+  }
+
+  return build(0, nums.length - 1);
+};
+```
+
 Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
 
 ```js
@@ -2362,6 +2395,31 @@ var kthSmallest = function(root, k) {
     }
   } 
   return null; // If k is greater than the number of nodes in the BST
+};
+```
+
+Given the root of a binary tree, flatten the tree into a "linked list". The "linked list" should use the same TreeNode class. The "linked list" should be in the same order as a pre-order traversal of the binary tree.
+
+```js
+var flatten = function (root) {
+  if (!root) return;
+
+  let stack = [root];
+  let prev = null;
+
+  while (stack.length) {
+    let node = stack.pop();
+
+    if (prev) {
+      prev.right = node;
+      prev.left = null;
+    }
+
+    if (node.right) stack.push(node.right);
+    if (node.left) stack.push(node.left);
+
+    prev = node;
+  }
 };
 ```
 
@@ -2643,6 +2701,41 @@ var minMutation = function (startGene, endGene, bank) {
 
   return -1;
 };
+```
+
+There are a total of numCourses courses you have to take, labeled from `0` to `numCourses - 1`. Prerequisites `[a, b]` indicates that you must take course `b` first if you want to take course `a`. Return true if you can finish all courses. 
+
+```js
+var canFinish = function (numCourses, prerequisites) {
+  let inDegree = Array(numCourses).fill(0);
+  let adj = Array.from({ length: numCourses }, () => []);
+
+  for (let [course, prereq] of prerequisites) {
+    adj[prereq].push(course);
+    inDegree[course]++;
+  }
+
+  let queue = [];
+  for (let i = 0; i < numCourses; i++) {
+    if (inDegree[i] === 0) {
+      queue.push(i);
+    }
+  }
+  
+  let processed = 0;
+  while (queue.length > 0) {
+    let c = queue.shift();
+    processed++;
+
+    for (const next of adj[c]) {
+      inDegree[next]--;
+      if (inDegree[next] === 0) {
+        queue.push(next);
+      }
+    }
+  }
+  return processed === numCourses;
+}
 ```
 
 The message is decoded via the following mapping: `"1" -> 'A'` ... `"26" -> 'Z'`. There are many different ways you can decode the message because some codes are contained in other codes ("2" and "5" vs "25"). Given a string s containing only digits, return the number of ways to decode it.
