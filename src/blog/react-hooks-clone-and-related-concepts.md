@@ -93,6 +93,29 @@ var App = React.render(Component);
 */
 ```
 
+### State updates are asynchronous and batched
+
+```js
+const [user, setUser] = useState({})
+
+setUser(data);
+console.log(user);
+```
+
+The `console.log(user)` will not show the updated data immediately. `setUser(data)` schedules a state update, it does not update user instantly. React batches state updates and triggers a re-render later. Only after the re-render will user reflect the new value.
+
+```js
+const [count, setCount] = useState(0);
+
+function handleClick() {
+  setCount(count + 1);
+  setCount(count + 1);
+  setCount(count + 1);
+}
+```
+
+It will only increment the count by 1, despite the three calls. React state updates are async and batched so it will re-render only once. All three `setCount` are looking at the state of count on the same loop, so all of them see that count is 0 and all of them change it to 1. You're just setting it to 1 three times. If it was `setCount(c => c + 1)` then the result is 3.
+
 ### JSX Basics
 
 ```js
@@ -131,6 +154,8 @@ const render = (reactElement, container) => {
 
 render(<App />, document.querySelector('#app'))
 ```
+
+Babel compiles JSX `<div>Hi</div>` to a function call `React.createElement('div', null, 'hi')`. If you have a comment like `/** @jsx cool */`, Babel will transpile the JSX using the function `cool` you defined instead of `React.createElement`, so you can have a function `const cool = (el, props, ...children) => {}`, which could be totally not related to React.
 
 > You might recall that you needed to `import React from 'react'` to write JSX correctly. Starting with React 17, React introduced a new JSX transform that automatically imports special functions in the React package and calls them behind the scenes.
 
