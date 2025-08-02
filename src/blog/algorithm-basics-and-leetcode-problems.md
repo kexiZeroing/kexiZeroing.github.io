@@ -19,7 +19,6 @@ updatedDate: "Feb 16 2025"
 - [Shuffle an array](#shuffle-an-array)
 - [Traverse Binary Tree](#traverse-binary-tree)
 - [Graph DFS](#graph-dfs)
-- [Path Finding](#path-finding)
 - [Heap](#heap)
 - [LRU](#lru)
 - [DP](#dp)
@@ -468,47 +467,6 @@ function escapeMaze(maze, i, j) {
   maze[i][j] = 'X';
   
   return escapeMaze(maze, i + 1, j) || escapeMaze(maze, i - 1, j) || escapeMaze(maze, i, j + 1) || escapeMaze(maze, i, j - 1);
-}
-```
-
-### Path Finding
-
-```js
-function findPath(graph, start, goal) {
-  const queue = [];
-  queue.push(start);
-  const cameFrom = new Map();
-  cameFrom.set(start, null);
-  
-  while (queue.length > 0) {
-    const current = queue.shift();
-      
-    if (current === goal) {
-      break;
-    }
-      
-    for (const next of graph.neighbors(current)) {
-      if (!cameFrom.has(next)) {
-        queue.push(next);
-        cameFrom.set(next, current);
-      }
-    }
-  }
-  
-  return cameFrom;
-}
-
-function reconstructPath(cameFrom, start, goal) {
-  const path = [];
-  let current = goal;
-
-  while (current !== null) {
-    path.push(current);
-    current = cameFrom.get(current);
-  }
-
-  path.reverse();  
-  return path[0] === start ? path : [];
 }
 ```
 
