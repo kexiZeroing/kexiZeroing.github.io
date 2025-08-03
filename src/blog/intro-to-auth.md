@@ -77,7 +77,7 @@ Claims also include statements about the end user. Some of the standard profile 
 The `nonce` is a cryptographically random string that the client creates and sends with an authorization request. The authorization server then places the nonce in the token that is sent back to the app. The app verifies that the nonce in the token matches the one sent with the authorization request. This way, the app can verify that the token came from the place it requested the token from in the first place.
 
 > The details of how this works shouldn’t trouble you or keep you from effectively using an authorization server with token-based authentication.
-> - To further demystify JWT, read [Signing and Validating JSON Web Tokens For Everyone](https://maida.kim/2020/09/signing-and-validating-json-web-tokens-jwt-for-everyone) also by @KimMaida.
+> - To further demystify JWT, read [Signing and Validating JSON Web Tokens For Everyone](https://maida.kim/signing-and-validating-json-web-tokens-jwt-for-everyone/) also by @KimMaida.
 > - [JWT.io](https://jwt.io) provides a debugger tool to decode, verify and generate JWT.
 > - [jose](https://github.com/panva/jose) is JavaScript module for JSON Object Signing and Encryption.
 

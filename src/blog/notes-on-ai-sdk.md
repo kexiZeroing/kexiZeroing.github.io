@@ -428,10 +428,12 @@ import fs from "fs";
 
 export async function codingAgent(prompt: string) {
   const result = await generateText({
+    // The AI Gateway is a proxy service that routes model requests to various AI providers. 
+    // https://vercel.com/blog/ai-gateway
     model: "openai/gpt-4.1-mini",
     prompt,
     system:
-      "You are a coding agent. You will be working with js/ts projects. Your responses must be concise.",
+      "You are a coding agent. You will be working with js/ts projects. Your responses must be concise. Always start by listing all the files in the current directory.",
     stopWhen: stepCountIs(10), // loop back up to 10 times until we generate text
     tools: {
       list_files: tool({
