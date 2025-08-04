@@ -825,22 +825,6 @@ var findKthLargest = function(nums, k) {
 };
 ```
 
-```js
-// Ask to return the top k largest elements
-while (left <= right) {
-  let pos = partition(nums, left, right);
-  if (pos === k - 1) {
-    break;
-  } else if (pos > k - 1) {
-    right = pos - 1;
-  } else {
-    left = pos + 1;
-  }
-}
-
-return nums.slice(0, k).sort((a, b) => b - a); 
-```
-
 You are given two integer arrays `nums1` and `nums2`, sorted in non-decreasing order, and two integers `m` and `n`, representing the number of elements in nums1 and nums2 respectively. Merge nums1 and nums2 into a single array in non-decreasing order stored inside the array `nums1`.
 
 ```js
@@ -2172,7 +2156,7 @@ var hasPathSum = function(root, targetSum) {
 };
 ```
 
-Given the root of a binary tree, return the maximum path sum of any non-empty path. A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them.
+Given the root of a binary tree, return the maximum path sum of any non-empty path. A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once.
 
 ```js
 var maxPathSum = function(root) {
@@ -2184,7 +2168,7 @@ var maxPathSum = function(root) {
     let leftGain = Math.max(maxHelper(node.left), 0);
     let rightGain = Math.max(maxHelper(node.right), 0);
     let currentPathSum = node.val + leftGain + rightGain;
-        
+
     maxSum = Math.max(maxSum, currentPathSum);
     // We can only choose one path (left or right) return to parent
     return node.val + Math.max(leftGain, rightGain);
