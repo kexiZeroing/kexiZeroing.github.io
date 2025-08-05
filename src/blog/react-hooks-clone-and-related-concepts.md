@@ -3,7 +3,7 @@ title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
 tags: [react]
-updatedDate: "July 29 2025"
+updatedDate: "Aug 5 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -308,6 +308,77 @@ function ExpensiveComponent({ children }) {
 }
 const ExpensiveTree = React.memo(ExpensiveComponent)
 ```
+
+Instead of turning the `ServerComponent` into a client component, we can pass it down as a child to a client component wrapper that handles the state and UI rendering. The server component is still responsible only for data fetching. *This also means that wrapping your root layout in the client component does not automatically turn your entire app into a client rendering.*
+
+```js
+'use client';
+
+function ClientWrapper({ children }) {
+  const [visible, setVisible] = useState(true);
+  if (!visible) return null;
+
+  return (
+    <div>
+      {children}
+      <button onClick={() => setVisible(false)}>Dismiss</button>
+    </div>
+  );
+}
+
+function Page() {
+  return (
+    <ClientWrapper>
+      {/* the ServerComponent remains a server component */}
+      <ServerComponent />
+    </ClientWrapper>
+  );
+}
+```
+
+Look at another example, the `ShowMore` component is a reusable UI component to handle the “Show More” logic, and the `CategoryList` component remains focused on data fetching. This way, server and client responsibilities stay separate and your code stays clean.
+
+```js
+async function CategoryList() {
+  const categories = await getCategories();
+  
+  return (
+    <ShowMore initial={5}>
+      {categories.map((category) => (
+        <div key={category.id}>{category.name}</div>
+      ))}
+    </ShowMore>
+  );
+}
+
+'use client';
+
+export default function ShowMore({ children, initial = 5 }) {
+  const [expanded, setExpanded] = useState(false);
+  const items = expanded ? children : Children.toArray(children).slice(0, initial);
+  const remaining = Children.count(children) - initial;
+
+  return (
+    <div>
+      <div>{items}</div>
+      {remaining > 0 && (
+        <div>
+          <button onClick={() => setExpanded(!expanded)}>
+            {expanded ? 'Show Less' : `Show More (${remaining})`}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+> The `children` prop can be a single React element or an array of elements, so using native `.map()`, `.forEach()` directly on `children` can be risky. React provides the `React.Children` utility to handle children safely and consistently, regardless of its form. It includes:
+>
+> - React.Children.map(children, fn)
+> - React.Children.forEach(children, fn)
+> - React.Children.count(children)
+> - React.Children.toArray(children)
 
 ### What is Fiber
 React Fiber was introduced in React 16 as a complete reimplementation of React's core reconciliation algorithm. At its core, Fiber is a JavaScript object that represents both a unit of work and a node in React's internal tree structure, essentially serving as the modern implementation of React's Virtual DOM.

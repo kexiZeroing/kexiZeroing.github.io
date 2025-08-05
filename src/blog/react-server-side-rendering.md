@@ -212,26 +212,6 @@ Before React Server Components, all React components are “client” components
 
 A common misconception here is that components with `"use client"` only run in browser. Client components still get pre-rendered to the initial HTML on the server (SSR). The `"use client"` doesn't mean the component is "client only", it means that we send the code for this component to the client and hydrate it.
 
-Also note that wrapping your root layout in the client component does not automatically turn your entire app into a client rendering. The children can stay server components. So if you want to have server components inside a client component, you need to use the children pattern to pass them down.
-
-```jsx
-// layout.tsx
-return (
-  <body>
-    <ThemeContextProvider>{children}</ThemeContextProvider>
-  </body>
-)
-
-// ThemeContext.tsx
-"use client";
-
-export default function ThemeContextProvider(
-  { children }: { children: React.ReactNode }
-) {
-  return <div>{children}</div>;
-}
-```
-
 > How is the Next.js App Router related to Server Components?  
 > If a page uses server-side rendering, the page HTML is generated on each request. Next.js used to allow us to do so by using `getServerSideProps`, which will be called by the server on every request.
 > 
