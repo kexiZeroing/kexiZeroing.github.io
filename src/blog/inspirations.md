@@ -27,6 +27,7 @@ order: 3
 - @simonw writes notes on https://simonwillison.net
 - @mattpocockuk about TypeScript
 - @TAbrodi blog https://tigerabrodi.blog/archive
+- @shrutikapoor08 https://shrutikapoor.dev
 
 ## Must read articles
 - https://github.com/reactwg/server-components/discussions/5

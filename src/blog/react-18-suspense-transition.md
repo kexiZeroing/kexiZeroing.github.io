@@ -92,19 +92,18 @@ function App() {
   const [isPending, startTransition] = useTransition();
   const [deferredQuery, setDeferredQuery] = useState(query);
 
-  useEffect(() => {
+  const handleChange = (e) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+
     startTransition(() => {
-      setDeferredQuery(query);
+      setDeferredQuery(newQuery);
     });
-  }, [query]);
+  };
 
   return (
     <div>
-      <input
-        type="text"
-        value={query}
-        onChange={e => setQuery(e.target.value)}
-      />
+      <input type="text" value={query} onChange={handleChange} />
       {/* isPending remains true until the component re-renders with the new deferred value */}
       { isPending ? <Spinner /> : <List q={deferredQuery} /> }
     </div> 

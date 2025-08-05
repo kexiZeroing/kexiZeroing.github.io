@@ -93,6 +93,55 @@ var App = React.render(Component);
 */
 ```
 
+### JSX Basics
+
+```js
+// 1. JSX and virtual DOM
+const React = {
+  createElement(type, props, ...children) {
+    if (typeof type === 'function') {
+      return type(props)
+    }
+    const element = { type, props: { ...props, children } }
+    return element
+  }
+}
+
+const App = () => (
+  <div className="react">
+    <h1>Hello</h1>
+    <p>some text here</p>
+  </div>
+)
+
+<App />
+
+// 2. Render to real DOM
+const render = (reactElement, container) => {
+  if (['string', 'number'].includes(typeof reactElement)) {
+    container.appendChild(document.createTextNode(String(reactElement)))
+    return
+  }
+
+  const actualElement = document.createElement(reactElement.type)
+  if (reactElement.props) {
+    Object.keys(reactElement.props)
+      .filter(p => p !== 'children')
+      .forEach(p => actualElement[p] = reactElement.props[p])
+  }
+  if (reactElement.props.children) {
+    reactElement.props.children.forEach(child => render(child, actualElement))
+  }
+  container.appendChild(actualElement)
+}
+
+render(<App />, document.querySelector('#app'))
+```
+
+Babel compiles JSX `<div>Hi</div>` to a function call `React.createElement('div', null, 'hi')`. If you have a comment like `/** @jsx cool */`, Babel will transpile the JSX using the function `cool` you defined instead of `React.createElement`, so you can have a function `const cool = (el, props, ...children) => {}`, which could be totally not related to React.
+
+> You might recall that you needed to `import React from 'react'` to write JSX correctly. Starting with React 17, React introduced a new JSX transform that automatically imports special functions in the React package and calls them behind the scenes.
+
 ### State updates are asynchronous and batched
 
 ```js
@@ -117,49 +166,6 @@ function handleClick() {
 It will only increment the count by 1, despite the three calls. React state updates are async and batched so it will re-render only once. All three `setCount` are looking at the state of count on the same loop, so all of them see that count is 0 and all of them change it to 1. You're just setting it to 1 three times. If it was `setCount(c => c + 1)` then the result is 3.
 
 When something can be calculated from the existing props or state, don’t put it in state. Instead, calculate it during rendering. 
-
-### JSX Basics
-
-```js
-const React = {
-  createElement(type, props, ...children) {
-    if (typeof type === 'function') {
-      return type(props)
-    }
-    const element = { type, props: { ...props, children } }
-    return element
-  }
-}
-
-const App = () => (
-  <div className="react">
-    <h1>Hello</h1>
-    <p>some text here</p>
-  </div>
-)
-
-const render = (reactElement, container) => {
-  if (['string', 'number'].includes(typeof reactElement)) {
-    container.appendChild(document.createTextNode(String(reactElement)))
-    return
-  }
-
-  const actualElement = document.createElement(reactElement.type)
-  if (reactElement.props) {
-    // set attributes for each reactElement.props (filter out children)
-  }
-  if (reactElement.props.children) {
-    // render recursively
-  }
-  container.appendChild(actualElement)
-}
-
-render(<App />, document.querySelector('#app'))
-```
-
-Babel compiles JSX `<div>Hi</div>` to a function call `React.createElement('div', null, 'hi')`. If you have a comment like `/** @jsx cool */`, Babel will transpile the JSX using the function `cool` you defined instead of `React.createElement`, so you can have a function `const cool = (el, props, ...children) => {}`, which could be totally not related to React.
-
-> You might recall that you needed to `import React from 'react'` to write JSX correctly. Starting with React 17, React introduced a new JSX transform that automatically imports special functions in the React package and calls them behind the scenes.
 
 ### How reconciliation works
 If we had two components of the same type:
