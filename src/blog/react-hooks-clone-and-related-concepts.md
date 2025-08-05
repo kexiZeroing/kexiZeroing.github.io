@@ -116,6 +116,8 @@ function handleClick() {
 
 It will only increment the count by 1, despite the three calls. React state updates are async and batched so it will re-render only once. All three `setCount` are looking at the state of count on the same loop, so all of them see that count is 0 and all of them change it to 1. You're just setting it to 1 three times. If it was `setCount(c => c + 1)` then the result is 3.
 
+When something can be calculated from the existing props or state, don’t put it in state. Instead, calculate it during rendering. 
+
 ### JSX Basics
 
 ```js
@@ -274,6 +276,8 @@ const App = () => {
 > `useCallback` and `useMemo` for props don’t prevent re-renders by themselves. They only create stable references. `React.memo` is what actually checks those references and prevents re-renders.
 >
 > You should treat `useCallback` as a performance optimization only, which means your code should still work if you remove it. It might not work as efficiently as before, but it also shouldn't crash.
+>
+> If we don't have any dependencies, we can even just move the function outside of our component to make it stable - no `useCallback` with empty dependency array necessary.
 
 Note that in the example above, `ChildComponent` does not automatically re-render because its parent component's states change. But if the parent's parent `SomeOutsideComponent` re-renders, it creates a new React element for `<ChildComponent />` (a new object). That causes `MovingComponent` to re-render, even if nothing inside changed.
 

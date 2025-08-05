@@ -176,6 +176,12 @@ export const useContactDetails = (contactId: string | undefined) =>
 
 Query keys are reactive. When a key changes, React Query knows it needs fresh data. You don't manually trigger refetches, you just change the key, and React Query handles the rest. Your UI becomes a reflection of your query keys. *(I don't think I have ever passed a variable to the `queryFn` that was not part of the `queryKey`)*
 
+The QueryKey you pass to `useQuery` gets hashed deterministically into a QueryHash, and `useQuery` will only get notified about changes to that Query.
+
+> React Query will re-run the `select` function in two cases:
+> 1. When data changes.
+> 2. When the select function itself changes.
+
 ```js
 function TodoList({ filter }) {
   const queryClient = useQueryClient();
@@ -191,6 +197,7 @@ function TodoList({ filter }) {
     // `placeholderData` is not persisted to the cache
     placeholderData: (previousData) => previousData,
     // Transform or select a part of the data returned by the query function
+    // only re-render if this result changes
     select: (data) => { ... },
     // Refetch every 5 seconds
     refetchInterval: 5000,
