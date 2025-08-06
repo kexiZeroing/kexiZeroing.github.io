@@ -93,6 +93,8 @@ updatedDate: "July 14 2025"
 
 - This is where the `overflow: clip` becomes helpful. It’s supported by all major browsers. If you set `overflow-y` to `clip`. The `overflow-x` value will stay as is (`visible`). Now the clipping happens only on the y-axis.
 
+- You may have noticed that when you have a dialog box with scrolling content at the top of a page that also has scrolling content, once the dialog box's scroll boundary is reached, the underlying page will then start to scroll — this is called scroll chaining. This can be stopped using `overscroll-behavior: contain` on the dialog box. `overscroll-behavior: none` means that no scroll chaining occurs to neighboring scrolling areas, and default scroll overflow behavior is prevented.
+
 - Position `fixed` doesn’t work with `transform` property for the ancestor element. It happens because `transform` creates a new stacking context and containing block, causing the fixed element to be positioned relative to that ancestor instead of the viewport.
 
 - Center one and right/left align other element: Grid layout may be the cleanest and most efficient method. There is no need for absolute positioning or flexbox with fake elements.
