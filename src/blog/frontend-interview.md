@@ -309,52 +309,30 @@ async function renderJSXToHTML(jsx) {
 }
 ```
 
-10. Implement a streaming function that processes text data from a server, where messages need to be displayed character by character as they arrive.
+10. 给定一个 JavaScript 对象，它可能包含嵌套的对象或数组。请检测其中的循环引用，并将所有循环引用的值替换为字符串 "cycle"。
 
 ```js
-// server
-app.get('/ask', async (req, res) => {
-  const { question } = req.query;
-  const anwser = await new OpenAI().chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      {
-        role: "user",
-        content: `Answer the following question: ${question}`
+function cycle(obj) {
+  const seen = new Set();
+
+  function helper(o) {
+    if (typeof o !== 'object' || o === null) return;
+    
+    seen.add(o);
+
+    for (let key in o) {
+      if (typeof o[key] === 'object' && o[key] !== null) {
+        if (seen.has(o[key])) {
+          o[key] = 'cycle';
+          continue;
+        } else {
+          helper(o[key]);
+        }
       }
-    ],
-    stream: true,
-  })
-
-  res.setHeader('Content-Type', 'text/event-stream');
-
-  for await (const chunk of anwser) {
-    res.write(chunk.choices[0].delta.content);
+    }
   }
 
-  res.end();
-});
-```
-
-```js
-// client
-const handleSearch = async () => {
-  const res = await fetch(`/ask?question=${input}`);
-  const reader = res.body.getReader();
-  const decoder = new TextDecoder();
-
-  const read = async () => {
-    const { done, value } = await reader.read();
-    if (done) {
-      return;
-    }
-    const chunk = decoder.decode(value, { stream: true });
-    elResult.textContent += chunk;
-    read();
-  };
-
-  read();
+  helper(obj);
+  return obj;
 }
 ```
-
-> The morph effect: On submit, the textarea is given a view transition name with a unique incrementing index, then view transition is called and the same name is given to the new message element that's appended into the chat container. This creates the morph effect since the old state is the textarea and the new state is the message bubble.
