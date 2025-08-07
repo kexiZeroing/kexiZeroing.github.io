@@ -1343,6 +1343,34 @@ var productExceptSelf = function(nums) {
 };
 ```
 
+Children are standing in a line. Each child is assigned a rating value. You are giving candies to these children subjected to 1. Each child must have at least one candy. 2. Children with a higher rating get more candies than their neighbors. Return the minimum number of candies you need.
+
+```js
+var candy = function (ratings) {
+  let left = [];
+  let right = [];
+  let n = ratings.length;
+
+  left[0] = 1;
+  right[n - 1] = 1;
+
+  // 左边遍历解决“升序”
+  for (let i = 1; i < n; i++) {
+    left[i] = ratings[i] > ratings[i - 1] ? left[i - 1] + 1 : 1;
+  }
+  // 右边遍历解决“降序”
+  for (let j = n - 2; j >= 0; j--) {
+    right[j] = ratings[j] > ratings[j + 1] ? right[j + 1] + 1 : 1;
+  }
+
+  for (let k = 0; k < n; k++) {
+    left[k] = Math.max(left[k], right[k]);
+  }
+
+  return left.reduce((acc, cur) => acc + cur, 0);
+};
+```
+
 Given an array of integers temperatures represents the daily temperatures, return an array answer such that `answer[i]` is the number of days you have to wait after the `ith` day to get a warmer temperature. If there is no future day for which this is possible, keep `answer[i] == 0` instead.
 
 ```js

@@ -58,7 +58,7 @@ Everything I googled as a senior software engineer: https://localghost.dev/blog/
 
 A collective list of free APIs: https://github.com/public-apis/public-apis
 
-Monitor for JS Heap Size memory-stats.js: https://github.com/paulirish/memory-stats.js
+JavaScript Performance Monitor: https://github.com/mrdoob/stats.js
 
 Tips to get more comfortable with DevTools: https://devtoolstips.org/
 
