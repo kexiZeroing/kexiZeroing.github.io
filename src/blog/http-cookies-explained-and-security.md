@@ -146,6 +146,20 @@ The above policy permits:
 - Images from the site's own origin and `img.example.com`
 - Styles only from the site's origin.
 
+#### Hotlink Protection
+Hotlinking happens when someone embeds your hosted files (images, videos, PDFs, etc.) on their site by linking directly to your URL.
+- Bandwidth cost — You’re paying for traffic from someone else’s site.
+- Performance impact — Your server handles more requests than it should.
+- Security concerns — In some cases, files could be linked for malicious purposes.
+
+Hotlink protection typically checks the `Referer` HTTP header to see which page requested the file. Most CDNs have a “Hotlink Protection” toggle that works by automatically checking the referrer before serving assets.
+
+Signed URLs:  
+Instead of letting users access videos directly by a fixed URL, you generate a temporary, signed URL that includes an expiry timestamp, and signed with a secret key. (`https://cdn.yourdomain.com/video.mp4?expires=1723119800&signature=4d2f0d1a...`)
+
+For adaptive streaming:  
+The `.m3u8` playlist URL is signed and expires quickly. Each media chunk request is also signed, and the chunk URLs will expire quickly.
+
 ### Handling Cross-Domain Cookies in iframes
 Modern browsers have increasingly strict rules around third-party cookies. To allow cookies in cross-origin iframes, the server must explicitly set the cookie with `SameSite=None; Secure`. However, starting with Chrome 118, there's a gradual rollout to block third-party cookies, regardless of this setting. This change is part of Chrome’s Privacy Sandbox initiative.
 

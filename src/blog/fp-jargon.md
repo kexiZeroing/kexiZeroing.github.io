@@ -62,6 +62,22 @@ const add2 = curriedSum(2) // (b) => 2 + b
 add2(10) // 12
 ```
 
+```js
+const curry = (fn, arr = []) => {
+  let len = fn.length
+
+  return function(...args) {
+    let newArgs = [...arr, ...args]
+
+    if (newArgs.length === len) {
+      return fn(...newArgs)
+    } else {
+      return curry(fn, newArgs)
+    }
+  }
+} 
+```
+
 ### Function Composition
 The act of putting two functions together to form a third function where the output of one function is the input of the other.
 

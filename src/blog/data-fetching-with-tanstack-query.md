@@ -203,14 +203,29 @@ function TodoList({ filter }) {
     refetchInterval: 5000,
   });
 }
+```
 
-// Search with URL state
-const { search } = useSearchParams();
+When using suspense mode, `status` states and `error` objects are not needed and are then replaced by usage of the Suspense and ErrorBoundary. `data` is guaranteed to be defined.
 
-useQuery({
-  queryKey: ["search", search],
-  queryFn: () => searchItems(search),
-});
+```js
+import { useSuspenseQuery } from '@tanstack/react-query';
+
+function SuspendedComponent() {
+  const { data } = useSuspenseQuery({
+    queryKey: ['dataKey'],
+    queryFn: fetchData
+  });
+
+  return <p>{data}</p>;
+}
+
+function App() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <SuspendedComponent />
+    </Suspense>
+  );
+}
 ```
 
 ```jsx

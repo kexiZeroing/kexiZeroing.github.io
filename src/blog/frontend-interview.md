@@ -336,3 +336,38 @@ function cycle(obj) {
   return obj;
 }
 ```
+
+```js
+// 嵌套很深的对象遍历
+// dfs
+function traverseDFS(obj) {
+  if (typeof obj !== 'object' || obj === null) return;
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      console.log(key, obj[key]);
+
+      traverseDFS(obj[key]);
+    }
+  }
+}
+
+// bfs
+function traverseBFS(obj) {
+  const queue = [obj];
+
+  while (queue.length > 0) {
+    const current = queue.shift();
+
+    for (const key in current) {
+      if (current.hasOwnProperty(key)) {
+        console.log(key, current[key]);
+
+        if (typeof current[key] === 'object' && current[key] !== null) {
+          queue.push(current[key]);
+        }
+      }
+    }
+  }
+}
+```
