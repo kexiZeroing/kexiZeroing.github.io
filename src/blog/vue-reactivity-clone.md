@@ -183,3 +183,44 @@ Vue 2 reactivity caveats: Since Vue 2 performs the getter/setter conversion proc
 > Vue wraps an observed array’s mutation methods (`push`, `pop`, `unshift`, `shift`, etc) so they will trigger view updates.
 
 To work around this, you can use `Vue.set(object, propertyName, value)` method instead. (`this.$set` instance method is an alias to the global `Vue.set`)
+
+### Computed implementation
+A computed property depends on any reactive values accessed inside its `getter`. In short, it’s a cached formula with automatic invalidation:
+1. First access: run the getter, store the result, mark `dirty = false`.
+2. No dependency changes: just return the stored value (no recomputation).
+3. Dependency changes: scheduler sets `dirty = true` so the next access will recompute.
+
+```js
+function computed(getter) {
+  // 缓存计算函数执行后的返回值
+  let value
+  // 缓存过期标志
+  let dirty = true
+
+  // 这里用一个 effect 包裹 getter，配置 {lazy: true}，表示不会立刻执行
+  const runner = effect(() => {
+    value = getter()
+  }, {
+    lazy: true,
+    scheduler() {
+      dirty = true
+      // 把 computed 的变化向外广播，让依赖它的 effect 重新跑
+      trigger(obj, 'value')
+    }
+  })
+
+  const obj = {
+    get value() {
+      if (dirty) {
+        dirty = false
+        runner()
+        // 别人依赖 computed 的时候做的事
+        track(obj, 'value')
+      }
+      return value
+    }
+  }
+
+  return obj
+}
+```
