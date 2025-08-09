@@ -16,7 +16,7 @@ Building apps that run in the browser is completely different from building a No
 - In Node.js you control the environment. This means that you can write all the modern ES2015+ JavaScript that your Node.js version supports.
 - Node.js supports both the CommonJS and ES module systems, while in the browser, we are starting to see the ES Modules standard being implemented.
 
-[Undici](https://undici.nodejs.org) is an HTTP client library that powers the fetch API in Node.js. It was written from scratch and does not rely on the built-in HTTP client in Node.js. It includes a number of features that make it a good choice for high-performance applications.
+Remember when every project needed axios, node-fetch, or similar libraries for HTTP requests? Those days are over. Node.js now includes the fetch API natively. [Undici](https://undici.nodejs.org) is an HTTP client library that powers the fetch API in Node.js. It was written from scratch and does not rely on the built-in HTTP client in Node.js. It includes a number of features that make it a good choice for high-performance applications.
 
 > Undici means eleven in Italian *(1.1 -> 11 -> Eleven -> Undici)*. Undici is a replacement for `http.request` because we could not improve `http.request` without breaking everybody.
 
@@ -174,7 +174,15 @@ console.log(process.env.USER_ID); // "239482"
 console.log(process.env.USER_KEY); // "foobar"
 ```
 
-Node.js v20 introduced experimental support for `.env` files. You can use the `--env-file` flag to specify an environment file when running your Node.js application.
+Node.js v20 introduced experimental support for `.env` files. You can use the `--env-file` flag to specify an environment file when running your Node.js application. *(The `--watch` flag eliminates the need for nodemon, while `--env-file` removes the dependency on dotenv.)*
+
+```json
+ "scripts": {
+    "dev": "node --watch --env-file=.env app.js",
+    "test": "node --test --watch",
+    "start": "node app.js"
+  }
+```
 
 ## Modules
 1. CJS is the default; you have to opt-in to ESM mode. You can opt-in to ESM mode by renaming your script from `.js` to `.mjs`. Alternately, you can set `"type": "module"` in package.json, and then you can opt-out of ESM by renaming scripts from `.js` to `.cjs`.
@@ -201,6 +209,8 @@ console.log(module)  // { exports: { name: 'Alan', test: [Function] } }
 ```
 
 `require` keyword refers to a function which is used to import all the constructs exported using the `module.exports` from another module. The value returned by the `require` function in module y is equal to the `module.exports` object in the module x. The require function takes in an argument which can be a name or a path. You should provide the name as an argument when you are using the third-party modules or core modules provided by NPM. On the other hand, when you have custom modules defined by you, you should provide the path of the module as the argument.
+
+CommonJS has limitations—no static analysis, no tree-shaking, and it doesn't align with browser standards.
 
 ### Requiring ESM in Node.js
 The capability to `require()` ESM modules in Node.js marks an incredible milestone. This feature allows packages to be published as ESM-only while still being consumable by CJS codebases with minimal modifications.

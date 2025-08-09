@@ -201,6 +201,22 @@ More about `watchEffect`:
 2. The callback function receives a special function called `onCleanup` as its first argument. You can use this function to register a cleanup callback that will be called before the watcher is re-executed.
 3. A confusing caveat is that `watchEffect` only tracks dependencies during its synchronous execution. When using it with an async callback, only properties accessed before the first `await` tick will be tracked. Everything after the `await` will NOT be tracked.
 
+```js
+// `onCleanup` function is also passed to watcher callbacks as the 3rd argument
+watch(searchQuery, (query, oldQuery, onCleanup) => {
+  searchResults.value = []
+
+  const timerId = setTimeout(async () => {
+    const results = await fetch(`/api/search?q=${query}`)
+    searchResults.value = await results.json()
+  }, 300)
+
+  onCleanup(() => clearTimeout(timerId))
+})
+```
+
+Vue calls your cleanup function in two situations: when the watcher is about to run again, and when the watcher stops completely (like when a component unmounts).
+
 ### Watchers callback flush timing
 Similar to component updates, user-created watcher callbacks are batched to avoid duplicate invocations.
 
