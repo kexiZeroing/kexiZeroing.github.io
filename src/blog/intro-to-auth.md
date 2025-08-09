@@ -106,6 +106,61 @@ Access tokens are used for granting access to resources. Unlike ID tokens, acces
 
 Access tokens are opaque to the client. They can change at any time. They should have short expiration times, so a user may frequently get new ones. *Refresh tokens are used to obtain a renewed access token without having to re-authenticate the user.* The client application should never contain code that relies on the contents of the access token.
 
+```js
+// Refresh token (expire in days) -> HTTP only cookie
+// Access token (expire in mins) -> In memory state
+
+const api = axios.create({
+  baseURL: "/api",
+  withCredentials: true,
+});
+
+// Request interceptor
+useLayoutEffect(() => {
+  const requestInterceptor = api.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    }
+  );
+
+  return () => {
+    api.interceptors.request.eject(requestInterceptor);
+  };
+}, [token]);
+
+// Response interceptor
+useLayoutEffect(() => {
+  const resInterceptor = api.interceptors.response.use(
+    (response) => response,
+    // Any status codes that falls outside the range of 2xx
+    async (error) => {
+      const originalRequest = error.config;
+
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+        try {
+          const res = await axios.get("/api/refresh", { withCredentials: true });
+          const newToken = res.data.accessToken;
+
+          setAccessToken(newToken);
+
+          // Retry the original request with the new token
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          return api(originalRequest);
+        } catch (refreshErr) {
+          return Promise.reject(refreshErr);
+        }
+      }
+
+      return Promise.reject(error);
+    }
+  );
+})
+```
+
 > When the Access Token expires and you get a 401 error, you make a request to the "Token Endpoint", with a valid Refresh Token, and it will return a new Access Token and Refresh Token pair. If the Refresh Token expires due to the user not using the service for a long time, they will need to re-establish the connection by going through the Authorization Code Flow again.
 
 The app sends an authorization request to the authorization server, requesting an access token to call an API. Then when our app wants to interact with the API, we attach the access token to the request header *(Authorization header with the Bearer Token)*. This token has some important information in it, such as:
