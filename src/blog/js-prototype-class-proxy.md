@@ -153,6 +153,8 @@ class A {
     this.name = 'abc'
   }
 }
+// `name = 'abc'` is called public class field
+// It’s syntactic sugar for assigning in the constructor.
 
 class Car {
   // private field, # as a part of the property name

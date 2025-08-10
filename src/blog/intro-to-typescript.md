@@ -3,7 +3,7 @@ title: "Intro to TypeScript"
 description: ""
 added: "Jun 12 2022"
 tags: [js]
-updatedDate: "July 13 2025"
+updatedDate: "Aug 10 2025"
 ---
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
@@ -239,13 +239,20 @@ type Animal = {
 
 // Union Type (a type can be one of multiple types, type A = X | Y)
 // Narrow down the types of values: typeof, truthiness, instanceof...
-const sayHappyBirthday = (name: string | null) => {
-  if (name === null) {
-    console.log('Happy birthday!');
-  } else {
-    console.log(`Happy birthday ${name}!`);
+function validateUsername(username: string | null): boolean {
+  if (typeof username === 'string') {
+    return username.length > 5
   }
-};
+
+  return false
+}
+
+const handleResponse = (response: APIResponse) => {
+  // response.data: Property 'data' does not exist on type 'APIResponse'.
+  if ('data' in response) {
+    return response.data.id
+  }
+}
 
 // Intersection Type (a type is the combination of all listed types, type A = X & Y)
 type Student = {
@@ -279,11 +286,13 @@ const q: Dimensions = p; // also fine
 **Summary of Type vs Interface:**
 https://www.totaltypescript.com/type-vs-interface-which-should-you-use
 
-- Interfaces can't express unions or mapped types. Type aliases can express any type.
-- Interfaces can use `extends`, types can't.
+- Interfaces can't express unions or mapped types, only represent object types. Type aliases can express any type.
+- Interfaces can use `extends`, types can't. (`interface extends` is better for catching errors and for performance)
 - When you're working with objects that inherit from each other, use interfaces. `extends` makes TypeScript's type checker run slightly faster than using `&`.
-- Interfaces with the same name in the same scope merge their declarations.
+- Interfaces with the same name in the same scope merge their declarations. This is very different from `type`, which would give you an error if you tried to declare the same type twice.
 - Type aliases have an implicit index signature of `Record<PropertyKey, unknown>`, but interfaces don't.
+
+> The `PropertyKey` type is a global type that represents the set of all possible keys that can be used on an object, including string, number, and symbol. You can find its type definition inside of TypeScript's ES5 type definitions file: `declare type PropertyKey = string | number | symbol;`.
 
 ```ts
 // `typeof` operator takes any object and extracts the shape of it.
@@ -303,9 +312,10 @@ type AlbumSalesType = typeof albumSales;
 // Runtime typeof
 typeof albumSales; // "object"
 
-// Built-in Helper Types (https://www.typescriptlang.org/docs/handbook/utility-types.html)
+// Built-in Helper Types
 const fieldsToUpdate: Partial<Todo>
 const todo: Readonly<Todo>
+// same as `ReadonlyArray<string>`
 const readOnlyGenres: readonly string[] = ["rock", "pop", "country"]
 type TodoPreview = Omit<Todo, "description">
 type TodoPreview = Pick<Todo, "title" | "completed">
@@ -333,6 +343,7 @@ type CustomAwaited<T> = T extends Promise<infer U> ? U : T
 type AlbumTitle = Album["title"];
 type AlbumPropertyTypes = Album["title" | "isSingle" | "releaseYear"];
 type AlbumPropertyTypes = Album[keyof Album];
+
 // Index signatures for dynamic keys
 interface AlbumAwards {
   [iCanBeAnything: string]: boolean;
@@ -366,6 +377,29 @@ type ModelNames = 'a' | 'b' | 'c' | (string & {});
 const model: ModelNames = 'a';  // autocomplete and can pass in any string
 ```
 
+`Omit` and `Pick` have some odd behaviour when used with union types. They are not distributive. This means that when you use them with a union type, they don't operate individually on each union member.
+
+```ts
+type MusicProduct = Album | CollectorEdition | DigitalRelease;
+
+type MusicProductWithoutId = Omit<MusicProduct, "id">;
+
+// Expected:
+type MusicProductWithoutId =
+  | Omit<Album, "id">
+  | Omit<CollectorEdition, "id">
+  | Omit<DigitalRelease, "id">;
+
+// Actual:
+type MusicProductWithoutId = {
+  title: string;
+};
+```
+
+> For orginal `Pick<T, K extends keyof T>`, when `T` is a union, `keyof T` does not mean “all keys from all members” — it means the intersection of keys present in every member of the union.
+>
+> **Distributivity rule:** In `T extends U ? X : Y`, if `T` is a naked type parameter and `T` is a union, TypeScript applies the conditional separately to each union member and unions the results.
+
 It's worth noting the similarities between `Exclude/Extract` and `Omit/Pick`. A common mistake is to think that you can `Pick` from a union, or use `Exclude` on an object.
 
 ```ts
@@ -398,7 +432,7 @@ type MyDivProps = ComponentProps<"div"> & {
 type MyCompProps = ComponentProps<typeof MyComp>
 ```
 
-**Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, which is a safe type). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all *(only assignable to itself)* and is used for situations that should never occur.
+**Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, which is a safe type). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all *(only assignable to itself)* and is used for situations that should never occur. You cannot assign anything to `never`, except for `never` itself. However, you can assign `never` to anything.
 
 `any` doesn't really fit into our definition of 'wide' and 'narrow' types. It's not really a type at all - it's a way of opting out of TypeScript's type checking. By marking a variable as `any`, you're telling the compiler to ignore any type errors that might occur. Using `any` is considered harmful by most of the community.
 
@@ -457,6 +491,12 @@ const abc = {
   title: 'abc',
   kind: 'conference' as const
 }
+
+// fix 4 (inline the object, no way that `kind` could be changed)
+getEvent({
+  title: 'abc',
+  kind: 'conference'
+})
 
 // `keyof` extracts the keys from an object type into a union type
 type GroupProperties = keyof GroupedEvents
