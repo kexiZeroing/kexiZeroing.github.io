@@ -20,6 +20,7 @@ updatedDate: "Feb 16 2025"
 - [Traverse Binary Tree](#traverse-binary-tree)
 - [Graph DFS](#graph-dfs)
 - [Heap](#heap)
+- [Trie (Prefix Tree)](#trie-prefix-tree)
 - [LRU](#lru)
 - [DP](#dp)
 - [LeetCode Problems](#leetcode-problems)
@@ -558,6 +559,75 @@ MinHeap.prototype.bubbleDown = function () {
 }
 ```
 
+### Trie (Prefix Tree)
+
+```js
+class TrieNode {
+  constructor() {
+    this.children = {};
+    this.isEnd = false;
+  }
+}
+
+class Trie {
+  constructor() {
+    this.root = new TrieNode();
+  }
+
+  insert(word) {
+    let node = this.root;
+    for (let ch of word) {
+      if (!node.children[ch]) {
+        node.children[ch] = new TrieNode();
+      }
+      node = node.children[ch];
+    }
+    node.isEnd = true;
+  }
+
+  search(word) {
+    let node = this.root;
+    for (let ch of word) {
+      if (!node.children[ch]) {
+        return false;
+      }
+      node = node.children[ch];
+    }
+    return node.isEnd;
+  }
+
+  startsWith(prefix) {
+    let node = this.root;
+    for (let ch of prefix) {
+      if (!node.children[ch]) {
+        return false;
+      }
+      node = node.children[ch];
+    }
+    return true;
+  }
+}
+
+// 带通配符 + 递归
+search(word) {
+  const dfs = (node, i) => {
+    if (i === word.length) return node.isEnd;
+    const char = word[i];
+
+    if (char === '.') {
+      for (let child of Object.values(node.children)) {
+        if (dfs(child, i + 1)) return true;
+      }
+      return false;
+    } else {
+      if (!node.children[char]) return false;
+      return dfs(node.children[char], i + 1);
+    }
+  };
+  return dfs(this.root, 0);
+}
+```
+
 ### LRU
 
 ```js
@@ -684,28 +754,6 @@ let rob2 = function(nums) {
     
     return dp[n - 1];
   };
-};
-```
-
-```js
-// Compute the fewest number of coins that you need to make up that amount. You have an infinite number of each kind of coin.
-let coinChange = function(coins, amount) {
-  if (amount === 0) {
-    return 0;
-  }
-  const dp = Array(amount + 1).fill(Number.MAX_VALUE)
-  dp[0] = 0;
-
-  for (let i = 1; i < dp.length; i++) {
-    for (let j = 0; j < coins.length; j++) {
-      // e.g. dp[11] = min(dp[10], dp[9], dp[6]) + 1
-      if (i - coins[j] >= 0) {
-        dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
-      }
-    }
-  }
-
-  return dp[dp.length - 1] === Number.MAX_VALUE ? -1 : dp[dp.length - 1];
 };
 ```
 
@@ -2731,6 +2779,29 @@ var numDecodings = function (s) {
     }
   }
   return dp[s.length];
+};
+```
+
+You are given an integer array coins and an integer amount representing a total amount of money. Return the fewest number of coins that you need to make up that amount. If can't, return -1.
+
+```js
+var coinChange = function(coins, amount) {
+  if (amount === 0) {
+    return 0;
+  }
+  const dp = Array(amount + 1).fill(Number.MAX_VALUE)
+  dp[0] = 0;
+
+  for (let i = 1; i < dp.length; i++) {
+    for (let j = 0; j < coins.length; j++) {
+      // e.g. dp[11] = min(dp[10], dp[9], dp[6]) + 1
+      if (i - coins[j] >= 0) {
+        dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+      }
+    }
+  }
+
+  return dp[dp.length - 1] === Number.MAX_VALUE ? -1 : dp[dp.length - 1];
 };
 ```
 
