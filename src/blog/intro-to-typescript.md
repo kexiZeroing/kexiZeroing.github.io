@@ -200,6 +200,7 @@ const status = {
 
 ```js
 // How numeric enums transpile
+// `Object.keys` call on an enum will return both the keys and the values.
 var AlbumStatus;
 (function (AlbumStatus) {
   AlbumStatus[(AlbumStatus["NewRelease"] = 0)] = "NewRelease";
@@ -215,6 +216,12 @@ var AlbumStatus;
   AlbumStatus["StaffPick"] = "STAFF_PICK";
 })(AlbumStatus || (AlbumStatus = {}));
 ```
+
+> String enums and numeric enums behave differently when used as types: 
+> - Numeric enums are open to a plain number. (either `NumEnum.A` or `0` is ok)
+> - String enums are closed, you can only assign their declared enum members. (`StrEnum.A` is ok, `"A"` is error)
+>
+> All other types in TypeScript are compared structurally, meaning that two types are considered the same if they have the same structure. But string enums are compared based on their name (nominally), not their structure.
 
 Fortunately, you don't have to specify types absolutely everywhere in your code because TypeScript has **Type Inference**. Type inference is what the TypeScript compiler uses to automatically determine types. TypeScript can infer types during variable initialization, when default parameter values are set, and while determining function return values.
 
@@ -295,7 +302,7 @@ https://www.totaltypescript.com/type-vs-interface-which-should-you-use
 > The `PropertyKey` type is a global type that represents the set of all possible keys that can be used on an object, including string, number, and symbol. You can find its type definition inside of TypeScript's ES5 type definitions file: `declare type PropertyKey = string | number | symbol;`.
 
 ```ts
-// `typeof` operator takes any object and extracts the shape of it.
+// `typeof` operator allows you to extract a type from a value.
 // It is not the same as the `typeof` operator used at runtime
 const albumSales = {
   "Kind of Blue": 500,
@@ -518,11 +525,6 @@ console.log(user[key as keyof User])
 
 // fix 2
 Object.keys(user) as Array<keyof User>
-
-// fix 3
-for (const key in user) {
-  console.log(user[key])
-}
 ```
 
 The `as` assertion is a way to tell TypeScript that you know more about a value than it does. It's a way to override TS type inference and tell it to treat a value as a different type. Another assertion we can use is the non-null assertion, which is specified by using the `!` operator. It tells TS to remove any `null` or `undefined` types from the variable.
@@ -535,8 +537,9 @@ const id = searchParams.get("id") as string;
 
 const x = "Heroes" as number; // Error: 'string' is not assignable to type 'number'
 const x = "Heroes" as unknown as number;  // this works
+// `as unknown as X` is a convenient way to lie to TS
 
-searchParams.get("id")!;
+searchParams.get("id")!;  // same as `searchParams.get("id") as string`
 console.log(user.profile!.bio);
 ```
 
