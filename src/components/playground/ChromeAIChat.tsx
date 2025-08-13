@@ -37,6 +37,13 @@ const ChromeAIChat = () => {
           case 'downloadable':
           case 'downloading':
             setModelStatus('Model is downloading...');
+            await LanguageModel.create({
+              monitor(m) {
+                m.addEventListener('downloadprogress', (e) => {
+                  setModelStatus(`Downloaded ${e.loaded * 100}%, refresh after the download`);
+                });
+              },
+            });
             break;
           case 'unavailable':
             setModelStatus('Model not available');

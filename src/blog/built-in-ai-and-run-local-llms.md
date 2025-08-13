@@ -44,6 +44,18 @@ To confirm Gemini Nano has downloaded and works as intended, open DevTools and t
 > 2. Go to `chrome://components`
 > 3. Confirm that **Optimization Guide On Device Model** is present. This means Gemini Nano is either available or downloading. If there's no version number listed, click **Check for update** to force the download.
 
+To trigger the model download and create the language model session, call the asynchronous `LanguageModel.create()` function. If the response to `availability()` was `'downloadable'`, it's best practice to listen for download progress. This way, you can inform the user in case the download takes time.
+
+```js
+const session = await LanguageModel.create({
+  monitor(m) {
+    m.addEventListener('downloadprogress', (e) => {
+      console.log(`Downloaded ${e.loaded * 100}%`);
+    });
+  },
+});
+```
+
 ### API usage
 Before translating text from one language to another, you must first determine what language is used in the given text.
 
