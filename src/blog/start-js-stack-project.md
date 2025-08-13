@@ -166,6 +166,8 @@ The [browserslist](https://github.com/browserslist/browserslist) configuration *
 - [postcss-preset-env](https://www.npmjs.com/package/postcss-preset-env) is a plugin that allows you to use modern CSS features while automatically adding the necessary fallbacks for older browsers, based on the specified compatibility targets. It includes `Autoprefixer` as part of its feature set. 
 - [cssnano](https://cssnano.co) is a compression tool written on top of the PostCSS ecosystem to compact CSS appropriately.
 
+> Avoid `@import` in CSS: The `@import` rule in CSS creates additional HTTP requests and is render-blocking. Each imported file is fetched sequentially, which delays the overall CSS parsing. Instead of `@import`, use `<link rel="stylesheet">` tags in HTML (which can load in parallel) or better yet, combine CSS files at build time when possible.
+
 ### Transpilers and Polyfills
 When Babel compiles your code, what it's doing is taking your syntax and running it through various syntax transforms in order to get browser compatible syntax. What it's not doing is adding any new JavaScript primitives or any properties you may need to the browser's global namespace. When you compile your code, you're transforming it. When you add a polyfill, you're adding new functionality to the browser. For example, Babel can transform `arrow functions` into regular functions, so they can be compiled. However, there's nothing Babel can do to transform `Promise` into native syntax that browsers understand, so they need to be polyfilled.
 
