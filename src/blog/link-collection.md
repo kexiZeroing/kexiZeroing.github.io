@@ -316,6 +316,8 @@ Rich text editor comparison in 2025: https://liveblocks.io/blog/which-rich-text-
 
 WebGL globe library: https://github.com/shuding/cobe
 
+A PDF viewer that integrates with any JavaScript project: https://github.com/embedpdf/embed-pdf-viewer
+
 ---
 
 ## React ecosystem

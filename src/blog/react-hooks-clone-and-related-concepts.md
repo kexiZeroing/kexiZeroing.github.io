@@ -3,7 +3,7 @@ title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
 tags: [react]
-updatedDate: "Aug 5 2025"
+updatedDate: "Aug 25 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -517,6 +517,44 @@ const ChatWindow = () => {
 ```
 
 So if you need to interact with DOM nodes directly after they rendered, try not to jump to `useRef` + `useEffect` directly, but consider using callback refs instead.
+
+#### The latest ref pattern
+
+```js
+function Child({ onClick }) {
+  useEffect(() => {
+    function onKeyDown() {
+      onClick();
+    }
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [onClick]);
+
+  return ...
+}
+```
+
+We want to remove the `onClick` dependency here. The idea is to store the function in a ref, and make sure that the ref is updated when the function changes, and we can do that with an additional effect that purposefully runs on every render:
+
+```js
+function Child({ onClick }) {
+  const onClickRef = useRef(onClick);
+
+  useEffect(() => {
+    onClickRef.current = onClick;
+  });
+
+  useEffect(() => {
+    function onKeyDown() {
+      onClickRef.current();
+    }
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  return ...
+}
+```
 
 #### `ref` as a prop in React 19
 In React 19, `forwardRef` is no longer necessary. Pass `ref` as a prop instead.
