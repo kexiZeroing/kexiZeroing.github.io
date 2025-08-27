@@ -119,7 +119,8 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 		width: 220px;
 		margin-left: 32px;
 	}
-	.search-box:has(.pagefind-ui__search-clear) {
+	/* when it has "clear" button */
+	.search-box:has(.pagefind-ui__search-clear):not(:has(.pagefind-ui__search-clear.pagefind-ui__suppressed)) {
 		width: auto;
 	}
 	.mobile-mockup {
