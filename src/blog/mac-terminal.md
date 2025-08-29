@@ -116,8 +116,15 @@ For example, `ls -la | grep test | sort | uniq | wc -l`: The final output of thi
 ## lsof
 Linux/Unix considers everything as a file and `lsof` is a command meaning "list open files", which is used to report a list of all open files and the processes that opened them. Add `-i` to list network connections. Use `lsof -i -n -P | grep LISTEN` to check the listening ports and `lsof -i :22` to see a specific port.
 
-> `kill` command sends a kill signal to terminate any process gracefully when attached with a pid or a processname. This is the default and safest way to kill/terminate a or set of processes. `kill <pid> / <processname>` sends SIGTERM (15) — Termination signal. However, this signal can be handled, ignored or caught in code. If the signal is not caught by a process, the process is killed.  
-> `kill -9` command sends a kill signal to terminate any process immediately when attached with a PID or a processname. It is a forceful way to kill/terminate a or set of processes. `kill -9 <pid> / <processname>` sends SIGKILL (9) — Kill signal. This signal cannot be handled (caught), ignored or blocked. Hence, this immediately kill the process without any handling and this can create zombies process.
+## kill
+The `kill` system call in Unix-like systems is a bit misleadingly named. It doesn’t necessarily kill a process; instead, it sends a signal to a process or a group of processes. The most frequent signal sent is `SIGKILL` (`9`), which terminates a process. Technically, `kill(pid, sig)` just means: "Send signal `sig` to process `pid`."
+
+> `kill -9` command sends a kill signal to terminate any process immediately when attached with a PID or a processname. It is a forceful way to kill/terminate a or set of processes. `kill -9 <pid> / <processname>` sends SIGKILL (9). This signal cannot be handled (caught), ignored or blocked. Hence, this immediately kill the process without any handling and this can create zombies process.
+
+A signal is a small message that notifies a process that an event of some type has occurred in the system.
+- Sent from kernal to process
+- Signal type is identified by small integer IDs
+- Only information in a signal is its ID and the fact that it was sent
 
 ## bash_profile and bashrc
 There are two user level files which `bash` may run when a bash shell starts. `~/.bash_profile` and `~/.bashrc`. The usual convention is that `.bash_profile` will be executed at login shells, i.e. when you ssh into a remote host, it will ask you for user name and password to log in, so it is a login shell. But when you open a terminal, it does not ask for login and you will just get a command prompt. In other versions of Unix or Linux, this will not run the `.bash_profile` but `.bashrc`. The underlying idea is that the `.bash_profile` should be run only when you login, and the `.bashrc` for every new interactive shell. However, Terminal on macOS does not follow this convention. When Terminal opens a new window, it will run `.bash_profile`.
