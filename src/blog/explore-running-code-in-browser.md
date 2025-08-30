@@ -104,6 +104,11 @@ compilerWorker.addEventListener('message', ({ data }) => {
 });
 ```
 
+> https://github.com/LionyxML/web-workers-react-talk
+> - A Web Worker runs JS code in a separate thread. This allows moving heavy tasks off the “main thread”, keeping the UI smooth and fluid.
+> - The worker handles all requests at the same time, without guaranteed order. We creates a worker with an internal queue, and each task is queued and processed one at a time.
+> - We can implement queues, timeouts, retries, caching, or even use [Comlink](https://github.com/GoogleChromeLabs/comlink) to simplify things.
+
 To support third-party module imports, we can use import maps. This allows us to specify module paths for the browser:
 
 ```html
