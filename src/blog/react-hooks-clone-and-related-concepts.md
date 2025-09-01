@@ -3,7 +3,7 @@ title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
 tags: [react]
-updatedDate: "Aug 25 2025"
+updatedDate: "Sep 1 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -165,7 +165,33 @@ function handleClick() {
 
 It will only increment the count by 1, despite the three calls. React state updates are async and batched so it will re-render only once. All three `setCount` are looking at the state of count on the same loop, so all of them see that count is 0 and all of them change it to 1. You're just setting it to 1 three times. If it was `setCount(c => c + 1)` then the result is 3.
 
-When something can be calculated from the existing props or state, don’t put it in state. Instead, calculate it during rendering. 
+Something strange happening in the below code: the interval gets destroyed and re-created every time it ticks. It seems like this Effect’s code depends on `count`. Is there some way to not need this dependency?
+
+```js
+const [count, setCount] = useState(0);
+
+useEffect(() => {
+  const id = setInterval(() => {
+    console.log('Interval tick');
+    setCount(count + 1);
+  }, 1000);
+  return () => {
+    clearInterval(id);
+  };
+}, [count]);
+```
+
+```js
+// To solve this, use the updater function `setCount(c => c + 1)`
+useEffect(() => {
+  const id = setInterval(() => {
+    setCount(c => c + 1);
+  }, 1000);
+  return () => {
+    clearInterval(id);
+  };
+}, []);
+```
 
 ### How reconciliation works
 If we had two components of the same type:
@@ -450,6 +476,28 @@ useEffect(() => {
 ```
 
 You wouldn’t want to buy the product twice. This is also why you shouldn’t put this logic in an Effect. Buying is not caused by rendering; it’s caused by a specific interaction. It should run only when the user presses the button. Delete the Effect and move it into the Buy button event handler.
+
+#### Declaring an Effect Event
+Use a special Hook called `useEffectEvent` *(experimental API that has not yet been released in a stable version of React)* to extract non-reactive logic out of your Effect. Effect Events let you fix many patterns where you might be tempted to suppress the dependency linter.
+- Only call them from inside Effects.
+- Never pass them to other components or Hooks.
+
+```js
+function useTimer(callback, delay) {
+  const onTick = useEffectEvent(() => {
+    callback();
+  });
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      onTick(); // Good: Only called locally inside an Effect
+    }, delay);
+    return () => {
+      clearInterval(id);
+    };
+  }, [delay]); // No need to specify "onTick" as a dependency
+}
+```
 
 ### Referencing values with `ref`s
 When you want a component to “remember” some information, but you don’t want that information to trigger new renders, you can use a `ref`. Typically, you will use a ref when your component needs to “step outside” React and communicate with external APIs. (e.g. storing timeout IDs, DOM elements)
