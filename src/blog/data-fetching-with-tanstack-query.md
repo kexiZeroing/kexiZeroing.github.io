@@ -78,6 +78,8 @@ export default function useQuery(url) {
 ```
 
 > `useEffect` callback cannot be async. React expects `useEffect(() => {})` to return nothing or a cleanup function — not a Promise. So if you need `await`, you must define an inner async function and call it inside the effect.
+>
+> In development, you will see two fetches in the Network tab. There is nothing wrong with that. Even though there is an extra request, it won’t affect the state thanks to the `if (!active)` check. In production, there will only be one request.
 
 In reality, we still need to think about:
 1. For every component that needs the same data, we have to refetch it.

@@ -48,6 +48,8 @@ Why web tech is like this: https://www.youtube.com/watch?v=3QEoJRjxnxQ
 
 B-trees and database indexes: https://planetscale.com/blog/btrees-and-database-indexes
 
+In-browser game that teaches core Vim motions: https://renzorlive.github.io/vimmaster
+
 ---
 
 ## Tools and Cool websites

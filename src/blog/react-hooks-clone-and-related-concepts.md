@@ -194,6 +194,8 @@ Note that here React still fully re-renders the component when `isEditing` chang
 **Force remount with a `key` prop**: React's reconciliation algorithm sees different keys and treats them as different elements, destroying the old DOM node and creating a fresh one. This breaks the normal DOM reuse behavior, forcing a complete remount rather than a prop update, which clears any user input since the new DOM element starts with empty state.
 
 ### Understand the "children pattern"
+Extract components and pass JSX as `children` to them. For example, maybe you pass data props like `posts` to visual components that don’t use them directly, like `<Layout posts={posts} />`. Instead, make `Layout` take `children` as a prop, and render `<Layout><Posts posts={posts} /></Layout>`. This reduces the number of layers between the component specifying the data and the one that needs it.
+
 React components re-render themselves and all their children when the state is updated. In this case, on every mouse move the state of `MovingComponent` is updated, its re-render is triggered, and as a result, `ChildComponent` will re-render as well.
 
 ```jsx
@@ -420,6 +422,12 @@ function commitToDOM() {
 ```
 
 ### You Might Not Need an Effect
+Before getting to Effects, you need to be familiar with two types of logic inside React components:
+- **Rendering code** lives at the top level of your component. This is where you take the props and state, transform them, and return the JSX you want to see on the screen. Rendering code must be pure.
+- **Event handlers** are functions inside your components that contain “side effects” caused by a specific user action.
+
+In React, rendering should be a pure calculation of JSX and should not contain side effects. The solution is to wrap the side effect with `useEffect` to move it out of the rendering calculation. When you choose whether to put some logic into an event handler or an Effect, the main question you need to answer is what kind of logic it is from the user’s perspective. If this logic is caused by a particular interaction, keep it in the event handler. If it’s caused by the user seeing the component on the screen, keep it in the Effect.
+
 Whenever you think of writing `useEffect`, the only sane thing is to NOT do it. Instead, go to the react docs and re-read the page about why you don't need an effect. You really don't. -@TkDodo
 
 - Goodbye, useEffect: https://www.youtube.com/watch?v=bGzanfKVFeU
@@ -427,6 +435,21 @@ Whenever you think of writing `useEffect`, the only sane thing is to NOT do it. 
 - https://eslint-react.xyz/docs/rules/hooks-extra-no-direct-set-state-in-use-effect
 
 When developing an application in React 18+, you may encounter an issue where the `useEffect` hook is being run twice on mount. This occurs because since React 18, when you are in development, your application is being run in StrictMode by default. In Strict Mode, React will try to simulate the behavior of mounting, unmounting, and remounting a component to help developers uncover bugs during testing. *From the user’s perspective, visiting a page shouldn’t be different from visiting it, clicking a link, and then pressing Back. React verifies that your components don’t break this principle by remounting them once in development.* In most cases, it should be fine to leave your code as-is, since the `useEffect` will only run once in production.
+
+> Strict Mode enables the following checks in development:
+> - Your components will re-render an extra time to find bugs caused by impure rendering.
+> - Your components will re-run Effects an extra time to find bugs caused by missing Effect cleanup.
+> - Your components will re-run ref callbacks an extra time to find bugs caused by missing ref cleanup.
+> - Your components will be checked for usage of deprecated APIs.
+
+```js
+useEffect(() => {
+  // Wrong: This Effect fires twice in development, exposing a problem in the code.
+  fetch('/api/buy', { method: 'POST' });
+}, []);
+```
+
+You wouldn’t want to buy the product twice. This is also why you shouldn’t put this logic in an Effect. Buying is not caused by rendering; it’s caused by a specific interaction. It should run only when the user presses the button. Delete the Effect and move it into the Buy button event handler.
 
 ### Referencing values with `ref`s
 When you want a component to “remember” some information, but you don’t want that information to trigger new renders, you can use a `ref`. Typically, you will use a ref when your component needs to “step outside” React and communicate with external APIs. (e.g. storing timeout IDs, DOM elements)

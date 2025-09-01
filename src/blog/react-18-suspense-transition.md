@@ -46,7 +46,7 @@ const handleUpdate = () => {
 
 React 18 introduced automatic batching to prevent these issues. Batching means that React groups multiple state updates into a single re-render cycle. This approach ensures that the UI is updated efficiently, reflecting all state changes in one go.
 
-`flushSync` allows you to opt-out of batching for specific updates, forcing them to be processed immediately. This ensures that critical updates are executed in the correct order, even within a batched state update cycle. *(But, use it carefully and not too much, because using it too often can cancel out the performance advantages of batching.)*
+`flushSync` allows you to opt-out of batching for specific updates, forcing them to be processed immediately. This will instruct React to update the DOM synchronously right after the code wrapped in `flushSync` executes. *(But, use it carefully and not too much, because using it too often can cancel out the performance advantages of batching.)*
 
 ```js
 import { flushSync } from "react-dom";
