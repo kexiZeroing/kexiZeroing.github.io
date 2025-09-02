@@ -337,6 +337,20 @@ function ExpensiveComponent({ children }) {
 const ExpensiveTree = React.memo(ExpensiveComponent)
 ```
 
+```js
+<VerySlowComponent>
+  <SomeOtherComponent />
+</VerySlowComponent>
+
+// It should memoize like this:
+const VerySlowComponentMemo = React.memo(VerySlowComponent);
+
+export const SomeComponent = () => {
+  const child = useMemo(() => <SomeOtherComponent />, []);
+  return <VerySlowComponentMemo>{child}</VerySlowComponentMemo>;
+};
+```
+
 Instead of turning the `ServerComponent` into a client component, we can pass it down as a child to a client component wrapper that handles the state and UI rendering. The server component is still responsible only for data fetching. *This also means that wrapping your root layout in the client component does not automatically turn your entire app into a client rendering.*
 
 ```js
