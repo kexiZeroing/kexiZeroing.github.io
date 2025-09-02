@@ -204,6 +204,30 @@ app.listen(3000, () => {
 });
 ```
 
+`renderToString` returns a string immediately, so it does not support streaming content as it loads. If you use Node.js, use `renderToPipeableStream`.
+- React will inject your bootstrap `<script>` tags into the resulting HTML stream.
+- Use `<Suspense>` boundary to wrap the parts of your app that may take longer to load. React will send the remaining HTML along with an inline `<script>` tag that replaces the loading fallback with that HTML.
+- Streaming allows the user to start seeing the content even before all the data has loaded on the server. The HTML content from the server will get progressively revealed before any of the `<script>` tags load.
+- The part of your app outside of any `<Suspense>` boundaries is called the shell. It determines the earliest loading state that the user may see. The `onShellReady` callback fires when the entire shell has been rendered. Usually, you’ll start streaming then.
+- If an error occurs while rendering the shell, React won’t have any meaningful HTML to send to the client. Override `onShellError` to send a fallback HTML that doesn’t rely on server rendering as the last resort.
+
+```js
+app.use('/', (request, response) => {
+  const { pipe } = renderToPipeableStream(<App />, {
+    bootstrapScripts: ['/main.js'],
+    onShellReady() {
+      response.setHeader('content-type', 'text/html');
+      pipe(response);
+    },
+    onShellError(error) {
+      response.statusCode = 500;
+      response.setHeader('content-type', 'text/html');
+      response.send('<h1>Something went wrong</h1>'); 
+    },
+  });
+});
+```
+
 ## Write React Server Components from Scratch
 Before React Server Components, all React components are “client” components — they are all run in the browser. RSC makes it possible for some components to be rendered by the server, and some components to be rendered by the browser. Server Components are not a replacement for SSR. They render exclusively on the server. Their code isn't included in the JS bundle, and so they never hydrate or re-render. With only SSR, we haven't been able to do server-exclusive work within our components (e.g. access database), because that same code would re-run in the browser.
 

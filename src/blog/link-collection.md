@@ -370,7 +370,7 @@ React's evolution from Hooks to Concurrent React: https://tigerabrodi.blog/react
 
 What's new in React 19 by Lydia Hallie: https://www.youtube.com/watch?v=AJOGzVygGcY
 
-React 19 Cheat Sheet: https://www.epicreact.dev/react-19-cheatsheet
+React Concurrent Features Overview: https://certificates.dev/blog/react-concurrent-features-an-overview
 
 ---
 

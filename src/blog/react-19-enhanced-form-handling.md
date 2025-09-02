@@ -3,7 +3,7 @@ title: "React 19’s enhanced form handling"
 description: ""
 added: "Feb 22 2025"
 tags: [react]
-updatedDate: "July 27 2025"
+updatedDate: "Sep 2 2025"
 ---
 
 ## React 19 `useActionState` and `useFormStatus`
@@ -11,8 +11,10 @@ React 19 has a built-in mechanism for handling forms called "actions". Below is 
 
 - There’s no need to add `event.preventDefault` because that’s handled for us by React.
 - The `action` is automatically treated as a transition.
-- We can hook into the pending state of this action using `useFormStatus`.
+- We can hook into the pending state of this action using `useFormStatus` *(import from `react-dom`)*.
 - React manages errors and race conditions to ensure our form’s state is always correct.
+
+> Server Functions allow Client Components to call async functions executed on the server. Until September 2024, we referred to all Server Functions as “Server Actions”. If a Server Function is passed to an action prop or called from inside an action then it is a Server Action, but not all Server Functions are Server Actions.
 
 ```js
 // React 18
@@ -158,6 +160,11 @@ export async function submitMessage(_prevState, formData) {
   };
 }
 ```
+
+Server Functions as Actions in forms:
+- React will supply the form’s `FormData` as the first argument to the Server Function.
+- By passing a Server Function to the form action, React can progressively enhance the form. This means that forms can be submitted before the JavaScript bundle is loaded.
+- Server Functions should be called in a Transition. Server Functions passed to form action will automatically be called in a transition.
 
 ### `useOptimistic` use case
 This hook lets you update the UI immediately in response to an action, before the server responds. You pass to it the current state you want to manage, and a (optional) function to update the optimistic state. It returns you the optimistic state (which you use for immediate rendering), and a function to update it.
