@@ -228,6 +228,8 @@ app.use('/', (request, response) => {
 });
 ```
 
+> If you use Deno or a modern edge runtime with Web Streams, use `renderToReadableStream`. The async call to `renderToReadableStream` will resolve to a stream as soon as the entire shell has been rendered. Usually, you’ll start streaming then by creating and returning a response with that stream: `return new Response(stream, { headers: { 'Content-Type': 'text/html' } });`.
+
 ## Write React Server Components from Scratch
 Before React Server Components, all React components are “client” components — they are all run in the browser. RSC makes it possible for some components to be rendered by the server, and some components to be rendered by the browser. Server Components are not a replacement for SSR. They render exclusively on the server. Their code isn't included in the JS bundle, and so they never hydrate or re-render. With only SSR, we haven't been able to do server-exclusive work within our components (e.g. access database), because that same code would re-run in the browser.
 

@@ -558,6 +558,7 @@ This is where callback refs come into play. Instead of a ref object, you may **p
 - Called with `null` when the element is removed.
 - Runs before `useEffect`, but after `useLayoutEffect`.
 - It's best for immediate DOM measurements or setup.
+- React 19 added cleanup functions for ref callbacks. When the `ref` is detached, React will call the cleanup function.
 
 Passing a ref from `useRef` (a RefObject) to a React element is therefore just syntactic sugar for:
 ```js
