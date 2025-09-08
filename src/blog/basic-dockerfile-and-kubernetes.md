@@ -196,6 +196,28 @@ Next.js can be deployed to any hosting provider that supports Docker containers.
 
 To add support for Docker to an existing project, just copy the [Dockerfile](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile) into the root of the project.
 
+```sh
+# Next App - Docker image - ghcr.io - VPS
+# On your local machine
+docker build -t ghcr.io/your-username/your-app-name:latest .
+
+# Github username and access token
+docker login ghcr.io
+docker push ghcr.io/your-username/your-app-name:latest
+
+# On your VPS
+ssh root@your-vps-ip
+docker -v
+docker run hello-world
+
+docker pull ghcr.io/your-username/your-app-name:latest
+docker images
+docker run -d -p 3000:3000 ghcr.io/your-username/your-app-name:latest
+
+docker ps
+docker stop <container_id>
+```
+
 ## Intro to Kubernetes
 Let's say you have an app which you have containerized (Monoliths were broken into microservices). So you run a bunch of containers to serve your app to users. But how do you manage these different containers? This is where K8s comes to the rescue. Kubernetes is a container orchestration tool for managing production-ready containerized workloads and services that allows for declarative setup as well as automation.
 
