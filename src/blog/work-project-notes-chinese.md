@@ -307,45 +307,6 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 
 vue vite 打包后白屏问题，推测就是 webview 版本太旧了，使用 [@vitejs/plugin-legacy](https://github.com/vitejs/vite/tree/main/packages/plugin-legacy) 做兼容。它的内部使用 `@babel/preset-env` 以及 `core-js` 等一系列基础库来进行语法降级和 Polyfill 注入，以解决在旧版浏览器上的兼容性问题。*（默认情况下，Vite 的目标是能够支持原生 ESM script 标签、支持原生 ESM 动态导入 和 import.meta 的浏览器）*
 
-### 课堂业务
-```
-Lesson(classroomID, lessonID, teacher, allStudents, checkinStudents, presentation)
-Presentation(presentationID, slideIndex, content, problems)
-
-1. start lesson
-- sql getClassroomId from a universityId
-- local presentation json data -> getTitle()
-- sql all students(role=1 -> teacher, role=5 -> allStudents)
-- API.NEW_LESSON(teacherId, classroomId, presentationTitle) -> get a lessonID
-
-2. upload presentation
-- API.NEW_PRESENTATION(presentationContent, teacherId, lessonId)
-- parse slides, get content and problem slides
-
-3. connectWS
-- sql app_openid, weixin_unionid, user_id... from teacherId
-- API.GET_USER_INFO to get Auth
-- new WebSocket to send op=hello, userId, role, auth
-
-4. checkin
-- API.LESSON_CHECK_IN(studentId, lessonId, source)
-
-5. showPresentation
-- get presentation curent slide
-- ws send op=showpresentation, lessonId, presentationId, slideId
-
-6. rollcall
-- Based on the mode, eligiblePool is checked in students or all students
-- Count how many times each student has been called
-- Find minimum call count among called students
-- Create fair selection pools "neverCalled" and "leastCalled"
-- selectionPool is assigned as "neverCalled" first, then "leastCalled"
-- Randomly select a student from the selectionPool
-
-7. end lesson
-- API.END_LESSON(teacherId, lessonId)
-```
-
 ### HTTP 请求相关
 Some features about Axios:
 1. Axios automatically converts the data to JSON returned from the server.
@@ -452,6 +413,8 @@ async function makeRequest() {
   ```
 
 - 播放器与字幕的跨域问题：由于加了字幕，但字幕地址是跨域的，所以播放器标签上必须加 `crossorigin="anonymous"` 也就是改变了原来请求视频的方式（no-cors 是 HTML 元素发起请求的默认状态；现在会创建一个状态为 anonymous 的 cors 请求，不发 cookie），此时服务端必须响应 `Access-Control-Allow-Origin` 才可以。『播放器不设置跨域 只给字幕配 cors 响应头』这个方案是不行的，因为必须要先发一个 cors 请求才可以，服务端配置的响应头才有用处。换句话说，**只有播放器加了 crossorigin，浏览器才会发出真正的 cors 请求，这时服务器返回的 Access-Control-Allow-Origin 响应头才生效，字幕才能正常加载**
+
+- 传统直播技术使用的传输协议是 RTMP 和 HLS。客户端按用途可分为两类，一类是主播使用的客户端，包括音视频数据采集、编码和推流功能；另一类是观众使用的客户端，包括拉流、解码与渲染（播放）功能。对于主播客户端来说，它可以从 PC 或移动端设备的摄像头、麦克风采集数据，然后对采集到的音视频数据进行编码，最后将编码后的音视频数据按 RTMP 协议推送给 CDN 源节点。对于观众客户端来说，它首先从直播管理系统中获取到房间的流媒体地址，然后通过 RTMP 协议从边缘节点拉取音视频数据，并对获取到的音视频数据进行解码，最后进行视频的渲染与音频的播放。
 
 ### iframe 方案的利弊
 用一句话概括 iframe 的作用就是在一个 web 应用中可以独立的运行另一个 web 应用，这个概念和微前端是类似的。采用 iframe 的优点是使用简单、隔离完美、页面上可以摆放多个 iframe 来组合多应用业务。但是缺点也非常明显：
