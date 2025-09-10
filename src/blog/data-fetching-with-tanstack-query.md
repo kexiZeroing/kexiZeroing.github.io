@@ -230,6 +230,10 @@ function App() {
 }
 ```
 
+In most examples, we create the `QueryClient` outside the App component, which makes it referentially stable. The `QueryClient` holds the `QueryCache`, so if you create a new client, you also get a new cache, which will be empty.
+
+The `QueryClientProvider` puts the created `QueryClient` into React Context to distribute it throughout your app. You can best read it with `useQueryClient`.
+
 ```jsx
 // besides `useQuery`, there's also `useMutation`
 function App() {

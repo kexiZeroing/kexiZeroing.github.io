@@ -1,5 +1,5 @@
 ---
-title: "Notes on work projects (in Chinese)"
+title: "XT projects notes (in Chinese)"
 description: ""
 added: "Oct 19 2021"
 tags: [web]
