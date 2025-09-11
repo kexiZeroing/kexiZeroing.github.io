@@ -78,11 +78,42 @@ startTransition(() => {
 });
 ```
 
-`startTransition` allows you to mark certain updates in the app as non-urgent, so they are paused while the more urgent updates like clicks or key presses come in. If a transition gets interrupted by the user, React will throw out the stale rendering work that wasn’t finished and render only the latest update.
+`startTransition` allows you to mark certain updates in the app as non-urgent, so they are paused while the more urgent updates like clicks or key presses come in. If a transition gets interrupted by the user, React will throw out the stale rendering work that wasn’t finished and render only the latest update. *The function passed to `startTransition` is called an “Action”.*
 
 > How is it different from `setTimeout`?
 > 1. `startTransition` is not scheduled for later like `setTimeout` is. The function passed to `startTransition` runs synchronously, but any updates inside of it are marked as “transitions”. React will use this information later when processing the updates to decide how to render the update. This means that we start rendering the update earlier than if it were wrapped in a timeout. 
 > 2. If the user is still typing or interacting with the page when the timeout fires, they will still be blocked from interacting with the page. But state updates marked with `startTransition` are interruptible, so they won’t lock up the page.
+
+The function you pass to `startTransition` does not get delayed. React executes your function immediately. However, any state updates scheduled while it is running are marked as transition (low-priority) updates, they don’t flush immediately. React can wait to apply them until either the browser has time, or a higher-priority update (like user input, navigation) triggers a render pass.
+
+```js
+let isInsideTransition = false;
+
+function startTransition(scope) {
+  isInsideTransition = true;
+  scope();
+  isInsideTransition = false;
+}
+
+function setState() {
+  if (isInsideTransition) {
+    // ... schedule a Transition state update ...
+  } else {
+    // ... schedule an urgent state update ...
+  }
+}
+```
+
+Note that when you use `await` inside a `startTransition` function, the state updates that happen after the `await` are not marked as Transitions. You must wrap state updates after each `await` in a `startTransition` call:
+
+```js
+startTransition(async () => {
+  await someAsyncFunction();
+  startTransition(() => {
+    setPage('/about');
+  });
+});
+```
 
 What if you want to display something on the search results while waiting for the expensive UI render to finish? For this, we can use the `isPending` flag that comes from the `useTransition` hook.
 

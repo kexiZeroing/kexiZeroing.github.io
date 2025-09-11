@@ -235,11 +235,12 @@ startTransition(() => {
 });
 ```
 
-1. When `useOptimistic` is called without an `updateFn` (second parameter), it defaults to a simple replacement function.
-2. `setOptimisticCategories(newCategories)` immediately updates the local state and re-renders the component with the new `optimisticCategories` value.
-3. `optimisticCategories` temporarily overrides what the URL actually says. Users see their click immediately, even though the URL is still updating.
-4. Meanwhile, `router.push()` updates the URL and triggers any server-side filtering, but the UI doesn't wait for this to complete. `isPending` becomes true when you call `startTransition`, then stays true until everything triggered by that transition (including Server Component re-renders) completes.
-5. `useOptimistic` is designed to work seamlessly with React's concurrent rendering and transitions. It keeps your UI in sync with the "real" state, and automatically falls back if the action fails or completes.
+1. State updates inside `startTransition` don’t appear immediately — they wait until React performs the next render pass, which can be triggered by something like navigation. Optimistic updates inside `startTransition` are applied immediately in the UI.
+2. When `useOptimistic` is called without an `updateFn` (second parameter), it defaults to a simple replacement function.
+3. `setOptimisticCategories(newCategories)` immediately updates the local state and re-renders the component with the new `optimisticCategories` value.
+4. `optimisticCategories` temporarily overrides what the URL actually says. Users see their click immediately, even though the URL is still updating.
+5. Meanwhile, `router.push()` updates the URL and triggers any server-side filtering, but the UI doesn't wait for this to complete. `isPending` becomes true when you call `startTransition`, then stays true until everything triggered by that transition (including Server Component re-renders) completes.
+6. `useOptimistic` is designed to work seamlessly with React's concurrent rendering and transitions. It keeps your UI in sync with the "real" state, and automatically falls back if the action fails or completes.
 
 ## React 19 `cache` function
 `cache` is **only for use with React Server Components**, not client components, and lets you cache the result of a data fetch or computation. It wraps around a function and remembers what that function returned for specific inputs. When multiple components need the same data, they get the cached result instead of fetching it again.
