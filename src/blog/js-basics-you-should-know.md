@@ -1177,6 +1177,8 @@ Promise.any([pErr, pSlow, pFast]).then((value) => {
 });
 ```
 
+> When I'm looking for something related to Promises, I'll check if [Sindre Sorhus](https://github.com/sindresorhus?tab=repositories&q=promise&type=&language=&sort=) has already published something. Very often he has!
+
 Implement a basic JavaScript Promise class from scratch, including the ability to resolve, reject, and chain promises using `.then()` and `.catch()` methods.
 
 ```js

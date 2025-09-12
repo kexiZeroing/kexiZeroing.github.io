@@ -266,9 +266,11 @@ You can purchase a product by using the purchase tool.
 > What this means is that you can bring your own remote MCP server to claude.ai. Users just need a URL to equip the LLM with new tools and capabilities.
 
 ### Your API is not an MCP
+Consider the difference in practice. An API-shaped MCP server might expose four tools, and the LLM has to call each tool in sequence, pass IDs between calls, and handle potential failures at each step. The solution is building tools around complete user goals rather than API capabilities. Instead of four separate tools, create one tool that handles the entire workflow internally.
+
 1. LLMs are terrible at selection from a long list of tools.
-2. Your existing API descriptions are probably not ready for LLM consumption. Writing for LLM is different than writing for humans.
-3. APIs are designed for resource management, not for humans. LLMs are human-like.
+2. Your existing API descriptions are probably not ready for LLM consumption.
+3. Each conversation starts fresh with no memory of previous conversations. While they can see tool results within the current conversation, they have to figure out the right sequence of tools to use based on what's available. When those tools are low-level API wrappers, the LLM has to orchestrate multiple calls and manage the complexity of chaining them together each time.
 
 Each tool should do one thing and do it well. The `name` and `description` of your tools and their parameters are your primary interface with the LLM. Be clear, concise, and unambiguous. Log every single tool invocation. Record the tool name, the exact parameters it was called with, and the result it returned. This is invaluable for debugging.
 
