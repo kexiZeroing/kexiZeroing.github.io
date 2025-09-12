@@ -512,21 +512,6 @@ const sharedMessage = inject('sharedMessage');
 1. Provide/Inject is best suited for sharing dependencies like form contexts, themes, or service instances, rather than global state management. If multiple components rely on the same data structure, consider Vuex or Pinia.
 2. Since `provide` passes values by reference, you may need to use `ref()` or `reactive()` to ensure reactivity.
 
-### Namespaced Components
-```ts
-// form.ts
-export { default as Form } from "./Form.vue";
-export { default as Input } from "./FormInput.vue";
-```
-
-```js
-import * as AppForm from "./form";
-
-<AppForm.Form>
-  <AppForm.Input v-model="msg" />
-</AppForm.Form>
-```
-
 ### Renderless Components
 Renderless components can be an alternative to composables when finding ways to design reusable logic in your Vue apps. As you might guess, they don't render anything. Instead, they handle all the logic inside a script section and then expose properties through a scoped slot.
 

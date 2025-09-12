@@ -3,7 +3,7 @@ title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
 tags: [react]
-updatedDate: "Sep 1 2025"
+updatedDate: "Sep 12 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -659,6 +659,64 @@ export default function App() {
     </>
   );
 }
+```
+
+### Compound components pattern
+The compound components in React lets you break a complex component into smaller, related parts that share state and logic through a common parent. Instead of managing many props in one monolithic component, the parent provides context and each child (e.g., `Card.Title`) consumes it, giving developers the flexibility to compose and arrange the subcomponents in any structure they need.
+
+- Consumers choose what to include and in what order.
+- Adding new features is just adding a new subcomponent.
+- Each piece handles its own logic and rendering.
+- All children can access parent state without prop drilling.
+
+```js
+type PostCardContextType = {
+  post: Post;
+}
+
+const PostCardContext = createContext<PostCardContextType | null>(null);
+
+function usePostCardContext() {
+  const context = useContext(PostCardContext);
+  if (!context) {
+    throw new Error('usePostCardContext must be used within PostCard component');
+  }
+  return context;
+}
+
+export default function PostCard({ post, children }: { post: Post, children: ReactNode }) {
+  return (
+    <PostCardContext.Provider value={{ post }}>
+      <div>{children}</div>
+    </PostCardContext.Provider>
+  );
+}
+
+PostCard.Title = function PostCardTitle() {
+  const { post } = usePostCardContext();
+  return <h2>{post.title}</h2>;
+}
+
+PostCard.User = function PostCardUser() {
+  const { post } = usePostCardContext();
+  return <p>By {post.author}</p>;
+}
+
+PostCard.Buttons = function PostCardButtons() {
+  return (
+    <div>
+      <button>Read More</button>
+      <button>Comments</button>
+    </div>
+  );
+}
+
+// Usage
+<PostCard post={somePost}>
+  <PostCard.Title />
+  <PostCard.User />
+  <PostCard.Buttons />
+</PostCard>
 ```
 
 ### Higher Order Components
