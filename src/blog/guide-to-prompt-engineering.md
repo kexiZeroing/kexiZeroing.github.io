@@ -253,6 +253,8 @@ When discussing the distribution of exemplars within a prompt, we are referring 
 
 The order of exemplars can also cause bias. For example, a prompt that has randomly ordered exemplars will often perform better than the prompt which contains positive tweets first, followed by negative tweets.
 
+Models don't treat every part of a prompt equally, in what is known as position bias. Some models weigh the beginning more, others the end, and it's not even entirely consistent for the same model depending on input.
+
 ### Jailbreak the Model
 <img alt="prompt-jailbreak" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/wk5lfd.png" width="700">
 <br>

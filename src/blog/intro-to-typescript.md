@@ -288,6 +288,17 @@ const p = {
   depht: 11 // <-- fine
 };
 const q: Dimensions = p; // also fine
+
+declare function handleRequest(url: string, method: "GET" | "POST"): void;
+// Error: Argument of type 'string' is not assignable to parameter of type '"GET" | "POST"'.
+// req.method is inferred to be string
+const req = { url: "https://example.com", method: "GET" };
+handleRequest(req.url, req.method);
+
+// fix: 
+const req = { url: "https://example.com", method: "GET" as "GET" };
+// or
+const req = { url: "https://example.com", method: "GET" } as const;
 ```
 
 **Summary of Type vs Interface:**
@@ -443,6 +454,8 @@ type MyCompProps = ComponentProps<typeof MyComp>
 
 `any` doesn't really fit into our definition of 'wide' and 'narrow' types. It's not really a type at all - it's a way of opting out of TypeScript's type checking. By marking a variable as `any`, you're telling the compiler to ignore any type errors that might occur. Using `any` is considered harmful by most of the community.
 
+When you don’t specify a type, and TypeScript can’t infer it from context, the compiler will typically default to `any`. You usually want to avoid this. Use the compiler flag `noImplicitAny` to flag any implicit `any` as an error.
+
 ```
                     unknown
        /        /     |      \       \       \
@@ -455,10 +468,7 @@ type MyCompProps = ComponentProps<typeof MyComp>
                     never
 ```
 
-The empty object type `{}` is unique. Instead of representing an empty object, it actually represents anything that isn't `null` or `undefined`. `{}` can accept a number of other types: string, number, boolean, function, symbol, and objects containing properties.
-
-- Primitives are `{}`, and `{}` doesn't mean object. *(a string is a valid `{}`)*
-- The only difference between `{}` and `unknown` is that `unknown` contains every single JavaScript value, including `null` and `undefined`.
+The empty object type `{}` is unique. Instead of representing an empty object, it actually represents anything that isn't `null` or `undefined`. `{}` can accept a number of other types: string, number, boolean, function, symbol, and objects containing properties. The only difference between `{}` and `unknown` is that `unknown` contains every single JavaScript value, including `null` and `undefined`.
 
 **Value Types**: We can narrow down primitive types to values.
 ```ts
