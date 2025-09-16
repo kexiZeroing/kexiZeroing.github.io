@@ -234,45 +234,6 @@ In most examples, we create the `QueryClient` outside the App component, which m
 
 The `QueryClientProvider` puts the created `QueryClient` into React Context to distribute it throughout your app. You can best read it with `useQueryClient`.
 
-```jsx
-// besides `useQuery`, there's also `useMutation`
-function App() {
-  const postQuery = useQuery({
-    queryKey: ['post'],
-    queryFn: () => fetch(...).then(res => res.json()),
-  })
-
-  // const queryClient = useQueryClient()
-  const newPostMutation = useMutation({
-    mutationFn: async (newTitle) => {
-      const response = await fetch(...)
-      return response.json()
-    },
-    onSuccess: (data) => {
-      // update the cache
-      queryClient.invalidateQueries({ queryKey: ['post'] })
-    },
-    onError: () => {
-      // roll back the optimistic update
-    },
-    onSettled: () => {
-      // always run this, regardless of success or error
-    },
-  })
-
-  return (
-    <div>
-      { postQuery.data.map(post => <div key={post.id}>{post.title}</div>) }
-      <button
-        disabled={newPostMutation.isLoading}
-        onClick={() => newPostMutation.mutate('My new post')}>
-        Create new
-      </button>
-    </div>
-  )
-}
-```
-
 ```js
 // pagination example
 const {
@@ -296,3 +257,62 @@ const {
 > [Pinia Colada](https://pinia-colada.esm.dev) is the smart data fetching layer for Vue.js. You don't even need to learn Pinia to use Pinia Colada because it exposes its own composables. 
 > 
 > Pinia Colada shares similarities with TanStack Query and has adapted some of its APIs for easier migration. However, Pinia Colada is tailored specifically for Vue, resulting in a lighter library with better and official integrations like Data Loaders. If you're familiar with TanStack Query, you'll find Pinia Colada intuitive and easy to use. The size of Pinia Colada is much smaller.
+
+## Mutations
+TanStack Query exports a `useMutation` hook.
+
+Usually when a mutation in your app succeeds, it's very likely that there are related queries in your application that need to be invalidated and possibly refetched to account for the new changes from your mutation. To do this, you can use `useMutation`'s `onSuccess` options and the client's `invalidateQueries` function.
+
+The idea of optimistic updates is to fake the success of a mutation even before we have sent it to the server. Once we get a successful response back, all we have to do is invalidate our view again to see the real data. In case the request fails, we're going to roll back our UI to the state from before the mutation.
+
+```jsx
+function App() {
+  const postQuery = useQuery({
+    queryKey: ['post'],
+    queryFn: () => fetch(...).then(res => res.json()),
+  })
+
+  const queryClient = useQueryClient()
+
+  const newPostMutation = useMutation({
+    mutationFn: async (newTitle) => {
+      const response = await fetch(...)
+      return response.json()
+    },
+    // 1. This function will fire before the mutation function is fired and is passed the same variables the mutation function would receive.
+    // 2. Useful to perform optimistic updates to a resource in hopes that the mutation succeeds.
+    // 3. Return a value that will later be passed to both onError and onSettled handlers, useful for rolling back optimistic updates.
+    onMutate: (variables) => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ['post'] })
+      // Snapshot the previous value
+      const previousPosts = queryClient.getQueryData(['post'])
+      // Optimistically update to the new value
+      queryClient.setQueryData(['post'], old => [...old, { id: Date.now(), title: variables }])
+      // Return a context object with the snapshotted value
+      return { previousPosts }
+    },
+    onSuccess: (data) => {
+      // update the cache
+      queryClient.invalidateQueries({ queryKey: ['post'] })
+    },
+    onError: (error, variables, context) => {
+      // roll back the optimistic update
+    },
+    onSettled: () => {
+      // always run this, regardless of success or error
+    },
+  })
+
+  return (
+    <div>
+      { postQuery.data.map(post => <div key={post.id}>{post.title}</div>) }
+      <button
+        disabled={newPostMutation.isPending}
+        onClick={() => newPostMutation.mutate('My new post')}>
+        Create new
+      </button>
+    </div>
+  )
+}
+```

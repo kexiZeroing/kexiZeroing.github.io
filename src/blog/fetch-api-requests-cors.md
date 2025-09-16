@@ -341,8 +341,8 @@ try {
 ```
 
 Another important thing to note is that **`Response.body` is a `ReadableStream` of the body contents**.
-- The `getReader()` approach gives you more fine-grained control.
-- The `for await...of` syntax is more concise and uses the response body's async iterator interface internally.
+- The `getReader()` approach gives you more fine-grained control. This lets you get the response chunk-by-chunk, so you can start processing it as you receive it.
+- The `for await...of` syntax is more concise and uses the response body's async iterator interface internally. The chunks are `Uint8Array`, but you can use TextDecoder to get the chunks as text.
 
 ```js
 const response = await fetch("large-file.mp4");
@@ -372,7 +372,7 @@ const blob = await response.blob();
 // Good: Process in chunks
 const response = await fetch("huge-video.mp4");
 for await (const chunk of response.body) {
-  processVideoChunk(chunk);
+  processChunk(chunk);
 }
 ```
 
@@ -407,6 +407,8 @@ fetch(url).then(async response => {
 }).then(res => res.text())
   .then(data => console.log("Done"));
 ```
+
+Note that this all falls down if the response has a `Content-Encoding`, because in that case the `Content-Length` represents the encoded size, but the chunks are decoded chunks. This means your downloaded value is likely to exceed the content length value.
 
 > Why need new ReadableStream?
 > 1. `response.body` is a locked stream once `.getReader()` is called. You can't use `.text()` / `.json()` / `.blob()` on response anymore. It is now exclusively controlled by that reader.
