@@ -1,13 +1,13 @@
 ---
-title: "Setup a new mac"
+title: "Setup a new Mac"
 description: ""
-added: "Feb 13 2022"
+added: "Oct 15 2021"
 tags: [system]
-updatedDate: "Apr 05 2023"
+updatedDate: "Sep 17 2025"
 ---
 
 ## Setting up development environment
-1. The first step is getting around the firewall. You may download [clashX](https://github.com/yichengchen/clashX/releases) and acquire subscription links from ss.
+1. The first step is getting around the firewall. You may ~~download [clashX](https://github.com/yichengchen/clashX/releases)~~ and acquire subscription links from ss.*（2023 年 11 月 Clash For Windows 删库，随后 Clash 内核、Clash Meta、For Android、ClashX 也都一起删库或归档停止维护）.* Use [Clash Verge Rev](https://github.com/Shadowsocks-Wiki/shadowsocks/blob/master/zh_CN/trojan/clash-verge-rev-setup-guide.md) instead.
 
     ```sh
     # Tell command-line programs to use a proxy server.
