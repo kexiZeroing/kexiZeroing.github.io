@@ -1,7 +1,7 @@
 ---
 title: "Setup a new Mac"
 description: ""
-added: "Oct 15 2021"
+added: "Oct 18 2021"
 tags: [system]
 updatedDate: "Sep 17 2025"
 ---
