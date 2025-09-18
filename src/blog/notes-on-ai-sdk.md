@@ -3,17 +3,12 @@ title: "Notes on AI SDK (building agents)"
 description: ""
 added: "Apr 22 2025"
 tags: [AI]
-updatedDate: "July 14 2025"
+updatedDate: "Sep 17 2025"
 ---
 
-This is my learning notes from the [AI Engineer workshop](https://www.youtube.com/watch?v=kDlqpN1JyIw) tutorial by Nico Albanese.
-
-> AI SDK is like an ORM for LLMs. It provides a simple interface to interact with different LLM providers, making it easy to switch between them without changing your code.
-
-> Here is an Gemini AI SDK Cheatsheet: https://patloeber.com/gemini-ai-sdk-cheatsheet. It has code snippets to start building with Gemini and the AI SDK.
+AI SDK is like an ORM for LLMs. It provides a simple interface to interact with different LLM providers, making it easy to switch between them without changing your code. The first part of this post is my learning notes from the [AI Engineer workshop](https://www.youtube.com/watch?v=kDlqpN1JyIw) tutorial by Nico Albanese.
 
 ## Generate Text
-
 Make your first LLM call.
 
 ```js
@@ -419,6 +414,8 @@ const deepResearch = async (
 ```
 
 ## Building agents with the AI SDK
+At its core, an agent can be defined with this simple equation: `agent = llm + memory + planning + tools + while loop`
+
 Below is the code taken from [Vercel Ship 2025 workshop](https://www.youtube.com/watch?v=V55AJYctIAY) also by Nico Albanese, building a coding agent with the new AI SDK 5.
 
 ```js
@@ -527,34 +524,168 @@ Note that if you omit `stopWhen`, the tool is called but you get an empty respon
 
 Without the SDK, you have to manually wrap the entire call in a while loop, manage message history, and define some stop conditions.
 
-> At its core, an agent can be defined with this simple equation:
-> 
-> agent = llm + memory + planning + tools + while loop
+## AI SDK UI
+It is designed to help you build interactive chat, completion, and assistant applications with ease. AI SDK UI supports React, Svelte, and Vue.js.
+
+- The `useChat` hook enables the streaming of chat messages from your AI provider. It manages the states for input, messages, status, error and more for you.
+- The `convertToModelMessages` function is used to transform an array of UI messages from the `useChat` hook into an array of `ModelMessage` objects, which are compatible with AI core functions like `streamText`.
 
 ```js
-export async function completeWithTools(args) {
-  const completion = await openai.chat.completions.create(args)
+// app/api/chat/route.ts
+import { streamText, UIMessage, convertToModelMessages } from "ai";
+import { openai } from "@ai-sdk/openai";
 
-  if (completion.choices[0].message.tool_calls) {
-    const toolCalls = completion.choices[0].message.tool_calls;
-    args.messages.push(completion.choices[0].message);
+export async function POST(req: Request) {
+  const { messages }: { messages: UIMessage[] } = await req.json();
 
-    await Promise.all(toolCalls.map(async (toolCall) => {
-      const toolArgs = JSON.parse(toolCall.function.arguments);
-      const result = await tools.functions[toolCall.function.name](toolArgs);
+  const result = streamText({
+    model: openai("gpt-5-nano"),
+    messages: [
+      // Here to add system message or few-shot examples
+      {
+        role: "system",
+        content: "You are a helpful coding assistant.",
+      },
+      ...convertToModelMessages(messages),
+    ],
+  });
 
-      args.messages.push({
-        role: "tool",
-        tool_call_id: toolCall.id,
-        content: result
-      });
-    }))
-
-    // This recursion creates a natural "while" loop
-    // that continues until the LLM decides it has completed the task.
-    return completeWithTools(args)
-  }
-  
-  return completion
+  // Converts the result to a streamed response object with a UI message stream
+  return result.toUIMessageStreamResponse();
 }
+```
+
+```js
+"use client";
+import { useState } from "react";
+import { useChat } from "@ai-sdk/react";
+
+export default function ChatPage() {
+  const [input, setInput] = useState("");
+  // Defaults to DefaultChatTransport with `/api/chat` endpoint.
+  // useChat({
+  //   transport: new DefaultChatTransport({
+  //     api: '/api/chat',
+  //   }),
+  // });
+  const { messages, sendMessage, status, error, stop } = useChat();
+
+  // `messages` is an array of UIMessage
+  // [
+  //   {
+  //     id: "msg-1",
+  //     role: "user",
+  //     parts: [{ type: "text", text: "What is React?" }],
+  //   },
+  //   {
+  //     id: "msg-2",
+  //     role: "assistant",
+  //     parts: [{ type: "text", text: "React is a JavaScript library..." }],
+  //   },
+  //   {
+  //     id: "msg-3",
+  //     role: "user",
+  //     parts: [{ type: "text", text: "Can you give me an example?" }],
+  //   }
+  // ]
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendMessage({ text: input });
+    setInput("");
+  };
+
+  return (
+    <div>
+      {error && <div>{error.message}</div>}
+      {messages.map((message) => (
+        <div key={message.id}>
+          <div>{message.role === "user" ? "User: " : "AI: "}</div>
+          {message.parts.map((part, index) => {
+            switch (part.type) {
+              case "text":
+                return (
+                  <div key={`${message.id}-${index}`}>{part.text}</div>
+                );
+              default:
+                return null;
+            }
+          })}
+        </div>
+      ))}
+      {(status === "submitted" || status === "streaming") && (
+        <div>Loading...</div>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <input value={input} onChange={(e) => setInput(e.target.value)} />
+        {status === "submitted" || status === "streaming" ? (
+          <button onClick={stop}>Stop</button>
+        ) : (
+          <button
+            type="submit"
+            disabled={status !== "ready"}
+          >
+            Send
+          </button>
+        )}
+      </form>
+    </div>
+  );
+}
+```
+
+For tool call UI, The `parts` array of assistant messages contains tool parts with typed names like `tool-getWeather`.
+
+```js
+// Check `type ToolUIPart` in ai/dist/index.d.ts
+{ message.parts.map((part, index) => {
+  switch (part.type) {
+    case "text":
+      return (
+        <div key={`${message.id}-${index}`}>
+          {part.text}
+        </div>
+      );
+    // type: `tool-${NAME}`
+    case "tool-getWeather":
+      switch (part.state) {
+        // [STATE: input-streaming] Receiving weather request...
+        // {
+        //   "city": "Beijing"
+        // }
+        case "input-streaming":
+          return (
+            <div key={`${message.id}-getWeather-${index}`}>
+              Receiving weather request...
+              <pre>{JSON.stringify(part.input, null, 2)}</pre>
+            </div>
+          );
+        // [STATE: input-available] Getting weather for Beijing...
+        case "input-available":
+          return (
+            <div key={`${message.id}-getWeather-${index}`}>
+              Getting weather for {part.input.city}...
+            </div>
+          );
+        // [STATE: output-available] Weather: 80F and sunny
+        case "output-available":
+          return (
+            <div key={`${message.id}-getWeather-${index}`}>
+              <div>Weather: {part.output}</div>
+            </div>
+          );
+        case "output-error":
+          return (
+            <div key={`${message.id}-getWeather-${index}`}>
+              Error: {part.errorText}
+            </div>
+          );
+        default:
+          return null;
+      }
+    default:
+      return null;
+  }
+})}
 ```
