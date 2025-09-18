@@ -3,7 +3,7 @@ title: "Notes on AI SDK (building agents)"
 description: ""
 added: "Apr 22 2025"
 tags: [AI]
-updatedDate: "Sep 17 2025"
+updatedDate: "Sep 18 2025"
 ---
 
 AI SDK is like an ORM for LLMs. It provides a simple interface to interact with different LLM providers, making it easy to switch between them without changing your code. The first part of this post is my learning notes from the [AI Engineer workshop](https://www.youtube.com/watch?v=kDlqpN1JyIw) tutorial by Nico Albanese.
@@ -231,25 +231,40 @@ const main = async () => {
       definitions: z.array(z.string()),
     }),
   })
-  console.log(result.object.definitions)
-  // [
-  //   'An AI agent is ...',
-  //   'An AI agent is ...',
-  //   'An AI agent is ...'
-  // ]
+  console.log(JSON.stringify(result.object, null, 2));
+  // {
+  //   "definitions": [
+  //     "An AI agent is ...",
+  //     "An AI agent is ...",
+  //     "An AI agent is ..."
+  //   ]
+  // }
 }
-```
 
-Furthermore, we can use the `describe` function to help refine the generation.
-
-```js
-await generateObject({
-  model: openai("gpt-4o-mini"),
-  prompt: "Please come up with 3 definitions for AI agents.",
+// Generate an array
+const { object } = await generateObject({
+  model: openai('gpt-4.1'),
+  output: 'array',
   schema: z.object({
-    definitions: z.array(z.string().describe("Use as much jargon as possible. It should be completely incoherent.")),
+    name: z.string(),
+    class: z
+      .string()
+      .describe('Character class, e.g. warrior, mage, or thief.'),
+    description: z.string(),
   }),
-})
+  prompt: 'Generate 3 hero descriptions for a fantasy role playing game.',
+});
+
+// Generate an enum
+const { object } = await generateObject({
+  model: openai('gpt-4.1'),
+  output: 'enum',
+  enum: ['action', 'comedy', 'drama', 'horror', 'sci-fi'],
+  prompt:
+    'Classify the genre of this movie plot: ' +
+    '"A group of astronauts travel through a wormhole in search of a ' +
+    'new habitable planet for humanity."',
+});
 ```
 
 ## Deep Research
@@ -525,14 +540,16 @@ Note that if you omit `stopWhen`, the tool is called but you get an empty respon
 Without the SDK, you have to manually wrap the entire call in a while loop, manage message history, and define some stop conditions.
 
 ## AI SDK UI
-It is designed to help you build interactive chat, completion, and assistant applications with ease. AI SDK UI supports React, Svelte, and Vue.js.
+AI SDK UI provides abstractions that simplify the complex tasks of managing chat streams and UI updates on the frontend, enabling you to develop dynamic AI-driven interfaces more efficiently. With three main hooks — `useChat`, `useCompletion`, and `useObject`.
 
 - The `useChat` hook enables the streaming of chat messages from your AI provider. It manages the states for input, messages, status, error and more for you.
 - The `convertToModelMessages` function is used to transform an array of UI messages from the `useChat` hook into an array of `ModelMessage` objects, which are compatible with AI core functions like `streamText`.
 
+> [AI Elements](https://ai-sdk.dev/elements/overview) is a component library and custom registry built on top of shadcn/ui to help you build AI-native applications faster. It provides pre-built components like conversations, messages and more.
+
 ```js
 // app/api/chat/route.ts
-import { streamText, UIMessage, convertToModelMessages } from "ai";
+import { streamText, convertToModelMessages, type UIMessage } from "ai";
 import { openai } from "@ai-sdk/openai";
 
 export async function POST(req: Request) {
@@ -540,6 +557,7 @@ export async function POST(req: Request) {
 
   const result = streamText({
     model: openai("gpt-5-nano"),
+    // messages: convertToModelMessages(messages),
     messages: [
       // Here to add system message or few-shot examples
       {

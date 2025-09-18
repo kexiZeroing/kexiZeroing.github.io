@@ -10,7 +10,8 @@ updatedDate: "Mar 5 2025"
 - https://ohshitgit.com
 - https://github.com/k88hudson/git-flight-rules
 - https://dev.to/g_abud/advanced-git-reference-1o9j
-- https://jvns.ca/blog/2023/11/01/confusing-git-terminology/
+- https://jvns.ca/blog/2023/11/01/confusing-git-terminology
+- https://git-scm.com/cheat-sheet
 
 ## git reset
 You’ve made some commits locally (not yet pushed), but everything is terrible, you want to undo last commits like they never happened.
@@ -260,7 +261,7 @@ After committing several times, you realize that you need to create `.gitignore`
 
 Normally, you list tags by alpha order. You can fix this by setting `git config --global tag.sort version:refname`, which will generally do what you expect, treating dotted version numbers as a series of integer values for sorting purposes.
 
-Similarly, set `git config --global branch.sort -committerdate` to sort the branch list by the most recent commit date rather than by alpha order.
+Similarly, set `git config --global branch.sort -committerdate` to sort the branch list by the most recent commit date rather than by alpha order. (`git branch --sort=-committerdate`)
 
 ## git submodules
 A git submodule is a full repo that’s been nested inside another repo. Any repo can be a submodule of another. Submodules can only be pinned to a specific commit. This is because a submodule isn’t a package; it’s code that you have embedded in another repo, and git wants you to be precise.
