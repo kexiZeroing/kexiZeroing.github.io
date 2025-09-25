@@ -3,7 +3,7 @@ title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
 tags: [react]
-updatedDate: "Sep 12 2025"
+updatedDate: "Sep 25 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -739,3 +739,58 @@ export const withLoggingOnClick = (Component) => {
   };
 };
 ```
+
+### React context and MobX
+React Context is great for passing state down without prop drilling, but it always flows top to down. Updates in the parent trigger re-renders in consumers.
+
+```js
+const App = () => {
+  const [language, setLanguage] = useState("en");
+  const value = { language, setLanguage };
+
+  return (
+    <LanguageContext.Provider value={value}>
+      <h2>Current Language: {language}</h2>
+      <LanguageSwitcher />
+    </LanguageContext.Provider>
+  );
+};
+```
+
+Calling `setLanguage` in a child via context updates the state in App. When state updates, React re-renders the component where that state lives — here, that’s App. Then all components that call  `useContext(LanguageContext)` see the new value and re-render.
+
+> Even if `language` didn’t change but App re-rendered for some other reason, you’d still be creating a new `{ language, setLanguage }` object each time. That would cause all consumers to re-render unnecessarily. You can memoize the value: `const value = useMemo(() => ({ language, setLanguage }), [language])`.
+
+With MobX you don’t lift state into React, you keep it in a MobX store. Components re-render only if they directly use an observable value.
+
+```js
+class LanguageStore {
+  language = "en";
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  setLanguage(lang: string) {
+    this.language = lang;
+  }
+}
+export const languageStore = new LanguageStore();
+
+// LanguageSwitcher.tsx
+import { observer } from "mobx-react-lite";
+import { languageStore } from "./store";
+
+const LanguageSwitcher = observer(() => {
+  return (
+    <div>
+      <h2>Current Language: {languageStore.language}</h2>
+      <button onClick={() => languageStore.setLanguage("jp")}>
+        Switch to JP
+      </button>
+    </div>
+  );
+});
+```
+
+Here the store is just a plain JavaScript object (observable). You can import it anywhere, and as long as your component is wrapped with `observer`, MobX will track what observables are accessed and re-render only those components. If you want fine-grained reactivity without constantly thinking about `memo`, `useMemo`, or context optimization, MobX can be a simpler and more scalable choice.
