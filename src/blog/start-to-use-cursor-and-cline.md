@@ -179,7 +179,9 @@ Cline has access to the following tools for various tasks:
 
 While agent mode lives in the IDE, **coding agent** lives in your repos. Assign an issue to Copilot, and it spins up a secure cloud workspace (via GitHub Actions), figures out a plan, edits code on its own branch, runs your tests/linters, and opens a pull request tagging you for review. Check out https://code.visualstudio.com/docs/copilot/copilot-coding-agent
 
-Microsoft have released the GitHub Copilot Chat client for VS Code under an open source (MIT) license. So far this is just the extension that provides the chat component of Copilot. The agent instructions can be found in [prompts/node/agent/agentInstructions.tsx](https://github.com/microsoft/vscode-copilot-chat/blob/main/src/extension/prompts/node/agent/agentInstructions.tsx).
+[2025-07] Microsoft have released the GitHub Copilot Chat client for VS Code under an open source (MIT) license. So far this is just the extension that provides the chat component of Copilot. The agent instructions can be found in [prompts/node/agent/agentInstructions.tsx](https://github.com/microsoft/vscode-copilot-chat/blob/main/src/extension/prompts/node/agent/agentInstructions.tsx).
+
+[2025-09] GitHub releases the GitHub Copilot CLI, a new entry that brings the power of Copilot directly to the command line. By simply running `copilot`, you enter an interactive session where you can prompt the agent, review its plans, and approve its actions in a conversational turn-based manner. It defaults to Claude Sonnet 4 but you can set `COPILOT_MODEL=gpt-5` to switch to GPT-5. It's billed against your existing GitHub Copilot account.
 
 ### Adding repository custom instructions
 Create a `.github/copilot-instructions.md` file in your repository's root directory and add natural language instructions in Markdown format. These instructions will guide Copilot's behavior across your project.

@@ -42,6 +42,8 @@ If you want to use PDF.js in your app, you should use the pre-built version, whi
 > CMaps (Character Maps) are text files that are used in PostScript and other Adobe products to map character codes to character glyphs in CID fonts. They are mostly used when dealing with East Asian writing systems. This technology is a legacy technology, so it should not be used in pdfs created by modern tools. `pdf.js` needs the CMap file when it wants to display such CID fonts.
 
 ## Basic rendering as canvas
+Before loading the PDF, we need to configure the PDF worker. The worker is responsible for processing the PDF in a separate thread, improving performance.
+
 In this demo, PDF.js-related libraries are imported from [UNPKG](https://unpkg.com/browse/pdfjs-dist@3.0.279/). You should check the version of `pdfjs-dist` you imports, since the APIs are different among various PDF.js versions.
 
 ```html
@@ -111,7 +113,11 @@ In this demo, PDF.js-related libraries are imported from [UNPKG](https://unpkg.c
 ```
 
 ## Rendering Text-Layers
-PDF.js gives you the ability to render text layers atop PDF pages that have been rendered using canvas. This time you will not only see PDF pages being rendered but you can also select and copy text from them.
+To leverage PDF.js's capabilities, it's important to understand its layered architecture. PDF.js gives you the ability to render text layers atop PDF pages that have been rendered using canvas. This time you will not only see PDF pages being rendered but you can also select and copy text from them.
+
+- PDF.js extracts the text content separately from the PDF.
+- It positions each piece of text exactly over the underlying canvas, using absolutely positioned `<div>` elements.
+- Even though you might not see these text `<div>` visually (they’re often transparent), they’re there to support selection and searching.
 
 According to the [example](https://github.com/mozilla/pdf.js/blob/master/examples/components/pageviewer.html) on how to get a text layer, we need to also import `web/pdf_viewer.js` and `web/pdf_viewer.css`.
 

@@ -248,7 +248,7 @@ First Look at The Modern attr(): https://ishadeed.com/article/modern-attr
 
 ## FE dev resources
 
-Web Interface Guidelines: https://github.com/raunofreiberg/interfaces
+Web Interface Guidelines: https://vercel.com/design/guidelines, https://github.com/raunofreiberg/interfaces
 
 Great Animations: https://emilkowal.ski/ui/great-animations
 
