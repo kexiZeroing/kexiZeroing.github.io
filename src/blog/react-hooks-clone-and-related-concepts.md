@@ -740,6 +740,66 @@ export const withLoggingOnClick = (Component) => {
 };
 ```
 
+### Render Prop pattern
+A way of making components reusable is by using the render prop pattern. A render prop is a prop on a component, which value is a function that returns a JSX element.
+- The component simply calls the render prop, instead of implementing its own rendering logic.
+- We usually want to pass data from the component that takes the render prop, to the element that we pass as a render prop.
+- We can pass functions as children to React components. This function is available through the children prop, which is technically also a render prop.
+
+```js
+const Card = ({ Content }: {
+  Content: ComponentType<{ selected: boolean }>,
+}) => {
+  const [selected, setSelected] = useState(false);
+  return (
+    <div>
+      <Content selected={selected} /> {/* New component instance each time! */}
+    </div>
+  );
+};
+
+const App = () => {
+  const [appState, setAppState] = useState('something');
+
+  const AppliedCardContent = ({ selected }: {
+    selected: boolean,
+  }) => {
+    return <CardContent selected={selected} appState={appState} />
+  }
+
+  return (
+    <Card Content={AppliedCardContent} />
+  )
+};
+```
+
+```js
+const Card = ({ renderContent }: {
+  renderContent: ({ selected }: { selected: boolean }) => ReactNode,
+}) => {
+  const [selected, setSelected] = useState(false);
+  return (
+    <div>
+      {renderContent({ selected })}
+    </div>
+  );
+};
+
+const App = () => {
+  const [appState, setAppState] = useState('something');
+
+  const renderContent = ({ selected }) => <CardContent selected={selected} appState={appState} />;
+
+  return (
+    <Card renderContent={renderContent} />
+  );
+};
+```
+
+First approach follows the Higher-Order Component pattern. Second approach follows the Render Prop pattern.
+
+When `App` re-renders, `Card` will re-render too. The problem with the first approach is that when `App` re-renders, a brand new `AppliedCardContent` component function is created, so `<Content />` is seen as a completely new component. React unmounts the old one and mounts a new one, causing internal state to be lost. In the second approach, when `App` re-renders, the function is called and returns `<CardContent />`. React sees this as the same component type, so state is preserved. *It's not about preventing re-renders - it's about React thinking you're rendering a completely different component vs. the same component with different props.*
+
 ### React context and MobX
 React Context is great for passing state down without prop drilling, but it always flows top to down. Updates in the parent trigger re-renders in consumers.
 
