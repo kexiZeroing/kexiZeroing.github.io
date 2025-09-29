@@ -3,7 +3,7 @@ title: "React hooks clone and related concepts"
 description: ""
 added: "Sep 12 2020"
 tags: [react]
-updatedDate: "Sep 25 2025"
+updatedDate: "Sep 29 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
@@ -491,28 +491,6 @@ useEffect(() => {
 
 You wouldn’t want to buy the product twice. This is also why you shouldn’t put this logic in an Effect. Buying is not caused by rendering; it’s caused by a specific interaction. It should run only when the user presses the button. Delete the Effect and move it into the Buy button event handler.
 
-#### Declaring an Effect Event
-Use a special Hook called `useEffectEvent` *(experimental API that has not yet been released in a stable version of React)* to extract non-reactive logic out of your Effect. Effect Events let you fix many patterns where you might be tempted to suppress the dependency linter.
-- Only call them from inside Effects.
-- Never pass them to other components or Hooks.
-
-```js
-function useTimer(callback, delay) {
-  const onTick = useEffectEvent(() => {
-    callback();
-  });
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      onTick(); // Good: Only called locally inside an Effect
-    }, delay);
-    return () => {
-      clearInterval(id);
-    };
-  }, [delay]); // No need to specify "onTick" as a dependency
-}
-```
-
 ### Referencing values with `ref`s
 When you want a component to “remember” some information, but you don’t want that information to trigger new renders, you can use a `ref`. Typically, you will use a ref when your component needs to “step outside” React and communicate with external APIs. (e.g. storing timeout IDs, DOM elements)
 
@@ -799,6 +777,29 @@ const App = () => {
 First approach follows the Higher-Order Component pattern. Second approach follows the Render Prop pattern.
 
 When `App` re-renders, `Card` will re-render too. The problem with the first approach is that when `App` re-renders, a brand new `AppliedCardContent` component function is created, so `<Content />` is seen as a completely new component. React unmounts the old one and mounts a new one, causing internal state to be lost. In the second approach, when `App` re-renders, the function is called and returns `<CardContent />`. React sees this as the same component type, so state is preserved. *It's not about preventing re-renders - it's about React thinking you're rendering a completely different component vs. the same component with different props.*
+
+```js
+// Creating a wrapper component
+const ListItemImpl = ({ item }) => (
+  <ListItem item={item} highContrast={highContrast} />
+);
+
+// Passing the component as a prop
+// Instead of <List listItems={listItems} highContrast={highContrast} />
+// Do this:
+<List listItems={listItems} ListItem={ListItemImpl} />
+
+// Using the injected component
+const List = ({ listItems, ListItem }) => (
+  <ul>
+    {listItems.map((item) => (
+      <ListItem key={item.id} item={item} />
+    ))}
+  </ul>
+);
+```
+
+This is a form of dependency injection and is closely related to patterns like render props. In React, “DI” usually means inverting control so components don’t create their dependencies. Instead of passing data down through multiple component layers, you pass a pre-configured component that already has access to the data it needs. For example, a List component can focus purely on iteration and rendering structure without needing to understand styling preferences. This creates better separation of concerns and makes components more reusable and testable.
 
 ### React context and MobX
 React Context is great for passing state down without prop drilling, but it always flows top to down. Updates in the parent trigger re-renders in consumers.
