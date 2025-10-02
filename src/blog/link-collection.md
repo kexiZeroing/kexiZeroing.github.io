@@ -552,6 +552,8 @@ Discover and share powerful prompts for AI models: https://shumerprompt.com
 
 Open chat interface for all your models: https://github.com/ibelick/zola
 
+README for agents: https://agents.md
+
 ---
 
 ## Machine Learning

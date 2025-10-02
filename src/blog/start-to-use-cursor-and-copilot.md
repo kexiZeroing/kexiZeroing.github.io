@@ -1,12 +1,12 @@
 ---
-title: "Start to use Cursor, Cline and Gemini CLI"
+title: "Start to use Cursor, Copilot and Gemini CLI"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "July 7 2025"
+updatedDate: "Oct 2 2025"
 ---
 
-## Cursor Get Started
+## Get Started with Cursor
 Migrate VS Code settings:
 1. `Cmd + Shift + P` and type Cursor Settings (or `Cmd + Shift + J` to open Cursor settings)
 2. Navigate to General > Account
@@ -135,42 +135,6 @@ The Chat Agent will automatically use any MCP tools that are listed under `Avail
 
 > MCP servers offer two main capabilities: tools and resources. Tools are available in Cursor today, and allow Cursor to execute the tools offered by an MCP server, and use the output in its further steps. However, resources are not yet supported in Cursor. We are hoping to add resource support in future releases.
 
-## Cline 
-Cline is a VS Code extension that brings AI-powered coding assistance directly to your editor.
-
-Plan & Act modes represent Cline’s approach to structured AI development, emphasizing thoughtful planning before implementation. Plan mode is where you and Cline figure out what you’re trying to build and how you’ll build it. In this mode, Cline can read your entire codebase to understand the context, and won’t make any changes to your files. Once you’ve got a plan, you switch to Act mode. This mode allows Cline to execute against the agreed plan and make changes to your codebase.
-
-If you’re new to Cline - for anything you want to do:
-- write your prompt, select “plan”, run it.
-- once that’s done, assuming you don’t want it to change anything it planned, press “act”.
-
-> Cline doesn't index your codebase (Code doesn't work in chunks and moves fast). Instead, it begins by understanding the architecture. Using ASTs, Cline extracts a high-level map of your code – the classes, functions, methods, and their relationships. No index or embeddings. Just intelligent exploration, building context by following the natural structure of your code.
-
-### Context Window
-Context window determines how much information the model can “remember” and process at once during your conversation. This includes your conversation and the assistant’s response. Different models have different context window sizes.
-
-Cline helps you manage this limitation with its Context Window Progress Bar, which shows:
-- Input tokens (what you’ve sent to the model)
-- Output tokens (what the model has generated)
-- A visual representation of how much of your context window you’ve used
-- The total capacity for your chosen model
-
-### Cline rules
-You can create a rule by clicking the `+` button in the Rules tab. This will open a new file in your IDE which you can use to write your rule. Your rule will be stored in the `.clinerules` directory in your project (if it’s a Workspace Rule) or in the `Documents/Cline/Rules` directory (if it’s a Global Rule).
-
-### `@` Mentions
-`@` mentions are one of Cline’s most powerful features, letting you seamlessly bring external context into your conversations. These mentions let you reference files, folders, problems, terminal output, git changes, and even web content directly in your conversations.
-
-1. When you send a message, Cline scans the text for `@` mention patterns using regular expressions.
-2. For each detected mention, Cline determines the mention type, fetches the relevant content, and formats the content appropriately.
-3. The original message is enhanced with structured data, and this enhanced message with all the embedded content is sent to the AI model.
-
-### Tools
-Cline has access to the following tools for various tasks:
-- File Operations: `write_to_file`, `read_file`, `search_files`, `list_files`
-- Terminal Operations: `execute_command`, `list_code_definition_names`
-- MCP Tools: `use_mcp_tool`, `access_mcp_resource`
-
 ## Coding agent and agent mode in GitHub Copilot
 - Agent mode: a real‑time collaborator that sits in your editor, works with you, and edits files based on your needs.
 - Coding agent: an asynchronous teammate that lives in the cloud, takes on issues, and sends you fully tested pull requests while you do other things. *(Requires Copilot Pro+ or Copilot Enterprise)*
@@ -178,6 +142,8 @@ Cline has access to the following tools for various tasks:
 **Agent mode** transforms Copilot Chat into an orchestrator of tools (`read_file`, `edit_file`, `run_in_terminal`, etc.). Give it a natural‑language goal—“add OAuth to our Flask app and write tests”—and it plans, edits files, runs the test suite, reads failures, fixes them, and loops until green. You watch the steps, intervene when you like, and keep all changes local.
 
 While agent mode lives in the IDE, **coding agent** lives in your repos. Assign an issue to Copilot, and it spins up a secure cloud workspace (via GitHub Actions), figures out a plan, edits code on its own branch, runs your tests/linters, and opens a pull request tagging you for review. Check out https://code.visualstudio.com/docs/copilot/copilot-coding-agent
+
+> Copilot coding agent starts working when you assign a GitHub Issue to Copilot, start a task from the [agents panel](https://github.blog/news-insights/product-news/agents-panel-launch-copilot-coding-agent-tasks-anywhere-on-github), or initiate a task from Copilot Chat in VS Code. From there, the agent opens a draft pull request, pushes commits as it works, and logs key steps along the way so you can track its progress in real time.
 
 [2025-07] Microsoft have released the GitHub Copilot Chat client for VS Code under an open source (MIT) license. So far this is just the extension that provides the chat component of Copilot. The agent instructions can be found in [prompts/node/agent/agentInstructions.tsx](https://github.com/microsoft/vscode-copilot-chat/blob/main/src/extension/prompts/node/agent/agentInstructions.tsx).
 
