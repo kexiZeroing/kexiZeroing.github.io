@@ -491,6 +491,46 @@ useEffect(() => {
 
 You wouldn’t want to buy the product twice. This is also why you shouldn’t put this logic in an Effect. Buying is not caused by rendering; it’s caused by a specific interaction. It should run only when the user presses the button. Delete the Effect and move it into the Buy button event handler.
 
+#### Declaring an Effect Event
+Use a special Hook called `useEffectEvent` *(~~experimental API that has not yet been released in a stable version of React~~ available in React 19.2)* to extract non-reactive logic out of your Effect.
+
+```js
+function ChatRoom({ roomId, theme }) {
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.on('connected', () => {
+      showNotification('Connected!', theme);
+    });
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId, theme]);
+  // ...
+}
+```
+
+Since `theme` is a dependency, the chat also re-connects every time you switch between the dark and the light theme. That’s not great! In other words, you need a way to separate this non-reactive logic from the reactive Effect around it.
+
+```js
+const onConnected = useEffectEvent(() => {
+  showNotification('Connected!', theme);
+});
+
+useEffect(() => {
+  const connection = createConnection(serverUrl, roomId);
+  connection.on('connected', () => {
+    onConnected();
+  });
+  connection.connect();
+  return () => connection.disconnect();
+}, [roomId]);
+```
+
+Here, `onConnected` is called an Effect Event. It’s a part of your Effect logic, but it behaves a lot more like an event handler. The logic inside it is not reactive, and it always “sees” the latest values of your props and state.
+
+Why `onConnected` can't just be a normal function?
+1. React's linter detects you're using `onConnected` inside the Effect, so it must be in the dependency array.
+2. If you put it in the array, when `theme` changes in parent, component re-renders, `onConnected` is recreated, Effect sees a new `onConnected`, so it cleans up and re-runs the Effect, reconnecting to the chat server. But reconnecting just because `theme` changed is unnecessary - you only want to reconnect when `roomId` changes.
+
 ### Referencing values with `ref`s
 When you want a component to “remember” some information, but you don’t want that information to trigger new renders, you can use a `ref`. Typically, you will use a ref when your component needs to “step outside” React and communicate with external APIs. (e.g. storing timeout IDs, DOM elements)
 
