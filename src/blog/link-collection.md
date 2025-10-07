@@ -546,13 +546,11 @@ An open-source database of AI models: https://models.dev
 
 The AI browser automation framework: https://www.stagehand.dev
 
-Context7 MCP Server -- Up-to-date code docs for LLMs: https://github.com/upstash/context7
-
 Discover and share powerful prompts for AI models: https://shumerprompt.com
 
-Open chat interface for all your models: https://github.com/ibelick/zola
-
 README for agents: https://agents.md
+
+Apps SDK - Our framework to build apps for ChatGPT: https://developers.openai.com/apps-sdk
 
 ---
 
