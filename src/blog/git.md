@@ -183,6 +183,8 @@ git log -S "getUser"
 ## change the most recent commit message after push
 `git commit --amend` brings up the editor with the last commit message and lets you edit the message. You can use `-m` if you want to wipe out the old message and use a new one: `git commit --amend -m "new commit message"`. And then when you push, do `git push --force-with-lease <repository> <branch>`.
 
+`git add [file]` and `git commit --amend` means you’re adding new changes to the previous commit. `--amend --no-edit` keeps the same commit message, just updates the contents.
+
 ## make empty commits
 `git commit --allow-empty -m 'trigger build'` allows you to trigger a commit with no content, skipping the error you would usually see that says you have nothing staged. This trick is especially useful when you need to kick off a CI run or even a production deployment without having to push arbitrary code.
 
