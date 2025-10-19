@@ -161,3 +161,24 @@ const client = new UserServiceClientImpl(rpc);
 const user = await client.GetUser({ id: 1 });
 console.log(user.name);
 ```
+
+## Protobuf and gRPC
+gRPC is a high-performance communication framework like REST, but more efficient and strongly typed. It allows one program (like your frontend) to call a function that actually runs on another computer (like your backend), almost as if it were a local call.
+
+gRPC has two sides: a server side, and a client side that is able to dial a server. The server exposes RPCs (i.e. functions that you can call remotely). gRPC uses protobuf as its wire format and API contract. When you combine them, code generators produce client and server stubs that handle serialization/deserialization and network communication automatically.
+
+For example:
+```js
+// looks like a local function call...
+const user = await getUser({ id: 123 });
+```
+
+But behind the scenes, this does much more:
+1. The frontend serializes `{ id: 123 }` into a binary protobuf message.
+2. It sends that message over the network (using HTTP/2 or gRPC-Web).
+3. The backend receives and deserializes it into a `GetUserRequest` object.
+4. The backend executes the `GetUser` function.
+5. The backend returns a serialized protobuf response (`User`) back to the client.
+6. The client deserializes that binary data into a usable TypeScript object.
+
+Normal gRPC (used by backend-to-backend communication) runs over HTTP/2. Browsers can’t fully control HTTP/2 like servers can. That means you can’t directly call a gRPC service from browser JavaScript using `fetch()` or `XMLHttpRequest`. To bridge this gap, gRPC-Web provides a browser-compatible variant of gRPC that wraps the same protobuf messages in a simplified wire format browsers can handle.
