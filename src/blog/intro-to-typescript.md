@@ -114,7 +114,11 @@ See examples:
 - https://deno.com/blog/intro-to-tsconfig
 - https://github.com/tsconfig/bases
 
-> `json` doesn't normally allow comments, but comments are valid in `tsconfig.json`. It's officially supported by TypeScript, and VSCode understands it too. What's going on here is [jsonc](https://github.com/microsoft/node-jsonc-parser), or "JSON with JavaScript style comments", a proprietary format used by a bunch of Microsoft products, most notably Typescript and VSCode.
+> `json` doesn't normally allow comments, but comments are valid in `tsconfig.json`. It's officially supported by TypeScript, and VSCode understands it too. What's going on here is [jsonc](https://github.com/microsoft/node-jsonc-parser), or "JSON with Comments", a proprietary format used by a bunch of Microsoft products, most notably Typescript and VSCode. For example, VS Code’s `settings.json` file is actually `settings.jsonc`.
+>
+> JSON5 is a superset of JSON that makes JSON more human-friendly, not just comments but also relaxed rules for quoting. It's also a subset of ES5, so valid JSON5 files will always be valid ES5.
+> 
+> They’re both formats/specs (and usually implemented as libraries) that extend standard JSON for developer convenience.
 
 By the way, `jsconfig.json` is a descendant of `tsconfig.json`. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
 
