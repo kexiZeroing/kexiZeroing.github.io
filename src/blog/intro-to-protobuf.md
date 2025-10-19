@@ -46,7 +46,17 @@ A `message` defines a structured data type. Each field has a type (`string`, `in
 
 > When Protobuf encodes data, it stores the field numbers rather than the field names. This allows older programs to safely ignore any new fields they don’t recognize while still processing the fields they do know.
 
-A `service` defines RPC methods. Each rpc line defines one endpoint with input and output message types.
+Some keywords:
+- `optional` - field may or may not be present
+- `required` - field must be present (proto2 only, deprecated in proto3)
+- `repeated` means an array/list of values
+- `enum` - defines enumerated values
+- `map` - key-value pairs (e.g., `map<string, int32>`)
+- `package` - namespace for your messages
+
+A `service` defines RPC methods. Each rpc line defines one endpoint with input and output message types. It includes a method name, request message type, and response message type. For gRPC (Google’s RPC framework), the compiler generates:
+- Client stub: code that lets you call `GetUser` or `CreateUser` like local functions.
+- Server interface: definitions you implement on the server to handle incoming RPC calls.
 
 ## Generating code from `.proto` files
 
