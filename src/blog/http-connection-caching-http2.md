@@ -3,7 +3,7 @@ title: "HTTP connection, caching and HTTP/2"
 description: ""
 added: "Nov 20 2022"
 tags: [web]
-updatedDate: "May 10 2025"
+updatedDate: "Oct 20 2025"
 ---
 
 ## Connection management
@@ -137,7 +137,9 @@ In HTTP/1.0, freshness used to be specified by the `Expires` header. However, th
 
 To ensure that the latest versions of resources will always be transferred, it's common practice to make the default `Cache-Control` value include `no-cache`. In addition, if the service implements cookies and the content is personalized for each user, `private` must be given too.
 
-**`no-cache` means don’t use the response without validating, even if it’s still fresh.** It does not prevent the storing of responses but instead prevents the reuse of responses without revalidation. If you don't want a response stored in any cache, use `no-store`.
+**`no-cache` means don’t use the response without validating, even if it’s still fresh.** It does not prevent the storing of responses but instead prevents the reuse of responses without revalidation. If you don't want a response stored in any cache, use `no-store`. `no-store` is the nuclear option. It instructs every cache – browser, proxy, CDN – not to keep a copy at all. This is correct for highly sensitive data (e.g. banking), but overkill for most use cases.
+
+`must-revalidate` means once stale, the response must be revalidated before use.
 
 `s-maxage` is similar to `max-age` but it applies to proxies (CDN) instead of clients. Web proxy caches work on the same principle, but a much larger scale. Use `public` and `s-maxage` for general resources, which generate shared cache for every user, and only the first user needs to wait on response.
 
@@ -145,10 +147,14 @@ To ensure that the latest versions of resources will always be transferred, it's
 
 `stale-if-error=86400` indicates that the cache can reuse a stale response for an extra 1 day (86400s) when an error is encountered. Here, an error is considered any response with a status code of 500, 502, 503, or 504.
 
+> Every browser maintains both a memory cache and a disk cache. The **memory cache** is extremely fast but short-lived – it only lasts while a page is open. It isn’t governed by HTTP caching headers: even resources marked `no-store` may be reused from memory if they’re requested again within the same page. The **disk cache**, by contrast, persists across tabs and sessions, can hold much larger resources, and does respect HTTP caching headers.
+
 #### `Cache-Control` as a Request Header
 One thing we’re probably less familiar with is the use of the `Cache-Control` as a request header, which influences how the browser decides whether to use a cached response or fetch fresh content from the network. The most common time you’ll encounter `Cache-Control` in a request is when refreshing a page.
 
-In Chrome, even if the page is still fresh, refreshing it will dispatch a request to the network with `Cache-Control: max-age=0` and `If-Modified-Since | If-None-Match`. A hard refresh means bypass the cache entirely, fetching both the main document and all subresources from the network. These requests typically include the header `Cache-Control: no-cache`.
+Users may think “refresh” always fetches new content, but unless it’s a hard refresh, caches still apply. For exmaple, when pressing the reload button, the browser will use cached responses if they’re still fresh. If stale, it revalidates. 
+
+A hard refresh means bypass the cache entirely, fetching both the main document and all subresources from the network. These requests typically include the header `Cache-Control: no-cache`. *(`no-cache` means force revalidation, `no-store` means bypass caching entirely)*
 
 ### Freshness and Cache validation
 Before the expiration time, the resource is fresh; after the expiration time, the resource is stale. Stale responses are not immediately discarded. HTTP has a mechanism to transform a stale response into a fresh one by asking the origin server. This is called validation. Validation is done by using a conditional request that includes an `If-Modified-Since` or `If-None-Match` request header. The server will respond with `304 Not Modified` if the content has not changed. **Since this response only indicates "no change", there is no response body — there's just a status code — so the transfer size is extremely small.** The response can also include headers that update the expiration time of the cached resource.
