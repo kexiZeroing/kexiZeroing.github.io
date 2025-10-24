@@ -818,6 +818,35 @@ Sometimes, you'll want to ignore an error that later down the line gets fixed. I
 
 The `@ts-nocheck` directive will completely remove type checking for a file. To use it, add the directive at the top of your file.
 
+### Classes differences between TS and ES6
+TypeScript supports access modifiers to control property and method visibility. JavaScript traditionally has no access modifiers, but ES2022 introduced private fields with `#`.
+
+In TS, when you declare constructor parameters with an access modifier (`public`, `private`, `protected`, or `readonly`), it automatically creates and initializes a class property for you.
+
+```ts
+constructor(private readonly httpService: HttpService) {}
+
+// it is equivalent to writing this in a plain ES6 class:
+class MyClass {
+  constructor(httpService) {
+    this.httpService = httpService;
+  }
+```
+
+TypeScript allows classes to implement interfaces.
+
+```ts
+interface Printable {
+  print(): void;
+}
+
+class Document implements Printable {
+  print(): void {
+    console.log("Printing document...");
+  }
+}
+```
+
 ## Building the Validation Schema with Zod
 [Zod](https://github.com/colinhacks/zod) is a TypeScript-first schema declaration and validation library. With Zod, you declare a validator once and Zod will automatically infer the static TypeScript type. It's easy to compose simpler types into complex data structures.
 
