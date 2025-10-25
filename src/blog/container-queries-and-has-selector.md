@@ -110,6 +110,12 @@ Let’s expand on the example with the rocket card. What if you had a card witho
 > `.card:has(:not(img))` means “select a card that has any element that is not an image”. `.card:not(:has(img))` means “select a card doesn't have an image”, and that's exactly what we want.
 
 Use Case 1: "Quantity Queries" are very easy in CSS now that we have `:has()`. You can just check if an element, for example, has a 10th child, like `.el:has(:nth-child(10))`, and now you know there are at least 10 children.
+```css
+/* If when we have more than 4 items */
+.section:has(.card:nth-last-child(n + 4)) {
+  grid-template-columns: 1fr;
+}
+```
 
 Use Case 2: Imagine that you need to open a modal window, it's good practice to prevent the page behind it from scrolling. That's a scroll lock. We can tweak the CSS declaration on our body element to use `:has()`. As long as an element with `.lock-scroll` is in the DOM, the scroll we be locked.
 ```css

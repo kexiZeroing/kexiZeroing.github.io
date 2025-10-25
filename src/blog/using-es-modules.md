@@ -164,6 +164,8 @@ import("foo.json", { with: { type: "json" } })
 ```
 
 > Update on June 2025: Import Attributes and JSON Modules are now in ES2025. Import attributes now let you import JSON and other non-JavaScript assets natively, without bundler magic. You can now do this in plain JavaScript: `import config from './config.json' with { type: 'json' };`.
+>
+> Note that when you import a module (be it JS or JSON), it's cached for the lifetime of the environment, even if the result is a network or parsing failure. All imports for a given specifier & type return the same module.
 
 ### Import maps
 In common module systems, such as CommonJS, or a module bundler like webpack, the import specifier was mapped to a specific file, and users only needed to apply the bare module specifier (usually the package name) in the import statement, and concerns around module resolution were taken care of automatically.

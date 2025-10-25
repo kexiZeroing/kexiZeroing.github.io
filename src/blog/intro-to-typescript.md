@@ -850,6 +850,8 @@ class Document implements Printable {
 ## Building the Validation Schema with Zod
 [Zod](https://github.com/colinhacks/zod) is a TypeScript-first schema declaration and validation library. With Zod, you declare a validator once and Zod will automatically infer the static TypeScript type. It's easy to compose simpler types into complex data structures.
 
+> TypeScript ensures type safety during development and the build process, while Zod validates untrusted data at runtime. TypeScript is enough for internal functions, controlled components; Anything from external sources (APIs, user input) should use Zod.
+
 ```js
 import { z } from "zod";
 
