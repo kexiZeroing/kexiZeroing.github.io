@@ -117,6 +117,14 @@ await fetchEventSource('/api/sse', {
 });
 ```
 
+> The browser's built-in `EventSource` API has several limitations:
+> - Can't set custom headers (like `Authorization`)
+> - Only supports GET requests
+> - Doesn't work with the Fetch API
+> - No support for async iteration
+
+[parse-sse](https://github.com/sindresorhus/parse-sse) is a lightweight parser that allows you to parse SSE from a standard `Response` object using web platform standards. Perfect for consuming streaming APIs from OpenAI, Anthropic, and other services.
+
 ## Server-side streams
 Streaming is the action of rendering data on the client progressively while it's still being generated on the server. As data arrives in chunks, it can be processed without waiting for the entire payload. This can significantly enhance the perceived performance of large data loads or slow network connections. Streaming is the basis for HTML5 server-sent events.
 

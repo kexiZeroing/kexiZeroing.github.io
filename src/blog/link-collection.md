@@ -50,6 +50,8 @@ B-trees and database indexes: https://planetscale.com/blog/btrees-and-database-i
 
 In-browser game that teaches core Vim motions: https://renzorlive.github.io/vimmaster
 
+Clean Architecture on Frontend: https://dev.to/bespoyasov/clean-architecture-on-frontend-4311, https://bespoyasov.me/slides/clean-architecture-on-frontend/
+
 ---
 
 ## Tools and Cool websites
