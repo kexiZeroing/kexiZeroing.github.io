@@ -3,6 +3,7 @@ title: "New to MobX in React"
 description: ""
 added: "Oct 26 2025"
 tags: [react]
+updatedDate: "Oct 27 2025"
 ---
 
 ## Why use MobX
@@ -114,3 +115,12 @@ export default function App() {
 ```
 
 The `observer()` function from `mobx-react-lite` is what makes your React component reactive. Under the hood, this higher-order component (HoC) works similarly to MobX’s `autorun`: it automatically tracks all observable values accessed during rendering. When any of those observables change, MobX knows exactly which components depend on them and re-renders only those components. This makes MobX both magical and efficient — you don’t need to manually connect state or trigger updates; components simply re-render whenever the data they rely on changes.
+
+## Why shift away from MobX
+MobX automatically tracks dependencies, but this implicitness can sometimes make data flow harder to trace. In contrast, libraries like Redux or Zustand make updates more explicit — you call something like `dispatch({ type: "INCREMENT" })` or `set(state => ({ count: state.count + 1 }))`, so every state change is intentional and easy to follow in debugging or devtools.
+
+Modern React (since Hooks) encourages functions over classes, local state, and custom hooks. MobX’s most elegant syntax (`@observable`, `@action`, `@computed`) was designed for class-based stores with decorators. Although MobX supports hooks and `makeAutoObservable`, it still feels slightly more old-school compared to libraries that embrace functional patterns from the start (like Zustand).
+
+> Decorators need Babel or TypeScript configuration, which can feel verbose. `makeAutoObservable` is a modern way to make things reactive. When you call `makeAutoObservable(this)`, it walks through your class instance, detects properties, getters, and methods, and automatically applies the right MobX annotations internally.
+
+MobX is still actively maintained, but community focus has shifted. For most modern React apps, developers often reach for simpler, more function-first solutions like Zustand, Jotai, or Redux Toolkit that align better with React’s hook-based patterns and predictable data flow.
