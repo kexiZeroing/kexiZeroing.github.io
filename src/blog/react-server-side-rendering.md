@@ -97,7 +97,7 @@ If it’s deployed as one of the Serverless Functions, the providers can run tho
 > Deploy Next.js: https://nextjs.org/docs/app/getting-started/deploying
 
 ### React hydration error
-When the React app runs on the client for the first time, it builds up a mental picture of what the DOM should look like, by mounting all of your components. Then it squints at the DOM nodes already on the page, and tries to fit the two together. Hydration errors affect every server-rendered React app. *Dates are often the culprit for hydration mismatches.*
+When the React app runs on the client for the first time, it builds up a mental picture of what the DOM should look like, by mounting all of your components. Then it squints at the DOM nodes already on the page (the server already generated), and tries to fit the two together. Hydration errors affect every server-rendered React app. *Dates are often the culprit for hydration mismatches.*
 
 To avoid issues, we need to ensure that the hydrated app matches the original HTML. When the React app adopts the DOM during hydration, `useEffect` hasn't been called yet, and so we're meeting React's expectation. Immediately after this comparison, we trigger a re-render, and this allows React to do a proper reconciliation. It'll notice that there's some new content to render here.
 

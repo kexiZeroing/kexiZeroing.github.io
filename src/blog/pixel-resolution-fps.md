@@ -174,6 +174,8 @@ Advantages of CSS Solution:
 
 > When the UI freezes, if you’re wondering why the rotating icon keeps spinning even when everything else is frozen, that’s a neat detail! CSS animations (like `transform: rotate`) are handled by the browser’s compositor thread, not JavaScript, so they continue running smoothly even when the main thread is blocked.
 
+So instead of asking yourself, “How can I write code that does what I want?” Consider asking yourself, “Can I write code that ties together things the browser already does to accomplish what I want?”
+
 ## Best practice for font units
 - `1px` is equal to whatever the browser is treating as a single pixel (even if it’s not literally a pixel on the hardware screen).
 - `1rem` is always equal to the browser’s font size — or, more accurately the font size of the `html` element. `1em` is the font size of the current element, and `font-size: 1em` is equivalent to `font-size: 100%`.
