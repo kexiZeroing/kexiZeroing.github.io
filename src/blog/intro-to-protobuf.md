@@ -3,6 +3,7 @@ title: "Intro to Protocol Buffers (Protobuf)"
 description: ""
 added: "Oct 19 2025"
 tags: [web]
+updatedDate: "Nov 2 2025"
 ---
 
 ## Background
@@ -161,6 +162,17 @@ const client = new UserServiceClientImpl(rpc);
 const user = await client.GetUser({ id: 1 });
 console.log(user.name);
 ```
+
+### Using Protobuf schemas with JSON
+In many production systems, `.proto` files are still used as schemas, but the actual data exchanged is JSON, not binary. It’s easier to debug and inspect over HTTP.
+
+Your codebase likely has generated `serialize` and `deserialize` methods for each message type. They map between field names and short tags like `{A: ..., B: ...}`, which correspond to the field numbers in your `.proto` file.
+- Those letters correspond to field numbers (1, 2, 3...), encoded deterministically by the generator to make JSON smaller and avoid name collisions.
+- The backend never depends on "name" or "id" directly — only on the tag numbers defined in your `.proto` file.
+
+This compact JSON format isn’t limited to APIs. In SSR or hybrid systems, the backend embeds a bootstrap variable directly into the HTML. That variable is a serialized Protobuf message, but encoded as JSON. The frontend needs to deserialize it to restore the same typed data structures that the backend used.
+
+This pattern predates full gRPC designs. It worked well for systems that shared schemas between backend and frontend. Modern Protobuf (proto3) has since moved toward binary or structured JSON transport through official tools like gRPC-Web. These newer patterns preserve field names, provide built-in JSON mapping, and integrate naturally with TypeScript, making them easier to debug and more maintainable.
 
 ## Protobuf and gRPC
 gRPC is a high-performance communication framework like REST, but more efficient and strongly typed. It allows one program (like your frontend) to call a function that actually runs on another computer (like your backend), almost as if it were a local call.
