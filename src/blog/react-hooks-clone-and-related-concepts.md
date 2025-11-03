@@ -239,12 +239,12 @@ const MovingComponent = () => {
 };
 ```
 
-The way to fight this, other than `React.memo`, is to extract `ChildComponent` outside and pass it as children. React "children" is just a prop. When you pass children through props, React treats them as stable references. The child components were already created when the parent's JSX was evaluated, so they don't get recreated just because the parent re-renders. React simply passes the same element references down.
+The way to fight this, other than `React.memo`, is to extract `ChildComponent` outside and pass it as children. React "children" is just a prop. **When you pass children through props, React treats them as stable references**. The child components were already created when the parent's JSX was evaluated, so they don't get recreated just because the parent re-renders. React simply passes the same element references down.
 
 > The children prop acts like a "slot" that holds pre-created elements, making it one of React's most effective built-in optimization techniques.
 
 ```jsx
-// https://www.developerway.com/posts/react-elements-children-parents
+// Read this article: https://www.developerway.com/posts/react-elements-children-parents
 const MovingComponent = ({ children }) => {
   const [state, setState] = useState({ x: 100, y: 100 });
 
@@ -337,10 +337,15 @@ function ExpensiveComponent({ children }) {
 const ExpensiveTree = React.memo(ExpensiveComponent)
 ```
 
+How to memoize below code correctly? We can re-write the code to make the flow clearer by using children prop which accepts a React element. We re-create this object on every render, so that children prop changed, and will trigger re-render. And since `SomeOtherComponent`'s definition was re-created, it will trigger its re-render as well.
+
 ```js
 <VerySlowComponent>
   <SomeOtherComponent />
 </VerySlowComponent>
+
+// Same as:
+<VerySlowComponent children={<SomeOtherComponent />} />
 
 // It should memoize like this:
 const VerySlowComponentMemo = React.memo(VerySlowComponent);
@@ -351,6 +356,7 @@ export const SomeComponent = () => {
 };
 ```
 
+#### Client wrapper for server components
 Instead of turning the `ServerComponent` into a client component, we can pass it down as a child to a client component wrapper that handles the state and UI rendering. The server component is still responsible only for data fetching. *This also means that wrapping your root layout in the client component does not automatically turn your entire app into a client rendering.*
 
 ```js
