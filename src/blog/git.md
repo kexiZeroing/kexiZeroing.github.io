@@ -74,6 +74,31 @@ A---B---C main
           D'--E'--F' my-feature (new history)
 ```
 
+### how to rebase in your branch
+```
+git checkout feature
+git fetch origin
+git rebase origin/main
+```
+
+`rebase` here means "take all my commits on this branch, and replay them on top of the latest `origin/main`".
+1. Save your commits
+2. Reset your branch to `origin/main`
+3. Reapply your commits one by one on top
+
+```
+origin/main -- A -- B -- C1 -- C2 -- C3  <-- your feature branch
+```
+
+Your local `main` branch still points to an old commit (`A `maybe), your `origin/main` points to the latest on GitHub and your branch now sits on top of that.
+
+Because the rebase rewrites your commits (they get new SHAs), GitHub will see your branch history as different from before. So when you push, you need to force it: `git push --force-with-lease`. That replace the old version of your branch with the rebased one.
+
+GitHub's web UI shows commit date, so if you rebase, everything looks fresh made, but the author date is still preserved inside Git itself.
+
+> - AuthorDate: when you originally made the commit.
+> - CommitDate: when that commit object was created. `git log --pretty=fuller` shows both dates.
+
 ## undo a git merge with conflicts
 - Since your pull was unsuccessful then HEAD is the last "valid" commit on your branch: `git reset --hard HEAD`
 

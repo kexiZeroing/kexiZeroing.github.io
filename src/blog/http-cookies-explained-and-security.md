@@ -146,6 +146,12 @@ The above policy permits:
 - Images from the site's own origin and `img.example.com`
 - Styles only from the site's origin.
 
+The CSP `frame-ancestors` directive specifies valid parents that may embed a page using iframes. It allows you to specify what parent source may embed a page. This differs from `frame-src`, which allows you to specify where iframes in a page may be loaded from.
+
+> Example error message in the browser console when an iframe is blocked by CSP:
+> 
+> Refused to frame 'https://example.com/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors https://parent1.com https://parent2.com".
+
 #### Hotlink Protection
 Hotlinking happens when someone embeds your hosted files (images, videos, PDFs, etc.) on their site by linking directly to your URL.
 - Bandwidth cost — You’re paying for traffic from someone else’s site.
