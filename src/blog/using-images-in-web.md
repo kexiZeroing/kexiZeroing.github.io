@@ -62,6 +62,26 @@ WebP is on the verge of replacing JPEG and PNG as the best image to use on the w
 
 AVIF outperformed both JPEG and WebP. Companies like Netflix and Facebook want AVIF to become an image format standard on the web. They provided numerous visual examples that showed how AVIF was a preferred image format compared to JPEG. It’s currently only supported by Chrome. Hopefully AVIF won’t take ten years to get adopted by all major browsers like it did for WebP. Regardless, webmasters can use the AVIF image format now by using the same `srcset` attribute used for WebP.
 
+## How PNG files structure
+A PNG file follows a strict binary structure. It begins with a fixed signature (magic number) that identifies it as a PNG file, followed by a sequence of chunks. Each chunk describes a specific part of the image, such as metadata, pixel data, or color profiles.
+
+```
+PNG file layout:
+[8 bytes]   Signature
+[4 bytes]   Chunk length
+[4 bytes]   Chunk type
+[...bytes]  Chunk data
+[4 bytes]   CRC
+```
+
+The first 8 bytes identify the file as a PNG (`bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && ...`). Immediately after the signature, every PNG file starts with the IHDR chunk (Image Header), which contains the image’s metadata such as width, height, bit depth, and color type.
+
+To extract the width and height, you only need to read specific positions in the file:
+1. Verify the PNG signature (first 8 bytes)
+2. Locate the IHDR chunk (it always comes first)
+3. Read 4 bytes for width and another 4 bytes for height
+4. Interpret them as unsigned 32-bit big-endian integers
+
 ## Responsive images
 This is where the `img` tag's `sizes` and `srcset` attributes come to into play. The TL;DR of these attributes is that it allows you to tell the browser different versions of your image for different screen widths and what size the image should be for a given set of media queries.
 
