@@ -423,10 +423,41 @@ window.addEventListener("click", (e: any) => {
 });
 ```
 
+An RSC server must be present to handle incoming requests. The RSC server is part of the framework runtime. The framework handles the fetch request automatically.
+- When you click a `<Link>` or call `router.push()`, the client-side router intercepts the navigation.
+- Instead of doing a full page reload, it sends a fetch request to the server with a special header. It tells the server: “Send me the RSC payload, not full HTML.”
+- The server runs the RSC render, streams back the serialized component data, and React on the client merges the updated parts into the existing tree.
+
 Must-read articles on React Server Components: 
 - https://www.joshwcomeau.com/react/server-components
 - https://github.com/reactwg/server-components/discussions/5
 - https://devongovett.me/blog/parcel-rsc.html
+
+### RSC deployment
+React Server Components need a runtime that can execute code on the server. So it has both RSC server runtime and static assets.
+```
+my-app/
+├── .next/
+│   ├── server/           ← RSC server bundle (Node.js)
+│   ├── static/           ← Client JS bundles
+│   └── build-manifest.json
+```
+
+Vercel automatically:
+- Uploads static assets to its Edge CDN.
+- Deploys your RSC server to serverless or edge functions.
+- Routes requests intelligently:
+  - `/posts/1` is handled by server (HTML + RSC stream)
+  - `/_next/static/...` is served from CDN
+  - RSC fetch requests is handled by serverless runtime
+
+If you self-host:
+```sh
+npm run build
+npm run start
+```
+
+`next build` produces both static and server bundles. `next start` runs the RSC server on Node.js. You can still put your `/static` folder behind a CDN.
 
 ### Why Does RSC Integrate with a Bundler
 Consider this `<Counter>` tag. How do you serialize it?

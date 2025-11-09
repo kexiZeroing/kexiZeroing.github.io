@@ -207,7 +207,7 @@ function TodoList({ filter }) {
 }
 ```
 
-When using suspense mode, `status` states and `error` objects are not needed and are then replaced by usage of the Suspense and ErrorBoundary. `data` is guaranteed to be defined.
+Use `useSuspenseQuery` when you want to leverage React's Suspense for declarative data fetching, which automatically suspends the component while data is loading. When using suspense mode, `status` states and `error` objects are not needed and are then replaced by usage of the Suspense and ErrorBoundary. `data` is guaranteed to be defined.
 
 ```js
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -228,6 +228,22 @@ function App() {
     </Suspense>
   );
 }
+```
+
+One of the best ways to share `queryKey` and `queryFn` between multiple places is to use the `queryOptions` helper. It makes sense to abstract the object away into a query definition. At runtime, this helper just returns whatever you pass into it, but it has a lot of advantages when using it with TypeScript.
+
+```ts
+const todosQuery = queryOptions({
+  queryKey: ['todos'],
+  queryFn: async () => {
+    const response = await fetch('/api/todos');
+    return response.json();
+  },
+  staleTime: 1000 * 60
+});
+
+// Then, use it in a component
+useQuery(todosQuery);
 ```
 
 In most examples, we create the `QueryClient` outside the App component, which makes it referentially stable. The `QueryClient` holds the `QueryCache`, so if you create a new client, you also get a new cache, which will be empty.

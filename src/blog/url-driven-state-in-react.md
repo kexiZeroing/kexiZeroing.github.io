@@ -83,6 +83,8 @@ We're heading down a bad road. And the fundamental reason why is that we now hav
 
 Users can change the URL on their own using the address bar or navigation controls. The `?search` query param is really the source of truth for the search text. We should eliminate the React state from our code, and instead derive the search text from the URL.
 
+> If you are not sure if a piece of state belongs in the URL, ask yourself: If someone else clicking this URL, should they see the same state? If so, it belongs in the URL. If not, use a different state management approach.
+
 Let's delete our React state and derive search from the search params instead. Then, whenever we type into our input, we want it to update the URL instead of setting state.
 
 ```jsx
@@ -156,6 +158,8 @@ const params = new URLSearchParams(window.location.search);
 params.set("theme", "dark");
 window.history.replaceState({}, "", "?" + params.toString());
 ```
+
+When deciding between `pushState` and `replaceState`, think about how you want the browser history to behave. `pushState` creates a new history entry, which makes sense for distinct navigation actions like changing filters, pagination, or navigating to a new view — users can then use the Back button to return to the previous state. On the other hand, `replaceState` updates the current entry without adding a new one, making it ideal for refinements such as search-as-you-type or minor UI adjustments where you don’t want to flood the history with every keystroke.
 
 ```js
 // React Router
