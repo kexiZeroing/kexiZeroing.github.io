@@ -3,7 +3,7 @@ title: "Intro to Protocol Buffers (Protobuf)"
 description: ""
 added: "Oct 19 2025"
 tags: [web]
-updatedDate: "Nov 2 2025"
+updatedDate: "Nov 10 2025"
 ---
 
 ## Background
@@ -147,21 +147,25 @@ const user = User.decode(buffer);
 console.log(user.name);
 ```
 
-If your backend exposes gRPC-Web, use it in your frontend:
+If you use gRPC (or gRPC-Web on the frontend), the client and server handle that serialization, framing, and transport layer for you. So you no longer use `fetch()` manually.
 
 ```ts
-import { UserServiceClientImpl, GetUserRequest } from "../generated/user";
-import { GrpcWebImpl } from "../generated/grpc_web"; // generated helper
+import { UserServiceClientImpl } from "../generated/user";
+import { GetUserRequest } from "../generated/user";
 
-const rpc = new GrpcWebImpl("https://your-server.example.com", {
-  debug: true,
+const client = new UserServiceClientImpl({
+  baseUrl: "https://api.example.com",
 });
-const client = new UserServiceClientImpl(rpc);
 
-// call the service
-const user = await client.GetUser({ id: 1 });
-console.log(user.name);
+const request: GetUserRequest = { id: 1 };
+const response = await client.GetUser(request);
+
+console.log(response.name);
 ```
+
+> With traditional HTTP/REST APIs, you call a URL and get a response. With RPC, you call a function and get a response. 
+> 
+> Don't think about HTTP/REST implementation details. You call functions, and the RPC framework takes care of everything else. You should ignore details like HTTP Verbs, since they carry meaning in REST APIs, but in RPC form part of your function names instead, for instance: `getUser(id)` instead of `GET /users/:id`.
 
 ### Using Protobuf schemas with JSON
 In many production systems, `.proto` files are still used as schemas, but the actual data exchanged is JSON, not binary. It’s easier to debug and inspect over HTTP.
@@ -194,3 +198,61 @@ But behind the scenes, this does much more:
 6. The client deserializes that binary data into a usable TypeScript object.
 
 Normal gRPC (used by backend-to-backend communication) runs over HTTP/2. Browsers can’t fully control HTTP/2 like servers can. That means you can’t directly call a gRPC service from browser JavaScript using `fetch()` or `XMLHttpRequest`. To bridge this gap, gRPC-Web provides a browser-compatible variant of gRPC that wraps the same protobuf messages in a simplified wire format browsers can handle.
+
+## What is tRPC
+When the backend and frontend are developed by different teams or written in different languages, schema-based or code-generation approaches are the standard way to keep both sides aligned.
+- **OpenAPI (Swagger)**: Teams define an API specification in JSON or YAML that describes all endpoints, parameters, and responses. From that spec, tools like [openapi-generator](https://github.com/OpenAPITools/openapi-generator) or [swagger-codegen](https://github.com/swagger-api/swagger-codegen) can generate fully typed client code for the frontend.
+- **GraphQL**: Both the frontend and backend share a schema that defines all available queries, mutations, and types. This schema serves as a single source of truth for the data contract, ensuring both sides always agree on what data is available and how to request it.
+- **Protobuf**: The API is defined in `.proto` files, and code generation produces backend service stubs and frontend clients in multiple languages.
+
+Let's also talk about tRPC. tRPC is a TypeScript framework for building APIs without writing an API layer manually. It doesn’t generate code, doesn’t use `.proto` files, and doesn’t even define routes in the usual REST sense. Instead, it infers the types and contract automatically from your backend functions.
+
+```ts
+import { initTRPC } from "@trpc/server";
+const t = initTRPC.create();
+
+export const appRouter = t.router({
+  getUser: t.procedure
+    .input(
+      z.object({ name: z.string() })
+    )
+    .query(({ input }) => {
+      return {
+        text: `Hello, ${input.name}!`,
+      };
+    }),
+});
+
+export type AppRouter = typeof appRouter;
+```
+
+A `procedure` in tRPC is basically one API endpoint. You can think of it as a single “operation” your frontend can call. Then on your frontend, you connect to it:
+
+```ts
+// utils/trpc.ts
+import { createTRPCReact } from '@trpc/react-query';
+import type { AppRouter } from '@/server';
+ 
+export const trpc = createTRPCReact<AppRouter>();
+
+// In components
+function UserProfile() {
+  const userQuery = trpc.getUser.useQuery({ name: 'Alice' });
+  return <p>{userQuery.data?.text}</p>;
+}
+
+// Provider setup omitted for brevity
+// wrap your application in the tRPC provider and QueryClient provider
+```
+
+> You can open up your Intellisense (editor) to explore your API on your frontend. You'll find all of your procedure routes waiting for you along with the methods for calling them.
+>
+> If we didn’t have tRPC, the response we get back would likely be typed as `any`, because we don’t know exactly what the server will return. This is where tRPC shines: it preserves types all the way from the schema through Drizzle and the remote procedure calls, up to the client, for both queries and mutations.
+>
+> Btw, Server Actions in Next.js let you define server-side functions that are fully typed and callable directly from your components.
+
+tRPC itself doesn’t implement caching, request deduplication, or retry logic. That’s why it integrates directly with React Query. So when you call `trpc.getUser.useQuery()`, under the hood it’s using React Query’s `useQuery` hook with your API endpoint already wired up.
+
+In client-side rendering, the trpc call still makes a real HTTP request, but tRPC handles serialization and fetching for you. In server-side rendering, the server calls the same tRPC procedures directly, renders HTML with the fetched data, and sends it to the client.
+
+If you’re already using TypeScript on both your frontend and backend, tRPC fits in perfectly. It relies entirely on TypeScript’s type system, so you get full end-to-end type safety without writing or maintaining an external schema. Since tRPC depends entirely on TypeScript, it really shines only in a full TypeScript ecosystem and isn’t suitable for cross-language setups.
