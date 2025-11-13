@@ -94,6 +94,8 @@ Your local `main` branch still points to an old commit (`A `maybe), your `origin
 
 Because the rebase rewrites your commits (they get new SHAs), GitHub will see your branch history as different from before. So when you push, you need to force it: `git push --force-with-lease`. That replace the old version of your branch with the rebased one.
 
+Note that `origin/branch` is a local copy or "last known state" of the remote branch on your machine. When it's outdated, `--force-with-lease` can't verify you're not overwriting work, so it rejects the push.
+
 GitHub's web UI shows commit date, so if you rebase, everything looks fresh made, but the author date is still preserved inside Git itself.
 
 > - AuthorDate: when you originally made the commit.
