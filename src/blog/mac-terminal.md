@@ -292,6 +292,8 @@ It’s obvious that if you want to connect to a remote computer, then some infor
 
 For example, when you press `enter`, it sends a `\r` (carriage return) symbol. When you press `Ctrl+C`, the client sends `\x03`. If look up an [ASCII table](https://donsnotes.com/tech/charsets/ascii.html), `\x03` is "End of Text". `Ctrl+D` is very similar, which sends `\x04` corresponding to ASCII "End of Transmission". What about `Ctrl` + another letter? It turns out that it’s literally just the number of that letter in the alphabet, like this `Ctrl+a => \x01`, `Ctrl+b => \x02`. Press `Tab`, it sends `\x09`, which is the ASCII code for a horizontal tab. (same as `Ctrl+I`, since `I` is the 9th letter)
 
+> `Ctrl-C` sends a SIGINT *(Signal Interrupt)* to the foreground process, which by default translates into terminating the application. `Ctrl-D` sends an EOF character, which bash interprets as a desire to exit.
+
 Terminals are not just able to display black and white text; they can display colors and formatted texts thanks to escape sequences. The `\x1b[` things sending to the client are called *escape sequences*. They change the cursor’s position, make text bold or underlined, change colours, etc.
 
 > Have you ever pressed the left arrow key in your terminal and seen `^[[D`? That’s an escape code. The first character is the “escape” character, which is usually written as `ESC`, `\x1b`, `\e` or `\033` or `^[`. They are how your terminal emulator communicates various kinds of information (colours, mouse movement, etc) with programs running in the terminal.

@@ -201,7 +201,7 @@ To add support for Docker to an existing project, just copy the [Dockerfile](htt
 # On your local machine
 docker build -t ghcr.io/your-username/your-app-name:latest .
 
-# Github username and access token
+# Push to the GitHub Container Registry using your access token
 docker login ghcr.io
 docker push ghcr.io/your-username/your-app-name:latest
 

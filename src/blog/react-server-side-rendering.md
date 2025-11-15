@@ -243,7 +243,7 @@ A common misconception here is that components with `"use client"` only run in b
 > 
 > Next.js 13.4 introduced the App Router with new features, conventions, and support for React Server Components. Components in the app directory are React Server Components by default. `"use client"` directive used to mark components as Client Components. Server and Client Components can be interleaved in the same component tree, with React handling the merging of both environments.
 >
-> Currently in Next.js, a route is either fully static or fully dynamic. If you have just one dynamic part, the whole page becomes dynamic. This means slower page loads even when most content could be static. Partial prerendering (https://partialprerendering.com) lets you mix static and dynamic parts in the same route. At build time, Next.js creates static HTML for as much as it can, and dynamic parts get wrapped in React Suspense boundaries. The static parts show up instantly while dynamic parts load.
+> Currently in Next.js, a route is either fully static or fully dynamic. If you have just one dynamic part, the whole page becomes dynamic. This means slower page loads even when most content could be static. Partial prerendering (https://partialprerendering.com) lets you mix static and dynamic parts in the same route. At build time, Next.js creates static HTML for as much as it can, and dynamic parts get wrapped in React Suspense boundaries. The static parts show up instantly while dynamic parts load. Read more at https://nextjs.org/docs/app/getting-started/cache-components.
 
 Compare for server side rendering and server components:
 - https://github.com/TejasQ/makeshift-next.js/tree/spoiled

@@ -617,13 +617,19 @@ Here's an example of a source map:
 ```js
 {
   "version": 3,
-  "file": "example.min.js.map",
+  "file": "example.min.js",
   "names": ["document", "querySelector", ...],
   "sources": ["src/script.ts"],
   "sourcesContent": ["document.querySelector('button')..."],
   "mappings": "AAAAA,SAASC,cAAc,WAAWC, ...",
 }
 ```
+
+- `version`: Indicates the source map version (currently always 3).
+- `file`: The generated file name this source map corresponds to.
+- `sources`: Array of original source file paths from which the generated file was built.
+- `sourcesContent`: Optional array containing the actual source code. This allows DevTools to display sources even if the original files aren't accessible. Usually disabled in production builds.
+- `names`: Array of original identifiers (variable names, function names, etc.) that appear in the source. Referenced by the mappings.
 
 The most important part of a source map is the `mappings` field. It uses encoded strings to map lines and locations in the compiled file to the corresponding original file. Below example is from https://www.youtube.com/watch?v=oVcv3QZiXNM
 

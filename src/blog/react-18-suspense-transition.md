@@ -406,3 +406,5 @@ function MyComponent() {
       );
     };
     ```
+
+Read https://nextjs.org/docs/app/getting-started/fetching-data to learn fetch data in Server and Client Components, and how to stream components that depend on data.
