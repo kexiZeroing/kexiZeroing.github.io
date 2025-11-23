@@ -140,6 +140,12 @@ for await (const chunk of stream) {
 }
 ```
 
+Implementation strategy:
+- Check first: Use the Chrome Gemini API to verify device and feature compatibility.
+- Download: If the device is supported, trigger the model download.
+- Use backup: While the model is downloading, use a cloud-based API to provide the service.
+- Switch over: Enable the feature using the built-in model only after it has been successfully downloaded.
+
 ## Run open-source LLMs locally on your computer 
 1. Ollama + OpenWebUI
    - https://github.com/kexiZeroing/langchain-llamaindex-ollama

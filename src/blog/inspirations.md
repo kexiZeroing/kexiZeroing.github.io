@@ -49,6 +49,7 @@ Tejas Kumar:
 Aurora Scharff: 
 - https://www.youtube.com/watch?v=O3ZtlTwDnbk&t=300s
 - https://www.youtube.com/watch?v=CvAySC5ex9c
+- https://www.youtube.com/watch?v=I3AsmAWWGEs
 
 Lee Robinson:
 - https://www.youtube.com/watch?v=h2BcitZPMn4
