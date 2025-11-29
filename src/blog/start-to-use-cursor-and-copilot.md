@@ -156,6 +156,18 @@ Create a `.github/copilot-instructions.md` file in your repository's root direct
 - https://github.com/github/awesome-copilot
 - https://burkeholland.github.io/posts/beast-mode-3-1
 
+### What are premium requests
+Each time you send a prompt in a chat window or trigger a response from Copilot, you’re making a request. Some Copilot features use more advanced processing power and count as premium requests. Copilot Chat uses one premium request per user prompt, multiplied by the model's rate. This includes ask, edit, agent, and plan modes in Copilot Chat in an IDE.
+
+Different models have different premium request multipliers, which can affect how much of your monthly usage allowance is consumed. GPT-5 mini, GPT-4.1 and GPT-4o are the included models, and do not consume any premium requests if you are on a paid plan.
+
+If you use Copilot Free, your plan comes with up to 2,000 inline suggestion requests and up to 50 premium requests per month. All chat interactions count as premium requests.
+
+If you're on a paid plan, you get unlimited inline suggestions and unlimited chat interactions using the included models. Paid plans also receive a monthly allowance of premium requests (300 for Copilot Pro, 1000 for Copilot Enterprise).
+
+- https://docs.github.com/en/copilot/get-started/plans
+- https://docs.github.com/en/copilot/concepts/billing/copilot-requests
+
 ## Gemini CLI
 Gemini CLI brings the capabilities of Gemini models to your terminal in an interactive Read-Eval-Print Loop (REPL) environment. Gemini CLI consists of a client-side application (`packages/cli`) that communicates with a local server (`packages/core`), which in turn manages requests to the Gemini API and its AI models. Gemini CLI also contains a variety of tools for tasks such as performing file system operations, running shells, and web fetching, which are managed by `packages/core`.
 

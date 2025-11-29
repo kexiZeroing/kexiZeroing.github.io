@@ -155,6 +155,42 @@ So for a fixed set of string constants, the practical difference between `as con
 - `const enum` is compile-time only. It disappears after compilation and cannot be referenced dynamically.
 
 ## Bonus: Runtime Validation with Zod
-Zod adds a third, practical option that bridges runtime and compile-time checks.
+There’s one area where TypeScript alone falls short: runtime validation. When data comes from external sources (API responses, form submissions or user inputs), TypeScript can’t guarantee that the data matches our expected types at runtime. This is where a library like Zod comes in.
 
-If you need runtime validation as well as type safety, libraries like Zod go a step further. With Zod, you can define your constants once, validate them at runtime, and infer their types automatically. It’s heavier than `as const` or `const enum`, but ideal when values come from external sources like APIs or configs.
+Zod bridges the gap between compile-time type safety and runtime validation. It allows us to define schemas that not only validate data at runtime but also automatically infer TypeScript types, giving us the best of both worlds.
+
+```js
+interface User {
+  name: string;
+  email: string;
+  age: number;
+}
+
+async function fetchUser(id: string): Promise<User> {
+  const response = await fetch(`/api/users/${id}`);
+  const data = await response.json();
+
+  // Type assertion - dangerous!
+  return data as User;
+}
+```
+
+```js
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  age: z.number().positive()
+});
+
+type User = z.infer<typeof UserSchema>;
+
+async function fetchUser(id: string): Promise<User> {
+  const response = await fetch(`/api/users/${id}`);
+  const data = await response.json();
+  
+  // Validate and parse the data
+  return UserSchema.parse(data); // Throws if validation fails
+}
+```
