@@ -460,6 +460,8 @@ npm run start
 `next build` produces both static and server bundles. `next start` runs the RSC server on Node.js. You can still put your `/static` folder behind a CDN.
 
 ### Why Does RSC Integrate with a Bundler
+RSC was only available in Next.js for a while, but other bundlers and frameworks are starting to support it. The good news is Parcel added support for RSC in version 2.9.0.
+
 Consider this `<Counter>` tag. How do you serialize it?
 
 ```jsx

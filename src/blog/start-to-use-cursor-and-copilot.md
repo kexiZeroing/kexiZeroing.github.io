@@ -3,7 +3,7 @@ title: "Start to use Cursor, Copilot and Gemini CLI"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Oct 2 2025"
+updatedDate: "Nov 30 2025"
 ---
 
 ## Get Started with Cursor
@@ -149,12 +149,12 @@ While agent mode lives in the IDE, **coding agent** lives in your repos. Assign 
 
 [2025-09] GitHub releases the GitHub Copilot CLI, a new entry that brings the power of Copilot directly to the command line. By simply running `copilot`, you enter an interactive session where you can prompt the agent, review its plans, and approve its actions in a conversational turn-based manner. It defaults to Claude Sonnet 4 but you can set `COPILOT_MODEL=gpt-5` to switch to GPT-5. It's billed against your existing GitHub Copilot account.
 
-### Adding repository custom instructions
-Create a `.github/copilot-instructions.md` file in your repository's root directory and add natural language instructions in Markdown format. These instructions will guide Copilot's behavior across your project.
+### Creating custom instructions
+Repository-wide custom instructions, which apply to all requests made in the context of a repository. These are specified in a `.github/copilot-instructions.md` file in your repository's root directory.
 
-- https://code.visualstudio.com/docs/copilot/copilot-customization
-- https://github.com/github/awesome-copilot
-- https://burkeholland.github.io/posts/beast-mode-3-1
+Path-specific custom instructions, which apply to requests made in the context of files that match a specified path. These are specified in one or more `NAME.instructions.md` files within the `.github/instructions` directory in the repository. At the start of the file, create a frontmatter block containing the `applyTo` keyword. Use glob syntax to specify what files or directories the instructions apply to.
+
+You can create one or more `AGENTS.md` files, stored anywhere within the repository. It can be found at the root of a repository or within subdirectories (e.g., `backend/AGENTS.md`, `frontend/AGENTS.md`). This allows for fine-grained control and specialized instructions for different parts of a project.
 
 ### What are premium requests
 Each time you send a prompt in a chat window or trigger a response from Copilot, you’re making a request. Some Copilot features use more advanced processing power and count as premium requests. Copilot Chat uses one premium request per user prompt, multiplied by the model's rate. This includes ask, edit, agent, and plan modes in Copilot Chat in an IDE.

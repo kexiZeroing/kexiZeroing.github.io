@@ -416,6 +416,11 @@ type MusicProductWithoutId =
 type MusicProductWithoutId = {
   title: string;
 };
+
+// Solution to fix: make our own distributive version of Omit
+type DistributiveOmit<T, K extends keyof T> = T extends any
+  ? Omit<T, K>
+  : never
 ```
 
 > For orginal `Pick<T, K extends keyof T>`, when `T` is a union, `keyof T` does not mean “all keys from all members” — it means the intersection of keys present in every member of the union.

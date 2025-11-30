@@ -138,6 +138,23 @@ updatedDate: "July 14 2025"
   }
   ```
 
+- We are creating a new grid when we use `subgrid`, but that grid will inherit the template from the parent grid. There’s only one grid structure, but it can be shared by multiple grids. For example, if you use `grid-template-columns: subgrid` and the nested grid spans three column tracks of the parent, the nested grid will have three column tracks of the same size as the parent grid.
+  ```scss
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+
+    .subgrid {
+      grid-column: 2 / 5;
+      grid-row: 2 / 5;
+      display: grid;
+      grid-template-columns: subgrid;
+      grid-template-rows: subgrid;
+    }
+  }
+  ```
+
 - Have you ever wondered why padding is inconsistent above and below text elements? Each font has a different `line-height` and that comes with a different spacing above and below the text. To fix that, we can add a fake element next to the button’s TextNode, and when a pseudo-element is placed next to it, we can use `vertical-align: middle` to center both. This is a much better solution than setting the different top and bottom spacing values.
 
   ```css
