@@ -5,7 +5,7 @@ added: "Nov 30 2025"
 tags: [AI]
 ---
 
-This is a walkthrough of a two‑stage pipeline that turns a short idea into a multi‑page Xiaohongshu‑style post: automated outline generation, cover‑first image generation for visual consistency, and an asynchronous event stream for real-time UI updates.
+This is a walkthrough of a two‑stage pipeline that turns a short idea into a multi‑page Xiaohongshu‑style post: automated outline generation, cover‑first image generation for visual consistency, and an asynchronous event stream for real-time UI updates. If you want to dive deeper, https://github.com/HisMax/RedInk is a great resource to check out and learn from, and this post is based on it.
 
 ## The approach
 
