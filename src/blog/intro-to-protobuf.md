@@ -3,7 +3,7 @@ title: "Intro to Protocol Buffers (Protobuf)"
 description: ""
 added: "Oct 19 2025"
 tags: [web]
-updatedDate: "Nov 10 2025"
+updatedDate: "Dec 1 2025"
 ---
 
 ## Background
@@ -58,6 +58,14 @@ Some keywords:
 A `service` defines RPC methods. Each rpc line defines one endpoint with input and output message types. It includes a method name, request message type, and response message type. For gRPC (Google’s RPC framework), the compiler generates:
 - Client stub: code that lets you call `GetUser` or `CreateUser` like local functions.
 - Server interface: definitions you implement on the server to handle incoming RPC calls.
+
+### Compatibility and workflow
+Think of the `.proto` file as the contract between frontend and backend. To keep this magic working, you must follow these rules:
+1. Never change a field number: If `name` is field `1`, it must be `1` forever.
+2. Never reuse a deleted field number: If you delete field `2`, do not add a new field with number `2`. (Use the `reserved` keyword to prevent this).
+3. Renaming is fine: You can rename `string name = 1;` to `string full_name = 1;`. It only cares about the number `1`.
+
+This enables "Contract-First Development," where the `.proto` file is defined before writing any logic. By generating TypeScript interfaces immediately, the frontend team can build UI components using mock data typed against the contract while the backend team works in parallel. This eliminates dependencies, as the code compiler guarantees that the eventual backend response will match the frontend's expectations perfectly.
 
 ## Generating code from `.proto` files
 
