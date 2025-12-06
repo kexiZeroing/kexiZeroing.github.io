@@ -3,7 +3,7 @@ title: "React 18 Suspense and startTransition"
 description: ""
 added: "Oct 7 2023"
 tags: [react]
-updatedDate: "July 17 2025"
+updatedDate: "Dec 6 2025"
 ---
 
 **Concurrent React** is a new feature introduced in React 18 that changes how React handles rendering and updates. A key property of Concurrent React is that rendering is interruptible. With synchronous rendering, once an update starts rendering, nothing can interrupt it until the user can see the result on screen. In a concurrent render, React may start rendering an update, pause in the middle, then continue later. It may even abandon an in-progress render altogether.
@@ -202,42 +202,37 @@ These two APIs are designed for different use cases and can absolutely be used t
 - When you initially load data on an unloaded page (ex. navigating to a new page). Suspense is a way to specify fallbacks instead of content, so it should used in this case.
 - When you load new data on a page that has already loaded (ex. tab navigations). In this case, it's bad to hide something the user has already seen. In this case, `startTransition` lets you show a pending indicator until that render completes, and avoid retriggering Suspense boundaries.
 
-```jsx
-import { Suspense, useState, startTransition, useTransition } from 'react';
+Take tab switching as an example. React treats the `setTab` update as low priority (a “transition update”), meaning:
+- React delays committing the new UI until the async work (like data-loading) for that state change is ready.
+- If `<UserPosts />` suspends, React waits in the background instead of switching tabs and showing fallback.
+- The Suspense boundary does not fall back because React hasn’t committed the render that suspends.
 
-function Router() {
-  const [page, setPage] = useState('/');
+```jsx
+function App() {
+  const [tab, setTab] = useState('profile');
   const [isPending, startTransition] = useTransition();
 
-  function navigate(url) {
-    startTransition(() => {
-      setPage(url);
-    });
-  }
-
-  let content;
-  if (page === '/') {
-    content = (
-      <Suspense fallback={<h2>Loading page...</h2>}>
-        <IndexPage navigate={navigate} />
-      </Suspense>
-    );
-  } else if (page === '/the-beatles') {
-    content = (
-      <Suspense fallback={<h2>Loading page...</h2>}>
-        <ArtistPage artist={{ id: 'the-beatles' }} />
-      </Suspense>
-    );
+  function handleTabChange(newTab) {
+    startTransition(() => setTab(newTab));
   }
 
   return (
-    <Layout>
-      {isPending && <div style={{ opacity: 0.7 }}>Loading...</div>}
-      {content}
-    </Layout>
+    <div>
+      <nav>
+        <button onClick={() => handleTabChange('profile')}>Profile</button>
+        <button onClick={() => handleTabChange('posts')}>Posts</button>
+      </nav>
+      <Suspense fallback={<LoadingSkeleton />}>
+        <div style={{ opacity: isPending ? 0.7 : 1 }}>
+          {tab === 'profile' ? <UserProfile /> : <UserPosts />}
+        </div>
+      </Suspense>
+    </div>
   );
 }
 ```
+
+The Suspense boundary only shows fallback during a committed render. With a transition, React attempts the new render in memory. It does not commit the render until the async work finishes. This avoids jarring loading screens during navigation. Essentially, **transitions “hold back” the UI update until async work completes, preventing the Suspense boundary from falling back during navigation. (transitions allow React to prepare the next screen in the background)**
 
 ## New API `useId` and `useSyncExternalStore`
 The `useId` hook is used to generate unique IDs for elements within a component. This is particularly useful for accessibility purposes, such as linking form inputs with their labels. It ensures that IDs are unique across the entire application, even if the component is rendered multiple times.

@@ -173,3 +173,5 @@ function PostIdComponent() {
   )
 }
 ```
+
+> The only thing that you need to unlearn and learn with TanStack Start is that everything is isomorphic by default. Isomorphic is a fancy word. It means all the code that you write by default will run during SSR on the server and on the client during future navigations. So the `loader` if you've ever used Remix you might be thinking this might run on the server. It doesn't. This runs on the client and the server. How do I make it run only on the server? Well, we can create a server function (`createServerFn`) and any of the logic that we put inside of there is only going to run on the server. And we can also run this function from the client, but it's an RPC. It goes back to the server to ensure that we only run it there.

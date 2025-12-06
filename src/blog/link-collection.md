@@ -376,6 +376,8 @@ What's new in React 19 by Lydia Hallie: https://www.youtube.com/watch?v=AJOGzVyg
 
 React Concurrent Features Overview: https://certificates.dev/blog/react-concurrent-features-an-overview
 
+React’s new era with async coordination primitives: https://blog.logrocket.com/the-next-era-of-react
+
 ---
 
 ## Vue and Vite ecosystem

@@ -3,7 +3,7 @@ title: "Intro to Bun"
 description: ""
 added: "Jan 22 2024"
 tags: [web]
-updatedDate: "Jan 31 2024"
+updatedDate: "Dec 6 2025"
 ---
 
 Bun is a fast, all-in-one toolkit for running, building, testing, and debugging JavaScript and TypeScript, from a single file to a full-stack application. The goal of Bun is to run most of the world's server-side JavaScript and provide tools to improve performance, reduce complexity, and multiply developer productivity.
@@ -14,6 +14,10 @@ Bun is a fast, all-in-one toolkit for running, building, testing, and debugging 
 - Bun is an npm-compatible package manager with familiar commands.
 - Bun is a JavaScript bundler with best-in-class performance.
 - Bun is a Jest-compatible test runner with support for snapshot testing, mocking, and code coverage.
+
+> Anthropic acquires Bun at Dec 2025: https://bun.com/blog/bun-joins-anthropic
+>
+> Claude Code ships as a Bun executable to millions of users. If Bun breaks, Claude Code breaks. Anthropic has direct incentive to keep Bun excellent.
 
 ## Quickstart
 ```sh
@@ -163,6 +167,23 @@ await Bun.build({
 ```
 
 > Bun's bundler API is inspired heavily by `esbuild`. Migrating to Bun's bundler from `esbuild` should be relatively painless. Bun's bundler does not include a built-in development server or file watcher. It's just a bundler.
+
+## Single-file executable
+Bun’s bundler implements a `--compile` flag for generating a standalone binary from a TypeScript or JavaScript file.
+
+```sh
+bun build ./cli.ts --compile --outfile mycli
+
+# It bundles cli.ts into an executable that can be executed directly
+./mycli
+
+# Cross-compile to other platforms
+bun build --compile --target=bun-linux-x64 ./index.ts --outfile myapp
+bun build --compile --target=bun-windows-x64 ./index.ts --outfile myapp
+bun build --compile --target=bun-darwin-arm64 ./index.ts --outfile myapp
+```
+
+All imported files and packages are bundled into the executable, along with a copy of the Bun runtime. All built-in Bun and Node.js APIs are supported.
 
 ## Test Runner
 Bun ships with a fast, built-in, Jest-compatible test runner. Define tests with a Jest-like API imported from the built-in `bun:test` module.

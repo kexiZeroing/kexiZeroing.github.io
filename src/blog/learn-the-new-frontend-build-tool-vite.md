@@ -97,7 +97,7 @@ const fooCjs = foo_fooCjs["foo"];
 - Vite does provide built-in support for `.scss`, `.sass`, `.less`, `.stylus` files. There is no need to install Vite-specific plugins for them, but the corresponding pre-processor itself must be installed.
 
 ### Static Assets
-- Importing a static asset will return the resolved public URL when it is served. The image is included in the module graph. For example, imgUrl will be `/img.png` during development, and become `/assets/img.2d8efhg.png` in the production build. `url()` references in CSS are handled the same way.
+- Importing a static asset will return the resolved public URL when it is served. The image is included in the module graph. *(What get imported it's just the path to the file, not the actual image.)* For example, importing imgUrl will be `/img.png` during development, and become `/assets/img.2d8efhg.png` in the production build. `url()` references in CSS are handled the same way.
 - Common image, media, and font filetypes are detected as assets automatically.
 - If you have assets that are must retain the exact same file name (without hashing) or you simply don't want to have to import an asset first just to get its URL, then you can place the asset in a special `public` directory under your project root. **Assets in this directory will be served at root path `/` during dev, and copied to the root of the dist directory as-is**.
 

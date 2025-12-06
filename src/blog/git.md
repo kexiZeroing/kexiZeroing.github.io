@@ -3,7 +3,7 @@ title: "Git knowledge that not clear to me"
 description: ""
 added: "Jun 19 2022"
 tags: [system]
-updatedDate: "Mar 5 2025"
+updatedDate: "Dec 6 2025"
 ---
 
 ## helpful links
@@ -231,11 +231,18 @@ For example, I want to change the git user (rewrite history) after push the code
 5. `git commit --amend --reset-author --no-edit` and `git rebase --continue` to confirm and continue your rebase.
 6. `git push --force-with-lease` to overwrite the remote history. (**`--force-with-lease` is safer than `--force`**: If a change that someone else made to the remote branch while you were working on your code, you will not overwrite any remote code.)
 
-To fixup a commit:
-```sh
-git commit --fixup a0b1c2d3  # The new commit message will start with "fixup!" followed by the message of the original commit.
+> `pick` means to apply the commit and move on, `edit` means to stop here and change something. After you save and close the editor, Git will stop at that commit. This is where you run the commands like `git commit --amend` stuff. After you do that, you run `git rebase --continue` and be on your way.
 
-git rebase -i --autosquash a0b1c2d3~1  # Clean up the history by combining the fixup commit with the original commit.
+```sh
+# Example from https://cassidoo.co/post/change-git-timestamp
+git rebase -i HEAD~3
+# Change a commit from pick → edit
+
+export GIT_AUTHOR_DATE="2025-12-02T23:59:00"
+export GIT_COMMITTER_DATE="2025-12-02T23:59:00"
+git commit --amend --no-edit --date "$GIT_AUTHOR_DATE"
+
+git rebase --continue
 ```
 
 Another example, I want to squash my last 3 commits together into one commit.

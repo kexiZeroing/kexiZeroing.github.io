@@ -14,6 +14,8 @@ For example, a Java program on one platform can serialize data according to a `.
 Unlike JSON, Protobuf encodes data in a compact binary format, making it much smaller and faster to serialize and deserialize. It enforces a strict schema, providing type safety and supporting forward and backward compatibility, so you can safely evolve your data structures over time.
 
 > Protocol Buffers is primarily a specification (or protocol) for serializing structured data, but it comes with multiple components that can make it feel like a library (`protoc` = compiler that generates code based on the spec; Language-specific runtime = library to work with messages)
+>
+> Serialization is the process of turning a data structure into a sequence of bytes that can be transmitted. JSON, for example, serializes data as human-readable text.
 
 ## Installing Protobuf
 To install protobuf, you need to install the protocol compiler (used to compile `.proto` files) and the protobuf runtime for your chosen programming language.
@@ -23,6 +25,8 @@ To install protobuf, you need to install the protocol compiler (used to compile 
 
 ## Understanding `.proto` files
 A `.proto` file defines the structure of data (like JSON schema) and optionally RPC services (like API endpoints). It tells Protobuf how to serialize and deserialize data.
+
+> With JSON, you often send ambiguous or non-guaranteed data. You may encounter a missing field, an incorrect type, or a typo in a key. With Protobuf, that’s impossible. Everything starts with a `.proto` file that defines the structure of messages precisely.
 
 ```proto
 // Define a message
