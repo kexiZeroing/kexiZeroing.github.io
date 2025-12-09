@@ -102,6 +102,36 @@ Section ii: Usage
 */
 ```
 
+```css
+.level-1 {
+  counter-reset: myLevel1;
+}
+.level-1 > .item {
+  counter-increment: myLevel1;
+}
+.level-1 > .item::before {
+  content: counter(myLevel1, decimal) ". ";
+}
+
+.level-2 {
+  counter-reset: myLevel2;
+}
+.level-2 > .item {
+  counter-increment: myLevel2;
+}
+.level-2 > .item::before {
+  content: counter(myLevel2, lower-alpha) ") ";
+}
+
+/* It will render as:
+1. Level 1 item
+2. Level 1 item
+   a) Level 2 item
+   b) Level 2 item
+3. Level 1 item
+*/
+```
+
 ## @counter-style rule
 Use `@counter-style` when you want to define a fully custom numbering system or bullets.
 
