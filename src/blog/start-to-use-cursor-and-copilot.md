@@ -156,6 +156,20 @@ Path-specific custom instructions, which apply to requests made in the context o
 
 You can create one or more `AGENTS.md` files, stored anywhere within the repository. It can be found at the root of a repository or within subdirectories (e.g., `backend/AGENTS.md`, `frontend/AGENTS.md`). This allows for fine-grained control and specialized instructions for different parts of a project.
 
+What happens when you send a prompt in Copilot Chat?
+```
+System Prompt 
+(core identity and global rules, tool use instructions, output format instructions)
+  ↓
+User Prompt
+(environment info, workspace info and project file structure)
+  ↓
+User Prompt
+(current date/time, file you added to chat)  
+  ↓
+User Request: "write a function that..."
+```
+
 ### What are premium requests
 Each time you send a prompt in a chat window or trigger a response from Copilot, you’re making a request. Some Copilot features use more advanced processing power and count as premium requests. Copilot Chat uses one premium request per user prompt, multiplied by the model's rate. This includes ask, edit, agent, and plan modes in Copilot Chat in an IDE.
 

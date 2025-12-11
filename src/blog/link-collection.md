@@ -558,6 +558,8 @@ README for agents: https://agents.md
 
 Apps SDK - Our framework to build apps for ChatGPT: https://developers.openai.com/apps-sdk
 
+The Modern Software Developer - Stanford University: https://themodernsoftware.dev
+
 ---
 
 ## Machine Learning
