@@ -11,7 +11,7 @@ Vector embeddings are central to many NLP, recommendation, and search algorithms
 
 There is something special about vectors that makes them so useful. This representation makes it possible to translate semantic similarity as perceived by humans to proximity in a vector space. In other words, when we represent real-world objects and concepts such as images, audio recordings, news articles, and user profiles as vector embeddings, the semantic similarity of these objects and concepts can be quantified by how close they are to each other as points in vector spaces.
 
-<img alt="sentence_embeddings" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hcc5elwuuoj313s0e075k.jpg" width="550" />
+<img alt="sentence_embeddings" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hcc5elwuuoj313s0e075k.jpg" width="550" />
 
 We train models to translate objects to vectors. A deep neural network is a common tool for training such models. The resulting embeddings are usually high dimensional (up to two thousand dimensions) and dense (all values are non-zero). For text data, models such as Word2Vec, GloVe (Global Vectors for Word Representation), and BERT transform words, sentences, or paragraphs into vector embeddings. Images can be embedded using models such as convolutional neural networks (CNNs).
 
@@ -47,9 +47,9 @@ assert(enc.decode(enc.encode("hello world")) === "hello world");
 > - It attempts to let the model see common subwords. For instance, "ing" is a common subword in English, so BPE encodings will often split "encoding" into tokens like "encod" and "ing" (instead of e.g. "enc" and "oding"). Because the model will then see the "ing" token again and again in different contexts, it helps models generalise and better understand grammar.
 > - It ensures that the most common words are represented as a single token while the rare words are broken down into two or more subword tokens. (Looking for the most frequent pairing, merge them, and perform the same iteration again and again until we reach our token limit or iteration limit.)
 
-<img alt="BPE-tokenize" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/BPE-tokenize.png" width="450" />
+<img alt="BPE-tokenize" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/BPE-tokenize.png" width="450" />
 <br>
-<img alt="gpt-tokens" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/gpt-tokens.png" width="600" />
+<img alt="gpt-tokens" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/gpt-tokens.png" width="600" />
 
 Embeddings are advanced vector representations of tokens. They try to capture the most nuance, connections, and semantic meanings between tokens. Each embedding is generally a series of real numbers on a vector space computed by a neural network. They are the “real inputs” of LLMs.
 
@@ -78,10 +78,10 @@ Embeddings alone don't distinguish between words with multiple meanings. Embeddi
 - Key: Here is what I can offer
 - Value: Here is the actual information if we match
 
-<img alt="self-attention" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/self-attention.png" width="600" />
+<img alt="self-attention" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/self-attention.png" width="600" />
 
 <br>
-<img alt="embedding-matrix" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/self-attention-qkv.png" width="600" />
+<img alt="embedding-matrix" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/self-attention-qkv.png" width="600" />
 
 ## Storing embeddings in Postgres with pgvector
 How can I retrieve K nearest embedding vectors quickly? For searching over many vectors quickly, we recommend using a vector database.
@@ -237,7 +237,7 @@ async function getDocuments(urls: string[]) {
 ## GPT and LangChain Chatbot for PDF docs
 [gpt4-pdf-chatbot-langchain](https://github.com/mayooear/gpt4-pdf-chatbot-langchain) uses LangChain and Pinecone to build a chatbot for large PDF docs. Convert your PDF to embeddings:
 
-<img alt="pdf-to-embeddings" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hccg4ncf7vj32140fu0x9.jpg" width="800" />
+<img alt="pdf-to-embeddings" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hccg4ncf7vj32140fu0x9.jpg" width="800" />
 
 ```js
 // https://github.com/mayooear/gpt4-pdf-chatbot-langchain/blob/main/scripts/ingest-data.ts
@@ -286,7 +286,7 @@ for (let i = 0; i < docs.length; i += chunkSize) {
 - Vector Databases Explained: https://vercel.com/guides/vector-databases
 - What is a Vector Database: https://www.pinecone.io/learn/vector-database
 
-<img alt="vectorstore" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hd08amw1npj30u00z9djx.jpg" width="700">
+<img alt="vectorstore" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hd08amw1npj30u00z9djx.jpg" width="700">
 
 Several algorithms can facilitate the creation of a vector index. Their goal is to enable fast querying by creating a data structure that can be traversed quickly. They will commonly transform the representation of the original vector into a compressed form to optimize the query process.
 

@@ -66,7 +66,7 @@ MP4 and WebM formats are what we would call pseudo-streaming or "progressive dow
 ## HLS and M3U8
 HTTP Live Streaming sends audio and video as a series of small files, called media segment files. An index file, or playlist, provides an ordered list of the URLs of the media segment files. Index files for HTTP Live Streaming are saved as M3U8 playlists, an extension of the M3U format used for MP3 playlists.
 
-<img alt="m3u8 compatibility" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/51ec8e88-554e-4272-b3de-df878d9dede4.png" width="750">
+<img alt="m3u8 compatibility" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/51ec8e88-554e-4272-b3de-df878d9dede4.png" width="750">
 
 1. HLS (Protocol) defines how video is segmented and delivered over HTTP. (Use m3u8 manifest files to tell players where to find segments)
 2. Safari natively supports native HLS, but Chrome and Firefox do not. By native in this context, it means you can set `<video src="something.m3u8">` and the browser handles everything internally, no extra JavaScript or MSE is needed.
@@ -100,7 +100,7 @@ HTTP Live Streaming sends audio and video as a series of small files, called med
 
 ### Blob url video streaming
 
-<img alt="blob-url-video" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/12643918-81ad-47c1-8ea2-45205d1f23a9.png" width="500">
+<img alt="blob-url-video" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/12643918-81ad-47c1-8ea2-45205d1f23a9.png" width="500">
 
 All those websites actually still use the video tag. But instead of simply setting a video file in the `src` attribute, they make use of much more powerful web APIs, the Media Source Extensions (more often shortened to just “MSE”). Complex web-compatible video players are all based on MediaSource and [SourceBuffer](https://developer.mozilla.org/en-US/docs/Web/API/SourceBuffer).
 

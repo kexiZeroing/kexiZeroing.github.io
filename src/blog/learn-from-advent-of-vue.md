@@ -90,10 +90,10 @@ You don't need to import `defineProps` from Vue. `defineProps`, `defineEmits`, a
 
 > A compiler macro is special code that is processed by a compiler and converted into something else. They are effectively a clever form of string replacement.
 
-<img alt="vue-cmp-props" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/vue-props.png" width="750">
+<img alt="vue-cmp-props" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/vue-props.png" width="750">
 <br>
 
-<img alt="vue-setup-defineprops" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/vue-setup-defineprops.png" width="750">
+<img alt="vue-setup-defineprops" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/vue-setup-defineprops.png" width="750">
 
 The output structure looks like what we had before with our `defineComponent` approach, and the only difference is that the compiler is creating this for us.
 

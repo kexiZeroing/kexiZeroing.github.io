@@ -671,4 +671,4 @@ CAIF
 It means: col 26 is mapping to source[0] line 9, col 14
 ```
 
-<img alt="how source maps work" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/source-map-under-the-hood.png" width="600" />
+<img alt="how source maps work" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/source-map-under-the-hood.png" width="600" />

@@ -134,7 +134,7 @@ You are using repeat again, but this time, using the `auto-fit` keyword instead 
 - With `auto-fit`, when there are not enough grid items to fill the number of tracks created, those empty tracks are collapsed. *(Fit entire length of container)*
 - With `auto-fill`, everything is the same as `auto-fit`, except empty tracks are not collapsed. *(Doesn't fit entire length of the contaier)*
 
-<img alt="grid-auto-fit" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/68c40383-3e52-433a-88ee-9650cc9d601a.png" width="600">
+<img alt="grid-auto-fit" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/68c40383-3e52-433a-88ee-9650cc9d601a.png" width="600">
 
 ```css
 /* Responsive CSS Grid */

@@ -21,7 +21,7 @@ SQLite is a serverless database engine. It functions as a lightweight library em
 
 The Relational Model is usually denoted using `LIKES (DRINKER, COFFEE)`
 
-<img alt="relation model" src="https://raw.gitmirror.com/kexiZeroing/blog-images/e267d5c748689a64a58514b9c6776a4499eff478/BD61-413F-89E1-3A76798F04B1.png" width="500">
+<img alt="relation model" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/e267d5c748689a64a58514b9c6776a4499eff478/BD61-413F-89E1-3A76798F04B1.png" width="500">
 
 **Keys (If the key for two tuples are the same, they must be the same tuple)**
 - Candidate Keys: A relation schema can have many keys, those that are minimal are CANDIDATE KEYs.
@@ -54,7 +54,7 @@ PRIMARY KEY Constraint
 - Join: Cartesian product (aka: cross product)，Theta Join，Natural Join
 - Union, Intersection, Difference
 
-<img alt="algebra" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/DC50FBCB-B408-4495-A8D9-99383F8B05E9.png" width="500">
+<img alt="algebra" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/DC50FBCB-B408-4495-A8D9-99383F8B05E9.png" width="500">
 
 > Left / Right Outer Join
 > - R LEFT OUTER JOIN S ON `R.<att> = S.<att>`
@@ -184,7 +184,7 @@ INSERT INTO Room (classroomId, building, abbrev, room) VALUES
 
 **Entity-Relationship Diagram (ERD)**
 
-<img alt="ERD" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/E2C8-43B6-8005-2C212621341C.png" width="500">
+<img alt="ERD" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/E2C8-43B6-8005-2C212621341C.png" width="500">
 
 - `(a, b)` 表示参与关系的最少数量和最多数量
 - Associative Entities are used to represent Many-to-Many relations, basically a relation made up of primary keys. Typically implemented as a table.
@@ -211,20 +211,20 @@ From ERD to Tables
 - No attribute has more than 1 value for each relation
 - Addresses the "shape" of a tuple
 
-<img alt="1st normal form" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/E31B-43F2-867D-F010EF70B182.png" width="450">
+<img alt="1st normal form" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/E31B-43F2-867D-F010EF70B182.png" width="450">
 
 **2nd normal form**
 - 1st Normal Form +
 - Every non-key attribute is functionally dependent on the entire key
 - Addresses the relationships between key and non-key fields
 
-<img alt="2nd normal form" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/CC97-41DF-96DC-23D4B859F476.png" width="450">
+<img alt="2nd normal form" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/CC97-41DF-96DC-23D4B859F476.png" width="450">
 
 **3rd normal form**
 - 2nd Normal Form +
 - No non-key attribute depends on another non-key attribute
 
-<img alt="3rd normal form" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/A0D7-4968-A52C-10240A6C7230.png" width="500">
+<img alt="3rd normal form" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/A0D7-4968-A52C-10240A6C7230.png" width="500">
 
 **BCNF**
 - BCNF is an advanced version of the third normal form, and it is also known as the 3.5 Normal Form.
@@ -331,4 +331,4 @@ SQL -> MongoDB
   - Keys do not have to be the same in all documents within a collection
 - column -> field
 
-<img alt="mongodb" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/6529-4D8C-8A31-CCA28EB64614.png" width="600">
+<img alt="mongodb" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/6529-4D8C-8A31-CCA28EB64614.png" width="600">

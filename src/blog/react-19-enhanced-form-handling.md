@@ -302,9 +302,9 @@ React 19 added special support for the `<link>` element. When rendered with the 
 ## Next.js sever actions and `<Form>` component
 Next.js Server Actions is a feature that allows you to run server-side code directly from client components. It is part of Next.js's full-stack framework features, eliminating the need for API routes for basic form handling.
 
-<img alt="next-server-actions-1" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/next-server-actions-1.png" width="650">
+<img alt="next-server-actions-1" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/next-server-actions-1.png" width="650">
 
-<img alt="next-server-actions-2" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/next-server-actions-2.png" width="650">
+<img alt="next-server-actions-2" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/next-server-actions-2.png" width="650">
 <br>
 
 `useActionState` helps you deal with loading and error states.

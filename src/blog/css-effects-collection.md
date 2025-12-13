@@ -22,7 +22,7 @@ updatedDate: "July 14 2025"
 - [Eyes Follow Mouse Cursor](#eyes-follow-mouse-cursor)
 
 ### Rainbow Artword
-<img alt="Rainbow Artword" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
+<img alt="Rainbow Artword" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
 
 ```html
 <style>
@@ -56,7 +56,7 @@ updatedDate: "July 14 2025"
 - A cool website: https://www.makewordart.com
 
 ### Hover Text Effects
-<img alt="Hover Text Effects" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8t04ox2d3j30e2048jrb.jpg" width="200">
+<img alt="Hover Text Effects" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8t04ox2d3j30e2048jrb.jpg" width="200">
 
 https://codepen.io/jh3y/pen/abGPKGO
 
@@ -104,7 +104,7 @@ https://codepen.io/jh3y/pen/abGPKGO
 ### Apple-style OS dock
 CSS only, no JS. This one would be pretty sweet as a nav on your portfolio.
 
-<img alt="apple-style-dock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/dwucuh.png" width="450">
+<img alt="apple-style-dock" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/dwucuh.png" width="450">
 
 https://codepen.io/jh3y/pen/GRwwWoV
 
@@ -120,7 +120,7 @@ https://codepen.io/jh3y/pen/GRwwWoV
 - Build a wide gamut color palette with okLCH and inspects color with devtools: https://www.youtube.com/watch?v=6aCsAMgwnjE
 - Create a custom palette: https://www.radix-ui.com/colors/custom
 
-<img alt="okLCH Color Palettes" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1he4xakrh5qj30tg0ka0ts.jpg" width="500">
+<img alt="okLCH Color Palettes" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1he4xakrh5qj30tg0ka0ts.jpg" width="500">
 
 ```html
 <style>
@@ -229,12 +229,12 @@ Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick
 [backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) has the same effect as [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter), with one notable difference — backdrop filters apply only to areas behind the element instead of to the element and its children. Filters, on the other hand, apply directly to the element and its children, and don’t affect anything behind the element.
 
 <figure>
-  <img alt="filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/a9f0c5e0-6f17-4068-b481-17bfac204791.png" width="500">
+  <img alt="filter" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/a9f0c5e0-6f17-4068-b481-17bfac204791.png" width="500">
   <figcaption>filter example</figcaption>
 </figure>
 
 <figure>
-  <img alt="backdrop-filter" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/t0635k.png" width="500">
+  <img alt="backdrop-filter" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/t0635k.png" width="500">
   <figcaption>backdrop-filter example</figcaption>
 </figure>
 
@@ -378,7 +378,7 @@ Tag selection: https://codepen.io/dannymoerkerke/pen/VYZxYdy
 
 https://codepen.io/argyleink/pen/GRPRJyM
 
-<img alt="just the tabs" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/245b6eaa-8117-430d-a2aa-faa40e0e51a2.png" width="450">
+<img alt="just the tabs" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/245b6eaa-8117-430d-a2aa-faa40e0e51a2.png" width="450">
 
 ### Scroll-driven animations
 At its simplest, the `animation-timeline` property lets us link any keyframe animation to the progress of scroll. They still run from 0-100%. But now, 0% is the scroll start position and 100% is the scroll end position.
@@ -416,15 +416,15 @@ img {
 }
 ```
 
-<img alt="range-cover" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/sda-range-cover.png" width="450">
+<img alt="range-cover" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/sda-range-cover.png" width="450">
 <br>
-<img alt="range-contain" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/sda-range-contain.png" width="450">
+<img alt="range-contain" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/sda-range-contain.png" width="450">
 <br>
-<img alt="range-entry" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/sda-range-entry.png" width="450">
+<img alt="range-entry" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/sda-range-entry.png" width="450">
 <br>
-<img alt="range-exit" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/sda-range-exit.png" width="450">
+<img alt="range-exit" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/sda-range-exit.png" width="450">
 <br>
-<img alt="range-percent" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/sda-range-percent.png" width="450">
+<img alt="range-percent" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/sda-range-percent.png" width="450">
 
 Because scroll-driven animations are only active when there is scrollable overflow, it is possible to use them as a mechanism to detect if an element can scroll or not.
 
@@ -485,7 +485,7 @@ img:hover {
 - `box-sizing: border-box` will make the size of the content box equal to 0. In other words, we don’t see the image, but we see the background color since it covers the padding area.
 
 ### Gradient border card
-<img alt="Gradient Border" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/gradient-border.png" width="100">
+<img alt="Gradient Border" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/gradient-border.png" width="100">
 
 The two layers stack on top of each other:
 - The conic-gradient layer applies over the content and padding areas.

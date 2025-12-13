@@ -136,7 +136,7 @@ A buffer (implemented by the ArrayBuffer object) is an object representing a chu
 
 > Typed Arrays were designed by the WebGL standards committee, for performance reasons. Typically Javascript arrays are generic and can hold objects, other arrays and so on - and the elements are not necessarily sequential in memory, like they would be in C. WebGL requires buffers to be sequential in memory, because that's how the underlying C API expects them. If Typed Arrays are not used, passing an ordinary array to a WebGL function requires a lot of work. For performance-sensitive WebGL applications this could cause a big drop in the framerate.
 
-<img alt="typed_arrays" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/typed_arrays.png" width="550" />
+<img alt="typed_arrays" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/typed_arrays.png" width="550" />
 
 | Type |  Description | Size in bytes
 |  ---- | ---- | ---- | 

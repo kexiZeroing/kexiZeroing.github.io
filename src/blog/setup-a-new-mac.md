@@ -54,9 +54,9 @@ updatedDate: "Sep 17 2025"
    - check npm config: `npm config ls`
    - `npm config set registry https://registry.npmmirror.com` to change the registry, `npm config delete registry` to change back to default (`https://registry.npmjs.org/`), `npm get registry` to see the current set.
    - set npm proxy `npm config set proxy http://127.0.0.1:7890` and remove this proxy `npm config delete proxy`
-   <img alt="npm proxy" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008i3skNly1gz5abxu18ij31bu0eijtx.jpg" width="700">
+   <img alt="npm proxy" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008i3skNly1gz5abxu18ij31bu0eijtx.jpg" width="700">
    - Global Node modules will be installed at `~/.nvm/versions/node/v12.13.0/bin/` if you use nvm.
-   <img alt="global node_modules" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/e6c9d24ely1h2zj27plslj218q04ydgm.jpg" width="700" />
+   <img alt="global node_modules" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/e6c9d24ely1h2zj27plslj218q04ydgm.jpg" width="700" />
 
     > package manager mirrors: https://github.com/eryajf/Thanks-Mirror
     > - Taobao: http://registry.npmmirror.com

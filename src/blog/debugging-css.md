@@ -99,7 +99,7 @@ updatedDate: "July 14 2025"
 
 - Center one and right/left align other element: Grid layout may be the cleanest and most efficient method. There is no need for absolute positioning or flexbox with fake elements.
 
-  <img alt="header_center_grid" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h8pu4q80utj30zq0u0gnm.jpg" width="600" />
+  <img alt="header_center_grid" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8pu4q80utj30zq0u0gnm.jpg" width="600" />
 
   *(above picture comes from @shadeed9)*
 
@@ -219,7 +219,7 @@ updatedDate: "July 14 2025"
   /* grid-row-start / grid-column-start / grid-row-end / grid-column-end
   ```
 
-  <img alt="stack-elements-with-grid" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/stack-elements-grid.png" width="650" />
+  <img alt="stack-elements-with-grid" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/stack-elements-grid.png" width="650" />
 
 - `text-underline-offset` sets the offset distance of an underline text decoration line from its original position. All browsers support this property. Note that it is not part of the `text-decoration` shorthand.
 

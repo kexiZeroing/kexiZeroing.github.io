@@ -63,7 +63,7 @@ Use the `container-type` property a value of `size`, `inline-size`, or `normal`.
 - `normal`: The element is not a query container for any container size queries, but remains a query container for container style queries.
 
 <figure>
-  <img alt="logical properties" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/logical-properties.png" width="500">
+  <img alt="logical properties" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/logical-properties.png" width="500">
   <figcaption>logical properties</figcaption>
 </figure>
 

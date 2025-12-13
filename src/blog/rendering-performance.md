@@ -119,7 +119,7 @@ For images loading, the `decoding=async` attribute of the `<img>` is one of the 
 > When an image appears to load gradually from top to bottom, it's because it's being downloaded sequentially (the byte stream is arranged top-down). As data arrives, the browser begins rendering the image line by line. Decoding plays a role but is typically fast enough not to be noticeable.
 
 @addyosmani [JavaScript Loading Priorities in Chrome](https://addyosmani.com/blog/script-priorities):
-<img alt="JavaScript Loading Priorities" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/addyosmani.com_blog_script-priorities%20(1).png" width="800">
+<img alt="JavaScript Loading Priorities" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/addyosmani.com_blog_script-priorities%20(1).png" width="800">
 
 ### The DOMContentLoaded event
 The `DOMContentLoaded` event fires once all of your deferred JavaScript (`<script defer>` and `<script type="module">`) has finished running. It doesn't wait for other things like images, subframes, and async scripts to finish loading.

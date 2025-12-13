@@ -262,7 +262,7 @@ pnpm was released in 2017. It is a drop-in replacement for npm, so if you have a
 
 Traditionally, npm installed dependencies in a flat `node_modules` folder. On the other hand, pnpm manages `node_modules` by using hard linking and symbolic linking to a global on-disk content-addressable store. It results in a nested `node_modules` folder that stores packages in a global store on your home folder (`~/.pnpm-store/`). Every version of a dependency is physically stored in that folder only once, constituting a single source of truth. pnpm identifies the files by a hash id (also called "content integrity" or "checksum") and not by the filename, which means that two same files will have identical hash id and pnpm will determine that there’s no reason for duplication.
 
-<img alt="pnpm" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7aw9ablr4j30vm0u0q5z.jpg" width="650" />
+<img alt="pnpm" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h7aw9ablr4j30vm0u0q5z.jpg" width="650" />
 
 - It hard-links each file from the global store into the project’s `.pnpm` directory inside `node_modules`.
 - In `node_modules`, each package folder is a symbolic link that points to the actual package content inside a hidden `.pnpm` directory.

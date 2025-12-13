@@ -130,7 +130,7 @@ The simplest possible encoding for Unicode is UTF-32. It simply stores code poin
 
 What’s "🤦🏼‍♂️".length? Different languages use different internal string representations and report length in whatever units they store. For example, JavaScript (and Java) strings have UTF-16 semantics, so the string occupies 7 code units.
 
-<img alt="unicode-string" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/unicode-encoding.png" width="550" />
+<img alt="unicode-string" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/unicode-encoding.png" width="550" />
 <br>
 
 ```js

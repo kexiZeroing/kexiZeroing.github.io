@@ -912,7 +912,7 @@ Zod Mini variant was introduced with the release of Zod 4. Use `import * as z fr
 > [ArkType](https://github.com/arktypeio/arktype) is a TypeScript-first runtime validation library designed to offer concise, composable, and powerful type definitions with zero dependencies, optimized from editor to runtime.
 
 <br>
-<img alt="izod-and-arktype" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/zod-and-arktype.png" width="600">
+<img alt="izod-and-arktype" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/zod-and-arktype.png" width="600">
 
 ## Adding Type Check to JavaScript
 TypeScript provides code analysis for JavaScript and VS Code gives us TypeScript out of the box (TypeScript language server). With the addition of `//@ts-check` as the very first line in our JavaScript file, TypeScript became active and started to add red lines to code pieces that just don’t make sense.

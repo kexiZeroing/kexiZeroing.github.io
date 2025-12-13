@@ -32,7 +32,7 @@ The virtual DOM was created to address performance issues caused by frequent man
 > Diffing isn't free. The more nodes you have, the more time it takes to diff. With newer frameworks like Svelte, the virtual DOM isn't even used because of the performance overhead. Instead, Svelte uses a technique called "dirty checking" to determine what has changed. Fine-grained reactivity frameworks like SolidJS take this a step further by pinpointing exactly what has changed and updating only that part of the DOM.
 
 ### Vue reactivity implementation
-<img alt="Vue3 reactivity" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/ba9fd338-ae71-43ab-88cc-52086aa8700a.png" width="650" />
+<img alt="Vue3 reactivity" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/ba9fd338-ae71-43ab-88cc-52086aa8700a.png" width="650" />
 
 ```js
 let activeEffect = null
@@ -115,7 +115,7 @@ product.price = 12
 > 2. Avoid memory leaks.
 
 <br>
-<img alt="Vue2 reactivity" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/6a6e5dab-2f12-4dd2-ab94-f47dec512c71.png" width="650" />
+<img alt="Vue2 reactivity" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/6a6e5dab-2f12-4dd2-ab94-f47dec512c71.png" width="650" />
 
 ```js
 let activeEffect = null

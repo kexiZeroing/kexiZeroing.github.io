@@ -252,7 +252,7 @@ Redirect both standard output and standard error to a file: `command &>file`. Th
 
 However be careful writing `command >file 2>&1` is not the same as `command 2>&1 >file`. The second one redirects only the standard output to the file. The stderr will still print to the terminal.
 
-<img alt="bash redirection" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/bash-redirection.png" width="450">
+<img alt="bash redirection" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/bash-redirection.png" width="450">
 
 ## Moving to zsh
 From macOS Catalina the default shell is zsh. The bash bundled with macOS has been stuck on version 3.2 for a long time now. bash v4 was released in 2009 and bash v5 in January 2019. The reason Apple has not switched to these newer versions is that they are licensed with `GPL v3`. bash v3 is still `GPL v2`. zsh, on the other hand, has an MIT-like license, which makes it much more palatable for Apple to include in the system by default.
@@ -268,7 +268,7 @@ Symbolic links or soft links (i.e. `etc -> private/etc`) are links to another na
 
 To create a symbolic link use the `ln -s <source> <target>` command. The first argument is the path the symbolic link points to. If a symbolic link is deleted, its target remains unaffected. If the target is moved, renamed or deleted, the symbolic link is not automatically updated or deleted, but continues to points to the old target, a non-existing location (the link will not work).
 
-<img alt="hard and symbolic link" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/e6c9d24ely1h3fodeoojfj20ea0730st.jpg" width="400">
+<img alt="hard and symbolic link" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/e6c9d24ely1h3fodeoojfj20ea0730st.jpg" width="400">
 
 ```sh
 echo 'Hello, World' > myfile.txt
@@ -300,12 +300,12 @@ Terminals are not just able to display black and white text; they can display co
 > 
 > Some specific escape codes: “move the cursor to the left” is `ESC[D`, “move the cursor down” is `ESC[B`, “turn text red” is `ESC[31m`, “make text bold” is `ESC[1m`.
 
-<img alt="ascii table" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/asciifull.gif" width="710">
+<img alt="ascii table" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/asciifull.gif" width="710">
 
 > Base64:  
 > It's a way of encoding arbitrary binary data in ASCII text. Essentially each 6 bits of the input is encoded in a 64-character alphabet. The "standard" alphabet uses A-Z, a-z, 0-9 and + and /, with = as a padding character. There are URL-safe variants.
 > 
-> <img alt="ascii table" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/base64_with_padding.png" width="400">
+> <img alt="ascii table" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/base64_with_padding.png" width="400">
 > 
 > Base62 are `[0–9][a-z][A-Z]`, which can be used to generate short URLs. Think of the 7-bit short url (e.g. aKc3K4b), and it can be mapped to a decimal integer by using base conversion and vice versa. Practically, we can start with a counter (A large number 100000000000 in base 10 which is `1L9zO9O` in Base62) and increment counter every-time we get request for new short url. This way we will always get a unique short url.
 >

@@ -214,7 +214,7 @@ Use `multipart/form-data` when your form includes any `<input type="file">` elem
 - Fields are separated by the given boundary string. The browser must choose a boundary that will not appear in any of the fields, so this is why the boundary may vary between requests.
 - Every field gets some sub headers before its data: `Content-Disposition: form-data`, the field name, the filename, followed by the data.
 
-<img alt="form-data" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7pzihd80yj31440gy40l.jpg" width="700"> 
+<img alt="form-data" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h7pzihd80yj31440gy40l.jpg" width="700"> 
 
 ### Process the form data in Node.js
 1. What does `body-parser` do with express? Originally, there was only `body-parser`, not `express.json()`. `body-parser` extracts the entire body portion of an incoming request stream and exposes it on `req.body`. As of Express version 4.16+, their own `body-parser` implementation is now included in the default Express package so there is no need for you to download another dependency.
@@ -259,7 +259,7 @@ GET data is appended to the URL as a query string, so there is a hard limit to t
 
 Responses to the POST method aren’t kept by most caches; if you send information in the path or query via GET, caches can store that information for the future.
 
-<img alt="http-post-get" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/post-get-others.png" width="460"> 
+<img alt="http-post-get" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/post-get-others.png" width="460"> 
 
 As far as security, both GET and POST are equally insecure when sent over plain HTTP — all data is visible to anyone intercepting the network traffic. Only HTTPS makes the request secure in transit, for both GET and POST. A packet sniffer will just see encrypted binary blobs, not readable content.
 
@@ -422,10 +422,10 @@ CORS works by adding new HTTP headers that let servers describe which origins ar
 > If Site A requests a page from Site B, the browser will actually fetch the requested page on the network level and check if the response headers list Site A as a permitted requester domain.
 
 <br>
-<img alt="same-cross-origin" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/same-cross-origin.png" width="700">
+<img alt="same-cross-origin" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/same-cross-origin.png" width="700">
 
 <br>
-<img alt="same-cross-site" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/same-site.png" width="700">
+<img alt="same-cross-site" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/same-site.png" width="700">
 
 ### Simple requests
 Simple requests don’t trigger a CORS preflight. It should meet all the following conditions:

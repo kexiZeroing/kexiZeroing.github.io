@@ -15,7 +15,7 @@ Many modern web applications written in Node.js or Angular can run with their ow
 
 > **Forward proxies** are crucial for privacy and security when browsing the internet, accessing geo-restricted content, web scraping, and much more. **Reverse proxies** are important for websites with many visitors daily because they help avoid overloading and are a perfect fit for caching content, SSL encryption.
 
-<img alt="nginx" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7rrtzcyydj30ww0magnw.jpg" width="700" >
+<img alt="nginx" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h7rrtzcyydj30ww0magnw.jpg" width="700" >
 
 Create a `server` block that will act as a reverse proxy. **The `proxy_pass` directive in the configuration makes the server block a reverse proxy**. All traffic destined to the domain `SUBDOMAIN.DOMAIN.TLD` and those matches with `location` block will be forwarded to `http://PRIVATE_IP:3000` where the node.js or angular application is running. When Nginx proxies a request, it automatically makes some adjustments to the request headers it receives from the client. To adjust or set headers, we can use the `proxy_set_header` directive. For example, the "Host" header by default will be set to the value of `$proxy_host`, a variable that will contain the domain name or IP address taken directly from the `proxy_pass` directive. It can also be set to `$host` which is equal to the "Host" in the header of the request.
 

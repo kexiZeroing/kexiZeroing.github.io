@@ -69,7 +69,7 @@ export const loader = async ({ params }: LoaderArgs) => {
 > An `invariant` function from [tiny-invariant](https://github.com/alexreardon/tiny-invariant) takes a value, and if the value is falsy then the invariant function will throw. If the value is truthy, then the function will not throw.
 
 ### Modular architecture
-<img alt="apple-style-dock" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/modular-architecture.png" width="700">
+<img alt="apple-style-dock" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/modular-architecture.png" width="700">
 
 - Components can’t use modules, but can use everything from the UI layer, while modules use components but can’t use pages. And pages only use modules.
 - A module shouldn’t use another module, and a component should’t contain complex logic. If logic is still needed, it should be as simple and easily maintainable as possible, otherwise — it’s a module.
@@ -247,7 +247,7 @@ npx shadcn@latest add https://simple-ai.dev/r/chat-message.json
 ```
 
 <figure>
-  <img alt="shadcn registry" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/shadcn-registry.png" width="600">
+  <img alt="shadcn registry" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/shadcn-registry.png" width="600">
   <figcaption>registry.json and shadcn build</figcaption>
 </figure>
 
@@ -342,7 +342,7 @@ Install husky `npm i -D husky` and have a "husky" section in the `package.json` 
 ## Background jobs
 When a user submits work, a job record is created in the database with a unique ID. This ID is then sent to Inngest to trigger background processing, and the job ID is immediately returned to the user. Inngest processes the job asynchronously and updates the same database record with the results once processing is complete. Meanwhile, the user's frontend polls an API endpoint that checks the job status in the database. Once the status is marked as "completed," the frontend retrieves and displays the final results.
 
-<img alt="inngest-runs" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/inngest-runs.png" width="700">
+<img alt="inngest-runs" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/inngest-runs.png" width="700">
 
 ```js
 // actions.ts

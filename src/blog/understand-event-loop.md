@@ -21,7 +21,7 @@ Everything outside of a tab is handled by the **browser process**. The browser p
 
 ## Event loop
 
-<img alt="event-loop" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h7ivwcb19zj317a0u0jvw.jpg" width="700" style="display:block; margin:auto">
+<img alt="event-loop" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h7ivwcb19zj317a0u0jvw.jpg" width="700" style="display:block; margin:auto">
 
 - **Stack**  
 A single call stack in which it keeps track of what function we’re currently executing and what function is to be executed after that. When we execute an infinite loop, everything on the screen just freezes, this is because the main thread is blocked doing the infinite loop and render tasks never get a chance to come in.

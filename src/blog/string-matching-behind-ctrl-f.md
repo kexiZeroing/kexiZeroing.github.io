@@ -47,10 +47,10 @@ New rules
 - Good suffix jumps: Upon a mismatch, shift so that the already matched suffix of P aligns with a previous occurrence of that suffix (or part of it) in P.
 - Shift forward is larger of two heuristics, and it is always positive.
 
-<img alt="Bad character" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/bad-character.png" width="600">
+<img alt="Bad character" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/bad-character.png" width="600">
 
 <br>
-<img alt="Good suffix" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/good-suffix.png" width="600">
+<img alt="Good suffix" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/good-suffix.png" width="600">
 
 The preprocessing for the good suffix heuristics is rather difficult to understand and to implement. Therefore, sometimes versions of the Boyer-Moore algorithm are found in which the good suffix heuristics is left away.
 

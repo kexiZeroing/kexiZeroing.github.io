@@ -31,9 +31,9 @@ esbuild script.js --bundle --minify --outfile=bundle.js
 
 Vite only support ES Modules, and parsing the native ES Modules means it will read the `export` and `import` lines from your code. It will convert those lines into HTTP requests back to the server, where it will again read the `export` and `import` lines and make new requests. Vite also leverages HTTP headers to speed up full page reloads: source code module requests are made conditional via `304 Not Modified`, and dependency module requests are strongly cached via `Cache-Control` header.
 
-<img alt="webpack" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hc08w7udwkj31a20jmabm.jpg" width="600">
+<img alt="webpack" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hc08w7udwkj31a20jmabm.jpg" width="600">
 
-<img alt="vite" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hc08w9irx0j313w0hwmyf.jpg" width="600">
+<img alt="vite" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hc08w9irx0j313w0hwmyf.jpg" width="600">
 
 > Webpack
 > - supported modules: ES Modules, CommonJS and AMD Modules

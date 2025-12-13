@@ -490,7 +490,7 @@ It’s reasonable to assume its code is being served by our app as a static JS a
 }
 ```
 
-<img alt="use client" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/bundle-use-client.png" width="750">
+<img alt="use client" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/bundle-use-client.png" width="750">
 
 On the client, you could load it by generating a `<script>` tag. However, loading imports one by one from their source files over the network is inefficient. You don’t want to create a waterfall. We already know how to fix this from two decades of working on client-side applications: bundling.
 

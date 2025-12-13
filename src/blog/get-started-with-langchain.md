@@ -16,7 +16,7 @@ LangChain is a framework for developing applications powered by language models,
 
 ### Components: Building Blocks of LangChain
 
-<img alt="langchain-components" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
+<img alt="langchain-components" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hct713lr8nj314q0u0dmp.jpg" width="650">
 
 - Schema (Text, Messages, Documents)
 - Models (LLMs, Chat Models, Text Embedding Models)

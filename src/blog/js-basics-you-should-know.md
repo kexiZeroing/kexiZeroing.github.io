@@ -809,7 +809,7 @@ Iterators are a new way to loop over any collection in JavaScript. We can use `f
 
 The **iterable protocol** allows JavaScript objects to define or customize their iteration behavior, such as what values are looped over in a `for..of` construct. **In order to be iterable, an object must implement the @@iterator method, meaning that the object must have a property with a @@iterator key which is available via constant `Symbol.iterator`**. Symbols offer names that are unique and cannot clash with other property names. That method will return an object called an **`iterator`**. This iterator will have a method called **`next`** which will return an object with keys **`value` and `done`**. The `value` will contain the current value. The `done` is boolean which denotes whether all the values have been fetched or not.
 
-<img alt="iterable" src="https://raw.gitmirror.com/kexiZeroing/blog-images/main/008vxvgGly1h83i5srgy6j30ii09wmxt.jpg" width="700">  
+<img alt="iterable" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h83i5srgy6j30ii09wmxt.jpg" width="700">  
 
 ```js
 // Iterable is an object with a function whose key is Symbol.iterator
