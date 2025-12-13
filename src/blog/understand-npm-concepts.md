@@ -184,6 +184,8 @@ In npm versions 3 through 6, `peerDependencies` were not automatically installed
 **optionalDependencies** are dependencies that are not critical to your application's core functionality but can enhance it if available. If a package listed in `optionalDependencies` fails to install due to incompatibility with the user's system, npm will not treat it as an error and will continue the installation process. This is useful when a dependency may not work on all environments. For example, a package might only work on macOS but not on Windows. In such cases, you should include a fallback in your code to ensure your application still runs properly if the optional dependency is missing.
 
 > `@npmcli/arborist`, the npm tree doctor, is the library that calculates dependency trees and manages the `node_modules` folder hierarchy for the npm command line interface. It's used in some tools like [npm-why](https://github.com/amio/npm-why) to help identify why a package has been installed.
+>
+> npm (v7+) uses [Arborist](https://github.com/npm/arborist) for dependency resolution, building a logical graph of dependencies overlaid on a physical tree of folders.
 
 ### URLs as dependencies
 1. Git URLs as dependencies using SSH or HTTPS with credentials:

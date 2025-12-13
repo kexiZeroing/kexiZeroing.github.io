@@ -431,6 +431,7 @@ An RSC server must be present to handle incoming requests. The RSC server is par
 Must-read articles on React Server Components: 
 - https://www.joshwcomeau.com/react/server-components
 - https://github.com/reactwg/server-components/discussions/5
+- https://tonyalicea.dev/blog/understanding-react-server-components/
 - https://devongovett.me/blog/parcel-rsc.html
 
 ### RSC deployment

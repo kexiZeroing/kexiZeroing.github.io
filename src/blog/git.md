@@ -12,6 +12,7 @@ updatedDate: "Dec 6 2025"
 - https://dev.to/g_abud/advanced-git-reference-1o9j
 - https://jvns.ca/blog/2023/11/01/confusing-git-terminology
 - https://git-scm.com/cheat-sheet
+- https://www.stacking.dev
 
 ## git reset
 You’ve made some commits locally (not yet pushed), but everything is terrible, you want to undo last commits like they never happened.
