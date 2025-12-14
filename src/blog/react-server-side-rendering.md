@@ -431,8 +431,14 @@ An RSC server must be present to handle incoming requests. The RSC server is par
 Must-read articles on React Server Components: 
 - https://www.joshwcomeau.com/react/server-components
 - https://github.com/reactwg/server-components/discussions/5
-- https://tonyalicea.dev/blog/understanding-react-server-components/
 - https://devongovett.me/blog/parcel-rsc.html
+
+### Mental model for RSC
+RSC introduces an explicit Server/Client component split. Server Components execute only once on the server with zero JS shipped to the client, while Client Components hydrate traditionally. This contrasts with classic SSR where all components run twice (server for HTML, client for hydration).
+
+Instead of HTML, the server sends a serialized component tree (the "RSC Payload" in Flight format) as a streaming data payload. The client reconstructs the UI from this stream without re-executing component logic.
+
+Server Components fetch data directly on the server, eliminating client-side waterfalls. The payload includes placeholders (Suspense boundaries) for pending Promises, allowing the server to stream initial UI immediately, then progressively send chunks as async operations resolve. This enables incremental rendering without blocking or requiring full re-renders.
 
 ### RSC deployment
 React Server Components need a runtime that can execute code on the server. So it has both RSC server runtime and static assets.
