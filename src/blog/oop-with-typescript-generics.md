@@ -2,7 +2,8 @@
 title: "Object-Oriented Patterns with TypeScript Generics"
 description: ""
 added: "Dec 11 2025"
-tags: [other]
+tags: [other, js]
+updatedDate: "Dec 14 2025"
 ---
 
 Before we start, let's be clear: what we're learning here is Object-Oriented Programming. TypeScript is just the language expressing these ideas. The same patterns exist in Java, C#, C++, and many other languages.
@@ -305,3 +306,80 @@ The `DeliveryCoordinator` doesn't create a warehouse or translator. It receives 
 - Decoupling: The coordinator doesn't know (or care) about concrete classes
 
 The complexity exists to achieve flexibility, testability, and maintainability. This is why enterprise codebases look the way they do. It's not TypeScript being complex — it's OOP principles being applied rigorously.
+
+### React Dependency Injection
+Imagine our postal service needs a tracking dashboard. The dashboard needs a `TrackingController` to manage package lookups and status updates. But we don't want the UI to know how tracking works - just what it can do. Components depend on `TrackingController`, not `TrackingControllerImpl`. Tests provide fakes. Different environments provide different implementations.
+
+```ts
+// postal-system/tracking/tracking-controller.ts
+
+export interface TrackingController {
+  readonly currentPackage: Package | undefined;
+  lookupPackage(trackingCode: string): Promise<void>;
+  markAsDelivered(): Promise<void>;
+}
+
+export class TrackingControllerImpl implements TrackingController {
+  constructor(
+    private readonly warehouseService: WarehouseService,
+    private readonly deliveryService: DeliveryService,
+  ) {}
+
+  async lookupPackage(trackingCode: string): Promise<void> {
+    // Implementation details hidden from consumers
+  }
+  // ...
+}
+```
+
+An "install function" creates a fully-wired service instance. It encapsulates how to construct something:
+
+```ts
+// postal-system/services/install.ts
+
+function installTrackingController(): TrackingController {
+  const warehouseService = installWarehouseService();
+  const deliveryService = installDeliveryService();
+  return new TrackingControllerImpl(warehouseService, deliveryService);
+}
+```
+
+Components receive services at creation time. The factory `createTrackingPanel` receives dependencies and returns a component. The component itself has no idea where `TrackingController` comes from, but just uses it.
+
+```ts
+// postal-system/ui/tracking-panel/create.tsx
+
+export function createTrackingPanel(opts: {
+  trackingController: TrackingController;
+  analytics: AnalyticsClient;
+}) {
+  return function TrackingPanel() {
+    const { trackingController, analytics } = opts;
+    
+    const handleLookup = (code: string) => {
+      analytics.track('package_lookup', { code });
+      trackingController.lookupPackage(code);
+    };
+    
+    return <TrackingPanelView controller={trackingController} onLookup={handleLookup} />;
+  };
+}
+```
+
+At app startup, install functions wire everything together:
+
+```ts
+// postal-system/app/bootstrap.ts
+
+const trackingController = installTrackingController();
+const analyticsService = installAnalyticsService();
+
+const { TrackingPanel } = createTrackingPanel({
+  trackingController,
+  analytics: analyticsService,
+});
+
+// TrackingPanel is now ready to render, fully wired
+```
+
+Swap `installTrackingController` for a fake version, and the whole app uses fakes, no component changes required.
