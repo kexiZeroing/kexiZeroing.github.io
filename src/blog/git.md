@@ -3,7 +3,7 @@ title: "Git knowledge that not clear to me"
 description: ""
 added: "Jun 19 2022"
 tags: [system]
-updatedDate: "Dec 6 2025"
+updatedDate: "Dec 14 2025"
 ---
 
 ## helpful links
@@ -58,9 +58,17 @@ When your branches diverge, you have to create a commit to "join" the two branch
 - `--ff-only`, resolve the merge as a fast-forward when possible. When not possible, refuse to merge and exit with a non-zero status.
 
 ## git pull --rebase vs. --merge
-- When you decide to push your work your push is rejected, because there's been parallel work on the same branch. At this point do a `git pull --rebase` to avoid the extra merge commits. You actually commit on top of the remote branch. It's like doing `git fetch` and `git rebase origin/feature`.
+```
+git config pull.rebase false  # merge (default)
+git config pull.rebase true   # rebase
+git config pull.ff only       # fast-forward only
+```
 
 - If you pull remote changes with the flag `--merge`, which is also the default, then your local changes are merged with the remote changes. This results in a merge commit that points to the latest local commit and the latest remote commit.
+
+- When you decide to push your work your push is rejected, because there's been parallel work on the same branch. At this point do a `git pull --rebase` to avoid the extra merge commits. You actually commit on top of the remote branch. It's like doing `git fetch` and `git rebase origin/feature`.
+
+Rebasing is a process of integrating changes from one branch onto another by reapplying each commit from the source branch onto the target branch. It is commonly used to maintain a clean and linear history, especially in collaborative workflows where feature branches are frequently created and merged.
 
 ```
 # git checkout my-feature
