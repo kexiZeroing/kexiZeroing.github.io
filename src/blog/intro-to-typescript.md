@@ -10,6 +10,8 @@ TypeScript is a strongly typed programming language that builds on JavaScript. I
 
 Every time you write JavaScript in e.g. VS Code, TypeScript runs behind the curtains and gives you information on built-in APIs. In fact, a lot of people think that they can live without TypeScript because JavaScript support is so fantastic in modern editors. Guess what’s, it has always been TypeScript. *In VS Code, open a `.ts` file, `Cmd+Shift+P` enter "Select TypeScript Version" to check. There is a "Use VS Code's Version" and "Use Workspace Version" (this is from node_modules).*
 
+> Even if you don't write your code in `.ts` files, you're probably using TypeScript. That's because TypeScript is the IntelliSense engine. Even if you're not using VSCode, if your editor gives you code completion, parameter info, quick info, member lists, etc. while writing JS code, you are almost certainly running the TypeScript language service.
+
 ## Setting up TypeScript
 To start off, the TypeScript compiler will need to be installed in order to convert TypeScript files into JavaScript files. To do this, TypeScript can either be installed globally or only available at the project level.
 
@@ -918,6 +920,8 @@ Zod Mini variant was introduced with the release of Zod 4. Use `import * as z fr
 TypeScript provides code analysis for JavaScript and VS Code gives us TypeScript out of the box (TypeScript language server). With the addition of `//@ts-check` as the very first line in our JavaScript file, TypeScript became active and started to add red lines to code pieces that just don’t make sense.
 
 [JSDoc](https://deno.com/blog/document-javascript-package) is a way to annotate JavaScript code using comments. JSDoc comments are any block comments that begin with `/**` and end with `*/` that precede a block of code. The comments can span multiple lines. Each line should start with `*` and should be indented by one space. JSDoc supports a variety of tags that can be used to provide additional information about your symbols, such as `@param` for parameters, `@returns` for the return value, or `@typeParam` for type parameters. TypeScript uses this annotations to get more information on our intended types.
+
+> It is also the TypeScript language service that is used to interpret JSDoc comments. That is why the TypeScript CHANGELOG often includes notes about JSDoc features. It also the reason your JSDoc-related IntelliSense can be governed by a `tsconfig.json` file and you can run `tsc` on a project typed with JSDoc comments.
 
 ```js
 // @ts-check

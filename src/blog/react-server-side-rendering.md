@@ -437,6 +437,11 @@ Must-read articles on React Server Components:
 RSC introduces an explicit Server/Client component split. Server Components execute only once on the server with zero JS shipped to the client, while Client Components hydrate traditionally. This contrasts with classic SSR where all components run twice (server for HTML, client for hydration).
 
 Instead of HTML, the server sends a serialized component tree (the "RSC Payload" in Flight format) as a streaming data payload. The client reconstructs the UI from this stream without re-executing component logic.
+- We can pre-generate content on the server by invoking `renderToPipeableStream` to serialize a component.
+- Output is split into chunks.
+- Chunks reference each other using compact string tokens.
+- Promises can be streamed and resolved incrementally.
+- Content is deserialized on the client using `createFromFetch`, which returns a valid JSX.
 
 Server Components fetch data directly on the server, eliminating client-side waterfalls. The payload includes placeholders (Suspense boundaries) for pending Promises, allowing the server to stream initial UI immediately, then progressively send chunks as async operations resolve. This enables incremental rendering without blocking or requiring full re-renders.
 

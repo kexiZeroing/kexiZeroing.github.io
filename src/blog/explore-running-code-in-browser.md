@@ -198,7 +198,7 @@ ReactDOM.render(
 ### WebLLM and Pyodide
 WebLLM is a high-performance in-browser LLM inference engine, aiming to be the backend of AI-powered web applications and agents. It provides a specialized runtime for the web backend of MLCEngine, leverages WebGPU for local acceleration.
 
-> [WebGPU](https://developer.chrome.com/blog/webgpu-release/) is a new web standard for accelerated graphics and compute. The API enables web developers to use the underlying system's GPU to carry out high-performance computations directly in the browser. WebGPU is the successor to WebGL and provides significantly better performance. Before WebGPU support, ONNX Runtime Web *(Transformers.js uses ONNX Runtime to run models in the browser)* has adopted WebAssembly and WebGL technologies for providing an optimized ONNX model inference runtime for both CPUs and GPUs.
+> [WebGPU](https://developer.chrome.com/blog/webgpu-release/) is a new web standard for accelerated graphics and compute. The API enables web developers to use the underlying system's GPU to carry out high-performance computations directly in the browser. WebGPU is the successor to WebGL (based on OpenGL, which can be "chatty" with the CPU) and provides significantly better performance. Before WebGPU support, ONNX Runtime Web *(Transformers.js uses ONNX Runtime to run models in the browser)* has adopted WebAssembly and WebGL technologies for providing an optimized ONNX model inference runtime for both CPUs and GPUs.
 >
 > [WebGPU is now supported in major browsers](https://web.dev/blog/webgpu-supported-major-browsers) in Nov 2025. Both ONNX Runtime and Transformers.js already use WebGPU to enable high-speed, local model inference and computation into the browser. 
 
