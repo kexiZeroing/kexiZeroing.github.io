@@ -3,7 +3,7 @@ title: "Start to use Cursor, Copilot and Gemini CLI"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Nov 30 2025"
+updatedDate: "Dec 23 2025"
 ---
 
 ## Get Started with Cursor
@@ -169,6 +169,11 @@ User Prompt
   ↓
 User Request: "write a function that..."
 ```
+
+### Agent Skills
+You can create Agent Skills to teach Copilot how to perform specialized tasks in a specific, repeatable way. Agent Skills are folders containing instructions, scripts, and resources that Copilot automatically loads when relevant to your prompt. Skills support is coming to the stable version of VS Code in early January 2026.
+
+You can write your own skills, or use skills shared by others, such as those in the [anthropics/skills](https://github.com/anthropics/skills) repository. Check out https://docs.github.com/copilot/concepts/agents/about-agent-skills
 
 ### What are premium requests
 Each time you send a prompt in a chat window or trigger a response from Copilot, you’re making a request. Some Copilot features use more advanced processing power and count as premium requests. Copilot Chat uses one premium request per user prompt, multiplied by the model's rate. This includes ask, edit, agent, and plan modes in Copilot Chat in an IDE.

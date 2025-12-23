@@ -3,7 +3,7 @@ title: "Git knowledge that not clear to me"
 description: ""
 added: "Jun 19 2022"
 tags: [system]
-updatedDate: "Dec 14 2025"
+updatedDate: "Dec 20 2025"
 ---
 
 ## helpful links
@@ -13,6 +13,7 @@ updatedDate: "Dec 14 2025"
 - https://jvns.ca/blog/2023/11/01/confusing-git-terminology
 - https://git-scm.com/cheat-sheet
 - https://www.stacking.dev
+- https://www.youtube.com/playlist?list=PL4ENURnhqMwvi31ELaUf0HrJIkH9wIuN8
 
 ## git reset
 You’ve made some commits locally (not yet pushed), but everything is terrible, you want to undo last commits like they never happened.
