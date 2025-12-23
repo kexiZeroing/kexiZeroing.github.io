@@ -651,6 +651,24 @@ var url = "http://example.net/?param1=" + p1 + "&param2=99";
 // http://example.net/?param1=http%3A%2F%2Fexample.org%2F%Ffa%3D12%26b%3D55&param2=99
 ```
 
+`encodeURIComponent(value: string): string` expects a string. If you pass `undefined`:
+- TypeScript: type error
+- JavaScript at runtime: `encodeURIComponent(undefined)` → `"undefined"` (usually not what you want)
+
+```js
+function maybeEncodeUriComponent(
+  value: string | undefined
+): string | undefined {
+  return value != null ? encodeURIComponent(value) : value;
+}
+
+// undefined == null -> true
+// undefined != null -> false
+```
+
+1. Prevents accidental `"undefined"` in URLs, like `/items?search=undefined&sort=undefined`
+2. Callers don’t have to guard first: just call `maybeEncodeUriComponent(filters.search)`
+
 ## JSON stringify and parse
 `JSON.stringify(value, replacer, space)` converts a value to the JSON notation that the value represents, optionally replacing values if a replacer function is specified or optionally including only the specified properties if a replacer array is specified.
 
