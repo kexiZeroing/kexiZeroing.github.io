@@ -3,7 +3,7 @@ title: "JavaScript basics you should know"
 description: ""
 added: "Aug 3 2020"
 tags: [js]
-updatedDate: "Jun 21 2025"
+updatedDate: "Dec 26 2025"
 ---
 
 ## let and const
@@ -1193,6 +1193,58 @@ const pFast = new Promise((resolve, reject) => {
 Promise.any([pErr, pSlow, pFast]).then((value) => {
   console.log(value);  // Done quick
 });
+```
+
+`Promise.withResolvers()` (ES2024) returns an object containing a new Promise and two functions to resolve or reject it, corresponding to the two parameters passed to the `Promise()` constructor executor.
+
+It creates a brand new promise, just like `new Promise()` does. The key difference is it decouples promise creation from resolution logic - resolve/reject can be called anywhere outside the constructor. The promise remains "pending" until `resolve()` or `reject()` is called.
+
+```js
+// Traditional:
+const promise = new Promise((resolve, reject) => {
+  button.addEventListener('click', () => {
+    resolve('clicked');
+  });
+});
+
+// With withResolvers:
+// Create promise first, async logic happens anywhere
+const { promise, resolve, reject } = Promise.withResolvers<string>();
+
+button.addEventListener('click', () => {
+  resolve('clicked');
+});
+```
+
+```js
+// Example of the race condition problem
+const { promise: slowRequestPromise, resolve: resolveSlowRequest } =
+  Promise.withResolvers();
+const { promise: fastRequestPromise, resolve: resolveFastRequest } =
+  Promise.withResolvers();
+
+// Set up fetch to return promises for controlled timing
+function mockFetchUser(userId) {
+  if (userId === 'user-123') {
+    return slowRequestPromise;
+  }
+  if (userId === 'user-456') {
+    return fastRequestPromise;
+  }
+}
+
+// User rapidly types different user IDs
+// race condition check is included in searchUser function
+searchUser('user-123');
+searchUser('user-456');
+
+// Fast request completes first
+resolveFastRequest({ id: 'user-456', name: 'Jane' });
+
+// Slow request completes later (should NOT override Jane)
+setTimeout(() => {
+  resolveSlowRequest({ id: 'user-123', name: 'John' });
+}, 300);
 ```
 
 > When I'm looking for something related to Promises, I'll check if [Sindre Sorhus](https://github.com/sindresorhus?tab=repositories&q=promise&type=&language=&sort=) has already published something. Very often he has!
