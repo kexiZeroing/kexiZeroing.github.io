@@ -40,7 +40,6 @@ order: 3
 - https://philipwalton.com/articles/the-state-of-es5-on-the-web
 - https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
 - https://tania.dev/how-to-use-webpack
-- https://leerob.com/ai
 
 ## Must watch videos
 
@@ -92,7 +91,7 @@ An inclusive team will not judge you for switching multiple times finding the ri
 
 Don't ask people why they left their last position. They often can't tell you, and it's not relevant. Instead, ask what they are looking for in their next role. You can even ask how long they intend to stay, or what would entice them to spend N years on the same team or role.
 
-## Product and Platform Engineers by Lee Robinson
+## Product and Platform Engineers by [Lee Robinson](https://leerob.com)
 
 The divide between frontend and backend engineers is increasingly less useful:
 
@@ -111,7 +110,7 @@ While Product Engineers focus on building and enhancing features that solve end 
 4. Micromanaging. Instead of solving problems for my team, I guide them to find their own solutions and give them room to decide the best path forward without me lighting the way. Delegation isn’t just about efficiency. It’s about trust.
 5. Treating self-care as optional. Burnout isn’t a badge of honor. Being busy isn't something to brag about. When I take the time to care of myself, I lead with clarity and empathy. It's a win for everyone.
 
-## Good engineer and bad engineer by Matheus Lima
+## Good engineer and bad engineer by [Matheus Lima](https://terriblesoftware.org)
 
 - Bad engineers measure their worth by the complexity of their solutions. They build elaborate architectures for simple problems, write clever code that requires a PhD to understand, and mistake motion for progress. Good engineers reach for simple solutions first, write code their junior colleagues can maintain, and have the confidence to choose “boring” technology that just works.
 
@@ -122,3 +121,5 @@ While Product Engineers focus on building and enhancing features that solve end 
 - Bad engineers chase the newest framework, the hottest language, the latest trend. They’ve rewritten the same app four times in four different frameworks. Good engineers are pragmatists. They’ll choose the tech that the team knows, the solution that can be hired for, the approach that lets them focus on the actual problem.
 
 - Bad engineers write code. Good engineers solve problems. Bad engineers focus on themselves. Good engineers focus on their team. Bad engineers optimize for looking smart. Good engineers optimize for being useful.
+
+If you’re wondering whether you’re operating at a senior+ level, here’s one test: What happens when someone hands you something abstract/fuzzy/complex? Do you wait for someone else to clarify it for you? Do you start coding immediately and hope for the best? Or do you spend time up front making it concrete enough that you and your team can actually execute with confidence? If it’s the last one, you’re probably already there. If it’s not, the good news is this isn’t talent, but practice: start with the next vague ticket that’s assigned to you.

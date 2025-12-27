@@ -167,6 +167,8 @@ While agent mode lives in the IDE, **coding agent** lives in your repos. Assign 
 
 Repository-wide custom instructions, which apply to all requests made in the context of a repository. These are specified in a `.github/copilot-instructions.md` file in your repository's root directory.
 
+> Configure your repositories with `.github`: https://cassidoo.co/post/dot-github/
+
 Path-specific custom instructions, which apply to requests made in the context of files that match a specified path. These are specified in one or more `NAME.instructions.md` files within the `.github/instructions` directory in the repository. At the start of the file, create a frontmatter block containing the `applyTo` keyword. Use glob syntax to specify what files or directories the instructions apply to.
 
 You can create one or more `AGENTS.md` files, stored anywhere within the repository. It can be found at the root of a repository or within subdirectories (e.g., `backend/AGENTS.md`, `frontend/AGENTS.md`). This allows for fine-grained control and specialized instructions for different parts of a project.
