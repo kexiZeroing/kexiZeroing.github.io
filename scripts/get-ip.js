@@ -1,5 +1,5 @@
+import fetch from "node-fetch";
 import os from "os";
-import fetch from 'node-fetch';
 
 function getPrivateIp() {
   const interfaces = os.networkInterfaces();
@@ -9,9 +9,9 @@ function getPrivateIp() {
     for (let i = 0; i < iface.length; i++) {
       let alias = iface[i];
       if (
-        alias.family === "IPv4" &&
-        alias.address !== "127.0.0.1" &&
-        !alias.internal
+        alias.family === "IPv4"
+        && alias.address !== "127.0.0.1"
+        && !alias.internal
       ) {
         return alias.address;
       }
@@ -30,6 +30,6 @@ async function getPublicIp(useIPv6) {
 }
 
 (async () => {
-  console.log('private ip:', getPrivateIp());
-  console.log('public ip:', await getPublicIp());
-})()
+  console.log("private ip:", getPrivateIp());
+  console.log("public ip:", await getPublicIp());
+})();

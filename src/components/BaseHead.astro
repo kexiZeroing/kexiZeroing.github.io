@@ -1,14 +1,14 @@
 ---
-import PostHog from '../components/posthog.astro';
-import '../global.css';
+import PostHog from "../components/posthog.astro";
+import "../global.css";
 
 export interface Props {
-	title: string;
-	description: string;
-	image?: string;
+  title: string;
+  description: string;
+  image?: string;
 }
 
-const { title, description, image = '/og-image.jpg' } = Astro.props;
+const { title, description, image = "/og-image.jpg" } = Astro.props;
 ---
 
 <!-- Global Metadata -->
@@ -19,8 +19,8 @@ const { title, description, image = '/og-image.jpg' } = Astro.props;
 <meta name="generator" content={Astro.generator} />
 
 <!-- Primary Meta Tags -->
-<title>{'Blog - ' + title}</title>
-<meta name="title" content={'Blog - ' + title} />
+<title>{"Blog - " + title}</title>
+<meta name="title" content={"Blog - " + title} />
 <meta name="description" content={description} />
 
 <!-- Open Graph -->
@@ -43,43 +43,41 @@ const { title, description, image = '/og-image.jpg' } = Astro.props;
 
 <!-- https://astro.build/blog/future-of-astro-zero-js-view-transitions -->
 <style>
-  @view-transition {
-    navigation: auto; /* enabled! */
-  }
+@view-transition {
+  navigation: auto; /* enabled! */
+}
 </style>
 
 <!-- Theme -->
 <script is:inline>
-	const primaryColorScheme = "none"; // "light" | "dark" | "none"
-	const darkModeMediaQuery = window.matchMedia(
-		"(prefers-color-scheme: dark)"
-	).matches;
-	// Get theme data from local storage
-	const currentTheme = localStorage.getItem("theme");
-	let theme;
-	// Set theme to 'theme-dark' if currentTheme is 'dark'
-	if (currentTheme) {
-		theme = currentTheme === "dark" ? "theme-dark" : "";
-	} else {
-		// If primary color scheme is dark
-		// or primary color scheme is not set and prefers-color-scheme is dark
-		// choose dark mode
-		if (
-			primaryColorScheme === "dark" ||
-			(primaryColorScheme === "none" && darkModeMediaQuery)
-		) {
-			theme = "theme-dark";
-		}
-		// If primary color scheme is light
-		// choose light mode
-		else if (primaryColorScheme === "light") {
-			theme = "";
-		}
-		// fallback to prefers-color-scheme
-		else {
-			theme = darkModeMediaQuery ? "theme-dark" : "";
-		}
-	}
-	// Put dark class on html tag to enable dark mode
-	document.querySelector("html").className = theme;
+const primaryColorScheme = "none"; // "light" | "dark" | "none"
+const darkModeMediaQuery = window.matchMedia(
+  "(prefers-color-scheme: dark)",
+).matches;
+// Get theme data from local storage
+const currentTheme = localStorage.getItem("theme");
+let theme;
+// Set theme to 'theme-dark' if currentTheme is 'dark'
+if (currentTheme) {
+  theme = currentTheme === "dark" ? "theme-dark" : "";
+} else {
+  // If primary color scheme is dark
+  // or primary color scheme is not set and prefers-color-scheme is dark
+  // choose dark mode
+  if (
+    primaryColorScheme === "dark"
+    || (primaryColorScheme === "none" && darkModeMediaQuery)
+  ) {
+    theme = "theme-dark";
+  } // If primary color scheme is light
+  // choose light mode
+  else if (primaryColorScheme === "light") {
+    theme = "";
+  } // fallback to prefers-color-scheme
+  else {
+    theme = darkModeMediaQuery ? "theme-dark" : "";
+  }
+}
+// Put dark class on html tag to enable dark mode
+document.querySelector("html").className = theme;
 </script>

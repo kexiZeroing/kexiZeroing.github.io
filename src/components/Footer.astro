@@ -3,37 +3,49 @@ const today = new Date();
 ---
 
 <footer>
-	&copy; {today.getFullYear()} Kexi Dang.
-	<span>
-		Inspired by <a class="web-link tag-link" href="https://blog.cassidoo.co" target="_blank">@cassidoo</a>.
-	</span>
-	<!-- https://astro.badg.es/bwa -->
-	<a class="badge-link" href="https://github.com/kexiZeroing/kexiZeroing.github.io">
-		<img src="https://astro.badg.es/v2/built-with-astro/tiny.svg" alt="Built with Astro" width="120" height="20">
-	</a>
+  &copy; {today.getFullYear()} Kexi Dang.
+  <span>
+    Inspired by <a
+      class="web-link tag-link"
+      href="https://blog.cassidoo.co"
+      target="_blank"
+    >@cassidoo</a>.
+  </span>
+  <!-- https://astro.badg.es/bwa -->
+  <a
+    class="badge-link"
+    href="https://github.com/kexiZeroing/kexiZeroing.github.io"
+  >
+    <img
+      src="https://astro.badg.es/v2/built-with-astro/tiny.svg"
+      alt="Built with Astro"
+      width="120"
+      height="20"
+    >
+  </a>
 </footer>
 <style>
-	footer {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 10px;
-	}
-	footer .web-link {
-		color: var(--text-color);
-		text-decoration: none;
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+footer .web-link {
+  color: var(--text-color);
+  text-decoration: none;
 
-		&:hover {
-			text-decoration: underline;
-		}
-	}
-	footer .badge-link {
-		margin-left: 6px;
-		display: inline-flex;
-	}
-	@media only screen and (max-width:600px)  {
-		footer {
-			flex-direction: column;
-		}
-	}
+  &:hover {
+    text-decoration: underline;
+  }
+}
+footer .badge-link {
+  margin-left: 6px;
+  display: inline-flex;
+}
+@media only screen and (max-width: 600px) {
+  footer {
+    flex-direction: column;
+  }
+}
 </style>

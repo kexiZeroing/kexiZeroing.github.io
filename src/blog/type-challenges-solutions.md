@@ -8,6 +8,7 @@ updatedDate: "Dec 14 2024"
 ---
 
 ## Type challenges
+
 > TypeScript allows you to write complex yet elegant code. Some TypeScript users love to explore the possibilities of the type system and love to encode logic at type level. This practice is known as type gymnastics. The community also helps users to learn type gymnastics by creating fun and challenges such as [type challenges](https://github.com/type-challenges/type-challenges).
 >
 > Note that some features are primarily useful when building libraries. App dev TS is and should be very different from lib dev TS.
@@ -27,7 +28,7 @@ type TodoPreview = MyPick<Todo, "title" | "completed">;
 // solution
 type MyPick<T, K extends keyof T> = {
   [P in K]: T[P];
-}
+};
 ```
 
 Implement the built-in `Readonly<T>` generic without using it. Constructs a type with all properties of T set to `readonly`, meaning the properties of the constructed type cannot be reassigned.
@@ -48,8 +49,8 @@ todo.description = "barFoo"; // Error: cannot reassign a readonly property
 
 // solution
 type MyReadonly<T> = {
-  readonly [P in keyof T]: T[P]
-}
+  readonly [P in keyof T]: T[P];
+};
 ```
 
 Implement a generic `MyReadonly2<T, K>` which takes two type arguments T and K. K specify the set of properties of T that should set to readonly. When K is not provided, it should make all properties readonly, just like the normal `Readonly<T>`.
@@ -59,12 +60,16 @@ Implement a generic `MyReadonly2<T, K>` which takes two type arguments T and K. 
 type MyReadonly2<T, K> = Omit<T, K> & { readonly [P in K]: T[P] };
 
 // step 2. set a constraint on K
-type MyReadonly2<T, K extends keyof T> = Omit<T, K> & { readonly [P in K]: T[P] };
+type MyReadonly2<T, K extends keyof T> =
+  & Omit<T, K>
+  & { readonly [P in K]: T[P] };
 
 // step 3. when K is not set at all (K to be “all the keys from T”)
-type MyReadonly2<T, K extends keyof T = keyof T> = Omit<T, K> & {
-  readonly [P in K]: T[P];
-};
+type MyReadonly2<T, K extends keyof T = keyof T> =
+  & Omit<T, K>
+  & {
+    readonly [P in K]: T[P];
+  };
 ```
 
 Implement a generic `DeepReadonly<T>` which makes every parameter of an object and its sub-objects readonly recursively.
@@ -88,10 +93,10 @@ type Expected = {
 
 // solution
 type DeepReadonly<T> = {
-  readonly [P in keyof T]: T[P] extends string | number | boolean | Function 
-    ? T[P] 
-    : DeepReadonly<T[P]>
-}
+  readonly [P in keyof T]: T[P] extends string | number | boolean | Function
+    ? T[P]
+    : DeepReadonly<T[P]>;
+};
 
 // or
 type DeepReadonly<T> = {
@@ -111,14 +116,14 @@ const result: TupleToObject<typeof tuple>;
 
 // solution 1
 type TupleToObject<T extends readonly (string | symbol | number)[]> = {
-  [P in T[number]]: P
-}
+  [P in T[number]]: P;
+};
 
 // solution 2
 // built-in `PropertyKey` represents the data type of a property key.
 // It can be a string, a symbol, or a number.
 type TupleToObject<T extends readonly PropertyKey[]> = {
-  [P in T[number]]: P
+  [P in T[number]]: P;
 };
 ```
 
@@ -148,9 +153,10 @@ type Last<T extends any[]> = T extends [...infer X, infer L] ? L : never;
 
 ```ts
 type MyType<T> = T extends infer R ? R : never;
-type T1 = MyType<{b: string}> // T1 is { b: string; }
+type T1 = MyType<{ b: string }>; // T1 is { b: string; }
 type MyType2<T> = T extends R2 ? R2 : never; // error, R2 undeclared
 ```
+
 > With `infer`, the compiler ensures that you have declared all type variables explicitly. Here we declare a new type variable R in `MyType`. Without `infer`, the compiler does not introduce an additional type variable R2 that is to be inferred. If R2 has not been declared, it will result in a compile error. **Note that `infer` is only used within the `extends` clause of a conditional type.**
 
 For given a tuple, you need create a generic `Length`, pick the length of the tuple.
@@ -196,9 +202,8 @@ type B = If<false, "a", "b">; // expected to be 'b'
 // solution
 type If<C extends boolean, T, F> = C extends true ? T : F;
 // `strictNullChecks: false`
-type If<C extends boolean, T, F> = C extends undefined | null 
-  ? never
-  : (C extends true ? T : F)
+type If<C extends boolean, T, F> = C extends undefined | null ? never
+  : (C extends true ? T : F);
 ```
 
 Implement the JavaScript `Array.concat` function in the type system. A type takes the two arguments. The output should be a new array that includes inputs in ltr order.
@@ -214,7 +219,7 @@ Implement the JavaScript `Array.includes` function in the type system. A type ta
 
 ```ts
 // expected to be `false`
-type isFruit = Includes<['apple', 'banana', 'orange'], 'dog'> // expected to be `false`
+type isFruit = Includes<["apple", "banana", "orange"], "dog">; // expected to be `false`
 
 // solution
 type Includes<T extends unknown[], U> = U extends T[number] ? true : false;
@@ -223,7 +228,7 @@ type Includes<T extends unknown[], U> = U extends T[number] ? true : false;
 Implement the generic version of `Array.push` and `Array.unshift()`.
 
 ```ts
-type Result = Push<[1, 2], "3">;  // [1, 2, '3']
+type Result = Push<[1, 2], "3">; // [1, 2, '3']
 type Result = Unshift<[1, 2], 0>; // [0, 1, 2]
 
 // solution
@@ -261,7 +266,7 @@ const fn = (v: boolean) => {
 type a = MyReturnType<typeof fn>; // should be "1 | 2"
 
 // solution
-type MyReturnType<T> = T extends (...args: any[]) => infer P ? P : never
+type MyReturnType<T> = T extends (...args: any[]) => infer P ? P : never;
 ```
 
 Implement the built-in `Omit<T, K>` generic without using it. Constructs a type by picking all properties from T and then removing K.
@@ -287,11 +292,11 @@ type MyOmit<T, K> = { [P in keyof T as P extends K ? never : P]: T[P] };
 Implement a generic `TupleToUnion<T>` which covers the values of a tuple to its values union.
 
 ```ts
-type Arr = ['1', 2, boolean]
-type Test = TupleToUnion<Arr> // expected '1' | 2 | boolean
+type Arr = ["1", 2, boolean];
+type Test = TupleToUnion<Arr>; // expected '1' | 2 | boolean
 
 // solution
-type TupleToUnion<T> = T extends unknown[] ? T[number] : never
+type TupleToUnion<T> = T extends unknown[] ? T[number] : never;
 ```
 
 Type the function `PromiseAll` that accepts an array of `PromiseLike` objects. The returning value should be `Promise<T>` where T is the resolved result array.
@@ -310,7 +315,7 @@ const p = Promise.all([promise1, promise2, promise3] as const);
 // step 1. the function that returns Promise<T>
 declare function PromiseAll<T>(values: T): Promise<T>;
 
-// step 2. `values` is an array and has a readonly modifier 
+// step 2. `values` is an array and has a readonly modifier
 declare function PromiseAll<T extends unknown[]>(
   values: readonly [...T],
 ): Promise<T>;
@@ -341,10 +346,8 @@ type replaced = ReplaceFirst<["A", "B", "C"], "C", "D">;
 type ReplaceFirst<T extends readonly unknown[], S, R> = T extends [
   infer FI,
   ...infer Rest,
-]
-  ? FI extends S
-    ? [R, ...Rest]
-    : [FI, ...ReplaceFirst<Rest, S, R>]
+] ? FI extends S ? [R, ...Rest]
+  : [FI, ...ReplaceFirst<Rest, S, R>]
   : T;
 ```
 
@@ -355,9 +358,8 @@ type camelCased = CamelCase<"foo-bar-baz">; // expected "fooBarBaz"
 
 // solution
 type CamelCase<S> = S extends `${infer H}-${infer T}`
-  ? T extends Capitalize<T>
-    ? `${H}-${CamelCase<T>}`
-    : `${H}${CamelCase<Capitalize<T>>}`
+  ? T extends Capitalize<T> ? `${H}-${CamelCase<T>}`
+  : `${H}${CamelCase<Capitalize<T>>}`
   : S;
 ```
 
@@ -372,9 +374,8 @@ type KebabCase<S> = S extends `${infer C}${infer T}` ? never : S;
 
 // step 2. have / don't have the capitalized tail
 type KebabCase<S> = S extends `${infer C}${infer T}`
-  ? T extends Uncapitalize<T>
-    ? `${Uncapitalize<C>}${KebabCase<T>}`
-    : `${Uncapitalize<C>}-${KebabCase<T>}`
+  ? T extends Uncapitalize<T> ? `${Uncapitalize<C>}${KebabCase<T>}`
+  : `${Uncapitalize<C>}-${KebabCase<T>}`
   : S;
 ```
 
@@ -419,10 +420,8 @@ type merged = Merge<Foo, Bar>; // expected { a: number; b: number }
 
 // solution
 type Merge<F, S> = {
-  [P in keyof F | keyof S]: P extends keyof S
-    ? S[P]
-    : P extends keyof F
-    ? F[P]
+  [P in keyof F | keyof S]: P extends keyof S ? S[P]
+    : P extends keyof F ? F[P]
     : never;
 };
 ```
@@ -459,8 +458,7 @@ type test = Diff<Foo, Bar>; // expected { gender: number }
 type Diff<O, O1> = {
   [P in keyof O | keyof O1 as Exclude<P, keyof O & keyof O1>]: P extends keyof O
     ? O[P]
-    : P extends keyof O1
-    ? O1[P]
+    : P extends keyof O1 ? O1[P]
     : never;
 };
 ```
@@ -488,9 +486,8 @@ type Sample2 = AnyOf<[0, "", false, [], {}]>; // expected to be false
 type Falsy = 0 | "" | false | [] | { [P in any]: never };
 
 type AnyOf<T extends readonly any[]> = T extends [infer H, ...infer T]
-  ? H extends Falsy
-    ? AnyOf<T>
-    : true
+  ? H extends Falsy ? AnyOf<T>
+  : true
   : false;
 ```
 
@@ -515,9 +512,8 @@ type Res2 = LastIndexOf<[0, 0, 0], 2>; // -1
 // solution
 // Check from the right if it is equal to the item we are looking for
 type LastIndexOf<T, U> = T extends [...infer R, infer I]
-  ? Equal<I, U> extends true
-    ? R["length"]
-    : LastIndexOf<R, U>
+  ? Equal<I, U> extends true ? R["length"]
+  : LastIndexOf<R, U>
   : -1;
 ```
 
@@ -530,16 +526,14 @@ type R = Zip<[1, 2], [true, false]>;
 // solution
 // step 1. if both tuples have the item and the tail - we can zip them together
 type Zip<T, U> = T extends [infer TI, ...infer TT]
-  ? U extends [infer UI, ...infer UT]
-    ? [TI, UI]
-    : never
+  ? U extends [infer UI, ...infer UT] ? [TI, UI]
+  : never
   : never;
 
 // step 2. recursive way of zipping the tail until it’s gone
 type Zip<T, U> = T extends [infer TI, ...infer TT]
-  ? U extends [infer UI, ...infer UT]
-    ? [[TI, UI], ...Zip<TT, UT>]
-    : []
+  ? U extends [infer UI, ...infer UT] ? [[TI, UI], ...Zip<TT, UT>]
+  : []
   : [];
 ```
 
@@ -552,16 +546,14 @@ type Res1 = Without<[1, 2, 4, 1, 5], [1, 2]>; // expected to be [4, 5]
 // solution
 // step 1. when U specified as a primitive type
 type Without<T, U> = T extends [infer H, ...infer T]
-  ? H extends U
-    ? [...Without<T, U>]
-    : [H, ...Without<T, U>]
+  ? H extends U ? [...Without<T, U>]
+  : [H, ...Without<T, U>]
   : [];
 
 // step 2. if U is a tuple of numbers
 type Without<T, U> = T extends [infer H, ...infer T]
-  ? H extends (U extends number[] ? U[number] : U)
-    ? [...Without<T, U>]
-    : [H, ...Without<T, U>]
+  ? H extends (U extends number[] ? U[number] : U) ? [...Without<T, U>]
+  : [H, ...Without<T, U>]
   : [];
 ```
 
@@ -575,9 +567,8 @@ type Res1 = Unique<[1, "a", 2, "b", 2, "a"]>; // expected to be [1, "a", 2, "b"]
 // If T is present in other part of the tuple, T is the duplicate and we need to skip it,
 // otherwise, we add it to the result.
 type Unique<T> = T extends [...infer H, infer T]
-  ? T extends H[number]
-    ? [...Unique<H>]
-    : [...Unique<H>, T]
+  ? T extends H[number] ? [...Unique<H>]
+  : [...Unique<H>, T]
   : [];
 ```
 
@@ -599,7 +590,7 @@ export class Component<TProps> {
   constructor(props: TProps) {
     this.props = props;
   }
-  
+
   private props: TProps;
 
   getProps = () => this.props;
@@ -619,7 +610,7 @@ const sum = <T>(array: readonly T[], mapper: (item: T) => number): number =>
 
 // reduce<U>(callbackfn: (previousValue: U, currentValue: T, currentIndex: number, array: readonly T[]) => U, initialValue: U): U;
 
-// Here the U type is being inferred from the initial value, 
+// Here the U type is being inferred from the initial value,
 // which we can see when hovering over the `.reduce()` in our code.
 const obj = array.reduce<Record<string, { name: string }>>((accum, item) => {
   accum[item.name] = item;
@@ -692,7 +683,7 @@ const getValue = <TObj, TKey extends keyof TObj>(obj: TObj, key: TKey) => {
   return obj[key];
 };
 
-const numberResult = getValue(obj, "a");  // number
+const numberResult = getValue(obj, "a"); // number
 const stringResult = getValue(obj, "b"); // string
 const booleanResult = getValue(obj, "c"); // boolean
 ```

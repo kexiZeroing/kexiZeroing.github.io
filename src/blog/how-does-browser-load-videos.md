@@ -7,6 +7,7 @@ updatedDate: "July 18 2025"
 ---
 
 ## Range requests
+
 HTTP range request asks the server to send parts of a resource back to a client. Range requests are useful for various clients, including media players that support random access, data tools that require only part of a large file, and download managers that let users pause and resume a download.
 
 The HTTP 206 Partial Content may be sent from the server when the client has asked for a range (e.g. "give me the first 2MB of video data"). It is vital for downloading data in chunks which avoids fetching unused resources. Look at the outgoing request for a `Range` header (e.g., `Range: bytes=200-1000`).
@@ -16,9 +17,10 @@ The Range HTTP request header indicates the part of a document that the server s
 Besides HTTP 206 status code, the server should respond with a `Content-Range` header, specifying the start byte, end byte and total size of the resource. `Content-Length` should be set to the length of the returned range, not the total size of the resource. Note that the server is allowed to change the range that was requested and even ignore the fact that it was a range request.
 
 ## How videos load in browsers
+
 By default when using video html tag, the `Range` header with value `bytes=0-` is sent. The client can know whether HTTP partial content is available by checking if the HTTP response header `Accept-Ranges: bytes` is included.
 
-If you load an video, the metadata allows the browser to map a time code to a byte offset in the file. It assumes to look up the start and the footer data. (If the metadata is placed at the end of the file, it then sends another range request for the footer of the file.) Now that the browser knows the duration and other important data about the video, it can show the player controls and make a new request to buffer up the video data. *It’s worth noting that MP4 can actually have the necessary metadata at the start, which will save you a round trip and will make your MP4 play earlier.*
+If you load an video, the metadata allows the browser to map a time code to a byte offset in the file. It assumes to look up the start and the footer data. (If the metadata is placed at the end of the file, it then sends another range request for the footer of the file.) Now that the browser knows the duration and other important data about the video, it can show the player controls and make a new request to buffer up the video data. _It’s worth noting that MP4 can actually have the necessary metadata at the start, which will save you a round trip and will make your MP4 play earlier._
 
 Look at this process in detail:
 
@@ -54,16 +56,18 @@ If you skip ahead in the video, the browser will cancel the currently on-going r
 Browsers will automatically pause playback if decoding fails. If `video.error.code === 3`, it typically means a media decode failure, often related to corrupted video or unsupported codecs.
 
 ```js
-const video = document.querySelector('video');
-video.addEventListener('error', () => {
-  console.error('Playback error:', video.error);
+const video = document.querySelector("video");
+video.addEventListener("error", () => {
+  console.error("Playback error:", video.error);
 });
 ```
 
 ## MP4 and WebM
+
 MP4 and WebM formats are what we would call pseudo-streaming or "progressive download”. These formats do not support **adaptive bitrate streaming** (adjusts video quality based on network conditions). If you have ever taken an HTML video element and added a "src” attribute that points to an mp4, most players will progressively download the file. The good thing about progressive downloads is that you don’t have to wait for the player to download the entire file before you start watching. You can click play and start watching while the file is being downloaded in the background. Most players will also allow you to drag the playhead to specific places in the video timeline and the player will use byte-range requests to estimate which part of the file you are attempting to seek.
 
 ## HLS and M3U8
+
 HTTP Live Streaming sends audio and video as a series of small files, called media segment files. An index file, or playlist, provides an ordered list of the URLs of the media segment files. Index files for HTTP Live Streaming are saved as M3U8 playlists, an extension of the M3U format used for MP3 playlists.
 
 <img alt="m3u8 compatibility" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/51ec8e88-554e-4272-b3de-df878d9dede4.png" width="750">
@@ -117,9 +121,9 @@ videoTag.src = url;
 
 // 1. add source buffers
 const audioSourceBuffer = myMediaSource
-  .addSourceBuffer('audio/mp4; codecs="mp4a.40.2"');
+  .addSourceBuffer("audio/mp4; codecs=\"mp4a.40.2\"");
 const videoSourceBuffer = myMediaSource
-  .addSourceBuffer('video/mp4; codecs="avc1.64001e"');
+  .addSourceBuffer("video/mp4; codecs=\"avc1.64001e\"");
 
 // 2. download and add our audio/video to the SourceBuffers
 // fragmented mp4 (the advantage of fragmented MP4 is its ability to support DASH)
@@ -152,20 +156,18 @@ fetchSegment("http://server.com/audio/segment0.mp4")
   .then(function(audioSegment0) {
     audioSourceBuffer.appendBuffer(audioSegment0);
   })
-
   .then(function() {
     return fetchSegment("http://server.com/audio/segment1.mp4");
   })
   .then(function(audioSegment1) {
     audioSourceBuffer.appendBuffer(audioSegment1);
   })
-
   .then(function() {
     return fetchSegment("http://server.com/audio/segment2.mp4");
   })
   .then(function(audioSegment2) {
     audioSourceBuffer.appendBuffer(audioSegment2);
-  })
+  });
 
 // same thing for video segments
 fetchSegment("http://server.com/video/segment0.mp4")
@@ -176,13 +178,15 @@ fetchSegment("http://server.com/video/segment0.mp4")
 
 Many video players have an “auto quality” feature, where the quality is automatically chosen depending on the user’s network and processing capabilities. This behavior is also enabled thanks to the concept of media segments. On the server-side, the segments are actually encoded in multiple qualities, and a web player will then automatically choose the right segments to download as the network or CPU conditions change.
 
-The most common transport protocols used in a web context: 
-- HLS (HTTP Live Streaming): Created by Apple. The HLS manifest is called the playlist and is in the m3u8 format *(which are m3u playlist files, encoded in UTF-8)*.
+The most common transport protocols used in a web context:
+
+- HLS (HTTP Live Streaming): Created by Apple. The HLS manifest is called the playlist and is in the m3u8 format _(which are m3u playlist files, encoded in UTF-8)_.
 - DASH (Dynamic Adaptive Streaming over HTTP): Used by YouTube, Netflix or Amazon Prime Video and many others. DASH manifest is called the Media Presentation Description (`.mpd` file).
 
 For both HLS and DASH, players are able to dynamically switch between different renditions in real-time on a segment-by-segment basis. They mainly differ in manifest format and segment structure.
 
 ### HLS video streaming example
+
 The `.m3u8` file tells the player which segments exist, what their durations are, where to fetch them and other information.
 
 ```
@@ -245,35 +249,36 @@ GET /video/720p/segment1.mp4
 GET /video/720p/segment2.mp4
 ```
 
-> A regular MP4 video usually has a single *moov* chunk describing the video and a single *mdat* chunk containing the video. You wouldn’t be able to play a part of the video without having access to the whole video. Fragmented MP4 solves this issue, allowing us to split an MP4 video into segments. The first initialization segment contains the chunk describing the video. What follows are the media segments, each having a separate chunks containing a portion of the video which can be played on its own.
+> A regular MP4 video usually has a single _moov_ chunk describing the video and a single _mdat_ chunk containing the video. You wouldn’t be able to play a part of the video without having access to the whole video. Fragmented MP4 solves this issue, allowing us to split an MP4 video into segments. The first initialization segment contains the chunk describing the video. What follows are the media segments, each having a separate chunks containing a portion of the video which can be played on its own.
 
 ## Video Glossary
-**[FFMPEG](https://ffmpeg.org)** stands for Fast Forward Moving Picture Experts Group. It is a free and open source software project that offers many tools for video and audio processing. It's designed to run on a command line interface, and has many different libraries and programs to manipulate and handle video files. Most video programs include FFMPEG as a part of the video processing pipeline. *(FFmpeg powers all online video - Youtube, Facebook, Instagram, Disney+, Netflix etc, all run FFmpeg underneath.)*
+
+**[FFMPEG](https://ffmpeg.org)** stands for Fast Forward Moving Picture Experts Group. It is a free and open source software project that offers many tools for video and audio processing. It's designed to run on a command line interface, and has many different libraries and programs to manipulate and handle video files. Most video programs include FFMPEG as a part of the video processing pipeline. _(FFmpeg powers all online video - Youtube, Facebook, Instagram, Disney+, Netflix etc, all run FFmpeg underneath.)_
 
 WebAssembly enables developers to bring new performant functionality to the web from other languages. [FFmpeg.wasm](https://ffmpegwasm.netlify.app) (WebAssembly / JavaScript port of FFmpeg) is one of a showcasing of the [new functionality](https://web.dev/wasm-libraries/) being made available thanks to WebAssembly. It enables video/audio record, convert and stream right inside browsers. There are two components inside `ffmpeg.wasm`: `@ffmpeg/ffmpeg` and `@ffmpeg/core`. `@ffmpeg/ffmpeg` contains kind of a wrapper to handle the complexity of loading core and calling low-level APIs. `@ffmpeg/core` contains WebAssembly code which is transpiled from original FFmpeg C code with minor modifications.
 
 ```js
 // AVI to MP4 Demo
-import { writeFile } from 'fs/promises';
-import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import { writeFile } from "fs/promises";
 
 const ffmpeg = createFFmpeg({ log: true });
 
 (async () => {
   await ffmpeg.load();
-  ffmpeg.FS('writeFile', 'test.avi', await fetchFile('./test.avi'));
-  await ffmpeg.run('-i', 'test.avi', 'test.mp4');
-  await fs.promises.writeFile('./test.mp4', ffmpeg.FS('readFile', 'test.mp4'));
+  ffmpeg.FS("writeFile", "test.avi", await fetchFile("./test.avi"));
+  await ffmpeg.run("-i", "test.avi", "test.mp4");
+  await fs.promises.writeFile("./test.mp4", ffmpeg.FS("readFile", "test.mp4"));
   process.exit(0);
 })();
 ```
 
 A **[codec](https://api.video/what-is/codec)** is a hardware or software tool that is used to compress (and decompress) video files. Codec is a blend of coder/decoder. Common video codecs include h.264, h.265, VP8, VP9 and AV1. An efficient codec can deliver high-quality video at lower bitrates.
 
-The **bitrate** of a file is measured by the number of bits being transmitted over a period of time. For video it is typically measured in kilobytes per second (kbps) or megabytes per second (mbps). Video bitrate is often confused with video resolution terms like 720p, 1080p, 4K, etc. Video resolution is the number of pixels that make up an image on your screen; video bitrate is the amount of information per second in video. A higher bitrate results in better quality but also larger file sizes. 
+The **bitrate** of a file is measured by the number of bits being transmitted over a period of time. For video it is typically measured in kilobytes per second (kbps) or megabytes per second (mbps). Video bitrate is often confused with video resolution terms like 720p, 1080p, 4K, etc. Video resolution is the number of pixels that make up an image on your screen; video bitrate is the amount of information per second in video. A higher bitrate results in better quality but also larger file sizes.
 
-> You can estimate file size from bitrate: 
-> File Size (MB) = (Bitrate in Mbps × Duration in seconds) ÷ 8  
+> You can estimate file size from bitrate:
+> File Size (MB) = (Bitrate in Mbps × Duration in seconds) ÷ 8\
 > For example, a 10-minute 1080p video at 5 Mbps → 5 × 10 × 7.5 = 375 MB
 
 **VOD(Video on Demand)** refers to prerecorded videos that viewers can watch anytime they choose, unlike live streams which must be watched in real time. Platforms like YouTube, Netflix, and Amazon Prime Video all offer VOD services, allowing users to play, pause, rewind, and rewatch content freely. VOD can be accessed in two main ways: by streaming the video over the internet (usually using formats like M3U8) or by downloading the full video file to a device (commonly as MP4). Since most VOD content is delivered online, a stable internet connection with good bandwidth is important for smooth playback.

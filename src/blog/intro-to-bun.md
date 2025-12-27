@@ -20,6 +20,7 @@ Bun is a fast, all-in-one toolkit for running, building, testing, and debugging 
 > Claude Code ships as a Bun executable to millions of users. If Bun breaks, Claude Code breaks. Anthropic has direct incentive to keep Bun excellent.
 
 ## Quickstart
+
 ```sh
 curl -fsSL https://bun.sh/install | bash
 
@@ -44,6 +45,7 @@ console.log(`Listening on http://localhost:${server.port} ...`);
 Visit https://bun.sh/guides to checkout a collection of code samples and walkthroughs for performing common tasks with Bun.
 
 ## Runtime
+
 The bun CLI can be used to execute JavaScript/TypeScript files, `package.json` scripts, and executable packages. Bun supports TypeScript and JSX out of the box. Every file is transpiled on the fly by Bun's fast native transpiler before being executed.
 
 ```sh
@@ -77,6 +79,7 @@ const { bar } = require("./bar.mjs");
 ```
 
 ## HTTP server
+
 To start a high-performance HTTP server with a clean API, the recommended approach is `Bun.serve`.
 
 ```js
@@ -106,7 +109,7 @@ Bun.serve({
         return new Response("404!");
     }
   },
-})
+});
 ```
 
 Bun provides a set of optimized APIs for reading and writing files. A `BunFile` represents a lazily-loaded file; initializing it does not actually read the file from disk.
@@ -126,15 +129,16 @@ await Bun.write("output.txt", data);
 The `import.meta` object is a way for a module to access information about itself. It's part of the JavaScript language, but its contents are not standardized. Each "host" (browser, runtime, etc) is free to implement any properties it wishes on the `import.meta` object.
 
 ```js
-import.meta.dir;   // => "/path/to/project"
-import.meta.file;  // => "file.ts"
-import.meta.path;  // => "/path/to/project/file.ts"
-import.meta.url;   // => "file:///path/to/project/file.ts"
+import.meta.dir; // => "/path/to/project"
+import.meta.file; // => "file.ts"
+import.meta.path; // => "/path/to/project/file.ts"
+import.meta.url; // => "file:///path/to/project/file.ts"
 
-import.meta.env;   // An alias to `process.env`
+import.meta.env; // An alias to `process.env`
 ```
 
 ## Package Manager
+
 1. If your project has a `package.json`, `bun install` can help you speed up your workflow. Switch from `npm install` to `bun install` in any Node.js project to make your installations up to 25x faster.
 2. To add a particular package, run `bun add <pkg-name>`. Use `--dev` to add as a dev dependency.
 3. To remove a dependency, run `bun remove <pkg-name>`.
@@ -149,7 +153,9 @@ bunx cowsay "Hello world!"
 ```
 
 ## Bundler
-The bundler is a key piece of infrastructure in the JavaScript ecosystem. 
+
+The bundler is a key piece of infrastructure in the JavaScript ecosystem.
+
 - Reducing HTTP requests.
 - Code transforms.
 
@@ -159,16 +165,17 @@ Bun's fast native bundler is now in beta. It can be used via the bun build CLI c
 
 ```js
 await Bun.build({
-  entrypoints: ['./index.tsx'],
-  outdir: './out',
+  entrypoints: ["./index.tsx"],
+  outdir: "./out",
   minify: true,
-  plugins: [ /* ... */ ]
-})
+  plugins: [/* ... */],
+});
 ```
 
 > Bun's bundler API is inspired heavily by `esbuild`. Migrating to Bun's bundler from `esbuild` should be relatively painless. Bun's bundler does not include a built-in development server or file watcher. It's just a bundler.
 
 ## Single-file executable
+
 Bun’s bundler implements a `--compile` flag for generating a standalone binary from a TypeScript or JavaScript file.
 
 ```sh
@@ -186,6 +193,7 @@ bun build --compile --target=bun-darwin-arm64 ./index.ts --outfile myapp
 All imported files and packages are bundled into the executable, along with a copy of the Bun runtime. All built-in Bun and Node.js APIs are supported.
 
 ## Test Runner
+
 Bun ships with a fast, built-in, Jest-compatible test runner. Define tests with a Jest-like API imported from the built-in `bun:test` module.
 
 ```sh
@@ -197,7 +205,7 @@ bun test --watch
 ```
 
 ```js
-import { expect, test, describe } from "bun:test";
+import { describe, expect, test } from "bun:test";
 
 describe("arithmetic", () => {
   test("2 + 2", () => {
@@ -211,6 +219,7 @@ describe("arithmetic", () => {
 ```
 
 ## The Bun Shell
+
 The Bun Shell is a new experimental embedded language and interpreter that allows you to run cross-platform shell scripts in JavaScript & TypeScript.
 
 ```js
@@ -225,6 +234,7 @@ console.log(result); // 6\n
 ```
 
 ## Build an HTTP server using Hono and Bun
+
 Bun is another JavaScript runtime. Hono also works on Bun.
 
 Hono is a server-side lightweight web framework similar to Express but with modern features. It supports a ton of different server runtimes, including Deno, Bun, Cloudflare Workers, Node.js, and more.

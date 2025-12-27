@@ -1,28 +1,29 @@
 <script is:inline>
-  let colors = ['#24d05a', '#eb4888', '#10a2f5', '#e9bc3f'];
+let colors = ["#24d05a", "#eb4888", "#10a2f5", "#e9bc3f"];
 
-  function getRandomColor() {
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
+function getRandomColor() {
+  return colors[Math.floor(Math.random() * colors.length)];
+}
 
-  function setRandomLinkColor() {
-    Array.from(document.querySelectorAll('a:not(.header-link):not(.tag-link)')).forEach((e) => {
+function setRandomLinkColor() {
+  Array.from(document.querySelectorAll("a:not(.header-link):not(.tag-link)"))
+    .forEach((e) => {
       e.style.color = getRandomColor();
     });
-  }
-  
-  function setLinkOpenInNewTab() {
-    Array.from(document.querySelectorAll('article a'))
-      .filter(link => link.hostname !== window.location.hostname)
-      .forEach(link => link.target = '_blank');
-  }
+}
 
-  (function () {
+function setLinkOpenInNewTab() {
+  Array.from(document.querySelectorAll("article a"))
+    .filter(link => link.hostname !== window.location.hostname)
+    .forEach(link => link.target = "_blank");
+}
+
+(function() {
+  setRandomLinkColor();
+  setLinkOpenInNewTab();
+
+  setInterval(() => {
     setRandomLinkColor();
-    setLinkOpenInNewTab();
-
-    setInterval(() => {
-      setRandomLinkColor();
-    }, 3000);
-  })();
+  }, 3000);
+})();
 </script>

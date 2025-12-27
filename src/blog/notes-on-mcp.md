@@ -7,6 +7,7 @@ updatedDate: "July 11 2025"
 ---
 
 ### Historical context: The Path to MCP
+
 Early AI assistants were limited to text generation, unable to interact with external tools or real-time data. The introduction of function calling and plugins in 2023 allowed models to execute code, browse the web, and interact with APIs, marking the shift toward AI agents. However, each integration was fragmented, requiring custom implementations for different tools, making scaling difficult.
 
 MCP, introduced by Anthropic in late 2024, solves this problem by providing a unified protocol for AI-tool interactions. Instead of custom adapters for each tool, MCP allows developers to expose functionality once, making it accessible to any AI supporting MCP. It also eliminates the inefficiencies of tool-specific APIs by offering a structured, self-describing interface. This enables seamless, scalable AI-tool connectivity, much like how USB standardized device connections.
@@ -16,11 +17,13 @@ MCP, introduced by Anthropic in late 2024, solves this problem by providing a un
 > MCP adds another layer: your tools are hosted outside your app, on a separate server. MCP servers make sense when you want your context and tools to be shared across many apps, models, or environments.
 
 ### MCP is not magic
+
 MCP isn't magic — it's a standard way for AI to discover and use tools without learning every API's specific details. An MCP server is like a menu of tools. Each tool has a name, a description, a schema defining what info it needs, and the actual code that makes the API calls. AI applications (like Claude or Cline) can dynamically query these servers to execute tasks such as reading files, querying databases, or creating new integrations.
 
 > Most MCP servers work "locally" (over a mechanism called `stdio`): you download a copy of the source code and run the code on your own computer. Servers rely on a command line tool either `npx` or `uvx` to download and run the server's code on your local machine.
 
 ### MCP server and client
+
 MCP uses a client-server design where applications can connect to multiple resources.
 
 The **MCP host** is the program that's going to access the MCP servers. This might be Claude Desktop, Cursor, Windsurf, or any other application that supports MCP. Any application implementing the MCP protocol to allow connections to MCP servers is a host.
@@ -103,9 +106,9 @@ export const server = new McpServer({
 server.tool(
   "getWeather",
   "Tool to get the weather for a city",
-  { city: z.string().describe('The city to get the weather for') },
+  { city: z.string().describe("The city to get the weather for") },
   async ({ city }) => {
-    // await fetch('wheather API') 
+    // await fetch('wheather API')
 
     return {
       content: [
@@ -128,15 +131,15 @@ server.registerTool(
   {
     title: "Weather Fetcher",
     description: "Get weather data for a city",
-    inputSchema: { city: z.string() }
+    inputSchema: { city: z.string() },
   },
   async ({ city }) => {
     const response = await fetch(`https://api.weather.com/${city}`);
     const data = await response.text();
     return {
-      content: [{ type: "text", text: data }]
+      content: [{ type: "text", text: data }],
     };
-  }
+  },
 );
 ```
 
@@ -155,8 +158,8 @@ SSE transport enables server-to-client streaming with HTTP POST requests for cli
 
 ```js
 // 2. use sse
-import express from "express";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import express from "express";
 import { server } from "./server-logic.js";
 
 const app = express();
@@ -192,7 +195,7 @@ Claude Desktop is the first MCP-compatible app, and it's the easiest way to test
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-sequential-thinking",
+        "@modelcontextprotocol/server-sequential-thinking"
       ]
     }
   }
@@ -216,26 +219,27 @@ claude
 ```
 
 ### AI SDK MCP clients
+
 The SDK supports connecting to MCP servers via either stdio (for local tools) or SSE (for remote servers). Once connected, you can use MCP tools directly with the AI SDK. The client exposes a `tools` method for retrieving tools from a MCP server.
 
 ```js
-import { experimental_createMCPClient as createMCPClient } from 'ai';
-import { openai } from '@ai-sdk/openai';
+import { openai } from "@ai-sdk/openai";
+import { experimental_createMCPClient as createMCPClient } from "ai";
 
 const mcpClient = await createMCPClient({
   transport: {
-    type: 'sse',
-    url: 'http://localhost:8081/sse',
+    type: "sse",
+    url: "http://localhost:8081/sse",
   },
-  name: 'My MCP Server',
+  name: "My MCP Server",
 });
 
 // The client's tools method acts as an adapter between MCP tools and AI SDK tools.
 // https://sdk.vercel.ai/docs/ai-sdk-core/tools-and-tool-calling#using-mcp-tools
 const response = await generateText({
-  model: openai('gpt-4o'),
+  model: openai("gpt-4o"),
   tools: await mcpClient.tools(),
-  prompt: 'Find products under $100',
+  prompt: "Find products under $100",
 });
 ```
 
@@ -266,6 +270,7 @@ You can purchase a product by using the purchase tool.
 > What this means is that you can bring your own remote MCP server to claude.ai. Users just need a URL to equip the LLM with new tools and capabilities.
 
 ### Your API is not an MCP
+
 Consider the difference in practice. An API-shaped MCP server might expose four tools, and the LLM has to call each tool in sequence, pass IDs between calls, and handle potential failures at each step. The solution is building tools around complete user goals rather than API capabilities. Instead of four separate tools, create one tool that handles the entire workflow internally.
 
 1. LLMs are terrible at selection from a long list of tools.
@@ -275,6 +280,7 @@ Consider the difference in practice. An API-shaped MCP server might expose four 
 Each tool should do one thing and do it well. The `name` and `description` of your tools and their parameters are your primary interface with the LLM. Be clear, concise, and unambiguous. Log every single tool invocation. Record the tool name, the exact parameters it was called with, and the result it returned. This is invaluable for debugging.
 
 ### References and further reading
+
 - https://github.com/modelcontextprotocol/typescript-sdk
 - https://www.aihero.dev/model-context-protocol-tutorial
 - https://glama.ai/blog/2024-11-25-model-context-protocol-quickstart

@@ -46,8 +46,8 @@ const concurrencyRequest = (urls, maxNum) => {
     for (let i = 0; i < times; i++) {
       request();
     }
-  })
-}
+  });
+};
 
 // test
 const urls = [];
@@ -56,17 +56,18 @@ for (let i = 1; i <= 20; i++) {
 }
 concurrencyRequest(urls, 3).then(res => {
   console.log(res);
-})
+});
 ```
 
 2. Implement `Promise.all` and `Promise.resolve` by yourself.
+
 ```js
-Promise._all = function (promises) {
+Promise._all = function(promises) {
   return new Promise((resolve, reject) => {
     let counter = 0;
     const result = [];
     for (let i = 0; i < promises.length; i++) {
-      // Use `Promise.resolve(promises[i])` instead of `promises[i].then()`, 
+      // Use `Promise.resolve(promises[i])` instead of `promises[i].then()`,
       // if it is non-promise value, wrap it
       // if already promise, `Promise.resolve(promises[i])` returns the same Promise
       Promise.resolve(promises[i]).then(res => {
@@ -82,7 +83,7 @@ Promise._all = function (promises) {
   });
 };
 
-Promise._resolve = function (value) {
+Promise._resolve = function(value) {
   if (value instanceof Promise) {
     return value;
   } else {
@@ -94,30 +95,31 @@ Promise._resolve = function (value) {
 ```
 
 3. Implement `debounce` and `throttle`.
+
 ```js
 function debounce(fn, delay) {
-  let timer = null
+  let timer = null;
 
   return (...args) => {
     if (timer) {
-      clearTimeout(timer)
-      timer = null
+      clearTimeout(timer);
+      timer = null;
     }
     timer = setTimeout(() => {
-      fn(...args)
-    }, delay)
-  }
+      fn(...args);
+    }, delay);
+  };
 }
 
 function throttle(fn, delay) {
-  let currentTime = Date.now()
+  let currentTime = Date.now();
 
   return (...args) => {
     if (Date.now() - currentTime > delay) {
-      fn(...args)
-      currentTime = Date.now()
+      fn(...args);
+      currentTime = Date.now();
     }
-  }
+  };
 }
 ```
 
@@ -126,7 +128,7 @@ function throttle(fn, delay) {
 ```js
 Function.prototype.myBind = function(context, ...args1) {
   const fn = this;
-  
+
   return function(...args2) {
     return fn.apply(context, [...args1, ...args2]);
   };
@@ -134,44 +136,46 @@ Function.prototype.myBind = function(context, ...args1) {
 ```
 
 5. Convert a list of objects into a tree.
+
 ```js
 let list = [
-  { id: 1, name: 'node1', pid: 0 },
-  { id: 2, name: 'node2', pid: 1 },
-  { id: 3, name: 'node3', pid: 1 },
-  { id: 4, name: 'node4', pid: 3 },
-  { id: 5, name: 'node5', pid: 4 },
-  { id: 6, name: 'node6', pid: 0 },
-]
+  { id: 1, name: "node1", pid: 0 },
+  { id: 2, name: "node2", pid: 1 },
+  { id: 3, name: "node3", pid: 1 },
+  { id: 4, name: "node4", pid: 3 },
+  { id: 5, name: "node5", pid: 4 },
+  { id: 6, name: "node6", pid: 0 },
+];
 
 function listToTree(list) {
-  const map = {}
-  const roots = []
+  const map = {};
+  const roots = [];
 
   list.forEach(item => {
-    map[item.id] = { ...item, children: [] }
-  })
+    map[item.id] = { ...item, children: [] };
+  });
 
   list.forEach(item => {
     if (item.pid === 0) {
-      roots.push(map[item.id])
+      roots.push(map[item.id]);
     } else {
       if (map[item.pid]) {
-        map[item.pid].children.push(map[item.id])
+        map[item.pid].children.push(map[item.id]);
       }
     }
-  })
+  });
 
-  return roots
+  return roots;
 }
 ```
 
 6. Use `setTimeout` to invoke a function multiple times in the fixed interval.
+
 ```js
 function repeat(func, times, ms, immediate) {
   let count = 0;
 
-  return function inner(...args) { 
+  return function inner(...args) {
     if (count === 0 && immediate) {
       func(...args);
       count++;
@@ -184,7 +188,7 @@ function repeat(func, times, ms, immediate) {
       count++;
       inner(...args);
     }, ms);
-  }
+  };
 }
 
 // test
@@ -193,30 +197,32 @@ repeatFunc("hello");
 ```
 
 7. Implement the functionality of `lodash.get`.
+
 ```js
 function get(obj, path, defaultValue = undefined) {
-  const keys = Array.isArray(path) ? path : path.split('.');
+  const keys = Array.isArray(path) ? path : path.split(".");
   let result = obj;
-  
+
   for (const key of keys) {
-    if (result == null || typeof result !== 'object') {
+    if (result == null || typeof result !== "object") {
       return defaultValue;
     }
     result = result[key];
   }
-  
+
   return result === undefined ? defaultValue : result;
 }
 
 // test
 const obj = { a: { b: { c: 42 } } };
-console.log(get(obj, 'a.b.c')); // 42
-console.log(get(obj, ['a', 'b', 'c'])); // 42
-console.log(get(obj, 'a.b.d', 'default')); // 'default'
-console.log(get(obj, 'x.y.z', 'not found')); // 'not found'
+console.log(get(obj, "a.b.c")); // 42
+console.log(get(obj, ["a", "b", "c"])); // 42
+console.log(get(obj, "a.b.d", "default")); // 'default'
+console.log(get(obj, "x.y.z", "not found")); // 'not found'
 ```
 
 8. Implement the render function to convert the virtual dom JSON to real DOM.
+
 ```js
 function render(vnode) {
   const { tag, props, children } = vnode;
@@ -277,7 +283,7 @@ async function renderJSXToHTML(jsx) {
     return "";
   } else if (Array.isArray(jsx)) {
     const childHtmls = await Promise.all(
-      jsx.map((child) => renderJSXToHTML(child))
+      jsx.map((child) => renderJSXToHTML(child)),
     );
     return childHtmls.join("");
   } else if (typeof jsx === "object") {
@@ -305,7 +311,7 @@ async function renderJSXToHTML(jsx) {
         return renderJSXToHTML(returnedJsx);
       }
     }
-  };
+  }
 }
 ```
 
@@ -316,14 +322,14 @@ function cycle(obj) {
   const seen = new Set();
 
   function helper(o) {
-    if (typeof o !== 'object' || o === null) return;
-    
+    if (typeof o !== "object" || o === null) return;
+
     seen.add(o);
 
     for (let key in o) {
-      if (typeof o[key] === 'object' && o[key] !== null) {
+      if (typeof o[key] === "object" && o[key] !== null) {
         if (seen.has(o[key])) {
-          o[key] = 'cycle';
+          o[key] = "cycle";
           continue;
         } else {
           helper(o[key]);
@@ -341,7 +347,7 @@ function cycle(obj) {
 // 嵌套很深的对象遍历
 // dfs
 function traverseDFS(obj) {
-  if (typeof obj !== 'object' || obj === null) return;
+  if (typeof obj !== "object" || obj === null) return;
 
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
@@ -363,7 +369,7 @@ function traverseBFS(obj) {
       if (current.hasOwnProperty(key)) {
         console.log(key, current[key]);
 
-        if (typeof current[key] === 'object' && current[key] !== null) {
+        if (typeof current[key] === "object" && current[key] !== null) {
           queue.push(current[key]);
         }
       }

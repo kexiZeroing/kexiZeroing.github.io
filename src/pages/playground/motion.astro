@@ -1,6 +1,6 @@
 ---
-import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
-import { MotionCards } from '@/components/playground/CardMotion';
+import { MotionCards } from "@/components/playground/CardMotion";
+import PlaygroundLayout from "@/layouts/PlaygroundLayout.astro";
 ---
 
 <PlaygroundLayout title="Motion Examples">
@@ -70,43 +70,41 @@ import { MotionCards } from '@/components/playground/CardMotion';
 </style>
 
 <script>
-import { animate, press, hover, stagger, inView } from "motion"
+import { animate, hover, inView, press, stagger } from "motion";
 
 hover(".box-hover", (element) => {
-  animate(element, { scale: 1.3 }, { type: "spring" })
+  animate(element, { scale: 1.3 }, { type: "spring" });
 
-  return () => animate(element, { scale: 1 }, { type: "spring" })
-})
+  return () => animate(element, { scale: 1 }, { type: "spring" });
+});
 
 press(".box-press", (element) => {
-  animate(element, { scale: 0.8 }, { type: "spring", stiffness: 1000 })
+  animate(element, { scale: 0.8 }, { type: "spring", stiffness: 1000 });
 
-  return () => animate(element, { scale: 1 }, { type: "spring", stiffness: 500 })
-})
+  return () =>
+    animate(element, { scale: 1 }, { type: "spring", stiffness: 500 });
+});
 
-const count = document.getElementById("count")
+const count = document.getElementById("count");
 animate(0, 100, {
   duration: 2,
   ease: "circOut",
   onUpdate: (latest) => (count.innerHTML = String(Math.round(latest))),
-})
+});
 
-animate(".box-rotate", { rotate: 360 }, { duration: 2, repeat: Infinity })
+animate(".box-rotate", { rotate: 360 }, { duration: 2, repeat: Infinity });
 
-animate(".stagger li", { opacity: 1, y: [50, 0] }, { delay: stagger(0.1) })
+animate(".stagger li", { opacity: 1, y: [50, 0] }, { delay: stagger(0.1) });
 
 inView(".scroll-fade", (element) => {
-  animate(element, { opacity: 1, y: [50, 0] }, { delay: 0.2, duration: 0.8 })
-})
+  animate(element, { opacity: 1, y: [50, 0] }, { delay: 0.2, duration: 0.8 });
+});
 
-animate(".box-path", 
-  { 
-    x: [0, 150, 150, 0, 0], 
-    y: [0, 0, 100, 100, 0] 
-  }, 
-  { 
-    duration: 4, 
-    repeat: Infinity,
-  }
-)
+animate(".box-path", {
+  x: [0, 150, 150, 0, 0],
+  y: [0, 0, 100, 100, 0],
+}, {
+  duration: 4,
+  repeat: Infinity,
+});
 </script>

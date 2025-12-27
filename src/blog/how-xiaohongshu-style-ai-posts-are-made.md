@@ -10,9 +10,11 @@ This is a walkthrough of a two‑stage pipeline that turns a short idea into a m
 ## The approach
 
 ### 1. Outline phase
+
 The system composes a “write an outline for Xiaohongshu” prompt (explicit rules: cover first, number of pages, sample tone). A text-model provider generates a multi-page outline formatted with page separators. The outline is parsed into an ordered list of page objects (index, page type like cover/content/summary, and the page text).
 
 ### 2. Image generation phase
+
 Frontend sends the page list, optional user images, and full outline to the generate endpoint. The backend creates an image-generation task and a task folder for outputs.
 
 The cover is generated first, which establishes the visual language (colors, composition, typography) for the whole post. Once generated, the cover image is compressed and cached in the task state, which will be injected into the model adapter as a reference image alongside the text prompt.
@@ -22,55 +24,61 @@ For each remaining page, build an image prompt that embeds: page text (what to s
 ## End‑to‑end user flow
 
 ### 1. Outline Phase
-  * **Request:** Client sends `POST /api/outline` with `{ topic: "5 easy skincare tips" }`.
-  * **Processing:**
-      * Server injects the topic into the `outline_prompt` template.
-      * Calls the Text Provider LLM.
-      * Receives raw text delimited by specific markers (e.g., `<page>`).
-  * **Parsing:** Server deserializes the text into a JSON array of objects:
-    ```json
-    [
-      { "index": 0, "type": "cover", "content": "Title: Glowing Skin..." },
-      { "index": 1, "type": "content", "content": "Step 1: Hydration..." }
-    ]
-    ```
-  * **Response:** Returns the structured list to the Client for user verification/editing.
+
+- **Request:** Client sends `POST /api/outline` with `{ topic: "5 easy skincare tips" }`.
+- **Processing:**
+  - Server injects the topic into the `outline_prompt` template.
+  - Calls the Text Provider LLM.
+  - Receives raw text delimited by specific markers (e.g., `<page>`).
+- **Parsing:** Server deserializes the text into a JSON array of objects:
+  ```json
+  [
+    { "index": 0, "type": "cover", "content": "Title: Glowing Skin..." },
+    { "index": 1, "type": "content", "content": "Step 1: Hydration..." }
+  ]
+  ```
+- **Response:** Returns the structured list to the Client for user verification/editing.
 
 ### 2. Task Initialization
-  * **Request:** Client sends `POST /api/generate` containing the `pages` array, `full_outline`, `user_topic`, and optionally `user_images` (base64 encoded).
-  * **State:** Server generates a unique `task_id`, creates the directory `history/<task_id>/`, and initializes the async job.
+
+- **Request:** Client sends `POST /api/generate` containing the `pages` array, `full_outline`, `user_topic`, and optionally `user_images` (base64 encoded).
+- **State:** Server generates a unique `task_id`, creates the directory `history/<task_id>/`, and initializes the async job.
 
 ### 3. Cover Generation
-  * **Prompt Construction:** Server hydrates `image_prompt.txt` with specific variables: `{page_content}`, `{page_type}`, `{full_outline}`.
-  * **Reference Injection:** If the user uploaded a photo, it is compressed and attached as a reference signal.
-  * **Execution:** The Adapter sends the request to the image model.
-  * **Persistence:**
-      * `0.png`: The raw high-res output.
-      * `thumb_0.png`: A standardized thumbnail for the UI.
-  * **State Update:** The system stores the cover image in memory (or temp storage) as `cover_image` to serve as the style anchor for the queue.
+
+- **Prompt Construction:** Server hydrates `image_prompt.txt` with specific variables: `{page_content}`, `{page_type}`, `{full_outline}`.
+- **Reference Injection:** If the user uploaded a photo, it is compressed and attached as a reference signal.
+- **Execution:** The Adapter sends the request to the image model.
+- **Persistence:**
+  - `0.png`: The raw high-res output.
+  - `thumb_0.png`: A standardized thumbnail for the UI.
+- **State Update:** The system stores the cover image in memory (or temp storage) as `cover_image` to serve as the style anchor for the queue.
 
 ### 4. Content Page Iteration
-  * **Loop:** The server iterates through remaining pages.
-  * **Style Injection:** The `cover_image` generated in Step 3 is included in the payload for every subsequent request to enforce style consistency.
-  * **Streaming Feedback (SSE):**
-      * `event: progress` → "Generating page 2..."
-      * `event: complete` → Payload includes the URL for `thumb_2.png`.
-  * **Artifacts:** The server saves `<index>.png` (canonical asset) and `thumb_<index>.png` (UI asset) to the task folder.
+
+- **Loop:** The server iterates through remaining pages.
+- **Style Injection:** The `cover_image` generated in Step 3 is included in the payload for every subsequent request to enforce style consistency.
+- **Streaming Feedback (SSE):**
+  - `event: progress` → "Generating page 2..."
+  - `event: complete` → Payload includes the URL for `thumb_2.png`.
+- **Artifacts:** The server saves `<index>.png` (canonical asset) and `thumb_<index>.png` (UI asset) to the task folder.
 
 ### 5. Finalization
-  * **Completion:** Once the queue is empty, the server emits a final `finish` event via SSE.
-  * **Payload:**
-    ```json
-    {
-      "success": true,
-      "task_id": "uuid-v4",
-      "images": ["0.png", "1.png", ...],
-      "stats": { "total": 5, "completed": 5, "failed": 0 }
-    }
-    ```
-  * **Retrieval:** Client can now fetch high-res assets via static serving at `/api/images/<task_id>/<filename>`.
+
+- **Completion:** Once the queue is empty, the server emits a final `finish` event via SSE.
+- **Payload:**
+  ```json
+  {
+    "success": true,
+    "task_id": "uuid-v4",
+    "images": ["0.png", "1.png", ...],
+    "stats": { "total": 5, "completed": 5, "failed": 0 }
+  }
+  ```
+- **Retrieval:** Client can now fetch high-res assets via static serving at `/api/images/<task_id>/<filename>`.
 
 ## Prompts
+
 Below are practical prompt templates used in this pipeline. Edit tone and design instructions to match your product.
 
 **Outline prompt:**

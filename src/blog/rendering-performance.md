@@ -9,24 +9,28 @@ updatedDate: "July 19 2025"
 One factor contributing to a poor user experience is how long it takes a user to see any content rendered to the screen. **First Contentful Paint (FCP)** measures how long it takes for initial DOM content to render, but it does not capture how long it took the largest (usually more meaningful) content on the page to render. **Largest Contentful Paint (LCP)** measures when the largest content element in the viewport becomes visible. It can be used to determine when the main content of the page has finished rendering on the screen.
 
 ### Core Web Vitals
-Core Web Vitals are the subset of Web Vitals that apply to all web pages, should be measured by all site owners, and will be surfaced across all Google tools. The metrics that make up Core Web Vitals will evolve over time. The current set for 2020 focuses on three aspects of the user experience—*loading, interactivity, and visual stability*—and includes the following metrics:
+
+Core Web Vitals are the subset of Web Vitals that apply to all web pages, should be measured by all site owners, and will be surfaced across all Google tools. The metrics that make up Core Web Vitals will evolve over time. The current set for 2020 focuses on three aspects of the user experience—_loading, interactivity, and visual stability_—and includes the following metrics:
 
 - **Largest Contentful Paint (LCP)**: measures loading performance. To provide a good user experience, LCP should occur within 2.5 seconds of when the page first starts loading.
 - **First Input Delay (FID)**: measures interactivity. To provide a good user experience, pages should have a FID of 100 milliseconds or less.
 - **Cumulative Layout Shift (CLS)**: measures visual stability. To provide a good user experience, pages should maintain a CLS of 0.1 or less.
 
-[Interaction to Next Paint (INP)](https://web.dev/inp/) is a pending Core Web Vital metric that will replace First Input Delay (FID) in March 2024. INP is a metric that assesses a page's overall responsiveness to user interactions by observing the latency of all click, tap, and keyboard interactions that occur throughout the lifespan of a user's visit to a page. *When reacting to user input, a response slower than `200ms` will be perceived as having to wait.*
+[Interaction to Next Paint (INP)](https://web.dev/inp/) is a pending Core Web Vital metric that will replace First Input Delay (FID) in March 2024. INP is a metric that assesses a page's overall responsiveness to user interactions by observing the latency of all click, tap, and keyboard interactions that occur throughout the lifespan of a user's visit to a page. _When reacting to user input, a response slower than `200ms` will be perceived as having to wait._
 
 While the Core Web Vitals are the critical metrics for understanding and delivering a great user experience, there are other vital metrics as well. For example, the metrics **Time to First Byte (TTFB)** and **First Contentful Paint (FCP)** are both vital aspects of the loading experience.
+
 - TTFB is a good measure of your server response times and general back-end health, and issues here may have knock-on effects later down the line.
 - FCP is a measure of your Critical Path, and anything after that event is no longer on your Critical Path at all. This is where your Critical Path ends.
 
 > LCP recommendations
+>
 > 1. Ensure the LCP resource is discoverable from the HTML source.
 > 2. Ensure the LCP resource is prioritized. (Don't lazy-load your LCP image)
 > 3. Use a CDN to optimize document and resource TTFB.
-> 
+>
 > CLS recommendations
+>
 > 1. Set explicit sizes on any content loaded from the page.
 > 2. Be eligible for bfcache.
 > 3. Avoid animations/transitions that use layout-inducing CSS properties. (Never animate using top / bottom / left / right)
@@ -38,9 +42,11 @@ Core Web Vitals are based on field metrics or Real User Metrics (RUM). Google us
 The fact that RUM data is used, is an important distinction from synthetic or “lab-based” web performance tools like Lighthouse. These tools run page loads on simulated networks and devices and then tell you what the metrics were for that test run. So if you run Lighthouse on your high-powered developer machine and get great scores, that may not be reflective of what the users experience in the real world, and so what Google will use to measure your website user experience.
 
 #### Soft Navigations
+
 The SPA will respond faster than the traditional HTML website because the entire code is already downloaded, the JavaScript is compiled, and no more client-server communication is needed. However, capturing web performance metrics for a dynamic update of a single HTML page (i.e. soft navigation) is not as straightforward as measuring the performance impact of a static URL change where a real HTML page load takes place.
 
 To measure Core Web Vitals for soft navigations, we need a standardized way that can be used for any SPA, irrespective of the technology it was built with. The defining rules to identify soft navigations and the corresponding technical implementations are still in the drafting stage. According to the current version of the specifications, the following dynamic URL updates qualify as soft navigations:
+
 - The navigation is initiated by a user action.
 - The navigation results in a visible URL change to the user, and a history change.
 - The navigation results in a DOM change.
@@ -48,12 +54,13 @@ To measure Core Web Vitals for soft navigations, we need a standardized way that
 Google Chrome’s `web-vitals.js` library has an [experimental soft-nav branch](https://github.com/GoogleChrome/web-vitals/tree/soft-navs#report-metrics-for-soft-navigations-experimental) that already includes working code that you can use to report Web Vitals for soft navigations.
 
 ### Optimize your server
+
 For at least half of the origins with poor LCP, the TTFB of 2,270 milliseconds alone nearly guarantees that the LCP can't be faster than the 2.5 second "good" threshold. Additionally, the median site with poor LCP spends nearly four times longer waiting to start downloading the main LCP image than it does actually downloading it, highlighting that slow server response and delayed resource fetching are major factors in poor LCP performance.
 
 Instead of just immediately serving a static page on a browser request, many server-side web frameworks need to create the web page dynamically. This could be due to pending results from a database query or because components need to be generated into markup by a UI framework. Many web frameworks that run on the server have performance guidance that you can use to speed up this process.
 
 > The Server Timing API lets you pass request-specific timing data from your server to the browser using response headers. Chrome display Server-Timing entries in the Performance tab (in the waterfall timeline), helping identify slow server components.
-> 
+>
 > For example, you can indicate how long it took to look up data in a database for a particular request, which can be useful in debugging performance issues caused by slowness on the server. The Server-Timing header can contain one or more metrics, separated by commas (`Server-Timing: db;dur=53, app;dur=47.2`). Each metric has a name, an optional duration, and an optional description. These components are separated by semi-colons.
 
 If the content on your web page is being hosted on a single server, your website will load slower for users that are geographically farther away because their browser requests literally have to travel around the world. Consider [using a CDN](https://web.dev/content-delivery-networks) to ensure that your users never have to wait for network requests to faraway servers.
@@ -63,6 +70,7 @@ If your HTML is static and doesn't need to change on every request, **caching** 
 For many sites, images are the largest element in view when the page has finished loading. 1) Compress images. 2) Convert images into newer formats. 3) Consider using an image CDN.
 
 ### Establish third-party connections early
+
 Every new origin we need to visit needs a connection opening, and that can be very costly: DNS resolution, TCP handshakes, and TLS negotiation all add up, and the story gets worse the higher the latency of the connection is.
 
 Server requests to third-party origins can also impact LCP. Use `rel="preconnect"` to inform the browser that your page intends to establish a connection as soon as possible. You can also use `dns-prefetch` to resolve DNS lookups faster.
@@ -77,13 +85,14 @@ Modern browsers try their best to anticipate what connections a page will need, 
 While `dns-prefetch` only performs a DNS lookup, `preconnect` establishes a full connection (DNS, TCP, TLS) to a server. This process includes DNS resolution, as well as establishing the TCP connection, and performing the TLS handshake. If a page needs to make connections to many third-party domains, preconnecting all of them is counterproductive. **The preconnect hint is best used for only the most critical connections. For all the rest, use `<link rel=dns-prefetch>` to save time on the first step, the DNS lookup**.
 
 ### Render blocking JavaScript and CSS
+
 Generally speaking, when loading resources into web pages, there are three possible blocking states: Non-blocking, Render blocking, and Parser blocking.
 
 - Stylesheets block rendering but not parsing. It needs styles to correctly render the content ("CSSOM" must be ready before the browser can build the Render Tree and paint).
 - Classic scripts block parsing (and therefore also rendering). JS can modify the DOM as it parses, so the browser stops parsing the HTML entirely until the script is downloaded, parsed, and executed.
 - Adding `async`, `defer` or `type=module` attributes allows HTML parsing and initial rendering to begin earlier than a classic script. But only `defer` and `type="module"` guarantee they won’t interfere with rendering.
 
-For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. The good thing about defer is that you can guarantee the order of the script execution. *When you have both async and defer, `async` takes precedence and the script will be async.*
+For script tags, **`<script async>`** downloads the file during HTML parsing and will pause the HTML parser to execute it when it has finished downloading. Async scripts are executed as soon as the script is loaded, so it doesn't guarantee the order of execution. **`<script defer>`** downloads the file during HTML parsing and will only execute it after the parser has completed. The good thing about defer is that you can guarantee the order of the script execution. _When you have both async and defer, `async` takes precedence and the script will be async._
 
 If you know that a particular resource should be prioritized, use `<link rel="preload">` to fetch it sooner. By preloading a certain resource, you are telling the browser that you would like to fetch it sooner than the browser would discover it because you are certain that it is important for the current page. **Preloading is best suited for resources typically discovered late by the browser**. The browser caches preloaded resources so they are available immediately when needed. It doesn't execute the scripts or apply the stylesheets. Supplying the `as` attribute helps the browser set the priority of the prefetched resource according to its type and determine whether the resource already exists in the cache.
 
@@ -96,19 +105,21 @@ If you know that a particular resource should be prioritized, use `<link rel="pr
 Another one, `<link rel="prefetch">` is a low priority resource hint that allows the browser to fetch resources in the background (idle time) that might be needed later, and store them in the browser's cache. It is helpful when you know you’ll need that resource on a subsequent page, and you want to cache it ahead of time.
 
 Tools can be used:
+
 - [quicklink](https://github.com/GoogleChromeLabs/quicklink)
 - [Guess.js](https://github.com/guess-js/guess)
 - [InstantClick](http://instantclick.io)
 
 > In Next.js production environment, whenever `<Link>` components appear in the browser's viewport, Next.js automatically prefetches the code for the linked route in the background. By the time the user clicks the link, the code for the destination page will already be loaded in the background, and this is what makes the page transition near-instant.
 >
-> You can opt out of prefetching by setting the `prefetch` prop to `false` on the `<Link>` component. 
+> You can opt out of prefetching by setting the `prefetch` prop to `false` on the `<Link>` component.
 
 Resource hints like `preconnect` and `dns-prefetch` are executed as the browser sees fit. The `preload`, on the other hand, is mandatory for the browser. Modern browsers are already pretty good at prioritizing resources, that's why it's important to use `preload` sparingly and only preload the most critical resources.
 
 The `fetchpriority` attribute (available in Chrome 101 or later) is a hint and not a directive. Fetch Priority can also complement `preload`. Include the `fetchpriority` attribute when preloading several resources of the same type and you're clear about which is most important. **The browser assigns a high priority to any render-blocking resource by default.**
 
 > Summary:
+>
 > - Warm connections to origins: `rel=preconnect`. Don’t preconnect Too Many Origins.
 > - Fetch late-found resources: `rel=preload`
 > - Fetch next-page navigations: `rel=prefetch`
@@ -122,6 +133,7 @@ For images loading, the `decoding=async` attribute of the `<img>` is one of the 
 <img alt="JavaScript Loading Priorities" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/addyosmani.com_blog_script-priorities%20(1).png" width="800">
 
 ### The DOMContentLoaded event
+
 The `DOMContentLoaded` event fires once all of your deferred JavaScript (`<script defer>` and `<script type="module">`) has finished running. It doesn't wait for other things like images, subframes, and async scripts to finish loading.
 
 - The `DOMContentLoaded` as measured and emitted by the Navigation Timing API is actually referred to as `domContentLoadedEventStart`.
@@ -129,31 +141,48 @@ The `DOMContentLoaded` event fires once all of your deferred JavaScript (`<scrip
 - `domInteractive` is the event before `domContentLoadedEventStart`. This is the moment the browser has finished parsing all synchronous DOM work. Basically, the browser is now at the `</html>` tag and ready to run your deferred JavaScript.
 
 ```js
-window.addEventListener('load', (event) => {
+window.addEventListener("load", (event) => {
   const timings = window.performance.timing;
-  const start   = timings.navigationStart;
+  const start = timings.navigationStart;
 
-  console.log('Ready to start running `defer`ed code: ' + (timings.domInteractive - start + 'ms'));
-  console.log('`defer`ed code finished: ' + (timings.domContentLoadedEventEnd - start + 'ms'));
-  console.log('`defer`ed code duration: ' + (timings.domContentLoadedEventStart - timings.domInteractive + 'ms'));
-  console.log('`DOMContentLoaded`- wrapped code duration: ' + (timings.domContentLoadedEventEnd - timings.domContentLoadedEventStart + 'ms'));
+  console.log(
+    "Ready to start running `defer`ed code: "
+      + (timings.domInteractive - start + "ms"),
+  );
+  console.log(
+    "`defer`ed code finished: "
+      + (timings.domContentLoadedEventEnd - start + "ms"),
+  );
+  console.log(
+    "`defer`ed code duration: "
+      + (timings.domContentLoadedEventStart - timings.domInteractive + "ms"),
+  );
+  console.log(
+    "`DOMContentLoaded`- wrapped code duration: "
+      + (timings.domContentLoadedEventEnd - timings.domContentLoadedEventStart
+        + "ms"),
+  );
 });
 ```
 
 The tab spinner stops after the `load` event. This includes all images, stylesheets, scripts (even async or defer), fonts and other subresources.
 
 ### The Speculation Rules API
+
 A page can be prerendered in one of four ways, all of which aim to make navigations quicker:
+
 1. When you type a URL into the Chrome omnibox, Chrome may automatically prerender the page for you, if it has high confidence you will visit that page. (View Chrome's predictions for URLs in the `chrome://predictors` page)
 2. When you use the bookmarks bar, Chrome may automatically prerender the page for you on holding the pointer over one of the bookmark buttons.
 3. When you type a search term into the Chrome address bar, Chrome may automatically prerender the search results page, when instructed to do so by the search engine.
-4. Sites can use the Speculation Rules API, to programmatically tell Chrome which pages to prerender. This replaces what `<link rel="prerender"...>` *(deprecated)* used to do and allows sites to proactively prerender a page based on speculation rules on the page.
+4. Sites can use the Speculation Rules API, to programmatically tell Chrome which pages to prerender. This replaces what `<link rel="prerender"...>` _(deprecated)_ used to do and allows sites to proactively prerender a page based on speculation rules on the page.
 
 Developers can insert JSON instructions onto their pages to inform the browser about which URLs to prerender. Speculation rules can be added in either the `<head>` or the `<body>` of the main frame. To specify the pages you want prerendered, you can use two types of rules:
+
 - URL List Rules: Use a list of URL strings to specify which pages to prerender.
 - Document Rules: Use conditions to determine when a page should be prerendered.
 
 The speculation rules API allows you to specify an `eagerness` setting to control when a page is prerendered.
+
 - immediate: The page is prerendered or prefetched immediately.
 - moderate: The page is prerendered or prefetched when the user hovers over a link for 200 milliseconds.
 - conservative: The page is prerendered or prefetched when the user initiates a click on the link.
@@ -190,9 +219,11 @@ Speculation rules can also be used to just prefetch pages, without a full preren
 > 3. At present, speculation rules are restricted to pages opened within the same tab, but we are working to reduce that restrictions. By default prerender is restricted to same-origin pages.
 
 ### Back/forward cache
+
 bfcache has been supported in both Firefox and Safari for many years. Since Chrome version 96, bfcache is enabled for all users across desktop and mobile. bfcache is an in-memory cache that stores a complete snapshot of a page (including the JavaScript heap) as the user is navigating away. With the entire page in memory, the browser can quickly restore it if the user decides to return.
 
 Some common reasons why bfcache might not work:
+
 - The page has unload or beforeunload event handlers.
 - The page keeps active connections (WebSocket, media streams).
 - The page is using `Cache-Control: no-store`.
@@ -215,7 +246,7 @@ Before diving into best practices for font loading it's important to understand 
 }
 
 h1 {
-  font-family: "Open Sans"
+  font-family: "Open Sans";
 }
 ```
 
@@ -250,6 +281,7 @@ The fastest font to deliver is a font that isn't requested in the first place. A
 When faced with a web font that has not yet loaded, the browser is faced with a dilemma: should it hold off on rendering text until the web font has arrived? Or should it render the text in a fallback font until the web font arrives? Different browsers handle this scenario differently. By default, Chromium-based and Firefox browsers will block text rendering for up to 3 seconds if the associated web font has not loaded; Safari will block text rendering indefinitely. This behavior can be configured by using the [font-display](https://developer.mozilla.org/docs/Web/CSS/@font-face/font-display) attribute, which informs the browser how it should proceed with text rendering when the associated web font has not loaded.
 
 ### More to read
+
 - Web Performance 101: https://3perf.com/talks/web-perf-101/
 - Life of a Pixel: https://bit.ly/lifeofapixel
 - A collection of the best practices that the Chrome DevRel team believes are the most effective ways to improve Core Web Vitals performance: https://web.dev/articles/top-cwv

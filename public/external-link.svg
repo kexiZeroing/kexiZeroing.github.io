@@ -1,19 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 24 24" width="24" height="24">
-  <defs/>
-  <g id="Canvas_1" stroke-opacity="1" stroke="none" stroke-dasharray="none" fill="none" fill-opacity="1">
+<svg
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xl="http://www.w3.org/1999/xlink"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  viewBox="0 0 24 24"
+  width="24"
+  height="24"
+>
+  <defs />
+  <g
+    id="Canvas_1"
+    stroke-opacity="1"
+    stroke="none"
+    stroke-dasharray="none"
+    fill="none"
+    fill-opacity="1"
+  >
     <title>Canvas 1</title>
     <g id="Canvas_1_Layer_1">
       <title>Layer 1</title>
       <g id="Graphic_2">
-        <path d="M 18 13 L 18 19 C 18 20.10457 17.10457 21 16 21 L 5 21 C 3.8954305 21 3 20.10457 3 19 L 3 8 C 3 6.8954305 3.8954305 6 5 6 L 11 6" stroke="black" stroke-linecap="butt" stroke-linejoin="round" stroke-width="2"/>
+        <path
+          d="M 18 13 L 18 19 C 18 20.10457 17.10457 21 16 21 L 5 21 C 3.8954305 21 3 20.10457 3 19 L 3 8 C 3 6.8954305 3.8954305 6 5 6 L 11 6"
+          stroke="black"
+          stroke-linecap="butt"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
       </g>
       <g id="Line_3">
-        <path d="M 15 3 L 21 3 L 21 9" stroke="black" stroke-linecap="butt" stroke-linejoin="round" stroke-width="2"/>
+        <path
+          d="M 15 3 L 21 3 L 21 9"
+          stroke="black"
+          stroke-linecap="butt"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
       </g>
       <g id="Line_4">
-        <line x1="10" y1="14" x2="21" y2="3" stroke="black" stroke-linecap="butt" stroke-linejoin="round" stroke-width="2"/>
+        <line
+          x1="10"
+          y1="14"
+          x2="21"
+          y2="3"
+          stroke="black"
+          stroke-linecap="butt"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
       </g>
     </g>
   </g>

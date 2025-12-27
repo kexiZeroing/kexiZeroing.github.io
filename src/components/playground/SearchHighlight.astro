@@ -1,4 +1,5 @@
 ---
+
 ---
 
 <div class="search-demo-wrapper">
@@ -11,144 +12,147 @@
       laudantium nulla.
     </p>
     <p>
-      Maiores odit molestias, necessitatibus doloremque dolor illum reprehenderit
-      provident nostrum laboriosam iste, tempore perferendis! Ab porro neque esse
-      voluptas libero necessitatibus fugiat, ex, minus atque deserunt veniam
-      molestiae tempora? Vitae.
+      Maiores odit molestias, necessitatibus doloremque dolor illum
+      reprehenderit provident nostrum laboriosam iste, tempore perferendis! Ab
+      porro neque esse voluptas libero necessitatibus fugiat, ex, minus atque
+      deserunt veniam molestiae tempora? Vitae.
     </p>
     <p>
-      Dolorum facilis voluptate eaque eius similique ducimus dignissimos assumenda
-      quos architecto. Doloremque deleniti non exercitationem rerum quam alias
-      harum, nisi obcaecati corporis temporibus vero sapiente voluptatum est
-      quibusdam id ipsa.
+      Dolorum facilis voluptate eaque eius similique ducimus dignissimos
+      assumenda quos architecto. Doloremque deleniti non exercitationem rerum
+      quam alias harum, nisi obcaecati corporis temporibus vero sapiente
+      voluptatum est quibusdam id ipsa.
     </p>
   </article>
   <template><span id="control">Hello</span></template>
 </div>
 
 <style is:global>
-  /* styles defined within a component are scoped by default. */
-  /* However, the ::highlight pseudo-element is applied to the entire document. */
-  ::highlight(search-results) {
-    background-color: yellow;
-    color: red;
-  }
+/* styles defined within a component are scoped by default. */
+/* However, the ::highlight pseudo-element is applied to the entire document. */
+::highlight(search-results) {
+  background-color: yellow;
+  color: red;
+}
 
-  #control {
-    background-color: yellow;
-    padding: 4px;
-    position: absolute;
-  }
+#control {
+  background-color: yellow;
+  padding: 4px;
+  position: absolute;
+}
 </style>
 
 <style>
-  .search-demo-wrapper {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-  #query {
-    border: 1px solid #333;
-    border-radius: 6px;
-    padding: 0 6px;
-  }
+.search-demo-wrapper {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+#query {
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 0 6px;
+}
 </style>
 
 <script>
-  function initializeSearch() {
-    const query = document.getElementById("query") as HTMLInputElement;
-    const article = document.querySelector("article");
+function initializeSearch() {
+  const query = document.getElementById("query") as HTMLInputElement;
+  const article = document.querySelector("article");
 
-    if (!query || !article) {
-      console.error("Required elements not found");
+  if (!query || !article) {
+    console.error("Required elements not found");
+    return;
+  }
+
+  // Find all text nodes in the article. We'll search within these text nodes.
+  const treeWalker = document.createTreeWalker(article, NodeFilter.SHOW_TEXT);
+  const allTextNodes = [];
+  let currentNode = treeWalker.nextNode();
+  while (currentNode) {
+    allTextNodes.push(currentNode);
+    currentNode = treeWalker.nextNode();
+  }
+
+  query.addEventListener("input", () => {
+    if (!CSS.highlights) {
+      article.textContent = "CSS Custom Highlight API not supported.";
       return;
     }
 
-    // Find all text nodes in the article. We'll search within these text nodes.
-    const treeWalker = document.createTreeWalker(article, NodeFilter.SHOW_TEXT);
-    const allTextNodes = [];
-    let currentNode = treeWalker.nextNode();
-    while (currentNode) {
-      allTextNodes.push(currentNode);
-      currentNode = treeWalker.nextNode();
+    // Remove the previous search results.
+    CSS.highlights.clear();
+
+    const str = query.value.trim().toLowerCase();
+    if (!str) {
+      return;
     }
 
-    query.addEventListener("input", () => {
-      if (!CSS.highlights) {
-        article.textContent = "CSS Custom Highlight API not supported.";
-        return;
-      }
+    // Iterate over all text nodes and find matches.
+    const ranges = allTextNodes
+      .map((el) => {
+        return { el, text: el.textContent!.toLowerCase() };
+      })
+      .map(({ text, el }) => {
+        const indices = [];
+        let startPos = 0;
+        while (startPos < text.length) {
+          const index = text.indexOf(str, startPos);
+          if (index === -1) break;
+          indices.push(index);
+          startPos = index + str.length;
+        }
 
-      // Remove the previous search results.
-      CSS.highlights.clear();
-
-      const str = query.value.trim().toLowerCase();
-      if (!str) {
-        return;
-      }
-
-      // Iterate over all text nodes and find matches.
-      const ranges = allTextNodes
-        .map((el) => {
-          return { el, text: el.textContent!.toLowerCase() };
-        })
-        .map(({ text, el }) => {
-          const indices = [];
-          let startPos = 0;
-          while (startPos < text.length) {
-            const index = text.indexOf(str, startPos);
-            if (index === -1) break;
-            indices.push(index);
-            startPos = index + str.length;
-          }
-
-          // Create a range object for each instance of
-          // str we found in the text node.
-          return indices.map((index) => {
-            const range = new Range();
-            range.setStart(el, index);
-            range.setEnd(el, index + str.length);
-            return range;
-          });
+        // Create a range object for each instance of
+        // str we found in the text node.
+        return indices.map((index) => {
+          const range = new Range();
+          range.setStart(el, index);
+          range.setEnd(el, index + str.length);
+          return range;
         });
+      });
 
-      // Create a Highlight object for the ranges.
-      const searchResultsHighlight = new Highlight(...ranges.flat());
+    // Create a Highlight object for the ranges.
+    const searchResultsHighlight = new Highlight(...ranges.flat());
 
-      // Register the Highlight object in the registry.
-      // https://developer.mozilla.org/en-US/docs/Web/CSS/::highlight
-      CSS.highlights.set("search-results", searchResultsHighlight);
-    });
-  }
-
-  function selectionMenu() {
-    // https://codepen.io/chriscoyier/pen/eYBQamQ
-    let control = document.importNode(document.querySelector('template').content, true).childNodes[0];
-    control.addEventListener('pointerdown', () => console.log('clicked'), false);
-
-    document.querySelector('article').onpointerup = () => {
-      let selection = document.getSelection();
-      let text = selection.toString();
-      
-      if (text !== "") {
-        let rect = selection.getRangeAt(0).getBoundingClientRect();
-        (control as HTMLElement).style.top = `calc(${rect.top}px - 40px)`;
-        (control as HTMLElement).style.left = `calc(${rect.left}px + calc(${rect.width}px / 2) - 40px)`;
-        document.body.appendChild(control);
-      }
-    }
-    document.onpointerdown = () => {	
-      let control = document.querySelector('#control');
-      if (control !== null) {
-        control.remove();
-        document.getSelection().removeAllRanges();
-      }
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    initializeSearch();
-    selectionMenu();
+    // Register the Highlight object in the registry.
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/::highlight
+    CSS.highlights.set("search-results", searchResultsHighlight);
   });
+}
+
+function selectionMenu() {
+  // https://codepen.io/chriscoyier/pen/eYBQamQ
+  let control =
+    document.importNode(document.querySelector("template").content, true)
+      .childNodes[0];
+  control.addEventListener("pointerdown", () => console.log("clicked"), false);
+
+  document.querySelector("article").onpointerup = () => {
+    let selection = document.getSelection();
+    let text = selection.toString();
+
+    if (text !== "") {
+      let rect = selection.getRangeAt(0).getBoundingClientRect();
+      (control as HTMLElement).style.top = `calc(${rect.top}px - 40px)`;
+      (control as HTMLElement).style.left =
+        `calc(${rect.left}px + calc(${rect.width}px / 2) - 40px)`;
+      document.body.appendChild(control);
+    }
+  };
+  document.onpointerdown = () => {
+    let control = document.querySelector("#control");
+    if (control !== null) {
+      control.remove();
+      document.getSelection().removeAllRanges();
+    }
+  };
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initializeSearch();
+  selectionMenu();
+});
 </script>

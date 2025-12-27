@@ -11,69 +11,71 @@ updatedDate: "July 18 2025"
 ```jsx
 // common fetch in useEffect example
 function Bookmarks({ category }) {
-  const [data, setData] = useState([])
-  const [error, setError] = useState()
+  const [data, setData] = useState([]);
+  const [error, setError] = useState();
 
   useEffect(() => {
     fetch(`${endpoint}/${category}`)
       .then(res => res.json())
       .then(d => setData(d))
-      .catch(e => setError(e))
-  }, [category])
+      .catch(e => setError(e));
+  }, [category]);
 }
 ```
 
 Bugs from the above code:
+
 1. Race Condition. Network responses can arrive in a different order than you sent them. So if you change the `category` from `books` to `movies` and the response for `movies` arrives before the response for `books`, you'll end up with the wrong data in your component. You need to cancel or deactivate the previous request in cleanup function to fix it, check https://maxrozen.com/race-conditions-fetching-data-react-with-useeffect for details.
 2. Both data and error are separate state variables, and they don't get reset when `category` changes. If we check for error first, we'll render the error UI with the old message even though we have valid data. If we check data first, we have the same problem if the second request fails.
 3. If your app is wrapped in `<React.StrictMode>`, React will intentionally call your effect twice in development mode to help you find bugs like missing cleanup functions.
 4. `fetch` doesn't reject on HTTP errors, so you'd have to check for `res.ok` and throw an error yourself.
 
 If you're going to fetch in `useEffect()`, you should at least make sure that you're handling:
+
 - Loading states
 - Error handling (rejections & HTTP error codes)
 - Race conditions & cancellation
 
 ```js
 export default function useQuery(url) {
-  const [data, setData] = React.useState(null)
-  const [isLoading, setIsLoading] = React.useState(true)
-  const [error, setError] = React.useState(null)
+  const [data, setData] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    let active = true
+    let active = true;
 
     const handleFetch = async () => {
-      setData(null)
-      setIsLoading(true)
-      setError(null)
+      setData(null);
+      setIsLoading(true);
+      setError(null);
 
       try {
-        const res = await fetch(url)
+        const res = await fetch(url);
         if (!active) {
-          return 
+          return;
         }
         if (!res.ok) {
-          throw new Error(`Error: ${res.status}`)
+          throw new Error(`Error: ${res.status}`);
         }
-        const json = await res.json()
+        const json = await res.json();
 
-        setData(json)
-        setIsLoading(false)
+        setData(json);
+        setIsLoading(false);
       } catch (e) {
-        setError(e.message)
-        setIsLoading(false)
+        setError(e.message);
+        setIsLoading(false);
       }
-    }
+    };
 
-    handleFetch()
+    handleFetch();
 
     return () => {
-      active = false
-    }
-  }, [url])
+      active = false;
+    };
+  }, [url]);
 
-  return { data, isLoading, error }
+  return { data, isLoading, error };
 }
 ```
 
@@ -82,6 +84,7 @@ export default function useQuery(url) {
 > In development, you will see two fetches in the Network tab. There is nothing wrong with that. Even though there is an extra request, it won’t affect the state thanks to the `if (!active)` check. In production, there will only be one request.
 
 In reality, we still need to think about:
+
 1. For every component that needs the same data, we have to refetch it.
 2. It's possible that while fetching to the same endpoint, one request could fail while the other succeeds.
 3. If our state is moved to "global", we've just introduced a small, in-memory cache. Since we've introduced a cache, we also need to introduce a way to invalidate it.
@@ -93,11 +96,11 @@ That's [why React Query](https://ui.dev/c/query/why-react-query) was created. Wi
 ```jsx
 const useBookmarks = (category) => {
   return useQuery({
-    queryKey: ['bookmarks', category],
+    queryKey: ["bookmarks", category],
     queryFn: async () => {
       const response = await fetch(`${endpoint}/${category}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch');
+        throw new Error("Failed to fetch");
       }
       return response.json();
     },
@@ -109,14 +112,12 @@ const Bookmarks = ({ category }) => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  
+
   return (
     <div>
       <h2>{category} Bookmarks</h2>
       <ul>
-        {data.map((bookmark) => (
-          <li key={bookmark.id}>{bookmark.title}</li>
-        ))}
+        {data.map((bookmark) => <li key={bookmark.id}>{bookmark.title}</li>)}
       </ul>
     </div>
   );
@@ -124,6 +125,7 @@ const Bookmarks = ({ category }) => {
 ```
 
 ## Intro to TanStack Query
+
 TanStack Query (formerly known as React Query) is often described as the missing data-fetching library for web applications. It makes fetching, caching, synchronizing and updating server state in your web applications a breeze.
 
 To manage client state in a React app, we have lots of options available, starting from the built-in hooks like `useState` and `useReducer`, all the way up to community maintained solutions like redux or zustand. But what are our options for managing server state in a React app? Historically, there weren't many. That is, until React Query came along.
@@ -133,7 +135,8 @@ A better way to describe React Query is as an async state manager that is also a
 > A common mistake people do is try to combine useEffect and useQuery. useQuery already handles the state for you. If you're using a useEffect to somehow manage what you get from useQuery, you're doing it wrong.
 
 ## TanStack Query details
-The library operates on well-chosen defaults. `staleTime` is the duration until a query transitions from fresh to stale. As long as the query is fresh, data will always be read from the cache only - no network request will happen. If the query is stale (which per default is: instantly), **you will still get data from the cache, but a background refetch can happen**. 
+
+The library operates on well-chosen defaults. `staleTime` is the duration until a query transitions from fresh to stale. As long as the query is fresh, data will always be read from the cache only - no network request will happen. If the query is stale (which per default is: instantly), **you will still get data from the cache, but a background refetch can happen**.
 
 As long as a query is being actively used, the cached data will be kept in memory. What about inactive queries? A query becomes inactive when there are no active observers (i.e. no components are using it anymore). `gcTime` is the duration until inactive queries will be removed from the cache. This defaults to 5 minutes, which means that 5 minutes after a query becomes inactive, its cached data will be removed.
 
@@ -159,6 +162,7 @@ function TodoList() {
 If you see a refetch that you are not expecting, it is likely because you went to a different browser tab, and then came back to your app. React Query is doing a `refetchOnWindowFocus`, and data on the screen will be updated if something has changed on the server in the meantime.
 
 For most queries, it's usually sufficient to check for the `isPending` state, then the `isError` state, then finally, assume that the data is available and render the successful state.
+
 - `isPending` or `status === 'pending'`: If there's no cached data and no query attempt was finished yet.
 - `isFetching` is true whenever the `queryFn` is executing, which includes initial pending as well as background refetches.
 - `isLoading` is true whenever the query is currently fetching for the first time. It's the same as `isFetching && isPending`.
@@ -176,11 +180,12 @@ export const useContactDetails = (contactId: string | undefined) =>
 
 > When `enabled` is false: If the query does not have cached data, then the query will start in the `status === 'pending'` and `fetchStatus === 'idle'` state. The query will not automatically fetch on mount.
 
-Query keys are reactive. When a key changes, React Query knows it needs fresh data. You don't manually trigger refetches, you just change the key, and React Query handles the rest. Your UI becomes a reflection of your query keys. *(I don't think I have ever passed a variable to the `queryFn` that was not part of the `queryKey`)*
+Query keys are reactive. When a key changes, React Query knows it needs fresh data. You don't manually trigger refetches, you just change the key, and React Query handles the rest. Your UI becomes a reflection of your query keys. _(I don't think I have ever passed a variable to the `queryFn` that was not part of the `queryKey`)_
 
 The QueryKey you pass to `useQuery` gets hashed deterministically into a QueryHash, and `useQuery` will only get notified about changes to that Query.
 
 > React Query will re-run the `select` function in two cases:
+>
 > 1. When data changes.
 > 2. When the select function itself changes.
 
@@ -210,12 +215,12 @@ function TodoList({ filter }) {
 Use `useSuspenseQuery` when you want to leverage React's Suspense for declarative data fetching, which automatically suspends the component while data is loading. When using suspense mode, `status` states and `error` objects are not needed and are then replaced by usage of the Suspense and ErrorBoundary. `data` is guaranteed to be defined.
 
 ```js
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 function SuspendedComponent() {
   const { data } = useSuspenseQuery({
-    queryKey: ['dataKey'],
-    queryFn: fetchData
+    queryKey: ["dataKey"],
+    queryFn: fetchData,
   });
 
   return <p>{data}</p>;
@@ -234,12 +239,12 @@ One of the best ways to share `queryKey` and `queryFn` between multiple places i
 
 ```ts
 const todosQuery = queryOptions({
-  queryKey: ['todos'],
+  queryKey: ["todos"],
   queryFn: async () => {
-    const response = await fetch('/api/todos');
+    const response = await fetch("/api/todos");
     return response.json();
   },
-  staleTime: 1000 * 60
+  staleTime: 1000 * 60,
 });
 
 // Then, use it in a component
@@ -259,7 +264,7 @@ const {
   isFetching,
   isFetchingNextPage,
 } = useInfiniteQuery({
-  queryKey: ['users'],
+  queryKey: ["users"],
   queryFn: getUsers,
   initialPageParam: 1,
   // fetch('/api/users?cursor=0')
@@ -267,14 +272,15 @@ const {
   // fetch('/api/users?cursor=3')
   // { data: [...], nextCursor: 6}
   getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
-})
+});
 ```
 
-> [Pinia Colada](https://pinia-colada.esm.dev) is the smart data fetching layer for Vue.js. You don't even need to learn Pinia to use Pinia Colada because it exposes its own composables. 
-> 
+> [Pinia Colada](https://pinia-colada.esm.dev) is the smart data fetching layer for Vue.js. You don't even need to learn Pinia to use Pinia Colada because it exposes its own composables.
+>
 > Pinia Colada shares similarities with TanStack Query and has adapted some of its APIs for easier migration. However, Pinia Colada is tailored specifically for Vue, resulting in a lighter library with better and official integrations like Data Loaders. If you're familiar with TanStack Query, you'll find Pinia Colada intuitive and easy to use. The size of Pinia Colada is much smaller.
 
 ## Mutations
+
 TanStack Query exports a `useMutation` hook.
 
 Usually when a mutation in your app succeeds, it's very likely that there are related queries in your application that need to be invalidated and possibly refetched to account for the new changes from your mutation. To do this, you can use `useMutation`'s `onSuccess` options and the client's `invalidateQueries` function.

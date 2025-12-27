@@ -1,13 +1,13 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import Post from '../components/Post.astro';
-import SmallRotation from '../components/SmallRotation.astro';
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Post from "../components/Post.astro";
+import SmallRotation from "../components/SmallRotation.astro";
 
-import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 import { getCollection } from "astro:content";
-import type { CollectionEntry } from 'astro:content';
+import type { CollectionEntry } from "astro:content";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../config";
 
 const posts = await getCollection("blog");
 
@@ -21,12 +21,12 @@ interface YearGroup {
 }
 
 const topPosts = posts
-	.filter(p => p.data.top)
-	.sort((a, b) => a.data.order - b.data.order)
+  .filter(p => p.data.top)
+  .sort((a, b) => a.data.order - b.data.order);
 
 const restPosts: PostsByYear = posts
   .filter(p => !p.data.top)
-	.reduce((acc, post) => {
+  .reduce((acc, post) => {
     const year = post.data.added.slice(-4);
     if (!acc[year]) {
       acc[year] = [];
@@ -35,101 +35,106 @@ const restPosts: PostsByYear = posts
     return acc;
   }, {});
 
-const groupedByYear: YearGroup[] = Object.entries(restPosts).map(([year, posts]) => ({
-		year,
-		posts: posts.sort(
-			(a, b) => 
-				new Date(b.data.added).valueOf() - new Date(a.data.added).valueOf()
-		),
-	}))
-	.sort((a, b) => Number(b.year) - Number(a.year));
+const groupedByYear: YearGroup[] = Object.entries(restPosts).map((
+  [year, posts],
+) => ({
+  year,
+  posts: posts.sort(
+    (a, b) =>
+      new Date(b.data.added).valueOf() - new Date(a.data.added).valueOf(),
+  ),
+}))
+  .sort((a, b) => Number(b.year) - Number(a.year));
 
-const allTags = Array.from(new Set(posts.flatMap(post => post.data.tags || [])));
+const allTags = Array.from(
+  new Set(posts.flatMap(post => post.data.tags || [])),
+);
 const allYears = groupedByYear.map(group => group.year);
 ---
 
 <!DOCTYPE html>
 <html lang="en-us">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			ul {
-				list-style-type: none;
-				padding: unset;
-			}
-			ul li {
-				display: flex;
-			}
-			hr {
-				border: 0;
-  			border-top: 1px dashed var(--gray);
-				margin: 2em 0;
-			}
-			.filter-list {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 1em;
-				margin-bottom: 1em;
-			}
-			.tag-name {
-				color: var(--purple);
-				text-decoration: none;
-				font-size: 0.9em;
-				&:hover {
-					color: var(--blue);
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<ul>
-				{topPosts.map(
-				(post: any) => (
-					<Post
-						id={post.id}
-						url={"/post/" + post.id}
-						date={post.data.added}
-						title={post.data.title}
-						tags={post.data.tags}
-						top={post.data.top}
-					/>
-				))}
-			</ul>
-			<hr />
-			<div>
-				<h4>Filters</h4>
-				<div class="filter-list">
-					{allTags.map(tag => (
-						<a class="tag-name" href={`/tag/${tag}`}>#{tag}</a>
-					))}
-				</div>
-				<div class="filter-list">
-					{allYears.map(year => (
-						<a class="tag-name" href={`/tag/${year}`}>{year}</a>
-					))}
-				</div>
-			</div>
-			<ul>
-				{groupedByYear.map((group) => (
-					<li>
-						<h3>{group.year}</h3>
-						{group.posts.map((post) => (
-							<Post
-								id={post.id}
-								url={"/post/" + post.id}
-								date={post.data.added}
-								title={post.data.title}
-								tags={post.data.tags}
-								top={post.data.top}
-							/>
-						))}
-					</li>
-				))}
-			</ul>
-		</main>
-		<Footer />
-		<SmallRotation />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+    ul {
+      list-style-type: none;
+      padding: unset;
+    }
+    ul li {
+      display: flex;
+    }
+    hr {
+      border: 0;
+      border-top: 1px dashed var(--gray);
+      margin: 2em 0;
+    }
+    .filter-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em;
+      margin-bottom: 1em;
+    }
+    .tag-name {
+      color: var(--purple);
+      text-decoration: none;
+      font-size: 0.9em;
+      &:hover {
+        color: var(--blue);
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <ul>
+        {topPosts.map(
+          (post: any) => (
+            <Post
+              id={post.id}
+              url={"/post/" + post.id}
+              date={post.data.added}
+              title={post.data.title}
+              tags={post.data.tags}
+              top={post.data.top}
+            />
+          ),
+        )}
+      </ul>
+      <hr />
+      <div>
+        <h4>Filters</h4>
+        <div class="filter-list">
+          {allTags.map(tag => (
+            <a class="tag-name" href={`/tag/${tag}`}>#{tag}</a>
+          ))}
+        </div>
+        <div class="filter-list">
+          {allYears.map(year => (
+            <a class="tag-name" href={`/tag/${year}`}>{year}</a>
+          ))}
+        </div>
+      </div>
+      <ul>
+        {groupedByYear.map((group) => (
+          <li>
+            <h3>{group.year}</h3>
+            {group.posts.map((post) => (
+              <Post
+                id={post.id}
+                url={"/post/" + post.id}
+                date={post.data.added}
+                title={post.data.title}
+                tags={post.data.tags}
+                top={post.data.top}
+              />
+            ))}
+          </li>
+        ))}
+      </ul>
+    </main>
+    <Footer />
+    <SmallRotation />
+  </body>
 </html>

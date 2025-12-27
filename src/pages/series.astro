@@ -1,71 +1,96 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../config";
 
 type projectType = {
-	title: string;
-	href: string;
+  title: string;
+  href: string;
 };
 
 const projects: projectType[] = [
-	{ title: 'Super Simple Vue Compiler', href: 'https://github.com/kexiZeroing/super-simple-vue-compiler' },
-	{ title: 'Super Simple Vite Dev Server', href: 'https://github.com/kexiZeroing/super-simple-vite-dev-server' },
-	{ title: 'Super Simple React SSR', href: 'https://github.com/kexiZeroing/super-simple-react-ssr' },
-	{ title: 'Super Simple RSC', href: 'https://github.com/kexiZeroing/super-simple-rsc' },
-	{ title: 'Super Simple State Management', href: 'https://github.com/kexiZeroing/super-simple-state-management' },
-	{ title: 'Super Simple Bundler', href: 'https://github.com/kexiZeroing/super-simple-bundler' },
-	{ title: 'Super Simple HMR', href: 'https://github.com/kexiZeroing/super-simple-hmr' },
-	{ title: 'Super Simple HTTP Router', href: 'https://github.com/kexiZeroing/super-simple-http-router' },
-	{ title: 'Super Simple Generative UI', href: 'https://github.com/kexiZeroing/super-simple-generative-ui' }
+  {
+    title: "Super Simple Vue Compiler",
+    href: "https://github.com/kexiZeroing/super-simple-vue-compiler",
+  },
+  {
+    title: "Super Simple Vite Dev Server",
+    href: "https://github.com/kexiZeroing/super-simple-vite-dev-server",
+  },
+  {
+    title: "Super Simple React SSR",
+    href: "https://github.com/kexiZeroing/super-simple-react-ssr",
+  },
+  {
+    title: "Super Simple RSC",
+    href: "https://github.com/kexiZeroing/super-simple-rsc",
+  },
+  {
+    title: "Super Simple State Management",
+    href: "https://github.com/kexiZeroing/super-simple-state-management",
+  },
+  {
+    title: "Super Simple Bundler",
+    href: "https://github.com/kexiZeroing/super-simple-bundler",
+  },
+  {
+    title: "Super Simple HMR",
+    href: "https://github.com/kexiZeroing/super-simple-hmr",
+  },
+  {
+    title: "Super Simple HTTP Router",
+    href: "https://github.com/kexiZeroing/super-simple-http-router",
+  },
+  {
+    title: "Super Simple Generative UI",
+    href: "https://github.com/kexiZeroing/super-simple-generative-ui",
+  },
 ];
 ---
 
 <!DOCTYPE html>
 <html lang="en-us">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			.h3-title {
-				margin-bottom: 2rem;
-				padding-left: 2rem;
-			}
-			ul {
-				list-style-type: none;
-				padding: unset;
-			}
-			ul li {
-				display: flex;
-				padding-left: 1rem;
-			}
-			.post-item {
-				margin: 1.2em 0;
-			}
-			.link {
-				margin-left: 1rem;
-				color: var(--heading-color);
-				text-decoration: underline;
-			}
-			.link:hover {
-				font-weight: bold;
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h3 class="h3-title">Super Simple Series: Show me the code</h3>
-			<ul>
-				{
-					projects.map(({ href, title }) => (
-						<li class="post-item">
-							<a href={href} target="_blank" class="link">{title}</a>
-						</li>
-					))
-				}
-			</ul>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+    .h3-title {
+      margin-bottom: 2rem;
+      padding-left: 2rem;
+    }
+    ul {
+      list-style-type: none;
+      padding: unset;
+    }
+    ul li {
+      display: flex;
+      padding-left: 1rem;
+    }
+    .post-item {
+      margin: 1.2em 0;
+    }
+    .link {
+      margin-left: 1rem;
+      color: var(--heading-color);
+      text-decoration: underline;
+    }
+    .link:hover {
+      font-weight: bold;
+    }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h3 class="h3-title">Super Simple Series: Show me the code</h3>
+      <ul>
+        {projects.map(({ href, title }) => (
+          <li class="post-item">
+            <a href={href} target="_blank" class="link">{title}</a>
+          </li>
+        ))}
+      </ul>
+    </main>
+    <Footer />
+  </body>
 </html>

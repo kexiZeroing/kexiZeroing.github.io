@@ -41,9 +41,9 @@ Since all our state is in React, the search text and table data don't survive pa
 
 ```jsx
 export default function Home() {
-  let searchParams = useSearchParams(); 
-  let [search, setSearch] = useState(searchParams.get('search') ?? ''); 
-  
+  let searchParams = useSearchParams();
+  let [search, setSearch] = useState(searchParams.get("search") ?? "");
+
   let { data, isPlaceholderData } = useQuery({
     // ...
   });
@@ -64,7 +64,8 @@ export default function Home() {
 Seems to be working. But we forgot one more thing. The Back and Forward buttons are changing the URL, but they're not updating our React state. The table isn't updating.
 
 It's important to note that the `useState` hook only sets the initial state. When the component reruns due to URL changes, the `useState` call doesn't update the existing state.
-- The component will rerun. *(The `useSearchParams` hook is sensitive to URL changes)*
+
+- The component will rerun. _(The `useSearchParams` hook is sensitive to URL changes)_
 - The URL will change.
 - The searchParams will reflect the new URL.
 - But the `search` state will not automatically update to reflect the new URL, because `useState` doesn't re-initialize on rerenders.
@@ -73,11 +74,12 @@ To fix this, you could add another effect that updates the `search` state when t
 
 ```jsx
 useEffect(() => {
-  setSearch(searchParams.get('search') ?? '');
+  setSearch(searchParams.get("search") ?? "");
 }, [searchParams]);
 ```
 
 We're heading down a bad road. And the fundamental reason why is that we now have two sources of truth for the search text:
+
 1. The `search` state from React
 2. The `?search` query param from the URL
 
@@ -120,6 +122,7 @@ export default function Home() {
 This version of the code works well. No effects, no juggling multiple states to keep them in sync, and no bugs.
 
 Learning how to spot duplicated sources of truth is a big step in leveling up as a React developer. The next time you find yourself fighting a bug that has some confusing `useEffect` code behind it, instead of trying to fix the edge case by adding one more branch of logic or introducing another effect, try this:
+
 - Pause, and take a step back from the details of the effect code
 - See if the effect is setting some state
 - Check to see whether that state is already represented in some other component or external system, and
@@ -201,6 +204,7 @@ function Example() {
 ```
 
 By default, `nuqs` will update search params:
+
 1. On the client only (not sending requests to the server),
 2. by replacing the current history entry,
 3. and without scrolling to the top of the page.
@@ -208,16 +212,16 @@ By default, `nuqs` will update search params:
 Search params are strings by default, but you might want to use numbers, booleans, Dates, objects, arrays, or even custom types. This is where parsers come in.
 
 ```js
-useQueryState('int', parseAsInteger.withDefault(0))
+useQueryState("int", parseAsInteger.withDefault(0));
 
-useQueryState('bool', parseAsBoolean.withDefault(false))
+useQueryState("bool", parseAsBoolean.withDefault(false));
 
-const [pageIndex] = useQueryState('page', parseAsIndex.withDefault(0))
+const [pageIndex] = useQueryState("page", parseAsIndex.withDefault(0));
 
 const [state, setState] = useQueryState(
-  'foo',
-  parseAsString.withOptions({ history: 'push' })
-)
+  "foo",
+  parseAsString.withOptions({ history: "push" }),
+);
 
-setState('foo', { scroll: true })
+setState("foo", { scroll: true });
 ```

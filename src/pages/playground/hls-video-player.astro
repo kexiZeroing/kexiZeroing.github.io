@@ -9,7 +9,8 @@ import PlaygroundLayout from "@/layouts/PlaygroundLayout.astro";
       <video
         id="video"
         controls
-        poster="https://bitdash-a.akamaihd.net/content/sintel/poster.png">
+        poster="https://bitdash-a.akamaihd.net/content/sintel/poster.png"
+      >
       </video>
       <div class="quality-control">
         Quality
@@ -23,139 +24,143 @@ import PlaygroundLayout from "@/layouts/PlaygroundLayout.astro";
   <div class="note">
     Plyr + HLS.js demo:
     <a href="https://codepen.io/karnith/pen/MWoyaGR" target="_blank">
-			https://codepen.io/karnith/pen/MWoyaGR
-		</a>
+      https://codepen.io/karnith/pen/MWoyaGR
+    </a>
   </div>
 </PlaygroundLayout>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.10/hls.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.10/hls.min.js">
+</script>
 
 <script>
-  declare class Hls {
-    static isSupported(): boolean;
-    static Events: {
-      MANIFEST_PARSED: string;
-      ERROR: string;
-    };
-		static ErrorTypes: {
-			NETWORK_ERROR: string;
-			MEDIA_ERROR: string;
-		}
+declare class Hls {
+  static isSupported(): boolean;
+  static Events: {
+    MANIFEST_PARSED: string;
+    ERROR: string;
+  };
+  static ErrorTypes: {
+    NETWORK_ERROR: string;
+    MEDIA_ERROR: string;
+  };
 
-    constructor(config?: any);
-    loadSource(url: string): void;
-    attachMedia(video: HTMLVideoElement): void;
-		startLoad(): void;
-		recoverMediaError(): void;
-		destroy(): void;
-    on(event: string, callback: (event: string, data: any) => void): void;
-    currentLevel: number;
+  constructor(config?: any);
+  loadSource(url: string): void;
+  attachMedia(video: HTMLVideoElement): void;
+  startLoad(): void;
+  recoverMediaError(): void;
+  destroy(): void;
+  on(event: string, callback: (event: string, data: any) => void): void;
+  currentLevel: number;
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const video = document.getElementById("video") as HTMLVideoElement;
+  const qualitySelect = document.getElementById("qualitySelect");
+  let hls: Hls = null;
+
+  function initializeHLS(videoSrc: string) {
+    if (Hls.isSupported()) {
+      hls = new Hls();
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+
+      hls.on(Hls.Events.MANIFEST_PARSED, function(event, data) {
+        const qualities = data.levels.map((level, index) => ({
+          index: index,
+          height: level.height,
+          bitrate: level.bitrate,
+        }));
+
+        qualities.forEach((quality) => {
+          const option = document.createElement("option");
+          option.value = quality.index;
+          option.text = `${quality.height}p (${
+            Math.round(
+              quality.bitrate / 1000,
+            )
+          } kbps)`;
+          qualitySelect.appendChild(option);
+        });
+
+        // Set initial quality to auto
+        hls.currentLevel = -1;
+      });
+
+      qualitySelect.addEventListener("change", function(e: any) {
+        const quality = e.target.value;
+
+        // Quality switch Control API
+        // https://github.com/video-dev/hls.js/blob/master/docs/API.md#quality-switch-control-api
+        if (quality === "") {
+          hls.currentLevel = -1;
+        } else {
+          hls.currentLevel = parseInt(quality);
+        }
+      });
+
+      hls.on(Hls.Events.ERROR, function(event, data) {
+        console.error("HLS error:", data);
+        if (data.fatal) {
+          switch (data.type) {
+            case Hls.ErrorTypes.NETWORK_ERROR:
+              console.log("Network error, trying to recover...");
+              hls.startLoad();
+              break;
+            case Hls.ErrorTypes.MEDIA_ERROR:
+              console.log("Media error, trying to recover...");
+              hls.recoverMediaError();
+              break;
+            default:
+              console.error("Unrecoverable error");
+              hls.destroy();
+              break;
+          }
+        }
+      });
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      // For Safari - native HLS support
+      video.src = videoSrc;
+      // Quality switching won't be available in Safari
+      qualitySelect.style.display = "none";
+    }
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const video = document.getElementById("video") as HTMLVideoElement;
-    const qualitySelect = document.getElementById("qualitySelect");
-    let hls: Hls = null;
-
-    function initializeHLS(videoSrc: string) {
-      if (Hls.isSupported()) {
-        hls = new Hls();
-        hls.loadSource(videoSrc);
-        hls.attachMedia(video);
-
-        hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-          const qualities = data.levels.map((level, index) => ({
-            index: index,
-            height: level.height,
-            bitrate: level.bitrate,
-          }));
-
-          qualities.forEach((quality) => {
-            const option = document.createElement("option");
-            option.value = quality.index;
-            option.text = `${quality.height}p (${Math.round(
-              quality.bitrate / 1000
-            )} kbps)`;
-            qualitySelect.appendChild(option);
-          });
-
-          // Set initial quality to auto
-          hls.currentLevel = -1;
-        });
-
-        qualitySelect.addEventListener("change", function (e: any) {
-          const quality = e.target.value;
-          
-          // Quality switch Control API
-          // https://github.com/video-dev/hls.js/blob/master/docs/API.md#quality-switch-control-api
-          if (quality === "") {
-            hls.currentLevel = -1;
-          } else {
-            hls.currentLevel = parseInt(quality);
-          }
-        });
-
-        hls.on(Hls.Events.ERROR, function (event, data) {
-          console.error("HLS error:", data);
-          if (data.fatal) {
-            switch (data.type) {
-              case Hls.ErrorTypes.NETWORK_ERROR:
-                console.log("Network error, trying to recover...");
-                hls.startLoad();
-                break;
-              case Hls.ErrorTypes.MEDIA_ERROR:
-                console.log("Media error, trying to recover...");
-                hls.recoverMediaError();
-                break;
-              default:
-                console.error("Unrecoverable error");
-                hls.destroy();
-                break;
-            }
-          }
-        });
-      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        // For Safari - native HLS support
-        video.src = videoSrc;
-        // Quality switching won't be available in Safari
-        qualitySelect.style.display = "none";
-      }
-    }
-
-    // Free m3u8 streams
-    // https://gist.github.com/Fazzani/8f89546e188f8086a46073dc5d4e2928
-    const source = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8";
-    initializeHLS(source);
-  });
+  // Free m3u8 streams
+  // https://gist.github.com/Fazzani/8f89546e188f8086a46073dc5d4e2928
+  const source =
+    "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8";
+  initializeHLS(source);
+});
 </script>
 
 <style>
-  .video-container {
-    max-width: 800px;
-    margin: 12px auto;
-  }
-  .video-wrapper {
-    width: 100%;
-  }
-  video {
-    width: 100%;
-    background: #000;
-  }
-  .quality-control {
-    padding: 5px;
-    border-radius: 4px;
-  }
-  select {
-    width: 150px;
-    border: 1px solid black;
-    padding: 2px;
-    cursor: pointer;
-  }
-  .note {
-    margin: 2rem 0;
-    text-align: center;
-  }
-  .note a {
-    text-decoration: underline;
-  }
+.video-container {
+  max-width: 800px;
+  margin: 12px auto;
+}
+.video-wrapper {
+  width: 100%;
+}
+video {
+  width: 100%;
+  background: #000;
+}
+.quality-control {
+  padding: 5px;
+  border-radius: 4px;
+}
+select {
+  width: 150px;
+  border: 1px solid black;
+  padding: 2px;
+  cursor: pointer;
+}
+.note {
+  margin: 2rem 0;
+  text-align: center;
+}
+.note a {
+  text-decoration: underline;
+}
 </style>

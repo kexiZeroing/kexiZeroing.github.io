@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="google" content="notranslate">
-  <title>Kexi Dang</title>
+  <head>
+    <meta charset="utf-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    >
+    <meta name="google" content="notranslate">
+    <title>Kexi Dang</title>
 
-  <style>
+    <style>
     body {
       background-color: #ccc;
       margin: 0;
@@ -18,7 +21,7 @@
       overflow: auto;
       position: absolute;
       width: 100%;
-      height: calc(100% - 98px);  /* 68+22+8 */
+      height: calc(100% - 98px); /* 68+22+8 */
       margin-top: 8px;
     }
     .loading {
@@ -64,7 +67,7 @@
       position: absolute;
       background-color: white;
       border: 1px solid #ccc;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
       border-radius: 4px;
       padding: 5px 0;
       display: none;
@@ -78,41 +81,47 @@
     #contextMenu .menu-item:hover {
       background-color: #f2f2f2;
     }
-  </style>
+    </style>
 
-  <link rel="stylesheet" href="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/web/pdf_viewer.css">
-  <script src="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/build/pdf.js"></script>
-  <script src="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/web/pdf_viewer.js"></script>
-</head>
+    <link
+      rel="stylesheet"
+      href="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/web/pdf_viewer.css"
+    >
+    <script src="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/build/pdf.js">
+    </script>
+    <script src="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/web/pdf_viewer.js">
+    </script>
+  </head>
 
-<body>
-  <div class="selectContainer">
-    <a href="/"><button class="css-button-gradient">Home</button></a>
-    <button class="css-button-gradient" id="zh-pdf-btn">Chinese</button>
-    <button class="css-button-gradient" id="en-pdf-btn">English</button>
-  </div>
-  <div class="loading hide">PDF 文件加载中...</div>
+  <body>
+    <div class="selectContainer">
+      <a href="/"><button class="css-button-gradient">Home</button></a>
+      <button class="css-button-gradient" id="zh-pdf-btn">Chinese</button>
+      <button class="css-button-gradient" id="en-pdf-btn">English</button>
+    </div>
+    <div class="loading hide">PDF 文件加载中...</div>
 
-  <div id="viewerContainer">
-    <div id="viewer" class="pdfViewer"></div>
-  </div>
+    <div id="viewerContainer">
+      <div id="viewer" class="pdfViewer"></div>
+    </div>
 
-  <div id="contextMenu">
-    <div class="menu-item" id="downloadPdf">Download PDF</div>
-  </div>
+    <div id="contextMenu">
+      <div class="menu-item" id="downloadPdf">Download PDF</div>
+    </div>
 
-  <script>
+    <script>
     // The workerSrc property shall be specified.
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       "https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/build/pdf.worker.js";
 
     // Some PDFs need external cmaps.
-    const CMAP_URL = "https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/cmaps/";
+    const CMAP_URL =
+      "https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/cmaps/";
     const CMAP_PACKED = true;
 
     const DEFAULT_URL = "/pdf/zh.pdf";
-    let CUR_URL = '';
-    
+    let CUR_URL = "";
+
     const ENABLE_XFA = true;
 
     const container = document.getElementById("viewerContainer");
@@ -129,7 +138,7 @@
     renderPDF(CUR_URL);
 
     function renderPDF(url = DEFAULT_URL) {
-      document.querySelector('.loading').classList.remove('hide');
+      document.querySelector(".loading").classList.remove("hide");
 
       // Loading document.
       const loadingTask = pdfjsLib.getDocument({
@@ -139,54 +148,59 @@
         enableXfa: ENABLE_XFA,
       });
 
-      (async function () {
+      (async function() {
         const pdfDocument = await loadingTask.promise;
         pdfViewer.setDocument(pdfDocument);
 
-        document.querySelector('.loading').classList.add('hide');
+        document.querySelector(".loading").classList.add("hide");
       })();
     }
 
     function swithPDF(url) {
-      const isReady = document.querySelector('.loading').classList.contains('hide');
+      const isReady = document.querySelector(".loading").classList.contains(
+        "hide",
+      );
       if (CUR_URL !== url && isReady) {
         CUR_URL = url;
         renderPDF(CUR_URL);
       }
     }
 
-    document.querySelector('#zh-pdf-btn').addEventListener('click', () => {
-      swithPDF('/pdf/zh.pdf');
+    document.querySelector("#zh-pdf-btn").addEventListener("click", () => {
+      swithPDF("/pdf/zh.pdf");
     });
-    document.querySelector('#en-pdf-btn').addEventListener('click', () => {
-      swithPDF('/pdf/en.pdf');
+    document.querySelector("#en-pdf-btn").addEventListener("click", () => {
+      swithPDF("/pdf/en.pdf");
     });
 
     // Context menu implementation
-    container.addEventListener('contextmenu', function(e) {
+    container.addEventListener("contextmenu", function(e) {
       e.preventDefault();
-      
-      contextMenu.style.left = e.pageX + 'px';
-      contextMenu.style.top = e.pageY + 'px';
-      contextMenu.style.display = 'block';
+
+      contextMenu.style.left = e.pageX + "px";
+      contextMenu.style.top = e.pageY + "px";
+      contextMenu.style.display = "block";
     });
 
-    document.addEventListener('click', function() {
-      contextMenu.style.display = 'none';
+    document.addEventListener("click", function() {
+      contextMenu.style.display = "none";
     });
 
-    document.getElementById('downloadPdf').addEventListener('click', function() {
-      downloadCurrentPdf();
-    });
+    document.getElementById("downloadPdf").addEventListener(
+      "click",
+      function() {
+        downloadCurrentPdf();
+      },
+    );
 
     function downloadCurrentPdf() {
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = CUR_URL;
-      a.download = CUR_URL.split('/').pop();
+      a.download = CUR_URL.split("/").pop();
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
     }
-  </script>
-</body>
+    </script>
+  </body>
 </html>

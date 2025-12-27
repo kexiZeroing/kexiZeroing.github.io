@@ -1,28 +1,28 @@
 ---
-import HeaderLink from "./HeaderLink.astro";
-import ThemeToggle from './ThemeToggle.astro';
-import MobileMockup from "./MobileMockup/MobileMockup";
 import { Image } from "astro:assets";
 import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
+import HeaderLink from "./HeaderLink.astro";
+import MobileMockup from "./MobileMockup/MobileMockup";
+import ThemeToggle from "./ThemeToggle.astro";
 ---
 
 <header>
-	<div class="header-section">
-		<div>
-			<h1>
-				<!-- https://github.com/<github_username>.png -->
-				<Image
-					class="avatar-img"
-					src="/placeholder-social.jpg" 
-					alt="avatar"
-					width={40}
-					height={40}
-				/>
-				{SITE_TITLE}
-			</h1>
-			<h2 class="header-subtitle">blog/notes/digital garden</h2>
-		</div>
-		<!-- <div>
+  <div class="header-section">
+    <div>
+      <h1>
+        <!-- https://github.com/<github_username>.png -->
+        <Image
+          class="avatar-img"
+          src="/placeholder-social.jpg"
+          alt="avatar"
+          width={40}
+          height={40}
+        />
+        {SITE_TITLE}
+      </h1>
+      <h2 class="header-subtitle">blog/notes/digital garden</h2>
+    </div>
+    <!-- <div>
 			<Image
 				src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h72jul7ihpj3076076aac.jpg"
 				alt="一切都在成长中"
@@ -30,154 +30,163 @@ import { SITE_TITLE, SITE_TITLE_MOBILE } from "../config";
 				height={129}
 			/>
 		</div> -->
-	</div>
-	<div class="short-header-section">
-		<h1>{SITE_TITLE_MOBILE}</h1>
-	</div>
-	<nav>
-		<HeaderLink class="header-link" href="/">Home</HeaderLink>
-		<HeaderLink class="header-link" href="/posts">Posts</HeaderLink>
-		<HeaderLink class="header-link" href="/series">Series</HeaderLink>
-		<!-- <HeaderLink class="header-link" href="/pictures">Pictures</HeaderLink> -->
-		<HeaderLink class="header-link" href="/playground" target="_blank">Playground</HeaderLink>
-		<HeaderLink class="header-link" href="/resume" target="_blank" id="readResume">Resume</HeaderLink>
+  </div>
+  <div class="short-header-section">
+    <h1>{SITE_TITLE_MOBILE}</h1>
+  </div>
+  <nav>
+    <HeaderLink class="header-link" href="/">Home</HeaderLink>
+    <HeaderLink class="header-link" href="/posts">Posts</HeaderLink>
+    <HeaderLink class="header-link" href="/series">Series</HeaderLink>
+    <!-- <HeaderLink class="header-link" href="/pictures">Pictures</HeaderLink> -->
+    <HeaderLink class="header-link" href="/playground" target="_blank"
+    >Playground</HeaderLink>
+    <HeaderLink
+      class="header-link"
+      href="/resume"
+      target="_blank"
+      id="readResume"
+    >Resume</HeaderLink>
 
-		<ThemeToggle />
+    <ThemeToggle />
 
-		{	import.meta.env.PROD &&
-			// Search only available in production
-			<link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
-			<script src="/pagefind/pagefind-ui.js" type="text/javascript"></script>
-			<div id="search" class="search-box"></div>
-			<script>
-				window.addEventListener('DOMContentLoaded', () => {
-					// https://github.com/FriendlyUser/astro-tech-blog/issues/70
-					// @ts-ignore
-					new PagefindUI({
-						element: '#search',
-						// https://pagefind.app/docs/ui/#pagefindui-options
-						showImages: false,
-					});
-				});
-			</script>
-		}
-	</nav>
+    {import.meta.env.PROD
+      // Search only available in production
+      && (
+        <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+        <script src="/pagefind/pagefind-ui.js" type="text/javascript"></script>
+        <div id="search" class="search-box"></div>
+        <script>
+        window.addEventListener("DOMContentLoaded", () => {
+      // https://github.com/FriendlyUser/astro-tech-blog/issues/70
+      // @ts-ignore
+      new PagefindUI({
+        element: "#search",
+        // https://pagefind.app/docs/ui/#pagefindui-options
+        showImages: false,
+      });
+    });
+        </script>
+      )
+    }
+  </nav>
 
-	<div class="mobile-mockup" id="mobileMockup">
-		<MobileMockup client:visible />
-	</div>
+  <div class="mobile-mockup" id="mobileMockup">
+    <MobileMockup client:visible />
+  </div>
 </header>
 
 <style>
-	header {
-		margin-bottom: 1.5em;
-	}
-	.header-section {
-		display: flex;
-		align-items: center;
-		justify-content: space-around;
-		flex-wrap: wrap;
-	}
-	.header-section h1 {
-		display: flex;
-		align-items: center;
-		gap: 18px;
-	}
-	.avatar-img {
-		border-radius: 50%;
-		border: 1px solid #dde0e4;
-		cursor: pointer;
-		transition-duration: .2s;
-	}
-	.avatar-img:hover {
-		border-color: #f09433;
-	}
-	.header-section .header-subtitle {
-		margin: 0.5em 0;
-		color: var(--gray);
-	}
-	.short-header-section {
-		padding-left: 16px;
-		margin-bottom: -1.5em;
-		font-size: 0.7em;
-		font-style: italic;
-		display: none;
-	}
-	nav {
-		margin: 1.5em 0 1em;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-wrap: wrap;
-	}
-	a.header-link {
-		margin: 10px 14px;
-		line-height: 1.1;
-		cursor: pointer;
-	}
-	.search-box {
-		width: 220px;
-		margin-left: 32px;
-	}
-	/* when it has "clear" button */
-	.search-box:has(.pagefind-ui__search-clear):not(:has(.pagefind-ui__search-clear.pagefind-ui__suppressed)) {
-		width: auto;
-	}
-	.mobile-mockup {
-		position: fixed;
-		display: none;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
-	.mobile-mockup.show {
-		display: block;
-		z-index: 9;
-	}
-	
-	@media only screen and (max-width:600px)  {
-		.header-section {
-			display: none;
-		}
-		.short-header-section {
-			display: block;
-		}
-		nav {
-			justify-content: flex-start;
-		}
-		.search-box {
-			margin-left: 12px;
-		}
-	}
+header {
+  margin-bottom: 1.5em;
+}
+.header-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.header-section h1 {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.avatar-img {
+  border-radius: 50%;
+  border: 1px solid #dde0e4;
+  cursor: pointer;
+  transition-duration: 0.2s;
+}
+.avatar-img:hover {
+  border-color: #f09433;
+}
+.header-section .header-subtitle {
+  margin: 0.5em 0;
+  color: var(--gray);
+}
+.short-header-section {
+  padding-left: 16px;
+  margin-bottom: -1.5em;
+  font-size: 0.7em;
+  font-style: italic;
+  display: none;
+}
+nav {
+  margin: 1.5em 0 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+a.header-link {
+  margin: 10px 14px;
+  line-height: 1.1;
+  cursor: pointer;
+}
+.search-box {
+  width: 220px;
+  margin-left: 32px;
+}
+/* when it has "clear" button */
+.search-box:has(.pagefind-ui__search-clear):not(:has(.pagefind-ui__search-clear.pagefind-ui__suppressed)) {
+  width: auto;
+}
+.mobile-mockup {
+  position: fixed;
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.mobile-mockup.show {
+  display: block;
+  z-index: 9;
+}
+
+@media only screen and (max-width: 600px) {
+  .header-section {
+    display: none;
+  }
+  .short-header-section {
+    display: block;
+  }
+  nav {
+    justify-content: flex-start;
+  }
+  .search-box {
+    margin-left: 12px;
+  }
+}
 </style>
 
 <script is:inline>
-	document.querySelector('#readResume').addEventListener('click', (ev) => {
-		ev.preventDefault()
-		
-		// pdfjs not work in these platforms
-		const isMobile = /Mobile/.test(navigator.userAgent)
-		const isSafari = /Safari/.test(navigator.userAgent) && /Version/.test(navigator.userAgent)
-		if (isMobile || isSafari) {
-			window.open('https://registry.jsonresume.org/kexiZeroing', '_blank')
-		} else {
-			window.open('/resume', '_blank')
-		}
-	})
+document.querySelector("#readResume").addEventListener("click", (ev) => {
+  ev.preventDefault();
 
-	const mobileMockupEl = document.querySelector('#mobileMockup')
-	const handleOpenMobileMockup = () => mobileMockupEl?.classList.add('show')
-	const handleCloseMobileMockup = () => mobileMockupEl?.classList.remove('show')
+  // pdfjs not work in these platforms
+  const isMobile = /Mobile/.test(navigator.userAgent);
+  const isSafari = /Safari/.test(navigator.userAgent)
+    && /Version/.test(navigator.userAgent);
+  if (isMobile || isSafari) {
+    window.open("https://registry.jsonresume.org/kexiZeroing", "_blank");
+  } else {
+    window.open("/resume", "_blank");
+  }
+});
 
-	document.querySelector('.avatar-img').addEventListener('click', (ev) => {
-		ev.stopPropagation()
-		handleOpenMobileMockup()
-	})
+const mobileMockupEl = document.querySelector("#mobileMockup");
+const handleOpenMobileMockup = () => mobileMockupEl?.classList.add("show");
+const handleCloseMobileMockup = () => mobileMockupEl?.classList.remove("show");
 
-	const onClickOutside = (element, callback) => {
-		document.addEventListener('click', e => {
-			if (!element.contains(e.target)) callback()
-		})
-	}
-	onClickOutside(mobileMockupEl, handleCloseMobileMockup)
+document.querySelector(".avatar-img").addEventListener("click", (ev) => {
+  ev.stopPropagation();
+  handleOpenMobileMockup();
+});
+
+const onClickOutside = (element, callback) => {
+  document.addEventListener("click", e => {
+    if (!element.contains(e.target)) callback();
+  });
+};
+onClickOutside(mobileMockupEl, handleCloseMobileMockup);
 </script>

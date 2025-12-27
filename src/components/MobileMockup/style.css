@@ -47,7 +47,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: radial-gradient(circle 500px at 50% 200px,#c9ebff,transparent);
+  background-image: radial-gradient(
+    circle 500px at 50% 200px,
+    #c9ebff,
+    transparent
+  );
   border-radius: 28px; /* 42 - 14 */
   text-align: center;
 }
@@ -110,7 +114,7 @@
   line-height: 2rem;
 }
 .text-sm {
-  font-size: .875rem;
+  font-size: 0.875rem;
   line-height: 1.25rem;
 }
 .font-bold {
@@ -125,7 +129,7 @@
   color: rgb(71 85 105/var(--tw-text-opacity));
 }
 .mt-2 {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 .mt-4 {
   margin-top: 1rem;

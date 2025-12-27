@@ -7,13 +7,14 @@ updatedDate: "Dec 26 2025"
 ---
 
 ## let and const
+
 `let` allows you to declare variables that are limited to a scope of a block statement, unlike the `var` keyword, which defines a variable globally, or locally to an entire function regardless of block scope. The `let` **does not create properties of the window object** when declared globally.
 
 `const` is quite similar to let, it's block-scoped and has TDZ. Variable declared using const can't be re-assigned. You must specify a value when declaring a variable using const.
 
 ```js
 const arr = [1, 2, 3, 4, 5];
-for (let i = 0; i < arr.length; i++) {};
+for (let i = 0; i < arr.length; i++) {}
 console.log(i); // ReferenceError: i is not defined
 
 // var
@@ -22,7 +23,7 @@ function varTest() {
   if (true) {
     var x = 2;
   }
-  console.log(x);  // 2
+  console.log(x); // 2
 }
 
 // let
@@ -31,17 +32,17 @@ function letTest() {
   if (true) {
     let x = 2;
   }
-  console.log(x);  // 1
+  console.log(x); // 1
 }
 
 // globally scoped
-let me = 'go';  
-var i = 'able';
+let me = "go";
+var i = "able";
 
 console.log(window.me); // undefined
 console.log(window.i); // 'able'
 
-// Loop with closures  
+// Loop with closures
 // 3, 3, 3
 for (var i = 0; i < 3; i++) {
   setTimeout(() => console.log(i), 0);
@@ -52,29 +53,31 @@ for (let j = 0; j < 3; j++) {
 }
 ```
 
-### Temporal Dead Zone  
+### Temporal Dead Zone
+
 The period between entering scope and being declared where they cannot be accessed. Because of the TDZ, variables declared using `let` can't be accessed before they are declared. Attempting to do so throws an error.
 
 ```js
-console.log(alet) // ReferenceError: alet is not defined
-let alet
-console.log(alet) // undefined
-alet = 10
-console.log(alet) // 10
+console.log(alet); // ReferenceError: alet is not defined
+let alet;
+console.log(alet); // undefined
+alet = 10;
+console.log(alet); // 10
 
 // but let is still hoisted
-let x = 'outer value';
+let x = "outer value";
 (function() {
-  console.log(x);  // ReferenceError: Cannot access 'x' before initialization
-  let x = 'inner value';
-}());
+  console.log(x); // ReferenceError: Cannot access 'x' before initialization
+  let x = "inner value";
+})();
 ```
 
 ## Arrow functions
+
 1. If the function body contains just a single statement, you can omit the brackets and write all in a single line. Values are returned without having to use the `return` keyword when there is a one-line statement in the function body **(when returning an object, remember to wrap the curly brackets in parentheses to avoid it being considered the wrapping function body brackets)**. If you have only one parameter, you could omit the parentheses completely.
 2. An arrow function does not have its own `this`. The `this` value of the enclosing lexical scope is used; arrow functions follow the normal variable lookup rules. Due to this, arrow functions are not suited as object methods.
 3. Since arrow functions do not bind `this`, the methods `call()` or `apply()` can only pass in parameters. `thisArg` is ignored.
-4. Arrow functions don't have `arguments`. This array-like object was a workaround to begin with, which now has solved with a rest parameter. 
+4. Arrow functions don't have `arguments`. This array-like object was a workaround to begin with, which now has solved with a rest parameter.
 5. Arrow functions cannot be used as constructors and will throw an error when used with keyword `new`.
 6. Arrow functions cannot use `yield` within their body and cannot be created as generator functions.
 
@@ -84,25 +87,26 @@ const shape = {
   diameter() {
     return this.radius * 2;
   },
-  perimeter: () => 2 * Math.PI * this.radius
+  perimeter: () => 2 * Math.PI * this.radius,
 };
 
-shape.diameter();  // 20
-shape.perimeter();  // NaN
+shape.diameter(); // 20
+shape.perimeter(); // NaN
 
-const link = document.querySelector('#link')
-link.addEventListener('click', function() {
+const link = document.querySelector("#link");
+link.addEventListener("click", function() {
   // this === link
-})
+});
 
-link.addEventListener('click', () => {
+link.addEventListener("click", () => {
   // this === window
-})
+});
 ```
 
 Arrow functions are not free. When arrow functions are defined as class methods/properties, a new function object is created for each instance of the class. Most of the time, the decision between using arrow functions or regular methods in classes comes down to semantics and specific requirements around `this` binding. Unless we're in a very performance-critical scenario or creating a vast number of instances, the difference is likely negligible.
 
 ## Closure
+
 Lexical scoping describes how a parser resolves variable names when functions are nested. The word "lexical" refers to the fact that lexical scoping uses the location where a variable is declared within the source code to determine where that variable is available. Nested functions have access to variables declared in their outer scope.
 
 **A closure is the combination of a function and the lexical environment within which that function was declared.** This environment consists of any local variables that were in-scope at the time the closure was created. Closures are useful because they let you associate data (the lexical environment) with a function that operates on that data.
@@ -118,7 +122,7 @@ function makeAdder(x) {
 var add5 = makeAdder(5);
 var add10 = makeAdder(10);
 
-console.log(add5(2));  // 7
+console.log(add5(2)); // 7
 console.log(add10(2)); // 12
 ```
 
@@ -141,7 +145,7 @@ const counter = (function() {
     },
     value: function() {
       return privateCounter;
-    }
+    },
   };
 })();
 
@@ -156,6 +160,7 @@ console.log(counter.value()); // logs 1
 > It is unwise to unnecessarily create functions within other functions if closures are not needed for a particular task, as it will negatively affect script performance both in terms of processing speed and memory consumption. In JavaScript, memory leaks happen when objects are no longer needed, but are still referenced by functions or other objects. These references prevent the unneeded objects from being reclaimed by the garbage collector.
 
 ## try...catch...finally
+
 The try statement consists of a try block, which contains one or more statements. `{}` must always be used, even for single statements. At least one catch clause, or a finally clause, must be present. If any statement within the try-block throws an exception, control is immediately shifted to the catch-block. If no exception is thrown in the try-block, the catch-block is skipped.
 
 - You can nest one or more try statements. If an inner try statement does not have a catch clause, the enclosing try statement's catch clause is entered.
@@ -165,27 +170,22 @@ The try statement consists of a try block, which contains one or more statements
 ```js
 (function() {
   try {
-    console.log("I'm picking up my ball and going home.")  // run 
-    return
+    console.log("I'm picking up my ball and going home."); // run
+    return;
+  } finally {
+    console.log("Finally?"); // finally always run
   }
-  finally {
-    console.log('Finally?')  // finally always run  
-  }
-})()
-
-(function() {
+})()(function() {
   try {
-    fail()
+    fail();
+  } catch (e) {
+    console.log("Will finally run?"); // run
+    throw e;
+  } finally {
+    console.log("FINALLY RUNS!"); // run
   }
-  catch (e) {
-    console.log("Will finally run?")  // run
-    throw e
-  }
-  finally {
-    console.log("FINALLY RUNS!")  // run
-  }
-  console.log("This shouldn't be called eh?")  // does not run because throw in catch
-})()
+  console.log("This shouldn't be called eh?"); // does not run because throw in catch
+})();
 ```
 
 The non-standard `stack` property of an Error instance offers a trace of which functions were called. The stack string proceeds from the most recent calls to earlier ones, leading back to the original global scope call. Each JavaScript engine uses its own format for stack traces, but they are fairly consistent in their high-level structure.
@@ -197,34 +197,36 @@ function foo() {
 ```
 
 ## Data types
+
 number, string, boolean, undefined, null, object, symbol, bigInt
 
 ```js
-typeof 37 === 'number'
-typeof 42n === 'bigint'
-typeof true === 'boolean'
-typeof 'a' === 'string'
-typeof Symbol() === 'symbol'
-typeof undefined === 'undefined'
-typeof {a: 1} === 'object'
-typeof [1, 2] === 'object'
-typeof function() {} === 'function'
-typeof null === "object"
+typeof 37 === "number";
+typeof 42n === "bigint";
+typeof true === "boolean";
+typeof "a" === "string";
+typeof Symbol() === "symbol";
+typeof undefined === "undefined";
+typeof { a: 1 } === "object";
+typeof [1, 2] === "object";
+typeof function() {} === "function";
+typeof null === "object";
 
-Object.prototype.toString.call({})            // '[object Object]'
-Object.prototype.toString.call([])            // '[object Array]'
-Object.prototype.toString.call(() => {})      // '[object Function]'
-Object.prototype.toString.call('seymoe')      // '[object String]'
-Object.prototype.toString.call(1)             // '[object Number]'
-Object.prototype.toString.call(true)          // '[object Boolean]'
-Object.prototype.toString.call(Symbol())      // '[object Symbol]'
-Object.prototype.toString.call(null)          // '[object Null]'
-Object.prototype.toString.call(undefined)     // '[object Undefined]'
-Object.prototype.toString.call(new Set())     // '[object Set]'
-Object.prototype.toString.call(new Map())     // '[object Map]'
+Object.prototype.toString.call({}); // '[object Object]'
+Object.prototype.toString.call([]); // '[object Array]'
+Object.prototype.toString.call(() => {}); // '[object Function]'
+Object.prototype.toString.call("seymoe"); // '[object String]'
+Object.prototype.toString.call(1); // '[object Number]'
+Object.prototype.toString.call(true); // '[object Boolean]'
+Object.prototype.toString.call(Symbol()); // '[object Symbol]'
+Object.prototype.toString.call(null); // '[object Null]'
+Object.prototype.toString.call(undefined); // '[object Undefined]'
+Object.prototype.toString.call(new Set()); // '[object Set]'
+Object.prototype.toString.call(new Map()); // '[object Map]'
 ```
 
 ### Number static properties and BigInt
+
 - The `Number` type is a double-precision 64-bit binary format IEEE 754 value (with a numeric precision of 53 bits). Integer values up to ±2^53 − 1 can be represented exactly.
 - To check for the largest available value or smallest available value within `±Infinity`, you can use the constants `Number.MAX_VALUE` or `Number.MIN_VALUE`. Values larger than `MAX_VALUE` are represented as `Infinity`.
 - `Number.MAX_VALUE` is the largest number possible to represent using a double precision floating point representation.
@@ -236,7 +238,8 @@ Object.prototype.toString.call(new Map())     // '[object Map]'
 - `Number.isNaN()` determines whether the passed value is the number value NaN, and returns false if the input is not of the Number type. Note that `Number.isNaN()` doesn't attempt to convert the parameter to a number, so non-numbers always return false.
 
 ### Deal with floating point number precision
-1. JavaScript’s Number type uses binary floating-point, which can introduce precision errors with decimal values like `0.1 + 0.2`. Decimal libraries like `decimal.js` avoid this by representing numbers in base-10, preserving exact decimal values *(represent decimal numbers as strings or arrays of digits, and perform manual arithmetic in base-10)*.
+
+1. JavaScript’s Number type uses binary floating-point, which can introduce precision errors with decimal values like `0.1 + 0.2`. Decimal libraries like `decimal.js` avoid this by representing numbers in base-10, preserving exact decimal values _(represent decimal numbers as strings or arrays of digits, and perform manual arithmetic in base-10)_.
 
 2. You need to replace equality tests with comparisons that allow some amount of tolerance. Do not do `if (x == y) { ... }`. Instead do `if (abs(x - y) < myToleranceValue) { ... }`.
 
@@ -245,8 +248,8 @@ Object.prototype.toString.call(new Map())     // '[object Map]'
 ```js
 const n = 123.456;
 
-n.toFixed(2);  // '123.46'
-n.toFixed(5);  // '123.45600'
+n.toFixed(2); // '123.46'
+n.toFixed(5); // '123.45600'
 n.toPrecision(4); // '123.5'
 n.toPrecision(5); // '123.46'
 
@@ -260,6 +263,7 @@ const fixNumber = num => Number(num.toPrecision(5));
 4. `Math.trunc()` function returns the integer part of a number by removing any fractional digits. Unlike `Math.floor()`, `Math.ceil()`, or `Math.round()`, it truncates (cuts off) the dot and the digits to the right of it, no matter whether the argument is a positive or negative number.
 
 ### Why `[] + {}` is `"[object Object]"`
+
 Firstly convert both operands to primitive values, and try `valueOf()` followed by `toString()`. If either of them is a string, do `String(a) + String(b)`, otherwise do `Number(a) + Number(b)`.
 
 In the case of `{}`, it first tries to call `valueOf` on the object but that returns `{}`. Since `typeof {} === "object"`, it then calls `toString` and gets `"[object Object]"`. In the case of `[]`, calling `valueOf` returns `[]`, and since `typeof [] === "object"`, it calls `toString` and the return value of `Array.prototype.toString()` on an empty array is an empty string.
@@ -269,6 +273,7 @@ Another example is `{} > []`, because we get `"[object Object]" > ""`.
 > Why you get an error when you attempt to run `{} > []` in the browser? **Block statements are evaluated before expressions**, so when the interpreter sees curly braces when not in an expression context, it interprets them as a block rather than an object literal. The way to force the interpreter to see `{}` as an object literal instead of as a block is to wrap it in parentheses.
 
 ## this, globalThis and binding
+
 In most cases, the value of `this` is determined by how a function is called (runtime binding). `bind()` method can set the value of a function's `this` regardless of how it's called, and arrow functions which don't provide their own `this` binding. In non–strict mode, it's always a reference to an object and in strict mode can be any value.
 
 Historically, accessing the global object has required different syntax in different JavaScript environments. On the web you can use `window`, `self`, or `frames`. In Node.js none of these work, and you must instead use `global`. The `globalThis` property provides a standard way of accessing the global `this` value across environments. In this way, you can access the global object in a consistent manner without having to know which environment the code is being run in.
@@ -290,8 +295,8 @@ const w4 = window.self;
 window.age = 10;
 function Person() {
   this.age = 42;
-  setTimeout(function () {
-    console.log(this.age); // yields "10" 
+  setTimeout(function() {
+    console.log(this.age); // yields "10"
   }, 100);
 }
 
@@ -309,6 +314,7 @@ var p = new Person();
 ```
 
 ### Function.prototype.call() / apply()
+
 While the syntax of `call()` function is almost identical to that of `apply()`, the fundamental difference is that `call()` accepts an argument list, while `apply()` accepts a single array of arguments (or an array-like object). They provide a new value of `this` to the function. With call or apply, you can write a method once and then inherit it in another object, without having to rewrite the method for the new object. If the first argument is not passed, the value of `this` is bound to the global object (the value of `this` will be undefined in strict mode).
 
 ```js
@@ -317,31 +323,32 @@ Math.max.apply(null, numbers);
 Math.min.apply(null, numbers);
 
 // `this` is ignored when binding `this` on arrow function
-window.name = 'a'
+window.name = "a";
 const obj = {
-  name: 'b',
-  fn: () => console.log(this.name)
-}
-obj.fn.call({name: 'c'});  // 'a'
+  name: "b",
+  fn: () => console.log(this.name),
+};
+obj.fn.call({ name: "c" }); // 'a'
 
 function fruit() {
   return () => {
     console.log(this.name);
-  }
+  };
 }
 var apple = {
-  name: 'apple'
-}
+  name: "apple",
+};
 var banana = {
-  name: 'banana'
-}
+  name: "banana",
+};
 
-var fruitCall = fruit.call(apple);  // `fruit` is normal function here
-fruitCall();  // apple
-fruitCall.call(banana);  // apple
+var fruitCall = fruit.call(apple); // `fruit` is normal function here
+fruitCall(); // apple
+fruitCall.call(banana); // apple
 ```
 
 ### Function.prototype.bind()
+
 The `bind()` method creates a new function that, when called, has its `this` keyword set to the provided value, with a given sequence of arguments preceding any provided when the new function is called.
 
 `bind()` creates a new bound function, which wraps the original function object. Calling the bound function generally results in the execution of its wrapped function. A bound function has the following internal properties:
@@ -349,7 +356,7 @@ The `bind()` method creates a new function that, when called, has its `this` key
 - `[[BoundTargetFunction]]` - the wrapped function object.
 - `[[BoundThis]]` - the value that is always passed as `this` value when calling the wrapped function.
 - `[[BoundArguments]]` - a list of values whose elements are used as the first arguments to any call to the wrapped function.
-- `[[Call]]` - executes code associated with `this`. Invoked via a function call expression. 
+- `[[Call]]` - executes code associated with `this`. Invoked via a function call expression.
 
 **When a bound function is called, it calls internal method `[[Call]]` on `[[BoundTargetFunction]]` with `Call(boundThis, ...args)`**. Where, boundThis is `[[BoundThis]]`, args is `[[BoundArguments]]` followed by the arguments passed by the new function call.
 
@@ -360,11 +367,11 @@ Function.prototype.bind = function() {
   var thatFunc = this;
   var thatArg = arguments[0];
   var args = slice.call(arguments, 1);
-  if (typeof thatFunc !== 'function') {
-    throw new TypeError('what is trying to be bound is not callable');
+  if (typeof thatFunc !== "function") {
+    throw new TypeError("what is trying to be bound is not callable");
   }
   return function() {
-    var funcArgs = args.concat(slice.call(arguments))
+    var funcArgs = args.concat(slice.call(arguments));
     return thatFunc.apply(thatArg, funcArgs);
   };
 };
@@ -374,29 +381,32 @@ Function.prototype.bind = function() {
 var x = 9;
 var module = {
   x: 81,
-  getX: function() { return this.x; }
+  getX: function() {
+    return this.x;
+  },
 };
 
 module.getX(); // 81
 
 var retrieveX = module.getX;
-retrieveX();  // 9
+retrieveX(); // 9
 
 var boundGetX = retrieveX.bind(module);
 boundGetX(); // 81
 
 // partially applied function
 function addArguments(arg1, arg2) {
-  return arg1 + arg2
+  return arg1 + arg2;
 }
 
-var addThirtySeven = addArguments.bind(null, 37); 
+var addThirtySeven = addArguments.bind(null, 37);
 
-var result2 = addThirtySeven(5);  // 37 + 5 = 42 
-var result3 = addThirtySeven(5, 10);  // 37 + 5 = 42 , second argument is ignored
+var result2 = addThirtySeven(5); // 37 + 5 = 42
+var result3 = addThirtySeven(5, 10); // 37 + 5 = 42 , second argument is ignored
 ```
 
 ## Custom Event
+
 Unlike "native" events, which are fired by the DOM and invoke event handlers **asynchronously** via the event loop, **`dispatchEvent()` invokes event handlers synchronously**. All applicable event handlers will execute and return before the code continues on after the call to `dispatchEvent()`.
 
 Events can be created with the `Event` constructor. This constructor is supported in most modern browsers. To add more data to the event object, the `CustomEvent` interface exists and the `detail` property can be used to pass custom data.
@@ -413,45 +423,48 @@ window.addEventListener("pizzaDelivery", (e) => console.log(e.detail.name));
 window.dispatchEvent(pizzaEvent);
 
 // Event bubbling
-const form = document.querySelector('form');
-const textarea = document.querySelector('textarea');
+const form = document.querySelector("form");
+const textarea = document.querySelector("textarea");
 
-const eventAwesome = new CustomEvent('awesome', {
+const eventAwesome = new CustomEvent("awesome", {
   bubbles: true,
-  detail: { text: () => textarea.value }
+  detail: { text: () => textarea.value },
 });
 
-form.addEventListener('awesome', e => console.log(e.detail.text()));
-textarea.addEventListener('input', e => e.target.dispatchEvent(eventAwesome));
+form.addEventListener("awesome", e => console.log(e.detail.text()));
+textarea.addEventListener("input", e => e.target.dispatchEvent(eventAwesome));
 ```
 
 > The `isTrusted` property of an event is a read-only Boolean that is true only for events generated by the browser, typically in response to a real user action, like a mouse click or keypress. In contrast, if an event is programmatically created and dispatched using `dispatchEvent()`, then `event.isTrusted` will be false, because it's not a result of a genuine user interaction.
 
 The most common approaches available to remove event listeners:
+
 - Use `removeEventListener()` if the callback function is assigned to a variable and within easy reach of where the listener was added.
 - Use the `once` option in `addEventListener()` if you need to fire a callback only once.
 - Use `AbortController()` if you have a series of listeners you’d like to imperatively remove at once, or if you just like the syntax.
 
 ```js
-const button = document.getElementById('button');
+const button = document.getElementById("button");
 const controller = new AbortController();
 const { signal } = controller;
 
 button.addEventListener(
-  'click', 
-  () => console.log('clicked!'), 
-  { signal }
+  "click",
+  () => console.log("clicked!"),
+  { signal },
 );
 
 controller.abort();
 ```
 
 ## Destructuring assignments
+
 The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.
 
 ### Array destructuring
+
 ```js
-const foo = ['one', 'two', 'three'];
+const foo = ["one", "two", "three"];
 const [one, two, three] = foo;
 
 // Assignment separate from declaration
@@ -462,7 +475,7 @@ console.log(b); // 2
 
 // default value
 const colors = [];
-const [firstColor = 'white'] = colors;
+const [firstColor = "white"] = colors;
 console.log(firstColor); // 'white'
 
 // Ignoring some values
@@ -482,50 +495,51 @@ console.log(a); // 3
 console.log(b); // 1
 
 // Note: the semicolon here is required
-let b = 3
-[a, b] = [b, a]
+let b = (3)[a, b] = [b, a];
 // will become:
-let b = 3[a, b] = [b, a];
+let b = (3)[a, b] = [b, a];
 ```
 
 ### Object destructuring
+
 ```js
-const o = {p: 42, q: true};
-const {p, q} = o;
+const o = { p: 42, q: true };
+const { p, q } = o;
 console.log(p); // 42
 console.log(q); // true
 
 // Assigning to new variable names
-const o = {p: 42, q: true};
-const {p: foo, q: bar} = o;
-console.log(foo); // 42 
+const o = { p: 42, q: true };
+const { p: foo, q: bar } = o;
+console.log(foo); // 42
 console.log(bar); // true
 console.log(p); // ReferenceError: p is not defined
 console.log(q); // ReferenceError: q is not defined
 
 // get both `a` and `b` as variables in one line of destructuring
-const o = {a: {b: 'hi'}};
-const {a, a: {b}} = o;
+const o = { a: { b: "hi" } };
+const { a, a: { b } } = o;
 
 // Assignment separate from declaration
-// The parentheses around the assignment statement are required when using 
+// The parentheses around the assignment statement are required when using
 // object literal destructuring assignment without a declaration.
 let a, b, rest;
-({a, b, ...rest} = {a: 10, b: 20, c: 30, d: 40});
+({ a, b, ...rest } = { a: 10, b: 20, c: 30, d: 40 });
 console.log(a); // 10
 console.log(b); // 20
 console.log(rest); // {c: 30, d: 40}
 
 // destructuring dynamic properties
 function greet(obj, nameProp) {
- const { [nameProp]: name = 'Unknown' } = obj;
- return `Hello, ${name}!`;
+  const { [nameProp]: name = "Unknown" } = obj;
+  return `Hello, ${name}!`;
 }
-greet({ name: 'Batman' }, 'name'); // => 'Hello, Batman!'
-greet({ }, 'name'); // => 'Hello, Unknown!'
+greet({ name: "Batman" }, "name"); // => 'Hello, Batman!'
+greet({}, "name"); // => 'Hello, Unknown!'
 ```
 
 ## Spread operator
+
 1. Expand an array, an object or a string using the spread operator `...`.
 2. The **rest parameter** syntax allows us to represent an indefinite number of arguments as an array. Only the last parameter can be a "rest parameter". The `arguments` object is not a real array, while rest parameters are Array instances, meaning Array methods can be used on rest parameters.
 
@@ -540,54 +554,62 @@ const c = [...arr];
 const newObj = { ...oldObj };
 
 // replace apply() when you want to use an array as arguments to a function
-function myFunction(x, y, z) { }
+function myFunction(x, y, z) {}
 var args = [0, 1, 2];
 myFunction(...args);
 
 // rest parameter
 function myFun(a, b, ...manyMoreArgs) {
-  console.log(a);  // one
-  console.log(b);  // two
-  console.log(manyMoreArgs);  // [three, four, five, six]
+  console.log(a); // one
+  console.log(b); // two
+  console.log(manyMoreArgs); // [three, four, five, six]
 }
 myFun("one", "two", "three", "four", "five", "six");
-myFun("one", "two");  // manyMoreArgs will be []
+myFun("one", "two"); // manyMoreArgs will be []
 ```
 
 ## Shorthand and Computed property names
+
 ```js
 // Shorthand property names
-const a = 'foo', b = 42, c = {};
-const o = {a, b, c};
+const a = "foo", b = 42, c = {};
+const o = { a, b, c };
 
 // Shorthand method names
 const o = {
-  property(parameters) {}
+  property(parameters) {},
 };
 
 // Computed property names
-var prop = 'foo';
+var prop = "foo";
 var o = {
-  [prop]: 'hey',
-  ['b' + 'ar']: 'there'
+  [prop]: "hey",
+  ["b" + "ar"]: "there",
 };
 
 // The shorthand syntax also supports computed property names
 var bar = {
-  foo1() { return 1; },
-  ['foo' + 2]() { return 2; }
+  foo1() {
+    return 1;
+  },
+  ["foo" + 2]() {
+    return 2;
+  },
 };
 
 // prototype and super()
-const o = { y: 'y', test: () => 'zoo' }
+const o = { y: "y", test: () => "zoo" };
 const x = {
-  __proto__: o, 
-  test() { return super.test() + 'x' }
-}  
+  __proto__: o,
+  test() {
+    return super.test() + "x";
+  },
+};
 x.test(); // zoox
 ```
 
 ## Nullish coalescing and Optional chaining
+
 The **nullish coalescing operator (`??`)** is a logical operator that returns its right-hand side operand when its left-hand side operand is `null` or `undefined`, and otherwise returns its left-hand side operand. Earlier, when one wanted to assign a default value to a variable, a common pattern was to use the logical OR operator (`||`). However, due to `||` being a boolean logical operator, any falsy value (`0`, `''`, `NaN`, `null`, `undefined`) is not returned. This behavior may cause unexpected consequences if you consider `0` or `''` as valid values.
 
 ```js
@@ -604,17 +626,17 @@ console.log(valC); // "default for C"
 
 // Nullish coalescing assignment (??=)
 let x1 = undefined;
-let x2 = 'a';
-const getNewValue = () => 'b';
+let x2 = "a";
+const getNewValue = () => "b";
 
 // Assigns the new value to x1, because undefined is nullish.
-x1 ??= 'b';
-console.log(x1) // "b"
+x1 ??= "b";
+console.log(x1); // "b"
 
 // Does not assign a new value to x2, because a string is not nullish.
 // Also note: getNewValue() is never executed.
 x2 ??= getNewValue();
-console.log(x2) // "a"
+console.log(x2); // "a"
 ```
 
 The **optional chaining operator (?.)** functions similarly to the `.` chaining operator, except that instead of causing an error if a reference is nullish (`null` or `undefined`), the expression short-circuits with a return value of undefined. When used with function calls, it returns undefined if the given function does not exist.
@@ -622,7 +644,7 @@ The **optional chaining operator (?.)** functions similarly to the `.` chaining 
 ```js
 let customerCity = customer.details?.address?.city;
 let duration = vacations.trip?.getTime?.();
-let nestedProp = obj?.['prop' + 'Name'];
+let nestedProp = obj?.["prop" + "Name"];
 
 let foo = { someFooProp: "hi" };
 console.log(foo.someFooProp?.toUpperCase() ?? "not available"); // "HI"
@@ -630,21 +652,22 @@ console.log(foo.someBarProp?.toUpperCase() ?? "not available"); // "not availabl
 ```
 
 ## encodeURI() and encodeURIComponent()
+
 `encodeURI` and `encodeURIComponent` are used to encode URI by replacing each instance of certain characters by escape sequences representing the UTF-8 encoding of the character.
 
 - `encodeURI()` escapes all characters except: `A-Z a-z 0-9 ; , / ? : @ & = + $ - _ . ! ~ * ' ( ) #`.
 - `encodeURIComponent()` escapes all characters except: `A-Z a-z 0-9 - _ . ! ~ * ' ( )`
 
 ```javascript
-encodeURI("http://www.example.org/a file with spaces.html")
+encodeURI("http://www.example.org/a file with spaces.html");
 // http://www.example.org/a%20file%20with%20spaces.html
 
 // Don't call encodeURIComponent since it would destroy the URL
-encodeURIComponent("http://www.example.org/a file with spaces.html")
+encodeURIComponent("http://www.example.org/a file with spaces.html");
 // http%3A%2F%2Fwww.example.org%2Fa%20file%20with%20spaces.html
 
 // Use encodeURIComponent when you want to encode the value of a URL parameter
-var p1 = encodeURIComponent("http://example.org/?a=12&b=55")
+var p1 = encodeURIComponent("http://example.org/?a=12&b=55");
 
 // Then you may create the URL you need
 var url = "http://example.net/?param1=" + p1 + "&param2=99";
@@ -652,6 +675,7 @@ var url = "http://example.net/?param1=" + p1 + "&param2=99";
 ```
 
 `encodeURIComponent(value: string): string` expects a string. If you pass `undefined`:
+
 - TypeScript: type error
 - JavaScript at runtime: `encodeURIComponent(undefined)` → `"undefined"` (usually not what you want)
 
@@ -670,31 +694,38 @@ function maybeEncodeUriComponent(
 2. Callers don’t have to guard first: just call `maybeEncodeUriComponent(filters.search)`
 
 ## JSON stringify and parse
+
 `JSON.stringify(value, replacer, space)` converts a value to the JSON notation that the value represents, optionally replacing values if a replacer function is specified or optionally including only the specified properties if a replacer array is specified.
 
 - If the value has a `toJSON()` method, it's responsible to define what data will be serialized.
 - `Boolean`, `Number`, and `String` objects are converted to the corresponding primitive values.
-- The default conversion from an object to string is `"[object Object]"`, which uses `toString()` method in the object. 
+- The default conversion from an object to string is `"[object Object]"`, which uses `toString()` method in the object.
 - `undefined`, `Functions`, and `Symbols` are not valid JSON values. If any such values are encountered during conversion they are either omitted (when found in an object) or changed to `null` (when found in an array).
 - All `Symbol`-keyed properties will be completely ignored.
 
 ```js
-JSON.stringify({ x: 5 });             // '{"x":5}'
-JSON.stringify(true);                 // 'true'
-JSON.stringify([1, 'false', false]);  // '[1,"false",false]'
-JSON.stringify(null);                 // 'null'
+JSON.stringify({ x: 5 }); // '{"x":5}'
+JSON.stringify(true); // 'true'
+JSON.stringify([1, "false", false]); // '[1,"false",false]'
+JSON.stringify(null); // 'null'
 
 // Map is not serializable. To fix this, you can convert the Map to a serializable object.
-const state = new Map([['key', 1]]);
+const state = new Map([["key", 1]]);
 const serializableState = Object.fromEntries(state);
-JSON.stringify(state);  // '{}'
-JSON.stringify(serializableState);  // '{"key":1}'
+JSON.stringify(state); // '{}'
+JSON.stringify(serializableState); // '{"key":1}'
 
-JSON.stringify({ x: 5, y: 6, toJSON(){ return this.x + this.y; } });
+JSON.stringify({
+  x: 5,
+  y: 6,
+  toJSON() {
+    return this.x + this.y;
+  },
+});
 // '11'
 
 // The replacer parameter can be either a function or an array.
-const foo = {foundation: 'Mozilla', model: 'box', week: 45, month: 7};
+const foo = { foundation: "Mozilla", model: "box", week: 45, month: 7 };
 
 JSON.stringify(foo, (key, value) => {
   if (typeof value === "string") {
@@ -704,13 +735,13 @@ JSON.stringify(foo, (key, value) => {
 });
 // '{"week": 45, "month": 7}'
 
-JSON.stringify(foo, ['week', 'month']);  
+JSON.stringify(foo, ["week", "month"]);
 // '{"week": 45, "month": 7}'
 
 // The last `space` argument may be used to control spacing in the final string
 // 1. If it is a number, successive levels will each be indented by this # of space characters.
 // 2. If it is a string, will be indented by this string.
-JSON.stringify({ uno: 1, dos: 2 }, null, '\t');
+JSON.stringify({ uno: 1, dos: 2 }, null, "\t");
 // '{
 //     "uno": 1,
 //     "dos": 2
@@ -718,6 +749,7 @@ JSON.stringify({ uno: 1, dos: 2 }, null, '\t');
 ```
 
 `JSON.stringify` throws if one attempts to encode an object with circular references.
+
 ```js
 function hasCircularReference(obj) {
   try {
@@ -732,23 +764,27 @@ function hasCircularReference(obj) {
 `JSON.parse(text[, reviver])` parses a JSON string, constructing the JavaScript value or object described by the string. An optional reviver function can be provided to perform a transformation on the resulting object before it is returned. **`JSON.parse()` does not allow trailing commas and single quotes.**
 
 ```js
-JSON.parse('{}');              // {}
-JSON.parse('true');            // true
-JSON.parse('[1, 5, "false"]'); // [1, 5, "false"]
-JSON.parse('null');            // null
+JSON.parse("{}"); // {}
+JSON.parse("true"); // true
+JSON.parse("[1, 5, \"false\"]"); // [1, 5, "false"]
+JSON.parse("null"); // null
 
-JSON.parse('{"foo": 1}');
+JSON.parse("{\"foo\": 1}");
 JSON.parse("{\"foo\": 1}");
 
-JSON.parse('{"p": 5}', (key, value) =>
-  typeof value === 'number' ? value * 2 : value
+JSON.parse(
+  "{\"p\": 5}",
+  (key, value) => typeof value === "number" ? value * 2 : value,
 );
 // { p: 10 }
 
-JSON.parse('{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}}', (key, value) => {
-  console.log(key); // log the current property name, the last is ""
-  return value; 
-});
+JSON.parse(
+  "{\"1\": 1, \"2\": 2, \"3\": {\"4\": 4, \"5\": {\"6\": 6}}}",
+  (key, value) => {
+    console.log(key); // log the current property name, the last is ""
+    return value;
+  },
+);
 // 1 2 4 6 5 3 ""
 ```
 
@@ -757,7 +793,8 @@ JSON.parse('{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}}', (key, value) => {
 > This library is basically an extended JSON parser. It parses the provided JSON document character by character, reading it into a data structure. When it encounters a parse error, instead of throwing an error, it looks whether this error has a cause that is solvable. For example, when encountering two unexpected characters `//`, it knows that this is a comment, and it will skip the comment and move on.
 
 ## Symbol
-Symbol is a primitive data type and the `Symbol()` function returns a value of type symbol. It resembles a built-in object class, but is incomplete as a constructor because it does not support the syntax `new Symbol()`. 
+
+Symbol is a primitive data type and the `Symbol()` function returns a value of type symbol. It resembles a built-in object class, but is incomplete as a constructor because it does not support the syntax `new Symbol()`.
 
 **Every symbol value returned from `Symbol()` is unique.** A symbol value may be used as an identifier for object properties, which is the data type's primary purpose. Symbol can have an optional description, but for debugging purposes only. Symbols are guaranteed to be unique. Even if we create many symbols with the same description, they are different values.
 
@@ -770,64 +807,67 @@ The `Symbol` class has constants for so-called well-known symbols. Examples of w
 
 ```javascript
 const symbol1 = Symbol(42);
-const symbol2 = Symbol('foo');
+const symbol2 = Symbol("foo");
 
-console.log(typeof symbol1);  // symbol
-console.log(symbol1.description);  // '42'
-console.log(Symbol('foo') === Symbol('foo')); // false
-typeof Symbol.iterator === 'symbol'  // true
+console.log(typeof symbol1); // symbol
+console.log(symbol1.description); // '42'
+console.log(Symbol("foo") === Symbol("foo")); // false
+typeof Symbol.iterator === "symbol"; // true
 
 var obj = {};
-obj[Symbol('a')] = 'a';
-obj['b'] = 'b';
-obj.c = 'c';
+obj[Symbol("a")] = "a";
+obj["b"] = "b";
+obj.c = "c";
 
 for (var i in obj) {
-  console.log(i);  // logs "b" and "c"
+  console.log(i); // logs "b" and "c"
 }
 
 var obj = {};
-var a = Symbol('a');
-var b = Symbol.for('b');
-obj[a] = 'localSymbol';
-obj[b] = 'globalSymbol';
+var a = Symbol("a");
+var b = Symbol.for("b");
+obj[a] = "localSymbol";
+obj[b] = "globalSymbol";
 
 var objectSymbols = Object.getOwnPropertySymbols(obj);
-console.log(objectSymbols);  // [Symbol(a), Symbol(b)]
+console.log(objectSymbols); // [Symbol(a), Symbol(b)]
 ```
 
 ### Global symbol registry
+
 There is a global symbol registry holding all available symbols. The global symbol registry is mostly built by JavaScript's compiler infrastructure, and it is not available to JavaScript's run-time environment, except through the methods `Symbol.for()` and `Symbol.keyFor()`.
 
 The global symbol registry is a list with the following record structure and it is initialized empty. A record in the global symbol registry:
+
 - `[[key]]` - a string key used to identify a symbol.
 - `[[symbol]]` - a symbol that is stored globally.
 
 The `Symbol.for(key)` method searches for existing symbols in a runtime-wide symbol registry with the given key and returns it if found. Otherwise a new symbol gets created in the global symbol registry with this key. `Symbol.keyFor(sym)` method retrieves a symbol key from the global symbol registry for the given symbol.
 
 ```javascript
-Symbol.for('foo'); // create a new global symbol
-Symbol.for('foo'); // retrieve the already created symbol
+Symbol.for("foo"); // create a new global symbol
+Symbol.for("foo"); // retrieve the already created symbol
 
-Symbol('bar') === Symbol('bar'); // false
-Symbol.for('bar') === Symbol.for('bar'); // true
+Symbol("bar") === Symbol("bar"); // false
+Symbol.for("bar") === Symbol.for("bar"); // true
 
-var globalSym = Symbol.for('foo');
+var globalSym = Symbol.for("foo");
 Symbol.keyFor(globalSym); // "foo"
 
 var localSym = Symbol();
 Symbol.keyFor(localSym); // undefined
 
 // Well-known symbols are not symbols registered in the global symbol registry
-Symbol.keyFor(Symbol.iterator) // undefined
+Symbol.keyFor(Symbol.iterator); // undefined
 ```
 
 ## Iterators and Iterables
-Iterators are a new way to loop over any collection in JavaScript. We can use `for...of` to iterate an array, but would get a TypeError saying that the object is not iterable. *(The `for...of` loops require an iterable, otherwise it will throw a TypeError.)* A lot of things are iterables in JavaScript: Arrays, Strings, Maps and Sets, arguments, DOM elements.
+
+Iterators are a new way to loop over any collection in JavaScript. We can use `for...of` to iterate an array, but would get a TypeError saying that the object is not iterable. _(The `for...of` loops require an iterable, otherwise it will throw a TypeError.)_ A lot of things are iterables in JavaScript: Arrays, Strings, Maps and Sets, arguments, DOM elements.
 
 The **iterable protocol** allows JavaScript objects to define or customize their iteration behavior, such as what values are looped over in a `for..of` construct. **In order to be iterable, an object must implement the @@iterator method, meaning that the object must have a property with a @@iterator key which is available via constant `Symbol.iterator`**. Symbols offer names that are unique and cannot clash with other property names. That method will return an object called an **`iterator`**. This iterator will have a method called **`next`** which will return an object with keys **`value` and `done`**. The `value` will contain the current value. The `done` is boolean which denotes whether all the values have been fetched or not.
 
-<img alt="iterable" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h83i5srgy6j30ii09wmxt.jpg" width="700">  
+<img alt="iterable" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h83i5srgy6j30ii09wmxt.jpg" width="700">
 
 ```js
 // Iterable is an object with a function whose key is Symbol.iterator
@@ -844,31 +884,31 @@ const iterator = {
 }
 ```
 
-- There is no @@iterator function. It is only used in specification to denote a specific symbol. If you want to use that symbol in your code, you have to use `Symbol.iterator` which is a symbol specifies the default iterator for an object. 
+- There is no @@iterator function. It is only used in specification to denote a specific symbol. If you want to use that symbol in your code, you have to use `Symbol.iterator` which is a symbol specifies the default iterator for an object.
 - Some built-in types are built-in iterables with a default iteration behavior, such as Array or Map, because their prototype objects all have a `Symbol.iterator` method, while other types such as Object are not.
 - `for...of` iterates over the property values; `for...in` iterates the property names/keys.
 
 ```js
 // String is an example of a built-in iterable object
-const someString = 'hi';
-typeof someString[Symbol.iterator];  // "function"
+const someString = "hi";
+typeof someString[Symbol.iterator]; // "function"
 
 const iterator = someString[Symbol.iterator]();
-iterator.next();  // { value: "h", done: false }
-iterator.next();  // { value: "i", done: false }
-iterator.next();  // { value: undefined, done: true }
+iterator.next(); // { value: "h", done: false }
+iterator.next(); // { value: "i", done: false }
+iterator.next(); // { value: undefined, done: true }
 
 // Destructuring happens because of iterables
-const array = ['a', 'b', 'c', 'd'];
-const [first, ,third,last] = array;
+const array = ["a", "b", "c", "d"];
+const [first, , third, last] = array;
 
 // is equivalent to
-const array = ['a', 'b', 'c', 'd'];
+const array = ["a", "b", "c", "d"];
 const iterator = array[Symbol.iterator]();
-const first = iterator.next().value
-iterator.next().value // Since it was skipped, so it's not assigned
-const third = iterator.next().value
-const last = iterator.next().value
+const first = iterator.next().value;
+iterator.next().value; // Since it was skipped, so it's not assigned
+const third = iterator.next().value;
+const last = iterator.next().value;
 ```
 
 ```js
@@ -876,14 +916,14 @@ const last = iterator.next().value
 let Reptiles = {
   biomes: {
     water: ["Alligators", "Crocs"],
-    land: ["Snakes", "Turtles"]
+    land: ["Snakes", "Turtles"],
   },
 
   [Symbol.iterator]() {
     let reptilesByBiome = Object.values(this.biomes);
     let reptileIndex = 0;
     let biomeIndex = 0;
-    
+
     // return an iterator with next method
     return {
       next() {
@@ -898,11 +938,11 @@ let Reptiles = {
 
         return {
           value: reptilesByBiome[biomeIndex][reptileIndex++],
-          done: false
+          done: false,
         };
-      }
+      },
     };
-  }
+  },
 };
 
 // for...of loop takes an iterable and keeps on calling the `next()` until done is true
@@ -910,6 +950,7 @@ for (let reptile of Reptiles) console.log(reptile);
 ```
 
 ## Generator functions
+
 It allows you to define an iterative method by writing a function whose execution is not continuous. Generator functions are written **using the function\* syntax**. When called initially, generator functions do not execute any of their code, instead **returning a type of iterator called a generator**. By calling the generator's `next` method, the generator executes until it encounters the `yield` keyword. A generator can contain many `yield` keywords, thus halting itself multiple times. Generators compute `yield` values on demand, which allows to represent sequences that are expensive to compute, or even infinite sequences.
 
 The `yield` keyword pauses generator function's execution and the value of the expression following the `yield` keyword is returned to the generator's caller. It can be thought of as a generator-based version of the `return` keyword. The `yield` actually returns an object with two properties, value and done. The next time `next()` is called, execution resumes with the statement immediately after the `yield`.
@@ -922,8 +963,8 @@ function* makeRangeIterator(start, end, step) {
 }
 let it = makeRangeIterator(1, 10, 2);
 
-it.next();  // {value: 1, done: false}
-it.next();  // {value: 3, done: false}
+it.next(); // {value: 1, done: false}
+it.next(); // {value: 3, done: false}
 
 // another example
 function* calculator(input) {
@@ -933,12 +974,13 @@ function* calculator(input) {
 }
 const calc = calculator(10);
 
-calc.next();    // {value: 5, done: false}
-calc.next(7);   // {value: 14, done: false}
+calc.next(); // {value: 5, done: false}
+calc.next(7); // {value: 14, done: false}
 calc.next(100); // {value: 14000, done: true}
 ```
 
 ### Iterator helper methods
+
 The new standard in ES2025 introduces a collection of new methods on the Iterator prototype, to allow general usage and consumption of iterators. All of the iterator-producing methods in this proposal are **lazy**. They will only consume the iterator when they need the next item from it.
 
 ```js
@@ -983,13 +1025,13 @@ const result = naturals()
     return sum + value;
   }, 3);
 
-result // 13
+result; // 13
 
 const result = naturals()
   .take(5)
   .toArray();
 
-result // [0, 1, 2, 3, 4]
+result; // [0, 1, 2, 3, 4]
 
 // To find the first element in an iterator that matches.
 // Can be used without `take` on infinite iterators.
@@ -997,6 +1039,7 @@ naturals().find(v => v > 1); // 2
 ```
 
 ## Promise
+
 The Promise object represents the eventual completion or failure of an asynchronous operation and its success value or failure reason. Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.
 
 A Promise is in one of these states: `pending`, `fulfilled`, `rejected`. A promise is said to be `settled` if it is either fulfilled or rejected, but not pending. A pending promise can either be fulfilled with a value or rejected with an error. When either of these options happens, the associated handlers queued up by a promise's `then` method are called. Note that **promises are guaranteed to be asynchronous**, so an action for an already "settled" promise will occur only after the stack has cleared and a clock-tick has passed. Promise executor functions should not be async (don't do any awaiting inside the Promise constructor).
@@ -1004,12 +1047,12 @@ A Promise is in one of these states: `pending`, `fulfilled`, `rejected`. A promi
 ```js
 let p = function() {
   return new Promise(function(resolve, reject) {
-    setTimeout(() => resolve('foo'), 300);
+    setTimeout(() => resolve("foo"), 300);
   });
-}
+};
 
 p().then(function(value) {
-  console.log(value);  // "foo"
+  console.log(value); // "foo"
 });
 
 const promiseA = new Promise((resolve, reject) => {
@@ -1024,16 +1067,17 @@ The methods `promise.then()`, `promise.catch()`, and `promise.finally()` are use
 `Promise.resolve()` returns a Promise object that is resolved with a given value. `Promise.reject()` method returns a Promise object that is rejected with a given reason.
 
 > Promise.resolve(p):
+>
 > - If p is a real Promise, `Promise.resolve(p)` returns the same Promise instance, without wrapping or modifying it.
 > - If p is a plain value, it returns a Promise resolved with that value.
 
 ```js
-Promise.resolve('foo')
+Promise.resolve("foo")
   // 1. Receive "foo", concatenate "bar" to it, and resolve that to the next then
   .then(function(string) {
     return new Promise(function(resolve, reject) {
       setTimeout(function() {
-        string += 'bar';
+        string += "bar";
         resolve(string);
       }, 1);
     });
@@ -1042,7 +1086,7 @@ Promise.resolve('foo')
   // but after returning the unworked string to the next then
   .then(function(string) {
     setTimeout(function() {
-      string += 'baz';
+      string += "baz";
       console.log(string);
     }, 1);
     return string;
@@ -1059,20 +1103,20 @@ Promise.resolve('foo')
 Promise.resolve()
   .then(() => {
     // makes .then() return a rejected promise
-    throw new Error('Oh no!');
+    throw new Error("Oh no!");
   })
   .then(() => {
-    console.log('Not get called.');
+    console.log("Not get called.");
   }, error => {
-    console.error('onRejected function called: ' + error.message);
+    console.error("onRejected function called: " + error.message);
   });
 
 Promise.resolve()
   .then(() => {
-    throw new Error('Oh no!');
+    throw new Error("Oh no!");
   })
   .catch(error => {
-    console.error('onRejected function called: ' + error.message);
+    console.error("onRejected function called: " + error.message);
   })
   .then(() => {
     console.log("I am always called even if the prior then's promise rejects");
@@ -1080,6 +1124,7 @@ Promise.resolve()
 ```
 
 ### Promise static methods
+
 `Promise.all()` method returns a single Promise that resolved when all of the promises passed as an iterable (such as an Array) have resolved or when the iterable contains no promises. It rejects immediately upon any of the input promises rejecting, and will reject with this first rejection message.
 
 ```js
@@ -1089,53 +1134,53 @@ var p3 = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve("foo");
   }, 100);
-}); 
+});
 
-Promise.all([p1, p2, p3]).then(values => { 
-  console.log(values);  // [3, 1337, "foo"] 
+Promise.all([p1, p2, p3]).then(values => {
+  console.log(values); // [3, 1337, "foo"]
 });
 
 function loadImg(src) {
   return new Promise((resolve, reject) => {
-    let img = document.createElement('img');
+    let img = document.createElement("img");
     img.src = src;
     img.onload = () => resolve(img);
     img.onerror = (err) => reject(err);
-  })
+  });
 }
 
 function showImgs(imgs) {
   imgs.forEach(function(img) {
-    document.body.appendChild(img)
-  })
+    document.body.appendChild(img);
+  });
 }
 
 Promise.all([
-  loadImg('1.jpg'),
-  loadImg('2.jpg'),
-  loadImg('3.jpg')
+  loadImg("1.jpg"),
+  loadImg("2.jpg"),
+  loadImg("3.jpg"),
 ]).then(showImgs);
 ```
 
 `Promise.race()` method returns a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects, with the value or reason from that promise.
 
 ```js
-var p1 = new Promise(function(resolve, reject) { 
-  setTimeout(() => resolve('one'), 500); 
+var p1 = new Promise(function(resolve, reject) {
+  setTimeout(() => resolve("one"), 500);
 });
-var p2 = new Promise(function(resolve, reject) { 
-  setTimeout(() => resolve('two'), 100); 
+var p2 = new Promise(function(resolve, reject) {
+  setTimeout(() => resolve("two"), 100);
 });
 
 Promise.race([p1, p2]).then(function(value) {
   console.log(value); // "two"
 });
 
-var p3 = new Promise(function(resolve, reject) { 
-  setTimeout(() => resolve('three'), 500); 
+var p3 = new Promise(function(resolve, reject) {
+  setTimeout(() => resolve("three"), 500);
 });
-var p4 = new Promise(function(resolve, reject) { 
-  setTimeout(() => reject(new Error('four')), 100);
+var p4 = new Promise(function(resolve, reject) {
+  setTimeout(() => reject(new Error("four")), 100);
 });
 
 Promise.race([p3, p4]).then(function(value) {
@@ -1152,9 +1197,9 @@ Promise.allSettled([
   Promise.resolve(33),
   new Promise(resolve => setTimeout(() => resolve(66), 0)),
   99,
-  Promise.reject(new Error('an error'))
+  Promise.reject(new Error("an error")),
 ])
-.then(values => console.log(values));
+  .then(values => console.log(values));
 
 // [
 //   {status: "fulfilled", value: 33},
@@ -1165,9 +1210,9 @@ Promise.allSettled([
 
 // use Promise.allSettled() for async error handling
 const profilePromise = fetch(endpoint).then(response => response.json());
-const [ result ] = await Promise.allSettled([profilePromise]);
+const [result] = await Promise.allSettled([profilePromise]);
 
-if (result.status === 'rejected') {
+if (result.status === "rejected") {
   console.error(result.reason);
   return;
 }
@@ -1191,7 +1236,7 @@ const pFast = new Promise((resolve, reject) => {
 });
 
 Promise.any([pErr, pSlow, pFast]).then((value) => {
-  console.log(value);  // Done quick
+  console.log(value); // Done quick
 });
 ```
 
@@ -1254,21 +1299,21 @@ Implement a basic JavaScript Promise class from scratch, including the ability t
 ```js
 class MyPromise {
   constructor(executor) {
-    this.state = 'pending';
+    this.state = "pending";
     this.value = undefined;
     this.callbacks = [];
 
     const resolve = (value) => {
-      if (this.state === 'pending') {
-        this.state = 'fulfilled';
+      if (this.state === "pending") {
+        this.state = "fulfilled";
         this.value = value;
         this.callbacks.forEach(callback => this._handleCallback(callback));
       }
     };
 
     const reject = (reason) => {
-      if (this.state === 'pending') {
-        this.state = 'rejected';
+      if (this.state === "pending") {
+        this.state = "rejected";
         this.value = reason;
         this.callbacks.forEach(callback => this._handleCallback(callback));
       }
@@ -1280,8 +1325,8 @@ class MyPromise {
   then(onFulfilled, onRejected) {
     return new MyPromise((resolve, reject) => {
       const callback = { onFulfilled, onRejected, resolve, reject };
-      
-      if (this.state === 'pending') {
+
+      if (this.state === "pending") {
         this.callbacks.push(callback);
       } else {
         this._handleCallback(callback);
@@ -1293,9 +1338,9 @@ class MyPromise {
   // and use it to resolve the new promise that then() created.
   _handleCallback(callback) {
     const { onFulfilled, onRejected, resolve, reject } = callback;
-    
-    if (this.state === 'fulfilled') {
-      if (typeof onFulfilled === 'function') {
+
+    if (this.state === "fulfilled") {
+      if (typeof onFulfilled === "function") {
         const result = onFulfilled(this.value);
         if (result instanceof MyPromise) {
           result.then(resolve, reject);
@@ -1305,8 +1350,8 @@ class MyPromise {
       } else {
         resolve(this.value);
       }
-    } else if (this.state === 'rejected') {
-      if (typeof onRejected === 'function') {
+    } else if (this.state === "rejected") {
+      if (typeof onRejected === "function") {
         // assume onRejected returns a value, not a promise
         resolve(onRejected(this.value));
       } else {
@@ -1318,15 +1363,16 @@ class MyPromise {
 ```
 
 ## async and await
-Async functions can contain zero or more `await` expressions. Await expressions suspend progress through an async function, yielding control and subsequently resuming progress only when an awaited promise-based asynchronous operation is either fulfilled or rejected. **The resolved value of the promise is treated as the return value of the await expression**. 
+
+Async functions can contain zero or more `await` expressions. Await expressions suspend progress through an async function, yielding control and subsequently resuming progress only when an awaited promise-based asynchronous operation is either fulfilled or rejected. **The resolved value of the promise is treated as the return value of the await expression**.
 
 - **Async functions always return a promise**. If the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise.
 - You can use await with any function which returns a promise. The function you're awaiting doesn't need to be async necessarily.
 - The `await` keyword is only valid inside async functions.
 - Use of `async / await` enables the use of ordinary `try / catch` blocks around asynchronous code.
 
-> Top level await (introduced in ES2022):  
-> You can use the `await` keyword on its own (outside of an async function) at the top level of a module. 
+> Top level await (introduced in ES2022):\
+> You can use the `await` keyword on its own (outside of an async function) at the top level of a module.
 >
 > It only works in JavaScript modules, not in CommonJS (`require`) or traditional `<script>` tags without `type="module"`. Also, `.cjs` files in Node.js don’t support top-level await.
 
@@ -1355,66 +1401,67 @@ async function fetchUsers() {
 function resolveAfter2Seconds() {
   return new Promise(resolve => {
     setTimeout(function() {
-      resolve("slow")
-    }, 2000)
-  })
+      resolve("slow");
+    }, 2000);
+  });
 }
 
 function resolveAfter1Second() {
   return new Promise(resolve => {
     setTimeout(function() {
-      resolve("fast")
-    }, 1000)
-  })
+      resolve("fast");
+    }, 1000);
+  });
 }
 
 async function sequentialStart() {
   // 1. Execution gets here almost instantly
-  console.log('==SEQUENTIAL START==')
+  console.log("==SEQUENTIAL START==");
 
-  const slow = await resolveAfter2Seconds()
-  console.log(slow) // 2. runs 2 seconds after 1
+  const slow = await resolveAfter2Seconds();
+  console.log(slow); // 2. runs 2 seconds after 1
 
-  const fast = await resolveAfter1Second()
-  console.log(fast) // 3. runs 3 seconds after 1
+  const fast = await resolveAfter1Second();
+  console.log(fast); // 3. runs 3 seconds after 1
 }
 
 async function concurrentStart() {
-  console.log('==CONCURRENT START with await==')
+  console.log("==CONCURRENT START with await==");
 
-  const slow = resolveAfter2Seconds() // starts timer immediately
-  const fast = resolveAfter1Second() // starts timer immediately
+  const slow = resolveAfter2Seconds(); // starts timer immediately
+  const fast = resolveAfter1Second(); // starts timer immediately
 
   // 1. Execution gets here almost instantly
-  console.log(await slow) // 2. runs 2 seconds after 1
-  console.log(await fast) // 3. runs 2 seconds after 1, immediately after 2, since fast is already resolved
+  console.log(await slow); // 2. runs 2 seconds after 1
+  console.log(await fast); // 3. runs 2 seconds after 1, immediately after 2, since fast is already resolved
 }
 
 function concurrentPromise() {
-  console.log('==CONCURRENT START with Promise.all==')
-  
+  console.log("==CONCURRENT START with Promise.all==");
+
   return Promise.all([resolveAfter2Seconds(), resolveAfter1Second()])
     .then((messages) => {
-      console.log(messages[0])  
-      console.log(messages[1])
-    })
+      console.log(messages[0]);
+      console.log(messages[1]);
+    });
 }
 
 async function parallel() {
-  console.log('==PARALLEL with await Promise.all==')
-  
+  console.log("==PARALLEL with await Promise.all==");
+
   // Start 2 "jobs" in parallel and wait for both of them to complete
   // after 1 second, logs "fast", then after 1 more second, "slow"
   await Promise.all([
-    (async() => console.log(await resolveAfter2Seconds()))(),
-    (async() => console.log(await resolveAfter1Second()))()
-  ])
+    (async () => console.log(await resolveAfter2Seconds()))(),
+    (async () => console.log(await resolveAfter1Second()))(),
+  ]);
 }
 ```
 
 > Concurrency is when two or more tasks can start, run, and complete in overlapping time periods. It doesn't necessarily mean they'll ever be running at the same instant. For example, multitasking on a single-core machine. Parallelism is when tasks literally run at the same time, e.g., on a multicore processor.
 
 ### `for await...of`
+
 The `for await..of` loop is a handy tool when working with asynchronous operations. It allows us to iterate over the results of promises or asynchronous generators in a more readable and intuitive way.
 
 When using `for await...of`, it first looks for an async iterator via `[Symbol.asyncIterator]()`. If it exists, the loop uses it directly. If not, it falls back to the regular `[Symbol.iterator]()` and wraps each value in a promise. This allows the loop to handle both async and sync iterables. Each item is awaited before the loop continues, so promises are automatically unwrapped. In contrast, `for...of` only works with sync iterables and does not await promises.
@@ -1430,7 +1477,7 @@ const asyncIterable = {
         const done = i === LIMIT;
         const value = done ? undefined : i++;
         return Promise.resolve({ value, done });
-      }
+      },
     };
   },
 };

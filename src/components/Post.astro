@@ -3,51 +3,51 @@ const { id, url, title, tags, date, top } = Astro.props;
 ---
 
 <li class="post-item">
-  { top && <span class="top-tag">top</span> }
-  <a href={url} class="title" transition:name={'post-' + id}>{title}</a>
+  {top && <span class="top-tag">top</span>}
+  <a href={url} class="title" transition:name={"post-" + id}>{title}</a>
   <time datetime={date}>
-    {date && new Date(date).toLocaleDateString('en-us', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+    {date && new Date(date).toLocaleDateString("en-us", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     })}
   </time>
 
   <span>
-		{tags && tags.map((tag) => (
+    {tags && tags.map((tag) => (
       <a class="tag-link" href={`/tag/${tag}`}>
         #{tag}
       </a>
-		))}
-	</span>
+    ))}
+  </span>
 </li>
 <style>
-  .post-item {
-    margin: 1.2em 0;
-  }
-  .post-item .title {
-    color: var(--heading-color);
-    text-decoration: underline;
-  }
-  .post-item:hover .title {
-    font-weight: bold;
-  }
-  .post-item .top-tag {
-    border: 1px solid var(--orange);
-    color: var(--orange);
-    font-size: 13px;
-    padding: 1px 4px;
-    margin-right: 8px;
-    border-radius: 4px;
-    font-style: italic;
-  }
-  .post-item .tag-link {
-    color: var(--purple);
-  }
-  .post-item time {
-    padding-left: 8px;
-    font-size: 14px;
-    font-style: italic;
-    color: var(--gray);
-  }
+.post-item {
+  margin: 1.2em 0;
+}
+.post-item .title {
+  color: var(--heading-color);
+  text-decoration: underline;
+}
+.post-item:hover .title {
+  font-weight: bold;
+}
+.post-item .top-tag {
+  border: 1px solid var(--orange);
+  color: var(--orange);
+  font-size: 13px;
+  padding: 1px 4px;
+  margin-right: 8px;
+  border-radius: 4px;
+  font-style: italic;
+}
+.post-item .tag-link {
+  color: var(--purple);
+}
+.post-item time {
+  padding-left: 8px;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--gray);
+}
 </style>

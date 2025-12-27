@@ -1,12 +1,15 @@
 ---
-import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+import PlaygroundLayout from "@/layouts/PlaygroundLayout.astro";
 ---
 
 <PlaygroundLayout title="Curtains Opening">
   <div class="demo-wrapper">
     <p class="demo-note">
-      "This demo is taken from Ahmad Shadeed's article <a href="https://ishadeed.com/article/redesign-2024/" target="_blank">Redesign Case Study</a>.
-      I really enjoy the curtain-opening animation, so I wanted to showcase his work here."
+      "This demo is taken from Ahmad Shadeed's article <a
+        href="https://ishadeed.com/article/redesign-2024/"
+        target="_blank"
+      >Redesign Case Study</a>. I really enjoy the curtain-opening animation, so
+      I wanted to showcase his work here."
     </p>
     <div class="postHeader">
       <div class="lightTest">
@@ -39,284 +42,284 @@ import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
 </PlaygroundLayout>
 
 <style>
-  .demo-wrapper {
-    height: 1000px;
-    padding-top: 1rem;
-  }
-  .demo-note {
-    line-height: 1.2;
-    margin-bottom: 2rem;
-    padding-left: 2rem;
-  }
-  .demo-note a {
-    text-decoration: underline;
-    color: #333;
-    font-style: italic;
-  }
+.demo-wrapper {
+  height: 1000px;
+  padding-top: 1rem;
+}
+.demo-note {
+  line-height: 1.2;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+}
+.demo-note a {
+  text-decoration: underline;
+  color: #333;
+  font-style: italic;
+}
 
-  .postHeader {
-    position: relative;
-    background-color: #0a1d3d;
-    padding-top: 2rem;
-    overflow: clip;
-  }
+.postHeader {
+  position: relative;
+  background-color: #0a1d3d;
+  padding-top: 2rem;
+  overflow: clip;
+}
 
-  .postHeader h1 {
-    gap: 16px;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #9c3ce7;
-  }
+.postHeader h1 {
+  gap: 16px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #9c3ce7;
+}
 
-  .desc {
-    color: #fff;
-  }
+.desc {
+  color: #fff;
+}
 
-  .lightMain {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translate(-50%) rotate(-90deg);
-    width: 50px;
-    height: 25px;
-    background-color: #030812;
-    background-image: linear-gradient(
-      to bottom,
-      #030812 10px,
-      #ffffff80 20px,
-      #030812 25px 33px,
-      #ffffff0d 1px
-    );
-    background-repeat: no-repeat;
-    background-size: 100% 35px;
-    border-radius: 7px 13px 13px 7px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
+.lightMain {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translate(-50%) rotate(-90deg);
+  width: 50px;
+  height: 25px;
+  background-color: #030812;
+  background-image: linear-gradient(
+    to bottom,
+    #030812 10px,
+    #ffffff80 20px,
+    #030812 25px 33px,
+    #ffffff0d 1px
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 35px;
+  border-radius: 7px 13px 13px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
 
-  .lightMain:after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 1px;
-    width: 15px;
-    border-radius: 50%;
-    background-color: #fff;
-    box-shadow: 0 0 5px #fff;
-  }
+.lightMain:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 1px;
+  width: 15px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 5px #fff;
+}
 
-  .lightTest {
-    position: absolute;
-    left: -100px;
-    bottom: -10px;
-    width: 450px;
-    height: 1200px;
-    background-image: radial-gradient(
-      ellipse 10% 37% at 50% 63%,
-      rgba(255, 255, 255, 0.5),
-      transparent
-    );
-    z-index: 20;
-    transform-origin: bottom center;
-    transform: rotate(70deg);
-    animation: lightRotate1 linear both;
-    animation-timeline: scroll();
-    animation-range: 0 80px;
+.lightTest {
+  position: absolute;
+  left: -100px;
+  bottom: -10px;
+  width: 450px;
+  height: 1200px;
+  background-image: radial-gradient(
+    ellipse 10% 37% at 50% 63%,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  z-index: 20;
+  transform-origin: bottom center;
+  transform: rotate(70deg);
+  animation: lightRotate1 linear both;
+  animation-timeline: scroll();
+  animation-range: 0 80px;
+  opacity: 1;
+}
+
+.lightTest2 {
+  left: auto;
+  right: -100px;
+  transform-origin: bottom center;
+  transform: rotate(-70deg);
+  animation: lightRotate2 linear both;
+  animation-timeline: scroll();
+  animation-range: 0 80px;
+}
+
+@keyframes lightRotate1 {
+  to {
+    transform: rotate(50deg);
+  }
+}
+
+@keyframes lightRotate2 {
+  to {
+    transform: rotate(-50deg);
+  }
+}
+
+.postHeaderWrapper {
+  margin: auto;
+  max-width: 700px;
+  margin-inline: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.postHeaderContent {
+  position: absolute;
+  inset-inline: 0;
+  margin-inline: auto;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  transform: translateY(250px);
+  opacity: 0;
+  animation: showContent linear both;
+  animation-timeline: scroll();
+  animation-range: 0 80px;
+}
+
+.postHeaderContent img {
+  border-radius: 15px;
+}
+
+@keyframes showContent {
+  to {
+    transform: translateY(80px);
     opacity: 1;
   }
+}
 
-  .lightTest2 {
-    left: auto;
-    right: -100px;
-    transform-origin: bottom center;
-    transform: rotate(-70deg);
-    animation: lightRotate2 linear both;
-    animation-timeline: scroll();
-    animation-range: 0 80px;
-  }
+.curtainWrapperAll {
+  position: relative;
+  max-width: 1200px;
+  height: 80vh;
+  max-height: 800px;
+  margin-inline: auto;
+}
 
-  @keyframes lightRotate1 {
-    to {
-      transform: rotate(50deg);
-    }
-  }
+.curtainWrapper {
+  position: relative;
+  width: calc(100% - 40px);
+  height: 100%;
+  overflow: clip;
+  margin-top: -12px;
+  margin-left: 20px;
+}
 
-  @keyframes lightRotate2 {
-    to {
-      transform: rotate(-50deg);
-    }
-  }
+.curtainHolder {
+  position: relative;
+  height: 24px;
+  background-color: #ffa700;
+  border-radius: 12px;
+  z-index: 10;
+  border: 2px solid rgba(0, 0, 0, 0.45);
+  box-shadow: 0 3px 20px #00000080;
+}
 
-  .postHeaderWrapper {
-    margin: auto;
-    max-width: 700px;
-    margin-inline: auto;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+.curtainHolder:after,
+.curtainHolder:before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  width: 30px;
+  height: 30px;
+  background-color: #cc8600;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.35);
+}
 
-  .postHeaderContent {
-    position: absolute;
-    inset-inline: 0;
-    margin-inline: auto;
-    max-width: 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    transform: translateY(250px);
-    opacity: 0;
-    animation: showContent linear both;
-    animation-timeline: scroll();
-    animation-range: 0 80px;
-  }
+.curtainHolder:before {
+  left: -4px;
+}
 
-  .postHeaderContent img {
-    border-radius: 15px;
-  }
+.curtainHolder:after {
+  right: -4px;
+}
 
-  @keyframes showContent {
-    to {
-      transform: translateY(80px);
-      opacity: 1;
-    }
-  }
+.curtainItems {
+  height: 100%;
+}
 
-  .curtainWrapperAll {
-    position: relative;
-    max-width: 1200px;
-    height: 80vh;
-    max-height: 800px;
-    margin-inline: auto;
-  }
+.curtainItem {
+  width: 50%;
+  position: absolute;
+  top: 12px;
+  bottom: 0;
+  transition: 0.5s linear;
+  height: 100%;
+}
 
-  .curtainWrapper {
-    position: relative;
-    width: calc(100% - 40px);
-    height: 100%;
-    overflow: clip;
-    margin-top: -12px;
-    margin-left: 20px;
-  }
+.curtainItem.start {
+  --translateX: -150px;
+  left: 0;
+  transform-origin: left;
+  background: linear-gradient(
+    270deg,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b 99%
+  );
+  z-index: 5;
+  animation: moveCurtainStart linear both;
+  animation-timeline: scroll();
+  animation-range: 0 200px;
+}
 
-  .curtainHolder {
-    position: relative;
-    height: 24px;
-    background-color: #ffa700;
-    border-radius: 12px;
-    z-index: 10;
-    border: 2px solid rgba(0, 0, 0, 0.45);
-    box-shadow: 0 3px 20px #00000080;
-  }
+.curtainItem.end {
+  --translateX: 150px;
+  right: 0;
+  transform-origin: right;
+  background: linear-gradient(
+    270deg,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b,
+    #c83852,
+    #91283b 99%
+  );
+  z-index: 5;
+  animation: moveCurtainEnd linear both;
+  animation-timeline: scroll();
+  animation-range: 0 200px;
+}
 
-  .curtainHolder:after,
-  .curtainHolder:before {
-    content: "";
-    position: absolute;
-    top: -5px;
-    width: 30px;
-    height: 30px;
-    background-color: #cc8600;
-    border-radius: 50%;
-    border: 2px solid rgba(0, 0, 0, 0.35);
+@keyframes moveCurtainStart {
+  to {
+    transform: skew(-3.5deg) scaleX(0.35) translate(var(--translateX));
   }
+}
 
-  .curtainHolder:before {
-    left: -4px;
+@keyframes moveCurtainEnd {
+  to {
+    transform: skew(3.5deg) scaleX(0.35) translate(var(--translateX));
   }
-
-  .curtainHolder:after {
-    right: -4px;
-  }
-
-  .curtainItems {
-    height: 100%;
-  }
-
-  .curtainItem {
-    width: 50%;
-    position: absolute;
-    top: 12px;
-    bottom: 0;
-    transition: 0.5s linear;
-    height: 100%;
-  }
-
-  .curtainItem.start {
-    --translateX: -150px;
-    left: 0;
-    transform-origin: left;
-    background: linear-gradient(
-      270deg,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b 99%
-    );
-    z-index: 5;
-    animation: moveCurtainStart linear both;
-    animation-timeline: scroll();
-    animation-range: 0 200px;
-  }
-
-  .curtainItem.end {
-    --translateX: 150px;
-    right: 0;
-    transform-origin: right;
-    background: linear-gradient(
-      270deg,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b,
-      #c83852,
-      #91283b 99%
-    );
-    z-index: 5;
-    animation: moveCurtainEnd linear both;
-    animation-timeline: scroll();
-    animation-range: 0 200px;
-  }
-
-  @keyframes moveCurtainStart {
-    to {
-      transform: skew(-3.5deg) scaleX(0.35) translate(var(--translateX));
-    }
-  }
-
-  @keyframes moveCurtainEnd {
-    to {
-      transform: skew(3.5deg) scaleX(0.35) translate(var(--translateX));
-    }
-  }
+}
 </style>

@@ -7,6 +7,7 @@ order: 3
 ---
 
 ## People
+
 - @cassidoo @sarah_edo career development and spirits
 - @kentcdodds @dan_abramov about React
 - @stefanjudis dev reources and TIL
@@ -30,6 +31,7 @@ order: 3
 - @shrutikapoor08 https://shrutikapoor.dev
 
 ## Must read articles
+
 - https://github.com/reactwg/server-components/discussions/5
 - https://www.developerway.com/posts/react-re-renders-guide
 - https://tigerabrodi.blog/why-is-react-server-components-actually-beneficial-full-history
@@ -41,39 +43,47 @@ order: 3
 - https://leerob.com/ai
 
 ## Must watch videos
-Tejas Kumar:  
+
+Tejas Kumar:
+
 - https://www.youtube.com/watch?v=3RzhNYhjVAw&t=460s
 - https://www.youtube.com/watch?v=F83wMYl9GWM&t=496s
 - https://www.youtube.com/watch?v=eTcyOCd6v1c
 
-Aurora Scharff: 
+Aurora Scharff:
+
 - https://www.youtube.com/watch?v=O3ZtlTwDnbk&t=300s
 - https://www.youtube.com/watch?v=CvAySC5ex9c
 - https://www.youtube.com/watch?v=I3AsmAWWGEs
 
 Lee Robinson:
+
 - https://www.youtube.com/watch?v=h2BcitZPMn4
 
 ## Communication problems
+
 - https://www.neverjust.net
 - https://nohello.net
 - https://xyproblem.info
 
 ## Learn from mistakes
-1. Make a mistake 
-2. Fix the mistake 
-3. Learn from the mistake 
-4. Share the mistake experience with others 
+
+1. Make a mistake
+2. Fix the mistake
+3. Learn from the mistake
+4. Share the mistake experience with others
 5. Repeat 1-4 for the rest of your career
 
 Rejection is an inevitable part of the job interview process, but it doesn't have to be the end of your journey. Take each rejection as a learning opportunity and come out stronger than before.
 
 ## Business and Engineering alignment by Kent C. Dodds
+
 Your job isn't to turn user stories into code. The company has a mission. Everyone at the company is hired to push that mission forward. You're not a software engineer hired to code. You're a human hired to push their mission forward. It just so happens that you are a human with coding skills and during the hiring process, they recognized that those coding skills could help them in their mission.
 
 You may not have enough information to perform the analysis. You may need to ask the product manager questions about the features and how they tie into the mission of the company. Go into the conversation with an open mind and a desire to understand. The company hired the product manager to help prioritize work in the optimal way to push the mission forward. You should trust them to do their job well and recognize that they may have context that you're missing. So long as you effectively expressed all the information you can about the long-term benefit-to-effort ratio of your ideas then you've done all you can there.
 
 ## Disagree on "Don't hire jumpy people" by Mekka
+
 If you join a company or team and deal with constant nonsense and a broken culture? Switch. Immediately. Do not delay. And if the new team is nonsense again? Switch again. Don't let these people waste your time or tax your peace.
 
 You will do your best work when you are supported and included. You will make up more career time working 6 months at the right place, than in the previous 6 years of daily hell.
@@ -83,7 +93,9 @@ An inclusive team will not judge you for switching multiple times finding the ri
 Don't ask people why they left their last position. They often can't tell you, and it's not relevant. Instead, ask what they are looking for in their next role. You can even ask how long they intend to stay, or what would entice them to spend N years on the same team or role.
 
 ## Product and Platform Engineers by Lee Robinson
+
 The divide between frontend and backend engineers is increasingly less useful:
+
 - Frontend developers are no longer just writing HTML, CSS, and JavaScript. It's now common to see a frontend-focused developer build an entire web application from scratch. They integrate and connect to databases, handle authentication, and more.
 - Backend developers are often forced to choose between two paths: writing more frontend code to support their backend, or moving closer towards managing, maintaining, and building software infrastructure used by the former developers.
 
@@ -92,6 +104,7 @@ Product Engineers consider the frontend, backend, design, and everything in betw
 While Product Engineers focus on building and enhancing features that solve end user problems, Platform Engineers focus on the infrastructure that supports the product.
 
 ## Five things I’ve stopped doing as a leader by Kelly Vaughn
+
 1. Focusing on outputs over outcomes. It's easy to celebrate launching a new feature, but the real win is the impact on users and the business. I've learned to ask, What did this actually change?
 2. Worrying about making sure my team is only working on important things. The reality is we're all going to have to do things at work that aren't exactly fun or the biggest money movers, but they're still necessary in their own right. Leave space to sit through the boring work.
 3. Avoiding conflict. Giving tough feedback used to make me anxious. Now, I see those conversations as opportunities to grow—both for me and my team.
@@ -99,6 +112,7 @@ While Product Engineers focus on building and enhancing features that solve end 
 5. Treating self-care as optional. Burnout isn’t a badge of honor. Being busy isn't something to brag about. When I take the time to care of myself, I lead with clarity and empathy. It's a win for everyone.
 
 ## Good engineer and bad engineer by Matheus Lima
+
 - Bad engineers measure their worth by the complexity of their solutions. They build elaborate architectures for simple problems, write clever code that requires a PhD to understand, and mistake motion for progress. Good engineers reach for simple solutions first, write code their junior colleagues can maintain, and have the confidence to choose “boring” technology that just works.
 
 - Bad engineers treat code reviews as battles to be won. They defend every line like it’s their firstborn child, taking feedback as personal attacks. Good engineers see code reviews differently — they’re opportunities to teach and learn, not contests. They’ll often review their own PR first, leaving comments like “This feels hacky, any better ideas?”

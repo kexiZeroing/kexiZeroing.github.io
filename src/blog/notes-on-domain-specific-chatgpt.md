@@ -7,6 +7,7 @@ updatedDate: "July 14 2025"
 ---
 
 ## What are Vector Embeddings?
+
 Vector embeddings are central to many NLP, recommendation, and search algorithms. We create vector embeddings, which are just lists of numbers, to perform various operations with them. A whole paragraph of text or any other object can be reduced to a vector.
 
 There is something special about vectors that makes them so useful. This representation makes it possible to translate semantic similarity as perceived by humans to proximity in a vector space. In other words, when we represent real-world objects and concepts such as images, audio recordings, news articles, and user profiles as vector embeddings, the semantic similarity of these objects and concepts can be quantified by how close they are to each other as points in vector spaces.
@@ -16,6 +17,7 @@ There is something special about vectors that makes them so useful. This represe
 We train models to translate objects to vectors. A deep neural network is a common tool for training such models. The resulting embeddings are usually high dimensional (up to two thousand dimensions) and dense (all values are non-zero). For text data, models such as Word2Vec, GloVe (Global Vectors for Word Representation), and BERT transform words, sentences, or paragraphs into vector embeddings. Images can be embedded using models such as convolutional neural networks (CNNs).
 
 ### Tokens and Embeddings
+
 Tokens are the basic units of data processed by LLMs. In the context of text, a token can be a word, part of a word (subword), or even a character — depending on the tokenization process.
 
 In the context of GPT, each piece of text is represented by the ID of the corresponding token in the final vocabulary. If a word is not in the vocabulary, it’s broken down into smaller tokens that are in the vocabulary. The key point is that the assignment of token IDs is not arbitrary but based on the frequency of occurrence and combination patterns in the language data the model was trained on.
@@ -42,6 +44,7 @@ assert(enc.decode(enc.encode("hello world")) === "hello world");
 ```
 
 > Language models don't see text like you and I, instead they see a sequence of tokens. Byte pair encoding (BPE) is a way of converting text into tokens used in GPT.
+>
 > - It's reversible and lossless, so you can convert tokens back into the original text.
 > - It compresses the text: the token sequence is shorter than the bytes corresponding to the original text. On average, in practice, each token corresponds to about 4 bytes.
 > - It attempts to let the model see common subwords. For instance, "ing" is a common subword in English, so BPE encodings will often split "encoding" into tokens like "encod" and "ing" (instead of e.g. "enc" and "oding"). Because the model will then see the "ing" token again and again in different contexts, it helps models generalise and better understand grammar.
@@ -67,9 +70,10 @@ print(f"Embedding length: {len(embedded_query)}") # Embedding length: 1536
 print(embedded_query) # [-0.0013594045786472937, -0.03437049808954925, ...]
 ```
 
-In data analysis, *cosine similarity* is a measure of similarity between two non-zero vectors defined in an inner product space. Cosine similarity is the cosine of the angle between the vectors; that is, it is the dot product of the vectors divided by the product of their lengths.
+In data analysis, _cosine similarity_ is a measure of similarity between two non-zero vectors defined in an inner product space. Cosine similarity is the cosine of the angle between the vectors; that is, it is the dot product of the vectors divided by the product of their lengths.
 
 ### Self Attention Mechanism
+
 Tokenaizer -> Embedding (capture semantic meaning) -> Attention (capture contextual meaning)
 
 Embeddings alone don't distinguish between words with multiple meanings. Embedding table assigns a signle vector regardless of the context. This is where self-attention comes in. Self attention mechanism transforms semantic representations into context-aware representations making words are understood in the context of the sentence.
@@ -84,6 +88,7 @@ Embeddings alone don't distinguish between words with multiple meanings. Embeddi
 <img alt="embedding-matrix" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/self-attention-qkv.png" width="600" />
 
 ## Storing embeddings in Postgres with pgvector
+
 How can I retrieve K nearest embedding vectors quickly? For searching over many vectors quickly, we recommend using a vector database.
 
 [pgvector](https://github.com/pgvector/pgvector) is an open-source vector similarity search for Postgres. Once we have generated embeddings on multiple texts, it is trivial to calculate how similar they are using vector math operations like cosine distance. A perfect use case for this is search. Your process might look something like this:
@@ -116,37 +121,37 @@ One of the biggest challenges of OpenAI's `text-davinci-003` completion model is
 
 // Generate a one-time embedding for the query itself
 const embeddingResponse = await openai.createEmbedding({
-  model: 'text-embedding-ada-002',
+  model: "text-embedding-ada-002",
   input,
-})
+});
 
-const [{ embedding }] = embeddingResponse.data.data
+const [{ embedding }] = embeddingResponse.data.data;
 
 // Fetching whole documents for this simple example.
 // `match_documents` is a function to perform similarity search over embeddings
-const { data: documents } = await supabaseClient.rpc('match_documents', {
+const { data: documents } = await supabaseClient.rpc("match_documents", {
   query_embedding: embedding,
   match_threshold: 0.78, // Choose an appropriate threshold for your data
   match_count: 10, // Choose the number of matches
-})
+});
 
-const tokenizer = new GPT3Tokenizer({ type: 'gpt3' })
-let tokenCount = 0
-let contextText = ''
+const tokenizer = new GPT3Tokenizer({ type: "gpt3" });
+let tokenCount = 0;
+let contextText = "";
 
 // Concat matched documents
 for (let i = 0; i < documents.length; i++) {
-  const document = documents[i]
-  const content = document.content
-  const encoded = tokenizer.encode(content)
-  tokenCount += encoded.text.length
+  const document = documents[i];
+  const content = document.content;
+  const encoded = tokenizer.encode(content);
+  tokenCount += encoded.text.length;
 
   // Limit context to max 1500 tokens (configurable)
   if (tokenCount > 1500) {
-    break
+    break;
   }
 
-  contextText += `${content.trim()}\n---\n`
+  contextText += `${content.trim()}\n---\n`;
 }
 
 const prompt = stripIndent`${oneLine`
@@ -165,25 +170,28 @@ const prompt = stripIndent`${oneLine`
   """
 
   Answer as markdown (including related code snippets if available):
-`
+`;
 
 const completionResponse = await openai.createCompletion({
-  model: 'text-davinci-003',
+  model: "text-davinci-003",
   prompt,
   max_tokens: 512, // Choose the max allowed tokens in completion
   temperature: 0, // Set to 0 for deterministic results
-})
+});
 ```
 
 ### Domain-specific ChatGTP Starter App
+
 [This starter app](https://github.com/gannonh/gpt3.5-turbo-pgvector) uses embeddings to generate a vector representation of a document, and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which is then used to generate a response. The response is then streamed to the user.
 
 Creating and storing the embeddings: See [pages/embeddings.tsx](https://github.com/gannonh/gpt3.5-turbo-pgvector/blob/master/pages/embeddings.tsx) and [pages/api/generate-embeddings.ts](https://github.com/gannonh/gpt3.5-turbo-pgvector/blob/master/pages/api/generate-embeddings.ts)
+
 - Web pages are scraped, stripped to plain text and split into 1000-character documents.
 - OpenAI's embedding API is used to generate embeddings for each document using the `text-embedding-ada-002` model.
 - The embeddings are then stored in a Supabase postgres table using `pgvector`.
 
 Responding to queries: See [pages/api/docs.ts](https://github.com/gannonh/gpt3.5-turbo-pgvector/blob/master/pages/api/docs.ts) and [utils/OpenAIStream.ts](https://github.com/gannonh/gpt3.5-turbo-pgvector/blob/master/utils/OpenAIStream.ts)
+
 - A single embedding is generated from the user prompt.
 - That embedding is used to perform a similarity search against the vector database.
 - The results of the similarity search are used to construct a prompt for GPT-3.
@@ -235,6 +243,7 @@ async function getDocuments(urls: string[]) {
 ```
 
 ## GPT and LangChain Chatbot for PDF docs
+
 [gpt4-pdf-chatbot-langchain](https://github.com/mayooear/gpt4-pdf-chatbot-langchain) uses LangChain and Pinecone to build a chatbot for large PDF docs. Convert your PDF to embeddings:
 
 <img alt="pdf-to-embeddings" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hccg4ncf7vj32140fu0x9.jpg" width="800" />
@@ -265,8 +274,8 @@ await pinecone.init({
   environment: process.env.PINECONE_ENVIRONMENT,
   apiKey: process.env.PINECONE_API_KEY,
 });
-// An index is the highest-level organizational unit of vector data in Pinecone. 
-// It accepts and stores vectors, serves queries over the vectors it contains, 
+// An index is the highest-level organizational unit of vector data in Pinecone.
+// It accepts and stores vectors, serves queries over the vectors it contains,
 // and does other vector operations over its contents.
 const index = pinecone.Index(PINECONE_INDEX_NAME); // change to your own index name
 
@@ -283,6 +292,7 @@ for (let i = 0; i < docs.length; i += chunkSize) {
 ```
 
 ## Vector Database
+
 - Vector Databases Explained: https://vercel.com/guides/vector-databases
 - What is a Vector Database: https://www.pinecone.io/learn/vector-database
 
@@ -293,6 +303,7 @@ Several algorithms can facilitate the creation of a vector index. Their goal is 
 HNSW (Hierarchical Navigable Small World) creates a hierarchical, tree-like structure where each node of the tree represents a set of vectors. The edges between the nodes represent the similarity between the vectors. The algorithm starts by creating a set of nodes, each with a small number of vectors. The algorithm then examines the vectors of each node and draws an edge between that node and the nodes that have the most similar vectors to the one it has. When we query an HNSW index, it uses this graph to navigate through the tree, visiting the nodes that are most likely to contain the closest vectors to the query vector.
 
 ## Techniques beyond basic RAG
+
 There is more to RAG than putting documents into a vector DB and adding an LLM on top. That can work, but it won’t always. The retrieval may return relevant information below our `top_k` cutoff. The metric we would measure here is **recall**, which measures how many relevant documents are retrieved out of the total number of relevant documents in the dataset. LLM recall degrades as we put more tokens in the context window.
 
 A **reranking** model — also known as a cross-encoder — is a type of model that, given a query and document pair, will output a similarity score. We use this score to reorder the documents by relevance to our query. Search engineers have used rerankers in two-stage retrieval systems for a long time. In these two-stage systems, a first-stage model (an embedding model / bi-encoder) retrieves a set of relevant documents from a larger dataset. Then, a second-stage model (the reranker) is used to rerank those documents retrieved by the first-stage model. Note that rerankers are slow, and retrievers are fast.
@@ -314,15 +325,18 @@ scores = model.predict([
 ```
 
 ### Rerank APIs
+
 - JinaAI Reranker (1 million free tokens): https://jina.ai/reranker
 - Cohere offers an API for reranking documents: https://cohere.com/blog/rerank
 
 > Jina AI Search Foundation Models:
+>
 > - Embedding Models: `jina-embeddings-v3`, `jina-embeddings-v4`(multimodal and multilingual)
 > - Reranker Models: `jina-reranker-v2-base-multilingual`
 > - Small Language Models (SLMs): `ReaderLM-v2`
 
 ### Query Transformation
+
 RAG systems often face challenges in retrieving the most relevant information, especially when dealing with complex or ambiguous queries. These [query transformation techniques](https://github.com/NirDiamant/RAG_Techniques/blob/main/all_rag_techniques/query_transformations.ipynb) address this issue by reformulating queries to better match relevant documents or to retrieve more comprehensive information.
 
 1. Query Rewriting: Reformulates queries to be more specific and detailed.
@@ -330,6 +344,7 @@ RAG systems often face challenges in retrieving the most relevant information, e
 3. Sub-query Decomposition: Breaks down complex queries into simpler sub-queries.
 
 ### DeepSearch and DeepResearch
+
 https://jina.ai/news/a-practical-guide-to-implementing-deepsearch-deepresearch/
 
 - DeepSearch runs through an iterative loop of searching, reading, and reasoning until it finds the optimal answer.

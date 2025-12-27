@@ -21,8 +21,7 @@ export function AlertDialogDemo() {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently pretend to do
-            something.
+            This action cannot be undone. This will permanently pretend to do something.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

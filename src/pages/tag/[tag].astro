@@ -1,49 +1,59 @@
 ---
 import BaseHead from "../../components/BaseHead.astro";
-import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
-import Post from "../../components/Post.astro";
 import ColorScript from "../../components/ColorScript.astro";
-import SmallRotation from '../../components/SmallRotation.astro';
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import Post from "../../components/Post.astro";
+import SmallRotation from "../../components/SmallRotation.astro";
 
 import { getCollection } from "astro:content";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../../config";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../config";
 
 export async function getStaticPaths() {
-	const allPosts = await getCollection("blog");
+  const allPosts = await getCollection("blog");
 
-	const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags ?? []).flat())];
-	const uniqueYears = [...new Set(allPosts.map((post) => {
-		const date = post.data.added;
-		return date ? String(new Date(date).getFullYear()) : null;
-	}).filter(Boolean))];
+  const uniqueTags = [
+    ...new Set(allPosts.map((post) => post.data.tags ?? []).flat()),
+  ];
+  const uniqueYears = [
+    ...new Set(
+      allPosts.map((post) => {
+        const date = post.data.added;
+        return date ? String(new Date(date).getFullYear()) : null;
+      }).filter(Boolean),
+    ),
+  ];
 
-	// Generate paths for tags
-	const tagPaths = uniqueTags.map((tag) => {
-		const filteredPosts = allPosts
-			.filter((post) => post.data.tags ? post.data.tags.includes(tag) : false)
-			.sort((a, b) => new Date(b.data.added).valueOf() - new Date(a.data.added).valueOf());
-		return {
-			params: { tag },
-			props: { posts: filteredPosts, type: 'tag', value: tag },
-		};
-	});
+  // Generate paths for tags
+  const tagPaths = uniqueTags.map((tag) => {
+    const filteredPosts = allPosts
+      .filter((post) => post.data.tags ? post.data.tags.includes(tag) : false)
+      .sort((a, b) =>
+        new Date(b.data.added).valueOf() - new Date(a.data.added).valueOf()
+      );
+    return {
+      params: { tag },
+      props: { posts: filteredPosts, type: "tag", value: tag },
+    };
+  });
 
-	// Generate paths for years
-	const yearPaths = uniqueYears.map((year) => {
-		const filteredPosts = allPosts
-			.filter((post) => {
-				const date = post.data.added;
-				return date && String(new Date(date).getFullYear()) === year;
-			})
-			.sort((a, b) => new Date(b.data.added).valueOf() - new Date(a.data.added).valueOf());
-		return {
-			params: { tag: year },
-			props: { posts: filteredPosts, type: 'year', value: year },
-		};
-	});
+  // Generate paths for years
+  const yearPaths = uniqueYears.map((year) => {
+    const filteredPosts = allPosts
+      .filter((post) => {
+        const date = post.data.added;
+        return date && String(new Date(date).getFullYear()) === year;
+      })
+      .sort((a, b) =>
+        new Date(b.data.added).valueOf() - new Date(a.data.added).valueOf()
+      );
+    return {
+      params: { tag: year },
+      props: { posts: filteredPosts, type: "year", value: year },
+    };
+  });
 
-	return [...tagPaths, ...yearPaths];
+  return [...tagPaths, ...yearPaths];
 }
 
 const { posts, type, value } = Astro.props;
@@ -51,52 +61,48 @@ const { posts, type, value } = Astro.props;
 
 <!DOCTYPE html>
 <html lang="en-us">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			ul {
-				list-style-type: none;
-				padding-left: 1em;
-			}
-			ul li {
-				display: flex;
-			}
-			.tag-name {
-				font-style: italic;
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<content>
-				<h3>
-					{type === 'year' ? (
-						<>Posts in year "<span class="tag-name">{value}</span>"</>
-					) : (
-						<>Posts tagged with "<span class="tag-name">{value}</span>"</>
-					)}
-				</h3>
-				<ul>
-					{
-						posts.map(
-							(post) => (
-								<Post
-									id={post.id}
-									url={"/post/" + post.id}
-									date={post.data.added}
-									title={post.data.title}
-									tags={post.data.tags}
-									top={post.data.top}
-								/>
-							)
-						)
-					}
-				</ul>
-			</content>
-		</main>
-		<Footer />
-		<ColorScript />
-		<SmallRotation />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+    ul {
+      list-style-type: none;
+      padding-left: 1em;
+    }
+    ul li {
+      display: flex;
+    }
+    .tag-name {
+      font-style: italic;
+    }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <content>
+        <h3>
+          {type === "year" ? (
+            <>Posts in year "<span class="tag-name">{value}</span>"</>
+          ) : <>Posts tagged with "<span class="tag-name">{value}</span>"</>}
+        </h3>
+        <ul>
+          {posts.map(
+            (post) => (
+              <Post
+                id={post.id}
+                url={"/post/" + post.id}
+                date={post.data.added}
+                title={post.data.title}
+                tags={post.data.tags}
+                top={post.data.top}
+              />
+            ),
+          )}
+        </ul>
+      </content>
+    </main>
+    <Footer />
+    <ColorScript />
+    <SmallRotation />
+  </body>
 </html>

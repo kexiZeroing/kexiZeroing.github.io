@@ -9,6 +9,7 @@ updatedDate: "Dec 14 2025"
 Before we start, let's be clear: what we're learning here is Object-Oriented Programming. TypeScript is just the language expressing these ideas. The same patterns exist in Java, C#, C++, and many other languages.
 
 The core OOP concepts are:
+
 - Abstraction: Hiding complexity behind simple interfaces
 - Polymorphism: Different objects responding to the same message in different ways
 - Encapsulation: Objects managing their own internal state
@@ -19,6 +20,7 @@ TypeScript's `interface` and generics (`<T>`) are tools to express these OOP con
 We'll build one complete example and evolve it step by step. Imagine we're designing software for a postal service that handles letters, packages, and fragile items.
 
 ## Abstraction — Defining "What" without "How"
+
 Imagine you're a postal worker. Every day, you handle hundreds of items. Some are letters. Some are packages. Some are fragile antiques. But here's the thing: your job is the same regardless of what's inside. The process is identical. Only the content changes. This is the first insight of OOP: behavior can be separated from data.
 
 In OOP, an interface (or abstract class) captures what something can do without specifying how it does it. (Defining capabilities without implementation details.)
@@ -33,9 +35,10 @@ interface Deliverable {
 }
 ```
 
-Any item that "implements" this interface is promising: *"I can tell you my weight, destination, and tracking ID."*
+Any item that "implements" this interface is promising: _"I can tell you my weight, destination, and tracking ID."_
 
 ## Polymorphism — Same Interface, Different Behavior
+
 A letter weighs 20 grams. A package weighs 5 kilograms. A piano weighs 300 kilograms. When you call `getWeight()` on each of them, you get different results. But the code calling `getWeight()` doesn't need to know what type of item it is.
 
 ```ts
@@ -85,6 +88,7 @@ class Package implements Deliverable {
 The Letter and Package are completely different internally. But to the outside world, they look the same — they're both `Deliverable`. This is polymorphism: "many forms." Code that works with `Deliverable` works with ALL deliverable items.
 
 ## Generics — Parameterized Types
+
 Now we encounter a new problem. Our postal service has warehouses. Some warehouses store letters. Some store packages. Some store frozen goods. We could create: `LetterWarehouse`, `PackageWarehouse`, and `FrozenGoodsWarehouse`. But that's repetitive. The warehouse behavior is identical, only the type of item changes.
 
 This is where generics enter. A generic is a type parameter, a blank that gets filled in when you use the class.
@@ -102,7 +106,7 @@ interface Warehouse<ItemType> {
 The `<ItemType>` is not a real type, it's a placeholder. When you create an actual warehouse, you specify what goes in the blank. Why not just use `Warehouse<any>` or `Warehouse<Deliverable>`? Because type safety matters. If you have a `Warehouse<Letter>`, TypeScript will prevent you from accidentally storing a Package there.
 
 Furthermore, not everything can go in a warehouse. Only items that are trackable (have an ID) can be stored and retrieved.
-We need to say: *"This warehouse can store any type, as long as that type has a tracking ID."*
+We need to say: _"This warehouse can store any type, as long as that type has a tracking ID."_
 
 ```ts
 // postal-system/trackable.ts
@@ -123,6 +127,7 @@ interface Warehouse<ItemType extends Trackable> {
 This is bounded polymorphism: polymorphism with limits. Now the warehouse implementation can safely call `item.getTrackingId()` because TypeScript guarantees that any `ItemType` will have that method.
 
 ## Layered Abstractions — How real systems work
+
 Real systems have layers of abstraction. Let's add a delivery truck to our system. A truck doesn't know about letters or packages directly. It just knows about loading and unloading from warehouses.
 
 ```ts
@@ -130,10 +135,10 @@ Real systems have layers of abstraction. Let's add a delivery truck to our syste
 
 class DeliveryTruck<CargoType extends Trackable> {
   private cargo: CargoType[] = [];
-  
+
   constructor(
     private readonly sourceWarehouse: Warehouse<CargoType>,
-    private readonly maxCapacity: number
+    private readonly maxCapacity: number,
   ) {}
 
   loadFromWarehouse(ids: string[]): void {
@@ -157,6 +162,7 @@ class DeliveryTruck<CargoType extends Trackable> {
 Notice that `DeliveryTruck<CargoType>` doesn't know what `CargoType` is. It just knows `CargoType` is `Trackable` and it comes from a `Warehouse<CargoType>` and goes to another `Warehouse<CargoType>`. The truck is completely generic. It could carry letters, packages, frozen goods, or anything else, as long as the types match.
 
 ## The Translator Pattern — Converting between representations
+
 Here's another pattern you'll see constantly: translators (also called adapters or mappers). Our postal system has a problem: the warehouse uses internal IDs like `WH-00001`, but the public tracking website shows codes like `TRACK-ABC-123`. We need something that translates between representations.
 
 ```ts
@@ -203,7 +209,9 @@ class PackageTrackingTranslator
 ```
 
 ## Composition Over Inheritance — Building complex objects
+
 Real systems don't just have one interface. They compose multiple interfaces together. A delivery fulfillment center does many things:
+
 - Receives items (from suppliers)
 - Stores items (warehouse function)
 - Dispatches items (to trucks)
@@ -225,7 +233,7 @@ interface ItemDispatcher<T extends Trackable> {
 // postal-system/fulfillment/fulfillment-center.ts
 
 class FulfillmentCenter<ItemType extends Deliverable>
-  implements 
+  implements
     ItemReceiver<ItemType>,
     Warehouse<ItemType>,
     ItemDispatcher<ItemType>
@@ -269,6 +277,7 @@ class FulfillmentCenter<ItemType extends Deliverable>
 The FulfillmentCenter implements three interfaces. It can be used anywhere that needs an `ItemReceiver`, or a `Warehouse`, or an `ItemDispatcher`. Different parts of the system only see the interface they need. The shipping department sees `ItemDispatcher`. The inventory team sees `Warehouse`. The receiving dock sees `ItemReceiver`.
 
 ## Dependency Injection
+
 Instead of a class creating its own dependencies, they're passed in from outside.
 
 ```ts
@@ -277,30 +286,34 @@ Instead of a class creating its own dependencies, they're passed in from outside
 class DeliveryCoordinator<ItemType extends Deliverable> {
   constructor(
     private readonly warehouse: Warehouse<ItemType>,
-    private readonly translator: TrackingTranslator<ItemType, PublicTrackingInfo>,
-    private readonly dispatcher: ItemDispatcher<ItemType>
+    private readonly translator: TrackingTranslator<
+      ItemType,
+      PublicTrackingInfo
+    >,
+    private readonly dispatcher: ItemDispatcher<ItemType>,
   ) {}
 
   processDelivery(trackingCode: string): DeliveryResult {
     // Convert public tracking code to internal representation
-    const internalInfo = this.translator.toInternal({ trackingCode, /* ... */ });
-    
+    const internalInfo = this.translator.toInternal({ trackingCode /* ... */ });
+
     // Get from warehouse
     const item = this.warehouse.retrieve(internalInfo.warehouseId);
-    
+
     if (!item) {
-      return { success: false, reason: 'Item not found' };
+      return { success: false, reason: "Item not found" };
     }
 
     // Dispatch it
     this.dispatcher.dispatchTo([item], item.getDestination());
-    
+
     return { success: true };
   }
 }
 ```
 
 The `DeliveryCoordinator` doesn't create a warehouse or translator. It receives them through its constructor. Why does this matter?
+
 - Testability: In tests, you can pass in fake implementations
 - Flexibility: You can swap implementations without changing the coordinator
 - Decoupling: The coordinator doesn't know (or care) about concrete classes
@@ -308,6 +321,7 @@ The `DeliveryCoordinator` doesn't create a warehouse or translator. It receives 
 The complexity exists to achieve flexibility, testability, and maintainability. This is why enterprise codebases look the way they do. It's not TypeScript being complex — it's OOP principles being applied rigorously.
 
 ### React Dependency Injection
+
 Imagine our postal service needs a tracking dashboard. The dashboard needs a `TrackingController` to manage package lookups and status updates. But we don't want the UI to know how tracking works - just what it can do. Components depend on `TrackingController`, not `TrackingControllerImpl`. Tests provide fakes. Different environments provide different implementations.
 
 ```ts
@@ -355,13 +369,18 @@ export function createTrackingPanel(opts: {
 }) {
   return function TrackingPanel() {
     const { trackingController, analytics } = opts;
-    
+
     const handleLookup = (code: string) => {
-      analytics.track('package_lookup', { code });
+      analytics.track("package_lookup", { code });
       trackingController.lookupPackage(code);
     };
-    
-    return <TrackingPanelView controller={trackingController} onLookup={handleLookup} />;
+
+    return (
+      <TrackingPanelView
+        controller={trackingController}
+        onLookup={handleLookup}
+      />
+    );
   };
 }
 ```

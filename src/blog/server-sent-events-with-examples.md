@@ -7,11 +7,13 @@ updatedDate: "July 15 2025"
 ---
 
 Ways to implement real-time updates before SSE:
+
 - In polling, client makes the request to the server repeatedly in hope for new data. Just wrap your API call with `setInterval`. Long polling means that instead of sending a response immediately, server waits until it has some new data for client.
 - WebSockets are initiated via an HTTP request for a handshake, and if accepted, the connection is upgraded to the WebSocket protocol over the existing TCP connection. They are faster because connection is kept alive and no additional headers are sent with each request. But this is also makes it a bit harder to scale.
 
 ## Using server-sent events
-With server-sent events, it's possible for a server to send new data to a web page at any time, by pushing messages to the web page. These incoming messages can be treated as *Events + data*. You'll need a bit of code on the server to stream events to the front-end, but the client side code works almost identically to websockets in part of handling incoming events.
+
+With server-sent events, it's possible for a server to send new data to a web page at any time, by pushing messages to the web page. These incoming messages can be treated as _Events + data_. You'll need a bit of code on the server to stream events to the front-end, but the client side code works almost identically to websockets in part of handling incoming events.
 
 `EventSource` is a browser API that allows the client to receive real-time updates from the server over a long-lived HTTP connection. It uses a simple text-based protocol called [Server-Sent Events (SSE)](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) to send data from the server to the client in a unidirectional way. The client can listen to the SSE events using the `EventSource` API, and receive updates as they happen in real-time.
 
@@ -20,13 +22,13 @@ With server-sent events, it's possible for a server to send new data to a web pa
 - One potential downside of using Server-Sent Events is the limitations in data format. Since SSE is restricted to transporting UTF-8 messages, binary data is not supported. **When not used over HTTP/2, another limitation is the restricted number of concurrent connections per browser**. With only six concurrent open SSE connections allowed at any given time, opening multiple tabs with SSE connections can become a bottleneck.
 
 ```js
-const express = require('express');
+const express = require("express");
 const app = express();
 
-app.get('/real-time-updates', (req, res) => {
-  res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Connection', 'keep-alive');
+app.get("/real-time-updates", (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
 
   const id = Date.now();
 
@@ -44,7 +46,7 @@ app.get('/real-time-updates', (req, res) => {
   }, 1000);
 });
 
-app.listen(3000, () => console.log('Listening on port 3000...'));
+app.listen(3000, () => console.log("Listening on port 3000..."));
 ```
 
 ```html
@@ -90,7 +92,9 @@ app.listen(3000, () => console.log('Listening on port 3000...'));
 ```
 
 ### Client-side considerations
+
 When an SSE connection drops, the browser automatically reconnects and sends the last event ID it received via the "Last-Event-ID" header. The server uses this to determine which events to send, avoiding duplicates. The EventSource API handles this automatically as long as you:
+
 1. Include the `id:` field in your SSE format
 2. Support "Last-Event-ID" header on your server
 
@@ -99,25 +103,26 @@ When an SSE connection drops, the browser automatically reconnects and sends the
 With the default browser EventSource API, you can only make GET requests, and you cannot pass in a request body and custom request headers. [fetch-event-source](https://github.com/Azure/fetch-event-source) from Azure provides a better API for making Event Source requests. It works by making a fetch request to a streaming endpoint and reading the response using a `ReadableStream`. As data arrives, it decodes the chunks and parses them using the SSE format.
 
 ```js
-import { fetchEventSource } from '@microsoft/fetch-event-source';
+import { fetchEventSource } from "@microsoft/fetch-event-source";
 
 const ctrl = new AbortController();
-await fetchEventSource('/api/sse', {
-  method: 'POST',
+await fetchEventSource("/api/sse", {
+  method: "POST",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    foo: 'bar'
+    foo: "bar",
   }),
   signal: ctrl.signal,
-  onopen(response) { },
-  onclose() { },
-  onmessage(message) { },
+  onopen(response) {},
+  onclose() {},
+  onmessage(message) {},
 });
 ```
 
 > The browser's built-in `EventSource` API has several limitations:
+>
 > - Can't set custom headers (like `Authorization`)
 > - Only supports GET requests
 > - Doesn't work with the Fetch API
@@ -126,6 +131,7 @@ await fetchEventSource('/api/sse', {
 [parse-sse](https://github.com/sindresorhus/parse-sse) is a lightweight parser that allows you to parse SSE from a standard `Response` object using web platform standards. Perfect for consuming streaming APIs from OpenAI, Anthropic, and other services.
 
 ## Server-side streams
+
 Streaming is the action of rendering data on the client progressively while it's still being generated on the server. As data arrives in chunks, it can be processed without waiting for the entire payload. This can significantly enhance the perceived performance of large data loads or slow network connections. Streaming is the basis for HTML5 server-sent events.
 
 What if one wanted to build a server which responded with a message every second? This can be achieved by combining `ReadableStream` with `setInterval`. Additionally, by setting the content-type to `text/event-stream` and prefixing each message with `"data: "`, Server-Sent Events make for easy processing using the EventSource API.
@@ -174,6 +180,7 @@ console.log(decoded); // 'hello'
 ```
 
 ### React Suspense and streaming HTML updates
+
 One of the practices that has many performance benefits is to change the HTML content during streaming. A clear example is React Suspense. The idea is to show empty content (placeholder, skeleton, or spinner) while loading the rest of the HTML. Once the server has the missing content then in streaming-time it changes it. (Browsers are smart enough to execute small JS scripts during streaming.)
 
 ```js
@@ -181,21 +188,21 @@ One of the practices that has many performance benefits is to change the HTML co
 return new Response(
   new ReadableStream({
     async start(controller) {
-      const suspensePromises = []
+      const suspensePromises = [];
 
-      controller.enqueue(encoder.encode('<html lang="en">'))
-      controller.enqueue(encoder.encode('<head>'))
+      controller.enqueue(encoder.encode("<html lang=\"en\">"));
+      controller.enqueue(encoder.encode("<head>"));
       // Load the code to allow "unsuspense"
       controller.enqueue(
-        enconder.encode('<script src="unsuspense.js"></script>')
-      )
-      controller.enqueue(encoder.encode('</head>'))
-      controller.enqueue(encoder.encode('<body>'))
+        enconder.encode("<script src=\"unsuspense.js\"></script>"),
+      );
+      controller.enqueue(encoder.encode("</head>"));
+      controller.enqueue(encoder.encode("<body>"));
 
       // Add a placeholder (suspense)
       controller.enqueue(
-        encoder.encode('<div id="suspensed:1">Loading...</div>')
-      )
+        encoder.encode("<div id=\"suspensed:1\">Loading...</div>"),
+      );
 
       // Load the content - without "await"
       suspensePromises.push(
@@ -203,35 +210,38 @@ return new Response(
           // enqueue the real content
           controller.enqueue(
             encoder.encode(
-              `<template id="suspensed-content:1">${content}</template>`
-            )
-          )
+              `<template id="suspensed-content:1">${content}</template>`,
+            ),
+          );
           // enqueue the script to replace the suspensed content to the real one
-          controller.enqueue(encoder.encode(`<script>unsuspense('1')</script>`))
-        })
-      )
+          controller.enqueue(
+            encoder.encode(`<script>unsuspense('1')</script>`),
+          );
+        }),
+      );
 
-      controller.enqueue(encoder.encode('<div class="foo">Bar</div>'))
-      controller.enqueue(encoder.encode('</body>'))
-      controller.enqueue(encoder.encode('</html>'))
+      controller.enqueue(encoder.encode("<div class=\"foo\">Bar</div>"));
+      controller.enqueue(encoder.encode("</body>"));
+      controller.enqueue(encoder.encode("</html>"));
 
       // Wait for all suspended content before closing the stream
-      await Promise.all(suspensePromises)
+      await Promise.all(suspensePromises);
 
-      controller.close()
+      controller.close();
     },
-  })
-)
+  }),
+);
 ```
 
 ## Download streamed data using vanilla JavaScript
+
 - Consume Web streams from OpenAI using vanilla JavaScript: https://umaar.com/dev-tips/269-web-streams-openai/
 - Parsing Server-Sent Events from an API: https://gist.github.com/simonw/209b46563b520d1681a128c11dd117bc
 
 ```js
 const url = "https://api.openai.com/v1/chat/completions";
 const apiKey = `your_api_key_here`;
-// Create an AbortController to control and cancel the fetch request, 
+// Create an AbortController to control and cancel the fetch request,
 // when the user hits the stop button.
 const controller = new AbortController();
 
@@ -267,7 +277,7 @@ for await (const chunk of response.body) {
   for (const line of lines) {
     const {
       choices: [
-        { 
+        {
           delta: { content },
         },
       ],

@@ -29,7 +29,7 @@
 // HVALS key
 // HDEL key field
 
-import Redis from 'redis';
+import Redis from "redis";
 const redisClient = Redis.createClient();
 
 function getOrSetCache(key, cb) {
@@ -46,9 +46,9 @@ function getOrSetCache(key, cb) {
 }
 
 const todos = await getOrSetCache(`todos?id=${id}`, async () => {
-  const { data } = await axios.get('https://jsonplaceholder.typicode.com/todos', {
-    params: { id }
+  const { data } = await axios.get("https://jsonplaceholder.typicode.com/todos", {
+    params: { id },
   });
 
   return data;
-})
+});

@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "format": "dprint fmt",
     "build": "astro build",
     "postbuild": "pagefind --site dist",
     "preview": "astro preview",

@@ -9,64 +9,65 @@ updatedDate: "Sep 18 2025"
 AI SDK is like an ORM for LLMs. It provides a simple interface to interact with different LLM providers, making it easy to switch between them without changing your code. The first part of this post is my learning notes from the [AI Engineer workshop](https://www.youtube.com/watch?v=kDlqpN1JyIw) tutorial by Nico Albanese.
 
 ## Generate Text
+
 Make your first LLM call.
 
 ```js
-import { openai } from '@ai-sdk/openai'
-import { generateText } from 'ai'
-import 'dotenv/config'
- 
+import { openai } from "@ai-sdk/openai";
+import { generateText } from "ai";
+import "dotenv/config";
+
 const main = async () => {
   const result = await generateText({
-    model: openai('gpt-4o-mini'),
-    prompt: 'Hello, world!',
-  })
-  console.log(result.text)
-}
- 
-main()
+    model: openai("gpt-4o-mini"),
+    prompt: "Hello, world!",
+  });
+  console.log(result.text);
+};
+
+main();
 ```
 
 `generateText` can take either `prompt` or `messages` as input.
 
 ```js
 const result = await generateText({
-  model: openai('gpt-4o-mini'),
+  model: openai("gpt-4o-mini"),
   messages: [
-    { role: 'user', content: 'Hello, world!' },
+    { role: "user", content: "Hello, world!" },
   ],
-})
+});
 ```
 
 Changing providers with the AI SDK is as simple as changing two lines of code. We can pick a model that has web search built in, like `perplexity` or `gemini`, and we can even see what sources were used to generate the text.
 
 ```js
-import { google } from '@ai-sdk/google'
-import { generateText } from 'ai'
-import 'dotenv/config'
- 
+import { google } from "@ai-sdk/google";
+import { generateText } from "ai";
+import "dotenv/config";
+
 const main = async () => {
   const result = await generateText({
-    model: google('gemini-1.5-flash', { useSearchGrounding: true }),
-    prompt: 'When is the AI Engineer summit in 2025?',
-  })
+    model: google("gemini-1.5-flash", { useSearchGrounding: true }),
+    prompt: "When is the AI Engineer summit in 2025?",
+  });
 
-  console.log(result.text)
-  console.log(result.sources)
-}
- 
-main()
+  console.log(result.text);
+  console.log(result.sources);
+};
+
+main();
 ```
 
 ## Stream Text
 
 ```js
-import { openai } from '@ai-sdk/openai';
-import { streamText } from 'ai';
+import { openai } from "@ai-sdk/openai";
+import { streamText } from "ai";
 
 const result = streamText({
-  model: openai('gpt-4o'),
-  prompt: 'Invent a new holiday and describe its traditions.',
+  model: openai("gpt-4o"),
+  prompt: "Invent a new holiday and describe its traditions.",
 });
 
 for await (const textPart of result.textStream) {
@@ -75,6 +76,7 @@ for await (const textPart of result.textStream) {
 ```
 
 ## Tools (or Function Calling)
+
 At the core, we give the model a prompt and also pass a list of tools that available. Each of these tools will be provided with a name, a description so the model knows when to use it, and any data it requires to run.
 
 ```js
@@ -82,7 +84,7 @@ import { openai } from "@ai-sdk/openai";
 import { generateText, tool } from "ai";
 import "dotenv/config";
 import { z } from "zod";
- 
+
 const main = async () => {
   const result = await generateText({
     model: openai("gpt-4o"),
@@ -111,7 +113,7 @@ const main = async () => {
   //   }
   // ]
 };
- 
+
 main();
 ```
 
@@ -141,11 +143,11 @@ const main = async () => {
     },
   });
 
-  console.log(result.text);  // 10 + 5 equals 15.
+  console.log(result.text); // 10 + 5 equals 15.
   console.log(JSON.stringify(result.steps, null, 2));
   // step 1: The model generates a tool call, and the tool is executed.
   // step 2: The tool result is sent to the model, and the model generates a response.
-}
+};
 ```
 
 We can have multiple tools over multiple steps.
@@ -178,7 +180,7 @@ const main = async () => {
           const response = await fetch(
             `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weathercode,relativehumidity_2m&timezone=auto`,
           );
- 
+
           const weatherData = await response.json();
           return {
             temperature: weatherData.current.temperature_2m,
@@ -193,13 +195,14 @@ const main = async () => {
   console.log(result.steps.length);
   console.log(result.text);
 };
- 
+
 main();
 ```
 
 You may ask we are not providing the `latitude` and `longitude`. It is the inference capablity we can use, so we can let the language model infer these parameters from the context of the conversation.
 
 ## Structured Output
+
 There are two ways to generate structured output with the AI SDK. One is using experimental output option with `generateText`, and the other is using `generateObject` function.
 
 ```js
@@ -225,12 +228,12 @@ const main = async () => {
 ```js
 const main = async () => {
   const result = await generateObject({
-    model: openai('gpt-4o-mini'),
-    prompt: 'Please come up with 3 definitions for AI agents.',
+    model: openai("gpt-4o-mini"),
+    prompt: "Please come up with 3 definitions for AI agents.",
     schema: z.object({
       definitions: z.array(z.string()),
     }),
-  })
+  });
   console.log(JSON.stringify(result.object, null, 2));
   // {
   //   "definitions": [
@@ -239,36 +242,37 @@ const main = async () => {
   //     "An AI agent is ..."
   //   ]
   // }
-}
+};
 
 // Generate an array
 const { object } = await generateObject({
-  model: openai('gpt-4.1'),
-  output: 'array',
+  model: openai("gpt-4.1"),
+  output: "array",
   schema: z.object({
     name: z.string(),
     class: z
       .string()
-      .describe('Character class, e.g. warrior, mage, or thief.'),
+      .describe("Character class, e.g. warrior, mage, or thief."),
     description: z.string(),
   }),
-  prompt: 'Generate 3 hero descriptions for a fantasy role playing game.',
+  prompt: "Generate 3 hero descriptions for a fantasy role playing game.",
 });
 
 // Generate an enum
 const { object } = await generateObject({
-  model: openai('gpt-4.1'),
-  output: 'enum',
-  enum: ['action', 'comedy', 'drama', 'horror', 'sci-fi'],
-  prompt:
-    'Classify the genre of this movie plot: ' +
-    '"A group of astronauts travel through a wormhole in search of a ' +
-    'new habitable planet for humanity."',
+  model: openai("gpt-4.1"),
+  output: "enum",
+  enum: ["action", "comedy", "drama", "horror", "sci-fi"],
+  prompt: "Classify the genre of this movie plot: "
+    + "\"A group of astronauts travel through a wormhole in search of a "
+    + "new habitable planet for humanity.\"",
 });
 ```
 
 ## Deep Research
+
 The rough steps will be:
+
 1. Take the initial input
 2. Generate search queries
 3. Map through each query and
@@ -429,6 +433,7 @@ const deepResearch = async (
 ```
 
 ## Building agents with the AI SDK
+
 At its core, an agent can be defined with this simple equation: `agent = llm + memory + planning + tools + while loop`
 
 Below is the code taken from [Vercel Ship 2025 workshop](https://www.youtube.com/watch?v=V55AJYctIAY) also by Nico Albanese, building a coding agent with the new AI SDK 5.
@@ -540,6 +545,7 @@ Note that if you omit `stopWhen`, the tool is called but you get an empty respon
 Without the SDK, you have to manually wrap the entire call in a while loop, manage message history, and define some stop conditions.
 
 ## AI SDK UI
+
 AI SDK UI provides abstractions that simplify the complex tasks of managing chat streams and UI updates on the frontend, enabling you to develop dynamic AI-driven interfaces more efficiently. With three main hooks — `useChat`, `useCompletion`, and `useObject`.
 
 - The `useChat` hook enables the streaming of chat messages from your AI provider. It manages the states for input, messages, status, error and more for you.
@@ -657,53 +663,55 @@ For tool call UI, The `parts` array of assistant messages contains tool parts wi
 
 ```js
 // Check `type ToolUIPart` in ai/dist/index.d.ts
-{ message.parts.map((part, index) => {
-  switch (part.type) {
-    case "text":
-      return (
-        <div key={`${message.id}-${index}`}>
-          {part.text}
-        </div>
-      );
-    // type: `tool-${NAME}`
-    case "tool-getWeather":
-      switch (part.state) {
-        // [STATE: input-streaming] Receiving weather request...
-        // {
-        //   "city": "Beijing"
-        // }
-        case "input-streaming":
-          return (
-            <div key={`${message.id}-getWeather-${index}`}>
-              Receiving weather request...
-              <pre>{JSON.stringify(part.input, null, 2)}</pre>
-            </div>
-          );
-        // [STATE: input-available] Getting weather for Beijing...
-        case "input-available":
-          return (
-            <div key={`${message.id}-getWeather-${index}`}>
-              Getting weather for {part.input.city}...
-            </div>
-          );
-        // [STATE: output-available] Weather: 80F and sunny
-        case "output-available":
-          return (
-            <div key={`${message.id}-getWeather-${index}`}>
-              <div>Weather: {part.output}</div>
-            </div>
-          );
-        case "output-error":
-          return (
-            <div key={`${message.id}-getWeather-${index}`}>
-              Error: {part.errorText}
-            </div>
-          );
-        default:
-          return null;
-      }
-    default:
-      return null;
-  }
-})}
+{
+  message.parts.map((part, index) => {
+    switch (part.type) {
+      case "text":
+        return (
+          <div key={`${message.id}-${index}`}>
+            {part.text}
+          </div>
+        );
+      // type: `tool-${NAME}`
+      case "tool-getWeather":
+        switch (part.state) {
+          // [STATE: input-streaming] Receiving weather request...
+          // {
+          //   "city": "Beijing"
+          // }
+          case "input-streaming":
+            return (
+              <div key={`${message.id}-getWeather-${index}`}>
+                Receiving weather request...
+                <pre>{JSON.stringify(part.input, null, 2)}</pre>
+              </div>
+            );
+          // [STATE: input-available] Getting weather for Beijing...
+          case "input-available":
+            return (
+              <div key={`${message.id}-getWeather-${index}`}>
+                Getting weather for {part.input.city}...
+              </div>
+            );
+          // [STATE: output-available] Weather: 80F and sunny
+          case "output-available":
+            return (
+              <div key={`${message.id}-getWeather-${index}`}>
+                <div>Weather: {part.output}</div>
+              </div>
+            );
+          case "output-error":
+            return (
+              <div key={`${message.id}-getWeather-${index}`}>
+                Error: {part.errorText}
+              </div>
+            );
+          default:
+            return null;
+        }
+      default:
+        return null;
+    }
+  });
+}
 ```

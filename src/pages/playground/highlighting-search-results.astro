@@ -1,6 +1,6 @@
 ---
-import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
-import SearchHighlight from '@/components/playground/SearchHighlight.astro';
+import SearchHighlight from "@/components/playground/SearchHighlight.astro";
+import PlaygroundLayout from "@/layouts/PlaygroundLayout.astro";
 ---
 
 <PlaygroundLayout title="Highlighting Search Results">
@@ -9,30 +9,46 @@ import SearchHighlight from '@/components/playground/SearchHighlight.astro';
 
   <div class="p-4 mt-6">
     <p>
-      Related article: <a href="https://alfy.blog/2024/10/19/linking-directly-to-web-page-content.html" target="_blank" class="hover:underline">
+      Related article: <a
+        href="https://alfy.blog/2024/10/19/linking-directly-to-web-page-content.html"
+        target="_blank"
+        class="hover:underline"
+      >
         Linking Directly to Web Page Content
       </a>
     </p>
     <br>
 
-    <p> Here’s the basic syntax for a text fragment URL: </p>
+    <p>Here’s the basic syntax for a text fragment URL:</p>
     <pre>https://example.com/page.html#:~:text=[prefix-,]textStart[,textEnd][,-suffix]</pre>
     <br>
 
     <p>For example, try the following links:</p>
     <ul>
       <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=without%20relying%20on%20the%20presence%20of%20IDs" target="_blank" class="hover:underline">
+        <a
+          href="https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=without%20relying%20on%20the%20presence%20of%20IDs"
+          target="_blank"
+          class="hover:underline"
+        >
           https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=without%20relying%20on%20the%20presence%20of%20IDs
-        </a>    
+        </a>
       </li>
       <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=using%20particular,don't%20control" target="_blank" class="hover:underline">
+        <a
+          href="https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=using%20particular,don't%20control"
+          target="_blank"
+          class="hover:underline"
+        >
           https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=using%20particular,don't%20control
         </a>
       </li>
       <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=using%20particular&text=it%20allows" target="_blank" class="hover:underline">
+        <a
+          href="https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=using%20particular&text=it%20allows"
+          target="_blank"
+          class="hover:underline"
+        >
           https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#:~:text=using%20particular&text=it%20allows
         </a>
       </li>

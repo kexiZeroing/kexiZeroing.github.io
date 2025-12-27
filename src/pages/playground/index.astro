@@ -1,35 +1,40 @@
 ---
-import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+import PlaygroundLayout from "@/layouts/PlaygroundLayout.astro";
 
 const playgrounds = [
-	{ title: 'Grid Background', href: '/playground/grid' },
-	{ title: 'Shadcn UI Page', href: '/playground/shadcn-ui' },
-	{ title: 'Leaflet Map', href: '/playground/leaflet-map' },
-	{ title: 'OpenFreeMap + MapLibre GL JS', href: '/playground/openfreemap' },
-	{ title: 'Flashlight Effect', href: '/playground/flashlight' },
-	{ title: 'Curtains Opening', href: '/playground/curtains-opening' },
-	{ title: 'Highlighting Search Results', href: '/playground/highlighting-search-results' },
-	{ title: 'Blend Mode', href: '/playground/blend-mode' },
-	{ title: 'Chrome built-in AI Chat', href: '/playground/chrome-ai' },
-	{ title: 'HLS Video Streaming', href: '/playground/hls-video-player' },
-	{ title: 'Motion Examples', href: '/playground/motion' },
-	{ title: 'The Matrix Canvas', href: '/playground/the-matrix' },
+  { title: "Grid Background", href: "/playground/grid" },
+  { title: "Shadcn UI Page", href: "/playground/shadcn-ui" },
+  { title: "Leaflet Map", href: "/playground/leaflet-map" },
+  { title: "OpenFreeMap + MapLibre GL JS", href: "/playground/openfreemap" },
+  { title: "Flashlight Effect", href: "/playground/flashlight" },
+  { title: "Curtains Opening", href: "/playground/curtains-opening" },
+  {
+    title: "Highlighting Search Results",
+    href: "/playground/highlighting-search-results",
+  },
+  { title: "Blend Mode", href: "/playground/blend-mode" },
+  { title: "Chrome built-in AI Chat", href: "/playground/chrome-ai" },
+  { title: "HLS Video Streaming", href: "/playground/hls-video-player" },
+  { title: "Motion Examples", href: "/playground/motion" },
+  { title: "The Matrix Canvas", href: "/playground/the-matrix" },
 ];
 ---
 
 <PlaygroundLayout title="Playground List">
-	<main class="container mx-auto p-4">
-		<h1 class="text-xl font-bold mb-10 text-center">Playground Pages</h1>
-		<ul class="space-y-6 max-w-md mx-auto">
-			{
-				playgrounds.map((playground) => (
-					<li>
-						<a href={playground.href} target="_blank" class="text-blue-600 hover:underline">
-							{playground.title}
-						</a>
-					</li>
-				))
-			}
-		</ul>
-	</main>
+  <main class="container mx-auto p-4">
+    <h1 class="text-xl font-bold mb-10 text-center">Playground Pages</h1>
+    <ul class="space-y-6 max-w-md mx-auto">
+      {playgrounds.map((playground) => (
+        <li>
+          <a
+            href={playground.href}
+            target="_blank"
+            class="text-blue-600 hover:underline"
+          >
+            {playground.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
 </PlaygroundLayout>

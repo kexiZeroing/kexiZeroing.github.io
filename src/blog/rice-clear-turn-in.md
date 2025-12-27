@@ -36,7 +36,7 @@ tar -xvf public_html-14-09-12.tar -C /home/public_html/videos/
 tar -tvf uploadprogress.tar
 ```
 
-The code must compile and run on Clear. That way, we have a common environment for grading and we don’t have to spend time getting your code to compile. First you need to install the **SCons** build tool. SCons is a modern build tool (sort of like `Make`, but far more useful because it is Python-based, and it allows you to include scripting code within your build tool). 
+The code must compile and run on Clear. That way, we have a common environment for grading and we don’t have to spend time getting your code to compile. First you need to install the **SCons** build tool. SCons is a modern build tool (sort of like `Make`, but far more useful because it is Python-based, and it allows you to include scripting code within your build tool).
 
 And now you can run `~/scons/bin/scons-2.4.1`, but nothing is going to happen because there is no **SConstruct** file in this directory to tell SCons what to do. (If you're used to build systems like Make you've already figured out that the SConstruct file is the SCons equivalent of a Makefile.)
 
@@ -44,4 +44,4 @@ And now you can run `~/scons/bin/scons-2.4.1`, but nothing is going to happen be
 - Once the build completes, you can run the test code: `bin/someUnitTest`.
 - Note that as long as you keep your header and source files in the directories that are currently there, SCons will automatically find and build them.
 
-Please don't include executables and object files in your submission. Basically, you should submit a clean version of your project that can be built using scons. BTW, you can use scons to clean everything by using `scons -c`. This will remove everything that has been built. 
+Please don't include executables and object files in your submission. Basically, you should submit a clean version of your project that can be built using scons. BTW, you can use scons to clean everything by using `scons -c`. This will remove everything that has been built.

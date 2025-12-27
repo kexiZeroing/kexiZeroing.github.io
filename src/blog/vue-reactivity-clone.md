@@ -11,18 +11,19 @@ In a reactive programming context, dependency tracking is a technique used to au
 Reactive data can be broadly thought of as data that causes some intended side effect when accessed or modified. By default, JavaScript isn’t reactive.
 
 ```js
-let framework = 'Vue'
-let sentence = `${framework} is awesome`
-console.log(sentence)
+let framework = "Vue";
+let sentence = `${framework} is awesome`;
+console.log(sentence);
 // logs "Vue is awesome"
 
-framework = 'React'
-console.log(sentence)
+framework = "React";
+console.log(sentence);
 // still logs "Vue is awesome"
 // should log "React is awesome" if 'sentence' is reactive.
 ```
 
 ### Shortcomings of React `useState()`
+
 React `useState()` returns a state, the value. This means that `useState()` has no idea how the state value is used inside the component. The implication is that once you notify React of state change through a call to `setState()`, React has no idea which part of the page has changed and therefore must re-render the whole component.
 
 It's worth noting that while React may re-render the entire component, it does so efficiently. React uses virtual DOM diffing to minimize the amount of work required to update the DOM. This means that even if a component has a large number of elements, React can update only the parts of the DOM that have changed, resulting in a fast and efficient re-render.
@@ -32,64 +33,65 @@ The virtual DOM was created to address performance issues caused by frequent man
 > Diffing isn't free. The more nodes you have, the more time it takes to diff. With newer frameworks like Svelte, the virtual DOM isn't even used because of the performance overhead. Instead, Svelte uses a technique called "dirty checking" to determine what has changed. Fine-grained reactivity frameworks like SolidJS take this a step further by pinpointing exactly what has changed and updating only that part of the DOM.
 
 ### Vue reactivity implementation
+
 <img alt="Vue3 reactivity" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/ba9fd338-ae71-43ab-88cc-52086aa8700a.png" width="650" />
 
 ```js
-let activeEffect = null
+let activeEffect = null;
 
 // targetMap: WeakMap<target, depsMap>
 // depsMap: Map<key, dep>
 // dep: Set<effect>
-const targetMap = new Map()
+const targetMap = new Map();
 
 function track(target, key) {
   if (activeEffect) {
-    let depsMap = targetMap.get(target)
+    let depsMap = targetMap.get(target);
     if (!depsMap) {
-      depsMap = new Map()
-      targetMap.set(target, depsMap)
+      depsMap = new Map();
+      targetMap.set(target, depsMap);
     }
-    
-    let dep = depsMap.get(key)
+
+    let dep = depsMap.get(key);
     if (!dep) {
-      dep = new Set()
-      depsMap.set(key, dep)
+      dep = new Set();
+      depsMap.set(key, dep);
     }
-    
-    dep.add(activeEffect)
+
+    dep.add(activeEffect);
   }
 }
 
 function trigger(target, key) {
-  const depsMap = targetMap.get(target)
-  if (!depsMap) return
-  
-  const dep = depsMap.get(key)
-  if (!dep) return
-  
-  dep.forEach(effect => effect())
+  const depsMap = targetMap.get(target);
+  if (!depsMap) return;
+
+  const dep = depsMap.get(key);
+  if (!dep) return;
+
+  dep.forEach(effect => effect());
 }
 
 function reactive(target) {
   const handler = {
     get(target, key, receiver) {
-      const result = Reflect.get(target, key, receiver)
-      track(target, key)
-      return result
+      const result = Reflect.get(target, key, receiver);
+      track(target, key);
+      return result;
     },
     set(target, key, value, receiver) {
-      const result = Reflect.set(target, key, value, receiver)
-      trigger(target, key)
-      return result
-    }
-  }
-  return new Proxy(target, handler)
+      const result = Reflect.set(target, key, value, receiver);
+      trigger(target, key);
+      return result;
+    },
+  };
+  return new Proxy(target, handler);
 }
 
 function effect(fn) {
-  activeEffect = fn
-  activeEffect()
-  activeEffect = null
+  activeEffect = fn;
+  activeEffect();
+  activeEffect = null;
 }
 
 // targetMap: Map {
@@ -98,85 +100,87 @@ function effect(fn) {
 //     'quantity' → Set { effect1, effect3 }
 //   }
 // }
-let product = reactive({ price: 10, quantity: 4 })
-let total = 0
+let product = reactive({ price: 10, quantity: 4 });
+let total = 0;
 
 effect(() => {
-  total = product.price * product.quantity
-  console.log('total changed ', total)
-})
+  total = product.price * product.quantity;
+  console.log("total changed ", total);
+});
 
-product.quantity = 5
-product.price = 12
+product.quantity = 5;
+product.price = 12;
 ```
 
 > Purpose of `if (activeEffect)` check and `activeEffect = null`
-> 1. prevent dependency collection outside of the effect. Prevents unrelated property accesses from being tracked. *e.g. `console.log(product.price)` is just reading, not inside an effect.*
+>
+> 1. prevent dependency collection outside of the effect. Prevents unrelated property accesses from being tracked. _e.g. `console.log(product.price)` is just reading, not inside an effect._
 > 2. Avoid memory leaks.
 
 <br>
 <img alt="Vue2 reactivity" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/6a6e5dab-2f12-4dd2-ab94-f47dec512c71.png" width="650" />
 
 ```js
-let activeEffect = null
+let activeEffect = null;
 
 class Dep {
   constructor() {
-    this.subscribers = new Set()
+    this.subscribers = new Set();
   }
 
   depend() {
     if (activeEffect) {
-      this.subscribers.add(activeEffect)
+      this.subscribers.add(activeEffect);
     }
   }
 
   notify() {
-    this.subscribers.forEach(effect => effect())
+    this.subscribers.forEach(effect => effect());
   }
 }
 
 function defineReactive(target) {
   Object.keys(target).forEach(key => {
-    let value = target[key]
-    const dep = new Dep()
+    let value = target[key];
+    const dep = new Dep();
 
     Object.defineProperty(target, key, {
       get() {
-        dep.depend() // track logic
-        return value
+        dep.depend(); // track logic
+        return value;
       },
       set(newVal) {
         if (newVal !== value) {
-          value = newVal
-          dep.notify() // trigger logic
+          value = newVal;
+          dep.notify(); // trigger logic
         }
-      }
-    })
-  })
+      },
+    });
+  });
 
-  return target
+  return target;
 }
 
 function effect(fn) {
-  activeEffect = fn
-  activeEffect()
-  activeEffect = null
+  activeEffect = fn;
+  activeEffect();
+  activeEffect = null;
 }
 
-let product = defineReactive({ price: 10, quantity: 4 })
-let total = 0
+let product = defineReactive({ price: 10, quantity: 4 });
+let total = 0;
 
 effect(() => {
-  total = product.price * product.quantity
-  console.log('total changed ', total)
-})
+  total = product.price * product.quantity;
+  console.log("total changed ", total);
+});
 
-product.quantity = 5
-product.price = 12
+product.quantity = 5;
+product.price = 12;
 ```
 
 Vue 2 reactivity caveats: Since Vue 2 performs the getter/setter conversion process during instance initialization, a property must be present in the data object in order for Vue to convert it and make it reactive.
+
 1. It cannot detect property addition or deletion.
 2. It cannot detect the changes to an array when you directly set an item with the index.
 
@@ -185,7 +189,9 @@ Vue 2 reactivity caveats: Since Vue 2 performs the getter/setter conversion proc
 To work around this, you can use `Vue.set(object, propertyName, value)` method instead. (`this.$set` instance method is an alias to the global `Vue.set`)
 
 ### Computed implementation
+
 A computed property depends on any reactive values accessed inside its `getter`. In short, it’s a cached formula with automatic invalidation:
+
 1. First access: run the getter, store the result, mark `dirty = false`.
 2. No dependency changes: just return the stored value (no recomputation).
 3. Dependency changes: scheduler sets `dirty = true` so the next access will recompute.
@@ -193,34 +199,34 @@ A computed property depends on any reactive values accessed inside its `getter`.
 ```js
 function computed(getter) {
   // 缓存计算函数执行后的返回值
-  let value
+  let value;
   // 缓存过期标志
-  let dirty = true
+  let dirty = true;
 
   // 这里用一个 effect 包裹 getter，配置 {lazy: true}，表示不会立刻执行
   const runner = effect(() => {
-    value = getter()
+    value = getter();
   }, {
     lazy: true,
     scheduler() {
-      dirty = true
+      dirty = true;
       // 把 computed 的变化向外广播，让依赖它的 effect 重新跑
-      trigger(obj, 'value')
-    }
-  })
+      trigger(obj, "value");
+    },
+  });
 
   const obj = {
     get value() {
       if (dirty) {
-        dirty = false
-        runner()
+        dirty = false;
+        runner();
         // 别人依赖 computed 的时候做的事
-        track(obj, 'value')
+        track(obj, "value");
       }
-      return value
-    }
-  }
+      return value;
+    },
+  };
 
-  return obj
+  return obj;
 }
 ```

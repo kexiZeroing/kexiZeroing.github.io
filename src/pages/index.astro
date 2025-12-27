@@ -1,81 +1,83 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import ColorScript from '../components/ColorScript.astro';
-import SmallRotation from '../components/SmallRotation.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
-import { Content as About } from '../components/md-files/about.md';
-import { Content as AboutLong } from '../components/md-files/about-long.md';
-import { Content as HireMe } from '../components/md-files/hire-me.md';
+import BaseHead from "../components/BaseHead.astro";
+import ColorScript from "../components/ColorScript.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { Content as AboutLong } from "../components/md-files/about-long.md";
+import { Content as About } from "../components/md-files/about.md";
+import { Content as HireMe } from "../components/md-files/hire-me.md";
+import SmallRotation from "../components/SmallRotation.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../config";
 ---
 
 <!DOCTYPE html>
 <html lang="en-us">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				padding: 0 16px;
-			}
-			.bio {
-				font-family: var(--font-family-post);
-				display: none;
-			}
-			.bio.show {
-				display: block;
-				padding-bottom: 24px;
-			}
-			.toggler button {
-				width: 100px;
-				height: 24px;
-				border: 2px solid var(--gray);
-				border-radius: 15px;
-				box-sizing: border-box;
-				color: var(--gray);
-				font-size: 1rem;
-				cursor: pointer;
-				margin-right: 10px;
-			}
-			.toggler button:hover {
-				background: var(--highlight);
-			}
-			.toggler button.active {
-				border: 2px solid var(--green);
-				color: var(--green);
-			}
-		</style>
-	</head>
-	<body>
-		<Header title={SITE_TITLE} />
-		<main>
-			<div class="toggler">
-				<button class="active" data-toggle="short">Short</button>
-				<button data-toggle="long">Long</button>
-				<button data-toggle="hire-me">Hire Me</button>
-			</div>
-			<div id="short" class="bio show"><About /></div>
-			<div id="long" class="bio"><AboutLong /></div>
-			<div id="hire-me" class="bio"><HireMe /></div>
-		</main>
-		<Footer />
-		<SmallRotation />
-		<ColorScript />
-		
-		<script is:inline>
-			document.querySelector('.toggler').addEventListener('click', (ev) => {
-				if (ev.target.tagName.toUpperCase() !== 'BUTTON') {
-					return
-				}
-				document.querySelector('.toggler button.active').classList.remove('active')
-				document.querySelector('.bio.show').classList.remove('show')
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+    main {
+      padding: 0 16px;
+    }
+    .bio {
+      font-family: var(--font-family-post);
+      display: none;
+    }
+    .bio.show {
+      display: block;
+      padding-bottom: 24px;
+    }
+    .toggler button {
+      width: 100px;
+      height: 24px;
+      border: 2px solid var(--gray);
+      border-radius: 15px;
+      box-sizing: border-box;
+      color: var(--gray);
+      font-size: 1rem;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .toggler button:hover {
+      background: var(--highlight);
+    }
+    .toggler button.active {
+      border: 2px solid var(--green);
+      color: var(--green);
+    }
+    </style>
+  </head>
+  <body>
+    <Header title={SITE_TITLE} />
+    <main>
+      <div class="toggler">
+        <button class="active" data-toggle="short">Short</button>
+        <button data-toggle="long">Long</button>
+        <button data-toggle="hire-me">Hire Me</button>
+      </div>
+      <div id="short" class="bio show"><About /></div>
+      <div id="long" class="bio"><AboutLong /></div>
+      <div id="hire-me" class="bio"><HireMe /></div>
+    </main>
+    <Footer />
+    <SmallRotation />
+    <ColorScript />
 
-				const target = ev.target
-				const toggle = target.dataset.toggle
-				const bio = document.querySelector(`#${toggle}`)
-				bio.classList.add('show')
-				target.classList.add('active')
-			})
-		</script>
-	</body>
+    <script is:inline>
+    document.querySelector(".toggler").addEventListener("click", (ev) => {
+      if (ev.target.tagName.toUpperCase() !== "BUTTON") {
+        return;
+      }
+      document.querySelector(".toggler button.active").classList.remove(
+        "active",
+      );
+      document.querySelector(".bio.show").classList.remove("show");
+
+      const target = ev.target;
+      const toggle = target.dataset.toggle;
+      const bio = document.querySelector(`#${toggle}`);
+      bio.classList.add("show");
+      target.classList.add("active");
+    });
+    </script>
+  </body>
 </html>

@@ -7,6 +7,7 @@ updatedDate: "July 8 2025"
 ---
 
 ## TOC
+
 - [TOC](#toc)
 - [Compile Vue SFC to JS](#compile-vue-sfc-to-js)
 - [Vite dev server](#vite-dev-server)
@@ -17,7 +18,8 @@ updatedDate: "July 8 2025"
 - [Source Maps](#source-maps)
 
 ## Compile Vue SFC to JS
-High level compilation process: 
+
+High level compilation process:
 Parse SFC to blocks -> Compile each block (script, style, template) -> Combine all blocks
 
 - https://jinjiang.dev/slides/understanding-vue-compiler
@@ -26,59 +28,64 @@ Parse SFC to blocks -> Compile each block (script, style, template) -> Combine a
 - https://play.vuejs.org
 
 ```js
-import { parse, compileScript, compileTemplate, rewriteDefault } from '@vue/compiler-sfc'
+import {
+  compileScript,
+  compileTemplate,
+  parse,
+  rewriteDefault,
+} from "@vue/compiler-sfc";
 
 function compileSFC(source) {
-  const { descriptor } = parse(source)
-  const { script, template, styles } = descriptor
-  
-  let code = ''
-  let cssCode = ''
-  
+  const { descriptor } = parse(source);
+  const { script, template, styles } = descriptor;
+
+  let code = "";
+  let cssCode = "";
+
   if (script) {
     const scriptBlock = compileScript(descriptor, {
-      id: 'component'
-    })
-    
+      id: "component",
+    });
+
     // rewrites `export default` to use variable '_sfc_main' instead
     const scriptCode = rewriteDefault(
       scriptBlock.content,
-      '_sfc_main'
-    )
-    code += scriptCode + '\n'
+      "_sfc_main",
+    );
+    code += scriptCode + "\n";
   }
-  
+
   if (template) {
     // converts template into a render() function
     const templateResult = compileTemplate({
       source: template.content,
-      id: 'component'
-    })
-    
-    code += `\n${templateResult.code}\n`
-    code += `_sfc_main.render = render\n`
+      id: "component",
+    });
+
+    code += `\n${templateResult.code}\n`;
+    code += `_sfc_main.render = render\n`;
   }
-  
+
   if (styles.length) {
     cssCode = styles.map(style => {
       // You might want to process CSS with postcss or other tools here
-      return style.content
-    }).join('\n')
-    
+      return style.content;
+    }).join("\n");
+
     code += `
       // Inject styles
       const style = document.createElement('style')
       style.textContent = ${JSON.stringify(cssCode)}
       document.head.appendChild(style)
-    `
+    `;
   }
-  
-  code += '\nexport default _sfc_main\n'
-  
+
+  code += "\nexport default _sfc_main\n";
+
   return {
     js: code,
-    css: cssCode
-  }
+    css: cssCode,
+  };
 }
 ```
 
@@ -141,16 +148,18 @@ const result = compileSFC(sfc)
 ```
 
 ## Vite dev server
+
 Key points:
+
 - Vite pre-bundles dependencies using esbuild.
 - Vite serves source code over native ESM. This is essentially letting the browser take over part of the job of a bundler. Vite only needs to transform and serve source code on demand, as the browser requests it.
 
 ```js
-import MagicString from 'magic-string';
-import { init, parse as parseEsModule } from 'es-module-lexer';
-import { buildSync, transformSync } from 'esbuild';
+import { init, parse as parseEsModule } from "es-module-lexer";
+import { buildSync, transformSync } from "esbuild";
+import MagicString from "magic-string";
 
-// transform import statements 
+// transform import statements
 // Key point: relative module specifiers must start with ./, ../, or /
 // import xx from 'xx' -> import xx from '/@module/xx'
 async function parseBareImport(code) {
@@ -175,9 +184,12 @@ async function parseBareImport(code) {
   return s.toString();
 }
 
-app.use(async function (req, res) {
+app.use(async function(req, res) {
   if (/\.js(\?|$)(?!x)/.test(req.url)) {
-    let js = fs.readFileSync(path.join(__dirname, removeQuery(req.url)), "utf-8");
+    let js = fs.readFileSync(
+      path.join(__dirname, removeQuery(req.url)),
+      "utf-8",
+    );
     const jsCode = await parseBareImport(js);
 
     res.setHeader("Content-Type", "application/javascript");
@@ -187,7 +199,10 @@ app.use(async function (req, res) {
   }
 
   if (/\.jsx(\?|$)/.test(req.url)) {
-    const jsxContent = fs.readFileSync(path.join(__dirname, removeQuery(req.url)), "utf-8");
+    const jsxContent = fs.readFileSync(
+      path.join(__dirname, removeQuery(req.url)),
+      "utf-8",
+    );
     const transformed = transformSync(jsxContent, {
       loader: "jsx",
       format: "esm",
@@ -202,9 +217,12 @@ app.use(async function (req, res) {
   }
 
   if (/^\/@module\//.test(req.url)) {
-    let pkg = req.url.slice(9);  // the length of "/@module/"
+    let pkg = req.url.slice(9); // the length of "/@module/"
     let pkgJson = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "node_modules", pkg, "package.json"), "utf8")
+      fs.readFileSync(
+        path.join(__dirname, "node_modules", pkg, "package.json"),
+        "utf8",
+      ),
     );
     let entry = pkgJson.module || pkgJson.main;
     let outfile = path.join(__dirname, `esbuild/${pkg}.js`);
@@ -222,11 +240,13 @@ app.use(async function (req, res) {
     res.end(js);
     return;
   }
-})
+});
 ```
 
 ## React Suspense
+
 React Suspense operates on a "throw and catch" pattern:
+
 1. Components "throw" Promises when data isn't ready.
 2. Suspense boundaries "catch" these Promises.
 3. Fallback UI is shown while waiting.
@@ -291,7 +311,9 @@ render(Profile);
 ```
 
 ## Simple bundler
+
 Summary of the bundling process:
+
 1. Read the entry file content and parse it into an AST using Babel parser.
 2. Traverse the AST to find all import declarations, extract the dependencies, and build a dependency graph.
 3. Transform the AST of each module, converting modern JavaScript to more compatible code via `@babel/preset-env`.
@@ -360,7 +382,10 @@ class Compiler {
       // path.join(basePath, `${filename}.js`)
       modulePath = this.resolveModule(filename);
     } else {
-      modulePath = this.resolveModule(filename, path.join(process.cwd(), 'src'));
+      modulePath = this.resolveModule(
+        filename,
+        path.join(process.cwd(), "src"),
+      );
     }
 
     const ast = getAST(modulePath);
@@ -370,12 +395,13 @@ class Compiler {
       transformCode: transform(ast),
     };
   }
-  
+
   emitFiles() {
     const outputPath = path.join(this.output.path, this.output.filename);
     let modules = "";
     this.modules.map((_module) => {
-      modules += `'${_module.filename}': function (require, module, exports) { ${_module.transformCode} },`;
+      modules +=
+        `'${_module.filename}': function (require, module, exports) { ${_module.transformCode} },`;
     });
 
     const bundle = `
@@ -396,7 +422,7 @@ class Compiler {
 
     fs.writeFileSync(outputPath, bundle, "utf-8");
   }
-};
+}
 
 // (function(modules) {
 //   function require(fileName) {
@@ -408,11 +434,11 @@ class Compiler {
 
 //   require('index.js');
 // })({
-//   'index.js': function (require, module, exports) { 
+//   'index.js': function (require, module, exports) {
 //     const { sayHello } = require('greeting.js');
 //     sayHello('World');
 //   },
-//   'greeting.js': function (require, module, exports) { 
+//   'greeting.js': function (require, module, exports) {
 //     function sayHello(name) {
 //       console.log(`Hello, ${name}!`);
 //     }
@@ -422,6 +448,7 @@ class Compiler {
 ```
 
 ## Babel and AST
+
 You give Babel some JavaScript code, Babel modifies the code, and generates the new code back out. Each of these steps involve creating or working with an Abstract Syntax Tree.
 
 ```js
@@ -462,17 +489,18 @@ function square(n) {
 ```
 
 There are two ways to transform JavaScript with Babel.
+
 1. Manual AST Transformation (Using `@babel/parser`, `@babel/traverse`, and `@babel/generator`).
 2. Babel Plugin + `babel.transformSync`. You focus only on the transformation logic (`visitor` function), and let Babel take care of parsing, walking, and generating code.
 
 The following is the general template of using babel to do code transformation:
 
 ```js
-import { parse } from '@babel/parser';
-import traverse from '@babel/traverse';
-import generate from '@babel/generator';
+import generate from "@babel/generator";
+import { parse } from "@babel/parser";
+import traverse from "@babel/traverse";
 
-const code = 'const n = 1';
+const code = "const n = 1";
 
 // parse the code -> ast
 const ast = parse(code);
@@ -481,46 +509,48 @@ const ast = parse(code);
 traverse(ast, {
   enter(path) {
     // in this example change all the variable `n` to `x`
-    if (path.isIdentifier({ name: 'n' })) {
-      path.node.name = 'x';
+    if (path.isIdentifier({ name: "n" })) {
+      path.node.name = "x";
     }
   },
 });
 
 // generate code <- ast
-const output = generate(ast, { /* generator options */ });
+const output = generate(ast, {/* generator options */});
 console.log(output.code); // 'const x = 1;'
 ```
 
 Another way is writing a custom plugin (may integrate into build tools). They have the same functional output.
 
 ```js
-import babel from '@babel/core';
+import babel from "@babel/core";
 
-const code = 'const n = 1';
+const code = "const n = 1";
 
 const renameVariablePlugin = (options = {}) => {
-  const { from = 'n', to = 'x' } = options;
+  const { from = "n", to = "x" } = options;
   return {
     visitor: {
       Identifier(path) {
         if (path.node.name === from) {
           path.node.name = to;
         }
-      }
-    }
+      },
+    },
   };
 };
 
 const result = babel.transformSync(code, {
-  plugins: [[renameVariablePlugin, { from: 'n', to: 'x' }]]
+  plugins: [[renameVariablePlugin, { from: "n", to: "x" }]],
 });
 
 console.log(result.code); // 'const x = 1;'
 ```
 
 ## Hot Module Replacement
+
 Summary of the HMR implementation:
+
 1. The server uses chokidar to watch JavaScript files in the src directory for changes.
 2. When a file changes, the server sends a WebSocket message to connected clients with information about which file changed.
 3. The server middleware intercepts JavaScript file requests and injects HMR client code along with the original content, enabling each module to be hot-reloadable.
@@ -611,9 +641,11 @@ if (import.meta.hot) {
 ```
 
 ## Source Maps
+
 Once you've compiled and minified your code, normally alongside it will exist a sourceMap file. The bundler will add a source map location comment `//# sourceMappingURL=/path/to/file.js.map` at the end of every generated bundle, which is required to signify to the browser devtools that a source map is available. Another type of source map is inline which has a base64 data URL like `# sourceMappingURL=data:application/json;base64,xxx...`
 
 Here's an example of a source map:
+
 ```js
 {
   "version": 3,

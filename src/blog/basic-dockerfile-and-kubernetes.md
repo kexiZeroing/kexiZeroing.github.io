@@ -7,9 +7,11 @@ updatedDate: "Mar 21 2025"
 ---
 
 ## Docker concepts
+
 Docker is the most popular container technology tool. It is a tool used for building, running, and deploying containerized applications. An application’s code, libraries, tools, dependencies, and other files are all contained in a Docker image; when a user executes an image, it turns into a container.
 
 Docker Engine is the core product of Docker, including its daemon (dockerd) as well as its CLI (docker).
+
 - Docker Daemon is the background service running on the host that manages building, running and distributing Docker containers. The daemon is the process that runs in the operating system which clients talk to.
 - Docker Client is the command line tool that allows the user to interact with the daemon.
 - Docker desktop is using a Linux virtual machine behind the scenes for running regular docker daemon. Docker Desktop can be used either on it’s own or as a complementary tool to the CLI.
@@ -24,6 +26,7 @@ Docker-compose is a tool that accepts a YAML file that specifies a cross contain
 Note that during `docker build`, `RUN` commands actually execute and `CMD` is stored in the image's config layer as part of the image manifest. During `docker run`, only the `CMD` command runs. All the `RUN` commands have already been executed and their results are "baked into" the image.
 
 ### A Dockerfile for a NodeJS application
+
 This is a valid Dockerfile for a NodeJS application. But we can improve it a lot.
 
 ```dockerfile
@@ -33,7 +36,7 @@ COPY . .
 
 RUN npm install
 
-CMD [ "node", "index.js" ]
+CMD ["node", "index.js"]
 ```
 
 1. Use explicit Docker base image tags. By specifying the `FROM node`, you always build the latest version of the Docker image that has been built by the Node.js Docker working group. The shortcoming of building based on the default node image is that docker image builds are inconsistent. Also, the node Docker image is based on a full-fledged operating system, full of libraries and tools that you may or may not need to run your Node.js application.
@@ -68,13 +71,13 @@ COPY package*.json ./
 
 RUN npm install
 
-# Copy remaining source code AFTER installing dependencies. 
+# Copy remaining source code AFTER installing dependencies.
 COPY ./src/ .
 
-CMD [ "node", "index.js" ]
+CMD ["node", "index.js"]
 ```
 
-4. By default, Docker runs commands inside the container as root which violates the Principle of Least Privilege when superuser permissions are not strictly required. You want to run the container as an unprivileged user whenever possible. The node images provide the `node` user for such purpose. 
+4. By default, Docker runs commands inside the container as root which violates the Principle of Least Privilege when superuser permissions are not strictly required. You want to run the container as an unprivileged user whenever possible. The node images provide the `node` user for such purpose.
 
 ```dockerfile
 FROM node:19.7.0-bullseye-slim
@@ -91,7 +94,7 @@ USER node
 
 COPY --chown=node:node ./src/ .
 
-CMD [ "node", "index.js" ]
+CMD ["node", "index.js"]
 ```
 
 5. Configure the app for production. The `NODE_ENV=production` environment changes how certain utilities behave, increasing performance. Using `npm ci` instead of `npm install` ensures a reproduceable build, and `--only=production` prevents installing needed dev dependencies.
@@ -102,7 +105,7 @@ CMD [ "node", "index.js" ]
 FROM node:19.7.0-bullseye-slim
 
 # Set NODE_ENV
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
 
@@ -115,7 +118,7 @@ USER node
 
 COPY --chown=node:node ./src/ .
 
-CMD [ "node", "index.js" ]
+CMD ["node", "index.js"]
 ```
 
 6. Use the EXPOSE instruction. EXPOSE documents to users of the image which port the application expects to be listening on. You will still need to publish the port at runtime, but this makes it clear to end users what to expect.
@@ -123,7 +126,7 @@ CMD [ "node", "index.js" ]
 ```dockerfile
 FROM node:19.7.0-bullseye-slim
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
 
@@ -138,7 +141,7 @@ COPY --chown=node:node ./src/ .
 # Indicate expected port
 EXPOSE 3000
 
-CMD [ "node", "index.js" ]
+CMD ["node", "index.js"]
 ```
 
 7. Use a `.dockerignore` file to ensure you are not COPYing unnecessary files into the container image. This helps speed up Docker builds because it ignores files that would have otherwise caused a cache invalidation.
@@ -161,6 +164,7 @@ Dockerfile
 **Kaniko** is a tool that enables building container images from a Dockerfile inside a Kubernetes cluster (runs in a containerized environment like a CI/CD pipeline) without requiring a Docker daemon. Kaniko builds container images by parsing the Dockerfile and executing each command within a container isolated from the host environment. Instead of using a Docker daemon, Kaniko simulates the Docker builder by providing its own implementations of Docker commands like ADD, COPY, RUN, etc.
 
 ### Docker multi-stage builds
+
 Most of the time, we COPY files from the host to the container image. However, you can also COPY files straight from other images `COPY --from=<image>`. Every FROM instruction defines a stage.
 
 - The order of stages in the Dockerfile matters - it's impossible to `COPY --from` a stage defined below the current stage.
@@ -192,6 +196,7 @@ COPY --from=build /app/dist .
 `COPY --from=build` means copy the contents of the `/app/dist` directory from the build stage into the current working directory of the current stage, which is where Nginx serves static files. If you omit `--from=build` and just write `COPY /app/dist .`, Docker will try to copy the path `/app/dist` from your local machine, not from the previous build stage.
 
 ### Deploy Next.js app with Docker
+
 Next.js can be deployed to any hosting provider that supports Docker containers. You can use this approach when deploying to container orchestrators such as Kubernetes or when running inside a container in any cloud provider.
 
 To add support for Docker to an existing project, just copy the [Dockerfile](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile) into the root of the project.
@@ -219,6 +224,7 @@ docker stop <container_id>
 ```
 
 ## Intro to Kubernetes
+
 Let's say you have an app which you have containerized (Monoliths were broken into microservices). So you run a bunch of containers to serve your app to users. But how do you manage these different containers? This is where K8s comes to the rescue. Kubernetes is a container orchestration tool for managing production-ready containerized workloads and services that allows for declarative setup as well as automation.
 
 - **Pods**: A pod is a collection of one or more containers with common storage and network resources, as well as a set of rules for how the containers should be run. It is the smallest deployable unit that Kubernetes allows you to create and manage. Each pod has a unique IP address assigned to it. While you can't ping this IP address from outside the cluster, you can ping from within your Kubernetes cluster.
@@ -234,6 +240,7 @@ Let's say you have an app which you have containerized (Monoliths were broken in
 - **Ingress Controller**: Kubernetes Ingress is an API object that manages external users’ access to services in a Kubernetes cluster by providing routing rules. This external request is frequently made using HTTPS/HTTP. You can easily set up rules for traffic routing with Ingress without having to create a bunch of Load Balancers or expose each service on the node.
 
 > Learning resources:
+>
 > - The Illustrated Children's Guide to Kubernetes: https://www.cncf.io/phippy/the-childrens-illustrated-guide-to-kubernetes/
 > - Kubernetes Essentials IBM lightboarding video: https://www.youtube.com/playlist?list=PLOspHqNVtKABAVX4azqPIu6UfsPzSu2YN
 
@@ -258,10 +265,10 @@ spec:
         app: nodejs-hello-world
     spec:
       containers:
-      - name: nodejs-hello-world
-        image: your-docker-username/nodejs-hello-world:latest
-        ports:
-        - containerPort: 3000
+        - name: nodejs-hello-world
+          image: your-docker-username/nodejs-hello-world:latest
+          ports:
+            - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
@@ -270,22 +277,24 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 80
-    targetPort: 3000
+    - port: 80
+      targetPort: 3000
   selector:
     app: nodejs-hello-world
 ```
 
 > Deployment manages the desired state of your application. Service provides a stable network endpoint to access those containers. The key to their interaction is the label selector. The Deployment defines labels for its Pods in the template section, and the Service uses a selector to choose which Pods to route traffic to.
-> 
+>
 > Example Workflow:
+>
 > - a. Deployment creates Pods with specific labels.
 > - b. Service is created with a selector matching those labels.
 > - c. Clients send requests to the Service.
 > - d. Service routes each request to one of the Pods managed by the Deployment.
 > - e. If Pods are added/removed, the Service's routing table updates automatically.
 
-**Horizontal Pod Autoscaling (HPA)** is a crucial feature in Kubernetes that enables automatic adjustment of the number of running pods based on observed CPU or memory utilization. The key components of HPA: 
+**Horizontal Pod Autoscaling (HPA)** is a crucial feature in Kubernetes that enables automatic adjustment of the number of running pods based on observed CPU or memory utilization. The key components of HPA:
+
 - The Metrics Server collects and serves container resource metrics, playing a pivotal role in HPA functionality.
 - The Autoscaler uses the metrics provided by the Metrics Server to make decisions about scaling the number of pod replicas.
 
@@ -321,6 +330,7 @@ User Request → CloudFront (CDN) → Application Load Balancer (ALB) → Ingres
 When a user makes a request to your application, it first reaches CloudFront (CDN) which caches and serves content from the nearest edge location. The request then passes to the Application Load Balancer (ALB), which distributes traffic across multiple targets. The ALB forwards the request to the Kubernetes Ingress, which uses rules to route traffic based on the URL path. The Ingress directs traffic to the appropriate Kubernetes Service (ClusterIP), which provides internal load balancing within the cluster. Finally, the Service forwards the request to one of the available Pods managed by a Deployment, where your application code runs and processes the request, sending the response back through the same path to the user.
 
 ## Basic Terraform steps
+
 The process starts with `terraform init` **(Write the Blueprint)**, Terraform downloads all necessary providers and modules - think of it as collecting all the right building blocks before starting construction.
 
 Next comes `terraform plan` **(Check the Layout)**. It examines what currently exists in your infrastructure and compares it with what you want to build, creating a detailed execution plan.
@@ -334,4 +344,4 @@ Your infrastructure blueprint lives in configuration files (typically `main.tf` 
 
 This is why when you run `terraform plan`, Terraform compares these two files to determine what changes need to be made to turn your wishes (`terraform.tf`) into reality (`terraform.tfstate`).
 
-*"Error: Saved plan is stale"* may occur in Terraform when the actual infrastructure state has changed between when you created the plan and when you try to apply that saved plan. For example, someone else made changes to the same infrastructure while you had your plan file waiting, or another automation process (like CI/CD) modified the infrastructure.
+_"Error: Saved plan is stale"_ may occur in Terraform when the actual infrastructure state has changed between when you created the plan and when you try to apply that saved plan. For example, someone else made changes to the same infrastructure while you had your plan file waiting, or another automation process (like CI/CD) modified the infrastructure.

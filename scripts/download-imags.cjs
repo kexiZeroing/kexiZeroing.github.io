@@ -1,11 +1,11 @@
-const fs = require('fs');
-const path = require('path');
-const https = require('https');
+const fs = require("fs");
+const path = require("path");
+const https = require("https");
 
 const srcPath = path.join(__dirname, "../src/posts");
 const allImageUrls = [];
 
-function throughDirectory (dir) {
+function throughDirectory(dir) {
   fs.readdirSync(dir).forEach(file => {
     const absPath = path.join(dir, file);
     if (fs.statSync(absPath).isDirectory()) {
@@ -20,18 +20,18 @@ function throughDirectory (dir) {
 throughDirectory(srcPath);
 
 function editFileContent(file) {
-  if(!file.endsWith('.md')) return;
+  if (!file.endsWith(".md")) return;
 
-  const data = fs.readFileSync(file, 'utf8');
+  const data = fs.readFileSync(file, "utf8");
   const images = data.match(/https:\/\/tva1\.sinaimg\.cn.*\.(jpg|png)/gi);
   if (images) {
-    allImageUrls.push(...images)
+    allImageUrls.push(...images);
   }
 }
 
 function downloadImages() {
   const dest = path.join(__dirname, "images");
-  if (!fs.existsSync(dest)){
+  if (!fs.existsSync(dest)) {
     fs.mkdirSync(dest);
   }
 
@@ -41,9 +41,9 @@ function downloadImages() {
 
     https.get(url, function(response) {
       response.pipe(file);
-      file.on('finish', function() {
+      file.on("finish", function() {
         file.close();
       });
     });
-  })
+  });
 }

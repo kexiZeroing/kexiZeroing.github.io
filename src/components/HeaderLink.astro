@@ -3,14 +3,22 @@ import { Image } from "astro:assets";
 export interface Props extends astroHTML.JSX.AnchorHTMLAttributes {}
 
 const { href, class: className, ...props } = Astro.props as Props;
-const isActive = Astro.url.pathname === href || Astro.url.pathname === `${href}/`;
+const isActive = Astro.url.pathname === href
+  || Astro.url.pathname === `${href}/`;
 ---
 
 <a href={href} class:list={[className, { active: isActive }]} {...props}>
-	<slot />
-	{ props.target && props.target === "_blank" &&
-		<Image src="/external-link.svg" alt="external link" width={18} height={18} class="link-icon" />
-	}
+  <slot />
+  {props.target && props.target === "_blank"
+    && (
+      <Image
+        src="/external-link.svg"
+        alt="external link"
+        width={18}
+        height={18}
+        class="link-icon"
+      />
+    )}
 </a>
 
 <!-- Notes: 
@@ -18,20 +26,20 @@ const isActive = Astro.url.pathname === href || Astro.url.pathname === `${href}/
 2. You can also use <style lang="scss"> after `npm i -D sass`.
 -->
 <style>
-	a {
-		display: inline-block;
-		text-decoration: none;
-		font-size: 18px;
-		color: var(--blue);
-		font-weight: 500;
-	}
-	a.active, a:hover {
-		font-weight: bold;
-		font-style: italic;
-		text-decoration: underline;
-	}
-	.link-icon {
-		margin-left: -4px;
-		vertical-align: baseline;
-	}
+a {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 18px;
+  color: var(--blue);
+  font-weight: 500;
+}
+a.active, a:hover {
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: underline;
+}
+.link-icon {
+  margin-left: -4px;
+  vertical-align: baseline;
+}
 </style>

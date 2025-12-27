@@ -32,8 +32,8 @@ First specify `grid` as the `display` method, and then write `place-items: cente
 }
 
 .box {
-  flex: 1 1 150px;  /*  Stretching */
-  flex: 0 1 150px;  /*  No stretching */
+  flex: 1 1 150px; /*  Stretching */
+  flex: 0 1 150px; /*  No stretching */
 }
 ```
 
@@ -64,6 +64,7 @@ This takes advantage of the `minmax` function for grid layouts. What we're doing
 This layout is often used for both websites and apps with a single column grid. It sets the header and footer content to automatically take the size of its children, and applies the remaining space to the main area. The `auto` sized row will take the size of the minimum content of its children, so as that content increases in size, the row itself will grow to adjust.
 
 > `fr` is greedy, `auto` is shy.
+>
 > - `1fr 1fr 1fr` --> 3 equal columns
 > - `auto auto auto` --> 3 adaptive-width columns
 
@@ -74,7 +75,7 @@ This layout is often used for both websites and apps with a single column grid. 
   display: grid;
   grid-template: auto 1fr auto / auto 1fr auto;
 }
-  
+
 header {
   grid-column: 1 / 4;
 }
@@ -131,8 +132,8 @@ Another way to write this is by using the `span` keyword. With `span`, you set t
 
 You are using repeat again, but this time, using the `auto-fit` keyword instead of an explicit numeric value. This enables auto-placement of these child elements. These children also have a base minimum value of `150px` with a maximum value `1fr`.
 
-- With `auto-fit`, when there are not enough grid items to fill the number of tracks created, those empty tracks are collapsed. *(Fit entire length of container)*
-- With `auto-fill`, everything is the same as `auto-fit`, except empty tracks are not collapsed. *(Doesn't fit entire length of the contaier)*
+- With `auto-fit`, when there are not enough grid items to fill the number of tracks created, those empty tracks are collapsed. _(Fit entire length of container)_
+- With `auto-fill`, everything is the same as `auto-fit`, except empty tracks are not collapsed. _(Doesn't fit entire length of the contaier)_
 
 <img alt="grid-auto-fit" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/68c40383-3e52-433a-88ee-9650cc9d601a.png" width="600">
 
@@ -183,7 +184,7 @@ This places the title, description, and image block in a vertical column inside 
 }
 ```
 
-The minimum size here is `23ch` or 23 character units, and the maximum size is `46ch`, 46 characters. *Character width units* are based on the font size of the element (specifically the width of the `0` glyph).
+The minimum size here is `23ch` or 23 character units, and the maximum size is `46ch`, 46 characters. _Character width units_ are based on the font size of the element (specifically the width of the `0` glyph).
 
 > In monospace (fixed-width) fonts, where all characters are the same width, `1ch` equals one character. Otherwise, in proportional (variable-width) fonts, any given character could be wider or narrower than the “0” character.
 

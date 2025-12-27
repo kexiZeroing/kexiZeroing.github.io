@@ -9,6 +9,7 @@ updatedDate: "Jun 20 2025"
 As we all know HTTPS is designed to provide a secure connection by encrypting the data exchanged between a user's web browser and the server. Sometimes we need a secure connection for our Node.js web server. This article will help you understand how to do it.
 
 ## Why do we need HTTPS?
+
 - **Privacy** means that no one can eavesdrop on your messages.
 - **Integrity** means that the message is not manipulated on the way to its destination (man-in-the-middle attack).
 - **Identification** means that the site that you are visiting is indeed the one you think it is (SSL certificate).
@@ -23,10 +24,12 @@ With **asymmetric keys**, you have 2 keys. One key is public, the other one is p
 4. Change Cipher Spec: Use my private key to decrypt the "pre-master key". Now they both generate the same "shared secret" that they are going to use as a symmetric key. Everything is now secured and all data going back and forth is encrypted.
 
 ## Certificates
+
 First, let's talk about certificates. A certificate is a digital document that serves to authenticate the identity of an entity on the internet. This entity could be a website, a server, or even an individual. The most common type of certificate used in web security is an SSL/TLS certificate, which is used for enabling HTTPS. Note that a SSL/TLS certificate typically contains the following information:
+
 - Public Key: This is a cryptographic key that is used for encrypting data. It's part of a key pair, with the private key being securely stored on the server.
 - Identity Information: This includes details about the entity the certificate is issued to, such as the domain name of a website.
-- Digital Signature: The certificate is digitally signed by a Certificate Authority (CA). The CA is a trusted third party that vouches for the authenticity of the information in the certificate. *(Examples of widely trusted CAs include DigiCert, Let's Encrypt, Comodo, and Symantec.)*
+- Digital Signature: The certificate is digitally signed by a Certificate Authority (CA). The CA is a trusted third party that vouches for the authenticity of the information in the certificate. _(Examples of widely trusted CAs include DigiCert, Let's Encrypt, Comodo, and Symantec.)_
 
 When a user's browser connects to a website over HTTPS, the following steps take place to verify the certificate:
 
@@ -42,6 +45,7 @@ By going through these verification steps, the browser establishes trust in the 
 Curious about the details in verifing the trust. For example, on a Mac, the list of pre-installed trusted Certificate Authorities (CAs) is managed by the operating system. You can access and view this list through the Keychain Access application. You'll see a list of certificates, which may include both root certificates and intermediate certificates, as the trust chain often involves multiple levels of CAs.
 
 ### TLS fingerprinting
+
 TLS (Transport Layer Security) is the evolution of SSL (Secure Sockets Layer), the protocol previously responsible for handling encrypted connections between web clients and servers. SSL was replaced by TLS, and SSL handshakes are now called TLS handshakes. **SSL is no longer in common use, but its name is still mistakenly used to refer to TLS as well.**
 
 To initiate a SSL session, a client will send a SSL Client Hello packet following the TCP 3-way handshake. Because SSL negotiations are transmitted in the clear, it’s possible to fingerprint and identify client applications using the details in the SSL Client Hello packet. The Client Hello message that most HTTP clients and libraries produce differs drastically from that of a real browser. Some web services use the TLS and HTTP handshakes to fingerprint which client is accessing them, and then present different content for different clients.
@@ -52,6 +56,7 @@ To initiate a SSL session, a client will send a SSL Client Hello packet followin
 - https://lwthiker.com/networks/2022/06/17/tls-fingerprinting.html
 
 ## Create Self-Assigned Certificate
+
 [mkcert](https://github.com/FiloSottile/mkcert) is a tool that simplifies the process of setting up a local development environment with HTTPS. `mkcert` is a simple tool for making locally-trusted development certificates.
 
 - When you use `mkcert` to generate a certificate for your local development server, it issues a certificate signed by the local CA. Since the local CA is added to the trust store on your machine, certificates signed by it are considered trusted for local development purposes.
@@ -83,6 +88,7 @@ ngrok http http://localhost:8080
 ```
 
 ## Integrate with Node.js
+
 Finally, let's combine the certificates we generated with the Node Express server.
 
 ```sh
@@ -90,20 +96,20 @@ mkcert -key-file key.pem -cert-file cert.pem example.com localhost
 ```
 
 ```js
-import https from 'https';
-import fs from 'fs';
-import express from 'express';
+import express from "express";
+import fs from "fs";
+import https from "https";
 
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello, HTTPS World!');
+app.get("/", (req, res) => {
+  res.send("Hello, HTTPS World!");
 });
 
 // Load SSL/TLS certificates
-const privateKey = fs.readFileSync('key.pem', 'utf8');
-const certificate = fs.readFileSync('cert.pem', 'utf8');
+const privateKey = fs.readFileSync("key.pem", "utf8");
+const certificate = fs.readFileSync("cert.pem", "utf8");
 const credentials = { key: privateKey, cert: certificate };
 
 // Create an HTTPS server
@@ -130,6 +136,7 @@ devServer: {
 ```
 
 ## Install a certificate on your mobile device
+
 Browsers and operating systems only trust known, public CAs (like Let's Encrypt, DigiCert, etc.). `mkcert` creates its own private CA on your dev computer. Your computer trusts this CA, because `mkcert` adds it automatically, but your phone doesn't know or trust it by default.
 
 ```sh

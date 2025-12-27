@@ -1,13 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const url = require('url');
-const https = require('https');
-const Buffer = require('buffer').Buffer;
-const sizeOf = require('image-size');
+const fs = require("fs");
+const path = require("path");
+const url = require("url");
+const https = require("https");
+const Buffer = require("buffer").Buffer;
+const sizeOf = require("image-size");
 
 const srcPath = path.join(__dirname, "../src/posts");
 const allImageUrls = [];
-let resHtml = '<div class="pswp-gallery" id="my-gallery">';
+let resHtml = "<div class=\"pswp-gallery\" id=\"my-gallery\">";
 
 function throughDirectory(dir) {
   fs.readdirSync(dir).forEach(file => {
@@ -24,9 +24,9 @@ throughDirectory(srcPath);
 processImages();
 
 function findImages(file) {
-  if (!file.endsWith('.md')) return;
+  if (!file.endsWith(".md")) return;
 
-  const data = fs.readFileSync(file, 'utf8');
+  const data = fs.readFileSync(file, "utf8");
   const images = data.match(/https:\/\/.*(blog-images\/main).*\.(jpg|jpeg|png)/gi);
   if (images) {
     allImageUrls.push(...images);
@@ -39,19 +39,19 @@ async function processImages() {
   }
 
   console.log(`Total images: ${allImageUrls.length}\n`);
-  pbcopy(resHtml + '</div>');
+  pbcopy(resHtml + "</div>");
 }
 
 function getImageSize(imgUrl) {
   return new Promise((resolve, reject) => {
     const options = url.parse(imgUrl);
 
-    https.get(options, function (response) {
+    https.get(options, function(response) {
       const chunks = [];
 
-      response.on('data', function (chunk) {
+      response.on("data", function(chunk) {
         chunks.push(chunk);
-      }).on('end', function () {
+      }).on("end", function() {
         const buffer = Buffer.concat(chunks);
         const { height, width } = sizeOf(buffer);
 
@@ -74,7 +74,7 @@ function getImageSize(imgUrl) {
         console.log(allImageUrls.indexOf(imgUrl) + 1);
         resolve();
       });
-    }).on('error', function (error) {
+    }).on("error", function(error) {
       console.error(`Error fetching ${imgUrl}: ${error.message}`);
       resolve(); // Continue processing other images even if one fails
     });
@@ -83,7 +83,7 @@ function getImageSize(imgUrl) {
 
 // only for Mac
 function pbcopy(data) {
-  var proc = require('child_process').spawn('pbcopy');
+  var proc = require("child_process").spawn("pbcopy");
   proc.stdin.write(data);
   proc.stdin.end();
 }

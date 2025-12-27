@@ -6,7 +6,7 @@ tags: [other]
 updatedDate: "Jun 30 2023"
 ---
 
-When it comes to the Web, almost every modern browser supports viewing of PDF documents natively *(the simplest way to embed a PDF into a web page is to use the `<object type="application/pdf">` tag.)* But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership.
+When it comes to the Web, almost every modern browser supports viewing of PDF documents natively _(the simplest way to embed a PDF into a web page is to use the `<object type="application/pdf">` tag.)_ But that native component is outside of the developer’s control. You can't disable the Print button, or display only few pages while others require paid membership.
 
 > You can deeplink to a specific PDF page by appending `#page=X` to your URL, where X is a placeholder for the page you want to link to.
 
@@ -19,6 +19,7 @@ When it comes to the Web, almost every modern browser supports viewing of PDF do
 - Getting started with PDF.js: https://mozilla.github.io/pdf.js/getting_started
 
 ## Prebuilt overview
+
 If you want to use PDF.js in your app, you should use the pre-built version, which is provided via the `pdfjs-dist` package.
 
 ```
@@ -42,6 +43,7 @@ If you want to use PDF.js in your app, you should use the pre-built version, whi
 > CMaps (Character Maps) are text files that are used in PostScript and other Adobe products to map character codes to character glyphs in CID fonts. They are mostly used when dealing with East Asian writing systems. This technology is a legacy technology, so it should not be used in pdfs created by modern tools. `pdf.js` needs the CMap file when it wants to display such CID fonts.
 
 ## Basic rendering as canvas
+
 Before loading the PDF, we need to configure the PDF worker. The worker is responsible for processing the PDF in a separate thread, improving performance.
 
 In this demo, PDF.js-related libraries are imported from [UNPKG](https://unpkg.com/browse/pdfjs-dist@3.0.279/). You should check the version of `pdfjs-dist` you imports, since the APIs are different among various PDF.js versions.
@@ -113,6 +115,7 @@ In this demo, PDF.js-related libraries are imported from [UNPKG](https://unpkg.c
 ```
 
 ## Rendering Text-Layers
+
 To leverage PDF.js's capabilities, it's important to understand its layered architecture. PDF.js gives you the ability to render text layers atop PDF pages that have been rendered using canvas. This time you will not only see PDF pages being rendered but you can also select and copy text from them.
 
 - PDF.js extracts the text content separately from the PDF.
@@ -197,26 +200,30 @@ According to the [example](https://github.com/mozilla/pdf.js/blob/master/example
 ```
 
 ## PDF viewer
+
 Online demo: https://mozilla.github.io/pdf.js/web/viewer.html
 
 Get the code from https://github.com/mozilla/pdf.js/blob/master/web/viewer.html, and then you can start a local web server to run http://localhost:8888/web/viewer.html
 
 [Options](https://github.com/mozilla/pdf.js/wiki/Viewer-options) for the PDF.js viewer that can be given at URL level:
+
 - `https://mozilla.github.io/pdf.js/web/viewer.html?file=compressed.tracemonkey-pldi-09.pdf`
 - `https://mozilla.github.io/pdf.js/web/viewer.html#page=2`
 - `https://mozilla.github.io/pdf.js/web/viewer.html#zoom=200`
 
 ## Annotations to a PDF
+
 To edit a PDF in any meaningful GUI way, you would need to unpack the PDF and render the components (images, formatted text, pages) to the display device; then allow folks to mess with the layout; then re-pack the PDF. You would have to do this perfectly in line with the PDF standards otherwise you may find the downstream consumers of your edited PDF file crash or are unable to render it. It's a very complicated subject.
 
 If you need to annotate the PDF then things are easier. On the server, you need to generate images of the pages of the document, send those to the client, display them to the user, let the user mark them up, capture the co-ordinates of the annotations back to the server and use a server-side PDF library to render the annotations into the PDF. It is achievable, though requires various skillsets for server-side PDF to image manipulation and client side presentation and annotation capture.
 
 > PDF.js provides only viewer. It is designed for reading PDF files, not editing them. Because of that we don't support adding any kind of annotations. However, we do support rendering annotations for viewing.
 >
-> 页面上展示出来的每一页 PDF 有三层：  
+> 页面上展示出来的每一页 PDF 有三层：\
 > canvas 预览层（原始 pdf）-> annotationLayer 批注层（使用 svg，记录坐标）-> textLayer 文字层（透明的，在最上层保证文字一直可选）
 
 See also:
+
 - https://github.com/instructure/pdf-annotate.js
 - https://github.com/Submitty/pdf-annotate.js
 - https://github.com/taoky/pdf-annotate.js

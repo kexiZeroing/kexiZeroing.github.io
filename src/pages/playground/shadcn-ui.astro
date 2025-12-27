@@ -1,54 +1,61 @@
 ---
-import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+import PlaygroundLayout from "@/layouts/PlaygroundLayout.astro";
 
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
-import { ModeToggle } from '@/components/playground/shadcn-ui-demo/ModeToggle'
-import { CalendarDemo } from "@/components/playground/shadcn-ui-demo/CalendarDemo"
-import { AlertDialogDemo } from "@/components/playground/shadcn-ui-demo/AlertDialogDemo"
-import { SelectDemo } from "@/components/playground/shadcn-ui-demo/SelectDemo"
-import { CheckboxDemo } from "@/components/playground/shadcn-ui-demo/CheckboxDemo"
-import { RadioGroupDemo } from "@/components/playground/shadcn-ui-demo/RadioGroupDemo"
-import { TableDemo } from "@/components/playground/shadcn-ui-demo/TableDemo"
-import { CarouselDemo } from "@/components/playground/shadcn-ui-demo/CarouselDemo"
+import { AlertDialogDemo } from "@/components/playground/shadcn-ui-demo/AlertDialogDemo";
+import { CalendarDemo } from "@/components/playground/shadcn-ui-demo/CalendarDemo";
+import { CarouselDemo } from "@/components/playground/shadcn-ui-demo/CarouselDemo";
+import { CheckboxDemo } from "@/components/playground/shadcn-ui-demo/CheckboxDemo";
+import { ModeToggle } from "@/components/playground/shadcn-ui-demo/ModeToggle";
+import { RadioGroupDemo } from "@/components/playground/shadcn-ui-demo/RadioGroupDemo";
+import { SelectDemo } from "@/components/playground/shadcn-ui-demo/SelectDemo";
+import { TableDemo } from "@/components/playground/shadcn-ui-demo/TableDemo";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 ---
 
 <script is:inline>
-	const getThemePreference = () => {
-		if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-			return localStorage.getItem('theme');
-		}
-		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-	};
-	const isDark = getThemePreference() === 'dark';
-	document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+const getThemePreference = () => {
+  if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+    return localStorage.getItem("theme");
+  }
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+const isDark = getThemePreference() === "dark";
+document.documentElement.classList[isDark ? "add" : "remove"]("dark");
 
-	if (typeof localStorage !== 'undefined') {
-		const observer = new MutationObserver(() => {
-			const isDark = document.documentElement.classList.contains('dark');
-			localStorage.setItem('theme', isDark ? 'dark' : 'light');
-		});
-		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-	}
+if (typeof localStorage !== "undefined") {
+  const observer = new MutationObserver(() => {
+    const isDark = document.documentElement.classList.contains("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  });
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+}
 </script>
 
 <PlaygroundLayout title="Shadcn UI Playground">
-	<header class="px-4 flex justify-between items-center border-b h-[54px] sticky top-0 z-10 bg-white dark:bg-slate-950">
-		<h1 class="text-lg font-bold text-slate-900 dark:text-white">Astro with shadcn/ui components</h1>
-		<ModeToggle client:load />
-	</header>
+  <header class="px-4 flex justify-between items-center border-b h-[54px] sticky top-0 z-10 bg-white dark:bg-slate-950">
+    <h1 class="text-lg font-bold text-slate-900 dark:text-white">
+      Astro with shadcn/ui components
+    </h1>
+    <ModeToggle client:load />
+  </header>
 
-	<main class="flex flex-col gap-6 px-4 py-4">
-		<div class="flex gap-2 mt-5">
-			<Button>Click Me</Button>
-			<Button variant='outline'>Click Me</Button>
-			<Button variant='custom'>Click Me</Button>
-			<Button variant='secondary'>Click Me</Button>
-			<Button variant='danger'>Click Me</Button>
-			<Button variant='ghost'>Click Me</Button>
-		</div>
-		
-		<div class="flex flex-col space-y-3">
+  <main class="flex flex-col gap-6 px-4 py-4">
+    <div class="flex gap-2 mt-5">
+      <Button>Click Me</Button>
+      <Button variant="outline">Click Me</Button>
+      <Button variant="custom">Click Me</Button>
+      <Button variant="secondary">Click Me</Button>
+      <Button variant="danger">Click Me</Button>
+      <Button variant="ghost">Click Me</Button>
+    </div>
+
+    <div class="flex flex-col space-y-3">
       <Skeleton className="h-[125px] w-[250px] rounded-xl" />
       <div class="space-y-2">
         <Skeleton className="h-4 w-[250px]" />
@@ -56,24 +63,24 @@ import { CarouselDemo } from "@/components/playground/shadcn-ui-demo/CarouselDem
       </div>
     </div>
 
-		<CalendarDemo client:load />
+    <CalendarDemo client:load />
 
-		<div class="max-w-32">
-			<AlertDialogDemo client:load />
-		</div>
+    <div class="max-w-32">
+      <AlertDialogDemo client:load />
+    </div>
 
-		<SelectDemo client:load />
+    <SelectDemo client:load />
 
-		<RadioGroupDemo client:load />
+    <RadioGroupDemo client:load />
 
-		<CheckboxDemo client:load />
+    <CheckboxDemo client:load />
 
-		<div class="w-[500px]" >
-			<TableDemo />
-		</div>
+    <div class="w-[500px]">
+      <TableDemo />
+    </div>
 
-		<div class="pl-12">
-			<CarouselDemo client:load />
-		</div>
-	</main>
+    <div class="pl-12">
+      <CarouselDemo client:load />
+    </div>
+  </main>
 </PlaygroundLayout>

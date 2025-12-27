@@ -7,17 +7,20 @@ updatedDate: "Apr 27 2025"
 ---
 
 ## Next Generation Frontend Tooling
+
 > When I need multiple different pages and create a React app that needs a backend, my go-to framework is `Next.js`. But sometimes I just want to create a React app, maybe for a demo or to start a project. I used to use `create-react-app` but these days I use `Vite`.
 
 Use [create-vite](https://github.com/vitejs/vite/tree/main/packages/create-vite) to start a Vite project by running `npm create vite@latest`. You can also try Vite online on StackBlitz at https://vite.new.
 
 Vite consists of two major parts:
+
 - A dev server that serves your source files over native ES modules, with rich built-in features and fast Hot Module Replacement (HMR). It only needs to transform and serve source code on demand, as the browser requests it. When you debug with Vite, just looking at the network tab and every module is a request here because it doesn't concatenate everything.
 - A build command that bundles your code with Rollup, pre-configured to output highly optimized static assets for production.
 
 Once you've built the app, you may test it locally by running `npm run preview` command. It will boot up a local static web server that serves the files from `dist`. It's an easy way to check if the production build looks OK in your local environment.
 
 ## Webpack and Vite
+
 When you start the app in development, Webpack will bundle all of your code, and start the webpack-dev-server, the Express.js web server which will serve the bundled code. Within the bundled js file contains all modules for the app and need to regenerate the entire file when we change a file for HMR. It can often take an long wait to spin up a dev server, and even with HMR, file edits can take a couple seconds to be reflected in the browser.
 
 Vite doesn't set out to be a new bundler. Rather, it's a pre-configured build environment using the Rollup bundler and a tool for local development. Vite pre-bundles dependencies in development mode using esbuild.
@@ -36,22 +39,26 @@ Vite only support ES Modules, and parsing the native ES Modules means it will re
 <img alt="vite" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vOhrAly1hc08w9irx0j313w0hwmyf.jpg" width="600">
 
 > Webpack
+>
 > - supported modules: ES Modules, CommonJS and AMD Modules
 > - dev-server: bundled modules served via webpack-dev-server using Express.js web server
 > - production build: webpack
-> 
+>
 > Vite
+>
 > - supported modules: ES Modules
 > - dev-server: native ES Modules served via Vite using Koa web server
 > - production build: Rollup
-> 
+>
 > Popular Webpack plugins and their Vite equivalents
+>
 > - HtmlWebpackPlugin -> vite-plugin-html
 > - MiniCssExtractPlugin -> vite-plugin-purgecss
 > - CopyWebpackPlugin -> vite-plugin-static-copy
 > - DefinePlugin -> define()
 
 ### Issues with Vite
+
 https://github.com/vitejs/vite/discussions/13697#discussioncomment-10241433
 
 The page load speed for large web apps is the bottleneck in Vite's development experience. This bottleneck isn't related to HMR or slow Vite compilation speeds—both of these are already fast enough. The underlying cause is Vite's mechanism of sending ES modules directly to the browser.
@@ -61,6 +68,7 @@ Vite's current unbundle mechanism is not suitable for large web app development,
 ## Features
 
 ### NPM Dependency Resolving
+
 - Pre-bundle them to improve page loading speed and convert CommonJS / UMD modules to ESM. The pre-bundling step is performed with esbuild.
 - Rewrite the imports to valid URLs like `/node_modules/.vite/deps/my-dep.js?v=f3sf2ebd` so that the browser can import them properly.
 - Vite caches dependency requests via HTTP headers.
@@ -77,7 +85,7 @@ import react from "/node_modules/.vite/deps/react.js?v=<hash>";
 import reactDom_client from "/node_modules/.vite/deps/react-dom_client.js?v=<hash>";
 
 // import cjs file
-import { foo as fooCjs } from 'foo/foo-cjs.cjs'
+import { foo as fooCjs } from "foo/foo-cjs.cjs";
 
 // The above import has been resolved into this
 import foo_fooCjs from "/node_modules/.vite/deps/foo_foo-cjs__cjs.js?v=<hash>";
@@ -85,6 +93,7 @@ const fooCjs = foo_fooCjs["foo"];
 ```
 
 ### TypeScript
+
 - Vite supports importing `.ts` files out of the box.
 - Only performs transpilation on `.ts` files and does NOT perform type checking. It assumes type checking is taken care of by your IDE and build process. For production builds, you can run `tsc --noEmit` in addition to Vite's build command. During development, use [vite-plugin-checker](https://github.com/fi3ework/vite-plugin-checker) if you prefer having type errors directly reported in the browser.
 - Vite uses esbuild to transpile TypeScript into JavaScript which is about 20~30x faster than vanilla `tsc`.
@@ -92,16 +101,19 @@ const fooCjs = foo_fooCjs["foo"];
 > While Vite and other tools handle the actual transpilation of TypeScript to JavaScript, they don't provide type checking out of the box. This means that you could introduce errors into your code and Vite would continue running the dev server without telling you. Fortunately, we can configure TypeScript's CLI to allow for type checking without interfering with our other tools. By setting `noEmit` to true, this makes TypeScript act more like a linter than a transpiler.
 
 ### CSS
+
 - Importing `.css` files will inject its content to the page via a `<style>` tag with HMR support.
 - Vite is pre-configured to support CSS `@import` inlining via `postcss-import`.
 - Vite does provide built-in support for `.scss`, `.sass`, `.less`, `.stylus` files. There is no need to install Vite-specific plugins for them, but the corresponding pre-processor itself must be installed.
 
 ### Static Assets
-- Importing a static asset will return the resolved public URL when it is served. The image is included in the module graph. *(What get imported it's just the path to the file, not the actual image.)* For example, importing imgUrl will be `/img.png` during development, and become `/assets/img.2d8efhg.png` in the production build. `url()` references in CSS are handled the same way.
+
+- Importing a static asset will return the resolved public URL when it is served. The image is included in the module graph. _(What get imported it's just the path to the file, not the actual image.)_ For example, importing imgUrl will be `/img.png` during development, and become `/assets/img.2d8efhg.png` in the production build. `url()` references in CSS are handled the same way.
 - Common image, media, and font filetypes are detected as assets automatically.
 - If you have assets that are must retain the exact same file name (without hashing) or you simply don't want to have to import an asset first just to get its URL, then you can place the asset in a special `public` directory under your project root. **Assets in this directory will be served at root path `/` during dev, and copied to the root of the dist directory as-is**.
 
 ## Configuring Vite
+
 When running vite from the command line, Vite will automatically try to resolve a config file named `vite.config.js` inside project root.
 
 If the config needs to conditionally determine options based on the command (`dev`/`serve` or `build`), it can export a function instead. In Vite's API the `command` value is `serve` during dev (in the cli `vite`, `vite dev`, and `vite serve` are aliases), and `build` when building for production. For a full list of CLI options, run `npx vite --help` in your project.
@@ -115,11 +127,13 @@ If the config needs to conditionally determine options based on the command (`de
 More about Vite config: https://vitejs.dev/config
 
 ## Using Plugins
-Vite can be extended using [plugins](https://vitejs.dev/plugins), which are based on Rollup's well-designed plugin interface with a few extra Vite-specific options. To use a plugin, it needs to be added to the `devDependencies` of the project and included in the plugins array in the `vite.config.js` config file. 
+
+Vite can be extended using [plugins](https://vitejs.dev/plugins), which are based on Rollup's well-designed plugin interface with a few extra Vite-specific options. To use a plugin, it needs to be added to the `devDependencies` of the project and included in the plugins array in the `vite.config.js` config file.
 
 Vite aims to provide out-of-the-box support for common web development patterns. A lot of the cases where a plugin would be needed in a Rollup project (https://github.com/rollup/plugins) are already covered in Vite. You can also check out [awesome-vite plugins](https://github.com/vitejs/awesome-vite#plugins) from the community.
 
 ## Env Variables
+
 Vite exposes env variables on the special `import.meta.env` object. Some built-in variables are available in all cases like `import.meta.env.MODE`.
 
 Vite uses dotenv (`.env`) to load additional environment variables, and the loaded env variables are also exposed to your client source code via `import.meta.env`. To prevent accidentally leaking env variables to the client, only variables prefixed with `VITE_` are exposed to your Vite-processed code.
@@ -150,6 +164,7 @@ const mdxFiles = import.meta.glob("./content/**.mdx");
 ```
 
 ## From Vue CLI to Vite
+
 Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use `create-vue` to scaffold Vite-based projects.
 
 1. Remove Vue CLI related dependencies in `package.json`.
@@ -157,7 +172,7 @@ Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use `
 3. Add Vite as a dependency, as well as the Vue plugin for Vite.
 4. With the Vite plugins installed, remove the `vue-template-compiler` as that's handled by the Vite Vue plugins.
 5. Vite is a next generation build tool, let's proceed optimistically by only supporting the most modern browsers. Practically speaking, this means that we can remove Babel.
-6. Add a Vite config file `vite.config.js` in the root of the project. Import the Vue plugin and set  `@import` alias there.
+6. Add a Vite config file `vite.config.js` in the root of the project. Import the Vue plugin and set `@import` alias there.
 7. Contrary to the Vue CLI, Vite actually puts the `index.html` file in the root of the project instead of the public directory, so you'll need to move it. And the JavaScript application is no longer auto injected so we need to include it like `<script type="module" src="/src/main.js"></script>`.
 8. Change the old `vue-cli-service` commands to Vite specific commands in `package.json`.
 9. You can no longer access environment variables on a `process.env` variable. Instead they can be found on `import.meta.env`.

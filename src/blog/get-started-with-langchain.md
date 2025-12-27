@@ -27,14 +27,17 @@ LangChain is a framework for developing applications powered by language models,
 - Agents (OpenAI functions, ReAct)
 
 ### LangChain and LlamaIndex
+
 LlamaIndex is a remarkable data framework aimed at helping you build applications with LLMs by providing essential tools that facilitate data ingestion, structuring, retrieval, and integration with various application frameworks.
 
 There are similarities between LIamaIndex and LangChain in their functionalities including indexing, semantic search, retrieval, and vector databases. They both excel in tasks like question answering, document summarization, and building chatbots.
 
-However, each of them has its unique areas of focus. LangChain, with its extensive list of features, casts a wider net, concentrating on the use of chains and agents to connect with external APIs. On the other hand, LlamaIndex has a narrower focus shining in the area of data indexing and document retrieval. LIamaIndex and LangChain aren’t mutually exclusive. In fact, you can use both in your LLM applications. You can use both LlamaIndex’s data loader and query engine and LangChain’s agents. 
+However, each of them has its unique areas of focus. LangChain, with its extensive list of features, casts a wider net, concentrating on the use of chains and agents to connect with external APIs. On the other hand, LlamaIndex has a narrower focus shining in the area of data indexing and document retrieval. LIamaIndex and LangChain aren’t mutually exclusive. In fact, you can use both in your LLM applications. You can use both LlamaIndex’s data loader and query engine and LangChain’s agents.
 
 ### Examples of using LangChain
+
 The LangChain libraries themselves are made up of several different packages.
+
 - `@langchain/core`: Base abstractions and LangChain Expression Language.
 - `@langchain/community`: Third party integrations.
 - `langchain`: Chains, agents, and retrieval strategies that make up an application's cognitive architecture.
@@ -98,16 +101,16 @@ export const run = async () => {
   console.log({ res });
   /**
    * {
-   *    res: 
+   *    res:
    *    "What is the capital city of the country below?"
-   *    
+   *
    *    "Country: United States"
    *    "Capital: Washington, D.C."
-   *    
+   *
    *    'Country: Canada'
         'Capital: Ottawa'
 
-        'Country: France' 
+        'Country: France'
         'Capital:'
    * }
    */
@@ -130,7 +133,7 @@ export const run = async () => {
   // Pass in a list of messages to `call` to start a conversation.
   const response = await chat.call([
     new HumanChatMessage(
-      "What is a good name for a company that makes colorful socks?"
+      "What is a good name for a company that makes colorful socks?",
     ),
   ]);
   console.log(response);
@@ -142,9 +145,9 @@ OpenAI’s API is not stateful so each time you sent a request to generate a new
 
 ```js
 // memory.ts
+import { ConversationChain } from "langchain/chains";
 import { OpenAI } from "langchain/llms";
 import { BufferMemory } from "langchain/memory";
-import { ConversationChain } from "langchain/chains";
 
 export const run = async () => {
   const model = new OpenAI({});
@@ -170,7 +173,7 @@ To initialize an agent in LangChain, you need to provide a list of tools, an LLM
 // agent-basic.ts
 import { OpenAI } from "langchain";
 import { initializeAgentExecutor } from "langchain/agents";
-import { SerpAPI, Calculator } from "langchain/tools";
+import { Calculator, SerpAPI } from "langchain/tools";
 
 export const run = async () => {
   const model = new OpenAI({ temperature: 0 });
@@ -181,11 +184,12 @@ export const run = async () => {
   const executor = await initializeAgentExecutor(
     tools,
     model,
-    "zero-shot-react-description"
+    "zero-shot-react-description",
   );
   console.log("Loaded agent.");
 
-  const input = `What are the total number of countries in Africa raised to the power of 3?`;
+  const input =
+    `What are the total number of countries in Africa raised to the power of 3?`;
 
   console.log(`Executing with input "${input}"...`);
 
@@ -204,9 +208,9 @@ Language models limit the amount of text that you can send to them per request. 
 
 ```js
 // recursive_text_splitter.ts
+import fs from "fs";
 import { Document } from "langchain/document";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import fs from "fs";
 import path from "path";
 
 export const run = async () => {
@@ -234,7 +238,7 @@ import { TextLoader } from "langchain/document_loaders";
 
 export const run = async () => {
   const loader = new TextLoader(
-    "src/document_loaders/example_data/example.txt"
+    "src/document_loaders/example_data/example.txt",
   );
   const docs = await loader.load();
   console.log({ docs });
@@ -243,7 +247,7 @@ export const run = async () => {
     docs: [
       Document {
         pageContent: 'this is an example text to see how langchain loads raw text.',
-        metadata: 
+        metadata:
       }
     ]
   }
@@ -255,9 +259,9 @@ Takes input docs and a question sent to LLM for answer based on relevant docs.
 
 ```js
 // question_answering.ts
-import { OpenAI } from "langchain/llms";
 import { loadQAChain } from "langchain/chains";
 import { Document } from "langchain/document";
+import { OpenAI } from "langchain/llms";
 
 export const run = async () => {
   const model = new OpenAI({});
@@ -283,6 +287,7 @@ export const run = async () => {
 > Suppose you have a set of documents and want to summarize their content. **Map-reduce** operations are essential for efficient task decomposition and parallel processing. In the map step, the documents are split into batches, and each document is summarized individually using a LLM. Then, in the reduce step, those individual summaries are consolidated into a single global summary. The map step is typically parallelized over the input documents.
 
 ### LangChain Expression Language (LCEL)
+
 LangChain Expression Language is a declarative system designed for easily building multi-step computational chains, from simple prototypes to complex, production-level applications. It simplifies the process of setting up complex computational tasks by allowing users to state “what” outcome is needed rather than detailing “how” to achieve it.
 
 ```py

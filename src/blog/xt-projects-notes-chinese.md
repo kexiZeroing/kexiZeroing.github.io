@@ -16,7 +16,7 @@ updatedDate: "Jun 27 2025"
 - 每一个 page 有对应的 `router` 文件，这是子项目的路由，而且每个路由加载的 component 都是异步获取，在访问该路由时按需加载。
 - webpack 打包时（`dist/`）会 emit 出所有 `HtmlWebpackPlugin` 生成的 html 文件（这也是浏览器访问的入口），相对每个 entry 打包出的 js 文件 `js/[name].[chunkhash].js`（对应 output.filename），所有异步加载的组件 js `js/[id].[chunkhash].js`（对应 output.chunkFilename）。这些 chunk 基本来自 vue-router 配置的路由 `component: () => import('./views/Home.vue')`，这样懒加载的组件会生成一个 js 文件。
 - `copy-webpack-plugin` 用来把那些已经在项目目录中的文件（比如 `public/` 或 `static/`）拷贝到打包后的产出中，这些文件不需要 build，不需要 webpack 的处理。另外可以使用 `ignore: ["**/file.*", "**/ignored-directory/**"]` 这样的语法忽略一些文件不进行拷贝。
-- 图片、音乐、字体等资源的打包处理使用 `url-loader` 结合 `limit` 的设置，如果资源比较大会默认使用 `file-loader` 生成 `img/[name].[hash:7].[ext]` 这样的文件；如果资源小，会自动转成 base64。*（DEPREACTED for v5: please consider migrating to asset modules）*
+- 图片、音乐、字体等资源的打包处理使用 `url-loader` 结合 `limit` 的设置，如果资源比较大会默认使用 `file-loader` 生成 `img/[name].[hash:7].[ext]` 这样的文件；如果资源小，会自动转成 base64。_（DEPREACTED for v5: please consider migrating to asset modules）_
 - `performance` 属性用来设置当打包资源和入口文件超过一定的大小给出警告或报错，可以分别设置它们的上限和哪些文件被检查。具体多大的文件算“过大”，则需要用到 `maxEntrypointSize` 和 `maxAssetSize` 两个参数，单位是 byte。
 - 对于代码压缩，使用 `terser-webpack-plugin` 来压缩 JS，webpack 5 自带，但如果需要自定义配置，那么仍需要安装该插件，在 webpack 配置文件里设置 `optimization` 来引用这个插件。`HtmlWebpackPlugin` 里设置 `minify` 可以压缩 HTML，production 模式下是默认是 true（会使用 `html-minifier-terser` 插件去掉空格、注释等），自己传入一个 minify 对象，可以定制化压缩设置。
 - 对于 js 的压缩使用了 `uglifyjs-webpack-plugin`，里面传入 `compress` 定制化[压缩设置](https://github.com/mishoo/UglifyJS#compress-options)。比如有的项目没有 console 输出，可能就是因为这里设置了 `drop_console`。
@@ -24,12 +24,14 @@ updatedDate: "Jun 27 2025"
 - webpack 设置请求代理 proxy（其背后使用的是 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)），默认情况下假设前端是 `localhost:3000`，后端是 `localhost:8082`，那么后端通过 `request.getHeader("Host")` 获取的依旧是 `localhost:3000`。如果设置了 `changeOrigin: true`，那么后端才会看到的是 `localhost:8082`, 代理服务器会根据请求的 target 地址修改 Host（这个在浏览器里看请求头是看不到改变的）。如果某个接口 404，一般就是这个路径没有配置代理。
 
 ### 一些 webpack 的配置
+
 - Webpack 5 boilerplate: https://github.com/taniarascia/webpack-boilerplate
 - Create App: https://createapp.dev/webpack
 - Webpack articles: https://blog.jakoblind.no/tags/webpack
 - Geektime webpack course: https://github.com/cpselvis/geektime-webpack-course
 
 #### filename and chunkFilename
+
 - `filename` 是对应于 entry 里面的输入文件，经过打包后输出文件的名称。`chunkFilename` 指未被列在 entry 中，却又需要被打包出来的 chunk 文件的名称（non-initial chunk files），一般是要懒加载的代码。
 - `output.filename` 的输出文件名是 `js/[name].[chunkhash].js`，`[name]` 根据 entry 的配置推断为 index，所以输出为 `index.[chunkhash].js`。`output.chunkFilename` 默认使用 `[id].js`, 会把 `[name]` 替换为 chunk 文件的 id 号。
 - By prepending `js/` to the filename in `output.filename`, webpack will write bundled files to a js sub-directory in the `output.path`. This allows you to organize files of a particular type in appropriately named sub-directories.
@@ -37,32 +39,39 @@ updatedDate: "Jun 27 2025"
 - `chunkhash` 根据不同的入口文件构建对应的 chunk，生成对应的哈希值，来源于同一个 chunk，则 hash 值就一样。
 
 #### path and publicPath
+
 - `output.path` represents the absolute path for webpack file output in the file system. In other words, `path` is the physical location on disk where webpack will write the bundled files.
 - `output.publicPath` represents the path from which bundled files should be accessed by the browser. You can load assets from a custom directory (`/assets/`) or a CDN (`https://cdn.example.com/assets/`). The value of the option is prefixed to every URL created by the runtime or loaders.
 
 #### app, vendor and manifest
+
 In a typical application built with webpack, there are three main types of code:
+
 1. The source code you have written. 自己编写的代码
 2. Any third-party library or "vendor" code your source is dependent on. 第三方库和框架
 3. A webpack runtime and manifest that conducts the interaction of all modules. 记录了打包后代码模块之间的依赖关系，需要第一个被加载
 
 #### optimization.splitChunks
-It is necessary to differentiate between *Code Splitting* and *splitChunks*. Code splitting is a feature native to Webpack, which uses the dynamic import statement to move certain modules to a new Chunk. SplitChunks is essentially a further splitting of the Chunks produced by code splitting.
+
+It is necessary to differentiate between _Code Splitting_ and _splitChunks_. Code splitting is a feature native to Webpack, which uses the dynamic import statement to move certain modules to a new Chunk. SplitChunks is essentially a further splitting of the Chunks produced by code splitting.
 
 After code splitting, many Chunks will be created, and each Chunk will correspond to one ChunkGroup. SplitChunks is essentially splitting Chunk into more Chunks to form a group and to load groups together, for example, under HTTP/2, a Chunk could be split into a group of 20 Chunks for simultaneous loading.
 
 #### resolve
+
 - extensions 数组，在 import 不带文件后缀时，webpack 会自动带上后缀去尝试访问文件是否存在，默认值 `['.js', '.json', '.wasm']`.
 - mainFiles 数组，the filename to be used while resolving directories, defaults to `['index']`.
 - alias 配置别名，把导入路径映射成一个新的导入路径，比如 `"@": path.join(__dirname, 'src')`.
 - modules 数组，tell webpack what directories should be searched when resolving modules, 默认值 `['node_modules']`，即从 node_modules 目录下寻找。
 
 #### css-loader and style-loader
+
 - `css-loader` takes a CSS file and returns the CSS with `@import` and `url(...)` resolved. It doesn't actually do anything with the returned CSS and is not responsible for how CSS is ultimately displayed on the page.
 - `style-loader` takes those styles and creates a `<style>` tag in the page's `<head>` element containing those styles. The order of CSS insertion is completely consistent with the import order.
 - We often chain the `sass-loader` with the `css-loader` and the `style-loader` to immediately apply all styles to the DOM or the `mini-css-extract-plugin` to extract it into a separate file.
 
 #### load images
+
 Webpack goes through all the `import` and `require` files in your project, and for all those files which have a `.png|.jpg|.gif` extension, it uses as an input to the webpack `file-loader`. For each of these files, the file loader emits the file in the output directory and resolves the correct URL to be referenced. Note that this config only works for webpack 4, and Webpack 5 has deprecated the `file-loader`. If you are using webpack 5 you should change it to `asset/resource`.
 
 Webpack 4 also has the concept `url-loader`. It first base64 encodes the file and then inlines it. It will become part of the bundle. That means it will not output a separate file like `file-loader` does. If you are using webpack 5, then `url-loader` is deprecated and instead, you should use `asset/inline`.
@@ -70,36 +79,42 @@ Webpack 4 also has the concept `url-loader`. It first base64 encodes the file an
 > Loaders are transformations that are applied to the source code of a module. When you provide a list of loaders, they are applied from right to left, like `use: ['third-loader', 'second-loader', 'first-loader']`. This makes more sense once you look at a loader as a function that passes its result to the next loader in the chain `third(second(first(source)))`.
 
 #### webpack.DefinePlugin
+
 The `DefinePlugin` allows you to create global constants that are replaced at compile time, commonly used to specify environment variables or configuration values that should be available throughout your application during the build process. For example, you might use it to define `process.env.NODE_ENV` as 'production' or 'development' which webpack will literally replace in your code during bundling.
 
 ```js
 new webpack.DefinePlugin({
-  'process.env.NODE_ENV': '"production"',
-  'process.env.BUILD_ENV': buildEnv ? `"${buildEnv}"`: '""',
-  'process.env.PLATFORM_ENV': platFormEnv ? `"${platFormEnv}"`: '""'
-})
+  "process.env.NODE_ENV": "\"production\"",
+  "process.env.BUILD_ENV": buildEnv ? `"${buildEnv}"` : "\"\"",
+  "process.env.PLATFORM_ENV": platFormEnv ? `"${platFormEnv}"` : "\"\"",
+});
 ```
 
 #### SplitChunksPlugin
-Since webpack v4, the CommonsChunkPlugin was removed in favor of `optimization.splitChunks` *(`SplitChunksPlugin` can be configured through the `optimization.splitChunks` option)*. It controls how and when Webpack splits chunks of code into separate files. The [default](http://webpack.js.org/plugins/split-chunks-plugin/#defaults) settings works well for most users.
+
+Since webpack v4, the CommonsChunkPlugin was removed in favor of `optimization.splitChunks` _(`SplitChunksPlugin` can be configured through the `optimization.splitChunks` option)_. It controls how and when Webpack splits chunks of code into separate files. The [default](http://webpack.js.org/plugins/split-chunks-plugin/#defaults) settings works well for most users.
 
 > kinds of `chunks`:
+>
 > - 'async' (default): only split dynamically imported code (via `import()`)
 > - 'initial': only split code from entry points
 > - 'all': split both
 
 Early Next.js configurations:
+
 - Any sufficiently large third-party module (greater than 160 KB) is split into its own individual chunk
 - A separate frameworks chunk is created for framework dependencies (react, react-dom, and so on)
 - As many shared chunks as needed are created (up to 25)
 - The minimum size for a chunk to be generated is changed to 20 KB
 
 #### webpack in development
+
 - `webpack-dev-server` doesn't write any output files after compiling. Instead, it keeps bundle files in memory and serves them as if they were real files mounted at the server's root path.
 - `webpack-dev-middleware` is an express-style development middleware that will emit files processed by webpack to a server. This is used in `webpack-dev-server` internally.
 - Want to access `webpack-dev-server` from the mobile in local network: run `webpack-dev-server` with `--host 0.0.0.0`, which lets the server listen for requests from the network (all IP addresses on the local machine), not just localhost. But Chrome won't access `http://0.0.0.0:8089` (Safari can open). It's not the IP, it just means it is listening on all the network interfaces, so you can use any IP the host has.
 
 #### something related to tree shaking
+
 Tree shaking means that unused modules will not be included in the bundle (The term was popularized by Rollup). In order to take advantage of tree shaking, you must use ES2015 module syntax. Ensure no compilers transform your ES2015 module syntax into CommonJS modules (this is the default behavior of the popular Babel preset `@babel/preset-env`).
 
 ```js
@@ -108,27 +123,29 @@ Tree shaking means that unused modules will not be included in the bundle (The t
 export default {
   presets: [
     [
-      "@babel/preset-env", {
-        modules: false
-      }
-    ]
-  ]
-}
+      "@babel/preset-env",
+      {
+        modules: false,
+      },
+    ],
+  ],
+};
 ```
 
 Webpack do tree-shake only happens when you're using a esmodule, while lodash is not. Alternatively, you can try to use [lodash-es](https://github.com/lodash/lodash/blob/4.17.21-es/package.json) written in ES6. [es-toolkit](https://github.com/toss/es-toolkit) is a modern utility library designed as a lightweight, fast, and tree-shakeable alternative to Lodash and similar libraries.
 
 ```js
-import cloneDeep from "lodash/cloneDeep"
-import { camelCase } from "lodash-es"
+import { camelCase } from "lodash-es";
+import cloneDeep from "lodash/cloneDeep";
 
-import { debounce } from 'es-toolkit';
+import { debounce } from "es-toolkit";
 const debouncedLog = debounce(message => {
   console.log(message);
 }, 300);
 ```
 
 #### 打包工具构建时静态分析
+
 ```
 Critical dependency: the require function is used in a way in which dependencies cannot be statically extracted.
 ```
@@ -140,25 +157,28 @@ Critical dependency: the require function is used in a way in which dependencies
 `import()` 是来做“动态模块加载”的语法，构建工具能很好地支持它，每个 `import('./xxx')` 的路径生成一份 chunk 文件，并在需要时异步加载。
 
 #### webpack-bundle-analyzer（检查打包体积）
-It will create an interactive treemap visualization of the contents of all your bundles when you build the application. There are two ways to configure webpack bundle analyzer in a webpack project. Either as a plugin or using the command-line interface. 
+
+It will create an interactive treemap visualization of the contents of all your bundles when you build the application. There are two ways to configure webpack bundle analyzer in a webpack project. Either as a plugin or using the command-line interface.
 
 ```js
 // Configure the webpack bundle analyzer plugin
 // npm install --save-dev webpack-bundle-analyzer
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
   plugins: [
-    new BundleAnalyzerPlugin()
-  ]
-}
+    new BundleAnalyzerPlugin(),
+  ],
+};
 ```
 
-- *stat* - This is the "input" size of your files, before any transformations like minification. It is called "stat size" because it's obtained from Webpack's stats object.
-- *parsed* - This is the "output" size of your files. If you're using a Webpack plugin such as Uglify, then this value will reflect the minified size of your code.
-- *gzip* - This is the size of running the parsed bundles/modules through gzip compression.
+- _stat_ - This is the "input" size of your files, before any transformations like minification. It is called "stat size" because it's obtained from Webpack's stats object.
+- _parsed_ - This is the "output" size of your files. If you're using a Webpack plugin such as Uglify, then this value will reflect the minified size of your code.
+- _gzip_ - This is the size of running the parsed bundles/modules through gzip compression.
 
 #### speed-measure-webpack-plugin（检查打包速度）
+
 See how fast (or not) your plugins and loaders are, so you can optimise your builds. This plugin measures your webpack build speed, giving an output in the terminal.
 
 ```js
@@ -172,6 +192,7 @@ const webpackConfig = smp.wrap({
 ```
 
 #### TypeScript and Webpack
+
 Webpack is extensible with "loaders" that can be added to handle particular file formats.
 
 1. Install `typescript` and [ts-loader](https://github.com/TypeStrong/ts-loader) as devDependencies.
@@ -184,7 +205,7 @@ TypeScript doesn't understand `.vue` files - they aren't actually Typescript mod
 ```ts
 // shims-vue.d.ts
 declare module "*.vue" {
-  import Vue from 'vue';
+  import Vue from "vue";
   export default Vue;
 }
 ```
@@ -192,11 +213,13 @@ declare module "*.vue" {
 > Important: Above was created in the days before Vue shipped with TypeScript out of the box. Now the best path to get started is through the official CLI.
 
 ### build 打包
+
 调用 `webpack()` 传入配置 `webpack.prod.conf` 和一个回调函数，**webpack stats 对象** 作为回调函数的参数，可以通过它获取到 webpack 打包过程中的信息，使用 `process.stdout.write(stats.toString(...))` 输出到命令行中 (`console.log` in Node is just `process.stdout.write` with formatted output)
 
 使用 [chalk](https://www.npmjs.com/package/chalk) 在命令行中清晰地显示一些提示信息。目前大多数工程都是通过脚手架来创建的，使用脚手架的时候最明显的就是与命令行的交互，[Inquirer.js](https://github.com/SBoudrias/Inquirer.js) 是一组常见的交互式命令行用户界面。[Commander.js](https://github.com/tj/commander.js) 作为 node.js 命令行解决方案，是开发 node cli 的必备技能。
 
 The build job uses Kaniko (a tool for building Docker images in Kubernetes). Its main task is to build a Docker image.
+
 - For master, dev, or tagged commits: builds and pushes the Docker image
 - For other branches: builds but doesn't push the image
 
@@ -211,6 +234,7 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 > The `s` command is for substitute, to replace text -- the format is `s/[text to select]/[text to replace]/`. For example, `sed 's/target/replacement/g' file.txt` will globally substitute the word `target` with `replacement`.
 
 ### 微信扫码登录逻辑
+
 二维码登录使用 websocket 连接，message 中定义不同的 `op` 代表不同的操作，比如 requestlogin 会返回微信生成的二维码（包括 qrcode, ticket, expire_seconds 等），扫码成功返回类型是 loginsuccess，并附带 OpenID, UnionID, Name, UserID, Auth 等信息，前端拿到这些信息后可以请求后端登录的 http 接口，拿到 sessionid，并被种在 cookie 里。
 
 ```js
@@ -258,14 +282,15 @@ The above checks if the environment variable `CI_COMMIT_TAG` is empty (meaning i
 ```
 
 > 常规的密码存储：
-> 
+>
 > A Rainbow Table is a precomputed table of hashes and their inputs. This allows an attacker to simply look up the hash in the table to find the input. This means that if an attacker gets access to your database, they can simply look up the hashes to find the passwords.
-> 
+>
 > To protect against this, password hashing algorithms use a salt. A salt is a random string that is added to the password before hashing. This means that even if two users have the same password, their hashes will be different. This makes it impossible for an attacker to use a rainbow table to find the passwords.
 >
 > A great library for generating bcrypt hashes is [bcryptjs](https://github.com/dcodeIO/bcrypt.js) which will generate a random salt for you. This means that you don't need to worry about generating a salt and you can simply store the whole thing as is. Then when the user logs in, you provide the stored hash and the password they provide to bcryptjs's `compare` function will verify the password is correct.
 
 ### 微信网页授权
+
 申请公众号/小程序的时候，都有一个 APPID 作为当前账号的标识，OpenID 就是用户在某一公众平台下的标识（用户微信号和公众平台的 APPID 两个数据加密得到的字符串）。如果开发者拥有多个应用，可以通过获取用户基本信息中的 UnionID 来区分用户的唯一性，因为同一用户，在同一微信开放平台下的不同应用，UnionID 应是相同的，代表同一个人，当然前提是各个公众平台需要先绑定到同一个开放平台。OpenID 同一用户同一应用唯一，UnionID 同一用户不同应用唯一，获取用户的 OpenID 是无需用户同意的，获取用户的基本信息则需要用户同意。
 
 向用户发起授权申请，即打开如下页面：
@@ -284,8 +309,9 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 > 2. 某个公众号的关注页面地址为 https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI0NDA2OTc2Nw==#wechat_redirect 其中 biz 字符串是微信公众号标识，在浏览器打开该公众号下的任意一篇文章，查看网页源代码，搜索 `var biz` 这样的关键字即可得到。
 > 3. 在微信开发中，JS 接口安全域名和网页授权域名是两个不同的配置项。JS 接口安全域名用于控制哪些域名下的页面可以调用微信的 JS-SDK 接口（如分享、拍照、支付、定位等）。网页授权域名用于控制哪些域名下的页面可以发起微信网页授权，用户授权后，后端可通过 code 换取用户信息（如 openid、nickname 等）。
 
-微信授权也符合通常的 OAuth 流程：  
-*You first need to register your app with your provider to get the required credentials. You’ll be asked to define a callback URL or a redirect URI.*
+微信授权也符合通常的 OAuth 流程：\
+_You first need to register your app with your provider to get the required credentials. You’ll be asked to define a callback URL or a redirect URI._
+
 1. Redirect the user to the provider.
 2. User is authenticated by the provider.
 3. User is redirected back to your server with a secret code.
@@ -293,6 +319,7 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 5. Use the access token access the user’s data.
 
 ### 唤起微信小程序
+
 微信外网页通过小程序链接 URL Scheme，微信内通过微信开放标签，且微信内不会直接拉起小程序，需要手动点击按钮跳转。这是官方提供的一个例子 https://postpay-2g5hm2oxbbb721a4-1258211818.tcloudbaseapp.com/jump-mp.html 可以用手机浏览器查看效果，直接跳转小程序。
 
 - 使用微信开放标签 `<wx-open-launch-weapp>`，提供要跳转小程序的原始 ID 和路径，标签内插入自定义的 html 元素。开放标签会被渲染成一个 iframe，所以外部的样式是不会生效的。另外在开放标签上模拟 click 事件也不生效，即不可以在微信内不通过点击直接跳转小程序。可以监听 `<wx-open-launch-weapp>` 元素的 `launch` 事件，用户点击跳转按钮并对确认弹窗进行操作后触发。
@@ -302,16 +329,19 @@ https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=RED
 > 微信小程序相关的仓库，比如 WeUI 组件库、微信小程序示例、computed / watch 扩展等: https://github.com/wechat-miniprogram
 
 国产 APP 各自套壳 Chromium 内核版本，最大的问题就是更新不及时，而且大多被改造过。
+
 - iOS 方面，根据 App Store 审核指南，上架 App Store 的应用不允许使用自己的浏览器内核。如果 app 会浏览网页，则必须使用相应的 WebKit 框架和 WebKit Javascript。
 - Android 方面，不限制应用使用自己的浏览器内核。安卓微信之前的浏览器为基于 WebKit 的 X5 浏览器，后为了和小程序的浏览器内核同构，大概 2020-05 从 X5 迁移到 XWeb，官方一般会有内核版本升级体验通告，比如[2023-06 更新](https://developers.weixin.qq.com/community/develop/doc/0002c2167840006af8df3c94256001)：当前安卓微信 XWeb 开发版基于 111 新内核，现网仍基于 107 内核。
 
-vue vite 打包后白屏问题，推测就是 webview 版本太旧了，使用 [@vitejs/plugin-legacy](https://github.com/vitejs/vite/tree/main/packages/plugin-legacy) 做兼容。它的内部使用 `@babel/preset-env` 以及 `core-js` 等一系列基础库来进行语法降级和 Polyfill 注入，以解决在旧版浏览器上的兼容性问题。*（默认情况下，Vite 的目标是能够支持原生 ESM script 标签、支持原生 ESM 动态导入 和 import.meta 的浏览器）*
+vue vite 打包后白屏问题，推测就是 webview 版本太旧了，使用 [@vitejs/plugin-legacy](https://github.com/vitejs/vite/tree/main/packages/plugin-legacy) 做兼容。它的内部使用 `@babel/preset-env` 以及 `core-js` 等一系列基础库来进行语法降级和 Polyfill 注入，以解决在旧版浏览器上的兼容性问题。_（默认情况下，Vite 的目标是能够支持原生 ESM script 标签、支持原生 ESM 动态导入 和 import.meta 的浏览器）_
 
 ### HTTP 请求相关
+
 Some features about Axios:
+
 1. Axios automatically converts the data to JSON returned from the server.
 2. In Axios, HTTP error responses (like 404 or 500) automatically reject the promise, so you can handle them using catch block.
-3. One of the main selling points of Axios is its wide browser support. Even old browsers like IE11 can run Axios without any issues. This is because it uses `XMLHttpRequest` under the hood. 
+3. One of the main selling points of Axios is its wide browser support. Even old browsers like IE11 can run Axios without any issues. This is because it uses `XMLHttpRequest` under the hood.
 4. 注意 Axios 遇到 302 的返回：重定向直接被浏览器拦截处理，浏览器 redirect 后，被视为 Axios 发起了跨域请求，所以抛异常。Axios 捕获异常，进入 catch 逻辑。
 
 Use `$fetch`, `useFetch`, or `useAsyncData` in Nuxt: https://masteringnuxt.com/blog/when-to-use-fetch-usefetch-or-useasyncdata-in-nuxt-a-comprehensive-guide
@@ -321,9 +351,12 @@ Use `$fetch`, `useFetch`, or `useAsyncData` in Nuxt: https://masteringnuxt.com/b
 - `$fetch` is the simplest way to make a network request. `useFetch` is wrapper around `$fetch` that fetches data only once in universal rendering.
 
 **Preventing Duplicate Requests:**
+
 1. UI Blocking
-  - Disable submit buttons immediately after click
-  - Overlay/modal blockers for critical operations
+
+- Disable submit buttons immediately after click
+- Overlay/modal blockers for critical operations
+
 2. Request Debounce: Delay execution until user stops clicking
 3. Request `isSubmitting` in progress flag
 4. `AbortController` to cancel pending requests if a new one is made
@@ -335,33 +368,37 @@ async function makeRequest() {
   // Cancel previous request if it exists
   controller.abort();
   controller = new AbortController();
-  
+
   try {
-    const response = await fetch('/api/endpoint', {
-      signal: controller.signal
+    const response = await fetch("/api/endpoint", {
+      signal: controller.signal,
     });
   } catch (error) {
-    if (error.name === 'AbortError') {
-      console.log('Request was cancelled');
+    if (error.name === "AbortError") {
+      console.log("Request was cancelled");
     }
   }
 }
 ```
 
 ### 阿里云 CDN
+
 阿里云 CDN 对于文件是否支持缓存是以 `X-Cache` 头部来确定，缓存时间是以 `X-Swift-CacheTime` 头部来确认。
+
 - `Age` 表示该文件在 CDN 节点上缓存的时间，单位为秒。只有文件存在于节点上 Age 字段才会出现，当文件被刷新后或者文件被清除的首次访问，在此前文件并未缓存，无 Age 头部字段。当 Age 为 0 时，表示节点已有文件的缓存，但由于缓存已过期，本次无法直接使用该缓存，需回源校验。
 - `X-Swift-SaveTime` 该文件是在什么时间缓存到 CDN 节点上的。(GMT时间，Greenwich Mean Time Zone)
 - `X-Swift-CacheTime` 该文件可以在 CDN 节点上缓存多久，是指文件在 CDN 节点缓存的总时间。通过 `X-Swift-CacheTime – Age` 计算还有多久需要回源刷新。
 
 > 阿里云 CDN 在全球拥有 3200+ 节点。中国内地拥有 2300+ 节点，覆盖 31 个省级区域。
+>
 > 1. CDN 节点是指与最终接入用户之间具有较少中间环节的网络节点，对最终接入用户有相对于源站而言更好的响应能力和连接速度。当节点没有缓存用户请求的内容时，节点会返回源站获取资源数据并返回给用户。阿里云 CDN 的源站可以是对象存储OSS、函数计算、自有源站（IP、源站域名）。
 > 2. 默认情况下将使用 OSS 的 Bucket 地址作为 HOST 地址（如 `***.oss-cn-hangzhou.aliyuncs.com`）。如果源站 OSS Bucket 绑定了自定义域名（如 `origin.developer.aliyundoc.com`），则需要配置回源 HOST 为自定义域名。
 > 3. 加速域名即网站域名、是终端用户实际访问的域名。CNAME 域名是 CDN 生成的，当您在阿里云 CDN 控制台添加加速域名后，系统会为加速域名分配一个 `*.*kunlun*.com` 形式的 CNAME 域名。
 > 4. 添加加速域名后，需要在 DNS 解析服务商处，添加一条 CNAME 记录，将加速域名的 DNS 解析记录指向 CNAME 域名，记录生效后该域名所有的请求都将转向 CDN 节点，达到加速效果。CNAME 域名将会解析到具体哪个节点 IP 地址，将由 CDN 的调度系统综合多个条件来决定。
 
 ### 日常开发 Tips and Tricks
-- The `input` event is fired every time the value of the element changes. This is unlike the `change` event, which only fires when the value is committed, such as by pressing the enter key or selecting a value from a list of options. Note that `onChange` in React behaves like the browser `input` event. *(in React it is idiomatic to use `onChange` instead of `onInput`)*
+
+- The `input` event is fired every time the value of the element changes. This is unlike the `change` event, which only fires when the value is committed, such as by pressing the enter key or selecting a value from a list of options. Note that `onChange` in React behaves like the browser `input` event. _(in React it is idiomatic to use `onChange` instead of `onInput`)_
 
 - The order in which the events are fired: `mousedown` --> `mouseup` --> `click`. When you add a `blur` event, it is actually fired before the `mouseup` event and after the `mousedown` event of the button. Refer to https://codepen.io/mudassir0909/full/qBjvzL
 
@@ -373,7 +410,7 @@ async function makeRequest() {
 
 - Sometimes I need to detect whether a click happens inside or outside of a particular element.
   ```js
-  window.addEventListener('mousedown', e => {
+  window.addEventListener("mousedown", e => {
     const clickedEl = e.target;
 
     // `el` is the element you're detecting clicks outside of
@@ -387,19 +424,19 @@ async function makeRequest() {
 
 - Change the style of `:before` pseudo-elements using JS. It's not possible to directly access pseudo-elements with JS as they're not part of the DOM.
   ```js
-  let style = document.querySelector('.foo').style;
-  style.setProperty('--background', 'red');
+  let style = document.querySelector(".foo").style;
+  style.setProperty("--background", "red");
   ```
   ```css
   .foo::before {
     background: var(--background);
-    content: '';
+    content: "";
     display: block;
     width: 200px;
     height: 200px;
   }
   ```
- 
+
 - npmmirror 已内置[支持类似 unpkg cdn 解析能力](https://zhuanlan.zhihu.com/p/633904268)，可以简单理解为访问 unpkg 地址时，在回源服务里面根据 URL 参数，去 npm registry 下载对应的 npm 包，解压后响应对应的文件内容。即只需要遵循约定的 URL 进行访问，即可在页面中加载任意 npm 包里面的文件内容。
   ```
   # 获取目录信息 /${pkg}/${versionOrTag}/files?meta
@@ -417,13 +454,16 @@ async function makeRequest() {
 - 传统直播技术使用的传输协议是 RTMP 和 HLS。客户端按用途可分为两类，一类是主播使用的客户端，包括音视频数据采集、编码和推流功能；另一类是观众使用的客户端，包括拉流、解码与渲染（播放）功能。对于主播客户端来说，它可以从 PC 或移动端设备的摄像头、麦克风采集数据，然后对采集到的音视频数据进行编码，最后将编码后的音视频数据按 RTMP 协议推送给 CDN 源节点。对于观众客户端来说，它首先从直播管理系统中获取到房间的流媒体地址，然后通过 RTMP 协议从边缘节点拉取音视频数据，并对获取到的音视频数据进行解码，最后进行视频的渲染与音频的播放。
 
 ### iframe 方案的利弊
+
 用一句话概括 iframe 的作用就是在一个 web 应用中可以独立的运行另一个 web 应用，这个概念和微前端是类似的。采用 iframe 的优点是使用简单、隔离完美、页面上可以摆放多个 iframe 来组合多应用业务。但是缺点也非常明显：
+
 - 路由状态丢失，刷新一下，iframe 的 url 状态就丢失了
 - dom 割裂严重，弹窗只能在 iframe 内部展示，无法覆盖全局
 - 通信困难，只能通过 postMessage 传递序列化的消息
 - 白屏时间长
 
 所以我们需要考虑：
+
 1. iframe 内部的路由变化要体现在浏览器地址栏上
 2. 刷新页面时要把当前状态的 url 传递给 iframe
 3. 浏览器前进后退符合预期
@@ -431,14 +471,18 @@ async function makeRequest() {
 5. CSP, sandbox 等安全属性
 
 ### 桌面端 Electron 相关
+
 Electron是一个集成项目，允许开发者使用前端技术开发桌面端应用。其中 **Chromium 基础能力**可以让应用渲染 HTML 页面，执行页面的 JS 脚本，让应用可以在 Cookie 或 LocalStorage 中存取数据。Electron 还继承了 Chromium 的多进程架构，分一个主进程和多个渲染进程，主进程进行核心的调度启动，不同的 GUI 窗口独立渲染，做到进程间的隔离，进程与进程之间实现了 IPC 通信。**Node.js 基础能力**可以让开发者读写本地磁盘的文件，通过 socket 访问网络，创建和控制子进程等。**Electron 内置模块**可以支持创建操作系统的托盘图标，访问操作系统的剪切板，获取屏幕信息，发送系统通知，收集崩溃报告等。
 
 #### 桌面端状态持久化存储
+
 Electron doesn't have a built-in way to persist user preferences and other data. [electron-store](https://github.com/sindresorhus/electron-store) handles that for you, so you can focus on building your app. The data is saved in a JSON file in `app.getPath('userData')`.
+
 - `appData`, which by default points to `~/Library/Application Support` on macOS.
 - `userData` (storing your app's configuration files), which by default is the appData directory appended with your app's name.
 
 Advantages over `localStorage`:
+
 - `localStorage` only works in the browser process.
 - `localStorage` is not very fault tolerant, so if your app encounters an error and quits unexpectedly, you could lose the data.
 - `localStorage` only supports persisting strings. This module supports any JSON supported type.
@@ -447,12 +491,15 @@ Advantages over `localStorage`:
 [vuex-electron](https://github.com/vue-electron/vuex-electron) uses `electron-store` to share your Vuex Store between all processes (including main).
 
 #### Electron 相关记录
+
 1. 如果安装 Electron 遇到问题，可以直接在 https://npmmirror.com/mirrors/electron/ 下载需要的版本，然后保存到本地缓存中 `~/Library/Caches/electron`
-2. In the case of an electron app, the `electron` package is bundled as part of the built output. There is no need for your user to get `electron` from npm to use your built app. Therefore it matches well the definition of a `devDependency`. *(When you publish your package, if the consumer project needs other packages to use yours, then these must be listed as `dependencies`.)* For example, VS Code properly lists `electron` as a devDependency only: https://github.com/microsoft/vscode/blob/main/package.json
+2. In the case of an electron app, the `electron` package is bundled as part of the built output. There is no need for your user to get `electron` from npm to use your built app. Therefore it matches well the definition of a `devDependency`. _(When you publish your package, if the consumer project needs other packages to use yours, then these must be listed as `dependencies`.)_ For example, VS Code properly lists `electron` as a devDependency only: https://github.com/microsoft/vscode/blob/main/package.json
 3. In case you are using an unsupported browser, or if you have other specific needs (for example your application is in Electron), you can use the standalone [Vue devtools](https://devtools.vuejs.org/guide/installation.html#standalone)
 4. Blank screen on builds, but works fine on serve. This issue is likely caused when Vue Router is operating in `history` mode. In Electron, it only works in `hash` mode.
-  > - 本地开发时是 http 服务，当访问某个地址的时候，其实真实目录下是没有这个文件的，本地服务可以帮助重定向到 `/index.html` 这是一定存在的入口文件，相当于走前端路由。一但打包之后，页面就是静态文件存放在目录中了，Electron 是找不到类似 `/index/page/1/2` 这样的目录的，所以需要使用 `/index.html#page/1/2` 这样的 hash 模式。同样，如果是 Web 项目使用了 history 模式打包，如果不在 nginx 中将全部 url 指向 `./index.html` 的话，也会出现 404 的错误，也就是需要把路由移交给前端去控制。
-  > - hash mode 是默认模式，原理是使用 `location.hash` 和 `onhashchange` 事件，利用 `#` 后面的内容不会被发送到服务端实现单页应用。history mode 要手动设置 `mode: 'history'`, 是基于 History API 来实现的，这也是浏览器本身的功能，地址不会被请求到服务端。
+
+> - 本地开发时是 http 服务，当访问某个地址的时候，其实真实目录下是没有这个文件的，本地服务可以帮助重定向到 `/index.html` 这是一定存在的入口文件，相当于走前端路由。一但打包之后，页面就是静态文件存放在目录中了，Electron 是找不到类似 `/index/page/1/2` 这样的目录的，所以需要使用 `/index.html#page/1/2` 这样的 hash 模式。同样，如果是 Web 项目使用了 history 模式打包，如果不在 nginx 中将全部 url 指向 `./index.html` 的话，也会出现 404 的错误，也就是需要把路由移交给前端去控制。
+> - hash mode 是默认模式，原理是使用 `location.hash` 和 `onhashchange` 事件，利用 `#` 后面的内容不会被发送到服务端实现单页应用。history mode 要手动设置 `mode: 'history'`, 是基于 History API 来实现的，这也是浏览器本身的功能，地址不会被请求到服务端。
+
 5. 关于 Icon 图标，Windows（.ico 文件）和 Mac（.icns 文件）的都是复合格式，包含了多种尺寸和颜色模式，Linux 就是多张 png。注意不要把 png 直接改成 ico，可以使用在线工具转换。如果 Windows 窗口或任务栏图标未更换成功，可能是 ico 文件中缺少小尺寸图标，如缺少 16x16 或 32x32 的图标。
 6. 可以通过命令行启动程序，查看打包后的主进程日志，Mac 进入到 `/Applications/Demo.app/Contents/MacOS/` 路径，执行 `./Demo` 启动应用层序。Windows 上打开 Powershell 进入到程序的安装目录，执行 `.\Demo.exe`，如果文件名中有空格，需要用双引号把文件名引起来。
 7. 在 Electron 打包后，`__dirname` 在渲染进程中指向的是 app.asar 内部的虚拟路径。渲染进程无法直接访问物理资源路径（如 macOS 的 `xx.app/Contents/Resources/`），但可以在主进程通过 `process.resourcesPath` 获取该路径，以 IPC 的方式传递给渲染进程。
@@ -461,13 +508,16 @@ Advantages over `localStorage`:
    - https://github.com/replit/desktop
 
 #### 展厅项目架构
+
 打包遥控器页面 + 一台 server 端主机 + 一台 client 端主机
+
 ```
 "winserver": "npm run build:web && cross-env PLATFORM_ENV=server npm run pack:windows",
 "winclient": "cross-env PLATFORM_ENV=client npm run pack:windows",
 ```
 
 **遥控器** 就是常规的页面，一个独立的 SPA 使用 webpack 构建产出放在 `dist/web` 目录下 (打包后在 `path.join(process.resourcesPath, 'app.asar.unpacked', 'web')`)。它要建立 ws 连接，角色是 REMOTE：
+
 - 接收 hello 指令，把 client 5-8 屏加进屏幕列表中
 - 接收 guest 指令，获取到嘉宾数据，可以显示主嘉宾
 - 接收 scene 指令，激活屏变化，更新当前屏的指令集
@@ -481,12 +531,13 @@ wss.clients.forEach((client) => {
     // ...
     client.send(msg);
   }
-})
+});
 ```
 
 **client 端主机**建立 ws 连接 (`new WebSocket(wssURL)`)，角色是 CLIENT，接收启动、重启、关闭、激活屏幕、指令控制等消息，都会通过 `emitter.emit` 发送给 `ipc-exhibition-hall` 这个 service，它会在主进程的入口文件中被注册上。
 
 **主进程入口**
+
 ```js
 // 根据安装包配置参数 确定是否是server端
 // isServer = process.env.PLATFORM_ENV === 'server';
@@ -497,20 +548,21 @@ if (isServer) {
 } else {
   global.rain.remoteWSClinet = remoteWSClinet;
 
-  setTimeout(()=>{
+  setTimeout(() => {
     remoteWSClinet.startConnect();
-  }, 1000)
+  }, 1000);
 }
 ```
 
 **通信服务 ipc-exhibition-hall 文件**
+
 - 接收开启、重启、关闭等 emitter 的事件，使用 electron 内部的 `app.relaunch`，窗体展示或关闭等方法。
 - 接收遥控器激活屏幕、操作指令等，给指定窗体发送 IPC 消息。（给当前屏发送激活消息、给上一屏发送取消激活消息）
 - 处理跨屏幕的 IPC 消息，比如学生作答反馈给老师、语音识别结果发送给学生屏幕展示。
 - 加载每个屏幕对应的窗体，窗体的 x 坐标由 `width * index` 计算得到，`index` 根据是第几个屏幕配置。
 
 ```js
-ipcMain.on('teaching-screen-ready', async (event, data) => {
+ipcMain.on("teaching-screen-ready", async (event, data) => {
   let index = 1;
 
   if (config && config.DisplaysEnable) {
@@ -524,12 +576,12 @@ ipcMain.on('teaching-screen-ready', async (event, data) => {
 });
 
 // active, launch, restart, close, ExecRemoteCommand...
-emitter.on('xxx', (data) => {
+emitter.on("xxx", (data) => {
   // ...
   if (isServer) {
-    exhibitionHallWinMap[activeIndex]?.send('message-from-process', data);
+    exhibitionHallWinMap[activeIndex]?.send("message-from-process", data);
   } else {
-    exhibitionHallWinMap[activeIndex]?.send('message-from-process', data);
+    exhibitionHallWinMap[activeIndex]?.send("message-from-process", data);
   }
-})
+});
 ```

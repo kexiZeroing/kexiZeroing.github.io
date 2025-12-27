@@ -1,12 +1,4 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export function TableDemo() {
   return (
@@ -35,5 +27,5 @@ export function TableDemo() {
         </TableRow>
       </TableBody>
     </Table>
-  )
+  );
 }

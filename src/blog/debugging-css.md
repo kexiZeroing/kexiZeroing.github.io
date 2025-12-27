@@ -14,17 +14,17 @@ updatedDate: "July 14 2025"
 
 - When an element has a `position` value of `absolute`, it becomes a block-level element by default. This means that adding `inline-block` or `block` as the display type won’t affect it at all.
 
-- The `<p>` element represents a paragraph. It cannot contain block-level elements including `<p>` itself. For example, `<p><div>hello</div></p>` will be parsed as `<p></p><div>hello</div><p></p>` in Chrome. *(Invalid HTML will be fixed by the browser)*
+- The `<p>` element represents a paragraph. It cannot contain block-level elements including `<p>` itself. For example, `<p><div>hello</div></p>` will be parsed as `<p></p><div>hello</div><p></p>` in Chrome. _(Invalid HTML will be fixed by the browser)_
 
 - When you apply a `float` to an element with a display type of `flex` or `inline-flex`, it won’t affect the element at all.
 
 - Say you have two elements, the one above with `margin-bottom`, and the one below with `margin-top`. The greater of the two values will be used as the margin between the elements, and the other will be ignored by the browser.
 
-- `margin: auto` is a popular way to center an element, and it’s important to mention that auto margins (e.g. `margin-right: auto`) will take up the extra space and apply it to the element's margin. 
+- `margin: auto` is a popular way to center an element, and it’s important to mention that auto margins (e.g. `margin-right: auto`) will take up the extra space and apply it to the element's margin.
 
 - You can’t set a percentage-based height for an element unless the height of its parent is explicitly defined. You can use `body { height: 100vh }` to make the `body` element take up the full height of the viewport.
 
-- Children of parents with `min-height` can't inherit the height property. The easiest workaround is to add `height: 1px;` to the parent. Alternatively you may set `min-height: inherit;` to the child. 
+- Children of parents with `min-height` can't inherit the height property. The easiest workaround is to add `height: 1px;` to the parent. Alternatively you may set `min-height: inherit;` to the child.
 
 - Elements are grouped into stacking contexts. When we give an element a `z-index`, that value is only compared against other elements in the same context. `z-index` values are not global. By default, a plain HTML document will have a single stacking context that encompasses all nodes. But there are many ways to create stacking contexts, e.g., combining relative or absolute positioning with `z-index`; Setting position to `fixed` or `sticky`; Setting `opacity` to a value less than 1; Adding a `z-index` to a child inside a `display: flex` or `display: grid` container; Using `transform`, `filter`, `perspective`.
 
@@ -40,13 +40,13 @@ updatedDate: "July 14 2025"
 
   ```js
   let all = document.getElementsByTagName("*"),
-      rect,
-      docWidth = document.documentElement.offsetWidth;
+    rect,
+    docWidth = document.documentElement.offsetWidth;
   for (let i = 0; i < all.length; i++) {
     rect = all[i].getBoundingClientRect();
-    if (rect.right > docWidth || rect.left < 0){
+    if (rect.right > docWidth || rect.left < 0) {
       console.log(all[i]);
-      all[i].style.outline = '1px solid red';
+      all[i].style.outline = "1px solid red";
     }
   }
   ```
@@ -101,7 +101,7 @@ updatedDate: "July 14 2025"
 
   <img alt="header_center_grid" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8pu4q80utj30zq0u0gnm.jpg" width="600" />
 
-  *(above picture comes from @shadeed9)*
+  _(above picture comes from @shadeed9)_
 
   ```css
   header {
@@ -200,7 +200,7 @@ updatedDate: "July 14 2025"
 
 - Before Chrome 118, font sizes smaller than 10px or so were not rendered as specified, but rounded up if the language was Arabic, Farsi, Japanese, Korean, Thai, Simplified or Traditional Chinese. Developers needed workarounds to render small text, for example by using the `transform` property. From Chrome 118, this limit is ended for all languages, making the seven languages match the rest.
 
-- Less absolute positioning with modern CSS. For example, when we have a card that contains text over an image, we often use `position: absolute` to place the content over the image. This is no longer needed with CSS grid. `grid-area: 1 / -1;` *(interpreted as `grid-area: 1 / -1 / auto / auto`)* places the element on the first row and makes it span all the way to the last column. It's a common way to make an element stretch across an entire row or column in a grid layout.
+- Less absolute positioning with modern CSS. For example, when we have a card that contains text over an image, we often use `position: absolute` to place the content over the image. This is no longer needed with CSS grid. `grid-area: 1 / -1;` _(interpreted as `grid-area: 1 / -1 / auto / auto`)_ places the element on the first row and makes it span all the way to the last column. It's a common way to make an element stretch across an entire row or column in a grid layout.
 
   ```css
   /* By default, CSS grid will create rows automatically based on the content. */
@@ -211,12 +211,12 @@ updatedDate: "July 14 2025"
 
   .card__thumb,
   .card__content {
-    grid-column: 1/2;  /* we can also use `grid-area: 1/-1` */
+    grid-column: 1/2; /* we can also use `grid-area: 1/-1` */
     grid-row: 1/2;
   }
 
   /* grid-area: 2 / 1 / 2 / 4; */
-  /* grid-row-start / grid-column-start / grid-row-end / grid-column-end
+  /* grid-row-start / grid-column-start / grid-row-end / grid-column-end*/
   ```
 
   <img alt="stack-elements-with-grid" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/stack-elements-grid.png" width="650" />

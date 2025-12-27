@@ -8,11 +8,12 @@ updatedDate: "Aug 10 2025"
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It is currently developed and maintained by Microsoft as an open source project. TypeScript supports multiple programming paradigms such as functional, generic, imperative, and object-oriented.
 
-Every time you write JavaScript in e.g. VS Code, TypeScript runs behind the curtains and gives you information on built-in APIs. In fact, a lot of people think that they can live without TypeScript because JavaScript support is so fantastic in modern editors. Guess what’s, it has always been TypeScript. *In VS Code, open a `.ts` file, `Cmd+Shift+P` enter "Select TypeScript Version" to check. There is a "Use VS Code's Version" and "Use Workspace Version" (this is from node_modules).*
+Every time you write JavaScript in e.g. VS Code, TypeScript runs behind the curtains and gives you information on built-in APIs. In fact, a lot of people think that they can live without TypeScript because JavaScript support is so fantastic in modern editors. Guess what’s, it has always been TypeScript. _In VS Code, open a `.ts` file, `Cmd+Shift+P` enter "Select TypeScript Version" to check. There is a "Use VS Code's Version" and "Use Workspace Version" (this is from node_modules)._
 
 > Even if you don't write your code in `.ts` files, you're probably using TypeScript. That's because TypeScript is the IntelliSense engine. Even if you're not using VSCode, if your editor gives you code completion, parameter info, quick info, member lists, etc. while writing JS code, you are almost certainly running the TypeScript language service.
 
 ## Setting up TypeScript
+
 To start off, the TypeScript compiler will need to be installed in order to convert TypeScript files into JavaScript files. To do this, TypeScript can either be installed globally or only available at the project level.
 
 Run `tsc --noEmit` that tells TypeScript that we just want to check types and not create any output files. If everything in our code is all right, `tsc` exits with no error. `tsc --noEmit --watch` will add a `watch` mode so TypeScript reruns type-checking every time you save a file.
@@ -53,10 +54,10 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
     "lib": ["es2022", "dom", "dom.iterable"],
     /* If your code doesn't run in the DOM: */
     "lib": ["es2022"],
-    
+
     /* If you're building for a library: */
     // Ts will automatically generate .d.ts files alongside your compiled JS files.
-    "declaration": true,
+    "declaration": true
   }
 }
 ```
@@ -68,16 +69,18 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
 `module` is a setting with a bunch of different options, which specifies how TS should treat your imports and exports. But really, there are only two modern options. `NodeNext` tells TypeScript that your code will be run by Node.js. And `Preserve` tells TypeScript that an external bundler will handle the bundling (also set `noEmit` to true).
 
 > How does TS know what module system (ESM or CJS) to emit?
+>
 > 1. The way this is decided is via `module`. You can hardcode this by choosing some older options. `module: CommonJS` will always emit CommonJS syntax, and `module: ESNext` will always emit ESM syntax.
 > 2. Using the recommended `module: NodeNext`, we know that a given module might be an ES module or it might be a CJS module, based on its file extension(`mts`, `.cts`) and/or the `type` field in the nearest `package.json` file.
 
 `module: "NodeNext"` also implies `moduleResolution: "NodeNext"`. `NodeNext` is a shorthand for the most up-to-date Node.js module behavior. `module: "Preserve"` implies `moduleResolution: "Bundler"`.
 
-TypeScript has built-in support for transpiling JSX syntax, and the `jsx` option tells TS how to handle JSX syntax. `preserve` means keeps JSX syntax as-is. `react` transforms JSX into `React.createElement` calls *(for React 16 and earlier)*. `react-jsx` transforms JSX into `_jsx` calls, and automatically imports from `react/jsx-runtime` *(for React 17 and later)*.
+TypeScript has built-in support for transpiling JSX syntax, and the `jsx` option tells TS how to handle JSX syntax. `preserve` means keeps JSX syntax as-is. `react` transforms JSX into `React.createElement` calls _(for React 16 and earlier)_. `react-jsx` transforms JSX into `_jsx` calls, and automatically imports from `react/jsx-runtime` _(for React 17 and later)_.
 
 By default `moduleDetection` set to `auto`, if we don't have any `import` or `export` statements in a `.ts` file, TypeScript treats it as a script. **By adding the `export {}` statement, you're telling TS that the `.ts` is a module**. `moduleDetection: force` will treat all files as modules, and you will need to use `import` and `export` statements to access functions and variables across files.
 
-Relative import paths [need explicit file extensions in ES imports](https://www.totaltypescript.com/relative-import-paths-need-explicit-file-extensions-in-ecmascript-imports) when `--moduleResolution` is `node16` or `nodenext` *(currently identical to `node16`)*.
+Relative import paths [need explicit file extensions in ES imports](https://www.totaltypescript.com/relative-import-paths-need-explicit-file-extensions-in-ecmascript-imports) when `--moduleResolution` is `node16` or `nodenext` _(currently identical to `node16`)_.
+
 1. Most bundlers let you omit the file extension when importing files. But TS rules like `moduleResolution: NodeNext` force you to specify the file extension. This can feel really weird when you're working in `.ts` files, but writing `.js` on your imports. Why do we need to do it? Well, it's the spec. **The Node spec requires that you use `.js` file extensions for all ESM imports and exports. By default, TypeScript does not change the specifiers of imported modules.** If you want to go back to the old style, then specify `moduleResolution: Bundler` and bundle your code with a tool like esbuild.
 2. TypeScript doesn’t modify import specifiers during emit: the relationship between an import specifier and a file on disk is host-defined, and TypeScript is not a host.
 3. `--allowImportingTsExtensions` allows TypeScript files to import each other with a TypeScript-specific extension like `.ts`, `.mts`, or `.tsx`. This flag is only allowed when `--noEmit` is enabled. The expectation here is that your resolver (e.g. your bundler, a runtime, or some other tool) is going to make these imports between `.ts` files work.
@@ -95,7 +98,7 @@ import { add } from "./math.mjs";
 add(1, 2);
 ```
 
-Since TypeScript 5.0, `verbatimModuleSyntax` is the recommended way to enforce `import type`. When it is set to true, any imports or exports without a `type` modifier are left around. Anything that uses the `type` modifier is dropped entirely. You may get the message when enabling `verbatimModuleSyntax` (as expected): *'SomeType' is a type and must be imported using a type-only import.*
+Since TypeScript 5.0, `verbatimModuleSyntax` is the recommended way to enforce `import type`. When it is set to true, any imports or exports without a `type` modifier are left around. Anything that uses the `type` modifier is dropped entirely. You may get the message when enabling `verbatimModuleSyntax` (as expected): _'SomeType' is a type and must be imported using a type-only import._
 
 ```ts
 // Erased away entirely
@@ -107,10 +110,12 @@ import { type xyz } from "xyz";
 ```
 
 How multiple `tsconfig.json` files can be composed together?
+
 1. Your IDE determines which `tsconfig.json` to use by looking for the closest one to the current `.ts` file.
 2. When you have multiple `tsconfig.json` files, it's common to have shared settings between them. We can create a new `tsconfig.base.json` file that can be extended from.
 
 See examples:
+
 - https://github.com/vuejs/tsconfig/blob/main/tsconfig.json
 - https://www.totaltypescript.com/tsconfig-cheat-sheet
 - https://deno.com/blog/intro-to-tsconfig
@@ -119,12 +124,13 @@ See examples:
 > `json` doesn't normally allow comments, but comments are valid in `tsconfig.json`. It's officially supported by TypeScript, and VSCode understands it too. What's going on here is [jsonc](https://github.com/microsoft/node-jsonc-parser), or "JSON with Comments", a proprietary format used by a bunch of Microsoft products, most notably Typescript and VSCode. For example, VS Code’s `settings.json` file is actually `settings.jsonc`.
 >
 > JSON5 is a superset of JSON that makes JSON more human-friendly, not just comments but also relaxed rules for quoting. It's also a subset of ES5, so valid JSON5 files will always be valid ES5.
-> 
+>
 > They’re both formats/specs (and usually implemented as libraries) that extend standard JSON for developer convenience.
 
 By the way, `jsconfig.json` is a descendant of `tsconfig.json`. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
 
 ## Structural typing
+
 TypeScript uses structural typing. This system is different than the type system employed by some other popular languages you may have used (e.g. Java, C#, etc.)
 
 The idea behind structural typing is that two types are compatible if their members are compatible. For example, in C# or Java, two classes named `MyPoint` and `YourPoint`, both with public `int` properties x and y, are not interchangeable, even though they are identical. But in a structural type system, the fact that these types have different names is irrelevant. Because they have the same members with the same types, they are identical.
@@ -143,28 +149,29 @@ x = y;
 ```
 
 ## Basic Static Types
+
 TypeScript brings along static types to the JavaScript language. **TypeScript's types don't exist at runtime.** They're only used to help you catch errors at compile time.
 
 ```ts
 let isAwesome: boolean = true;
-let name: string = 'Chris';
+let name: string = "Chris";
 let decimalNumber: number = 42;
 let whoKnows: any = 1;
 
 // Array types can be written in two ways
-let myPetFamily: string[] = ['rocket', 'fluffly', 'harry'];
-let myPetFamily: Array<string> = ['rocket', 'fluffly', 'harry'];
+let myPetFamily: string[] = ["rocket", "fluffly", "harry"];
+let myPetFamily: Array<string> = ["rocket", "fluffly", "harry"];
 
 // A tuple is an array that contains a fixed number of elements with associated types.
 let myFavoriteTuple: [string, number, boolean];
-myFavoriteTuple = ['chair', 20, true];
+myFavoriteTuple = ["chair", 20, true];
 
-// Tuple types can’t be inferred. If we use type inference directly on a tuple, 
+// Tuple types can’t be inferred. If we use type inference directly on a tuple,
 // we will get the wider array type
-let tuple = ['Stefan', 38];  // type is (string | number)[]
+let tuple = ["Stefan", 38]; // type is (string | number)[]
 
 /*
-An enum is a way to associate names to a constant value. 
+An enum is a way to associate names to a constant value.
 Enums are useful when you want to have a set of distinct values that have a descriptive name associated with it.
 By default, enums are assigned numbers that start at 0 and increase by 1 for each member of the enum.
 */
@@ -173,9 +180,9 @@ enum Sizes {
   Medium,
   Large,
 }
-Sizes.Small;   // 0
-Sizes.Medium;  // 1
-Sizes.Large;   // 2
+Sizes.Small; // 0
+Sizes.Medium; // 1
+Sizes.Large; // 2
 
 // The first value can be set to a value other than 0
 enum Sizes {
@@ -183,16 +190,16 @@ enum Sizes {
   Medium,
   Large,
 }
-Sizes.Small;   // 1
-Sizes.Medium;  // 2
-Sizes.Large;   // 3
+Sizes.Small; // 1
+Sizes.Medium; // 2
+Sizes.Large; // 3
 
 // String values can also be assigned to an enum
 enum ThemeColors {
-  Primary = 'primary',
-  Secondary = 'secondary',
-  Dark = 'dark',
-  DarkSecondary = 'darkSecondary',
+  Primary = "primary",
+  Secondary = "secondary",
+  Dark = "dark",
+  DarkSecondary = "darkSecondary",
 }
 
 // An object marked "as const" accomplishes the same thing
@@ -201,29 +208,30 @@ const status = {
   shipped: 1,
   delivered: 2,
   error: 3,
-} as const
+} as const;
 ```
 
 ```js
 // How numeric enums transpile
 // `Object.keys` call on an enum will return both the keys and the values.
 var AlbumStatus;
-(function (AlbumStatus) {
-  AlbumStatus[(AlbumStatus["NewRelease"] = 0)] = "NewRelease";
-  AlbumStatus[(AlbumStatus["OnSale"] = 1)] = "OnSale";
-  AlbumStatus[(AlbumStatus["StaffPick"] = 2)] = "StaffPick";
+(function(AlbumStatus) {
+  AlbumStatus[AlbumStatus["NewRelease"] = 0] = "NewRelease";
+  AlbumStatus[AlbumStatus["OnSale"] = 1] = "OnSale";
+  AlbumStatus[AlbumStatus["StaffPick"] = 2] = "StaffPick";
 })(AlbumStatus || (AlbumStatus = {}));
 
 // How string enums transpile
 var AlbumStatus;
-(function (AlbumStatus) {
+(function(AlbumStatus) {
   AlbumStatus["NewRelease"] = "NEW_RELEASE";
   AlbumStatus["OnSale"] = "ON_SALE";
   AlbumStatus["StaffPick"] = "STAFF_PICK";
 })(AlbumStatus || (AlbumStatus = {}));
 ```
 
-> String enums and numeric enums behave differently when used as types: 
+> String enums and numeric enums behave differently when used as types:
+>
 > - Numeric enums are open to a plain number. (either `NumEnum.A` or `0` is ok)
 > - String enums are closed, you can only assign their declared enum members. (`StrEnum.A` is ok, `"A"` is error)
 >
@@ -232,6 +240,7 @@ var AlbumStatus;
 Fortunately, you don't have to specify types absolutely everywhere in your code because TypeScript has **Type Inference**. Type inference is what the TypeScript compiler uses to automatically determine types. TypeScript can infer types during variable initialization, when default parameter values are set, and while determining function return values.
 
 ## Type Annotation
+
 When the Type Inference system is not enough, you will need to declare types on variables.
 
 ```ts
@@ -253,19 +262,19 @@ type Animal = {
 // Union Type (a type can be one of multiple types, type A = X | Y)
 // Narrow down the types of values: typeof, truthiness, instanceof...
 function validateUsername(username: string | null): boolean {
-  if (typeof username === 'string') {
-    return username.length > 5
+  if (typeof username === "string") {
+    return username.length > 5;
   }
 
-  return false
+  return false;
 }
 
 const handleResponse = (response: APIResponse) => {
   // response.data: Property 'data' does not exist on type 'APIResponse'.
-  if ('data' in response) {
-    return response.data.id
+  if ("data" in response) {
+    return response.data.id;
   }
-}
+};
 
 // Intersection Type (a type is the combination of all listed types, type A = X & Y)
 type Student = {
@@ -279,8 +288,8 @@ let person: Student & Employee;
 
 // Interfaces using `extends` are faster than type intersections (can cache)
 
-// Object types in TypeScript aren't "sealed" / "closed" / "final". 
-// In other words, if you have a variable of type `{ a: string }`, 
+// Object types in TypeScript aren't "sealed" / "closed" / "final".
+// In other words, if you have a variable of type `{ a: string }`,
 // it's possible that the variable points to a value like `{ a: "hello", b: 42 }`.
 interface Dimensions {
   width: number;
@@ -291,7 +300,7 @@ interface Dimensions {
 const p = {
   width: 32,
   height: 14,
-  depht: 11 // <-- fine
+  depht: 11, // <-- fine
 };
 const q: Dimensions = p; // also fine
 
@@ -301,7 +310,7 @@ declare function handleRequest(url: string, method: "GET" | "POST"): void;
 const req = { url: "https://example.com", method: "GET" };
 handleRequest(req.url, req.method);
 
-// fix: 
+// fix:
 const req = { url: "https://example.com", method: "GET" as "GET" };
 // or
 const req = { url: "https://example.com", method: "GET" } as const;
@@ -337,12 +346,12 @@ type AlbumSalesType = typeof albumSales;
 typeof albumSales; // "object"
 
 // Built-in Helper Types
-const fieldsToUpdate: Partial<Todo>
-const todo: Readonly<Todo>
+const fieldsToUpdate: Partial<Todo>;
+const todo: Readonly<Todo>;
 // same as `ReadonlyArray<string>`
-const readOnlyGenres: readonly string[] = ["rock", "pop", "country"]
-type TodoPreview = Omit<Todo, "description">
-type TodoPreview = Pick<Todo, "title" | "completed">
+const readOnlyGenres: readonly string[] = ["rock", "pop", "country"];
+type TodoPreview = Omit<Todo, "description">;
+type TodoPreview = Pick<Todo, "title" | "completed">;
 
 // The `as const` assertion made the entire object deeply read-only,
 // including all nested properties. (js `Object.freeze` only at the first level)
@@ -352,16 +361,16 @@ const albumAttributes = {
 
 // Derive types from functions
 function sellAlbum(album: Album, price: number, quantity: number) {
-  return price * quantity
+  return price * quantity;
 }
 // extracts the parameters from a given function type and returns them as a tuple
-type SellAlbumParams = Parameters<typeof sellAlbum>  // [album: Album, price: number, quantity: number]
+type SellAlbumParams = Parameters<typeof sellAlbum>; // [album: Album, price: number, quantity: number]
 // retrieve the return type from the function signature without run the function
-type SellAlbumReturn = ReturnType<typeof sellAlbum>  // number
+type SellAlbumReturn = ReturnType<typeof sellAlbum>; // number
 // unwrap the Promise type and provide the type of the resolved value
-type User = Awaited<ReturnType<typeof fetchUser>>
+type User = Awaited<ReturnType<typeof fetchUser>>;
 
-type CustomAwaited<T> = T extends Promise<infer U> ? U : T
+type CustomAwaited<T> = T extends Promise<infer U> ? U : T;
 
 // Indexed access types
 type AlbumTitle = Album["title"];
@@ -381,15 +390,16 @@ let myImage: PngFile = "my-image.png";
 
 type Headers = {
   Authorization: `Bearer ${string}`;
-}
+};
 
 type ColorShade = 100 | 200 | 300;
 type Color = "red" | "blue" | "green";
 type ColorPalette = `${Color}-${ColorShade}`;
 
 // "name:Bill" -> { key: "name", value: "Bill" }
-type KeyValueSplitter<T extends string> = T extends `${infer K}:${infer V}` ? 
-  { key: K; value: V } : never;
+type KeyValueSplitter<T extends string> = T extends `${infer K}:${infer V}`
+  ? { key: K; value: V }
+  : never;
 
 // { key: "name", value: "Bill" } -> "name:Bill"
 type KVJoin<T extends Record<string, string>> = {
@@ -397,8 +407,8 @@ type KVJoin<T extends Record<string, string>> = {
 }[keyof T];
 
 // The 'string & {}' trick (loose autocomplete)
-type ModelNames = 'a' | 'b' | 'c' | (string & {});
-const model: ModelNames = 'a';  // autocomplete and can pass in any string
+type ModelNames = "a" | "b" | "c" | (string & {});
+const model: ModelNames = "a"; // autocomplete and can pass in any string
 ```
 
 `Omit` and `Pick` have some odd behaviour when used with union types. They are not distributive. This means that when you use them with a union type, they don't operate individually on each union member.
@@ -420,9 +430,8 @@ type MusicProductWithoutId = {
 };
 
 // Solution to fix: make our own distributive version of Omit
-type DistributiveOmit<T, K extends keyof T> = T extends any
-  ? Omit<T, K>
-  : never
+type DistributiveOmit<T, K extends keyof T> = T extends any ? Omit<T, K>
+  : never;
 ```
 
 > For orginal `Pick<T, K extends keyof T>`, when `T` is a union, `keyof T` does not mean “all keys from all members” — it means the intersection of keys present in every member of the union.
@@ -434,10 +443,10 @@ It's worth noting the similarities between `Exclude/Extract` and `Omit/Pick`. A 
 ```ts
 // Exclude/Extract - union (members)
 // Omit/Pick - object (properties)
-Exclude<'a' | 1, string>
-Extract<'a' | 1, string>
-Omit<UserObj, 'id'>
-Pick<UserObj, 'id'>
+Exclude<"a" | 1, string>;
+Extract<"a" | 1, string>;
+Omit<UserObj, "id">;
+Pick<UserObj, "id">;
 ```
 
 > `Exclude<T, U>` isn't the same as `T & not U`. `Exclude` is a type alias whose only effect is to filter unions. For example, `Exclude<string, "hello">` just means `string`. It doesn't mean "any string except "hello"", because `string` is not a union, and thus no filtering occurs.
@@ -448,20 +457,20 @@ When you're working with React and TypeScript, you may ask how do I figure out t
 
 ```tsx
 // https://www.totaltypescript.com/react-component-props-type-helper
-import { ComponentProps } from "react"
+import { ComponentProps } from "react";
 
-type ButtonProps = ComponentProps<"button">
+type ButtonProps = ComponentProps<"button">;
 // "button" | "submit" | "reset" | undefined
-type ButtonPropsType = ButtonProps["type"]
+type ButtonPropsType = ButtonProps["type"];
 
 type MyDivProps = ComponentProps<"div"> & {
-  myProp: string
-}
+  myProp: string;
+};
 
-type MyCompProps = ComponentProps<typeof MyComp>
+type MyCompProps = ComponentProps<typeof MyComp>;
 ```
 
-**Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, which is a safe type). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all *(only assignable to itself)* and is used for situations that should never occur. You cannot assign anything to `never`, except for `never` itself. However, you can assign `never` to anything.
+**Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, which is a safe type). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all _(only assignable to itself)_ and is used for situations that should never occur. You cannot assign anything to `never`, except for `never` itself. However, you can assign `never` to anything.
 
 `any` doesn't really fit into our definition of 'wide' and 'narrow' types. It's not really a type at all - it's a way of opting out of TypeScript's type checking. By marking a variable as `any`, you're telling the compiler to ignore any type errors that might occur. Using `any` is considered harmful by most of the community.
 
@@ -482,6 +491,7 @@ When you don’t specify a type, and TypeScript can’t infer it from context, t
 The empty object type `{}` is unique. Instead of representing an empty object, it actually represents anything that isn't `null` or `undefined`. `{}` can accept a number of other types: string, number, boolean, function, symbol, and objects containing properties. The only difference between `{}` and `unknown` is that `unknown` contains every single JavaScript value, including `null` and `undefined`.
 
 **Value Types**: We can narrow down primitive types to values.
+
 ```ts
 // Type is string, because the value can change.
 let conference = 'conference';
@@ -551,16 +561,16 @@ Object.keys(user) as Array<keyof User>
 The `as` assertion is a way to tell TypeScript that you know more about a value than it does. It's a way to override TS type inference and tell it to treat a value as a different type. Another assertion we can use is the non-null assertion, which is specified by using the `!` operator. It tells TS to remove any `null` or `undefined` types from the variable.
 
 ```ts
-const searchParams = new URLSearchParams(window.location.search)
-const id = searchParams.get("id") // string | null
+const searchParams = new URLSearchParams(window.location.search);
+const id = searchParams.get("id"); // string | null
 
 const id = searchParams.get("id") as string;
 
 const x = "Heroes" as number; // Error: 'string' is not assignable to type 'number'
-const x = "Heroes" as unknown as number;  // this works
+const x = "Heroes" as unknown as number; // this works
 // `as unknown as X` is a convenient way to lie to TS
 
-searchParams.get("id")!;  // same as `searchParams.get("id") as string`
+searchParams.get("id")!; // same as `searchParams.get("id") as string`
 console.log(user.profile!.bio);
 ```
 
@@ -581,7 +591,7 @@ type AttributeGetters = {
 };
 ```
 
-**Generic Types**: Instead of working with a specific type, we work with a parameter that is then substituted for a specific type. Type parameters are denoted within angle brackets at function heads or class declarations. [Generics are not scary](https://ts.chibicode.com/generics). They’re like regular function parameters, but instead of values, it deals with types. *Generics are erased during compilation.*
+**Generic Types**: Instead of working with a specific type, we work with a parameter that is then substituted for a specific type. Type parameters are denoted within angle brackets at function heads or class declarations. [Generics are not scary](https://ts.chibicode.com/generics). They’re like regular function parameters, but instead of values, it deals with types. _Generics are erased during compilation._
 
 ```ts
 type ResourceStatus<TContent> =
@@ -621,6 +631,7 @@ type ToArray<T> = T extends any[] ? T : T[];
 ```
 
 ### Understanding `infer`
+
 The `infer` keyword is a powerful tool for extracting types from complex structures. It allows you to "infer" a type variable from a more complex type.
 
 ```ts
@@ -631,10 +642,12 @@ type FirstElement<T extends any[]> = T extends [infer F, ...any[]] ? F : never;
 type ElementType<T extends any[]> = T extends (infer E)[] ? E : never;
 
 // Extracting the Return Type of a Function
-type ReturnType<T extends (...args: any) => any> = T extends (...args: any) => infer R ? R : never;
+type ReturnType<T extends (...args: any) => any> = T extends
+  (...args: any) => infer R ? R : never;
 
 // Extracting the Type of a Property from an Object
-type PropertyType<T, K extends keyof T> = T extends { [key in K]: infer P } ? P : never;
+type PropertyType<T, K extends keyof T> = T extends { [key in K]: infer P } ? P
+  : never;
 
 type TrimWhitespacePrefix<T> = T extends `${" " | "\t" | "\n"}${infer U}`
   ? TrimWhitespacePrefix<U>
@@ -644,7 +657,8 @@ type TrimWhitespacePrefix<T> = T extends `${" " | "\t" | "\n"}${infer U}`
 ```ts
 // `infer N` extracts a type from the input.
 // `extends number` ensures that the extracted type N is a number.
-type ToNumber<S extends string> = S extends `${infer N extends number}` ? N : never;
+type ToNumber<S extends string> = S extends `${infer N extends number}` ? N
+  : never;
 
 type Example1 = ToNumber<"123">; // 123 (number type)
 type Example2 = ToNumber<"abc">; // never
@@ -653,6 +667,7 @@ type Example2 = ToNumber<"abc">; // never
 > `infer N extends number` declares a type variable N inferred from the input, constrained to number.
 
 ### Clarifying the `satisfies` operator
+
 We could try to catch the `bleu` typo below by using a type annotation, but we’d lose the information about each property.
 
 ```ts
@@ -662,8 +677,8 @@ type RGB = [red: number, green: number, blue: number];
 const palette: Record<Colors, string | RGB> = {
   red: [255, 0, 0],
   green: "#00ff00",
-  bleu: [0, 0, 255]
-//~~~~ The typo is correctly detected
+  bleu: [0, 0, 255],
+  // ~~~~ The typo is correctly detected
 };
 
 // But we now have an error here - 'palette.red' "could" be a string
@@ -676,8 +691,8 @@ The `satisfies` operator lets us validate that the type of an expression matches
 const palette = {
   red: [255, 0, 0],
   green: "#00ff00",
-  bleu: [0, 0, 255]
-//~~~~ The typo is also caught
+  bleu: [0, 0, 255],
+  // ~~~~ The typo is also caught
 } satisfies Record<Colors, string | RGB>;
 
 // Both of these methods are still accessible
@@ -713,7 +728,9 @@ routes.awdkjanwdkjn;
 > - The rest of the time, use variable annotations.
 
 ### Declaration files
-Let's say we have a `.js` file that exports a function, if we try to import this file into a TypeScript file, we'll get an error: *Cannot find module xxx or its corresponding type declarations.* To fix this, we can create a declaration file with the same name as the JavaScript file, but with a `.d.ts` extension.
+
+Let's say we have a `.js` file that exports a function, if we try to import this file into a TypeScript file, we'll get an error: _Cannot find module xxx or its corresponding type declarations._ To fix this, we can create a declaration file with the same name as the JavaScript file, but with a `.d.ts` extension.
+
 1. TypeScript doesn't allow us to include any implementation code inside a declaration file.
 2. Describing JavaScript files by hand can be error-prone - and not usually recommended.
 
@@ -734,9 +751,9 @@ declare global {
   };
 }
 
-// declare types for a module 
+// declare types for a module
 declare module "duration-utils" {
-  export type Status = 'ok' | 'failed';
+  export type Status = "ok" | "failed";
   export interface MyType {
     name: string;
     status: Status;
@@ -754,14 +771,14 @@ declare module "*.png" {
 }
 ```
 
-How does TypeScript know that `.map` exists on an array, but `.transform` doesn't? TypeScript ships with a bunch of declaration files that describe the JavaScript environment. For example, `map` is defined in `lib.es5.d.ts`, `replaceAll` is in `lib.es2021.string.d.ts`. Looking at the code in `node_modules/typescript/lib`, you'll see dozens of declaration files that describe the JavaScript environment. Another set of declaration files that ship with TypeScript are the DOM types, which are defined in a file called `lib.dom.d.ts`. The `lib` setting in `tsconfig.json` lets you choose which `.d.ts` files are included in your project. *`lib: ["es2022"]` does include the features from earlier ECMAScript versions like ES5, ES2015, ES2021, etc.*
+How does TypeScript know that `.map` exists on an array, but `.transform` doesn't? TypeScript ships with a bunch of declaration files that describe the JavaScript environment. For example, `map` is defined in `lib.es5.d.ts`, `replaceAll` is in `lib.es2021.string.d.ts`. Looking at the code in `node_modules/typescript/lib`, you'll see dozens of declaration files that describe the JavaScript environment. Another set of declaration files that ship with TypeScript are the DOM types, which are defined in a file called `lib.dom.d.ts`. The `lib` setting in `tsconfig.json` lets you choose which `.d.ts` files are included in your project. _`lib: ["es2022"]` does include the features from earlier ECMAScript versions like ES5, ES2015, ES2021, etc._
 
 ```json
 {
   "compilerOptions": {
     "target": "es2022",
     "lib": ["es2022", "dom", "dom.iterable"],
-    "skipLibCheck": true,
+    "skipLibCheck": true
   }
 }
 ```
@@ -780,6 +797,7 @@ npm install --save-dev @types/babel__preset-env
 ```
 
 ### Declaring global variables
+
 There are two options for modifying the global scope in TypeScript: using `declare global` or creating a `.d.ts` declaration file. For example, if you try to access `window.__INITIAL_DATA__` in a TypeScript file, the compiler will produce a type error because it can't find a definition of the `__INITIAL_DATA__` property anywhere.
 
 ```ts
@@ -789,14 +807,13 @@ type InitialData = {
 };
 
 // 1. Declare a global variable using the `declare var` syntax
-// declare a global variable in the global scope 
+// declare a global variable in the global scope
 declare global {
   var __INITIAL_DATA__: InitialData;
 }
 
 // or create a `globals.d.ts` file
 declare var __INITIAL_DATA__: InitialData;
-
 
 // 2. Augment the window interface using "declaration merging" feature
 declare global {
@@ -806,18 +823,19 @@ declare global {
 }
 ```
 
-Another example is to specify an environment variable as a string in the global scope. This will be slightly different than the solution for modifying `window`. In the `@types/node` package provided by DefinitelyTyped, there is a `NodeJS` namespace, which includes the `ProcessEnv` interface. This interface defines the shape of `process.env` and is where you can add custom environment variable types. *(`NodeJS.Global`, `NodeJS.ProcessEnv`, `NodeJS.Process`, etc)*
+Another example is to specify an environment variable as a string in the global scope. This will be slightly different than the solution for modifying `window`. In the `@types/node` package provided by DefinitelyTyped, there is a `NodeJS` namespace, which includes the `ProcessEnv` interface. This interface defines the shape of `process.env` and is where you can add custom environment variable types. _(`NodeJS.Global`, `NodeJS.ProcessEnv`, `NodeJS.Process`, etc)_
 
 ```ts
 declare namespace NodeJS {
   interface ProcessEnv {
-    MY_ENV_VAR: string;   // [key: string]: string;
+    MY_ENV_VAR: string; // [key: string]: string;
   }
 }
 ```
 
 ### How to use @ts-expect-error
-`@ts-expect-error` lets you specify that an error will occur on the next line of the file, which is helpful letting us be sure that an error will occur. If `@ts-expect-error` doesn't find an error, it will source an error itself: *Unused '@ts-expect-error' directive*.
+
+`@ts-expect-error` lets you specify that an error will occur on the next line of the file, which is helpful letting us be sure that an error will occur. If `@ts-expect-error` doesn't find an error, it will source an error itself: _Unused '@ts-expect-error' directive_.
 
 When you actually want to ignore an error, you'll be tempted to use `@ts-ignore`. It works similarly to `@ts-expect-error`, except for one thing: it won't error if it doesn't find an error.
 
@@ -826,6 +844,7 @@ Sometimes, you'll want to ignore an error that later down the line gets fixed. I
 The `@ts-nocheck` directive will completely remove type checking for a file. To use it, add the directive at the top of your file.
 
 ### Classes differences between TS and ES6
+
 TypeScript supports access modifiers to control property and method visibility. JavaScript traditionally has no access modifiers, but ES2022 introduced private fields with `#`.
 
 In TS, when you declare constructor parameters with an access modifier (`public`, `private`, `protected`, or `readonly`), it automatically creates and initializes a class property for you.
@@ -855,6 +874,7 @@ class Document implements Printable {
 ```
 
 ## Building the Validation Schema with Zod
+
 [Zod](https://github.com/colinhacks/zod) is a TypeScript-first schema declaration and validation library. With Zod, you declare a validator once and Zod will automatically infer the static TypeScript type. It's easy to compose simpler types into complex data structures.
 
 > TypeScript ensures type safety during development and the build process, while Zod validates untrusted data at runtime. TypeScript is enough for internal functions, controlled components; Anything from external sources (APIs, user input) should use Zod.
@@ -917,6 +937,7 @@ Zod Mini variant was introduced with the release of Zod 4. Use `import * as z fr
 <img alt="izod-and-arktype" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/zod-and-arktype.png" width="600">
 
 ## Adding Type Check to JavaScript
+
 TypeScript provides code analysis for JavaScript and VS Code gives us TypeScript out of the box (TypeScript language server). With the addition of `//@ts-check` as the very first line in our JavaScript file, TypeScript became active and started to add red lines to code pieces that just don’t make sense.
 
 [JSDoc](https://deno.com/blog/document-javascript-package) is a way to annotate JavaScript code using comments. JSDoc comments are any block comments that begin with `/**` and end with `*/` that precede a block of code. The comments can span multiple lines. Each line should start with `*` and should be indented by one space. JSDoc supports a variety of tags that can be used to provide additional information about your symbols, such as `@param` for parameters, `@returns` for the return value, or `@typeParam` for type parameters. TypeScript uses this annotations to get more information on our intended types.
@@ -931,20 +952,20 @@ TypeScript provides code analysis for JavaScript and VS Code gives us TypeScript
  * @returns {number}
  */
 function addNumbers(numberOne, numberTwo) {
-  return numberOne + numberTwo
+  return numberOne + numberTwo;
 }
 
 /**
- * @typedef {Object} ShipStorage 
+ * @typedef {Object} ShipStorage
  * @property {number} max
- * @property {string[]} items 
+ * @property {string[]} items
  */
 
 /** @type ShipStorage */
 const storage = {
   max: 10,
-  items: []
-}
+  items: [],
+};
 
 /**
  * @param {ShipStorage} storage

@@ -104,7 +104,7 @@ You Don't Need: https://github.com/you-dont-need/You-Dont-Need
 
 The Timeline of The Web: https://thehistoryoftheweb.com/timeline/
 
-Floating Point Math: https://0.30000000000000004.com/  (\`https://${0.1 + 0.2}.com\`)
+Floating Point Math: https://0.30000000000000004.com/ (\`https://${0.1 + 0.2}.com\`)
 
 Web based macOS and Windows XP desktop recreation: https://macos-web.app, https://winxp.vercel.app
 

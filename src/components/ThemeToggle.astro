@@ -11,37 +11,39 @@
   </svg>
 </button>
 <style>
-  #theme-btn svg {
-    fill: var(--gray);
-    width: 1.5rem;
-    height: 1.5rem;
-    cursor: pointer;
-  }
+#theme-btn svg {
+  fill: var(--gray);
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
 </style>
 <script>
-  // Toggle Theme
-  const themeBtn = document.querySelector("#theme-btn");
-  const htmlClassList = document.querySelector("html")?.classList;
-  
-  themeBtn?.addEventListener("click", function () {
-    if (htmlClassList?.contains("theme-dark")) {
-      localStorage.setItem("theme", "light");
-      htmlClassList?.remove("theme-dark");
-    } else {
-      localStorage.setItem("theme", "dark");
-      htmlClassList?.add("theme-dark");
-    }
-    sendMessage({
-      setConfig: {
-        theme: localStorage.getItem("theme")
-      },
-    });
-  });
+// Toggle Theme
+const themeBtn = document.querySelector("#theme-btn");
+const htmlClassList = document.querySelector("html")?.classList;
 
-  // Dynamic change giscus according to the theme 
-  function sendMessage(message) {
-    const iframe = (document.querySelector('iframe.giscus-frame') as HTMLIFrameElement);
-    if (!iframe) return;
-    iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+themeBtn?.addEventListener("click", function() {
+  if (htmlClassList?.contains("theme-dark")) {
+    localStorage.setItem("theme", "light");
+    htmlClassList?.remove("theme-dark");
+  } else {
+    localStorage.setItem("theme", "dark");
+    htmlClassList?.add("theme-dark");
   }
+  sendMessage({
+    setConfig: {
+      theme: localStorage.getItem("theme"),
+    },
+  });
+});
+
+// Dynamic change giscus according to the theme
+function sendMessage(message) {
+  const iframe = document.querySelector(
+    "iframe.giscus-frame",
+  ) as HTMLIFrameElement;
+  if (!iframe) return;
+  iframe.contentWindow.postMessage({ giscus: message }, "https://giscus.app");
+}
 </script>

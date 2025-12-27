@@ -1,50 +1,50 @@
-"use client"
+"use client";
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useEffect, useRef, useState } from "react";
 
 export default function MixBlendModeDemo() {
-  const [position, setPosition] = useState(50)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const isDragging = useRef(false)
+  const [position, setPosition] = useState(50);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
 
   const handleStart = (clientX: number) => {
-    isDragging.current = true
+    isDragging.current = true;
     if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect()
-      const x = clientX - rect.left
-      const newPosition = (x / rect.width) * 100
-      setPosition(Math.max(0, Math.min(100, newPosition)))
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const newPosition = (x / rect.width) * 100;
+      setPosition(Math.max(0, Math.min(100, newPosition)));
     }
-  }
+  };
 
   const handleEnd = () => {
-    isDragging.current = false
-  }
+    isDragging.current = false;
+  };
 
   const handleMove = (clientX: number) => {
-    if (!isDragging.current || !containerRef.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    const x = clientX - rect.left
-    const newPosition = (x / rect.width) * 100
-    setPosition(Math.max(0, Math.min(100, newPosition)))
-  }
+    if (!isDragging.current || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const newPosition = (x / rect.width) * 100;
+    setPosition(Math.max(0, Math.min(100, newPosition)));
+  };
 
-  const handleMouseDown = (e: React.MouseEvent) => handleStart(e.clientX)
-  const handleMouseMove = (e: React.MouseEvent) => handleMove(e.clientX)
+  const handleMouseDown = (e: React.MouseEvent) => handleStart(e.clientX);
+  const handleMouseMove = (e: React.MouseEvent) => handleMove(e.clientX);
 
   useEffect(() => {
     const handleGlobalEnd = () => {
-      isDragging.current = false
-    }
+      isDragging.current = false;
+    };
 
-    window.addEventListener('mouseup', handleGlobalEnd)
-    window.addEventListener('touchend', handleGlobalEnd)
+    window.addEventListener("mouseup", handleGlobalEnd);
+    window.addEventListener("touchend", handleGlobalEnd);
 
     return () => {
-      window.removeEventListener('mouseup', handleGlobalEnd)
-      window.removeEventListener('touchend', handleGlobalEnd)
-    }
-  }, [])
+      window.removeEventListener("mouseup", handleGlobalEnd);
+      window.removeEventListener("touchend", handleGlobalEnd);
+    };
+  }, []);
 
   return (
     <div className="w-full h-screen flex items-center justify-center bg-gray-100">
@@ -76,5 +76,5 @@ export default function MixBlendModeDemo() {
         Drag the blue line to move the background and see the effect
       </p>
     </div>
-  )
+  );
 }

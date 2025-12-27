@@ -7,6 +7,7 @@ updatedDate: "July 14 2025"
 ---
 
 ### TOC
+
 - [TOC](#toc)
 - [Rainbow Artword](#rainbow-artword)
 - [Hover Text Effects](#hover-text-effects)
@@ -22,6 +23,7 @@ updatedDate: "July 14 2025"
 - [Eyes Follow Mouse Cursor](#eyes-follow-mouse-cursor)
 
 ### Rainbow Artword
+
 <img alt="Rainbow Artword" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8t01qct5yj308q05ct8r.jpg" width="150">
 
 ```html
@@ -56,6 +58,7 @@ updatedDate: "July 14 2025"
 - A cool website: https://www.makewordart.com
 
 ### Hover Text Effects
+
 <img alt="Hover Text Effects" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/008vxvgGly1h8t04ox2d3j30e2048jrb.jpg" width="200">
 
 https://codepen.io/jh3y/pen/abGPKGO
@@ -102,6 +105,7 @@ https://codepen.io/jh3y/pen/abGPKGO
 - `:has(+ .char:hover)` means target any character that is directly followed by a character that is hovered. It is available in Chrome 105.
 
 ### Apple-style OS dock
+
 CSS only, no JS. This one would be pretty sweet as a nav on your portfolio.
 
 <img alt="apple-style-dock" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/dwucuh.png" width="450">
@@ -111,12 +115,13 @@ https://codepen.io/jh3y/pen/GRwwWoV
 ```css
 .b:has(+ .b:hover),
 .b:hover + .b {
-  flex: calc(0.2 + (sin(30deg) * 1.5));
+  flex: calc(0.2 + sin(30deg) * 1.5);
   translate: 0 calc(sin(30deg) * -75%);
 }
 ```
 
 ### Color Palettes
+
 - Build a wide gamut color palette with okLCH and inspects color with devtools: https://www.youtube.com/watch?v=6aCsAMgwnjE
 - Create a custom palette: https://www.radix-ui.com/colors/custom
 
@@ -208,7 +213,7 @@ https://codepen.io/jh3y/pen/GRwwWoV
 </body>
 ```
 
-Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick for creating semi-opaque versions of the brand colors is mixing them with the transparent color value. 
+Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick for creating semi-opaque versions of the brand colors is mixing them with the transparent color value.
 
 ```css
 :root {
@@ -226,6 +231,7 @@ Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick
 ```
 
 ### Filter and backdrop filter
+
 [backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) has the same effect as [filter](https://developer.mozilla.org/en-US/docs/Web/CSS/filter), with one notable difference — backdrop filters apply only to areas behind the element instead of to the element and its children. Filters, on the other hand, apply directly to the element and its children, and don’t affect anything behind the element.
 
 <figure>
@@ -265,7 +271,9 @@ Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick
 ```
 
 ### Animation with View Transitions
+
 With just a few lines of CSS, you can trigger smooth visual transitions between pages. On both the current and destination page, add:
+
 ```css
 @view-transition {
   navigation: auto;
@@ -277,8 +285,12 @@ With just a few lines of CSS, you can trigger smooth visual transitions between 
 }
 
 @keyframes fade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 ```
 
@@ -381,6 +393,7 @@ https://codepen.io/argyleink/pen/GRPRJyM
 <img alt="just the tabs" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/245b6eaa-8117-430d-a2aa-faa40e0e51a2.png" width="450">
 
 ### Scroll-driven animations
+
 At its simplest, the `animation-timeline` property lets us link any keyframe animation to the progress of scroll. They still run from 0-100%. But now, 0% is the scroll start position and 100% is the scroll end position.
 
 ```css
@@ -395,7 +408,7 @@ At its simplest, the `animation-timeline` property lets us link any keyframe ani
     div {
       animation: spin linear both;
       animation-timeline: scroll();
-    } 
+    }
   }
 }
 ```
@@ -405,8 +418,14 @@ Next, change `scroll()` to `view()`, which means we can trigger animations when 
 ```css
 /* Animate images: https://codepen.io/una/pen/KKYZzJM */
 @keyframes appear {
-  from { opacity: 0; scale: 0.8; }
-  to { opacity: 1; scale: 1; }
+  from {
+    opacity: 0;
+    scale: 0.8;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
 }
 
 img {
@@ -440,13 +459,14 @@ Because scroll-driven animations are only active when there is scrollable overfl
 }
 
 @keyframes detect-scroll {
-  from, to  {
+  from, to {
     --can-scroll: 1;
   }
 }
 ```
 
 ### Reveal hover effect
+
 https://codepen.io/t_afif/pen/GRYEZrr
 
 ```html
@@ -485,9 +505,11 @@ img:hover {
 - `box-sizing: border-box` will make the size of the content box equal to 0. In other words, we don’t see the image, but we see the background color since it covers the padding area.
 
 ### Gradient border card
+
 <img alt="Gradient Border" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/gradient-border.png" width="100">
 
 The two layers stack on top of each other:
+
 - The conic-gradient layer applies over the content and padding areas.
 - The linear-gradient layer applies to the border area, visible outside the padding.
 
@@ -498,7 +520,8 @@ The two layers stack on top of each other:
   border: solid 4px #0000;
   border-radius: 16px;
   /* `0 0` means no transition resulting in a solid fill of the specified color. */
-  background: conic-gradient(rgb(0 0 0) 0 0) padding-box,
+  background:
+    conic-gradient(rgb(0 0 0) 0 0) padding-box,
     linear-gradient(45deg, #ffbc00, #ff0058) border-box;
 }
 
@@ -510,6 +533,7 @@ The two layers stack on top of each other:
 ```
 
 ### The Periodic Table
+
 https://dev.to/madsstoumann/the-periodic-table-in-css-3lmm
 
 ```css
@@ -520,16 +544,19 @@ ol {
   grid-template-rows: repeat(10, 1fr);
 }
 li {
-  &:nth-of-type(2) { grid-column: 18; } /* pushed to the last column */
+  &:nth-of-type(2) {
+    grid-column: 18;
+  } /* pushed to the last column */
 }
 
 /* filter */
-body:has(#alk:checked) li:not(.alk) { 
+body:has(#alk:checked) li:not(.alk) {
   opacity: 0.2;
 }
 ```
 
 ### Double input range slider
+
 https://codepen.io/alexpg96/pen/xxrBgbP
 
 ```html
@@ -632,6 +659,7 @@ https://codepen.io/alexpg96/pen/xxrBgbP
 ```
 
 ### Eyes Follow Mouse Cursor
+
 https://www.kirupa.com/codingexercises/examples/eyes_follow_mouse.htm
 
 ```html

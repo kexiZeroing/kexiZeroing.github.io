@@ -7,6 +7,7 @@ updatedDate: "Sep 29 2025"
 ---
 
 ### Getting Closure on Hooks presented by @swyx
+
 ```js
 // https://www.youtube.com/watch?v=KJP1E-Y-xyo
 const React = (function() {
@@ -17,7 +18,7 @@ const React = (function() {
     const state = hooks[idx] ?? initVal;
     const _idx = idx;
     const setState = newVal => {
-      if (typeof newVal === 'function') {
+      if (typeof newVal === "function") {
         hooks[_idx] = newVal(hooks[_idx]);
       } else {
         hooks[_idx] = newVal;
@@ -51,38 +52,38 @@ const React = (function() {
 
 function Component() {
   const [count, setCount] = React.useState(1);
-  const [text, setText] = React.useState('apple');
-  
+  const [text, setText] = React.useState("apple");
+
   React.useEffect(() => {
-    console.log('useEffect with count dep')
+    console.log("useEffect with count dep");
   }, [count]);
-  
+
   React.useEffect(() => {
-    console.log('useEffect empty dep')
+    console.log("useEffect empty dep");
   }, []);
 
   React.useEffect(() => {
-    console.log('useEffect no dep')
+    console.log("useEffect no dep");
   });
 
   return {
-    render: () => console.log({count, text}),
+    render: () => console.log({ count, text }),
     click: () => setCount(count + 1),
-    type: word => setText(word)
-  }
+    type: word => setText(word),
+  };
 }
 
 var App = React.render(Component);
 App.click();
 var App = React.render(Component);
-App.type('pear');
+App.type("pear");
 var App = React.render(Component);
 
 /*
   useEffect with count dep
   useEffect empty dep
   useEffect no dep
-  {count: 1, text: "apple"} 
+  {count: 1, text: "apple"}
 
   useEffect with count dep
   useEffect no dep
@@ -145,7 +146,7 @@ Babel compiles JSX `<div>Hi</div>` to a function call `React.createElement('div'
 ### State updates are asynchronous and batched
 
 ```js
-const [user, setUser] = useState({})
+const [user, setUser] = useState({});
 
 setUser(data);
 console.log(user);
@@ -172,7 +173,7 @@ const [count, setCount] = useState(0);
 
 useEffect(() => {
   const id = setInterval(() => {
-    console.log('Interval tick');
+    console.log("Interval tick");
     setCount(count + 1);
   }, 1000);
   return () => {
@@ -194,23 +195,28 @@ useEffect(() => {
 ```
 
 ### How reconciliation works
+
 If we had two components of the same type:
 
 ```jsx
-{isEditing ? (
-  <input
-    type="text"
-    placeholder="Enter your name"
-    className="edit-input"
-  />
-) : (
-  <input
-    type="text"
-    placeholder="Enter your name"
-    disabled
-    className="view-input"
-  />
-)}
+{
+  isEditing
+    ? (
+      <input
+        type="text"
+        placeholder="Enter your name"
+        className="edit-input"
+      />
+    )
+    : (
+      <input
+        type="text"
+        placeholder="Enter your name"
+        disabled
+        className="view-input"
+      />
+    );
+}
 ```
 
 When React rerenders this conditional input component, it performs reconciliation by comparing the new virtual DOM tree with the previous one. Since both the editing and non-editing branches render an input element of the same type at the same position in the component tree, React treats them as the same element and preserves the existing DOM node rather than destroying and recreating it. During this process, React updates the element's props, but maintains the DOM element's internal state, including any text the user has typed.
@@ -220,6 +226,7 @@ Note that here React still fully re-renders the component when `isEditing` chang
 **Force remount with a `key` prop**: React's reconciliation algorithm sees different keys and treats them as different elements, destroying the old DOM node and creating a fresh one. This breaks the normal DOM reuse behavior, forcing a complete remount rather than a prop update, which clears any user input since the new DOM element starts with empty state.
 
 ### Understand the "children pattern"
+
 Extract components and pass JSX as `children` to them. For example, maybe you pass data props like `posts` to visual components that don’t use them directly, like `<Layout posts={posts} />`. Instead, make `Layout` take `children` as a prop, and render `<Layout><Posts posts={posts} /></Layout>`. This reduces the number of layers between the component specifying the data and the one that needs it.
 
 React components re-render themselves and all their children when the state is updated. In this case, on every mouse move the state of `MovingComponent` is updated, its re-render is triggered, and as a result, `ChildComponent` will re-render as well.
@@ -267,7 +274,7 @@ const SomeOutsideComponent = () => {
 };
 ```
 
-`React.memo` is a higher order component that accepts another component as a prop. It will only render the component if there is any change in the props. *(Hey React, I know that this component is pure. You don't need to re-render it unless its props change.)*
+`React.memo` is a higher order component that accepts another component as a prop. It will only render the component if there is any change in the props. _(Hey React, I know that this component is pure. You don't need to re-render it unless its props change.)_
 
 `useMemo` is used to memoize a calculation result, which focuses on avoiding heavy calculation.
 
@@ -278,32 +285,30 @@ React compares the props of a memoized component with `Object.is` to check if it
 ```js
 // Without memo, it still re-renders even though props didn't change
 const Child = React.memo(({ onClick, items }) => {
- return <div onClick={onClick}>{items.join(', ')}</div>;
+  return <div onClick={onClick}>{items.join(", ")}</div>;
 });
 
 const App = () => {
- const [count, setCount] = useState(0);
- const [filter, setFilter] = useState('');
- 
- const handleClick = useCallback(() => {
-   console.log('clicked');
- }, []);
- 
- const filteredItems = useMemo(() => {
-   return ['apple', 'banana', 'cherry'].filter(item => 
-     item.includes(filter)
-   );
- }, [filter]);
- 
- return (
-   <div>
-     <button onClick={() => setCount(count + 1)}>Count: {count}</button>
-     <input onChange={(e) => setFilter(e.target.value)} />
-     
-     {/* Will NOT re-render when count changes */}
-     <Child onClick={handleClick} items={filteredItems} />
-   </div>
- );
+  const [count, setCount] = useState(0);
+  const [filter, setFilter] = useState("");
+
+  const handleClick = useCallback(() => {
+    console.log("clicked");
+  }, []);
+
+  const filteredItems = useMemo(() => {
+    return ["apple", "banana", "cherry"].filter(item => item.includes(filter));
+  }, [filter]);
+
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Count: {count}</button>
+      <input onChange={(e) => setFilter(e.target.value)} />
+
+      {/* Will NOT re-render when count changes */}
+      <Child onClick={handleClick} items={filteredItems} />
+    </div>
+  );
 };
 ```
 
@@ -323,7 +328,7 @@ function App() {
     <ExpensiveTree>
       <p>Hello, world!</p>
     </ExpensiveTree>
-  )
+  );
 }
 
 function ExpensiveComponent({ children }) {
@@ -332,9 +337,9 @@ function ExpensiveComponent({ children }) {
       I'm expensive!
       {children}
     </div>
-  )
+  );
 }
-const ExpensiveTree = React.memo(ExpensiveComponent)
+const ExpensiveTree = React.memo(ExpensiveComponent);
 ```
 
 How to memoize below code correctly? We can re-write the code to make the flow clearer by using children prop which accepts a React element. We re-create this object on every render, so that children prop changed, and will trigger re-render. And since `SomeOtherComponent`'s definition was re-created, it will trigger its re-render as well.
@@ -357,10 +362,11 @@ export const SomeComponent = () => {
 ```
 
 #### Client wrapper for server components
-Instead of turning the `ServerComponent` into a client component, we can pass it down as a child to a client component wrapper that handles the state and UI rendering. The server component is still responsible only for data fetching. *This also means that wrapping your root layout in the client component does not automatically turn your entire app into a client rendering.*
+
+Instead of turning the `ServerComponent` into a client component, we can pass it down as a child to a client component wrapper that handles the state and UI rendering. The server component is still responsible only for data fetching. _This also means that wrapping your root layout in the client component does not automatically turn your entire app into a client rendering._
 
 ```js
-'use client';
+"use client";
 
 function ClientWrapper({ children }) {
   const [visible, setVisible] = useState(true);
@@ -389,21 +395,22 @@ Look at another example, the `ShowMore` component is a reusable UI component to 
 ```js
 async function CategoryList() {
   const categories = await getCategories();
-  
+
   return (
     <ShowMore initial={5}>
-      {categories.map((category) => (
-        <div key={category.id}>{category.name}</div>
-      ))}
+      {categories.map((category) => <div key={category.id}>{category.name}
+      </div>)}
     </ShowMore>
   );
 }
 
-'use client';
+"use client";
 
 export default function ShowMore({ children, initial = 5 }) {
   const [expanded, setExpanded] = useState(false);
-  const items = expanded ? children : Children.toArray(children).slice(0, initial);
+  const items = expanded
+    ? children
+    : Children.toArray(children).slice(0, initial);
   const remaining = Children.count(children) - initial;
 
   return (
@@ -412,7 +419,7 @@ export default function ShowMore({ children, initial = 5 }) {
       {remaining > 0 && (
         <div>
           <button onClick={() => setExpanded(!expanded)}>
-            {expanded ? 'Show Less' : `Show More (${remaining})`}
+            {expanded ? "Show Less" : `Show More (${remaining})`}
           </button>
         </div>
       )}
@@ -429,6 +436,7 @@ export default function ShowMore({ children, initial = 5 }) {
 > - React.Children.toArray(children)
 
 ### What is Fiber
+
 React Fiber was introduced in React 16 as a complete reimplementation of React's core reconciliation algorithm. At its core, Fiber is a JavaScript object that represents both a unit of work and a node in React's internal tree structure, essentially serving as the modern implementation of React's Virtual DOM.
 
 Fiber nodes are organized in a linked-list tree structure that mirrors the component hierarchy, with each Fiber having pointers to its parent, first child, and next sibling. Fiber nodes are sophisticated objects that serve as both the Virtual DOM elements and the reconciliation units, containing work scheduling information.
@@ -468,7 +476,9 @@ function commitToDOM() {
 ```
 
 ### You Might Not Need an Effect
+
 Before getting to Effects, you need to be familiar with two types of logic inside React components:
+
 - **Rendering code** lives at the top level of your component. This is where you take the props and state, transform them, and return the JSX you want to see on the screen. Rendering code must be pure.
 - **Event handlers** are functions inside your components that contain “side effects” caused by a specific user action.
 
@@ -480,9 +490,10 @@ Whenever you think of writing `useEffect`, the only sane thing is to NOT do it. 
 - https://react.dev/learn/you-might-not-need-an-effect
 - https://eslint-react.xyz/docs/rules/hooks-extra-no-direct-set-state-in-use-effect
 
-When developing an application in React 18+, you may encounter an issue where the `useEffect` hook is being run twice on mount. This occurs because since React 18, when you are in development, your application is being run in StrictMode by default. In Strict Mode, React will try to simulate the behavior of mounting, unmounting, and remounting a component to help developers uncover bugs during testing. *From the user’s perspective, visiting a page shouldn’t be different from visiting it, clicking a link, and then pressing Back. React verifies that your components don’t break this principle by remounting them once in development.* In most cases, it should be fine to leave your code as-is, since the `useEffect` will only run once in production.
+When developing an application in React 18+, you may encounter an issue where the `useEffect` hook is being run twice on mount. This occurs because since React 18, when you are in development, your application is being run in StrictMode by default. In Strict Mode, React will try to simulate the behavior of mounting, unmounting, and remounting a component to help developers uncover bugs during testing. _From the user’s perspective, visiting a page shouldn’t be different from visiting it, clicking a link, and then pressing Back. React verifies that your components don’t break this principle by remounting them once in development._ In most cases, it should be fine to leave your code as-is, since the `useEffect` will only run once in production.
 
 > Strict Mode enables the following checks in development:
+>
 > - Your components will re-render an extra time to find bugs caused by impure rendering.
 > - Your components will re-run Effects an extra time to find bugs caused by missing Effect cleanup.
 > - Your components will re-run ref callbacks an extra time to find bugs caused by missing ref cleanup.
@@ -491,21 +502,22 @@ When developing an application in React 18+, you may encounter an issue where th
 ```js
 useEffect(() => {
   // Wrong: This Effect fires twice in development, exposing a problem in the code.
-  fetch('/api/buy', { method: 'POST' });
+  fetch("/api/buy", { method: "POST" });
 }, []);
 ```
 
 You wouldn’t want to buy the product twice. This is also why you shouldn’t put this logic in an Effect. Buying is not caused by rendering; it’s caused by a specific interaction. It should run only when the user presses the button. Delete the Effect and move it into the Buy button event handler.
 
 #### Declaring an Effect Event
-Use a special Hook called `useEffectEvent` *(~~experimental API that has not yet been released in a stable version of React~~ available in React 19.2)* to extract non-reactive logic out of your Effect.
+
+Use a special Hook called `useEffectEvent` _(~~experimental API that has not yet been released in a stable version of React~~ available in React 19.2)_ to extract non-reactive logic out of your Effect.
 
 ```js
 function ChatRoom({ roomId, theme }) {
   useEffect(() => {
     const connection = createConnection(serverUrl, roomId);
-    connection.on('connected', () => {
-      showNotification('Connected!', theme);
+    connection.on("connected", () => {
+      showNotification("Connected!", theme);
     });
     connection.connect();
     return () => connection.disconnect();
@@ -518,12 +530,12 @@ Since `theme` is a dependency, the chat also re-connects every time you switch b
 
 ```js
 const onConnected = useEffectEvent(() => {
-  showNotification('Connected!', theme);
+  showNotification("Connected!", theme);
 });
 
 useEffect(() => {
   const connection = createConnection(serverUrl, roomId);
-  connection.on('connected', () => {
+  connection.on("connected", () => {
     onConnected();
   });
   connection.connect();
@@ -534,10 +546,12 @@ useEffect(() => {
 Here, `onConnected` is called an Effect Event. It’s a part of your Effect logic, but it behaves a lot more like an event handler. The logic inside it is not reactive, and it always “sees” the latest values of your props and state.
 
 Why `onConnected` can't just be a normal function?
+
 1. React's linter detects you're using `onConnected` inside the Effect, so it must be in the dependency array.
 2. If you put it in the array, when `theme` changes in parent, component re-renders, `onConnected` is recreated, Effect sees a new `onConnected`, so it cleans up and re-runs the Effect, reconnecting to the chat server. But reconnecting just because `theme` changed is unnecessary - you only want to reconnect when `roomId` changes.
 
 ### Referencing values with `ref`s
+
 When you want a component to “remember” some information, but you don’t want that information to trigger new renders, you can use a `ref`. Typically, you will use a ref when your component needs to “step outside” React and communicate with external APIs. (e.g. storing timeout IDs, DOM elements)
 
 - Refs are an escape hatch to hold onto values that aren’t used for rendering. You won’t need them often.
@@ -547,22 +561,22 @@ When you want a component to “remember” some information, but you don’t wa
 - Unlike state, setting the ref’s current value does not trigger a re-render.
 
 ```js
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
 function usePrevious(value) {
   const ref = useRef();
-  
+
   useEffect(() => {
     ref.current = value;
   }, [value]);
-  
+
   return ref.current;
 }
 
 function Counter() {
   const [count, setCount] = useState(0);
   const previousCount = usePrevious(count);
-  
+
   return (
     <div>
       <button onClick={() => setCount(count + 1)}>
@@ -578,14 +592,16 @@ function Counter() {
 The key to understanding this hook is realizing there's a timing difference. When your component renders, the hook returns the current value of `ref.current`. After rendering, the effect runs and updates `ref.current` to the new value. On the next render, `ref.current` contains what was the value in the previous render. Note that `useRef()` doesn't create a new ref object on every render. **React's hook system ensures that the same ref object persists across re-renders.**
 
 #### `ref` callback function
+
 ```js
 React.useEffect(() => {
   // ref.current is always null when this runs
-  ref.current?.focus()
-}, [])
+  ref.current?.focus();
+}, []);
 
-
-{show && <input ref={ref} />}
+{
+  show && <input ref={ref} />;
+}
 ```
 
 The input is not rendered at first, ref is still null, then effect runs, does nothing. When input is shown, ref will be filled, but will not be focussed because effect won't run again.
@@ -599,17 +615,18 @@ This is where callback refs come into play. Instead of a ref object, you may **p
 - React 19 added cleanup functions for ref callbacks. When the `ref` is detached, React will call the cleanup function.
 
 Passing a ref from `useRef` (a RefObject) to a React element is therefore just syntactic sugar for:
+
 ```js
 <input
   ref={(node) => {
     ref.current = node;
   }}
-/>
+/>;
 ```
 
 ```tsx
 // move the function out of the component
-// never re-create the function during a re-render 
+// never re-create the function during a re-render
 const scroller = (node: HTMLDivElement | null) => {
   node?.scrollIntoView({ behavior: "smooth" });
 };
@@ -667,6 +684,7 @@ function Child({ onClick }) {
 ```
 
 #### `ref` as a prop in React 19
+
 In React 19, `forwardRef` is no longer necessary. Pass `ref` as a prop instead.
 
 ```jsx
@@ -686,6 +704,7 @@ export default function App() {
 ```
 
 ### Compound components pattern
+
 The compound components in React lets you break a complex component into smaller, related parts that share state and logic through a common parent. Instead of managing many props in one monolithic component, the parent provides context and each child (e.g., `Card.Title`) consumes it, giving developers the flexibility to compose and arrange the subcomponents in any structure they need.
 
 - Consumers choose what to include and in what order.
@@ -744,6 +763,7 @@ PostCard.Buttons = function PostCardButtons() {
 ```
 
 ### Higher Order Components
+
 HOCs are wrapper components that help provide additional functionality to existing components. While hooks probably replaced most of shared logic concerns, there are still use cases where higher-order components could be useful. For example, you want to fire analytics event on every click of every button, dropdown and link everywhere.
 
 ```js
@@ -753,7 +773,7 @@ export const withLoggingOnClick = (Component) => {
 
     const onClick = () => {
       // console.info('Log on click something');
-      log('Log on click something');
+      log("Log on click something");
       props.onClick();
     };
 
@@ -765,7 +785,9 @@ export const withLoggingOnClick = (Component) => {
 ```
 
 ### Render Prop pattern
+
 A way of making components reusable is by using the render prop pattern. A render prop is a prop on a component, which value is a function that returns a JSX element.
+
 - The component simply calls the render prop, instead of implementing its own rendering logic.
 - We usually want to pass data from the component that takes the render prop, to the element that we pass as a render prop.
 - We can pass functions as children to React components. This function is available through the children prop, which is technically also a render prop.
@@ -822,7 +844,7 @@ const App = () => {
 
 First approach follows the Higher-Order Component pattern. Second approach follows the Render Prop pattern.
 
-When `App` re-renders, `Card` will re-render too. The problem with the first approach is that when `App` re-renders, a brand new `AppliedCardContent` component function is created, so `<Content />` is seen as a completely new component. React unmounts the old one and mounts a new one, causing internal state to be lost. In the second approach, when `App` re-renders, the function is called and returns `<CardContent />`. React sees this as the same component type, so state is preserved. *It's not about preventing re-renders - it's about React thinking you're rendering a completely different component vs. the same component with different props.*
+When `App` re-renders, `Card` will re-render too. The problem with the first approach is that when `App` re-renders, a brand new `AppliedCardContent` component function is created, so `<Content />` is seen as a completely new component. React unmounts the old one and mounts a new one, causing internal state to be lost. In the second approach, when `App` re-renders, the function is called and returns `<CardContent />`. React sees this as the same component type, so state is preserved. _It's not about preventing re-renders - it's about React thinking you're rendering a completely different component vs. the same component with different props._
 
 ```js
 // Creating a wrapper component
@@ -833,14 +855,12 @@ const ListItemImpl = ({ item }) => (
 // Passing the component as a prop
 // Instead of <List listItems={listItems} highContrast={highContrast} />
 // Do this:
-<List listItems={listItems} ListItem={ListItemImpl} />
+<List listItems={listItems} ListItem={ListItemImpl} />;
 
 // Using the injected component
 const List = ({ listItems, ListItem }) => (
   <ul>
-    {listItems.map((item) => (
-      <ListItem key={item.id} item={item} />
-    ))}
+    {listItems.map((item) => <ListItem key={item.id} item={item} />)}
   </ul>
 );
 ```
@@ -848,6 +868,7 @@ const List = ({ listItems, ListItem }) => (
 This is a form of dependency injection and is closely related to patterns like render props. In React, “DI” usually means inverting control so components don’t create their dependencies. Instead of passing data down through multiple component layers, you pass a pre-configured component that already has access to the data it needs. For example, a List component can focus purely on iteration and rendering structure without needing to understand styling preferences. This creates better separation of concerns and makes components more reusable and testable.
 
 ### React context and MobX
+
 React Context is great for passing state down without prop drilling, but it always flows top to down. Updates in the parent trigger re-renders in consumers.
 
 ```js
@@ -864,7 +885,7 @@ const App = () => {
 };
 ```
 
-Calling `setLanguage` in a child via context updates the state in App. When state updates, React re-renders the component where that state lives — here, that’s App. Then all components that call  `useContext(LanguageContext)` see the new value and re-render.
+Calling `setLanguage` in a child via context updates the state in App. When state updates, React re-renders the component where that state lives — here, that’s App. Then all components that call `useContext(LanguageContext)` see the new value and re-render.
 
 > Even if `language` didn’t change but App re-rendered for some other reason, you’d still be creating a new `{ language, setLanguage }` object each time. That would cause all consumers to re-render unnecessarily. You can memoize the value: `const value = useMemo(() => ({ language, setLanguage }), [language])`.
 

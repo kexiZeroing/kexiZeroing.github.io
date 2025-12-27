@@ -7,8 +7,9 @@ updatedDate: "Aug 4 2024"
 ---
 
 ## String
- 
+
 ### String primitives and String objects
+
 Note that JavaScript distinguishes between String objects and primitive string values (The same is true of Boolean and Numbers). String literals and strings returned from `String` calls in a non-constructor context (called without using the `new` keyword) are primitive strings. In contexts where a method is to be invoked on a primitive string or a property lookup occurs, JavaScript will automatically wrap the string primitive and call the method or perform the property lookup on the wrapper object instead.
 
 A String object can always be converted to its primitive counterpart with the `valueOf()` method.
@@ -16,18 +17,19 @@ A String object can always be converted to its primitive counterpart with the `v
 ```js
 const strPrim = "foo";
 const strPrim2 = String(1);
-const strObj = new String(strPrim);  // You should rarely use String as a constructor
+const strObj = new String(strPrim); // You should rarely use String as a constructor
 
-console.log(typeof strPrim);  // "string"
+console.log(typeof strPrim); // "string"
 console.log(typeof strPrim2); // "string"
-console.log(typeof strObj);   // "object"
+console.log(typeof strObj); // "object"
 
 console.log(strObj.valueOf());
 ```
 
 ### Template literals (Template strings)
+
 ```js
-`string text ${expression} string text`
+`string text ${expression} string text`;
 
 // Multi-line string
 // newline characters inserted in the source are part of the template literal
@@ -42,31 +44,32 @@ A more advanced form of template literals are **tagged templates**. Tags allow y
 The special `raw` property, available on the first argument to the tag function, allows you to access the raw strings as they were entered, without processing escape sequences.
 
 ```js
-var person = 'Mike';
+var person = "Mike";
 var age = 28;
 
 function myTag(strings, ...keys) {
   var str0 = strings[0]; // "That "
   var str1 = strings[1]; // " is a "
   var str2 = strings[2]; // There is an empty string after the final expression
- 
-  var ageStr = keys[1] > 99 ? 'centenarian' : 'youngster';
-  
+
+  var ageStr = keys[1] > 99 ? "centenarian" : "youngster";
+
   return `${str0}${keys[0]}${str1}${ageStr}`;
 }
 
-var output = myTag`That ${ person } is a ${ age }`;
-console.log(output);  // That Mike is a youngster
+var output = myTag`That ${person} is a ${age}`;
+console.log(output); // That Mike is a youngster
 
 // raw property
 function tag(strings) {
-  console.log(strings[0]);     // escape \n to a new line
+  console.log(strings[0]); // escape \n to a new line
   console.log(strings.raw[0]); // include \n in the string
 }
 tag`string text line 1 \n string text line 2`;
 ```
 
 ### String startsWith/endsWith, padStart/padEnd, repeat
+
 ```js
 str.startsWith(searchString[, position])
 str.endsWith(searchString[, length])
@@ -94,20 +97,22 @@ str.endsWith('to be', 19)       // true
 ```
 
 ### String.prototype.replace() / replaceAll()
+
 It returns a new string with some or all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp, and the replacement can be a string or a function. The function's result (return value) will be used as the replacement string. The original string is left unchanged. **If not using `replaceAll` and the pattern is a string, only the first occurrence will be replaced**.
 
 The replacement string can include the following special replacement patterns:
+
 - `$&`: the matched substring
 - `$\`: the portion of the string that precedes the matched substring
 - `$'`:	the portion of the string that follows the matched substring
 - `$n`: the nth parenthesized submatch string
 
 ```js
-'John Smith'.replace(/(\w+)\s(\w+)/, '$2, $1'); // Smith, John
-'abc5885c'.replace(/(\d)(\d)\2\1/g, '-$&-'); // abc-5885-c
+"John Smith".replace(/(\w+)\s(\w+)/, "$2, $1"); // Smith, John
+"abc5885c".replace(/(\d)(\d)\2\1/g, "-$&-"); // abc-5885-c
 
 // When using a regular expression search value, must set the global flag
-'aabbcc'.replaceAll(/b/g, '.');  // aa..cc
+"aabbcc".replaceAll(/b/g, "."); // aa..cc
 
 // the matched substring
 // capture groups
@@ -115,9 +120,9 @@ The replacement string can include the following special replacement patterns:
 // the whole string being examined
 function replacer(match, p1, p2, p3, offset, string) {
   // p1 is nondigits, p2 digits, and p3 non-alphanumerics
-  return [p1, p2, p3].join('-');
+  return [p1, p2, p3].join("-");
 }
-'abc123#$'.replace(/([^\d]*)(\d*)([^\w]*)/, replacer); // abc-123-#$
+"abc123#$".replace(/([^\d]*)(\d*)([^\w]*)/, replacer); // abc-123-#$
 ```
 
 > - `\d`: Matches any digit character. Equivalent to `[0-9]`.
@@ -127,6 +132,7 @@ function replacer(match, p1, p2, p3, offset, string) {
 ## Array
 
 ### Check if the variable is an array
+
 - Array.isArray(value)
 - Object.prototype.toString.call(value) === '[object Array]'
 - value instanceof Array
@@ -134,13 +140,14 @@ function replacer(match, p1, p2, p3, offset, string) {
 > Note that `value instanceof Array` evaluates to `false` when value is an array created in a different iframe than the Array constructor function (it is an instance of `thatFrame.contentWindow.Array`).
 
 ```js
-({}).toString.call([]);   // '[object Array]'
-({}).toString.call({});   // '[object Object]'
-({}).toString.call('');   // '[object String]'
+({}).toString.call([]); // '[object Array]'
+({}).toString.call({}); // '[object Object]'
+({}).toString.call(""); // '[object String]'
 ({}).toString.call(null); // '[object Null]'
 ```
 
 ### Remove duplicates
+
 - [...new Set(array)]
 - array.filter((item, index, arr) => arr.indexOf(item) === index)
 - array.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], [])
@@ -158,75 +165,80 @@ function uniq(a) {
 ```
 
 ### Clone an Array
+
 - loop
 - arr.slice()
 - Array.from()
 - [].concat(arr)
 - [...arr]
-- JSON.parse(JSON.stringify(arr))  // deep clone
-- structuredClone(arr)  // deep clone, works across the latest browser versions
+- JSON.parse(JSON.stringify(arr)) // deep clone
+- structuredClone(arr) // deep clone, works across the latest browser versions
 
 Note that `JSON.parse(JSON.stringify(arr))` depends upon JSON, it also inherits its limitations. `undefined`, `Function`, and `Symbol` are not valid JSON values. If any such values are encountered during the stringify conversion, they are either omitted (when found in an object) or changed to `null` (when found in an array). Btw, Dates will be turned into strings, Sets and Maps would be converted to empty objects.
 
 ```js
-JSON.stringify(function(){}) // undefined
-JSON.stringify([undefined, function(){}, () => {}])  // "[null, null, null]"
+JSON.stringify(function() {}); // undefined
+JSON.stringify([undefined, function() {}, () => {}]); // "[null, null, null]"
 
 const obj = {
-  set: new Set([1,2]),
+  set: new Set([1, 2]),
   map: new Map([
     ["a", 1],
     ["b", 2],
-  ])
-}
-JSON.stringify(obj) // '{"set":{},"map":{}}'
+  ]),
+};
+JSON.stringify(obj); // '{"set":{},"map":{}}'
 ```
 
 ### Array-like objects
+
 In practice, such object is expected to actually have a `length` property and to have indexed elements in the range `0` to `length - 1`. You can actually just use Array's `slice` function to convert it into a standard JavaScript array. **The `slice` function is intentionally generic;** it does not require that its `this` value be an Array object, so it works on anything that has a length property. Many DOM objects are array-like — for example, `NodeList` and `HTMLCollection`. The `arguments` object is also array-like.
 
 ```js
-Array.prototype.slice.call(obj);  // same as [].slice.call(obj)
+Array.prototype.slice.call(obj); // same as [].slice.call(obj)
 ```
 
 ### Array.from()
+
 It creates a new, shallow-copied Array instance from an array-like or iterable object. It has an optional parameter `mapFn`, which allows you to execute a map function on each element of the array that is being created.
 
 ```js
-Array.from('foo');  // [ "f", "o", "o" ]
+Array.from("foo"); // [ "f", "o", "o" ]
 
-const set = new Set(['foo', 'bar', 'baz', 'foo']);
-Array.from(set);  // [ "foo", "bar", "baz" ]
+const set = new Set(["foo", "bar", "baz", "foo"]);
+Array.from(set); // [ "foo", "bar", "baz" ]
 
-Array.from([1, 2, 3], x => x + x);  // [2, 4, 6]
+Array.from([1, 2, 3], x => x + x); // [2, 4, 6]
 
 // Since the array is initialized with `undefined` on each position,
 // the value of `v` below will be `undefined`
-Array.from({ length: 5 }, (v, i) => i);  // [0, 1, 2, 3, 4]
+Array.from({ length: 5 }, (v, i) => i); // [0, 1, 2, 3, 4]
 ```
 
 ### Array.of()
+
 It creates a new Array instance from a variable number of arguments. The difference between `Array.of()` and the `Array` constructor is in the handling of integer arguments: `Array.of(7)` creates an array with a single element, `7`, whereas `Array(7)` creates an empty array with a length of 7 (which implies an array of 7 empty slots, not slots with actual `undefined` values).
 
 ```js
-Array.of(7);       // [7] 
+Array.of(7); // [7]
 Array.of(1, 2, 3); // [1, 2, 3]
 
-Array(7);          // array of 7 empty slots
-Array(1, 2, 3);    // [1, 2, 3]
+Array(7); // array of 7 empty slots
+Array(1, 2, 3); // [1, 2, 3]
 ```
 
 > 1. `Array()` can be called with or without `new`. Both create a new Array instance.
 > 2. The `length` property of an array is a 32-bit unsigned integer, which limits the maximum number of entries an array can have, which is `Math.pow(2, 32) - 1`.
 
 ### Array.prototype.fill()
+
 The fill method takes up to three arguments `value`, `start` and `end`. The start and end arguments are optional with default values of 0 and the length of the this object. `fill()` is intentionally generic, it does not require that its `this` value be an Array object.
 
 ```js
-Array(3).fill(4)  // [4, 4, 4]
+Array(3).fill(4); // [4, 4, 4]
 
 // Objects by reference
-var arr = Array(3).fill({}) // [{}, {}, {}];
+var arr = Array(3).fill({}); // [{}, {}, {}];
 arr[0].hi = "hi"; // [{ hi: "hi" }, { hi: "hi" }, { hi: "hi" }]
 
 // compare with Array.from
@@ -235,6 +247,7 @@ array[0].hi = "hi"; // [{ hi: "hi" }, {}, {}]
 ```
 
 ### Array.prototype.find()
+
 ```js
 arr.find(callback(element[, index[, array]])[, thisArg])
 arr.findIndex(callback(element[, index[, array]])[, thisArg])
@@ -252,7 +265,8 @@ const result = inventory.find( ({ name }) => name === 'cherries' );
 ```
 
 ### Array.prototype.reduce()
-- If `initialValue` is provided, then accumulator will be equal to `initialValue`, and `currentValue` will be equal to the first value in the array. If no `initialValue` is provided, then accumulator will be equal to the first value in the array, and `currentValue` will be equal to the second. 
+
+- If `initialValue` is provided, then accumulator will be equal to `initialValue`, and `currentValue` will be equal to the first value in the array. If no `initialValue` is provided, then accumulator will be equal to the first value in the array, and `currentValue` will be equal to the second.
 - If the array has only one element and no initialValue was provided, or if initialValue is provided but the array is empty, the solo value would be returned without calling callback.
 
 ```js
@@ -268,6 +282,7 @@ function implementMapUsingReduce(list, func) {
 ```
 
 ### Array.prototype.splice()
+
 It changes the contents of an array by removing or replacing existing elements or adding new elements in place. This function returns an array containing the deleted elements.
 
 ```js
@@ -287,21 +302,26 @@ var removed = myFish.splice(0, 2, 'parrot', 'anemone', 'blue');
 ```
 
 ### Flatten array
+
 ```js
 const arr1 = [1, 2, [3, 4]];
-arr1.flat();  // [1, 2, 3, 4]
+arr1.flat(); // [1, 2, 3, 4]
 
 const arr2 = [1, 2, [3, 4, [5, 6]]];
-arr2.flat();  // [1, 2, 3, 4, [5, 6]]
+arr2.flat(); // [1, 2, 3, 4, [5, 6]]
 
 const arr3 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
-arr3.flat(Infinity);  // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+arr3.flat(Infinity); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 // deep level flatten use recursion
-// [].concat([1,[2,3]]) returns [1,[2,3]]  
-// [].concat(1,[2,3]) returns [1,2,3] 
+// [].concat([1,[2,3]]) returns [1,[2,3]]
+// [].concat(1,[2,3]) returns [1,2,3]
 function flattenDeep(arr) {
-  return arr.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val), []);
+  return arr.reduce(
+    (acc, val) =>
+      Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val),
+    [],
+  );
 }
 
 // flatMap is identical to a map() followed by a flat() of depth 1
@@ -315,14 +335,16 @@ arr1.flatMap(x => x.split(" "));
 ```
 
 ### Array sort
+
 - The `sort()` method sorts the elements of an array in place and returns the reference to the same array.
 - The time and space complexity of the sort cannot be guaranteed as it depends on the implementation.
 - Since ECMAScript 2019, the specification dictates that `Array.prototype.sort` is stable. All major JavaScript engines now implement a stable Array sort.
 
 ### Newly available array methods
+
 `Array.prototype.at()` takes an integer value and returns the item at that index. Negative integers count back from the last item in the array.
 
-`Array.prototype.with(index, value)` changes the value of a given index in the array, returning a new array with the element at the given index replaced with the given value. *The empty slots in the source array will be replaced with `undefined` in the new array.*
+`Array.prototype.with(index, value)` changes the value of a given index in the array, returning a new array with the element at the given index replaced with the given value. _The empty slots in the source array will be replaced with `undefined` in the new array._
 
 `Array.prototype.toReversed()` returns a new array with the elements in reversed order.
 
@@ -333,6 +355,7 @@ arr1.flatMap(x => x.split(" "));
 ## Object
 
 ### Check if an object is empty
+
 - Object.keys(obj).length === 0 && obj.constructor === Object
 - JSON.stringify(obj) === JSON.stringify({})
 - Object.getOwnPropertyNames(obj).length === 0
@@ -341,16 +364,16 @@ arr1.flatMap(x => x.split(" "));
 function badEmptyCheck(value) {
   return Object.keys(value).length === 0;
 }
-badEmptyCheck(new Object());  // true
-badEmptyCheck(new String());  // true 
-badEmptyCheck(new Array());   // true
+badEmptyCheck(new Object()); // true
+badEmptyCheck(new String()); // true
+badEmptyCheck(new Array()); // true
 
 function goodEmptyCheck(value) {
   return Object.keys(value).length === 0 && value.constructor === Object;
 }
-badEmptyCheck(new Object());  // true
-badEmptyCheck(new String());  // false 
-badEmptyCheck(new Array());   // false
+badEmptyCheck(new Object()); // true
+badEmptyCheck(new String()); // false
+badEmptyCheck(new Array()); // false
 ```
 
 ### Check if two objects are equal
@@ -369,7 +392,7 @@ function compareTwoObjs(obj1, obj2) {
       return false;
     }
 
-    if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+    if (typeof obj1[key] === "object" && typeof obj2[key] === "object") {
       if (!compareTwoObjs(obj1[key], obj2[key])) {
         return false;
       }
@@ -383,6 +406,7 @@ function compareTwoObjs(obj1, obj2) {
 ```
 
 ### Object.defineProperty()
+
 It defines a new property or modifies an existing property on an object, and returns the object. By default, values added using `Object.defineProperty()` are immutable and not enumerable. Property descriptors present in objects come in two main flavors: **data descriptors or accessor descriptors**. A data descriptor is a property that has a value, which may or may not be writable. An accessor descriptor is a property described by a getter-setter pair of functions. A descriptor must be one of these two flavors; it cannot be both.
 
 - **configurable**: true if the type of this property descriptor may be changed and if the property may be deleted from the object. (defaults to false)
@@ -394,87 +418,92 @@ It defines a new property or modifies an existing property on an object, and ret
 
 ```js
 // data descriptor
-Object.defineProperty(o, 'key', {
+Object.defineProperty(o, "key", {
   enumerable: false,
   configurable: false,
   writable: true,
-  value: 'static'
+  value: "static",
 });
 
 // accessor descriptor
 var bValue = 38;
-Object.defineProperty(o, 'b', {
+Object.defineProperty(o, "b", {
   enumerable: true,
   configurable: true,
-  get() { return bValue; },
-  set(newValue) { bValue = newValue; }
+  get() {
+    return bValue;
+  },
+  set(newValue) {
+    bValue = newValue;
+  },
 });
 o.b; // 38, the value of o.b is now always identical to bValue
 
 var o = {};
 o.a = 1;
 // is equivalent to:
-Object.defineProperty(o, 'a', {
+Object.defineProperty(o, "a", {
   value: 1,
   writable: true,
   configurable: true,
-  enumerable: true
+  enumerable: true,
 });
 
 // On the other hand,
 // default: not enumerable, not configurable, not writable
-Object.defineProperty(o, 'a', { value: 1 });
+Object.defineProperty(o, "a", { value: 1 });
 // is equivalent to:
-Object.defineProperty(o, 'a', {
+Object.defineProperty(o, "a", {
   value: 1,
   writable: false,
   configurable: false,
-  enumerable: false
+  enumerable: false,
 });
 
-var o = {}; 
-Object.defineProperty(o, 'a', {
+var o = {};
+Object.defineProperty(o, "a", {
   value: 37,
-  writable: false
+  writable: false,
 });
 o.a = 25; // it would throw error in strict mode even if the value had been the same
 console.log(o.a); // 37
 
 var o = {};
-Object.defineProperty(o, 'a', {
+Object.defineProperty(o, "a", {
   value: 1,
-  enumerable: true
+  enumerable: true,
 });
-Object.defineProperty(o, 'b', {
+Object.defineProperty(o, "b", {
   value: 2,
-  enumerable: false
+  enumerable: false,
 });
-Object.defineProperty(o, 'c', {
-  value: 3
+Object.defineProperty(o, "c", {
+  value: 3,
 });
-o.d = 4; 
+o.d = 4;
 
 // non-enumerable means that property will not be shown in Object.keys() or for-loop
-for (var i in o) { console.log(i) } // logs 'a' and 'd'
+for (var i in o) console.log(i); // logs 'a' and 'd'
 Object.keys(o); // ['a', 'd']
-o.propertyIsEnumerable('a'); // true
-o.propertyIsEnumerable('b'); // false
+o.propertyIsEnumerable("a"); // true
+o.propertyIsEnumerable("b"); // false
 var p = { ...o };
-p.a // 1
-p.b // undefined
+p.a; // 1
+p.b; // undefined
 ```
 
 ### getter and setter in Object
+
 The `get syntax` binds an object property to a function that will be called when that property is looked up. The `set syntax` binds an object property to a function to be called when there is an attempt to set that property.
 
 ```js
 // getter
 const obj = {
-  log: ['example', 'test'],
+  log: ["example", "test"],
   get latest() {
     return this.log[this.log.length - 1];
-  }
-}
+  },
+};
 console.log(obj.latest); // "test"
 
 // setter
@@ -482,50 +511,52 @@ const language = {
   set current(name) {
     this.log.push(name);
   },
-  log: []
-}
-language.current = 'EN';
+  log: [],
+};
+language.current = "EN";
 console.log(language.log); // ['EN']
 ```
 
 ### Object.keys(), Object.values(), Object.entries()
-- Object.keys() returns an array whose elements are strings corresponding to the enumerable properties found directly upon object. 
+
+- Object.keys() returns an array whose elements are strings corresponding to the enumerable properties found directly upon object.
 - Object.values() returns an array of a given object's own enumerable property values, in the same order as that provided by a `for...in` loop (the difference being that **for-in loop enumerates properties in the prototype chain as well**).
 - Object.entries() returns an array whose elements are arrays corresponding to the enumerable property `[key, value]` pairs found directly upon object.
 
 A `for...in` loop only iterates over enumerable, non-Symbol properties. Objects created from built–in constructors like `Object` and `String` have inherited non–enumerable properties from `Object.prototype` and `String.prototype`, such as String's `indexOf()` method or Object's `toString()` method **(not enumerable)**. The loop will iterate over all enumerable properties of the object itself and those enumerable properties the object inherits from its prototype chain.
 
 ```js
-var arr = ['a', 'b', 'c'];
+var arr = ["a", "b", "c"];
 console.log(Object.keys(arr)); // ['0', '1', '2']
 
-var obj = { foo: 'bar', baz: 42 };
+var obj = { foo: "bar", baz: 42 };
 console.log(Object.values(obj)); // ['bar', 42]
 
-const obj = { foo: 'bar', baz: 42 };
+const obj = { foo: "bar", baz: 42 };
 console.log(Object.entries(obj)); // [ ['foo', 'bar'], ['baz', 42] ]
 
 // fromEntries() method transforms a list of key-value pairs into an object
 // iterable argument is expected
-const arr = [ ['0', 'a'], ['1', 'b'], ['2', 'c'] ];
+const arr = [["0", "a"], ["1", "b"], ["2", "c"]];
 Object.fromEntries(arr); // { 0: "a", 1: "b", 2: "c" }
 
-const map = new Map([ ['foo', 'bar'], ['baz', 42] ]);
+const map = new Map([["foo", "bar"], ["baz", 42]]);
 Object.fromEntries(map); // { foo: "bar", baz: 42 }
 ```
 
 ### hasOwnProperty, getOwnPropertyNames, getPrototypeOf, isPrototypeOf
+
 ```js
 // hasOwnProperty() returns a boolean indicating whether the object has the specified property
 // as its own property as opposed to inheriting it
 const o = new Object();
-o.prop = 'exists';
-o.hasOwnProperty('prop');     // true
-o.hasOwnProperty('toString'); // false
+o.prop = "exists";
+o.hasOwnProperty("prop"); // true
+o.hasOwnProperty("toString"); // false
 
-// getOwnPropertyNames() returns an array of all properties (including non-enumerable properties) 
+// getOwnPropertyNames() returns an array of all properties (including non-enumerable properties)
 // found directly in a given object
-const arr = ['a', 'b', 'c'];
+const arr = ["a", "b", "c"];
 console.log(Object.getOwnPropertyNames(arr).sort()); // ["0", "1", "2", "length"]
 
 // getPrototypeOf() returns the prototype (the value of the internal [[Prototype]] property)
@@ -543,13 +574,14 @@ Bar.prototype = Object.create(Foo.prototype);
 Baz.prototype = Object.create(Bar.prototype);
 
 var baz = new Baz();
-Baz.prototype.isPrototypeOf(baz);    // true
-Bar.prototype.isPrototypeOf(baz);    // true
-Foo.prototype.isPrototypeOf(baz);    // true
+Baz.prototype.isPrototypeOf(baz); // true
+Bar.prototype.isPrototypeOf(baz); // true
+Foo.prototype.isPrototypeOf(baz); // true
 Object.prototype.isPrototypeOf(baz); // true
 ```
 
 ### toString() and valueOf()
+
 Every object has a `toString()` method that is automatically called when the object is to be represented as a text value. For Numbers, `toString()` takes an optional parameter radix, the value of radix must be minimum 2 and maximum 36.
 
 You can create a function to be called in place of the default `toString()` method. The `toString()` method you create can be any value you want, but it will be most useful if it carries information about the object.
@@ -562,12 +594,12 @@ function Dog(name, breed, color, sex) {
   this.sex = sex;
 }
 
-theDog = new Dog('Gabby', 'Lab', 'chocolate', 'female');
+theDog = new Dog("Gabby", "Lab", "chocolate", "female");
 theDog.toString(); // [object Object]
 
 Dog.prototype.toString = function() {
   return `Dog ${this.name} is a ${this.sex} ${this.color} ${this.breed}`;
-}
+};
 theDog.toString(); // "Dog Gabby is a female chocolate Lab"
 ```
 
@@ -575,19 +607,20 @@ JavaScript calls `valueOf()` to convert an object to a primitive value. You rare
 
 ```js
 +"5" // 5
-+""  // 0
-+"foo" // NaN 
-+{} // NaN
-+[] // 0
-+[1] // 1
-+[1,2] // NaN
-+undefined // NaN
-+null // 0
-+true // 1
-+false // 0
+  + "" // 0
+  + "foo" // NaN
+  + {} // NaN
+  + [] // 0
+  + [1] // 1
+  + [1, 2] // NaN
+  + undefined // NaN
+  + null // 0
+  + true // 1
+  + false; // 0
 ```
 
 ### Object.assign()
+
 Copy all enumerable own properties from one or more source objects to a target object and return the modified target object. If the source value is a reference to an object, it only copies that reference value (shallow copy). Properties in the target object will be overwritten by properties in the sources if they have the same key.
 
 ```js
@@ -601,29 +634,30 @@ var o2 = { b: 2 };
 var o3 = { c: 3 };
 var obj = Object.assign(o1, o2, o3);
 console.log(obj); // { a: 1, b: 2, c: 3 }
-console.log(o1);  // { a: 1, b: 2, c: 3 }
+console.log(o1); // { a: 1, b: 2, c: 3 }
 obj === o1; // true
 ```
 
 ### Object.create()
+
 It creates a new object, using an existing object as the prototype of the newly created object.
 
 ```js
-const o1 = Object.create({});  // create a normal object
-Object.create() // TypeError: Object prototype may only be an Object or null
+const o1 = Object.create({}); // create a normal object
+Object.create(); // TypeError: Object prototype may only be an Object or null
 
 const o2 = Object.create(null); // create a totally empty object (without prototype)
 // Is equivalent to:
 o2 = { __proto__: null };
 
-"first is: " + o1  // "first is: [object Object]"
-"second is: " + o2 // throws error: Cannot convert object to primitive value
+"first is: " + o1; // "first is: [object Object]"
+"second is: " + o2; // throws error: Cannot convert object to primitive value
 
-o1.toString() // [object Object]
-o2.toString() // throws error: ocn.toString is not a function
+o1.toString(); // [object Object]
+o2.toString(); // throws error: ocn.toString is not a function
 
-o1.constructor // "Object() { [native code] }"
-o2.constructor // "undefined"
+o1.constructor; // "Object() { [native code] }"
+o2.constructor; // "undefined"
 
 // Class inheritance with Object.create()
 function Shape() {
@@ -632,7 +666,7 @@ function Shape() {
 }
 function Rectangle() {
   // call super constructor
-  Shape.call(this); 
+  Shape.call(this);
 }
 
 Rectangle.prototype = Object.create(Shape.prototype);
@@ -640,12 +674,13 @@ Rectangle.prototype = Object.create(Shape.prototype);
 Rectangle.prototype.constructor = Rectangle;
 
 var rect = new Rectangle();
-rect instanceof Rectangle  // true
-rect instanceof Shape      // true
+rect instanceof Rectangle; // true
+rect instanceof Shape; // true
 ```
 
 ### Object.freeze()
-Freezing an object prevents extensions *(An object is extensible if new properties can be added to it)* and makes existing properties non-writable and non-configurable. A frozen object can no longer be changed: new properties cannot be added, existing properties cannot be removed, their enumerability, configurability, writability, or value cannot be changed, and the object's prototype cannot be re-assigned. `freeze()` returns the same object that was passed into the function. It does not create a frozen copy.
+
+Freezing an object prevents extensions _(An object is extensible if new properties can be added to it)_ and makes existing properties non-writable and non-configurable. A frozen object can no longer be changed: new properties cannot be added, existing properties cannot be removed, their enumerability, configurability, writability, or value cannot be changed, and the object's prototype cannot be re-assigned. `freeze()` returns the same object that was passed into the function. It does not create a frozen copy.
 
 The result of calling `Object.freeze(obj)` only applies to the immediate properties of object itself (freeze is shallow).
 
@@ -659,60 +694,63 @@ const o = Object.freeze(obj);
 
 o === obj; // true
 obj.foo = "quux"; // silently does nothing
-obj.quaxxor = "the friendly duck";  // silently doesn't add the property
+obj.quaxxor = "the friendly duck"; // silently doesn't add the property
 
 // Attempted changes through Object.defineProperty, throw a TypeError in strict mode.
 Object.defineProperty(obj, "foo", { value: "eit" });
 ```
 
 ### Object.is()
+
 It determines whether two values are the same value. The only difference between `Object.is()` and `===` is in their treatment of signed zeros and NaN values.
 
 ```js
-Object.is('foo', 'foo');  // true
+Object.is("foo", "foo"); // true
 
 var foo = { a: 1 };
 var bar = { a: 1 };
-Object.is(foo, bar);  // false
+Object.is(foo, bar); // false
 
-+0 === -0             // true
-Object.is(+0, -0);    // false
++0 === -0; // true
+Object.is(+0, -0); // false
 
-NaN === NaN           // false
-Object.is(NaN, NaN);  // true
-Object.is(NaN, 0/0);  // true
+NaN === NaN; // false
+Object.is(NaN, NaN); // true
+Object.is(NaN, 0 / 0); // true
 ```
 
 ## Map and Set
+
 The Map object holds key-value pairs and remembers the original insertion order of the keys. Any value (both objects and primitive values) may be used as either a key or a value.
 
 Object is similar to Map, and Objects have been used as Maps historically; however, there are important differences that make using a Map preferable in certain cases:
+
 - The keys of an Object are String and Symbol, whereas they can be any value for a Map, including functions, objects, and any primitive.
 - The keys in Map are ordered while keys added to object are not. Thus, when iterating over it, a Map object returns keys in order of insertion.
 - You can get the size of a Map easily with the `size` property, while the number of properties in an Object must be determined manually. **(A Map is iterable, whereas a objects is not iterable.)**
 
 ```js
 var myMap = new Map();
-myMap.set(0, 'zero');
-myMap.set(1, 'one');
+myMap.set(0, "zero");
+myMap.set(1, "one");
 
 myMap.size;
 
 var myMap2 = new Map([
-  ['key1', 'value1'],
-  ['key2', 'value2']
+  ["key1", "value1"],
+  ["key2", "value2"],
 ]);
 
-myMap.get('key1');  
-myMap.has('key1');
-myMap.delete('key1');
+myMap.get("key1");
+myMap.has("key1");
+myMap.delete("key1");
 
 // Iterating with for..of
 // The keys(), values() method of Map instances returns a new map iterator object,
 // not an array.
 for (let key of myMap.keys()) console.log(key);
 for (let value of myMap.values()) console.log(value);
-for (let [key, value] of myMap.entries()) console.log(key + ' = ' + value);
+for (let [key, value] of myMap.entries()) console.log(key + " = " + value);
 
 myMap.forEach(function(value, key, map) {
   console.log(`map.get('${key}') = ${value}`);
@@ -720,7 +758,7 @@ myMap.forEach(function(value, key, map) {
 
 myMap.clear();
 
-// Relation with Array 
+// Relation with Array
 // Use the Array.from to transform a map into a 2D key-value Array
 Array.from(myMap);
 // or
@@ -731,14 +769,14 @@ Array.from(myMap.keys());
 
 // Maps can be merged
 var first = new Map([
-  [1, 'one'],
-  [2, 'two'],
-  [3, 'three'],
+  [1, "one"],
+  [2, "two"],
+  [3, "three"],
 ]);
 
 var second = new Map([
-  [1, 'uno'],
-  [2, 'dos']
+  [1, "uno"],
+  [2, "dos"],
 ]);
 
 // Merge two maps. The last repeated key wins.
@@ -792,6 +830,7 @@ console.log(squares.isSubsetOf(odds)); // false
 ```
 
 ### WeakMap
+
 An object's presence as a key in a WeakMap does not prevent the object from being garbage collected. Every key of a WeakMap is an object. Primitive data types as keys are not allowed. WeakMap allows garbage collector to do its task but not Map. There is no such thing as a list of WeakMap keys, they are just references to another objects.
 
 In WeakMaps, references to key objects are held "weakly", which means that they do not prevent garbage collection when there would be no other reference to the object. Because of references being weak, you cannot iterate over its keys or values, cannot clear all items (no clear method), cannot check its size (no size property).
@@ -801,17 +840,17 @@ In WeakMaps, references to key objects are held "weakly", which means that they 
 
 ```js
 // Map and Weakmap
-var k1 = {a: 1};
-var k2 = {b: 2};
+var k1 = { a: 1 };
+var k2 = { b: 2 };
 
 var map = new Map();
 var wm = new WeakMap();
 
-map.set(k1, 'k1');
-wm.set(k2, 'k2');
+map.set(k1, "k1");
+wm.set(k2, "k2");
 
 k1 = null;
-map.forEach(function (val, key) {
+map.forEach(function(val, key) {
   console.log(key, val); // {a: 1} "k1"
 });
 

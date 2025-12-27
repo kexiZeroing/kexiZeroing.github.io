@@ -1,5 +1,5 @@
 ---
-import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
+import PlaygroundLayout from "@/layouts/PlaygroundLayout.astro";
 ---
 
 <PlaygroundLayout title="Leaflet Map Example">
@@ -7,34 +7,35 @@ import PlaygroundLayout from '@/layouts/PlaygroundLayout.astro';
 </PlaygroundLayout>
 
 <script>
-  import L from 'leaflet';
-  import 'leaflet/dist/leaflet.css';
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
-  document.addEventListener('DOMContentLoaded', () => {
-    let map = L.map('map').setView([39.9042, 116.4074], 12);
+document.addEventListener("DOMContentLoaded", () => {
+  let map = L.map("map").setView([39.9042, 116.4074], 12);
 
-    map.on('moveend zoomend', () => {
-      let newZoom = map.getZoom();
-      let center = map.getCenter();
-      let u = new URLSearchParams();
-      u.append('center', `${center.lat},${center.lng}`);
-      u.append('zoom', newZoom);
-      history.replaceState(null, null, '?' + u.toString());
-    });
-
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      detectRetina: true,
-    }).addTo(map);
-
-    L.marker([39.9042, 116.4074]).addTo(map);
-
-    L.circle([39.9054, 116.3976], {
-      color: 'red',
-      fillColor: '#f03',
-      fillOpacity: 0.5,
-      radius: 800
-    }).addTo(map);
+  map.on("moveend zoomend", () => {
+    let newZoom = map.getZoom();
+    let center = map.getCenter();
+    let u = new URLSearchParams();
+    u.append("center", `${center.lat},${center.lng}`);
+    u.append("zoom", newZoom);
+    history.replaceState(null, null, "?" + u.toString());
   });
+
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>",
+    detectRetina: true,
+  }).addTo(map);
+
+  L.marker([39.9042, 116.4074]).addTo(map);
+
+  L.circle([39.9054, 116.3976], {
+    color: "red",
+    fillColor: "#f03",
+    fillOpacity: 0.5,
+    radius: 800,
+  }).addTo(map);
+});
 </script>

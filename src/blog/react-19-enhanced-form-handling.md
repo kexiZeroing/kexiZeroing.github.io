@@ -7,11 +7,12 @@ updatedDate: "Sep 2 2025"
 ---
 
 ## React 19 `useActionState` and `useFormStatus`
+
 React 19 has a built-in mechanism for handling forms called "actions". Below is an example from [Shruti Kapoor's video](https://www.youtube.com/watch?v=ExZUdkfu-KE) shows how to convert a form from React 18 to React 19.
 
 - There’s no need to add `event.preventDefault` because that’s handled for us by React.
 - The `action` is automatically treated as a transition.
-- We can hook into the pending state of this action using `useFormStatus` *(import from `react-dom`)*.
+- We can hook into the pending state of this action using `useFormStatus` _(import from `react-dom`)_.
 - React manages errors and race conditions to ensure our form’s state is always correct.
 
 > Server Functions allow Client Components to call async functions executed on the server. Until September 2024, we referred to all Server Functions as “Server Actions”. If a Server Function is passed to an action prop or called from inside an action then it is a Server Action, but not all Server Functions are Server Actions.
@@ -41,7 +42,7 @@ function App() {
   return (
     <form>
       <input type="text" name="name" onChange={handleChange} />
-      { isPending ? <p>{"Loading"}</p> : <p> Hello in React 18 {name}</p> }
+      {isPending ? <p>{"Loading"}</p> : <p>Hello in React 18 {name}</p>}
       <button onClick={handleSubmit} disabled={isPending}>
         Update
       </button>
@@ -56,7 +57,7 @@ function RenderName({ name }) {
   // 1. `useFormStatus` must be called from a component that is rendered inside a <form>
   // 2. `useFormStatus` will only return status information for a parent <form>
   const { pending } = useFormStatus();
-  return <div>{pending ? "Loading" : `Hello in React 19 ${name}` }</div>;
+  return <div>{pending ? "Loading" : `Hello in React 19 ${name}`}</div>;
 }
 
 function SubmitButton() {
@@ -79,13 +80,13 @@ function App() {
     <form action={formAction}>
       <input type="text" name="inputName" />
       <RenderName name={state?.name} />
-      <SubmitButton /> 
+      <SubmitButton />
     </form>
   );
 }
 
 // actions.js
-'use server';
+"use server";
 
 export const submitFormAction = async (previousState, formData) => {
   const name = formData.get("inputName");
@@ -137,13 +138,13 @@ export async function submitMessage(_prevState, formData) {
   //   }),
   // });
   const result = messageSchema.safeParse({
-    content: formData.get('content'),
-    createdById: formData.get('userId'),
+    content: formData.get("content"),
+    createdById: formData.get("userId"),
   });
 
   if (!result.success) {
     return {
-      error: 'Invalid message!',
+      error: "Invalid message!",
       success: false,
       timestamp: new Date(),
     };
@@ -153,7 +154,7 @@ export async function submitMessage(_prevState, formData) {
     data: result.data,
   });
 
-  revalidatePath('/');
+  revalidatePath("/");
 
   return {
     success: true,
@@ -162,11 +163,13 @@ export async function submitMessage(_prevState, formData) {
 ```
 
 Server Functions as Actions in forms:
+
 - React will supply the form’s `FormData` as the first argument to the Server Function.
 - By passing a Server Function to the form action, React can progressively enhance the form. This means that forms can be submitted before the JavaScript bundle is loaded.
 - Server Functions should be called in a Transition. Server Functions passed to form action will automatically be called in a transition.
 
 ### `useOptimistic` use case
+
 This hook lets you update the UI immediately in response to an action, before the server responds. You pass to it the current state you want to manage, and a (optional) function to update the optimistic state. It returns you the optimistic state (which you use for immediate rendering), and a function to update it.
 
 ```js
@@ -227,11 +230,13 @@ export default function Todos() {
 The optimistic updater function is just for calculating what the UI should look like immediately. The server action does the actual work of making that change permanent. If the server action fails, the optimistic update gets thrown away and the UI reverts to the real state. If it succeeds, the optimistic state should match the new real state, so there's no visual change when they swap.
 
 ```js
-const [optimisticCategories, setOptimisticCategories] = useOptimistic(searchParams.getAll('category'))
+const [optimisticCategories, setOptimisticCategories] = useOptimistic(
+  searchParams.getAll("category"),
+);
 
 startTransition(() => {
-  setOptimisticCategories(newCategories) // Optimistic (temporary)
-  router.push(`?${params.toString()}`)   // Real update (URL change)
+  setOptimisticCategories(newCategories); // Optimistic (temporary)
+  router.push(`?${params.toString()}`); // Real update (URL change)
 });
 ```
 
@@ -243,6 +248,7 @@ startTransition(() => {
 6. `useOptimistic` is designed to work seamlessly with React's concurrent rendering and transitions. It keeps your UI in sync with the "real" state, and automatically falls back if the action fails or completes.
 
 ## React 19 `cache` function
+
 `cache` is **only for use with React Server Components**, not client components, and lets you cache the result of a data fetch or computation. It wraps around a function and remembers what that function returned for specific inputs. When multiple components need the same data, they get the cached result instead of fetching it again.
 
 ```js
@@ -270,6 +276,7 @@ function ProfileStats({ userId }) {
 > - Use `memo` to prevent a component re-rendering if its props are unchanged.
 
 ## Support for document metadata
+
 In React 19, we’re adding support for rendering document metadata tags in components natively. When React renders this component, it will see these tags, and automatically hoist them to the `<head>` section of document.
 
 ```js
@@ -290,7 +297,7 @@ function ComponentOne() {
       <link rel="stylesheet" href="bar" precedence="high" />
       <article class="foo-class bar-class">...</article>
     </Suspense>
-  )
+  );
 }
 ```
 
@@ -300,6 +307,7 @@ React 19 added special support for the `<link>` element. When rendered with the 
 - If you render the same stylesheet from multiple components, React will place only a single `<link>` in the document head.
 
 ## Next.js sever actions and `<Form>` component
+
 Next.js Server Actions is a feature that allows you to run server-side code directly from client components. It is part of Next.js's full-stack framework features, eliminating the need for API routes for basic form handling.
 
 <img alt="next-server-actions-1" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/next-server-actions-1.png" width="650">
@@ -321,10 +329,13 @@ return (
     {isLoading ? "Loading..." : null}
     <button type="submit">Submit</button>
   </form>
-)
+);
 
 // action.ts
-export async function submitFormAction(previousState: string, formData: FormData) {
+export async function submitFormAction(
+  previousState: string,
+  formData: FormData,
+) {
   await new Promise((res) => setTimeout(res, 1000));
   const email = formData.get("email");
   return { email };
@@ -337,8 +348,8 @@ The Next.js `<Form>` component extends the HTML `<form>` element to provide pref
 - When action is a string, the `<Form>` behaves like a native HTML form that uses a GET method. The form data is encoded into the URL as search params, and when the form is submitted, it navigates to the specified URL. In addition, Next.js performs a client-side navigation instead of a full page reload when the form is submitted.
 
 ```ts
-import Form from 'next/form'
- 
+import Form from "next/form";
+
 export default function Page() {
   return (
     // URL will be /search?query=abc
@@ -346,7 +357,7 @@ export default function Page() {
       <input name="query" />
       <button type="submit">Submit</button>
     </Form>
-  )
+  );
 }
 
 // Perform mutations by passing a function to the action prop
@@ -356,17 +367,17 @@ export default function Page() {
       <input name="title" />
       <button type="submit">Create Post</button>
     </Form>
-  )
+  );
 }
 
 // app/posts/actions.ts
-'use server'
-import { redirect } from 'next/navigation'
- 
+"use server";
+import { redirect } from "next/navigation";
+
 export async function createPost(formData: FormData) {
   // Create a new post
   // ...
-  
-  redirect(`/posts/${data.id}`)
+
+  redirect(`/posts/${data.id}`);
 }
 ```

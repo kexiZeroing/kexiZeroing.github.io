@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 const FlashlightEffect = () => {
   const [gradient, setGradient] = useState(null);
@@ -27,10 +27,10 @@ const FlashlightEffect = () => {
           },
           ...(gradient && { background: gradient }),
         }}
-      ></div>
+      >
+      </div>
     </section>
   );
 };
 
 export default FlashlightEffect;
-

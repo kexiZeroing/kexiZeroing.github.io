@@ -8,6 +8,7 @@ updatedDate: "Feb 16 2025"
 ---
 
 ### TOC
+
 - [TOC](#toc)
 - [Binary Search](#binary-search)
 - [Bubble Sort](#bubble-sort)
@@ -48,7 +49,7 @@ const binarySearch = (nums, target) => {
   // If the target is not found,
   // return the index where it would be if it were inserted in order.
   return left;
-}
+};
 ```
 
 ### Bubble Sort
@@ -132,7 +133,6 @@ function partition(nums, left, right) {
 ```
 
 > 1. Quick sort is an in-place algorithm, but the stack due to recursive calls adds additional storage space proportional to the recursive depth.
-> 
 > 2. It's not recommended to choose the first or last element to be the pivot, your pivot value is always the largest value on already sorted or nearly sorted arrays. One way to choose the pivot to avoid this is to pick the pivot randomly or choose the median of the first, middle and last element. This makes it unlikely to hit the worst case, and so on average will work well.
 
 ```js
@@ -149,8 +149,8 @@ function medianOfThree(nums, left, right) {
 
 function partition(nums, left, right) {
   const pivotIndex = medianOfThree(nums, left, right);
-  swap(nums, pivotIndex, right);  // Move pivot to end
-  
+  swap(nums, pivotIndex, right); // Move pivot to end
+
   let pivot = nums[right];
   // ...
 }
@@ -163,7 +163,7 @@ function merge(arr1, arr2) {
   const merged = [];
   let i = 0;
   let j = 0;
-  
+
   while (i < arr1.length && j < arr2.length) {
     if (arr1[i] <= arr2[j]) {
       merged.push(arr1[i]);
@@ -263,7 +263,7 @@ function reverseList(head) {
 function reverseBetween(head, left, right) {
   const dummy = new ListNode(0);
   dummy.next = head;
-  
+
   let p0 = dummy;
   for (let i = 0; i < left - 1; i++) {
     p0 = p0.next;
@@ -271,7 +271,7 @@ function reverseBetween(head, left, right) {
 
   let current = p0.next;
   let prev = null;
-  
+
   for (let i = 0; i < right - left + 1; i++) {
     const next = current.next;
     current.next = prev;
@@ -286,7 +286,9 @@ function reverseBetween(head, left, right) {
 ```
 
 ### Shuffle an array
+
 The Art of Computer Programming, Vol. 2, section 3.4.2 “Random sampling and shuffling” describes two solutions:
+
 - If the number of items to sort is small, then simply put all possible orderings in a table and select one ordering at random. For example with 5 items, the table would need `5! = 120` rows.
 - Fisher-Yates Shuffle
 
@@ -343,9 +345,9 @@ var inorderTraversal = function(root) {
   return result;
 };
 
-var postorderTraversal = function (root) {
+var postorderTraversal = function(root) {
   if (root == null) return [];
-  
+
   let result = [];
   let stack = [root];
   let cur = null;
@@ -359,7 +361,7 @@ var postorderTraversal = function (root) {
   return result.reverse();
 };
 
-var levelOrderTraversal = function(root) {  
+var levelOrderTraversal = function(root) {
   if (!root) return [];
 
   let nodeQueue = [root];
@@ -402,11 +404,11 @@ var maxDepth = function(root) {
   const right = maxDepth(root.right);
 
   return Math.max(left, right) + 1;
-}
+};
 
 var minDepth = function(root) {
   if (!root) return 0;
-  
+
   const nodeQueue = [root];
   let depth = 0;
 
@@ -429,14 +431,17 @@ var minDepth = function(root) {
     }
   }
   return depth;
-}
+};
 ```
 
 ### Graph DFS
 
 ```js
 function dfs(i, j, visited, params) {
-  if (i < 0 || i >= rows || j < 0 || j >= cols || visited[i][j] || !isValid(i, j, params)) {
+  if (
+    i < 0 || i >= rows || j < 0 || j >= cols || visited[i][j]
+    || !isValid(i, j, params)
+  ) {
     return;
   }
 
@@ -459,104 +464,110 @@ The `visited` array is global or shared across all recursive calls. If you are s
 
 ```js
 function escapeMaze(maze, i, j) {
-  if (i < 0 || j < 0 || i >= maze.size() || j >= maze[0].size() || maze[i][j] == 'X') {
+  if (
+    i < 0 || j < 0 || i >= maze.size() || j >= maze[0].size()
+    || maze[i][j] == "X"
+  ) {
     return false;
   }
   if (i == maze.size() - 1 && j == maze[0].size() - 1) {
     return true;
   }
-  maze[i][j] = 'X';
-  
-  return escapeMaze(maze, i + 1, j) || escapeMaze(maze, i - 1, j) || escapeMaze(maze, i, j + 1) || escapeMaze(maze, i, j - 1);
+  maze[i][j] = "X";
+
+  return escapeMaze(maze, i + 1, j) || escapeMaze(maze, i - 1, j)
+    || escapeMaze(maze, i, j + 1) || escapeMaze(maze, i, j - 1);
 }
 ```
 
 ### Heap
 
 ```js
-function Heap () {
+function Heap() {
   this.items = [];
 }
 
-Heap.prototype.swap = function (index1, index2) {
+Heap.prototype.swap = function(index1, index2) {
   let temp = this.items[index1];
   this.items[index1] = this.items[index2];
   this.items[index2] = temp;
-}
+};
 
-Heap.prototype.parentIndex = function (index) {
+Heap.prototype.parentIndex = function(index) {
   return Math.floor((index - 1) / 2);
-}
+};
 
-Heap.prototype.leftChildIndex = function (index) {
+Heap.prototype.leftChildIndex = function(index) {
   return index * 2 + 1;
-}
+};
 
-Heap.prototype.rightChildIndex = function (index) {
+Heap.prototype.rightChildIndex = function(index) {
   return index * 2 + 2;
-}
+};
 
-Heap.prototype.parent = function (index) {
+Heap.prototype.parent = function(index) {
   return this.items[this.parentIndex(index)];
-}
+};
 
-Heap.prototype.leftChild = function (index) {
+Heap.prototype.leftChild = function(index) {
   return this.items[this.leftChildIndex(index)];
-}
+};
 
-Heap.prototype.rightChild = function (index) {
+Heap.prototype.rightChild = function(index) {
   return this.items[this.rightChildIndex(index)];
-}
+};
 
-Heap.prototype.peek = function (index) {
+Heap.prototype.peek = function(index) {
   return this.items[0];
-}
+};
 
-Heap.prototype.size = function () {
+Heap.prototype.size = function() {
   return this.items.length;
-}
+};
 
-function MinHeap () {
+function MinHeap() {
   this.items = [];
 }
 
 MinHeap.prototype = Object.create(Heap.prototype);
 
 // add at the last position and then re-order the heap
-MinHeap.prototype.add = function (item) {
+MinHeap.prototype.add = function(item) {
   this.items[this.items.length] = item;
   this.bubbleUp();
-}
+};
 
 // remove the minimum element and need to keep the heap order
-MinHeap.prototype.poll = function () {
+MinHeap.prototype.poll = function() {
   let item = this.items[0];
   this.items[0] = this.items[this.items.length - 1];
   this.items.pop();
   this.bubbleDown();
   return item;
-}
+};
 
-MinHeap.prototype.bubbleUp = function () {
+MinHeap.prototype.bubbleUp = function() {
   let index = this.items.length - 1;
   while (this.parent(index) && this.parent(index) > this.items[index]) {
     this.swap(this.parentIndex(index), index);
     index = this.parentIndex(index);
   }
-}
+};
 
-MinHeap.prototype.bubbleDown = function () {
+MinHeap.prototype.bubbleDown = function() {
   let index = 0;
   while (this.leftChild(index)) {
     let smallerIndex = this.leftChildIndex(index);
-    if (this.rightChild(index) && this.rightChild(index) < this.leftChild(index)) {
+    if (
+      this.rightChild(index) && this.rightChild(index) < this.leftChild(index)
+    ) {
       smallerIndex = this.rightChildIndex(index);
     }
     if (this.items[index] <= this.items[smallerIndex]) break;
     this.swap(index, smallerIndex);
     index = smallerIndex;
   }
-}
+};
 ```
 
 ### Trie (Prefix Tree)
@@ -631,9 +642,9 @@ search(word) {
 ### LRU
 
 ```js
-/* 
+/*
   LRU cache is implemented using a doubly linked list and hash table.
-  - Map is used to search the node in O(1); 
+  - Map is used to search the node in O(1);
   - List maintains the order in O(1) with head and tail.
 */
 
@@ -659,14 +670,14 @@ LRUCache.prototype.addNode = function(node) {
   this.tail.prev = node;
   node.prev = realTail;
   node.next = this.tail;
-}
+};
 
 LRUCache.prototype.removeNode = function(node) {
   let prev = node.prev;
   let next = node.next;
   prev.next = next;
   next.prev = prev;
-}
+};
 
 LRUCache.prototype.get = function(key) {
   let node = this.map.get(key);
@@ -677,7 +688,7 @@ LRUCache.prototype.get = function(key) {
     this.addNode(node);
     return node.data;
   }
-}
+};
 
 LRUCache.prototype.put = function(key, value) {
   let node = this.map.get(key);
@@ -691,9 +702,9 @@ LRUCache.prototype.put = function(key, value) {
   if (this.map.size > this.capacity) {
     let realHead = this.head.next;
     this.removeNode(realHead);
-    this.map.delete(realHead.key)
+    this.map.delete(realHead.key);
   }
-}
+};
 ```
 
 ### DP
@@ -701,18 +712,18 @@ LRUCache.prototype.put = function(key, value) {
 ```js
 /*
   You are climbing a stair case. It takes n steps to reach to the top.
-  Each time you can either climb 1 or 2 steps. 
+  Each time you can either climb 1 or 2 steps.
   How many distinct ways can you climb to the top?
-*/ 
+*/
 let climbStairs = function(n) {
-  const dp = Array(n+1).fill(0);
+  const dp = Array(n + 1).fill(0);
   dp[1] = 1;
   dp[2] = 2;
-  
+
   for (let i = 3; i < dp.length; i++) {
-    dp[i] = dp[i-1] + dp[i-2];
+    dp[i] = dp[i - 1] + dp[i - 2];
   }
-  
+
   return dp[n];
 };
 ```
@@ -738,7 +749,7 @@ let rob = function(nums) {
 let rob2 = function(nums) {
   const len = nums.length;
   if (len === 1) return nums[0];
-  
+
   // the first house and the last house cannot be robbed together
   return Math.max(robRange(nums.slice(0, -1)), robRange(nums.slice(1)));
 
@@ -747,13 +758,13 @@ let rob2 = function(nums) {
     const dp = Array(n).fill(0);
     dp[0] = range[0];
     dp[1] = Math.max(range[0], range[1]);
-    
+
     for (let i = 2; i < n; i++) {
       dp[i] = Math.max(dp[i - 2] + range[i], dp[i - 1]);
     }
-    
+
     return dp[n - 1];
-  };
+  }
 };
 ```
 
@@ -765,12 +776,12 @@ Given an integer array nums, return all the triplets `[nums[i], nums[j], nums[k]
 var threeSum = function(nums) {
   let res = [];
   nums.sort((a, b) => a - b);
-  
+
   for (let i = 0; i < nums.length; i++) {
-    if (i > 0 && nums[i] === nums[i-1]) {
+    if (i > 0 && nums[i] === nums[i - 1]) {
       continue;
     }
-        
+
     let j = i + 1;
     let k = nums.length - 1;
 
@@ -780,10 +791,10 @@ var threeSum = function(nums) {
       if (total === 0) {
         res.push([nums[i], nums[j], nums[k]]);
         // remove the duplicate result
-        while (nums[j] === nums[j+1] && j < k) {
+        while (nums[j] === nums[j + 1] && j < k) {
           j++;
         }
-        while (nums[k] === nums[k-1] && j < k) {
+        while (nums[k] === nums[k - 1] && j < k) {
           k--;
         }
         j++;
@@ -807,7 +818,7 @@ var topKFrequent = function(nums, k) {
   const res = [];
   const map = new Map();
   const bucket = Array(nums.length + 1);
-  
+
   // key is nums[i], value is its count
   for (let n of nums) {
     if (map.has(n)) {
@@ -816,22 +827,22 @@ var topKFrequent = function(nums, k) {
       map.set(n, 1);
     }
   }
-  
+
   // the same frequency in the same bucket
   for (let [key, val] of map.entries()) {
     if (!bucket[val]) {
       bucket[val] = [];
     }
     bucket[val].push(key);
-  } 
-  
+  }
+
   // collect buckets from the end
   for (let pos = bucket.length - 1; pos >= 0 && res.length < k; pos--) {
     if (bucket[pos]) {
       res.push(...bucket[pos]);
     }
   }
-  
+
   return res;
 };
 ```
@@ -842,7 +853,7 @@ Find the `kth` largest element in an unsorted array. Note that it is the `kth` l
 var findKthLargest = function(nums, k) {
   let left = 0;
   let right = nums.length - 1;
-  
+
   while (left <= right) {
     let pos = partition(nums, left, right);
     // if pos is 3, it is the 4th largest element
@@ -850,7 +861,7 @@ var findKthLargest = function(nums, k) {
     else if (pos > k - 1) right = pos - 1;
     else left = pos + 1;
   }
-  
+
   // elements before i >= pivot; every elements after i < pivot
   function partition(nums, low, high) {
     let pivot = nums[high];
@@ -876,7 +887,7 @@ var findKthLargest = function(nums, k) {
 You are given two integer arrays `nums1` and `nums2`, sorted in non-decreasing order, and two integers `m` and `n`, representing the number of elements in nums1 and nums2 respectively. Merge nums1 and nums2 into a single array in non-decreasing order stored inside the array `nums1`.
 
 ```js
-var merge = function (nums1, m, nums2, n) {
+var merge = function(nums1, m, nums2, n) {
   if (!n) return;
 
   let i = m - 1;
@@ -897,7 +908,7 @@ var merge = function (nums1, m, nums2, n) {
 Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
 ```js
-var strStr = function (haystack, needle) {
+var strStr = function(haystack, needle) {
   let i = 0;
   let j = 0;
 
@@ -923,7 +934,7 @@ Given an array of integers citations for their paper, return the researcher's h-
 ```js
 // 你要找一个最大的数字 H
 // 满足 至少有 H 个数 ≥ H
-var hIndex = function (citations) {
+var hIndex = function(citations) {
   let n = citations.length;
   let bucket = new Array(n + 1).fill(0);
 
@@ -958,15 +969,15 @@ var groupAnagrams = function(strs) {
     const str = strs[i];
     const key = sort(str);
     /**
-      * Another way to construct the key: 
-      * 
-      * const counts = Array(26).fill(0);
-      * for (let j = 0; j < str.length; j++) {
-      *   counts[str[j].charCodeAt(0) - 'a'.charCodeAt(0)]++;
-      * }
-      * const key = counts.join("");
-    **/
-      
+     * Another way to construct the key:
+     *
+     * const counts = Array(26).fill(0);
+     * for (let j = 0; j < str.length; j++) {
+     *   counts[str[j].charCodeAt(0) - 'a'.charCodeAt(0)]++;
+     * }
+     * const key = counts.join("");
+     */
+
     if (!hashTable.has(key)) {
       hashTable.set(key, [str]);
     } else {
@@ -984,13 +995,13 @@ Given two strings `ransomNote` and `magazine`, return true if `ransomNote` can b
 var canConstruct = function(ransomNote, magazine) {
   let cnt = Array(26).fill(0);
   for (let c of magazine) {
-    cnt[c.charCodeAt(0) - 'a'.charCodeAt(0)]++;
+    cnt[c.charCodeAt(0) - "a".charCodeAt(0)]++;
   }
 
   for (let c of ransomNote) {
-    cnt[c.charCodeAt(0) - 'a'.charCodeAt(0)]--;
+    cnt[c.charCodeAt(0) - "a".charCodeAt(0)]--;
 
-    if (cnt[c.charCodeAt(0) - 'a'.charCodeAt(0)] < 0) {
+    if (cnt[c.charCodeAt(0) - "a".charCodeAt(0)] < 0) {
       return false;
     }
   }
@@ -1001,7 +1012,7 @@ var canConstruct = function(ransomNote, magazine) {
 A happy number is a number defined by starting with any positive integer, replace the number by the sum of the squares of its digits. Repeat the process until the number equals 1. Return true if n is a happy number, and false if not.
 
 ```js
-var isHappy = function (n) {
+var isHappy = function(n) {
   let set = new Set();
 
   function getNext(m) {
@@ -1040,14 +1051,14 @@ var lengthOfLongestSubstring = function(s) {
 
   for (let right = 0; right < s.length; right++) {
     charMap.set(s[right], (charMap.get(s[right]) || 0) + 1);
-      
+
     while (charMap.get(s[right]) > 1) {
       charMap.set(s[left], charMap.get(s[left]) - 1);
       left++;
     }
     maxLength = Math.max(maxLength, right - left + 1);
   }
-  
+
   return maxLength;
 };
 ```
@@ -1060,7 +1071,7 @@ var minSubArrayLen = function(target, nums) {
   let sum = 0;
   let left = 0;
 
-  for (let right = 0; right < nums.length; right++) {    
+  for (let right = 0; right < nums.length; right++) {
     sum += nums[right];
 
     while (sum >= target) {
@@ -1081,25 +1092,25 @@ var findAnagrams = function(s, p) {
   let dict = Array(26).fill(0);
 
   for (let i = 0; i < p.length; i++) {
-    dict[p.charCodeAt(i) - 'a'.charCodeAt(0)]++;
+    dict[p.charCodeAt(i) - "a".charCodeAt(0)]++;
   }
 
   let windowSet = Array(26).fill(0);
   let i = 0;
   for (let j = 0; j < s.length; j++) {
-    windowSet[s.charCodeAt(j) - 'a'.charCodeAt(0)]++;
+    windowSet[s.charCodeAt(j) - "a".charCodeAt(0)]++;
     if (isSame(windowSet, dict)) {
       res.push(i);
     }
 
     if (j >= p.length - 1) {
-      windowSet[s.charCodeAt(i) - 'a'.charCodeAt(0)]--;
+      windowSet[s.charCodeAt(i) - "a".charCodeAt(0)]--;
       i++;
     }
   }
 
   return res;
-}
+};
 
 function isSame(dict1, dict2) {
   for (let i = 0; i < 26; i++) {
@@ -1133,7 +1144,7 @@ var checkInclusion = function(s1, s2) {
   }
 
   for (let i = len1; i < len2; i++) {
-    // slide a window 
+    // slide a window
     count[s2.charCodeAt(i) - 97]--;
     count[s2.charCodeAt(i - len1) - 97]++;
     if (count.every(e => e === 0)) {
@@ -1180,14 +1191,14 @@ var partitionLabels = function(s) {
   let partitions = [];
   let left = 0;
   let end = 0;
-  
+
   // lastIndexOf
   for (let i = 0; i < s.length; i++) {
-    last[s.charCodeAt(i) - 'a'.charCodeAt(0)] = i;
+    last[s.charCodeAt(i) - "a".charCodeAt(0)] = i;
   }
-  
+
   for (let i = 0; i < s.length; i++) {
-    end = Math.max(end, last[s.charCodeAt(i) - 'a'.charCodeAt(0)]);
+    end = Math.max(end, last[s.charCodeAt(i) - "a".charCodeAt(0)]);
     if (i === end) {
       partitions.push(i - left + 1);
       left = i + 1;
@@ -1214,10 +1225,10 @@ var longestPalindrome = function(s) {
       i--;
       j++;
     }
-  }
+  };
 
   for (let i = 0; i < s.length; i++) {
-    extend(s, i, i, s.length);     // i is the center
+    extend(s, i, i, s.length); // i is the center
     extend(s, i, i + 1, s.length); // i and i + 1 are the center
   }
 
@@ -1255,7 +1266,7 @@ var longestValidParentheses = function(s) {
   let start = 0;
 
   for (let i = 0; i < s.length; i++) {
-    if (s[i] === '(') {
+    if (s[i] === "(") {
       stack.push(i);
     } else {
       if (stack.length === 0) {
@@ -1276,7 +1287,7 @@ var longestValidParentheses = function(s) {
 Given a string s representing a valid expression, implement a basic calculator to evaluate it. s consists of digits, `'+'`, `'-'`, `'('`, `')'`, and `' '`.
 
 ```js
-var calculate = function (s) {
+var calculate = function(s) {
   let res = 0;
   let stack = [];
   let number = 0;
@@ -1288,26 +1299,23 @@ var calculate = function (s) {
 
     if (c >= "0" && c <= "9") {
       number = number * 10 + Number(c);
-    }
-    else if (c === "+" || c === "-") {
+    } else if (c === "+" || c === "-") {
       res += number * sign;
       number = 0;
       sign = c === "-" ? -1 : 1;
-    }
-    else if (c === "(") {
+    } else if (c === "(") {
       stack.push(res);
       stack.push(sign);
       res = 0;
       sign = 1;
-    }
-    else if (c === ")") {
+    } else if (c === ")") {
       res += number * sign;
       number = 0;
       res *= stack.pop();
       res += stack.pop();
     }
   }
-  
+
   return res + number * sign;
 };
 ```
@@ -1319,9 +1327,9 @@ var longestCommonPrefix = function(strs) {
   strs.sort();
 
   for (let i = 0; i < strs[0].length; i++) {
-    if (strs[0][i] !== strs[strs.length - 1][i]){
+    if (strs[0][i] !== strs[strs.length - 1][i]) {
       return strs[0].slice(0, i);
-    } 
+    }
   }
 
   return strs[0];
@@ -1332,9 +1340,9 @@ Given an unsorted integer array nums. Return the smallest positive integer that 
 
 ```js
 var firstMissingPositive = function(nums) {
-  const numSet = new Set(nums.filter(num => num > 0)); 
+  const numSet = new Set(nums.filter(num => num > 0));
   let i = 1;
-  
+
   while (numSet.has(i)) {
     i++;
   }
@@ -1394,7 +1402,7 @@ var productExceptSelf = function(nums) {
 Children are standing in a line. Each child is assigned a rating value. You are giving candies to these children subjected to 1. Each child must have at least one candy. 2. Children with a higher rating get more candies than their neighbors. Return the minimum number of candies you need.
 
 ```js
-var candy = function (ratings) {
+var candy = function(ratings) {
   let left = [];
   let right = [];
   let n = ratings.length;
@@ -1427,7 +1435,10 @@ var dailyTemperatures = function(temperatures) {
   let res = new Array(temperatures.length).fill(0);
 
   for (let i = 0; i < temperatures.length; i++) {
-    while (stack.length > 0 && temperatures[i] > temperatures[stack[stack.length - 1]]) {
+    while (
+      stack.length > 0
+      && temperatures[i] > temperatures[stack[stack.length - 1]]
+    ) {
       let preIndex = stack.pop();
       res[preIndex] = i - preIndex;
     }
@@ -1435,7 +1446,7 @@ var dailyTemperatures = function(temperatures) {
     stack.push(i);
   }
 
-  return res;  
+  return res;
 };
 ```
 
@@ -1469,7 +1480,7 @@ Given string num representing a non-negative integer num, and an integer k, retu
 var removeKdigits = function(num, k) {
   let stack = [];
   for (let c of num) {
-    while (stack.length && k > 0 && c < stack[stack.length-1]) {
+    while (stack.length && k > 0 && c < stack[stack.length - 1]) {
       stack.pop();
       k--;
     }
@@ -1481,11 +1492,11 @@ var removeKdigits = function(num, k) {
     k--;
   }
   // remove all the leading zeros
-  while (stack.length && stack[0] === '0') {
+  while (stack.length && stack[0] === "0") {
     stack.shift();
   }
 
-  return stack.join('') || "0";  
+  return stack.join("") || "0";
 };
 ```
 
@@ -1504,7 +1515,7 @@ var pivotIndex = function(nums) {
 
     leftTotal += nums[i];
   }
-  return -1;    
+  return -1;
 };
 ```
 
@@ -1514,7 +1525,7 @@ Given an array of integers and an integer `k`, you need to find the total number
 // the sum of subarray can be get by `sum[0,j] - sum[0,i]`
 var subarraySum = function(nums, k) {
   let sum = 0, res = 0;
-  let map = new Map();  // key is the sum, value is the # of way to get that sum
+  let map = new Map(); // key is the sum, value is the # of way to get that sum
   map.set(0, 1);
 
   for (let i = 0; i < nums.length; i++) {
@@ -1522,7 +1533,7 @@ var subarraySum = function(nums, k) {
     if (map.has(sum - k)) {
       res += map.get(sum - k);
     }
-    
+
     if (map.get(sum)) {
       map.set(sum, map.get(sum) + 1);
     } else {
@@ -1540,7 +1551,7 @@ var numberOfSubarrays = function(nums, k) {
   let oddCount = 0;
   let result = 0;
   let count = new Map();
-  // key is the count of odd numbers encountered so far 
+  // key is the count of odd numbers encountered so far
   // value is the # of times we've encountered that particular count of odd numbers.
   count.set(0, 1);
 
@@ -1585,7 +1596,7 @@ Given an array of integers and an integer `k`, find out whether there are two di
 
 ```js
 var containsNearbyDuplicate = function(nums, k) {
-  const map = new Map();  // key is nums[i], value is its index
+  const map = new Map(); // key is nums[i], value is its index
   for (let i = 0; i < nums.length; i++) {
     const num = nums[i];
     if (map.has(num) && i - map.get(num) <= k) {
@@ -1609,7 +1620,7 @@ var moveZeroes = function(nums) {
     }
   }
 
-  for(let i = index; i < nums.length; i++) {
+  for (let i = index; i < nums.length; i++) {
     nums[i] = 0;
   }
 };
@@ -1639,7 +1650,7 @@ var maxSubArray = function(nums) {
 Given a circular integer array nums of length n, return the maximum possible sum of a non-empty subarray of nums.
 
 ```js
-var maxSubarraySumCircular = function (nums) {
+var maxSubarraySumCircular = function(nums) {
   let total = 0;
   let curMax = 0, maxSum = -Infinity;
   let curMin = 0, minSum = Infinity;
@@ -1683,7 +1694,10 @@ var findShortestSubArray = function(nums) {
 
   for (let [num, frequency] of frequencyMap) {
     if (frequency === degree) {
-      ans = Math.min(ans, lastOccurrence.get(num) - firstOccurrence.get(num) + 1);
+      ans = Math.min(
+        ans,
+        lastOccurrence.get(num) - firstOccurrence.get(num) + 1,
+      );
     }
   }
   return ans;
@@ -1697,13 +1711,11 @@ var canPlaceFlowers = function(flowerbed, n) {
   for (let i = 0; i < flowerbed.length && n > 0;) {
     if (flowerbed[i] === 1) {
       i += 2;
-    }
-    // current position is empty
+    } // current position is empty
     else if (i === flowerbed.length - 1 || flowerbed[i + 1] === 0) {
       n--;
       i += 2;
-    }
-    // current position is empty but the next position has a flower
+    } // current position is empty but the next position has a flower
     else {
       i += 3;
     }
@@ -1732,7 +1744,7 @@ var canJump = function(nums) {
 };
 ```
 
-You are initially positioned at `nums[0]`. Return the minimum number of jumps to reach `nums[n - 1]`. 
+You are initially positioned at `nums[0]`. Return the minimum number of jumps to reach `nums[n - 1]`.
 
 ```js
 var jump = function(nums) {
@@ -1802,8 +1814,7 @@ var search = function(nums, target) {
       } else {
         end = mid - 1;
       }
-    }
-    // [start, mid] is ascending order
+    } // [start, mid] is ascending order
     else {
       if (target >= nums[start] && target < nums[mid]) {
         end = mid - 1;
@@ -1821,13 +1832,15 @@ You are given an m x n integer matrix. Each row is sorted in non-decreasing orde
 
 ```js
 var searchMatrix = function(matrix, target) {
-  let left = 0; 
+  let left = 0;
   let right = matrix.length - 1;
   let mid;
 
   while (left <= right) {
-    mid = Math.floor((left + right ) / 2);
-    if (target >= matrix[mid][0] && target <= matrix[mid][matrix[mid].length - 1]) {
+    mid = Math.floor((left + right) / 2);
+    if (
+      target >= matrix[mid][0] && target <= matrix[mid][matrix[mid].length - 1]
+    ) {
       break;
     }
     if (target > matrix[mid][0]) {
@@ -1850,10 +1863,10 @@ var searchRange = function(nums, target) {
     let right = nums.length - 1;
     // index of either the leftmost or rightmost occurrence of the target
     let idx = -1;
-    
+
     while (left <= right) {
       let mid = Math.floor((left + right) / 2);
-      
+
       if (nums[mid] > target) {
         right = mid - 1;
       } else if (nums[mid] < target) {
@@ -1869,11 +1882,11 @@ var searchRange = function(nums, target) {
     }
     return idx;
   };
-  
+
   let left = binarySearch(nums, target, true);
   let right = binarySearch(nums, target, false);
-  
-  return [left, right];    
+
+  return [left, right];
 };
 ```
 
@@ -1943,9 +1956,9 @@ Given an array of meeting time intervals consisting of start and end times, find
 var minMeetingRooms = function(intervals) {
   if (intervals.length === 0) return 0;
   intervals.sort((a, b) => a[0] - b[0]);
-  
+
   let rooms = [intervals[0][1]];
-  
+
   for (let i = 1; i < intervals.length; i++) {
     // check if it can reuse the existing room
     if (intervals[i][0] >= rooms[0]) {
@@ -1958,7 +1971,7 @@ var minMeetingRooms = function(intervals) {
     rooms.sort((a, b) => a - b);
   }
   return rooms.length;
-}
+};
 ```
 
 Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
@@ -1976,7 +1989,8 @@ var trap = function(height) {
       if (stack.length) {
         // i -> right boundary
         // stack[stack.length - 1] -> left boundary
-        const heightVal = Math.min(height[stack[stack.length - 1]], curH) - height[preIndex];
+        const heightVal = Math.min(height[stack[stack.length - 1]], curH)
+          - height[preIndex];
         const length = i - stack[stack.length - 1] - 1;
         res += heightVal * length;
       }
@@ -2005,7 +2019,7 @@ var maxArea = function(height) {
       j -= 1;
     }
   }
-  return res;  
+  return res;
 };
 ```
 
@@ -2034,7 +2048,7 @@ var nextPermutation = function(nums) {
 
   // The subarray to the right of 'i' is guaranteed to be in descending order
   reverse(nums, i + 1, nums.length - 1);
-}
+};
 
 function reverse(nums, start, end) {
   for (let left = start, right = end; left < right; left++, right--) {
@@ -2048,13 +2062,13 @@ Given an array nums of distinct integers, return all the possible permutations. 
 ```js
 var permute = function(nums) {
   const result = [];
-    
+
   function backtrack(path) {
     if (path.length === nums.length) {
       result.push([...path]);
       return;
     }
-    
+
     for (let i = 0; i < nums.length; i++) {
       const num = nums[i];
       if (path.includes(num)) continue;
@@ -2139,20 +2153,20 @@ var letterCombinations = function(digits) {
   if (!digits.length) return [];
 
   const digitToLetters = {
-    '2': 'abc',
-    '3': 'def',
-    '4': 'ghi',
-    '5': 'jkl',
-    '6': 'mno',
-    '7': 'pqrs',
-    '8': 'tuv',
-    '9': 'wxyz'
+    "2": "abc",
+    "3": "def",
+    "4": "ghi",
+    "5": "jkl",
+    "6": "mno",
+    "7": "pqrs",
+    "8": "tuv",
+    "9": "wxyz",
   };
   const result = [];
 
   function backtrack(path, index) {
     if (path.length === digits.length) {
-      result.push(path.join(''));
+      result.push(path.join(""));
       return;
     }
 
@@ -2176,11 +2190,11 @@ Given the root of a binary tree, invert the tree, and return its root.
 ```js
 var invertTree = function(root) {
   if (root === null) return root;
-  
+
   [root.left, root.right] = [root.right, root.left];
   invertTree(root.left);
   invertTree(root.right);
-  
+
   return root;
 };
 ```
@@ -2227,8 +2241,9 @@ var hasPathSum = function(root, targetSum) {
   if (root.val === targetSum && (root.left === null && root.right === null)) {
     return true;
   }
-  
-  return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+
+  return hasPathSum(root.left, targetSum - root.val)
+    || hasPathSum(root.right, targetSum - root.val);
 };
 ```
 
@@ -2237,10 +2252,10 @@ Given the root of a binary tree, return the maximum path sum of any non-empty pa
 ```js
 var maxPathSum = function(root) {
   let maxSum = -Infinity;
-  
+
   const maxHelper = (node) => {
     if (!node) return 0;
-        
+
     let leftGain = Math.max(maxHelper(node.left), 0);
     let rightGain = Math.max(maxHelper(node.right), 0);
     let currentPathSum = node.val + leftGain + rightGain;
@@ -2249,7 +2264,7 @@ var maxPathSum = function(root) {
     // We can only choose one path (left or right) return to parent
     return node.val + Math.max(leftGain, rightGain);
   };
-  
+
   maxHelper(root);
   return maxSum;
 };
@@ -2273,7 +2288,8 @@ function isSameTree(p, q) {
     return p === q;
   }
 
-  return (p.val === q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right));
+  return (p.val === q.val && isSameTree(p.left, q.left)
+    && isSameTree(p.right, q.right));
 }
 ```
 
@@ -2285,7 +2301,8 @@ var isSymmetric = function(root) {
     if (p === null || q === null) {
       return p === q;
     }
-    return (p.val === q.val && isMirror(p.left, q.right) && isMirror(p.right, q.left));
+    return (p.val === q.val && isMirror(p.left, q.right)
+      && isMirror(p.right, q.left));
   }
 
   return isMirror(root.left, root.right);
@@ -2298,7 +2315,7 @@ Given a binary tree, determine if it is height-balanced (depth of the two subtre
 var isBalanced = function(root) {
   function checkHeight(node) {
     if (node === null) return 0;
-    
+
     let leftH = checkHeight(node.left);
     let rightH = checkHeight(node.right);
 
@@ -2307,7 +2324,7 @@ var isBalanced = function(root) {
     }
     return Math.max(leftH, rightH) + 1;
   }
-  
+
   return checkHeight(root) !== -1;
 };
 ```
@@ -2318,11 +2335,12 @@ Given the root of a binary tree, determine if it is a valid binary search tree.
 var isValidBST = function(root) {
   const helper = (root, min, max) => {
     if (root === null) return true;
-    
+
     if (root.val < min || root.val > max) return false;
-    
-    return helper(root.left, min, root.val) && helper(root.right, root.val, max);
-  }
+
+    return helper(root.left, min, root.val)
+      && helper(root.right, root.val, max);
+  };
 
   return helper(root, -Infinity, Infinity);
 };
@@ -2331,7 +2349,7 @@ var isValidBST = function(root) {
 You are given the root of a binary tree containing digits from 0 to 9 only. Each root-to-leaf path in the tree represents a number. Return the total sum of all root-to-leaf numbers.
 
 ```js
-var sumNumbers = function (root) {
+var sumNumbers = function(root) {
   function dfs(node, sum) {
     if (!node) {
       return 0;
@@ -2369,8 +2387,8 @@ var buildTree = function(preorder, inorder) {
 Given an integer array nums where the elements are sorted in ascending order, convert it to a height-balanced binary search tree.
 
 ```js
-var sortedArrayToBST = function (nums) {
-  function build (left, right) {
+var sortedArrayToBST = function(nums) {
+  function build(left, right) {
     if (right < left) {
       return null;
     }
@@ -2404,14 +2422,14 @@ var kthSmallest = function(root, k) {
     } else {
       current = stack.pop();
       count++;
-        
+
       if (count === k) {
         return current.val;
       }
-      
+
       current = current.right;
     }
-  } 
+  }
   return null; // If k is greater than the number of nodes in the BST
 };
 ```
@@ -2419,7 +2437,7 @@ var kthSmallest = function(root, k) {
 Given the root of a binary tree, flatten the tree into a "linked list". The "linked list" should use the same TreeNode class. The "linked list" should be in the same order as a pre-order traversal of the binary tree.
 
 ```js
-var flatten = function (root) {
+var flatten = function(root) {
   if (!root) return;
 
   let stack = [root];
@@ -2490,7 +2508,7 @@ var removeNthFromEnd = function(head, n) {
     fast = fast.next;
   }
   slow.next = slow.next.next;
-  
+
   return dummy.next;
 };
 ```
@@ -2521,11 +2539,11 @@ var mergeTwoLists = function(list1, list2) {
 Given a reference of a node in a connected undirected graph. Return a clone of the graph.
 
 ```js
-var cloneGraph = function (node) {
+var cloneGraph = function(node) {
   if (!node) return null;
 
   // Map<orginal node, cloned node>
-  const visited = new Map(); 
+  const visited = new Map();
 
   function dfs(n) {
     if (visited.has(n)) {
@@ -2554,11 +2572,11 @@ var numIslands = function(grid) {
   let rows = grid.length;
   if (rows === 0) return 0;
   let cols = grid[0].length;
-  
+
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
-      if (grid[i][j] === '1') {
-        dfs(grid, i, j, rows, cols);  
+      if (grid[i][j] === "1") {
+        dfs(grid, i, j, rows, cols);
         count++;
       }
     }
@@ -2567,11 +2585,11 @@ var numIslands = function(grid) {
 };
 
 function dfs(grid, i, j, rows, cols) {
-  if (i < 0 || j < 0 || i > rows - 1 || j > cols - 1 || grid[i][j] === '0') {
+  if (i < 0 || j < 0 || i > rows - 1 || j > cols - 1 || grid[i][j] === "0") {
     return;
   }
 
-  grid[i][j] = '0';
+  grid[i][j] = "0";
 
   dfs(grid, i + 1, j, rows, cols);
   dfs(grid, i, j + 1, rows, cols);
@@ -2587,14 +2605,14 @@ var maxAreaOfIsland = function(grid) {
   let n = grid.length;
   let m = grid[0].length;
   let ans = 0;
-  
+
   function dfs(i, j) {
-    if (i < 0 || j < 0 || i > n-1 || j > m-1 || !grid[i][j]) {
+    if (i < 0 || j < 0 || i > n - 1 || j > m - 1 || !grid[i][j]) {
       return 0;
     }
     grid[i][j] = 0;
-    
-    return 1 + dfs(i-1, j) + dfs(i, j-1) + dfs(i+1, j) + dfs(i, j+1);
+
+    return 1 + dfs(i - 1, j) + dfs(i, j - 1) + dfs(i + 1, j) + dfs(i, j + 1);
   }
 
   for (let i = 0; i < n; i++) {
@@ -2615,11 +2633,12 @@ var exist = function(board, word) {
   let m = board.length;
   let n = board[0].length;
   let visited = Array.from(Array(m), () => Array(n).fill(false));
-  
+
   for (let i = 0; i < m; i++) {
     for (let j = 0; j < n; j++) {
-      if (dfs(board, word, i, j, 0, visited))
+      if (dfs(board, word, i, j, 0, visited)) {
         return true;
+      }
     }
   }
   return false;
@@ -2629,21 +2648,27 @@ var exist = function(board, word) {
 function dfs(board, word, i, j, k, visited) {
   let m = board.length;
   let n = board[0].length;
-  
+
   if (k === word.length) {
     return true;
   }
-  
-  if (i < 0 || i > m-1 || j < 0 || j > n-1 || visited[i][j] || board[i][j] !== word.charAt(k)) {
+
+  if (
+    i < 0 || i > m - 1 || j < 0 || j > n - 1 || visited[i][j]
+    || board[i][j] !== word.charAt(k)
+  ) {
     return false;
   }
 
   visited[i][j] = true;
-  if (dfs(board, word, i + 1, j, k + 1, visited) ||
-      dfs(board, word, i - 1, j, k + 1, visited) ||
-      dfs(board, word, i, j + 1, k + 1, visited) ||
-      dfs(board, word, i, j - 1, k + 1, visited))
-      return true;
+  if (
+    dfs(board, word, i + 1, j, k + 1, visited)
+    || dfs(board, word, i - 1, j, k + 1, visited)
+    || dfs(board, word, i, j + 1, k + 1, visited)
+    || dfs(board, word, i, j - 1, k + 1, visited)
+  ) {
+    return true;
+  }
 
   visited[i][j] = false;
   return false;
@@ -2654,10 +2679,10 @@ Given two words, `beginWord` and `endWord`, and a dictionary `wordList`, return 
 
 ```js
 var ladderLength = function(beginWord, endWord, wordList) {
-  let wordSet = new Set(wordList)
+  let wordSet = new Set(wordList);
   let queue = [beginWord];
   let steps = 1;
-  
+
   while (queue.length) {
     let size = queue.length;
     for (let i = 0; i < size; i++) {
@@ -2665,19 +2690,20 @@ var ladderLength = function(beginWord, endWord, wordList) {
       if (word === endWord) {
         return steps;
       }
-      
+
       for (let j = 0; j < word.length; j++) {
         for (let k = 0; k < 26; k++) {
-          let newWord = word.slice(0, j) + String.fromCharCode(k + 97) + word.slice(j + 1);
+          let newWord = word.slice(0, j) + String.fromCharCode(k + 97)
+            + word.slice(j + 1);
           if (wordSet.has(newWord)) {
             queue.push(newWord);
-            // wordSet acts as a visited tracker 
+            // wordSet acts as a visited tracker
             wordSet.delete(newWord);
           }
         }
       }
     }
-    
+
     steps++;
   }
 
@@ -2688,7 +2714,7 @@ var ladderLength = function(beginWord, endWord, wordList) {
 A gene string can be represented by an 8-character long string, with choices from 'A', 'C', 'G', and 'T'. Given the two gene strings `startGene` and `endGene` and the gene bank, return the minimum number of mutations needed to mutate from `startGene` to `endGene`. If there is no such a mutation, return -1.
 
 ```js
-var minMutation = function (startGene, endGene, bank) {
+var minMutation = function(startGene, endGene, bank) {
   let step = 0;
   let queue = [startGene];
   let bankSet = new Set(bank);
@@ -2721,10 +2747,10 @@ var minMutation = function (startGene, endGene, bank) {
 };
 ```
 
-There are a total of numCourses courses you have to take, labeled from `0` to `numCourses - 1`. Prerequisites `[a, b]` indicates that you must take course `b` first if you want to take course `a`. Return true if you can finish all courses. 
+There are a total of numCourses courses you have to take, labeled from `0` to `numCourses - 1`. Prerequisites `[a, b]` indicates that you must take course `b` first if you want to take course `a`. Return true if you can finish all courses.
 
 ```js
-var canFinish = function (numCourses, prerequisites) {
+var canFinish = function(numCourses, prerequisites) {
   let inDegree = Array(numCourses).fill(0);
   let adj = Array.from({ length: numCourses }, () => []);
 
@@ -2739,7 +2765,7 @@ var canFinish = function (numCourses, prerequisites) {
       queue.push(i);
     }
   }
-  
+
   let processed = 0;
   while (queue.length > 0) {
     let c = queue.shift();
@@ -2753,14 +2779,14 @@ var canFinish = function (numCourses, prerequisites) {
     }
   }
   return processed === numCourses;
-}
+};
 ```
 
 The message is decoded via the following mapping: `"1" -> 'A'` ... `"26" -> 'Z'`. There are many different ways you can decode the message because some codes are contained in other codes ("2" and "5" vs "25"). Given a string s containing only digits, return the number of ways to decode it.
 
 ```js
-var numDecodings = function (s) {
-  if (!s || s.length === 0 || s[0] === '0') {
+var numDecodings = function(s) {
+  if (!s || s.length === 0 || s[0] === "0") {
     return 0;
   }
   let dp = Array(s.length + 1).fill(0);
@@ -2769,7 +2795,7 @@ var numDecodings = function (s) {
   dp[1] = 1;
 
   for (let i = 2; i <= s.length; i++) {
-    if (s[i - 1] !== '0') {
+    if (s[i - 1] !== "0") {
       dp[i] += dp[i - 1];
     }
 
@@ -2789,7 +2815,7 @@ var coinChange = function(coins, amount) {
   if (amount === 0) {
     return 0;
   }
-  const dp = Array(amount + 1).fill(Number.MAX_VALUE)
+  const dp = Array(amount + 1).fill(Number.MAX_VALUE);
   dp[0] = 0;
 
   for (let i = 1; i < dp.length; i++) {
@@ -2832,7 +2858,7 @@ var lengthOfLIS = function(nums) {
 Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words. For example, `s = "leetcode"`, `wordDict = ["leet","code"]`, output is true.
 
 ```js
-var wordBreak = function (s, wordDict) {
+var wordBreak = function(s, wordDict) {
   let dp = new Array(s.length + 1).fill(false);
   dp[0] = true;
 
@@ -2859,14 +2885,14 @@ var longestCommonSubsequence = function(text1, text2) {
   // 1. X[m-1] == Y[n-1] -> LCS(Xm-1，Yn-1)
   // 2. X[m-1] != Y[n-1] -> max(LCS(Xm-1, Yn), LCS(Xm, Yn-1))
   let dp = Array.from(Array(m + 1), () => Array(n + 1).fill(0));
-  
+
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
       if (text1[i - 1] === text2[j - 1]) {
         dp[i][j] = dp[i - 1][j - 1] + 1;
       } else {
         dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-      }  
+      }
     }
   }
   return dp[m][n];
@@ -2894,7 +2920,7 @@ var maxProfit = function(prices) {
 // multiple transactions (greedy)
 var maxProfit = function(prices) {
   let maxProfit = 0;
-    
+
   for (let i = 1; i < prices.length; i++) {
     if (prices[i] > prices[i - 1]) {
       maxProfit += prices[i] - prices[i - 1];

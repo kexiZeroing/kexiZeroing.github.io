@@ -36,7 +36,7 @@ Before continuing, it helps to understand how TypeScript models object types, sp
 
 ```typescript
 const cache: { [key: string]: number } = {};
-cache['item_1'] = 42;
+cache["item_1"] = 42;
 ```
 
 ### Mapped Type: `{ [K in Type]: Value }`
@@ -45,7 +45,7 @@ cache['item_1'] = 42;
 - Keys are known and fixed, all required unless marked optional
 
 ```typescript
-type CacheKey = 'item_1' | 'item_2';
+type CacheKey = "item_1" | "item_2";
 type Cache = { [K in CacheKey]: number };
 
 const cache: Cache = {
@@ -62,9 +62,9 @@ When you use `as const`, TypeScript makes the value deeply readonly and narrows 
 
 ```typescript
 export const Categories = {
-  PRESENTATION: 'cat_123',
-  POSTER: 'cat_456',
-  SOCIAL_POST: 'cat_789',
+  PRESENTATION: "cat_123",
+  POSTER: "cat_456",
+  SOCIAL_POST: "cat_789",
 } as const;
 
 export type Category = (typeof Categories)[keyof typeof Categories];
@@ -79,9 +79,9 @@ const id = Categories.PRESENTATION; // 'cat_123'
 
 // Works with Record
 const styles: Record<Category, string> = {
-  [Categories.PRESENTATION]: 'Professional',
-  [Categories.POSTER]: 'Creative',
-  [Categories.SOCIAL_POST]: 'Casual',
+  [Categories.PRESENTATION]: "Professional",
+  [Categories.POSTER]: "Creative",
+  [Categories.SOCIAL_POST]: "Casual",
 };
 ```
 
@@ -99,9 +99,9 @@ You cannot use a literal union type in an **index signature**. However, `Record<
 
 ```typescript
 export const enum Categories {
-  PRESENTATION = 'cat_123',
-  POSTER = 'cat_456',
-  SOCIAL_POST = 'cat_789',
+  PRESENTATION = "cat_123",
+  POSTER = "cat_456",
+  SOCIAL_POST = "cat_789",
 }
 ```
 
@@ -135,13 +135,13 @@ const styles3: { [key: Categories]: string } = { ... };
 - Modern TypeScript projects often prefer `as const` for simplicity and full runtime visibility.
 
 > When you use a regular enum, TypeScript generates JavaScript code at runtime to represent it. A real object exists at runtime, and it holds both directions (forward and reverse mappings) for numeric enums, though for string enums only the forward mapping is generated.
-> 
+>
 > A `const enum` is different: it is completely erased at compile time. No runtime object is generated at all — the compiler inlines the values directly.
 
 ```typescript
 export const enum Category {
-  PRESENTATION = 'cat_123',
-  POSTER = 'cat_456',
+  PRESENTATION = "cat_123",
+  POSTER = "cat_456",
 }
 
 const id = Category.PRESENTATION;
@@ -151,10 +151,12 @@ const id = "cat_123";
 ```
 
 So for a fixed set of string constants, the practical difference between `as const` and `const enum` is minimal. The main distinction isn’t what they can express, but how they behave at runtime and during compilation:
+
 - `as const` creates a real JavaScript object. You can inspect, serialize, or iterate over it at runtime.
 - `const enum` is compile-time only. It disappears after compilation and cannot be referenced dynamically.
 
 ## Bonus: Runtime Validation with Zod
+
 There’s one area where TypeScript alone falls short: runtime validation. When data comes from external sources (API responses, form submissions or user inputs), TypeScript can’t guarantee that the data matches our expected types at runtime. This is where a library like Zod comes in.
 
 Zod bridges the gap between compile-time type safety and runtime validation. It allows us to define schemas that not only validate data at runtime but also automatically infer TypeScript types, giving us the best of both worlds.

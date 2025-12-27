@@ -7,6 +7,7 @@ updatedDate: "Dec 1 2025"
 ---
 
 ## Background
+
 Protocol Buffers (a.k.a., protobuf) are Google’s language-neutral, platform-neutral, and extensible mechanism for serializing structured data. You define your data structure once in a `.proto` file, then use generated source code to easily read and write that structured data across different languages and platforms.
 
 For example, a Java program on one platform can serialize data according to a `.proto` definition, and a Python application on another platform can deserialize that data and access specific values.
@@ -18,12 +19,15 @@ Unlike JSON, Protobuf encodes data in a compact binary format, making it much sm
 > Serialization is the process of turning a data structure into a sequence of bytes that can be transmitted. JSON, for example, serializes data as human-readable text.
 
 ## Installing Protobuf
+
 To install protobuf, you need to install the protocol compiler (used to compile `.proto` files) and the protobuf runtime for your chosen programming language.
+
 - The Protobuf compiler (`protoc`) is written in C++. For non-C++ users, the easiest way to install it is by downloading a prebuilt binary from the GitHub release page and adding it to your system PATH.
 - Each programming language requires its runtime library to work with the generated code. Some languages may also need additional plugins for code generation, e.g., `protoc-gen-ts_proto` for TypeScript.
 - The runtime library provides the functionality to serialize and deserialize messages. Without it, the generated code only defines the message structure and cannot encode or decode data. The runtime implements the actual logic for handling the Protobuf binary format.
 
 ## Understanding `.proto` files
+
 A `.proto` file defines the structure of data (like JSON schema) and optionally RPC services (like API endpoints). It tells Protobuf how to serialize and deserialize data.
 
 > With JSON, you often send ambiguous or non-guaranteed data. You may encounter a missing field, an incorrect type, or a typo in a key. With Protobuf, that’s impossible. Everything starts with a `.proto` file that defines the structure of messages precisely.
@@ -52,6 +56,7 @@ A `message` defines a structured data type. Each field has a type (`string`, `in
 > When Protobuf encodes data, it stores the field numbers rather than the field names. This allows older programs to safely ignore any new fields they don’t recognize while still processing the fields they do know.
 
 Some keywords:
+
 - `optional` - field may or may not be present
 - `required` - field must be present (proto2 only, deprecated in proto3)
 - `repeated` means an array/list of values
@@ -60,11 +65,14 @@ Some keywords:
 - `package` - namespace for your messages
 
 A `service` defines RPC methods. Each rpc line defines one endpoint with input and output message types. It includes a method name, request message type, and response message type. For gRPC (Google’s RPC framework), the compiler generates:
+
 - Client stub: code that lets you call `GetUser` or `CreateUser` like local functions.
 - Server interface: definitions you implement on the server to handle incoming RPC calls.
 
 ### Compatibility and workflow
+
 Think of the `.proto` file as the contract between frontend and backend. To keep this magic working, you must follow these rules:
+
 1. Never change a field number: If `name` is field `1`, it must be `1` forever.
 2. Never reuse a deleted field number: If you delete field `2`, do not add a new field with number `2`. (Use the `reserved` keyword to prevent this).
 3. Renaming is fine: You can rename `string name = 1;` to `string full_name = 1;`. It only cares about the number `1`.
@@ -130,6 +138,7 @@ service UserService {
 ```
 
 The generated code will include:
+
 - TypeScript interfaces for all messages (`User`, `GetUserRequest`, etc.)
 - A ready-to-use `UserServiceClientImpl` class (for gRPC-Web)
 - Encode/decode/fromJSON/toJSON helpers
@@ -175,14 +184,16 @@ const response = await client.GetUser(request);
 console.log(response.name);
 ```
 
-> With traditional HTTP/REST APIs, you call a URL and get a response. With RPC, you call a function and get a response. 
-> 
+> With traditional HTTP/REST APIs, you call a URL and get a response. With RPC, you call a function and get a response.
+>
 > Don't think about HTTP/REST implementation details. You call functions, and the RPC framework takes care of everything else. You should ignore details like HTTP Verbs, since they carry meaning in REST APIs, but in RPC form part of your function names instead, for instance: `getUser(id)` instead of `GET /users/:id`.
 
 ### Using Protobuf schemas with JSON
+
 In many production systems, `.proto` files are still used as schemas, but the actual data exchanged is JSON, not binary. It’s easier to debug and inspect over HTTP.
 
 Your codebase likely has generated `serialize` and `deserialize` methods for each message type. They map between field names and short tags like `{A: ..., B: ...}`, which correspond to the field numbers in your `.proto` file.
+
 - Those letters correspond to field numbers (1, 2, 3...), encoded deterministically by the generator to make JSON smaller and avoid name collisions.
 - The backend never depends on "name" or "id" directly — only on the tag numbers defined in your `.proto` file.
 
@@ -191,17 +202,20 @@ This compact JSON format isn’t limited to APIs. In SSR or hybrid systems, the 
 This pattern predates full gRPC designs. It worked well for systems that shared schemas between backend and frontend. Modern Protobuf (proto3) has since moved toward binary or structured JSON transport through official tools like gRPC-Web. These newer patterns preserve field names, provide built-in JSON mapping, and integrate naturally with TypeScript, making them easier to debug and more maintainable.
 
 ## Protobuf and gRPC
+
 gRPC is a high-performance communication framework like REST, but more efficient and strongly typed. It allows one program (like your frontend) to call a function that actually runs on another computer (like your backend), almost as if it were a local call.
 
 gRPC has two sides: a server side, and a client side that is able to dial a server. The server exposes RPCs (i.e. functions that you can call remotely). gRPC uses protobuf as its wire format and API contract. When you combine them, code generators produce client and server stubs that handle serialization/deserialization and network communication automatically.
 
 For example:
+
 ```js
 // looks like a local function call...
 const user = await getUser({ id: 123 });
 ```
 
 But behind the scenes, this does much more:
+
 1. The frontend serializes `{ id: 123 }` into a binary protobuf message.
 2. It sends that message over the network (using HTTP/2 or gRPC-Web).
 3. The backend receives and deserializes it into a `GetUserRequest` object.
@@ -212,7 +226,9 @@ But behind the scenes, this does much more:
 Normal gRPC (used by backend-to-backend communication) runs over HTTP/2. Browsers can’t fully control HTTP/2 like servers can. That means you can’t directly call a gRPC service from browser JavaScript using `fetch()` or `XMLHttpRequest`. To bridge this gap, gRPC-Web provides a browser-compatible variant of gRPC that wraps the same protobuf messages in a simplified wire format browsers can handle.
 
 ## What is tRPC
+
 When the backend and frontend are developed by different teams or written in different languages, schema-based or code-generation approaches are the standard way to keep both sides aligned.
+
 - **OpenAPI (Swagger)**: Teams define an API specification in JSON or YAML that describes all endpoints, parameters, and responses. From that spec, tools like [openapi-generator](https://github.com/OpenAPITools/openapi-generator) or [swagger-codegen](https://github.com/swagger-api/swagger-codegen) can generate fully typed client code for the frontend.
 - **GraphQL**: Both the frontend and backend share a schema that defines all available queries, mutations, and types. This schema serves as a single source of truth for the data contract, ensuring both sides always agree on what data is available and how to request it.
 - **Protobuf**: The API is defined in `.proto` files, and code generation produces backend service stubs and frontend clients in multiple languages.
@@ -226,7 +242,7 @@ const t = initTRPC.create();
 export const appRouter = t.router({
   getUser: t.procedure
     .input(
-      z.object({ name: z.string() })
+      z.object({ name: z.string() }),
     )
     .query(({ input }) => {
       return {
@@ -242,14 +258,14 @@ A `procedure` in tRPC is basically one API endpoint. You can think of it as a si
 
 ```ts
 // utils/trpc.ts
-import { createTRPCReact } from '@trpc/react-query';
-import type { AppRouter } from '@/server';
- 
+import type { AppRouter } from "@/server";
+import { createTRPCReact } from "@trpc/react-query";
+
 export const trpc = createTRPCReact<AppRouter>();
 
 // In components
 function UserProfile() {
-  const userQuery = trpc.getUser.useQuery({ name: 'Alice' });
+  const userQuery = trpc.getUser.useQuery({ name: "Alice" });
   return <p>{userQuery.data?.text}</p>;
 }
 

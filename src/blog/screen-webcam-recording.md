@@ -6,9 +6,10 @@ tags: [web]
 updatedDate: "July 21 2025"
 ---
 
-Let's explore how far browser technology has come in the way of screen sharing and recording, and attempt to create a tool that would allow us to quickly record a short video of our screen or webcam.  All of this is powered by browser APIs using no external services.
+Let's explore how far browser technology has come in the way of screen sharing and recording, and attempt to create a tool that would allow us to quickly record a short video of our screen or webcam. All of this is powered by browser APIs using no external services.
 
 ### Capturing the screen
+
 To allow the user to capture their screen, we can use the `MediaDevices.getDisplayMedia()` method available to us on the `navigator` global in modern browsers.
 
 ```js
@@ -17,7 +18,7 @@ const captureScreen = async () => {
   const screenShareStream = await navigator.mediaDevices.getDisplayMedia({
     video: true,
   });
-}
+};
 ```
 
 Now we have reference to a `MediaStream` instance returned from `getDisplayMedia`, and we’ll eventually want to use this stream to draw the captured display onto our canvas. However, the canvas API does not handle any sort of video decoding – so we’ll pass this media stream into an HTML5 `<video>` element as its `srcObject` property.
@@ -39,6 +40,7 @@ const captureScreen = async () => {
 > `src` used with URLs: File URLs, Remote URLs, Blob URLs
 
 ### Capturing the webcam
+
 We want to allow the user to select which webcam they’d like to use, but in order to do this we need to show the user which webcams are available to choose from. In order to show the user which webcams are available, we first need to request permission to access the list of available webcams.
 
 ```js
@@ -79,6 +81,7 @@ const connectToWebcam = async (deviceId: string) => {
 ```
 
 ### Capturing the mic
+
 The microphone is another type of “user media”, so we can follow a similar pattern as with capturing the webcam.
 
 ```js
@@ -111,6 +114,7 @@ const connectToAudioInput = async (deviceId: string) => {
 Since our mic stream does not produce any sort of visuals, we do not need to attach this media stream to any sort of `<video>` or `<audio>` element.
 
 ### Combining the screen and webcam streams
+
 At this point we’ve got video streams for our screen share and webcam. We want to combine these two video streams together in a way that we can record the output and add nice visual effects. To do this, we’ll use HTML canvas. We’ll use the `drawImage` method of our canvas context to paint our video streams onto our canvas. Our general approach will be to set up a `requestAnimationFrame` loop for painting our video displays onto our canvas so that our canvas stays up to date with our video streams.
 
 ```js
@@ -119,12 +123,12 @@ const ctx = canvas.getContext("2d");
 
 const startDrawing = () => {
   requestAnimationFrame(loop);
-}
+};
 
 const loop = () => {
-  draw();	
+  draw();
   requestAnimationFrame(loop);
-}
+};
 
 const draw = () => {
   const { width, height } = canvas;
@@ -139,12 +143,13 @@ const draw = () => {
   // draw our webcam in bottom-right
   // would need to do real math to get proper aspect ratio.
   ctx.drawImage(webcamVideoRef, width - 200, height - 100, 200, 100);
-}
+};
 ```
 
 > The `CanvasRenderingContext2D.drawImage()` method of the Canvas 2D API provides different ways to draw an image onto the canvas. The specification permits any canvas image source, specifically, an `HTMLImageElement`, an `SVGImageElement`, an `HTMLVideoElement` or an `HTMLCanvasElement`.
 
 ### Creating a Recording
+
 Once we have our pixels dancing on our canvas, and our microphone audio stream captured, we can start to stitch these together to create an actual recording. Something we could upload to, say, YouTube.
 
 Modern browsers have some support for the `MediaRecorder` API which is an interface for recording media. The `MediaRecorder` API works by consuming a single `MediaStream` and outputting `Blob` chunks over time. We can then use those `Blob` chunks to create a video output.
@@ -159,11 +164,12 @@ const canvasStream = canvas.captureStream(30);
 // combine the canvas stream and mic stream by collecting tracks from each
 const combinedStream = new MediaStream([
   ...canvasStream.getTracks(),
-  ...micStream.getTracks()
+  ...micStream.getTracks(),
 ]);
 ```
 
 Now that we have a combined media stream, we can use the `MediaRecorder` API to record it. The general flow for using the `MediaRecorder` is roughly as follows:
+
 1. create a `MediaRecorder` instance;
 2. register a callback to the `MediaRecorder.ondataavailable` event to capture emitted `Blobs` and stored those `Blob` chunks in an array;
 3. when the recorder’s `onstop` event is called, use the collected `Blob` chunks to create a video file to be downloaded. You can call `MediaRecorder.stop` manually to stop a recording.
@@ -221,6 +227,7 @@ recorder.onstop = async () => {
 ```
 
 ### Generating a download
+
 To automatically download the blob as a video file, we’ll use the standard technique of using `URL.createObjectURL` to create an object URL, generating an anchor DOM element with this URL as its `href`, simulating a click on that anchor tag (which will trigger a download of the blob), and then discard the anchor tag.
 
 ```js
@@ -251,6 +258,7 @@ recorder.onstop = async () => {
 And there we go! After our recording finishes, we’ve got a `.webm` video file downloading to our Downloads folder.
 
 ### MDN docs and links
+
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices

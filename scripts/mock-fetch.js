@@ -22,6 +22,5 @@ mockPool.intercept({
 fetch("http://localhost:3000").then((res) => res.json()).then(console.log);
 fetch("http://localhost:3000/users").then((res) => res.json()).then(console.dir);
 
-
 // 1. undici is a Node.js library and cannot be used directly in the browser.
 // 2. MSW (Mock Service Worker) behaves like a service in the browser, intercepting HTTP requests and returning mock responses.

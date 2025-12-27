@@ -7,9 +7,10 @@ updatedDate: "Oct 27 2025"
 ---
 
 ## Why use MobX
+
 MobX is a simple, scalable and battle tested state management solution. You can start learning it from https://mobx.js.org/getting-started.
 
-In large enterprise apps, state is not just a few `useState` variables, but a complex, reactive graph of data that changes from many sources. MobX’s philosophy is *“Anything that can be derived from state, should be derived automatically.”* That means no manual setState, no reducers, no boilerplate — MobX tracks dependencies automatically.
+In large enterprise apps, state is not just a few `useState` variables, but a complex, reactive graph of data that changes from many sources. MobX’s philosophy is _“Anything that can be derived from state, should be derived automatically.”_ That means no manual setState, no reducers, no boilerplate — MobX tracks dependencies automatically.
 
 ## Core concepts of MobX
 
@@ -37,6 +38,7 @@ async fetchUser() {
 ```
 
 ### Understanding `autorun()`
+
 `autorun()` automatically tracks any observable values used inside its function. When one of those values changes, the function re-runs, but only if the result of the computation actually changes.
 
 ```js
@@ -44,7 +46,7 @@ const todoStore = observable({
   todos: [],
   get unfinishedCount() {
     return this.todos.filter(t => !t.done).length;
-  }
+  },
 });
 
 autorun(() => {
@@ -52,25 +54,26 @@ autorun(() => {
 });
 
 todoStore.todos.push({ task: "read docs", done: false }); // logs → Unfinished todos: 1
-todoStore.todos[0].done = true;                           // logs → Unfinished todos: 0
-todoStore.todos[0].task = "rename task";                  // no log — count didn’t change
+todoStore.todos[0].done = true; // logs → Unfinished todos: 0
+todoStore.todos[0].task = "rename task"; // no log — count didn’t change
 
 // Another example with observable nested objects
 const user = observable({
-  profile: { name: "Alice", age: 20 }
+  profile: { name: "Alice", age: 20 },
 });
 
 autorun(() => {
   console.log("User name:", user.profile.name);
 });
 
-user.profile.name = "Bob";  // logs → User name: Bob
-user.profile.age = 21;      // no log — name didn’t change
+user.profile.name = "Bob"; // logs → User name: Bob
+user.profile.age = 21; // no log — name didn’t change
 ```
 
 This behavior is the foundation of MobX’s reactivity system. It’s dependency-aware, meaning it only re-executes if the specific values used inside the function actually change. The `observer()` function in React is built on this exact idea, you can think of each reactive component as its own `autorun`, which re-renders only when the data it reads during rendering changes.
 
 ## Use MobX in React
+
 Let’s write an example using decorators syntax, which is cleaner and more common in large MobX apps.
 
 ```js
@@ -117,6 +120,7 @@ export default function App() {
 The `observer()` function from `mobx-react-lite` is what makes your React component reactive. Under the hood, this higher-order component (HoC) works similarly to MobX’s `autorun`: it automatically tracks all observable values accessed during rendering. When any of those observables change, MobX knows exactly which components depend on them and re-renders only those components. This makes MobX both magical and efficient — you don’t need to manually connect state or trigger updates; components simply re-render whenever the data they rely on changes.
 
 ## Why shift away from MobX
+
 MobX automatically tracks dependencies, but this implicitness can sometimes make data flow harder to trace. In contrast, libraries like Redux or Zustand make updates more explicit — you call something like `dispatch({ type: "INCREMENT" })` or `set(state => ({ count: state.count + 1 }))`, so every state change is intentional and easy to follow in debugging or devtools.
 
 Modern React (since Hooks) encourages functions over classes, local state, and custom hooks. MobX’s most elegant syntax (`@observable`, `@action`, `@computed`) was designed for class-based stores with decorators. Although MobX supports hooks and `makeAutoObservable`, it still feels slightly more old-school compared to libraries that embrace functional patterns from the start (like Zustand).

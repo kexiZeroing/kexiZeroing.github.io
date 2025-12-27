@@ -1,37 +1,40 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import SmallRotation from '../../components/SmallRotation.astro';
-import AllPictures from './AllPictures.astro';
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import SmallRotation from "../../components/SmallRotation.astro";
+import AllPictures from "./AllPictures.astro";
 
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../config';
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../config";
 ---
 
 <!DOCTYPE html>
 <html lang="en-us">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.2.2/dist/photoswipe.css">
-	</head>
-	<body>
-		<Header />
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/photoswipe@5.2.2/dist/photoswipe.css"
+    >
+  </head>
+  <body>
+    <Header />
     <AllPictures />
-		<Footer />
+    <Footer />
     <SmallRotation />
 
     <script is:inline type="module">
-      // https://photoswipe.com/getting-started
-      import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe/dist/photoswipe-lightbox.esm.js';
-      import PhotoSwipe from 'https://unpkg.com/photoswipe/dist/photoswipe.esm.js';
-  
-      const lightbox = new PhotoSwipeLightbox({
-        gallery: '#my-gallery',
-        children: 'a',
-        pswpModule: PhotoSwipe,
-      });
-  
-      lightbox.init();
+    // https://photoswipe.com/getting-started
+    import PhotoSwipeLightbox from "https://unpkg.com/photoswipe/dist/photoswipe-lightbox.esm.js";
+    import PhotoSwipe from "https://unpkg.com/photoswipe/dist/photoswipe.esm.js";
+
+    const lightbox = new PhotoSwipeLightbox({
+      gallery: "#my-gallery",
+      children: "a",
+      pswpModule: PhotoSwipe,
+    });
+
+    lightbox.init();
     </script>
-	</body>
+  </body>
 </html>

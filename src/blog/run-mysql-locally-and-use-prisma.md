@@ -7,6 +7,7 @@ updatedDate: "May 20 2025"
 ---
 
 ## Run MySQL locally and query it with Express
+
 This is a text version of Tejas Kumar's video, ["How to run MySQL locally and query it with Express"](https://www.youtube.com/watch?v=lnmldUslD1U).
 
 ```sh
@@ -76,8 +77,8 @@ npx prisma generate
 ```
 
 ```js
-import express from "express";
 import { PrismaClient } from "@prisma/client";
+import express from "express";
 
 const app = express();
 const client = new PrismaClient();
@@ -206,15 +207,13 @@ export default prisma;
 > When working with a framework like Next.js, it is important to use a singleton pattern for the Prisma Client instance. Otherwise, you may run into issues with hot reloading and multiple instances of the Prisma Client in development mode.
 
 ```js
-import prisma from '@/lib/prisma'
+import prisma from "@/lib/prisma";
 
 export default async function Home() {
   const posts = await prisma.post.findMany();
   return (
     <ul>
-      {posts.map((post) => (
-        <li key={post.id}>{post.title}</li>
-      ))}
+      {posts.map((post) => <li key={post.id}>{post.title}</li>)}
     </ul>
   );
 }
@@ -226,11 +225,11 @@ const posts = await prisma.post.findMany({
   where: {
     published: true,
     title: {
-      contains: "First"
-    }
+      contains: "First",
+    },
   },
   orderBy: {
-    createdAt: "desc"
+    createdAt: "desc",
   },
   select: {
     id: true,
@@ -243,10 +242,10 @@ const posts = await prisma.post.findMany({
 
 const user = await prisma.user.findUnique({
   where: {
-    email: "test@gmail.com"
+    email: "test@gmail.com",
   },
   include: {
-    posts: true
-  }
-})
+    posts: true,
+  },
+});
 ```
