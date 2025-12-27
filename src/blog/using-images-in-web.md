@@ -109,33 +109,37 @@ This is where the `img` tag's `sizes` and `srcset` attributes come to into play.
 ```html
 <!-- Different sizes -->
 <!-- The `sizes` attribute is required any time you use `srcset` width descriptors -->
-<img srcset="elva-fairy-480w.jpg 480w,
-             elva-fairy-800w.jpg 800w"
-     sizes="(max-width: 600px) 480px,
+<img
+  srcset="elva-fairy-480w.jpg 480w, elva-fairy-800w.jpg 800w"
+  sizes="(max-width: 600px) 480px,
             800px"
-     src="elva-fairy-800w.jpg"
-     alt="Elva dressed as a fairy">
+  src="elva-fairy-800w.jpg"
+  alt="Elva dressed as a fairy"
+/>
 
 <!-- Same size, different resolutions -->
 <!-- `background-image: image-set("foo.png" 1x, "foo-2x.png" 2x);` 
   is used in CSS for resolution switching. In fact, `srcset` was modeled after `image-set()`
 -->
-<img srcset="elva-fairy-320w.jpg,
-             elva-fairy-480w.jpg 1.5x,
-             elva-fairy-640w.jpg 2x"
-     src="elva-fairy-640w.jpg"
-     alt="Elva dressed as a fairy">
+<img
+  srcset="elva-fairy-320w.jpg, elva-fairy-480w.jpg 1.5x, elva-fairy-640w.jpg 2x"
+  src="elva-fairy-640w.jpg"
+  alt="Elva dressed as a fairy"
+/>
 
 <!-- Use modern image formats boldly -->
 <picture>
-  <source srcset="photo.avif" type="image/avif">
-  <source srcset="photo.webp" type="image/webp">
-  <img src="photo.jpg" alt="Description" width="360" height="240">
+  <source srcset="photo.avif" type="image/avif" />
+  <source srcset="photo.webp" type="image/webp" />
+  <img src="photo.jpg" alt="Description" width="360" height="240" />
 </picture>
 
 <!-- Only play the GIF if the user doesn't have reduced motion turned on -->
 <picture>
-  <source srcset="underconstruction.gif" media="(prefers-reduced-motion: no-preference)">
+  <source
+    srcset="underconstruction.gif"
+    media="(prefers-reduced-motion: no-preference)"
+  />
   <img src="underconstruction.png" alt="Under construction" />
 </picture>
 ```
@@ -204,6 +208,8 @@ into this:
 />
 ```
 
+> Servers often serve different content to different browsers based on those browsers capabilities. One of the most common examples of this is image CDNs, where you can request `https://images.example.com/hero.png?auto=format` and it will return one of the newer formats (WebP, AVIF, JXL) based on the browser support advertised in the `Accept` HTTP request header. Because the URL does not specify the format (well it specifies the original file is in png format, but not the format that will actually be delivered based on that file) this causes its own caching problems. To avoid that, servers can include a `Vary` HTTP response header telling caches that the content can “vary” depending on specific HTTP request headers (`Accept` in this case). Caches can then store multiple copies and serve the appropriate one, ensuring each browser gets the format they need.
+
 ### Next.js `<Image>` component
 
 For local images:
@@ -234,13 +240,13 @@ For remote images:
 2. To safely allow images from remote servers, you need to define a list of supported URL patterns in `next.config.js`
 
 ```js
-import type { NextConfig } from 'next'
- 
+import type { NextConfig } from "next";
+
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [new URL('https://res.cloudinary.com/**')],
+    remotePatterns: [new URL("https://res.cloudinary.com/**")],
   },
-}
- 
-export default nextConfig
+};
+
+export default nextConfig;
 ```

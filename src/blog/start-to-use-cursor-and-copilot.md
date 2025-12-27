@@ -3,7 +3,7 @@ title: "Start to use Cursor, Copilot and Gemini CLI"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Dec 23 2025"
+updatedDate: "Dec 27 2025"
 ---
 
 ## Get Started with Cursor
@@ -146,7 +146,9 @@ The Chat Agent will automatically use any MCP tools that are listed under `Avail
 
 > MCP servers offer two main capabilities: tools and resources. Tools are available in Cursor today, and allow Cursor to execute the tools offered by an MCP server, and use the output in its further steps. However, resources are not yet supported in Cursor. We are hoping to add resource support in future releases.
 
-## Coding agent and agent mode in GitHub Copilot
+## GitHub Copilot
+
+### Coding agent and agent mode
 
 - Agent mode: a real‑time collaborator that sits in your editor, works with you, and edits files based on your needs.
 - Coding agent: an asynchronous teammate that lives in the cloud, takes on issues, and sends you fully tested pull requests while you do other things. _(Requires Copilot Pro+ or Copilot Enterprise)_
@@ -172,19 +174,21 @@ You can create one or more `AGENTS.md` files, stored anywhere within the reposit
 What happens when you send a prompt in Copilot Chat?
 
 ```
-System Prompt 
+System Prompt
 (core identity and global rules, tool use instructions, output format instructions)
   ↓
 User Prompt
 (environment info, workspace info and project file structure)
   ↓
 User Prompt
-(current date/time, file you added to chat)  
+(current date/time, file you added to chat)
   ↓
 User Request: "write a function that..."
 ```
 
 ### Agent Skills
+
+Agent Skills are a lightweight, open format for extending AI agent capabilities with specialized knowledge and workflows. At its core, a skill is a folder containing a `SKILL.md` file. This file includes metadata and instructions that tell an agent how to perform a specific task. More at https://agentskills.io/
 
 You can create Agent Skills to teach Copilot how to perform specialized tasks in a specific, repeatable way. Agent Skills are folders containing instructions, scripts, and resources that Copilot automatically loads when relevant to your prompt. Skills support is coming to the stable version of VS Code in early January 2026.
 
@@ -221,8 +225,8 @@ Gemini CLI brings the capabilities of Gemini models to your terminal in an inter
 /chat save <tag>
 /chat resume <tag>
 
-# Replace the entire chat context with a summary. 
-# This saves on tokens used for future tasks while 
+# Replace the entire chat context with a summary.
+# This saves on tokens used for future tasks while
 # retaining a high level summary of what has happened.
 /compress
 
