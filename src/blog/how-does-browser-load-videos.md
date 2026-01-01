@@ -28,7 +28,7 @@ Look at this process in detail:
 1. Initial Request (Range Support Detection)
 
 Chrome                                            Server
-+------------------------+    ------------>       +-------------------------------------+           
++------------------------+    ------------>       +-------------------------------------+
 | GET /a.mp4 HTTP/1.1    |                        | HTTP/1.1 200 OK                     |
 | Host: example.com      |                        | Accept-Ranges: bytes                |
 +------------------------+                        | Content-Length: 828908177           |
@@ -39,7 +39,7 @@ Chrome                                            Server
 2. Range Request for Initial Chunk
 
 Chrome                                         Server
-+------------------------+   ------------>     +-------------------------------------------+          
++------------------------+   ------------>     +-------------------------------------------+
 | GET /a.mp4 HTTP/1.1    |                     | HTTP/1.1 206 Partial Content              |
 | Host: example.com      |                     | Accept-Ranges: bytes                      |
 | Range: bytes=0-        |                     | Content-Range: bytes 0-1048575/828908177  |
@@ -62,6 +62,24 @@ video.addEventListener("error", () => {
 });
 ```
 
+## Streaming
+
+Streaming is real-time, and it's more efficient than downloading media files. If a video file is downloaded, a copy of the entire file is saved onto a device's hard drive, and the video cannot play until the entire file finishes downloading. If it's streamed instead, the browser plays the video without actually copying and saving it. The video loads a little bit at a time instead of the entire file loading at once, and the information that the browser loads is not saved locally.
+
+For streaming, in some cases speed is far more important than reliability. For instance, if someone is in a video conference, they would prefer to interact with the other conference attendees in real time than to sit and wait for every bit of data to be delivered. Therefore, a few lost data packets is not a huge concern, and UDP should be used.
+
+In other cases, reliability is more important for streaming. For instance, both HTTP live streaming (HLS) and MPEG-DASH are streaming protocols that use TCP for transport. Many video-on-demand services use TCP.
+
+Live streaming is when the streamed video is sent over the Internet in real time, without first being recorded and stored. The term live streaming usually refers to broadcast live streams: one-to-many connections that go out to multiple users at once. Videoconferencing technologies like FaceTime work on real-time communication (RTC) protocols rather than the protocols used by one-to-many live stream broadcasts.
+
+These are the main steps that take place behind the scenes in a live stream:
+
+1. Live streaming starts with raw video data.
+2. The segmented video data is compressed and encoded. Common video encoding standards include H.264, H.265, VP9, AV1.
+3. Streaming video is divided into smaller segments a few seconds in length.
+4. A CDN should distribute the stream to multiple viewers in different locations. A CDN will also cache each segment of the live stream.
+5. Each user's device receives, decodes, and decompresses the segmented video data.
+
 ## MP4 and WebM
 
 MP4 and WebM formats are what we would call pseudo-streaming or "progressive download”. These formats do not support **adaptive bitrate streaming** (adjusts video quality based on network conditions). If you have ever taken an HTML video element and added a "src” attribute that points to an mp4, most players will progressively download the file. The good thing about progressive downloads is that you don’t have to wait for the player to download the entire file before you start watching. You can click play and start watching while the file is being downloaded in the background. Most players will also allow you to drag the playhead to specific places in the video timeline and the player will use byte-range requests to estimate which part of the file you are attempting to seek.
@@ -82,10 +100,10 @@ HTTP Live Streaming sends audio and video as a series of small files, called med
 <script>
   // return false on Safari (MSE may not be used)
   if (Hls.isSupported()) {
-    const video = document.getElementById('video');
+    const video = document.getElementById("video");
     const hls = new Hls();
 
-    hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
+    hls.loadSource("https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8");
     hls.attachMedia(video);
 
     hls.on(Hls.Events.MANIFEST_PARSED, function () {
@@ -93,9 +111,9 @@ HTTP Live Streaming sends audio and video as a series of small files, called med
     });
   }
   // this is the MIME type for HLS m3u8 playlists
-  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
-    video.addEventListener('loadedmetadata', function () {
+  else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    video.src = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
+    video.addEventListener("loadedmetadata", function () {
       video.play();
     });
   }
@@ -120,25 +138,31 @@ const url = URL.createObjectURL(myMediaSource);
 videoTag.src = url;
 
 // 1. add source buffers
-const audioSourceBuffer = myMediaSource
-  .addSourceBuffer("audio/mp4; codecs=\"mp4a.40.2\"");
-const videoSourceBuffer = myMediaSource
-  .addSourceBuffer("video/mp4; codecs=\"avc1.64001e\"");
+const audioSourceBuffer = myMediaSource.addSourceBuffer(
+  'audio/mp4; codecs="mp4a.40.2"'
+);
+const videoSourceBuffer = myMediaSource.addSourceBuffer(
+  'video/mp4; codecs="avc1.64001e"'
+);
 
 // 2. download and add our audio/video to the SourceBuffers
 // fragmented mp4 (the advantage of fragmented MP4 is its ability to support DASH)
-fetch("http://server.com/audio.mp4").then(function(response) {
-  return response.arrayBuffer();
-}).then(function(audioData) {
-  audioSourceBuffer.appendBuffer(audioData);
-});
+fetch("http://server.com/audio.mp4")
+  .then(function (response) {
+    return response.arrayBuffer();
+  })
+  .then(function (audioData) {
+    audioSourceBuffer.appendBuffer(audioData);
+  });
 
 // the same for the video SourceBuffer
-fetch("http://server.com/video.mp4").then(function(response) {
-  return response.arrayBuffer();
-}).then(function(videoData) {
-  videoSourceBuffer.appendBuffer(videoData);
-});
+fetch("http://server.com/video.mp4")
+  .then(function (response) {
+    return response.arrayBuffer();
+  })
+  .then(function (videoData) {
+    videoSourceBuffer.appendBuffer(videoData);
+  });
 ```
 
 What actually happens in the more advanced video players, is that video and audio data are split into multiple “segments”. These segments can come in various sizes, but they often represent between 2 to 10 seconds of content. Instead of pushing the whole content at once, we can just push progressively multiple segments. Now we do not have to wait for the whole audio or video content to be downloaded to begin playback.
@@ -146,34 +170,35 @@ What actually happens in the more advanced video players, is that video and audi
 ```js
 // fetch a video or an audio segment, and returns it as an ArrayBuffer
 function fetchSegment(url) {
-  return fetch(url).then(function(response) {
+  return fetch(url).then(function (response) {
     return response.arrayBuffer();
   });
 }
 
 // fetching audio segments one after another
 fetchSegment("http://server.com/audio/segment0.mp4")
-  .then(function(audioSegment0) {
+  .then(function (audioSegment0) {
     audioSourceBuffer.appendBuffer(audioSegment0);
   })
-  .then(function() {
+  .then(function () {
     return fetchSegment("http://server.com/audio/segment1.mp4");
   })
-  .then(function(audioSegment1) {
+  .then(function (audioSegment1) {
     audioSourceBuffer.appendBuffer(audioSegment1);
   })
-  .then(function() {
+  .then(function () {
     return fetchSegment("http://server.com/audio/segment2.mp4");
   })
-  .then(function(audioSegment2) {
+  .then(function (audioSegment2) {
     audioSourceBuffer.appendBuffer(audioSegment2);
   });
 
 // same thing for video segments
-fetchSegment("http://server.com/video/segment0.mp4")
-  .then(function(videoSegment0) {
-    videoSourceBuffer.appendBuffer(videoSegment0);
-  });
+fetchSegment("http://server.com/video/segment0.mp4").then(function (
+  videoSegment0
+) {
+  videoSourceBuffer.appendBuffer(videoSegment0);
+});
 ```
 
 Many video players have an “auto quality” feature, where the quality is automatically chosen depending on the user’s network and processing capabilities. This behavior is also enabled thanks to the concept of media segments. On the server-side, the segments are actually encoded in multiple qualities, and a web player will then automatically choose the right segments to download as the network or CPU conditions change.

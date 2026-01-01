@@ -196,6 +196,12 @@ You can create Agent Skills to teach Copilot how to perform specialized tasks in
 
 You can write your own skills, or use skills shared by others, such as those in the [anthropics/skills](https://github.com/anthropics/skills) repository. Check out https://docs.github.com/copilot/concepts/agents/about-agent-skills
 
+> Skills and MCP
+>
+> MCP is where capability lives. It's what allows an AI agent to actually do things instead of just talking about them. Skills live at a different layer. Skills are about process and knowledge. They're markdown files that encode how work should be done.
+>
+> MCP gives agents abilities. Skills teach agents how to use those abilities well.
+
 ### What are premium requests
 
 Each time you send a prompt in a chat window or trigger a response from Copilot, you’re making a request. Some Copilot features use more advanced processing power and count as premium requests. Copilot Chat uses one premium request per user prompt, multiplied by the model's rate. This includes ask, edit, agent, and plan modes in Copilot Chat in an IDE.

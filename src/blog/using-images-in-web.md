@@ -13,6 +13,11 @@ First, there are two types of compression: Lossless and Lossy.
 - **Lossless** means that the image is made smaller, but at no detriment to the quality. You can save the image over and over and never lose any data. All the original data can be recovered when the file is uncompressed.
 - **Lossy** means the image is made even smaller, but at a detriment to the quality. If you saved an image in a Lossy format over and over, the image quality would get progressively worse and worse.
 
+> If you have an HD screenshot (1920 × 1080 pixels), it contains over 2 million pixels. Each pixel needs 3 bytes (one for R, G, B). That's 6.2 megabytes (1,920 × 1,080 × 3 bytes) for a single image. You need a way to shrink this to a more manageable size.
+>
+> - Lossy compression (used by JPEG) reduces size by deleting data the human eye won't miss, such as fine color details.
+> - Lossless compression (used by PNG) preserves every pixel perfectly using math tricks: storing the differences between neighbor pixels, referencing repeating patterns, and using shorter codes for common values.
+
 There are also different color depths: Indexed color and Direct color.
 
 - **Indexed** means that the image can only store a limited number of colors (usually 256).
