@@ -87,6 +87,8 @@ class Package implements Deliverable {
 
 The Letter and Package are completely different internally. But to the outside world, they look the same — they're both `Deliverable`. This is polymorphism: "many forms." Code that works with `Deliverable` works with ALL deliverable items.
 
+> A `class` is both a type and a value. You are creating a JavaScript value (the constructor) that exists at runtime. TypeScript simultaneously creates a type (describing the instance) with the same name that exists only at compile-time.
+
 ## Generics — Parameterized Types
 
 Now we encounter a new problem. Our postal service has warehouses. Some warehouses store letters. Some store packages. Some store frozen goods. We could create: `LetterWarehouse`, `PackageWarehouse`, and `FrozenGoodsWarehouse`. But that's repetitive. The warehouse behavior is identical, only the type of item changes.
@@ -138,7 +140,7 @@ class DeliveryTruck<CargoType extends Trackable> {
 
   constructor(
     private readonly sourceWarehouse: Warehouse<CargoType>,
-    private readonly maxCapacity: number,
+    private readonly maxCapacity: number
   ) {}
 
   loadFromWarehouse(ids: string[]): void {
@@ -177,14 +179,14 @@ interface TrackingTranslator<InternalType, PublicType> {
 ```ts
 // postal-system/tracking/package-tracking-translator.ts
 
-class PackageTrackingTranslator 
-  implements TrackingTranslator<WarehousePackageRecord, PublicTrackingInfo> 
+class PackageTrackingTranslator
+  implements TrackingTranslator<WarehousePackageRecord, PublicTrackingInfo>
 {
   toPublic(internal: WarehousePackageRecord): PublicTrackingInfo {
     return {
       trackingCode: this.encodeId(internal.warehouseId),
       status: this.mapStatus(internal.internalStatus),
-      estimatedDelivery: internal.eta
+      estimatedDelivery: internal.eta,
     };
   }
 
@@ -192,7 +194,7 @@ class PackageTrackingTranslator
     return {
       warehouseId: this.decodeId(public.trackingCode),
       internalStatus: this.reverseMapStatus(public.status),
-      eta: public.estimatedDelivery
+      eta: public.estimatedDelivery,
     };
   }
 
@@ -290,7 +292,7 @@ class DeliveryCoordinator<ItemType extends Deliverable> {
       ItemType,
       PublicTrackingInfo
     >,
-    private readonly dispatcher: ItemDispatcher<ItemType>,
+    private readonly dispatcher: ItemDispatcher<ItemType>
   ) {}
 
   processDelivery(trackingCode: string): DeliveryResult {
@@ -336,7 +338,7 @@ export interface TrackingController {
 export class TrackingControllerImpl implements TrackingController {
   constructor(
     private readonly warehouseService: WarehouseService,
-    private readonly deliveryService: DeliveryService,
+    private readonly deliveryService: DeliveryService
   ) {}
 
   async lookupPackage(trackingCode: string): Promise<void> {

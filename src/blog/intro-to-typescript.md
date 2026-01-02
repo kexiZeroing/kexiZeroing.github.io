@@ -75,7 +75,7 @@ A `tsconfig.json` file is used to configure TypeScript project settings. The `ts
 
 `module: "NodeNext"` also implies `moduleResolution: "NodeNext"`. `NodeNext` is a shorthand for the most up-to-date Node.js module behavior. `module: "Preserve"` implies `moduleResolution: "Bundler"`.
 
-TypeScript has built-in support for transpiling JSX syntax, and the `jsx` option tells TS how to handle JSX syntax. `preserve` means keeps JSX syntax as-is. `react` transforms JSX into `React.createElement` calls _(for React 16 and earlier)_. `react-jsx` transforms JSX into `_jsx` calls, and automatically imports from `react/jsx-runtime` _(for React 17 and later)_.
+TypeScript has built-in support for transpiling `.tsx` files, and the `jsx` option tells TS how to handle JSX syntax. `preserve` means keeps JSX syntax as-is so it can be passed to different tools like Babel for further transformations. `react` transforms JSX into `React.createElement` calls _(for React 16 and earlier)_. `react-jsx` transforms JSX into `_jsx` calls, and automatically imports from `react/jsx-runtime` _(for React 17 and later)_.
 
 By default `moduleDetection` set to `auto`, if we don't have any `import` or `export` statements in a `.ts` file, TypeScript treats it as a script. **By adding the `export {}` statement, you're telling TS that the `.ts` is a module**. `moduleDetection: force` will treat all files as modules, and you will need to use `import` and `export` statements to access functions and variables across files.
 
@@ -129,11 +129,33 @@ See examples:
 
 By the way, `jsconfig.json` is a descendant of `tsconfig.json`. The presence of `jsconfig.json` file in a directory indicates that the directory is the root of a JavaScript project.
 
+When you first introduce TypeScript into the build chain process, use the "allowJs" compiler option, which permits `.ts` files to coexist with existing JavaScript files. As TypeScript will fall back to a type of "any" for a variable when it cannot infer the type from JavaScript files, it is recommended to disable "noImplicitAny" in your compiler options at the beginning of the migration.
+
 ## Structural typing
 
 TypeScript uses structural typing. This system is different than the type system employed by some other popular languages you may have used (e.g. Java, C#, etc.)
 
 The idea behind structural typing is that two types are compatible if their members are compatible. For example, in C# or Java, two classes named `MyPoint` and `YourPoint`, both with public `int` properties x and y, are not interchangeable, even though they are identical. But in a structural type system, the fact that these types have different names is irrelevant. Because they have the same members with the same types, they are identical.
+
+```ts
+type X = {
+  a: string;
+};
+type Y = {
+  a: string;
+};
+const x: X = { a: "a" };
+const y: Y = x; // Valid
+```
+
+```ts
+type X = {
+  a: string;
+};
+const y = { a: "a", b: "b" };
+const x: X = y; // Valid because structural typing
+const w: X = { a: "a", b: "b" }; // Invalid because excess property checking
+```
 
 ```ts
 interface Something<T> {
@@ -215,15 +237,15 @@ const status = {
 // How numeric enums transpile
 // `Object.keys` call on an enum will return both the keys and the values.
 var AlbumStatus;
-(function(AlbumStatus) {
-  AlbumStatus[AlbumStatus["NewRelease"] = 0] = "NewRelease";
-  AlbumStatus[AlbumStatus["OnSale"] = 1] = "OnSale";
-  AlbumStatus[AlbumStatus["StaffPick"] = 2] = "StaffPick";
+(function (AlbumStatus) {
+  AlbumStatus[(AlbumStatus["NewRelease"] = 0)] = "NewRelease";
+  AlbumStatus[(AlbumStatus["OnSale"] = 1)] = "OnSale";
+  AlbumStatus[(AlbumStatus["StaffPick"] = 2)] = "StaffPick";
 })(AlbumStatus || (AlbumStatus = {}));
 
 // How string enums transpile
 var AlbumStatus;
-(function(AlbumStatus) {
+(function (AlbumStatus) {
   AlbumStatus["NewRelease"] = "NEW_RELEASE";
   AlbumStatus["OnSale"] = "ON_SALE";
   AlbumStatus["StaffPick"] = "STAFF_PICK";
@@ -287,22 +309,6 @@ type Employee = {
 let person: Student & Employee;
 
 // Interfaces using `extends` are faster than type intersections (can cache)
-
-// Object types in TypeScript aren't "sealed" / "closed" / "final".
-// In other words, if you have a variable of type `{ a: string }`,
-// it's possible that the variable points to a value like `{ a: "hello", b: 42 }`.
-interface Dimensions {
-  width: number;
-  height: number;
-  depth?: number;
-}
-
-const p = {
-  width: 32,
-  height: 14,
-  depht: 11, // <-- fine
-};
-const q: Dimensions = p; // also fine
 
 declare function handleRequest(url: string, method: "GET" | "POST"): void;
 // Error: Argument of type 'string' is not assignable to parameter of type '"GET" | "POST"'.
@@ -430,7 +436,8 @@ type MusicProductWithoutId = {
 };
 
 // Solution to fix: make our own distributive version of Omit
-type DistributiveOmit<T, K extends keyof T> = T extends any ? Omit<T, K>
+type DistributiveOmit<T, K extends keyof T> = T extends any
+  ? Omit<T, K>
   : never;
 ```
 
@@ -472,6 +479,8 @@ type MyCompProps = ComponentProps<typeof MyComp>;
 
 **Type hierarchy**: TypeScript sets `any` as the default type for any value or parameter that is not explicitly typed or can’t be inferred. You will rarely need to declare something as `any` (**you may need the type `unknown`**, which is a safe type). `null` and `undefined` are bottom values. (nullish values are excluded from all types if the option `strictNullChecks` is active in `tsconfig.json`). The very bottom of the type hierarchy is `never`. `never` doesn’t accept a single value at all _(only assignable to itself)_ and is used for situations that should never occur. You cannot assign anything to `never`, except for `never` itself. However, you can assign `never` to anything.
 
+> With `strictNullChecks` enabled, `null` and `undefined` are treated as distinct types that are separate from other types. Regular types like `string` or `number` do not automatically include `null` or `undefined`. This forces you to handle potential null/undefined cases before using values.
+
 `any` doesn't really fit into our definition of 'wide' and 'narrow' types. It's not really a type at all - it's a way of opting out of TypeScript's type checking. By marking a variable as `any`, you're telling the compiler to ignore any type errors that might occur. Using `any` is considered harmful by most of the community.
 
 When you don’t specify a type, and TypeScript can’t infer it from context, the compiler will typically default to `any`. You usually want to avoid this. Use the compiler flag `noImplicitAny` to flag any implicit `any` as an error.
@@ -481,9 +490,9 @@ When you don’t specify a type, and TypeScript can’t infer it from context, t
        /        /     |      \       \       \
       /        /      |       \       \       \
 { a: string } string number boolean null undefined
-       |        |       |       | 
-       |      'wow'    123     true 
-       |        |       |       | 
+       |        |       |       |
+       |      'wow'    123     true
+       |        |       |       |
        \________\_______\_______\____/______/
                     never
 ```
@@ -524,7 +533,7 @@ const abc = {
   kind: 'conference' as 'conference'
 }
 
-// fix 3 (assign a primitive value to a const so fixate its value type) 
+// fix 3 (assign a primitive value to a const so fixate its value type)
 const abc = {
   title: 'abc',
   kind: 'conference' as const
@@ -572,6 +581,11 @@ const x = "Heroes" as unknown as number; // this works
 
 searchParams.get("id")!; // same as `searchParams.get("id") as string`
 console.log(user.profile!.bio);
+```
+
+```ts
+// used a lot when working with the DOM
+const myInput = document.getElementById("my_input") as HTMLInputElement;
 ```
 
 **Mapped types** allow you to create a new object type based on an existing type by iterating over its keys and values. This can be let you be extremely expressive when creating new object types. For key remapping, `as` allows us to remap the key while keeping the original key accessible in the loop.
@@ -642,11 +656,15 @@ type FirstElement<T extends any[]> = T extends [infer F, ...any[]] ? F : never;
 type ElementType<T extends any[]> = T extends (infer E)[] ? E : never;
 
 // Extracting the Return Type of a Function
-type ReturnType<T extends (...args: any) => any> = T extends
-  (...args: any) => infer R ? R : never;
+type ReturnType<T extends (...args: any) => any> = T extends (
+  ...args: any
+) => infer R
+  ? R
+  : never;
 
 // Extracting the Type of a Property from an Object
-type PropertyType<T, K extends keyof T> = T extends { [key in K]: infer P } ? P
+type PropertyType<T, K extends keyof T> = T extends { [key in K]: infer P }
+  ? P
   : never;
 
 type TrimWhitespacePrefix<T> = T extends `${" " | "\t" | "\n"}${infer U}`
@@ -657,7 +675,8 @@ type TrimWhitespacePrefix<T> = T extends `${" " | "\t" | "\n"}${infer U}`
 ```ts
 // `infer N` extracts a type from the input.
 // `extends number` ensures that the extracted type N is a number.
-type ToNumber<S extends string> = S extends `${infer N extends number}` ? N
+type ToNumber<S extends string> = S extends `${infer N extends number}`
+  ? N
   : never;
 
 type Example1 = ToNumber<"123">; // 123 (number type)
@@ -910,7 +929,10 @@ Sometimes you don't trust the data entering your app. For those cases, you shoul
 const formSchema = z
   .object({
     username: z.string().min(1, "Username is required").max(100),
-    email: z.string().email("Invalid email address").min(1, "Email is required"),
+    email: z
+      .string()
+      .email("Invalid email address")
+      .min(1, "Email is required"),
     password: z
       .string()
       .min(1, "Password is required")
@@ -921,7 +943,7 @@ const formSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"], // path of error
     message: "Passwords do not match",
-});
+  });
 
 // We can use this type to tell `react-hook-form` what our data should look like.
 type FormSchemaType = z.infer<typeof formSchema>;

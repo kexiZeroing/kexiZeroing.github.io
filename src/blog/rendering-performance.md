@@ -76,8 +76,8 @@ Every new origin we need to visit needs a connection opening, and that can be ve
 Server requests to third-party origins can also impact LCP. Use `rel="preconnect"` to inform the browser that your page intends to establish a connection as soon as possible. You can also use `dns-prefetch` to resolve DNS lookups faster.
 
 ```html
-<link rel="preconnect" href="https://example.com">
-<link rel="dns-prefetch" href="https://example.com">
+<link rel="preconnect" href="https://example.com" />
+<link rel="dns-prefetch" href="https://example.com" />
 ```
 
 Modern browsers try their best to anticipate what connections a page will need, but they cannot reliably predict them all. The good news is that you can give them a hint. Adding `rel=preconnect` to a `<link>` informs the browser that your page intends to establish a connection to another domain, and that you'd like the process to start as soon as possible. Resources will load more quickly because the setup process has already been completed by the time the browser requests them. But it's ultimately up to the browser to decide whether to execute them. (Setting up and keeping a connection open is a lot of work, so the browser might choose to ignore resource hints or execute them partially depending on the situation.)
@@ -97,9 +97,9 @@ For script tags, **`<script async>`** downloads the file during HTML parsing and
 If you know that a particular resource should be prioritized, use `<link rel="preload">` to fetch it sooner. By preloading a certain resource, you are telling the browser that you would like to fetch it sooner than the browser would discover it because you are certain that it is important for the current page. **Preloading is best suited for resources typically discovered late by the browser**. The browser caches preloaded resources so they are available immediately when needed. It doesn't execute the scripts or apply the stylesheets. Supplying the `as` attribute helps the browser set the priority of the prefetched resource according to its type and determine whether the resource already exists in the cache.
 
 ```html
-<link rel="preload" as="script" href="script.js">
-<link rel="preload" as="style" href="style.css">
-<link rel="preload" as="image" href="img.png">
+<link rel="preload" as="script" href="script.js" />
+<link rel="preload" as="style" href="style.css" />
+<link rel="preload" as="image" href="img.png" />
 ```
 
 Another one, `<link rel="prefetch">` is a low priority resource hint that allows the browser to fetch resources in the background (idle time) that might be needed later, and store them in the browser's cache. It is helpful when you know you’ll need that resource on a subsequent page, and you want to cache it ahead of time.
@@ -146,21 +146,22 @@ window.addEventListener("load", (event) => {
   const start = timings.navigationStart;
 
   console.log(
-    "Ready to start running `defer`ed code: "
-      + (timings.domInteractive - start + "ms"),
+    "Ready to start running `defer`ed code: " +
+      (timings.domInteractive - start + "ms")
   );
   console.log(
-    "`defer`ed code finished: "
-      + (timings.domContentLoadedEventEnd - start + "ms"),
+    "`defer`ed code finished: " +
+      (timings.domContentLoadedEventEnd - start + "ms")
   );
   console.log(
-    "`defer`ed code duration: "
-      + (timings.domContentLoadedEventStart - timings.domInteractive + "ms"),
+    "`defer`ed code duration: " +
+      (timings.domContentLoadedEventStart - timings.domInteractive + "ms")
   );
   console.log(
-    "`DOMContentLoaded`- wrapped code duration: "
-      + (timings.domContentLoadedEventEnd - timings.domContentLoadedEventStart
-        + "ms"),
+    "`DOMContentLoaded`- wrapped code duration: " +
+      (timings.domContentLoadedEventEnd -
+        timings.domContentLoadedEventStart +
+        "ms")
   );
 });
 ```
@@ -259,8 +260,8 @@ If your site loads fonts from a third-party site, it is highly recommended that 
 ```html
 <head>
   <!-- These link tags should be placed as early in the document as possible. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 </head>
 ```
 
@@ -286,6 +287,6 @@ When faced with a web font that has not yet loaded, the browser is faced with a 
 - Life of a Pixel: https://bit.ly/lifeofapixel
 - A collection of the best practices that the Chrome DevRel team believes are the most effective ways to improve Core Web Vitals performance: https://web.dev/articles/top-cwv
 - Web Performance Snippets: https://github.com/nucliweb/webperf-snippets
+- Chrome DevTools for Debugging Web Performance: https://calendar.perfplanet.com/2025/chrome-devtools-for-debugging-web-performance
 - Get your `<head>` in order: https://github.com/rviscomi/capo.js
-- Inline your app's critical CSS and lazy-load the rest: https://github.com/GoogleChromeLabs/critters
 - Blazing Fast Websites with Speculation Rules: https://www.debugbear.com/blog/speculation-rules
