@@ -40,6 +40,7 @@ order: 3
 - https://philipwalton.com/articles/the-state-of-es5-on-the-web
 - https://jvns.ca/blog/2024/11/18/how-to-import-a-javascript-library
 - https://tania.dev/how-to-use-webpack
+- https://anfalmushtaq.com/articles/deep-dive-into-llms-like-chatgpt-tldr
 
 ## Must watch videos
 

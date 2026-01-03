@@ -230,12 +230,14 @@ It's impressive that this simple prompt is effective at this task. This is parti
 Another interesting translation example from [Baoyu's blog](https://baoyu.io/blog/ai/when-to-use-multi-agent-systems-or-cot) also uses CoT.
 
 - 使用一个 Prompt 中的多步骤
+
   ```
   请按照直译、反思和意译的步骤，翻译下面这句话：
   She was born with a silver spoon in her mouth.
   ```
 
 - 使用多个智能体
+
   ```
   # 直译智能体
 
@@ -279,6 +281,12 @@ These models perform best with straightforward prompts. Some prompt engineering 
 - Avoid chain-of-thought prompts. "think step by step" or "explain your reasoning" is unnecessary.
 - Use delimiters like triple quotation marks, XML tags, or section titles for clarity.
 - Limit additional context in RAG. When providing additional context or documents, include only the most relevant information to prevent the model from overcomplicating its response.
+
+### Models need tokens to think
+
+LLMs don’t reason like humans. They generate tokens sequentially, meaning they need structured generation to think properly. If a model jumps straight to an answer, it might just be guessing. If it walks through the solution step-by-step, it’s more reliable. The computation for the answer is distributed over multiple tokens, which makes it easier.
+
+For math and logic tasks, it’s best to ask the model to use external tools (i.e. if model can access python interpreter) rather than relying on its own reasoning. For the counting problem, because the model sees tokens not words, here "use code" also works.
 
 ### Prompt Debiasing
 

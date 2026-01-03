@@ -18,9 +18,9 @@ MCP, introduced by Anthropic in late 2024, solves this problem by providing a un
 
 ### MCP is not magic
 
-MCP isn't magic — it's a standard way for AI to discover and use tools without learning every API's specific details. An MCP server is like a menu of tools. Each tool has a name, a description, a schema defining what info it needs, and the actual code that makes the API calls. AI applications (like Claude or Cline) can dynamically query these servers to execute tasks such as reading files, querying databases, or creating new integrations.
+MCP isn't magic — it's a standard way for AI to discover and use tools without learning every API's specific details. An MCP server is like a menu of tools. Each tool has a name, a description, a schema defining what info it needs, and the actual code that makes the API calls. AI applications can dynamically query these servers to execute tasks such as reading files, querying databases, or creating new integrations.
 
-> Most MCP servers work "locally" (over a mechanism called `stdio`): you download a copy of the source code and run the code on your own computer. Servers rely on a command line tool either `npx` or `uvx` to download and run the server's code on your local machine.
+Whether you’re using OpenAI, Anthropic, or another LLM, MCP stays the same. The code becomes more maintainable (since you’re calling a generic `mcpClient.request` rather than service-specific code). Debugging is also easier, since you can monitor the JSON-RPC messages to see exactly what was requested and returned, rather than parsing model-generated text for clues.
 
 ### MCP server and client
 
@@ -36,17 +36,19 @@ The client connects to its server using a **transport**. This transport is respo
 
 > Transports are how the model talks to your MCP server. Today, StreamableHTTP is the main one. The model uses standard HTTP to hit a URL and create a connection. Optionally, it also allows the use of SSE on the side for real time notifications. The other popular transport is stdio, used in local or CLI environments where the model and tools share the same process.
 
-The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for communication between client and server. This simple contract allows for incredible flexibility. Your server doesn’t need to know anything about the LLM, and the LLM doesn’t need to know anything about your server’s internal implementation. They just need to speak the common language of MCP.
+The **protocol** defines JSON message formats, based on JSON-RPC, for communication between client and server. This simple contract allows for incredible flexibility. Your server doesn’t need to know anything about the LLM, and the LLM doesn’t need to know anything about your server’s internal implementation. They just need to speak the common language of MCP.
 
 ```json
-// Client sends...
+// To list available tools, an MCP client sends a request like this:
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "method": "tools/list"
+  "method": "tools/list",
+  "params": {}
 }
 
-// Server sends back...
+// Server would reply with a structured JSON listing the tools
+// (each with a name, description, and input schema)
 {
   "jsonrpc": "2.0",
   "id": 1,
@@ -61,7 +63,7 @@ The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for commun
   ]
 }
 
-// Client sends...
+// Client invokes a call
 {
   "jsonrpc": "2.0",
   "id": 2,
@@ -76,7 +78,8 @@ The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for commun
   }
 }
 
-// Server sends back...
+// Server executes the function
+// returns the result in a structured JSON response
 {
   "jsonrpc": "2.0",
   "id": 2,
@@ -88,9 +91,13 @@ The **protocol** defines JSON message formats, based on JSON-RPC 2.0, for commun
   ],
   "isError": false
 }
+
+// The client can then feed that result back into the model’s context or response.
 ```
 
 ### The simplest MCP server
+
+One of the standout features of MCP is its flexibility in server development. Developers can use any programming language that can print to stdout or serve an HTTP endpoint, allowing them to choose their preferred language and technology stack.
 
 ```js
 // npm i @modelcontextprotocol/sdk zod
@@ -118,7 +125,7 @@ server.tool(
         },
       ],
     };
-  },
+  }
 );
 ```
 
@@ -139,7 +146,7 @@ server.registerTool(
     return {
       content: [{ type: "text", text: data }],
     };
-  },
+  }
 );
 ```
 
@@ -187,16 +194,11 @@ Claude Desktop is the first MCP-compatible app, and it's the easiest way to test
   "mcpServers": {
     "weather-example": {
       "command": "node",
-      "args": [
-        "/ABSOLUTE/PATH/TO/PARENT/FOLDER/weather/build/index.js"
-      ]
+      "args": ["/ABSOLUTE/PATH/TO/PARENT/FOLDER/weather/build/index.js"]
     },
     "sequential-thinking": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ]
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
     }
   }
 }
