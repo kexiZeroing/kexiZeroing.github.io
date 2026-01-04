@@ -303,6 +303,15 @@ To create a symbolic link use the `ln -s <source> <target>` command. The first a
 echo 'Hello, World' > myfile.txt
 ln myfile.txt my-hard-link
 ln -s myfile.txt my-soft-link
+
+# verify what type of link they are and what they point to
+ls -l myfile.txt my-hard-link my-soft-link
+
+# Check inode numbers (best way to confirm hard links)
+ls -i myfile.txt my-hard-link my-soft-link
+
+# readlink is specifically for symbolic links
+readlink my-soft-link
 ```
 
 In macOS Finder, you can create aliases with the menu item 'Make Alias' from the context menu. Finder Aliases have much the same role as symbolic links, but when the original is deleted and replaced by an item of the same name, a Finder Alias will resolve to the new item. Finder will display Aliases and symbolic links with a small arrow in the corner of the icon. Both symbolic links and Finder Aliases have a 'Show Original' menu item in the context menu.

@@ -560,6 +560,8 @@ Apps SDK - Our framework to build apps for ChatGPT: https://developers.openai.co
 
 The Modern Software Developer - Stanford University: https://themodernsoftware.dev
 
+Advent of Claude 31 Days of Claude Code: https://adocomplete.com/advent-of-claude-2025
+
 ---
 
 ## Machine Learning
