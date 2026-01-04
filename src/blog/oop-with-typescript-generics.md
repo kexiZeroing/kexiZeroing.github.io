@@ -3,7 +3,7 @@ title: "Object-Oriented Patterns with TypeScript Generics"
 description: ""
 added: "Dec 11 2025"
 tags: [other, js]
-updatedDate: "Dec 14 2025"
+updatedDate: "Jan 4 2026"
 ---
 
 Before we start, let's be clear: what we're learning here is Object-Oriented Programming. TypeScript is just the language expressing these ideas. The same patterns exist in Java, C#, C++, and many other languages.
@@ -404,3 +404,69 @@ const { TrackingPanel } = createTrackingPanel({
 ```
 
 Swap `installTrackingController` for a fake version, and the whole app uses fakes, no component changes required.
+
+## An example of the SPC pattern
+
+- Store - Holds state and values derived from state (computed values)
+- Presenter - Logic that operates on stores, calls services, and other presenters. Receives the Store as an argument
+- Component - The view, the React component
+- Factory - The `createXxx` functions. Connects the stores, presenters, and components
+
+```ts
+// The Store
+import * as mobx from 'mobx';
+
+export class SearchStore {
+  @mobx.observable.ref
+  query: string = '';
+}
+
+// The Presenter
+import * as mobx from 'mobx';
+import type { SearchStore } from './search_store';
+
+export class SearchPresenter {
+  @mobx.action
+  setQuery(store: SearchStore, query: string) {
+    store.query = query;
+  }
+}
+
+// The Component
+export type SearchProps = {
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export function Search({ value, onChange }: SearchProps) {
+  return (
+    <input
+      type="text"
+      value={value}
+      onChange={onChange}
+    />
+  );
+}
+
+// The Factory
+import * as mobxReact from 'mobx-react';
+import * as React from 'react';
+import { Search } from './search';
+import { SearchPresenter } from './search_presenter';
+import { SearchStore } from './search_store';
+
+export function createSearch(): React.ComponentType {
+  const store = new SearchStore();
+  const presenter = new SearchPresenter();
+  
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    presenter.setQuery(store, e.target.value);
+  };
+  
+  const SearchImpl = mobxReact.observer(() => {
+    return <Search value={store.query} onChange={onChange}/>;
+  });
+
+  return SearchImpl;
+}
+```
