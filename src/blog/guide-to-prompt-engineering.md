@@ -3,7 +3,7 @@ title: "A guide to Prompt Engineering"
 description: ""
 added: "Apr 5 2023"
 tags: [AI]
-updatedDate: "July 7 2025"
+updatedDate: "Jan 11 2026"
 ---
 
 Prompt Engineering refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. Researchers use prompt engineering to improve the capacity of LLMs on a wide range of common and complex tasks such as question answering and arithmetic reasoning. This guide provides a rough idea of how to use prompts to interact and instruct LLMs.
@@ -422,6 +422,32 @@ const response = await client.responses.create({
 });
 
 console.log(response.output_text);
+```
+
+```ts
+import OpenAI from "openai";
+import { ResponseStreamEvent } from "openai/resources/responses/responses.mjs";
+import { Stream } from "openai/streaming";
+
+export async function getStream(message: string) {
+  const client = new OpenAI();
+
+  const stream = await client.responses.create({
+    model: "gpt-3.5-turbo",
+    input: [{ role: "user", content: message }],
+    stream: true,
+  });
+
+  return streamText(stream);
+}
+
+async function* streamText(stream: Stream<ResponseStreamEvent>) {
+  for await (const chunk of stream) {
+    if (chunk.type === "response.output_text.delta") {
+      yield chunk.delta;
+    }
+  }
+}
 ```
 
 The Chat Completions API is an industry standard for building AI applications, and we intend to continue supporting this API indefinitely. If you don't need built-in tools for your application, you can confidently continue using Chat Completions.

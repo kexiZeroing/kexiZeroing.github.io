@@ -123,4 +123,16 @@ While Product Engineers focus on building and enhancing features that solve end 
 
 - Bad engineers write code. Good engineers solve problems. Bad engineers focus on themselves. Good engineers focus on their team. Bad engineers optimize for looking smart. Good engineers optimize for being useful.
 
-If you’re wondering whether you’re operating at a senior+ level, here’s one test: What happens when someone hands you something abstract/fuzzy/complex? Do you wait for someone else to clarify it for you? Do you start coding immediately and hope for the best? Or do you spend time up front making it concrete enough that you and your team can actually execute with confidence? If it’s the last one, you’re probably already there. If it’s not, the good news is this isn’t talent, but practice: start with the next vague ticket that’s assigned to you.
+## Your code doesn’t advocate for you. People do. by Addy Osmani
+
+Early in my career, I believed great work would speak for itself. I was wrong. Code sits silently in a repository. Your manager mentions you in a meeting, or they don’t. A peer recommends you for a project, or someone else.
+
+In large organizations, decisions get made in meetings you’re not invited to, using summaries you didn’t write, by people who have five minutes and twelve priorities. If no one can articulate your impact when you’re not in the room, your impact is effectively optional.
+
+This isn’t strictly about self-promotion. It’s about making the value chain legible to everyone- including yourself.
+
+Glue work - documentation, onboarding, cross-team coordination, process improvement - is vital. But if you do it unconsciously, it can stall your technical trajectory and burn you out. The trap is doing it as “helpfulness” rather than treating it as deliberate, bounded, visible impact.
+
+Timebox it. Rotate it. Turn it into artifacts: docs, templates, automation. And make it legible as impact, not as personality trait.
+
+Priceless and invisible is a dangerous combination for your career.
