@@ -3,7 +3,7 @@ title: "Explore running code in browser"
 description: ""
 added: "Aug 25 2023"
 tags: [other]
-updatedDate: "Jun 21 2025"
+updatedDate: "Jan 17 2026"
 ---
 
 ## Interactive blog-cells
@@ -36,12 +36,17 @@ console.log(data);
 Syntax Highlighting custom element uses the CSS Custom Highlight API for syntax highlighting.
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/syntax-highlight-element/+esm"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/syntax-highlight-element/dist/themes/prettylights.min.css">
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/syntax-highlight-element/+esm"
+></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/syntax-highlight-element/dist/themes/prettylights.min.css"
+/>
 
 <syntax-highlight language="js">
-  const greeting = "Hello, World!";
-  console.log(greeting);
+  const greeting = "Hello, World!"; console.log(greeting);
 </syntax-highlight>
 ```
 
@@ -117,12 +122,12 @@ To support third-party module imports, we can use import maps. This allows us to
 
 ```html
 <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@18.2.0",
-    "react-dom/client": "https://esm.sh/react-dom@18.2.0"
+  {
+    "imports": {
+      "react": "https://esm.sh/react@18.2.0",
+      "react-dom/client": "https://esm.sh/react-dom@18.2.0"
+    }
   }
-}
 </script>
 ```
 
@@ -218,10 +223,12 @@ Pyodide is a Python distribution for the browser and Node.js based on WebAssembl
 ```js
 async function main() {
   let pyodide = await loadPyodide();
-  console.log(pyodide.runPython(`
+  console.log(
+    pyodide.runPython(`
       import sys
       sys.version
-  `));
+  `),
+  );
   pyodide.runPython("print(1 + 2)");
 }
 main();
@@ -238,3 +245,38 @@ https://code.visualstudio.com/docs/devcontainers/tutorial
 A dev container allows you to use a container as a full-featured development environment. It can be used to run an application, to separate tools, libraries, or runtimes needed for working with a codebase, and to aid in continuous integration and testing. `devcontainer.json` is a structured jsonc metadata format that tools can use to store any needed configuration required to develop inside of local or cloud-based containerized coding.
 
 For example, https://github.com/Azure-Samples/real-time-transcription-simple uses Devcontainers. You can use this repo on your PC/MAC or on Codespaces in Github. This makes it easy for you to develop without having to install Node, NPM, or the React modules you will need. When you clone the repository and open it with VS Code, you will see "Folder contains a Dev Container config file. Reopen folder to develop in a container." Confirm it to open the Devcontainer. Node, yarn, etc. are installed on it, and that is all you need to build and run your webapp.
+
+Learn from https://www.youtube.com/watch?v=kPMA9cnpScU
+
+1. Install "Dev Containers" VSCode extension
+2. Create a folder named `.devcontainer` at the root of any project that you want to set up to use dev containers. Inside that folder, create a file named `devcontainer.json`. Use the image key to point to a [template](https://containers.dev/templates). For example, to use a Node.js and TypeScript environment, you can use a URL from the MCR (Microsoft Container Registry).
+
+   ```json
+   {
+     "image": "mcr.microsoft.com/devcontainers/typescript-node"
+   }
+   ```
+
+3. Run command "Reopen in Container". It's going to look at that file and see the image that needs to be pulled down. Now we are running inside of a dev container.
+4. Try to run `pwd`, `node -v`, `pnpm -v`.
+5. You can layer additional tools onto your environment using the [features](https://containers.dev/features). For example, use [Common Utilities](https://github.com/devcontainers/features/tree/main/src/common-utils) to set up things like zsh as your default shell.
+6. You can ensure every developer on your team has the same setup by adding a customizations key
+
+   ```json
+   {
+     "image": "mcr.microsoft.com/devcontainers/typescript-node",
+     "features": {
+       "ghcr.io/devcontainers/features/common-utils:2": {
+         "configureZshAsDefaultShell": true
+       }
+     },
+     "customizations": {
+       "vscode": {
+         "settings": {},
+         "extensions": []
+       }
+     }
+   }
+   ```
+
+7. You will need to rebuild the container if you ever change the json file. (use the Command Palette to select "Reopen in Container)
