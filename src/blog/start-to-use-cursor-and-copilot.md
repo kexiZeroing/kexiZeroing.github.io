@@ -202,6 +202,8 @@ You can write your own skills, or use skills shared by others, such as those in 
 >
 > MCP gives agents abilities. Skills teach agents how to use those abilities well.
 
+Skills are a dynamic context that bundles together instructions, scripts, and templates into a modular package. Unlike Rules, Skills are progressively loaded. The model only sees the Skill's name and description at first. If the agent decides the Skill is relevant to your request, it "calls" the skill, loading the full instructions and executing the necessary scripts. Use Skills for complex capabilities the model doesn't natively have, like reading PDF files or interacting with specific database schemas. They expand the agent's powers without bloating the context window or increasing costs when they aren't being used.
+
 ### What are premium requests
 
 Each time you send a prompt in a chat window or trigger a response from Copilot, you’re making a request. Some Copilot features use more advanced processing power and count as premium requests. Copilot Chat uses one premium request per user prompt, multiplied by the model's rate. This includes ask, edit, agent, and plan modes in Copilot Chat in an IDE.
