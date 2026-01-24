@@ -33,9 +33,7 @@ main();
 ```js
 const result = await generateText({
   model: openai("gpt-4o-mini"),
-  messages: [
-    { role: "user", content: "Hello, world!" },
-  ],
+  messages: [{ role: "user", content: "Hello, world!" }],
 });
 ```
 
@@ -263,9 +261,10 @@ const { object } = await generateObject({
   model: openai("gpt-4.1"),
   output: "enum",
   enum: ["action", "comedy", "drama", "horror", "sci-fi"],
-  prompt: "Classify the genre of this movie plot: "
-    + "\"A group of astronauts travel through a wormhole in search of a "
-    + "new habitable planet for humanity.\"",
+  prompt:
+    "Classify the genre of this movie plot: " +
+    '"A group of astronauts travel through a wormhole in search of a ' +
+    'new habitable planet for humanity."',
 });
 ```
 
@@ -311,9 +310,9 @@ Now we need to map these queries to web search results. We use [Exa](https://exa
 
 ```js
 import Exa from 'exa-js'
- 
+
 const exa = new Exa(process.env.EXA_API_KEY)
- 
+
 const searchWeb = async (query: string) => {
   const { results } = await exa.searchAndContents(query, {
     numResults: 1,
@@ -361,7 +360,7 @@ const searchAndProcess = async (query: string) => {
           const { object: evaluation } = await generateObject({
             model: openai('gpt-4o'),
             prompt: `Evaluate whether the search results are relevant and will help answer the following query: ${query}. If the page already exists in the existing results, mark it as irrelevant.
- 
+
             <search_results>
             ${JSON.stringify(pendingResult)}
             </search_results>
@@ -398,7 +397,7 @@ const generateLearnings = async (query: string, searchResult: SearchResult) => {
     model: openai('gpt-4o'),
     prompt: `The user is researching "${query}". The following search result were deemed relevant.
     Generate a learning and a follow-up question from the following search result:
- 
+
     <search_result>
     ${JSON.stringify(searchResult)}
     </search_result>
@@ -419,7 +418,7 @@ const deepResearch = async (
   breadth: number = 3
 ) => {
   const queries = await generateSearchQueries(query)
- 
+
   for (const query of queries) {
     console.log(`Searching the web for: ${query}`)
     const searchResults = await searchAndProcess(query)
@@ -445,7 +444,7 @@ import fs from "fs";
 
 export async function codingAgent(prompt: string) {
   const result = await generateText({
-    // The AI Gateway is a proxy service that routes model requests to various AI providers. 
+    // The AI Gateway is a proxy service that routes model requests to various AI providers.
     // https://vercel.com/blog/ai-gateway
     model: "openai/gpt-4.1-mini",
     prompt,
@@ -498,39 +497,39 @@ export async function codingAgent(prompt: string) {
           }
         },
       }),
-      edit_file: tool({ 
+      edit_file: tool({
         description:
-          "Make edits to a text file or create a new file. Replaces 'old_str' with 'new_str' in the given file. 'old_str' and 'new_str' MUST be different from each other. If the file specified with path doesn't exist, it will be created.", 
-          inputSchema: z.object({ 
-            path: z.string().describe("The path to the file"), 
-            old_str: z 
-              .string() 
-              .nullable() 
-              .describe( 
-                "Text to search for - must match exactly and must only have one match exactly", 
-              ), 
-            new_str: z.string().describe("Text to replace old_str with"), 
-          }), 
-          execute: async ({ path, old_str, new_str }) => { 
-            try { 
-              const fileExists = fs.existsSync(path); 
-              if (fileExists && old_str !== null) { 
-                console.log(`Editing file '${path}'`); 
-                const fileContents = fs.readFileSync(path, "utf-8"); 
-                const newContents = fileContents.replace(old_str, new_str); 
-                fs.writeFileSync(path, newContents); 
-                return { path, success: true, action: "edit" }; 
-              } else { 
-                console.log(`Creating file '${path}'`); 
-                fs.writeFileSync(path, new_str); 
-                return { path, success: true, action: "create" }; 
-              } 
-            } catch (e) { 
-              console.error(`Error editing file ${path}:`, e); 
-              return { error: e, success: false }; 
-            } 
-          }, 
-      }), 
+          "Make edits to a text file or create a new file. Replaces 'old_str' with 'new_str' in the given file. 'old_str' and 'new_str' MUST be different from each other. If the file specified with path doesn't exist, it will be created.",
+          inputSchema: z.object({
+            path: z.string().describe("The path to the file"),
+            old_str: z
+              .string()
+              .nullable()
+              .describe(
+                "Text to search for - must match exactly and must only have one match exactly",
+              ),
+            new_str: z.string().describe("Text to replace old_str with"),
+          }),
+          execute: async ({ path, old_str, new_str }) => {
+            try {
+              const fileExists = fs.existsSync(path);
+              if (fileExists && old_str !== null) {
+                console.log(`Editing file '${path}'`);
+                const fileContents = fs.readFileSync(path, "utf-8");
+                const newContents = fileContents.replace(old_str, new_str);
+                fs.writeFileSync(path, newContents);
+                return { path, success: true, action: "edit" };
+              } else {
+                console.log(`Creating file '${path}'`);
+                fs.writeFileSync(path, new_str);
+                return { path, success: true, action: "create" };
+              }
+            } catch (e) {
+              console.error(`Error editing file ${path}:`, e);
+              return { error: e, success: false };
+            }
+          },
+      }),
     },
   });
 
@@ -543,6 +542,14 @@ export async function codingAgent(prompt: string) {
 Note that if you omit `stopWhen`, the tool is called but you get an empty response. The reason is that the language model can generate either text or tool call. It doesn't do both at the same time. So in this case, the language model generates a tool call, we execute the tool and have a tool result. But our step is complete, and by default every request you make with the AI SDK will just be one single step. With the SDK, you can describe the stop conditions for when this loop should stop using `stopWhen` property.
 
 Without the SDK, you have to manually wrap the entire call in a while loop, manage message history, and define some stop conditions.
+
+### The agent loop
+
+At the heart of every AI agent is something called “the agent loop.” As the result of the inference step, the model either (1) produces a final response to the user’s original input, or (2) requests a tool call that the agent is expected to perform. In the case of (2), the agent executes the tool call and appends its output to the original prompt. This output is used to generate a new input that’s used to re-query the model; the agent can then take this new information into account and try again.
+
+This process repeats until the model stops emitting tool calls and instead produces a message for the user. In many cases, this message directly answers the user’s original request, but it may also be a follow-up question for the user.
+
+The journey from user input to agent response is referred to as one turn of a conversation, though this conversation turn can include many iterations between the model inference and tool calls. Every time you send a new message to an existing conversation, the conversation history is included as part of the prompt for the new turn, which includes the messages and tool calls from previous turns. This means that as the conversation grows, so does the length of the prompt used to sample the model. This length matters because every model has a context window, which is the maximum number of tokens it can use for one inference call. Note this window includes both input and output tokens.
 
 ## AI SDK UI
 
@@ -667,11 +674,7 @@ For tool call UI, The `parts` array of assistant messages contains tool parts wi
   message.parts.map((part, index) => {
     switch (part.type) {
       case "text":
-        return (
-          <div key={`${message.id}-${index}`}>
-            {part.text}
-          </div>
-        );
+        return <div key={`${message.id}-${index}`}>{part.text}</div>;
       // type: `tool-${NAME}`
       case "tool-getWeather":
         switch (part.state) {

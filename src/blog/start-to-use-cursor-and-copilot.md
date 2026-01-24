@@ -194,7 +194,7 @@ Agent Skills are a lightweight, open format for extending AI agent capabilities 
 
 You can create Agent Skills to teach Copilot how to perform specialized tasks in a specific, repeatable way. Agent Skills are folders containing instructions, scripts, and resources that Copilot automatically loads when relevant to your prompt. Skills support is coming to the stable version of VS Code in early January 2026.
 
-You can write your own skills, or use skills shared by others, such as those in the [anthropics/skills](https://github.com/anthropics/skills) repository. Check out https://docs.github.com/copilot/concepts/agents/about-agent-skills
+You can write your own skills, or use skills shared by others, such as those in the [anthropics/skills](https://github.com/anthropics/skills) repository. Check out https://docs.github.com/copilot/concepts/agents/about-agent-skills and https://skills.sh.
 
 > Skills and MCP
 >

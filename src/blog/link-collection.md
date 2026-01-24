@@ -434,6 +434,8 @@ Full Stack App Build by CJ: https://www.youtube.com/watch?v=DK93dqmJJYg
 
 The creative library of animated Vue components: https://vue-bits.dev
 
+Agent skills for Vue 3 development: https://github.com/hyf0/vue-skills
+
 ---
 
 ## Browsers related
@@ -565,6 +567,8 @@ Advent of Claude 31 Days of Claude Code: https://adocomplete.com/advent-of-claud
 A collection of skills for AI coding agents: https://github.com/vercel-labs/agent-skills
 
 Install agent skills onto your coding agents: https://github.com/vercel-labs/add-skill
+
+A Complete Guide To AGENTS.md: https://www.aihero.dev/a-complete-guide-to-agents-md
 
 ---
 
