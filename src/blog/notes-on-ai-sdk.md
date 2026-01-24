@@ -3,7 +3,7 @@ title: "Notes on AI SDK (building agents)"
 description: ""
 added: "Apr 22 2025"
 tags: [AI]
-updatedDate: "Sep 18 2025"
+updatedDate: "Jan 24 2026"
 ---
 
 AI SDK is like an ORM for LLMs. It provides a simple interface to interact with different LLM providers, making it easy to switch between them without changing your code. The first part of this post is my learning notes from the [AI Engineer workshop](https://www.youtube.com/watch?v=kDlqpN1JyIw) tutorial by Nico Albanese.
@@ -545,11 +545,25 @@ Without the SDK, you have to manually wrap the entire call in a while loop, mana
 
 ### The agent loop
 
+_Read from https://openai.com/index/unrolling-the-codex-agent-loop_
+
 At the heart of every AI agent is something called “the agent loop.” As the result of the inference step, the model either (1) produces a final response to the user’s original input, or (2) requests a tool call that the agent is expected to perform. In the case of (2), the agent executes the tool call and appends its output to the original prompt. This output is used to generate a new input that’s used to re-query the model; the agent can then take this new information into account and try again.
 
 This process repeats until the model stops emitting tool calls and instead produces a message for the user. In many cases, this message directly answers the user’s original request, but it may also be a follow-up question for the user.
 
 The journey from user input to agent response is referred to as one turn of a conversation, though this conversation turn can include many iterations between the model inference and tool calls. Every time you send a new message to an existing conversation, the conversation history is included as part of the prompt for the new turn, which includes the messages and tool calls from previous turns. This means that as the conversation grows, so does the length of the prompt used to sample the model. This length matters because every model has a context window, which is the maximum number of tokens it can use for one inference call. Note this window includes both input and output tokens.
+
+You can think of the prompt as a “list of items”. In the initial prompt, every item in the list is associated with a role. The role indicates how much weight the associated content should have and is one of the following values (in decreasing order of priority): system, developer, user, assistant.
+
+- instructions: system message inserted into the model’s context
+- tools: a list of tools the model may call while generating a response
+- input: a list of text, image, or file inputs to the model
+
+Codex inserts the following items into the input before adding the user message:
+
+1. A message with `role=developer` that describes the sandbox that applies only to the Codex-provided shell tool defined in the tools section. The message is built from a template where the key pieces of content come from snippets of Markdown bundled into the Codex CLI, such as `workspace_write.md` and `on_request.md`.
+2. A message with `role=developer` whose contents are the `developer_instructions` value read from the user’s `config.toml` file.
+3. A message with `role=user` whose contents are the “user instructions,” which are not sourced from a single file but are aggregated across multiple sources⁠. Contents of `AGENTS.override.md` and `AGENTS.md`, and the skill metadata for each skill if exists.
 
 ## AI SDK UI
 

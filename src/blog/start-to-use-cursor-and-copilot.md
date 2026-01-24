@@ -3,7 +3,7 @@ title: "Start to use Cursor, Copilot and Gemini CLI"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Dec 27 2025"
+updatedDate: "Jan 24 2026"
 ---
 
 ## Get Started with Cursor
@@ -162,6 +162,8 @@ While agent mode lives in the IDE, **coding agent** lives in your repos. Assign 
 [2025-07] Microsoft have released the GitHub Copilot Chat client for VS Code under an open source (MIT) license. So far this is just the extension that provides the chat component of Copilot. The agent instructions can be found in [prompts/node/agent/agentInstructions.tsx](https://github.com/microsoft/vscode-copilot-chat/blob/main/src/extension/prompts/node/agent/agentInstructions.tsx).
 
 [2025-09] GitHub releases the GitHub Copilot CLI, a new entry that brings the power of Copilot directly to the command line. By simply running `copilot`, you enter an interactive session where you can prompt the agent, review its plans, and approve its actions in a conversational turn-based manner. It defaults to Claude Sonnet 4 but you can set `COPILOT_MODEL=gpt-5` to switch to GPT-5. It's billed against your existing GitHub Copilot account.
+
+[2026-01] GitHub Copilot SDK (now in technical preview) allows you to take the same Copilot agentic core that powers GitHub Copilot CLI and embed it in any application. This means instead of wiring your own planner, tool loop, and runtime, you can embed that agentic loop directly into your application and build on top of it for any use case. Get started here: https://github.com/github/copilot-sdk/blob/main/docs/getting-started.md
 
 ### Creating custom instructions
 
