@@ -565,6 +565,10 @@ Codex inserts the following items into the input before adding the user message:
 2. A message with `role=developer` whose contents are the `developer_instructions` value read from the user’s `config.toml` file.
 3. A message with `role=user` whose contents are the “user instructions,” which are not sourced from a single file but are aggregated across multiple sources⁠. Contents of `AGENTS.override.md` and `AGENTS.md`, and the skill metadata for each skill if exists.
 
+[Prompt caching](https://platform.openai.com/docs/guides/prompt-caching) is important, as it enables us to reuse computation from a previous inference call. Cache hits are only possible for exact prefix matches within a prompt. To realize caching benefits, place static content like instructions and examples at the beginning of your prompt, and put variable content, such as user-specific information, at the end. This also applies to images and tools, which must be identical between requests.
+
+Our general strategy to avoid running out of context window is to compact the conversation once the number of tokens exceeds some threshold. Specifically, we replace the input with a new, smaller list of items that is representative of the conversation, enabling the agent to continue with an understanding of what has happened thus far. An early implementation of compaction required the user to manually invoke the `/compact` command, which would query the Responses API using the existing conversation plus custom instructions for summarization. Codex used the resulting assistant message containing the summary as the new input for subsequent conversation turns. Now, Codex automatically uses the endpoint to compact the conversation when the `auto_compact_limit` is exceeded.
+
 ## AI SDK UI
 
 AI SDK UI provides abstractions that simplify the complex tasks of managing chat streams and UI updates on the frontend, enabling you to develop dynamic AI-driven interfaces more efficiently. With three main hooks — `useChat`, `useCompletion`, and `useObject`.
