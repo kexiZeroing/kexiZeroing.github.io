@@ -146,6 +146,16 @@ The Chat Agent will automatically use any MCP tools that are listed under `Avail
 
 > MCP servers offer two main capabilities: tools and resources. Tools are available in Cursor today, and allow Cursor to execute the tools offered by an MCP server, and use the output in its further steps. However, resources are not yet supported in Cursor. We are hoping to add resource support in future releases.
 
+### Browser
+
+Cursor Browser is a built-in browser tool that allows Cursor to interact with web applications directly. With Cursor Browser, the agent can navigate pages, fill forms, click elements, inspect console logs, and monitor network requests - all without leaving Cursor.
+
+The agent can read console logs, network requests, and even control the browser to do automated testing for you. You don't have to install any third-party MCP servers, just works. To use Cursor Browser, simply reference the browser in your prompts.
+
+- @browser Fill out forms with test data, click through workflows, test responsive designs, validate error messages, and monitor console for JavaScript errors
+
+- @browser Analyze this design mockup, extract colors and typography, and generate pixel-perfect HTML and CSS code
+
 ## GitHub Copilot
 
 ### Coding agent and agent mode
@@ -205,6 +215,14 @@ You can write your own skills, or use skills shared by others, such as those in 
 > MCP gives agents abilities. Skills teach agents how to use those abilities well.
 
 Skills are a dynamic context that bundles together instructions, scripts, and templates into a modular package. Unlike Rules, Skills are progressively loaded. The model only sees the Skill's name and description at first. If the agent decides the Skill is relevant to your request, it "calls" the skill, loading the full instructions and executing the necessary scripts. Use Skills for complex capabilities the model doesn't natively have, like reading PDF files or interacting with specific database schemas. They expand the agent's powers without bloating the context window or increasing costs when they aren't being used.
+
+Three-level loading pattern to manage context efficiently (progressive disclosure):
+
+| Level | What                                           | When Loaded                | Token Cost              |
+| ----- | ---------------------------------------------- | -------------------------- | ----------------------- |
+| 1     | `name` + `description` from index              | At startup or when probing | ~100 tokens per skill   |
+| 2     | Full `SKILL.md` body                           | When skill is activated    | < 5k tokens recommended |
+| 3     | Referenced files (scripts, references, assets) | On demand, as needed       | Unlimited               |
 
 ### What are premium requests
 
