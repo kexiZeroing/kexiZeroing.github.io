@@ -324,6 +324,8 @@ WebGL globe library: https://github.com/shuding/cobe
 
 A PDF viewer that integrates with any JavaScript project: https://github.com/embedpdf/embed-pdf-viewer
 
+Top Pens of 2025 on CodePen: https://codepen.io/2025/popular
+
 ---
 
 ## React ecosystem
@@ -564,11 +566,15 @@ The Modern Software Developer - Stanford University: https://themodernsoftware.d
 
 Advent of Claude 31 Days of Claude Code: https://adocomplete.com/advent-of-claude-2025
 
+Guide for creating effective skills: https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md
+
 A collection of skills for AI coding agents: https://github.com/vercel-labs/agent-skills
 
 Install agent skills onto your coding agents: https://github.com/vercel-labs/add-skill
 
 A Complete Guide To AGENTS.md: https://www.aihero.dev/a-complete-guide-to-agents-md
+
+Complete Claude Code configuration collection: https://github.com/affaan-m/everything-claude-code
 
 ---
 
