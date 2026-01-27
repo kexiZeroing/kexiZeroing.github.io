@@ -224,7 +224,7 @@ export async function getStaticProps(props) {
 export async function getStaticPaths() {
   const data = await fetch(`https://example.com/api/listings`);
   const { listings } = await data.json();
-  return { paths: listings.map(listing => ({ params: { id: listing.id } })) };
+  return { paths: listings.map((listing) => ({ params: { id: listing.id } })) };
 }
 ```
 
@@ -305,6 +305,8 @@ buttonVariants();
 buttonVariants({ intent: "secondary", size: "small" });
 // => "font-semibold border rounded bg-white text-gray-800 border-gray-400 hover:bg-gray-100 text-sm py-1 px-2"
 ```
+
+> This article ["The Incredible Overcomplexity of the Shadcn Radio Button"](https://paulmakeswebsites.com/writing/shadcn-radio-button) reflects critical thinking.
 
 ### Design system examples
 
@@ -493,7 +495,7 @@ export const handler = async () => {
 ```js
 fetchBtn.addEventListener("click", async () => {
   const response = await fetch("/.netlify/functions/hello-world").then(
-    response => response.json(),
+    (response) => response.json(),
   );
 
   responseText.innerText = JSON.stringify(response);
