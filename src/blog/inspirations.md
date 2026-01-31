@@ -66,6 +66,18 @@ Lee Robinson:
 - https://nohello.net
 - https://xyproblem.info
 
+## Skills
+
+Making devs finally write docs by calling them “skills” is a clever trick.
+
+- npx skills add vercel-labs/next-skills
+- npx skills add vercel-labs/agent-skills --skill vercel-react-best-practices
+- npx skills add anthropics/skills --skill frontend-design
+- npx skills add vuejs-ai/skills
+- npx skills add vueuse/skills
+- npx skills add vercel/ai
+- npx skills add remotion-dev/skills
+
 ## Learn from mistakes
 
 1. Make a mistake

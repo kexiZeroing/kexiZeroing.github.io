@@ -3,7 +3,7 @@ title: "Frontend interview questions"
 description: ""
 added: ""
 top: true
-order: 5
+order: 6
 updatedDate: "July 20 2025"
 ---
 
@@ -54,7 +54,7 @@ const urls = [];
 for (let i = 1; i <= 20; i++) {
   urls.push(`https://jsonplaceholder.typicode.com/todos/${i}`);
 }
-concurrencyRequest(urls, 3).then(res => {
+concurrencyRequest(urls, 3).then((res) => {
   console.log(res);
 });
 ```
@@ -62,7 +62,7 @@ concurrencyRequest(urls, 3).then(res => {
 2. Implement `Promise.all` and `Promise.resolve` by yourself.
 
 ```js
-Promise._all = function(promises) {
+Promise._all = function (promises) {
   return new Promise((resolve, reject) => {
     let counter = 0;
     const result = [];
@@ -70,20 +70,23 @@ Promise._all = function(promises) {
       // Use `Promise.resolve(promises[i])` instead of `promises[i].then()`,
       // if it is non-promise value, wrap it
       // if already promise, `Promise.resolve(promises[i])` returns the same Promise
-      Promise.resolve(promises[i]).then(res => {
-        result[i] = res;
-        counter += 1;
-        if (counter === promises.length) {
-          resolve(result);
-        }
-      }, err => {
-        reject(err);
-      });
+      Promise.resolve(promises[i]).then(
+        (res) => {
+          result[i] = res;
+          counter += 1;
+          if (counter === promises.length) {
+            resolve(result);
+          }
+        },
+        (err) => {
+          reject(err);
+        },
+      );
     }
   });
 };
 
-Promise._resolve = function(value) {
+Promise._resolve = function (value) {
   if (value instanceof Promise) {
     return value;
   } else {
@@ -126,10 +129,10 @@ function throttle(fn, delay) {
 4. Implement the `bind` function by yourself.
 
 ```js
-Function.prototype.myBind = function(context, ...args1) {
+Function.prototype.myBind = function (context, ...args1) {
   const fn = this;
 
-  return function(...args2) {
+  return function (...args2) {
     return fn.apply(context, [...args1, ...args2]);
   };
 };
@@ -151,11 +154,11 @@ function listToTree(list) {
   const map = {};
   const roots = [];
 
-  list.forEach(item => {
+  list.forEach((item) => {
     map[item.id] = { ...item, children: [] };
   });
 
-  list.forEach(item => {
+  list.forEach((item) => {
     if (item.pid === 0) {
       roots.push(map[item.id]);
     } else {

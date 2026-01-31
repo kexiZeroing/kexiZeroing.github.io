@@ -3,7 +3,7 @@ title: "Algorithm basics and LeetCode problems"
 description: ""
 added: ""
 top: true
-order: 4
+order: 5
 updatedDate: "Feb 16 2025"
 ---
 
@@ -307,7 +307,7 @@ function shuffleArray(arr) {
 ### Traverse Binary Tree
 
 ```js
-var preorderTraversal = function(root) {
+var preorderTraversal = function (root) {
   if (root == null) return [];
   let stack = [];
   let result = [];
@@ -326,7 +326,7 @@ var preorderTraversal = function(root) {
   return result;
 };
 
-var inorderTraversal = function(root) {
+var inorderTraversal = function (root) {
   if (root == null) return [];
   let result = [];
   let stack = [];
@@ -345,7 +345,7 @@ var inorderTraversal = function(root) {
   return result;
 };
 
-var postorderTraversal = function(root) {
+var postorderTraversal = function (root) {
   if (root == null) return [];
 
   let result = [];
@@ -361,7 +361,7 @@ var postorderTraversal = function(root) {
   return result.reverse();
 };
 
-var levelOrderTraversal = function(root) {
+var levelOrderTraversal = function (root) {
   if (!root) return [];
 
   let nodeQueue = [root];
@@ -397,7 +397,7 @@ var levelOrderTraversal = function(root) {
 
 ```js
 // Max and Min depth of Binary Tree
-var maxDepth = function(root) {
+var maxDepth = function (root) {
   if (!root) return 0;
 
   const left = maxDepth(root.left);
@@ -406,7 +406,7 @@ var maxDepth = function(root) {
   return Math.max(left, right) + 1;
 };
 
-var minDepth = function(root) {
+var minDepth = function (root) {
   if (!root) return 0;
 
   const nodeQueue = [root];
@@ -439,8 +439,12 @@ var minDepth = function(root) {
 ```js
 function dfs(i, j, visited, params) {
   if (
-    i < 0 || i >= rows || j < 0 || j >= cols || visited[i][j]
-    || !isValid(i, j, params)
+    i < 0 ||
+    i >= rows ||
+    j < 0 ||
+    j >= cols ||
+    visited[i][j] ||
+    !isValid(i, j, params)
   ) {
     return;
   }
@@ -465,8 +469,11 @@ The `visited` array is global or shared across all recursive calls. If you are s
 ```js
 function escapeMaze(maze, i, j) {
   if (
-    i < 0 || j < 0 || i >= maze.size() || j >= maze[0].size()
-    || maze[i][j] == "X"
+    i < 0 ||
+    j < 0 ||
+    i >= maze.size() ||
+    j >= maze[0].size() ||
+    maze[i][j] == "X"
   ) {
     return false;
   }
@@ -475,8 +482,12 @@ function escapeMaze(maze, i, j) {
   }
   maze[i][j] = "X";
 
-  return escapeMaze(maze, i + 1, j) || escapeMaze(maze, i - 1, j)
-    || escapeMaze(maze, i, j + 1) || escapeMaze(maze, i, j - 1);
+  return (
+    escapeMaze(maze, i + 1, j) ||
+    escapeMaze(maze, i - 1, j) ||
+    escapeMaze(maze, i, j + 1) ||
+    escapeMaze(maze, i, j - 1)
+  );
 }
 ```
 
@@ -487,41 +498,41 @@ function Heap() {
   this.items = [];
 }
 
-Heap.prototype.swap = function(index1, index2) {
+Heap.prototype.swap = function (index1, index2) {
   let temp = this.items[index1];
   this.items[index1] = this.items[index2];
   this.items[index2] = temp;
 };
 
-Heap.prototype.parentIndex = function(index) {
+Heap.prototype.parentIndex = function (index) {
   return Math.floor((index - 1) / 2);
 };
 
-Heap.prototype.leftChildIndex = function(index) {
+Heap.prototype.leftChildIndex = function (index) {
   return index * 2 + 1;
 };
 
-Heap.prototype.rightChildIndex = function(index) {
+Heap.prototype.rightChildIndex = function (index) {
   return index * 2 + 2;
 };
 
-Heap.prototype.parent = function(index) {
+Heap.prototype.parent = function (index) {
   return this.items[this.parentIndex(index)];
 };
 
-Heap.prototype.leftChild = function(index) {
+Heap.prototype.leftChild = function (index) {
   return this.items[this.leftChildIndex(index)];
 };
 
-Heap.prototype.rightChild = function(index) {
+Heap.prototype.rightChild = function (index) {
   return this.items[this.rightChildIndex(index)];
 };
 
-Heap.prototype.peek = function(index) {
+Heap.prototype.peek = function (index) {
   return this.items[0];
 };
 
-Heap.prototype.size = function() {
+Heap.prototype.size = function () {
   return this.items.length;
 };
 
@@ -532,13 +543,13 @@ function MinHeap() {
 MinHeap.prototype = Object.create(Heap.prototype);
 
 // add at the last position and then re-order the heap
-MinHeap.prototype.add = function(item) {
+MinHeap.prototype.add = function (item) {
   this.items[this.items.length] = item;
   this.bubbleUp();
 };
 
 // remove the minimum element and need to keep the heap order
-MinHeap.prototype.poll = function() {
+MinHeap.prototype.poll = function () {
   let item = this.items[0];
   this.items[0] = this.items[this.items.length - 1];
   this.items.pop();
@@ -546,7 +557,7 @@ MinHeap.prototype.poll = function() {
   return item;
 };
 
-MinHeap.prototype.bubbleUp = function() {
+MinHeap.prototype.bubbleUp = function () {
   let index = this.items.length - 1;
   while (this.parent(index) && this.parent(index) > this.items[index]) {
     this.swap(this.parentIndex(index), index);
@@ -554,12 +565,13 @@ MinHeap.prototype.bubbleUp = function() {
   }
 };
 
-MinHeap.prototype.bubbleDown = function() {
+MinHeap.prototype.bubbleDown = function () {
   let index = 0;
   while (this.leftChild(index)) {
     let smallerIndex = this.leftChildIndex(index);
     if (
-      this.rightChild(index) && this.rightChild(index) < this.leftChild(index)
+      this.rightChild(index) &&
+      this.rightChild(index) < this.leftChild(index)
     ) {
       smallerIndex = this.rightChildIndex(index);
     }
@@ -664,7 +676,7 @@ function LRUCache(capacity) {
   this.tail.prev = this.head;
 }
 
-LRUCache.prototype.addNode = function(node) {
+LRUCache.prototype.addNode = function (node) {
   let realTail = this.tail.prev;
   realTail.next = node;
   this.tail.prev = node;
@@ -672,14 +684,14 @@ LRUCache.prototype.addNode = function(node) {
   node.next = this.tail;
 };
 
-LRUCache.prototype.removeNode = function(node) {
+LRUCache.prototype.removeNode = function (node) {
   let prev = node.prev;
   let next = node.next;
   prev.next = next;
   next.prev = prev;
 };
 
-LRUCache.prototype.get = function(key) {
+LRUCache.prototype.get = function (key) {
   let node = this.map.get(key);
   if (node === undefined) {
     return -1;
@@ -690,7 +702,7 @@ LRUCache.prototype.get = function(key) {
   }
 };
 
-LRUCache.prototype.put = function(key, value) {
+LRUCache.prototype.put = function (key, value) {
   let node = this.map.get(key);
   if (node) {
     this.removeNode(node);
@@ -715,7 +727,7 @@ LRUCache.prototype.put = function(key, value) {
   Each time you can either climb 1 or 2 steps.
   How many distinct ways can you climb to the top?
 */
-let climbStairs = function(n) {
+let climbStairs = function (n) {
   const dp = Array(n + 1).fill(0);
   dp[1] = 1;
   dp[2] = 2;
@@ -733,7 +745,7 @@ let climbStairs = function(n) {
   Given a list of non-negative integers representing the amount of money of each house, and the adjacent houses have security system,
   determine the maximum amount of money you can rob without alerting the police.
 */
-let rob = function(nums) {
+let rob = function (nums) {
   const dp = Array(nums.length).fill(0);
   dp[0] = nums[0];
   dp[1] = Math.max(nums[0], nums[1]);
@@ -746,7 +758,7 @@ let rob = function(nums) {
 };
 
 // All houses at this place are arranged in a circle.
-let rob2 = function(nums) {
+let rob2 = function (nums) {
   const len = nums.length;
   if (len === 1) return nums[0];
 
@@ -773,7 +785,7 @@ let rob2 = function(nums) {
 Given an integer array nums, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`. Notice that the solution set must not contain duplicate triplets.
 
 ```js
-var threeSum = function(nums) {
+var threeSum = function (nums) {
   let res = [];
   nums.sort((a, b) => a - b);
 
@@ -814,7 +826,7 @@ var threeSum = function(nums) {
 Given a non-empty array of integers, return the `k` most frequent elements.
 
 ```js
-var topKFrequent = function(nums, k) {
+var topKFrequent = function (nums, k) {
   const res = [];
   const map = new Map();
   const bucket = Array(nums.length + 1);
@@ -850,7 +862,7 @@ var topKFrequent = function(nums, k) {
 Find the `kth` largest element in an unsorted array. Note that it is the `kth` largest element in the sorted order, not the `kth` largest distinct element. You may assume `k` is always valid.
 
 ```js
-var findKthLargest = function(nums, k) {
+var findKthLargest = function (nums, k) {
   let left = 0;
   let right = nums.length - 1;
 
@@ -887,7 +899,7 @@ var findKthLargest = function(nums, k) {
 You are given two integer arrays `nums1` and `nums2`, sorted in non-decreasing order, and two integers `m` and `n`, representing the number of elements in nums1 and nums2 respectively. Merge nums1 and nums2 into a single array in non-decreasing order stored inside the array `nums1`.
 
 ```js
-var merge = function(nums1, m, nums2, n) {
+var merge = function (nums1, m, nums2, n) {
   if (!n) return;
 
   let i = m - 1;
@@ -908,7 +920,7 @@ var merge = function(nums1, m, nums2, n) {
 Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
 ```js
-var strStr = function(haystack, needle) {
+var strStr = function (haystack, needle) {
   let i = 0;
   let j = 0;
 
@@ -934,7 +946,7 @@ Given an array of integers citations for their paper, return the researcher's h-
 ```js
 // 你要找一个最大的数字 H
 // 满足 至少有 H 个数 ≥ H
-var hIndex = function(citations) {
+var hIndex = function (citations) {
   let n = citations.length;
   let bucket = new Array(n + 1).fill(0);
 
@@ -959,7 +971,7 @@ var hIndex = function(citations) {
 Given an array of strings, group anagrams together. i.e. Input: `["eat", "tea", "tan", "ate", "nat", "bat"]`, Output: `[ ["ate","eat","tea"], ["nat","tan"], ["bat"] ]`
 
 ```js
-var groupAnagrams = function(strs) {
+var groupAnagrams = function (strs) {
   const hashTable = new Map();
   function sort(str) {
     return str.split("").sort().join("");
@@ -992,7 +1004,7 @@ var groupAnagrams = function(strs) {
 Given two strings `ransomNote` and `magazine`, return true if `ransomNote` can be constructed by using the letters from `magazine` and false otherwise.
 
 ```js
-var canConstruct = function(ransomNote, magazine) {
+var canConstruct = function (ransomNote, magazine) {
   let cnt = Array(26).fill(0);
   for (let c of magazine) {
     cnt[c.charCodeAt(0) - "a".charCodeAt(0)]++;
@@ -1012,7 +1024,7 @@ var canConstruct = function(ransomNote, magazine) {
 A happy number is a number defined by starting with any positive integer, replace the number by the sum of the squares of its digits. Repeat the process until the number equals 1. Return true if n is a happy number, and false if not.
 
 ```js
-var isHappy = function(n) {
+var isHappy = function (n) {
   let set = new Set();
 
   function getNext(m) {
@@ -1044,7 +1056,7 @@ var isHappy = function(n) {
 Given a string, find the length of the longest substring without repeating characters.
 
 ```js
-var lengthOfLongestSubstring = function(s) {
+var lengthOfLongestSubstring = function (s) {
   let maxLength = 0;
   let charMap = new Map();
   let left = 0;
@@ -1066,7 +1078,7 @@ var lengthOfLongestSubstring = function(s) {
 Given an array of positive integers nums and a positive integer target, return the minimal length of a subarray whose sum is greater than or equal to target.
 
 ```js
-var minSubArrayLen = function(target, nums) {
+var minSubArrayLen = function (target, nums) {
   let minLength = Infinity;
   let sum = 0;
   let left = 0;
@@ -1087,7 +1099,7 @@ var minSubArrayLen = function(target, nums) {
 Find All Anagrams in a String. Given two strings `s` and `p`, return an array of all the start indices of `p`'s anagrams in `s`. For example, Input: s = "cbaebabacd", p = "abc"; Output: [0,6].
 
 ```js
-var findAnagrams = function(s, p) {
+var findAnagrams = function (s, p) {
   let res = [];
   let dict = Array(26).fill(0);
 
@@ -1128,7 +1140,7 @@ Given two strings s1 and s2, return true if s2 contains a permutation of s1 (one
 // different from `ransomNote` and `magazine`
 // s1 = "abc"
 // s2 = "aabbcc"
-var checkInclusion = function(s1, s2) {
+var checkInclusion = function (s1, s2) {
   let len1 = s1.length;
   let len2 = s2.length;
   if (len1 > len2) return false;
@@ -1139,7 +1151,7 @@ var checkInclusion = function(s1, s2) {
     count[s1.charCodeAt(i) - 97]++;
     count[s2.charCodeAt(i) - 97]--;
   }
-  if (count.every(i => i === 0)) {
+  if (count.every((i) => i === 0)) {
     return true;
   }
 
@@ -1147,7 +1159,7 @@ var checkInclusion = function(s1, s2) {
     // slide a window
     count[s2.charCodeAt(i) - 97]--;
     count[s2.charCodeAt(i - len1) - 97]++;
-    if (count.every(e => e === 0)) {
+    if (count.every((e) => e === 0)) {
       return true;
     }
   }
@@ -1158,7 +1170,7 @@ var checkInclusion = function(s1, s2) {
 You are given a string s and an integer k. You can choose any character of the string and change it to any other character. You can perform this operation at most k times. Return the length of the longest substring containing the same letter you can get after performing the above operations.
 
 ```js
-var characterReplacement = function(s, k) {
+var characterReplacement = function (s, k) {
   let left = 0;
   let maxCharCount = 0;
   let visited = {};
@@ -1186,7 +1198,7 @@ var characterReplacement = function(s, k) {
 You are given a string s. We want to partition the string into as many parts as possible so that each letter appears in at most one part. Return a list of the size of these parts.
 
 ```js
-var partitionLabels = function(s) {
+var partitionLabels = function (s) {
   let last = Array(26).fill(-1);
   let partitions = [];
   let left = 0;
@@ -1211,8 +1223,10 @@ var partitionLabels = function(s) {
 Given a string s, return the longest palindromic substring in s.
 
 ```js
-var longestPalindrome = function(s) {
-  let left = 0, right = 0, maxLength = 0;
+var longestPalindrome = function (s) {
+  let left = 0,
+    right = 0,
+    maxLength = 0;
 
   const extend = (s, i, j, n) => {
     while (i >= 0 && j < n && s[i] === s[j]) {
@@ -1239,7 +1253,7 @@ var longestPalindrome = function(s) {
 Given an array nums of size n, return the majority element. The majority element is the element that appears more than `⌊n / 2⌋` times. (assume it always exists)
 
 ```js
-var majorityElement = function(nums) {
+var majorityElement = function (nums) {
   let count = 0;
   let candidate = 0;
 
@@ -1260,7 +1274,7 @@ var majorityElement = function(nums) {
 Given a string containing just the characters '(' and ')', return the length of the longest valid parentheses substring.
 
 ```js
-var longestValidParentheses = function(s) {
+var longestValidParentheses = function (s) {
   let stack = [];
   let maxLength = 0;
   let start = 0;
@@ -1287,7 +1301,7 @@ var longestValidParentheses = function(s) {
 Given a string s representing a valid expression, implement a basic calculator to evaluate it. s consists of digits, `'+'`, `'-'`, `'('`, `')'`, and `' '`.
 
 ```js
-var calculate = function(s) {
+var calculate = function (s) {
   let res = 0;
   let stack = [];
   let number = 0;
@@ -1323,7 +1337,7 @@ var calculate = function(s) {
 Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, return an empty string "".
 
 ```js
-var longestCommonPrefix = function(strs) {
+var longestCommonPrefix = function (strs) {
   strs.sort();
 
   for (let i = 0; i < strs[0].length; i++) {
@@ -1339,8 +1353,8 @@ var longestCommonPrefix = function(strs) {
 Given an unsorted integer array nums. Return the smallest positive integer that is not present in nums.
 
 ```js
-var firstMissingPositive = function(nums) {
-  const numSet = new Set(nums.filter(num => num > 0));
+var firstMissingPositive = function (nums) {
+  const numSet = new Set(nums.filter((num) => num > 0));
   let i = 1;
 
   while (numSet.has(i)) {
@@ -1353,7 +1367,7 @@ var firstMissingPositive = function(nums) {
 Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence. Take `[10, 4, 20, 1, 3, 2]` as an example, the longest consecutive elements sequence is `[1, 2, 3, 4]`.
 
 ```js
-var longestConsecutive = function(nums) {
+var longestConsecutive = function (nums) {
   let numSet = new Set(nums);
   let longest = 0;
 
@@ -1375,7 +1389,7 @@ var longestConsecutive = function(nums) {
 Given an integer array nums, return an array answer such that `answer[i]` is equal to the product of all the elements of nums except `nums[i]`.
 
 ```js
-var productExceptSelf = function(nums) {
+var productExceptSelf = function (nums) {
   let n = nums.length;
   let output = [];
 
@@ -1402,7 +1416,7 @@ var productExceptSelf = function(nums) {
 Children are standing in a line. Each child is assigned a rating value. You are giving candies to these children subjected to 1. Each child must have at least one candy. 2. Children with a higher rating get more candies than their neighbors. Return the minimum number of candies you need.
 
 ```js
-var candy = function(ratings) {
+var candy = function (ratings) {
   let left = [];
   let right = [];
   let n = ratings.length;
@@ -1430,14 +1444,14 @@ var candy = function(ratings) {
 Given an array of integers temperatures represents the daily temperatures, return an array answer such that `answer[i]` is the number of days you have to wait after the `ith` day to get a warmer temperature. If there is no future day for which this is possible, keep `answer[i] == 0` instead.
 
 ```js
-var dailyTemperatures = function(temperatures) {
+var dailyTemperatures = function (temperatures) {
   let stack = [];
   let res = new Array(temperatures.length).fill(0);
 
   for (let i = 0; i < temperatures.length; i++) {
     while (
-      stack.length > 0
-      && temperatures[i] > temperatures[stack[stack.length - 1]]
+      stack.length > 0 &&
+      temperatures[i] > temperatures[stack[stack.length - 1]]
     ) {
       let preIndex = stack.pop();
       res[preIndex] = i - preIndex;
@@ -1453,7 +1467,7 @@ var dailyTemperatures = function(temperatures) {
 The next greater element of x in an array is the first greater element that is to the right of x in the same array. You are given two distinct arrays, where nums1 is a subset of nums2. For each `0 <= i < nums1.length`, find the index j such that `nums1[i] == nums2[j]` and determine the next greater element of `nums2[j]` in nums2. If there is no next greater element, then the answer for this query is -1.
 
 ```js
-var nextGreaterElement = function(nums1, nums2) {
+var nextGreaterElement = function (nums1, nums2) {
   // key is a number from nums2
   // value is its next greater number
   let map = new Map();
@@ -1477,7 +1491,7 @@ var nextGreaterElement = function(nums1, nums2) {
 Given string num representing a non-negative integer num, and an integer k, return the smallest possible integer after removing k digits from num.
 
 ```js
-var removeKdigits = function(num, k) {
+var removeKdigits = function (num, k) {
   let stack = [];
   for (let c of num) {
     while (stack.length && k > 0 && c < stack[stack.length - 1]) {
@@ -1503,7 +1517,7 @@ var removeKdigits = function(num, k) {
 Given an array of integers nums, calculate the pivot index of this array. The pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right.
 
 ```js
-var pivotIndex = function(nums) {
+var pivotIndex = function (nums) {
   let total = nums.reduce((a, b) => a + b, 0);
   let leftTotal = 0;
 
@@ -1523,8 +1537,9 @@ Given an array of integers and an integer `k`, you need to find the total number
 
 ```js
 // the sum of subarray can be get by `sum[0,j] - sum[0,i]`
-var subarraySum = function(nums, k) {
-  let sum = 0, res = 0;
+var subarraySum = function (nums, k) {
+  let sum = 0,
+    res = 0;
   let map = new Map(); // key is the sum, value is the # of way to get that sum
   map.set(0, 1);
 
@@ -1547,7 +1562,7 @@ var subarraySum = function(nums, k) {
 Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it. Return the number of nice sub-arrays.
 
 ```js
-var numberOfSubarrays = function(nums, k) {
+var numberOfSubarrays = function (nums, k) {
   let oddCount = 0;
   let result = 0;
   let count = new Map();
@@ -1572,7 +1587,7 @@ var numberOfSubarrays = function(nums, k) {
 Given an array of positive integers arr, return the sum of all possible odd-length subarrays of arr.
 
 ```js
-var sumOddLengthSubarrays = function(arr) {
+var sumOddLengthSubarrays = function (arr) {
   let ans = 0;
   // preSum[i] stores the sum of elements from index 0 to i-1.
   // if arr = [1, 2, 3], then preSum will be [0, 1, 3, 6].
@@ -1595,7 +1610,7 @@ var sumOddLengthSubarrays = function(arr) {
 Given an array of integers and an integer `k`, find out whether there are two distinct indices `i` and `j` in the array such that `nums[i] = nums[j]` and the absolute difference between `i` and `j` is at most `k`.
 
 ```js
-var containsNearbyDuplicate = function(nums, k) {
+var containsNearbyDuplicate = function (nums, k) {
   const map = new Map(); // key is nums[i], value is its index
   for (let i = 0; i < nums.length; i++) {
     const num = nums[i];
@@ -1611,7 +1626,7 @@ var containsNearbyDuplicate = function(nums, k) {
 Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the non-zero elements. You must do this in-place without making a copy of the array.
 
 ```js
-var moveZeroes = function(nums) {
+var moveZeroes = function (nums) {
   let index = 0;
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] !== 0) {
@@ -1629,7 +1644,7 @@ var moveZeroes = function(nums) {
 Given an integer array nums, find the subarray with the largest sum, and return its sum.
 
 ```js
-var maxSubArray = function(nums) {
+var maxSubArray = function (nums) {
   let sum = 0;
   let max = -Infinity;
 
@@ -1650,10 +1665,12 @@ var maxSubArray = function(nums) {
 Given a circular integer array nums of length n, return the maximum possible sum of a non-empty subarray of nums.
 
 ```js
-var maxSubarraySumCircular = function(nums) {
+var maxSubarraySumCircular = function (nums) {
   let total = 0;
-  let curMax = 0, maxSum = -Infinity;
-  let curMin = 0, minSum = Infinity;
+  let curMax = 0,
+    maxSum = -Infinity;
+  let curMin = 0,
+    minSum = Infinity;
 
   for (let n of nums) {
     total += n;
@@ -1676,7 +1693,7 @@ var maxSubarraySumCircular = function(nums) {
 Given a non-empty array of integers nums, the degree of this array is defined as the maximum frequency of any one of its elements. Your task is to find the smallest possible length of a subarray of nums, that has the same degree as nums.
 
 ```js
-var findShortestSubArray = function(nums) {
+var findShortestSubArray = function (nums) {
   let firstOccurrence = new Map();
   let lastOccurrence = new Map();
   let frequencyMap = new Map();
@@ -1707,8 +1724,8 @@ var findShortestSubArray = function(nums) {
 Given an integer array containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed. Flowers cannot be planted in adjacent plots.
 
 ```js
-var canPlaceFlowers = function(flowerbed, n) {
-  for (let i = 0; i < flowerbed.length && n > 0;) {
+var canPlaceFlowers = function (flowerbed, n) {
+  for (let i = 0; i < flowerbed.length && n > 0; ) {
     if (flowerbed[i] === 1) {
       i += 2;
     } // current position is empty
@@ -1728,7 +1745,7 @@ var canPlaceFlowers = function(flowerbed, n) {
 You are given an integer array nums. Each element in the array represents your maximum jump length at that position. Return true if you can reach the last index, or false otherwise.
 
 ```js
-var canJump = function(nums) {
+var canJump = function (nums) {
   let reachable = nums[0];
 
   for (let i = 1; i < nums.length; i++) {
@@ -1747,7 +1764,7 @@ var canJump = function(nums) {
 You are initially positioned at `nums[0]`. Return the minimum number of jumps to reach `nums[n - 1]`.
 
 ```js
-var jump = function(nums) {
+var jump = function (nums) {
   // greedy approach
   let res = 0;
   let reachable = 0;
@@ -1772,7 +1789,7 @@ var jump = function(nums) {
 There are n gas stations along a circular route. Your car costs `cost[i]` of gas to travel from the ith station to its next station. You begin the journey with an empty tank at one of the gas stations. Return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1.
 
 ```js
-var canCompleteCircuit = function(gas, cost) {
+var canCompleteCircuit = function (gas, cost) {
   let totalTank = 0;
   let currentTank = 0;
   let start = 0;
@@ -1799,7 +1816,7 @@ var canCompleteCircuit = function(gas, cost) {
 Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. (i.e., `[0,1,2,4,5,6,7]` might become `[4,5,6,7,0,1,2]`). You are given a target value to search. If found in the array return its index, otherwise return -1. You may assume no duplicate exists in the array.
 
 ```js
-var search = function(nums, target) {
+var search = function (nums, target) {
   let start = 0;
   let end = nums.length - 1;
 
@@ -1831,7 +1848,7 @@ var search = function(nums, target) {
 You are given an m x n integer matrix. Each row is sorted in non-decreasing order. The first integer of each row is greater than the last integer of the previous row. Given an integer target, return true if target is in matrix or false otherwise.
 
 ```js
-var searchMatrix = function(matrix, target) {
+var searchMatrix = function (matrix, target) {
   let left = 0;
   let right = matrix.length - 1;
   let mid;
@@ -1839,7 +1856,8 @@ var searchMatrix = function(matrix, target) {
   while (left <= right) {
     mid = Math.floor((left + right) / 2);
     if (
-      target >= matrix[mid][0] && target <= matrix[mid][matrix[mid].length - 1]
+      target >= matrix[mid][0] &&
+      target <= matrix[mid][matrix[mid].length - 1]
     ) {
       break;
     }
@@ -1857,7 +1875,7 @@ var searchMatrix = function(matrix, target) {
 Given an array of integers nums sorted in non-decreasing order, find the starting and ending position of a given target value. If target is not found in the array, return [-1, -1].
 
 ```js
-var searchRange = function(nums, target) {
+var searchRange = function (nums, target) {
   const binarySearch = (nums, target, isSearchingLeft) => {
     let left = 0;
     let right = nums.length - 1;
@@ -1934,7 +1952,7 @@ function checkPerfectSquare(num) {
 Given a collection of intervals, merge all overlapping intervals. i.e. Input: `[[1,3],[2,6],[8,10],[15,18]]`; Output: `[[1,6],[8,10],[15,18]]`.
 
 ```js
-var merge = function(intervals) {
+var merge = function (intervals) {
   intervals.sort((a, b) => a[0] - b[0]);
 
   for (let i = 0; i < intervals.length - 1; i++) {
@@ -1946,14 +1964,14 @@ var merge = function(intervals) {
       intervals[i + 1] = [Math.min(cur[0], next[0]), Math.max(cur[1], next[1])];
     }
   }
-  return intervals.filter(q => q); // fiter to pass undefined value
+  return intervals.filter((q) => q); // fiter to pass undefined value
 };
 ```
 
 Given an array of meeting time intervals consisting of start and end times, find the minimum number of conference rooms required. For example, Given `[[0, 30],[5, 10],[15, 20]]`, return 2.
 
 ```js
-var minMeetingRooms = function(intervals) {
+var minMeetingRooms = function (intervals) {
   if (intervals.length === 0) return 0;
   intervals.sort((a, b) => a[0] - b[0]);
 
@@ -1977,7 +1995,7 @@ var minMeetingRooms = function(intervals) {
 Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
 
 ```js
-var trap = function(height) {
+var trap = function (height) {
   const stack = [];
   let res = 0;
 
@@ -1989,8 +2007,8 @@ var trap = function(height) {
       if (stack.length) {
         // i -> right boundary
         // stack[stack.length - 1] -> left boundary
-        const heightVal = Math.min(height[stack[stack.length - 1]], curH)
-          - height[preIndex];
+        const heightVal =
+          Math.min(height[stack[stack.length - 1]], curH) - height[preIndex];
         const length = i - stack[stack.length - 1] - 1;
         res += heightVal * length;
       }
@@ -2005,8 +2023,9 @@ var trap = function(height) {
 You are given an integer array `height` of length n. There are n vertical lines. Find two lines that together with the x-axis form a container, such that the container contains the most water.
 
 ```js
-var maxArea = function(height) {
-  let i = 0, j = height.length - 1;
+var maxArea = function (height) {
+  let i = 0,
+    j = height.length - 1;
   let res = 0;
 
   while (i < j) {
@@ -2026,7 +2045,7 @@ var maxArea = function(height) {
 The next permutation of an array of integers is the next lexicographically greater permutation of its integer. If such arrangement is not possible, the array must be rearranged as the lowest possible order.
 
 ```js
-var nextPermutation = function(nums) {
+var nextPermutation = function (nums) {
   // Find the first pair from the right where nums[i] < nums[i+1]
   let i;
   for (i = nums.length - 2; i >= 0; i--) {
@@ -2060,7 +2079,7 @@ function reverse(nums, start, end) {
 Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
 
 ```js
-var permute = function(nums) {
+var permute = function (nums) {
   const result = [];
 
   function backtrack(path) {
@@ -2104,7 +2123,7 @@ function backtrack(当前路径 path, 可选列表 choices) {
 Given an integer array nums of unique elements, return all possible subsets.
 
 ```js
-var subsets = function(nums) {
+var subsets = function (nums) {
   const result = [];
 
   function backtrack(path, start) {
@@ -2125,7 +2144,7 @@ var subsets = function(nums) {
 Given two integers n and k, return all possible combinations of k numbers chosen from the range [1, n]. You may return the answer in any order.
 
 ```js
-var combine = function(n, k) {
+var combine = function (n, k) {
   const result = [];
 
   function backtrack(path, start) {
@@ -2149,18 +2168,18 @@ var combine = function(n, k) {
 Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. A mapping of digits to letters (just like on the telephone buttons) is `2->abc` ... `9->wxyz`.
 
 ```js
-var letterCombinations = function(digits) {
+var letterCombinations = function (digits) {
   if (!digits.length) return [];
 
   const digitToLetters = {
-    "2": "abc",
-    "3": "def",
-    "4": "ghi",
-    "5": "jkl",
-    "6": "mno",
-    "7": "pqrs",
-    "8": "tuv",
-    "9": "wxyz",
+    2: "abc",
+    3: "def",
+    4: "ghi",
+    5: "jkl",
+    6: "mno",
+    7: "pqrs",
+    8: "tuv",
+    9: "wxyz",
   };
   const result = [];
 
@@ -2188,7 +2207,7 @@ var letterCombinations = function(digits) {
 Given the root of a binary tree, invert the tree, and return its root.
 
 ```js
-var invertTree = function(root) {
+var invertTree = function (root) {
   if (root === null) return root;
 
   [root.left, root.right] = [root.right, root.left];
@@ -2202,7 +2221,7 @@ var invertTree = function(root) {
 Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
 
 ```js
-var lowestCommonAncestor = function(root, p, q) {
+var lowestCommonAncestor = function (root, p, q) {
   if (!root || root === p || root === q) return root;
 
   let left = lowestCommonAncestor(root.left, p, q);
@@ -2217,7 +2236,7 @@ var lowestCommonAncestor = function(root, p, q) {
 Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.
 
 ```js
-var lowestCommonAncestor = function(root, p, q) {
+var lowestCommonAncestor = function (root, p, q) {
   if (!root || root === p || root === q) return root;
 
   if (p.val < root.val && q.val < root.val) {
@@ -2234,23 +2253,25 @@ var lowestCommonAncestor = function(root, p, q) {
 Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
 
 ```js
-var hasPathSum = function(root, targetSum) {
+var hasPathSum = function (root, targetSum) {
   if (root === null) {
     return false;
   }
-  if (root.val === targetSum && (root.left === null && root.right === null)) {
+  if (root.val === targetSum && root.left === null && root.right === null) {
     return true;
   }
 
-  return hasPathSum(root.left, targetSum - root.val)
-    || hasPathSum(root.right, targetSum - root.val);
+  return (
+    hasPathSum(root.left, targetSum - root.val) ||
+    hasPathSum(root.right, targetSum - root.val)
+  );
 };
 ```
 
 Given the root of a binary tree, return the maximum path sum of any non-empty path. A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once.
 
 ```js
-var maxPathSum = function(root) {
+var maxPathSum = function (root) {
   let maxSum = -Infinity;
 
   const maxHelper = (node) => {
@@ -2273,14 +2294,14 @@ var maxPathSum = function(root) {
 Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.
 
 ```js
-var isSubtree = function(root, subRoot) {
+var isSubtree = function (root, subRoot) {
   if (subRoot === null) return true;
   if (root === null) return false;
 
   if (isSameTree(root, subRoot)) {
     return true;
   }
-  return (isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot));
+  return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
 };
 
 function isSameTree(p, q) {
@@ -2288,21 +2309,25 @@ function isSameTree(p, q) {
     return p === q;
   }
 
-  return (p.val === q.val && isSameTree(p.left, q.left)
-    && isSameTree(p.right, q.right));
+  return (
+    p.val === q.val &&
+    isSameTree(p.left, q.left) &&
+    isSameTree(p.right, q.right)
+  );
 }
 ```
 
 Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
 
 ```js
-var isSymmetric = function(root) {
+var isSymmetric = function (root) {
   function isMirror(p, q) {
     if (p === null || q === null) {
       return p === q;
     }
-    return (p.val === q.val && isMirror(p.left, q.right)
-      && isMirror(p.right, q.left));
+    return (
+      p.val === q.val && isMirror(p.left, q.right) && isMirror(p.right, q.left)
+    );
   }
 
   return isMirror(root.left, root.right);
@@ -2312,7 +2337,7 @@ var isSymmetric = function(root) {
 Given a binary tree, determine if it is height-balanced (depth of the two subtrees of every node never differs by more than one).
 
 ```js
-var isBalanced = function(root) {
+var isBalanced = function (root) {
   function checkHeight(node) {
     if (node === null) return 0;
 
@@ -2332,14 +2357,15 @@ var isBalanced = function(root) {
 Given the root of a binary tree, determine if it is a valid binary search tree.
 
 ```js
-var isValidBST = function(root) {
+var isValidBST = function (root) {
   const helper = (root, min, max) => {
     if (root === null) return true;
 
     if (root.val < min || root.val > max) return false;
 
-    return helper(root.left, min, root.val)
-      && helper(root.right, root.val, max);
+    return (
+      helper(root.left, min, root.val) && helper(root.right, root.val, max)
+    );
   };
 
   return helper(root, -Infinity, Infinity);
@@ -2349,7 +2375,7 @@ var isValidBST = function(root) {
 You are given the root of a binary tree containing digits from 0 to 9 only. Each root-to-leaf path in the tree represents a number. Return the total sum of all root-to-leaf numbers.
 
 ```js
-var sumNumbers = function(root) {
+var sumNumbers = function (root) {
   function dfs(node, sum) {
     if (!node) {
       return 0;
@@ -2368,7 +2394,7 @@ var sumNumbers = function(root) {
 Construct binary tree from pre-order and in-order traversal.
 
 ```js
-var buildTree = function(preorder, inorder) {
+var buildTree = function (preorder, inorder) {
   if (preorder.length === 0) {
     return null;
   }
@@ -2387,7 +2413,7 @@ var buildTree = function(preorder, inorder) {
 Given an integer array nums where the elements are sorted in ascending order, convert it to a height-balanced binary search tree.
 
 ```js
-var sortedArrayToBST = function(nums) {
+var sortedArrayToBST = function (nums) {
   function build(left, right) {
     if (right < left) {
       return null;
@@ -2409,7 +2435,7 @@ var sortedArrayToBST = function(nums) {
 Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
 
 ```js
-var kthSmallest = function(root, k) {
+var kthSmallest = function (root, k) {
   // BST -> in-order traversal
   let stack = [];
   let current = root;
@@ -2437,7 +2463,7 @@ var kthSmallest = function(root, k) {
 Given the root of a binary tree, flatten the tree into a "linked list". The "linked list" should use the same TreeNode class. The "linked list" should be in the same order as a pre-order traversal of the binary tree.
 
 ```js
-var flatten = function(root) {
+var flatten = function (root) {
   if (!root) return;
 
   let stack = [root];
@@ -2462,7 +2488,7 @@ var flatten = function(root) {
 Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
 
 ```js
-var rightSideView = function(root) {
+var rightSideView = function (root) {
   if (!root) return [];
 
   let result = [];
@@ -2495,7 +2521,7 @@ Given the head of a linked list, remove the nth node from the end of the list an
 // fast pointer moves forward `n` steps first,
 // then fast and slow pointers move forward together,
 // until the fast pointer reaches the end of the linked list.
-var removeNthFromEnd = function(head, n) {
+var removeNthFromEnd = function (head, n) {
   let dummy = new ListNode(0, head);
   let fast = dummy;
   let slow = dummy;
@@ -2516,7 +2542,7 @@ var removeNthFromEnd = function(head, n) {
 You are given the heads of two sorted linked lists. Merge the two lists into one sorted list.
 
 ```js
-var mergeTwoLists = function(list1, list2) {
+var mergeTwoLists = function (list1, list2) {
   let dummy = new ListNode();
   let cur = dummy;
 
@@ -2539,7 +2565,7 @@ var mergeTwoLists = function(list1, list2) {
 Given a reference of a node in a connected undirected graph. Return a clone of the graph.
 
 ```js
-var cloneGraph = function(node) {
+var cloneGraph = function (node) {
   if (!node) return null;
 
   // Map<orginal node, cloned node>
@@ -2567,7 +2593,7 @@ var cloneGraph = function(node) {
 Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges are all surrounded by water.
 
 ```js
-var numIslands = function(grid) {
+var numIslands = function (grid) {
   let count = 0;
   let rows = grid.length;
   if (rows === 0) return 0;
@@ -2601,7 +2627,7 @@ function dfs(grid, i, j, rows, cols) {
 You are given an `m x n` binary matrix grid. An island is a group of 1's connected 4-directionally. The area of an island is the number of cells with a value 1. Return the maximum area of an island in grid.
 
 ```js
-var maxAreaOfIsland = function(grid) {
+var maxAreaOfIsland = function (grid) {
   let n = grid.length;
   let m = grid[0].length;
   let ans = 0;
@@ -2629,7 +2655,7 @@ var maxAreaOfIsland = function(grid) {
 Given an m x n grid of characters board and a string word, return true if word exists in the grid. The word can be constructed from letters of sequentially adjacent cells (horizontally or vertically).
 
 ```js
-var exist = function(board, word) {
+var exist = function (board, word) {
   let m = board.length;
   let n = board[0].length;
   let visited = Array.from(Array(m), () => Array(n).fill(false));
@@ -2654,18 +2680,22 @@ function dfs(board, word, i, j, k, visited) {
   }
 
   if (
-    i < 0 || i > m - 1 || j < 0 || j > n - 1 || visited[i][j]
-    || board[i][j] !== word.charAt(k)
+    i < 0 ||
+    i > m - 1 ||
+    j < 0 ||
+    j > n - 1 ||
+    visited[i][j] ||
+    board[i][j] !== word.charAt(k)
   ) {
     return false;
   }
 
   visited[i][j] = true;
   if (
-    dfs(board, word, i + 1, j, k + 1, visited)
-    || dfs(board, word, i - 1, j, k + 1, visited)
-    || dfs(board, word, i, j + 1, k + 1, visited)
-    || dfs(board, word, i, j - 1, k + 1, visited)
+    dfs(board, word, i + 1, j, k + 1, visited) ||
+    dfs(board, word, i - 1, j, k + 1, visited) ||
+    dfs(board, word, i, j + 1, k + 1, visited) ||
+    dfs(board, word, i, j - 1, k + 1, visited)
   ) {
     return true;
   }
@@ -2678,7 +2708,7 @@ function dfs(board, word, i, j, k, visited) {
 Given two words, `beginWord` and `endWord`, and a dictionary `wordList`, return the number of words in the shortest transformation sequence from `beginWord` to `endWord`, or 0 if no such sequence exists. Every adjacent pair of words differs by a single letter.
 
 ```js
-var ladderLength = function(beginWord, endWord, wordList) {
+var ladderLength = function (beginWord, endWord, wordList) {
   let wordSet = new Set(wordList);
   let queue = [beginWord];
   let steps = 1;
@@ -2693,8 +2723,8 @@ var ladderLength = function(beginWord, endWord, wordList) {
 
       for (let j = 0; j < word.length; j++) {
         for (let k = 0; k < 26; k++) {
-          let newWord = word.slice(0, j) + String.fromCharCode(k + 97)
-            + word.slice(j + 1);
+          let newWord =
+            word.slice(0, j) + String.fromCharCode(k + 97) + word.slice(j + 1);
           if (wordSet.has(newWord)) {
             queue.push(newWord);
             // wordSet acts as a visited tracker
@@ -2714,7 +2744,7 @@ var ladderLength = function(beginWord, endWord, wordList) {
 A gene string can be represented by an 8-character long string, with choices from 'A', 'C', 'G', and 'T'. Given the two gene strings `startGene` and `endGene` and the gene bank, return the minimum number of mutations needed to mutate from `startGene` to `endGene`. If there is no such a mutation, return -1.
 
 ```js
-var minMutation = function(startGene, endGene, bank) {
+var minMutation = function (startGene, endGene, bank) {
   let step = 0;
   let queue = [startGene];
   let bankSet = new Set(bank);
@@ -2750,7 +2780,7 @@ var minMutation = function(startGene, endGene, bank) {
 There are a total of numCourses courses you have to take, labeled from `0` to `numCourses - 1`. Prerequisites `[a, b]` indicates that you must take course `b` first if you want to take course `a`. Return true if you can finish all courses.
 
 ```js
-var canFinish = function(numCourses, prerequisites) {
+var canFinish = function (numCourses, prerequisites) {
   let inDegree = Array(numCourses).fill(0);
   let adj = Array.from({ length: numCourses }, () => []);
 
@@ -2785,7 +2815,7 @@ var canFinish = function(numCourses, prerequisites) {
 The message is decoded via the following mapping: `"1" -> 'A'` ... `"26" -> 'Z'`. There are many different ways you can decode the message because some codes are contained in other codes ("2" and "5" vs "25"). Given a string s containing only digits, return the number of ways to decode it.
 
 ```js
-var numDecodings = function(s) {
+var numDecodings = function (s) {
   if (!s || s.length === 0 || s[0] === "0") {
     return 0;
   }
@@ -2811,7 +2841,7 @@ var numDecodings = function(s) {
 You are given an integer array coins and an integer amount representing a total amount of money. Return the fewest number of coins that you need to make up that amount. If can't, return -1.
 
 ```js
-var coinChange = function(coins, amount) {
+var coinChange = function (coins, amount) {
   if (amount === 0) {
     return 0;
   }
@@ -2834,7 +2864,7 @@ var coinChange = function(coins, amount) {
 Given an integer array nums, return the length of the longest strictly increasing subsequence. For example, `[10,9,2,5,3,7,101,18]`'s longest increasing subsequence is `[2,3,7,101]`.
 
 ```js
-var lengthOfLIS = function(nums) {
+var lengthOfLIS = function (nums) {
   if (nums.length === 0) {
     return 0;
   }
@@ -2858,7 +2888,7 @@ var lengthOfLIS = function(nums) {
 Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words. For example, `s = "leetcode"`, `wordDict = ["leet","code"]`, output is true.
 
 ```js
-var wordBreak = function(s, wordDict) {
+var wordBreak = function (s, wordDict) {
   let dp = new Array(s.length + 1).fill(false);
   dp[0] = true;
 
@@ -2878,7 +2908,7 @@ var wordBreak = function(s, wordDict) {
 Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0. For example, text1 = "abcde", text2 = "ace", then the longest common subsequence is "ace" and its length is 3.
 
 ```js
-var longestCommonSubsequence = function(text1, text2) {
+var longestCommonSubsequence = function (text1, text2) {
   let m = text1.length;
   let n = text2.length;
   // dp[i][j] means the LCS of first i characters in text1 and first j characters in text2
@@ -2903,7 +2933,7 @@ Best Time to Buy and Sell Stock. You are given an array prices where `prices[i]`
 
 ```js
 // only one transaction
-var maxProfit = function(prices) {
+var maxProfit = function (prices) {
   let min = prices[0];
   let maxProfit = 0;
 
@@ -2918,7 +2948,7 @@ var maxProfit = function(prices) {
 };
 
 // multiple transactions (greedy)
-var maxProfit = function(prices) {
+var maxProfit = function (prices) {
   let maxProfit = 0;
 
   for (let i = 1; i < prices.length; i++) {
@@ -2930,7 +2960,7 @@ var maxProfit = function(prices) {
 };
 
 // multiple transactions but with transaction fee for each one
-var maxProfit = function(prices, fee) {
+var maxProfit = function (prices, fee) {
   // dp[i] represents two states
   // 1. dp[i][0]: max profit on day i if you hold a stock.
   // 2. dp[i][1]: max profit on day i if you do not hold a stock.
@@ -2947,7 +2977,7 @@ var maxProfit = function(prices, fee) {
 };
 
 // After you sell your stock, you cannot buy stock on the next day
-var maxProfit = function(prices) {
+var maxProfit = function (prices) {
   if (prices.length === 0) return 0;
 
   // dp[i][0]: Hold or buy

@@ -436,7 +436,9 @@ Full Stack App Build by CJ: https://www.youtube.com/watch?v=DK93dqmJJYg
 
 The creative library of animated Vue components: https://vue-bits.dev
 
-Agent skills for Vue 3 development: https://github.com/hyf0/vue-skills
+Minimal implementation of Vue.js for educational purposes: https://book.chibivue.land
+
+Agent skills for Vue 3 development: https://github.com/vuejs-ai/skills
 
 ---
 

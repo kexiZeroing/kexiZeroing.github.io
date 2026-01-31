@@ -3,7 +3,7 @@ title: "Type challenges solutions"
 description: ""
 added: ""
 top: true
-order: 6
+order: 7
 updatedDate: "Dec 14 2024"
 ---
 
@@ -60,16 +60,14 @@ Implement a generic `MyReadonly2<T, K>` which takes two type arguments T and K. 
 type MyReadonly2<T, K> = Omit<T, K> & { readonly [P in K]: T[P] };
 
 // step 2. set a constraint on K
-type MyReadonly2<T, K extends keyof T> =
-  & Omit<T, K>
-  & { readonly [P in K]: T[P] };
+type MyReadonly2<T, K extends keyof T> = Omit<T, K> & {
+  readonly [P in K]: T[P];
+};
 
 // step 3. when K is not set at all (K to be “all the keys from T”)
-type MyReadonly2<T, K extends keyof T = keyof T> =
-  & Omit<T, K>
-  & {
-    readonly [P in K]: T[P];
-  };
+type MyReadonly2<T, K extends keyof T = keyof T> = Omit<T, K> & {
+  readonly [P in K]: T[P];
+};
 ```
 
 Implement a generic `DeepReadonly<T>` which makes every parameter of an object and its sub-objects readonly recursively.
@@ -202,8 +200,11 @@ type B = If<false, "a", "b">; // expected to be 'b'
 // solution
 type If<C extends boolean, T, F> = C extends true ? T : F;
 // `strictNullChecks: false`
-type If<C extends boolean, T, F> = C extends undefined | null ? never
-  : (C extends true ? T : F);
+type If<C extends boolean, T, F> = C extends undefined | null
+  ? never
+  : C extends true
+    ? T
+    : F;
 ```
 
 Implement the JavaScript `Array.concat` function in the type system. A type takes the two arguments. The output should be a new array that includes inputs in ltr order.
@@ -346,8 +347,10 @@ type replaced = ReplaceFirst<["A", "B", "C"], "C", "D">;
 type ReplaceFirst<T extends readonly unknown[], S, R> = T extends [
   infer FI,
   ...infer Rest,
-] ? FI extends S ? [R, ...Rest]
-  : [FI, ...ReplaceFirst<Rest, S, R>]
+]
+  ? FI extends S
+    ? [R, ...Rest]
+    : [FI, ...ReplaceFirst<Rest, S, R>]
   : T;
 ```
 
@@ -358,8 +361,9 @@ type camelCased = CamelCase<"foo-bar-baz">; // expected "fooBarBaz"
 
 // solution
 type CamelCase<S> = S extends `${infer H}-${infer T}`
-  ? T extends Capitalize<T> ? `${H}-${CamelCase<T>}`
-  : `${H}${CamelCase<Capitalize<T>>}`
+  ? T extends Capitalize<T>
+    ? `${H}-${CamelCase<T>}`
+    : `${H}${CamelCase<Capitalize<T>>}`
   : S;
 ```
 
@@ -374,8 +378,9 @@ type KebabCase<S> = S extends `${infer C}${infer T}` ? never : S;
 
 // step 2. have / don't have the capitalized tail
 type KebabCase<S> = S extends `${infer C}${infer T}`
-  ? T extends Uncapitalize<T> ? `${Uncapitalize<C>}${KebabCase<T>}`
-  : `${Uncapitalize<C>}-${KebabCase<T>}`
+  ? T extends Uncapitalize<T>
+    ? `${Uncapitalize<C>}${KebabCase<T>}`
+    : `${Uncapitalize<C>}-${KebabCase<T>}`
   : S;
 ```
 
@@ -420,9 +425,11 @@ type merged = Merge<Foo, Bar>; // expected { a: number; b: number }
 
 // solution
 type Merge<F, S> = {
-  [P in keyof F | keyof S]: P extends keyof S ? S[P]
-    : P extends keyof F ? F[P]
-    : never;
+  [P in keyof F | keyof S]: P extends keyof S
+    ? S[P]
+    : P extends keyof F
+      ? F[P]
+      : never;
 };
 ```
 
@@ -458,8 +465,9 @@ type test = Diff<Foo, Bar>; // expected { gender: number }
 type Diff<O, O1> = {
   [P in keyof O | keyof O1 as Exclude<P, keyof O & keyof O1>]: P extends keyof O
     ? O[P]
-    : P extends keyof O1 ? O1[P]
-    : never;
+    : P extends keyof O1
+      ? O1[P]
+      : never;
 };
 ```
 
@@ -486,8 +494,9 @@ type Sample2 = AnyOf<[0, "", false, [], {}]>; // expected to be false
 type Falsy = 0 | "" | false | [] | { [P in any]: never };
 
 type AnyOf<T extends readonly any[]> = T extends [infer H, ...infer T]
-  ? H extends Falsy ? AnyOf<T>
-  : true
+  ? H extends Falsy
+    ? AnyOf<T>
+    : true
   : false;
 ```
 
@@ -512,8 +521,9 @@ type Res2 = LastIndexOf<[0, 0, 0], 2>; // -1
 // solution
 // Check from the right if it is equal to the item we are looking for
 type LastIndexOf<T, U> = T extends [...infer R, infer I]
-  ? Equal<I, U> extends true ? R["length"]
-  : LastIndexOf<R, U>
+  ? Equal<I, U> extends true
+    ? R["length"]
+    : LastIndexOf<R, U>
   : -1;
 ```
 
@@ -526,14 +536,16 @@ type R = Zip<[1, 2], [true, false]>;
 // solution
 // step 1. if both tuples have the item and the tail - we can zip them together
 type Zip<T, U> = T extends [infer TI, ...infer TT]
-  ? U extends [infer UI, ...infer UT] ? [TI, UI]
-  : never
+  ? U extends [infer UI, ...infer UT]
+    ? [TI, UI]
+    : never
   : never;
 
 // step 2. recursive way of zipping the tail until it’s gone
 type Zip<T, U> = T extends [infer TI, ...infer TT]
-  ? U extends [infer UI, ...infer UT] ? [[TI, UI], ...Zip<TT, UT>]
-  : []
+  ? U extends [infer UI, ...infer UT]
+    ? [[TI, UI], ...Zip<TT, UT>]
+    : []
   : [];
 ```
 
@@ -546,14 +558,16 @@ type Res1 = Without<[1, 2, 4, 1, 5], [1, 2]>; // expected to be [4, 5]
 // solution
 // step 1. when U specified as a primitive type
 type Without<T, U> = T extends [infer H, ...infer T]
-  ? H extends U ? [...Without<T, U>]
-  : [H, ...Without<T, U>]
+  ? H extends U
+    ? [...Without<T, U>]
+    : [H, ...Without<T, U>]
   : [];
 
 // step 2. if U is a tuple of numbers
 type Without<T, U> = T extends [infer H, ...infer T]
-  ? H extends (U extends number[] ? U[number] : U) ? [...Without<T, U>]
-  : [H, ...Without<T, U>]
+  ? H extends (U extends number[] ? U[number] : U)
+    ? [...Without<T, U>]
+    : [H, ...Without<T, U>]
   : [];
 ```
 
@@ -567,8 +581,9 @@ type Res1 = Unique<[1, "a", 2, "b", 2, "a"]>; // expected to be [1, "a", 2, "b"]
 // If T is present in other part of the tuple, T is the duplicate and we need to skip it,
 // otherwise, we add it to the result.
 type Unique<T> = T extends [...infer H, infer T]
-  ? T extends H[number] ? [...Unique<H>]
-  : [...Unique<H>, T]
+  ? T extends H[number]
+    ? [...Unique<H>]
+    : [...Unique<H>, T]
   : [];
 ```
 
