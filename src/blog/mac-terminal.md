@@ -113,7 +113,7 @@ Searches for pattern in files and prints each line that matches the input patter
 -n  display line numbers along with lines
 -c  count the number of matching lines
 
-# regular expression 
+# regular expression
 [abc]   matches any one of the characters in the square brackets
 [0-9]   matches any one of the characters in the range specified in the square brackets
 ^start  matches the pattern only if the pattern is at the start of the line
@@ -240,7 +240,7 @@ $ [[ $num != 10 ]] && echo "$num is different than 10"
 $ [[ $num > 0 ]] && echo "$num is greater than 0"
 $ [[ $num < 10 ]] && echo "$num is less than 10"
 
-# Comparing strings 
+# Comparing strings
 $ foobar="foo bar"
 $ #mnemonic: is length *z*ero?
 $ [[ -z $foobar ]] && echo '$foobar is empty' || echo '$foobar is not empty'
@@ -407,7 +407,7 @@ Open Activity Monitor, you’ll see a column named “Kind”. If the app says �
 | top                                 | 动态显示 cpu /内存/进程等情况                                                                        |
 | du -sh /dir                         | 指定某个⽬录的⼤⼩                                                                                   |
 | groups                              | 查看所在用户组                                                                                       |
-| find . -type f -name "*.txt"        | 在指定⽬录搜索文件                                                                                   |
+| find . -type f -name "\*.txt"       | 在指定⽬录搜索文件                                                                                   |
 | cat -n file1                        | 查看内容并标示⾏数                                                                                   |
 | tail -f /log                        | 实时查看添加到⽂件中的内容                                                                           |
 | grep foo hello.txt                  | 在⽂件中查找关键词                                                                                   |
@@ -455,8 +455,15 @@ Cron is a UNIX tool that has been around for a long time, so its scheduling capa
 
 Special characters:
 
-- `*` (“all values”) - used to select all values within a field. For example, “*” in the minute field means “every minute”.
+- `*` (“all values”) - used to select all values within a field. For example, “\*” in the minute field means “every minute”.
 - `?` (“no specific value”) - useful when you need to specify something in one of the two fields in which the character is allowed, but not the other. For example, if I want my trigger to fire on a particular day of the month (say, the 10th), but don’t care what day of the week that happens to be, I would put “10” in the day-of-month field, and “?” in the day-of-week field.
 - `-` - used to specify ranges. For example, “10-12” in the hour field means “the hours 10, 11 and 12”.
 - `/` - used to specify increments. For example, “0/15” in the seconds field means “the seconds 0, 15, 30, and 45”. And “5/15” in the seconds field means “the seconds 5, 20, 35, and 50”.
 - `L` (“last”) - used to specify either the last day of the month, or the last xxx day of the month. L character is allowed for the day-of-month and day-of-week fields.
+
+## Get started with tmux
+
+Tmux is a terminal multiplexer. It is useful for managing multiple terminal sessions from a single window. You can run multiple programs from a single terminal, switch between them, and keep them running even when you disconnect from the terminal.
+
+- https://github.com/tmux/tmux/wiki/Getting-Started
+- https://hamvocke.com/blog/a-quick-and-easy-guide-to-tmux
