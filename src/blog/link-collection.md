@@ -174,6 +174,8 @@ Native desktop automation that controls your mouse: https://github.com/nut-tree/
 
 Make Graph for data visualization needs: https://makegraph.app
 
+The free and open source app for speech to text: https://handy.computer
+
 ---
 
 ## CSS related
@@ -572,7 +574,7 @@ Guide for creating effective skills: https://github.com/anthropics/skills/blob/m
 
 A collection of skills for AI coding agents: https://github.com/vercel-labs/agent-skills
 
-Install agent skills onto your coding agents: https://github.com/vercel-labs/add-skill
+Install agent skills onto your coding agents: https://github.com/vercel-labs/skills
 
 A Complete Guide To AGENTS.md: https://www.aihero.dev/a-complete-guide-to-agents-md
 

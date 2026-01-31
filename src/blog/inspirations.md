@@ -77,6 +77,7 @@ Making devs finally write docs by calling them “skills” is a clever trick.
 - npx skills add vueuse/skills
 - npx skills add vercel/ai
 - npx skills add remotion-dev/skills
+- npx skills add jimliu/baoyu-skills
 
 ## Learn from mistakes
 
