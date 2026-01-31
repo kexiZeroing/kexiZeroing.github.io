@@ -11,3 +11,5 @@ From Andrej Karpathy: I've already noticed that I am slowly starting to atrophy 
 From Ryan Dahl: This has been said a thousand times before, but allow me to add my own voice: the era of humans writing code is over. Disturbing for those of us who identify as SWEs, but no less true. That's not to say SWEs don't have work to do, but writing syntax directly is not it.
 
 From Madison Kanna: For a long time i defined myself in part by the act of writing code. the pride in a hard-earned solution was part of who i was. now i watch AI accomplish in seconds what took me hours. i find myself caught between relief and mourning, awe and anxiety. the craft that shaped me is suddenly eclipsed by a machine. who am i now?
+
+From Addy Osmani: The collapse of the implementation middle isn't making engineering less important but it's revealing what was always important: understanding problems so clearly that the code (now, the spec for our agents) becomes more obvious.
