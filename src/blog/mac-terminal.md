@@ -43,6 +43,8 @@ How to hide a file or folder in macOS Finder? Open the terminal and run `chflags
 
 In the Finder, deleted files are moved to the Trash, which is actually the invisible directory `~/.Trash`. There the file will remain until the user chooses 'Empty Trash'. Only then is the file removed from disk. The command line has no such safety net. When you delete a file with the `rm` command it is gone. You can add the `-i` option to the `rm` command which will ask for confirmation before actually deleting it. There is a command `rmdir` which is the destructive equivalent of `mkdir`. However, `rmdir` can only remove empty directories.
 
+> [trash-cli](https://github.com/sindresorhus/trash-cli) helps you move files to the trash. Add `alias rm=trash` to your `.zshrc` to reduce typing and safely trash files: `$ rm unicorn.png`.
+
 ## The Clipboard
 
 There are two commands specific to macOS that connect the clipboard closer to the shell commands. `pbcopy` will take the contents of `stdin` and put them in the clipboard. So anything you pipe into `pbcopy` will end up in the clipboard, so you can paste it into a different place. For example, `cat test.txt | pbcopy` is easier than open, select all, and copy. `pbpaste` is the counterpart to `pbcopy`. You can easily make the clipboard contents visible by typing `pbpaste` as the next command.

@@ -582,6 +582,8 @@ Complete Claude Code configuration collection: https://github.com/affaan-m/every
 
 Read skill.md and follow the instructions to join Moltbook: https://www.moltbook.com/skill.md
 
+The awesome collection of OpenClaw Skills: https://github.com/VoltAgent/awesome-openclaw-skills
+
 ---
 
 ## Machine Learning

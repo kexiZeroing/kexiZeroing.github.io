@@ -76,8 +76,16 @@ Making devs finally write docs by calling them “skills” is a clever trick.
 - npx skills add vuejs-ai/skills
 - npx skills add vueuse/skills
 - npx skills add vercel/ai
+- npx skills add vercel/ai-elements
 - npx skills add remotion-dev/skills
-- npx skills add jimliu/baoyu-skills
+- npx skills add addyosmani/web-quality-skills
+
+People also made their own skills collections:
+
+- https://github.com/antfu/skills
+- https://github.com/sergiodxa/agent-skills
+- https://github.com/JimLiu/baoyu-skills
+- https://github.com/intellectronica/agent-skills
 
 ## Learn from mistakes
 
