@@ -65,7 +65,7 @@ const handleClick = () => {
 
 Consider typing in an input field that filters a list of data. Here, whenever the user types a character, we update the input value and use the new value to search the list and show the results. For huge data updates, this can cause lag on the page while everything renders, making typing or other interactions feel slow and unresponsive. Conceptually, there are two different updates that need to happen. The first update is an urgent update, to change the value of the input field. The second, is a less urgent update to show the results of the search.
 
-Until React 18, all updates were rendered urgently. A transition is a new concept in React to distinguish between urgent and non-urgent updates.
+Until React 18, all updates were rendered urgently. A transition is a new concept in React to distinguish between urgent and non-urgent updates. _(via scheduler that gives control back to the browser every 5ms)_
 
 - Urgent updates reflect direct interaction, like typing, clicking, pressing, and so on.
 - Transition is a "potential future UI state". It's not committed immediately, it's enqueued.
@@ -149,6 +149,8 @@ function App() {
 
 We can also use `useDeferredValue` for the query used in rendering the list, allowing React to prioritize more urgent input changes over re-rendering the list. During updates, React will first attempt a re-render with the old value, and then try another re-render in the background with the new value.
 
+<img alt="react-18-transition" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/react-18-transition.png" width="600">
+
 `useTransition` returns _isPending_ and `useDeferredValue` you can check if _value !== deferredValue_.
 
 ```jsx
@@ -163,7 +165,7 @@ function App() {
       <input
         type="text"
         value={query}
-        onChange={e => setQuery(e.target.value)}
+        onChange={(e) => setQuery(e.target.value)}
       />
       {query !== deferredQuery ? <Spinner /> : <List q={deferredQuery} />}
     </div>
@@ -294,19 +296,23 @@ function MyComponent() {
 > For SPA, "download the JS files -> initializing React -> starting to render React tree, CALLING THE ROUTE LOADERS": We can do it today with React Router v7 and Tanstack Router.
 
 1. React Server Components (server-side data fetching)
+
    ```jsx
    const PostsPage = async () => {
      const posts = await getPosts();
 
      return (
        <ul>
-         {posts?.map((post) => <li key={post.id}>{post.title}</li>)}
+         {posts?.map((post) => (
+           <li key={post.id}>{post.title}</li>
+         ))}
        </ul>
      );
    };
    ```
 
 2. React Suspense is a feature that allows you to suspend the rendering of a component until some asynchronous operation is done.
+
    ```jsx
    const PostsPage = () => {
      return (
@@ -321,13 +327,16 @@ function MyComponent() {
 
      return (
        <ul>
-         {posts?.map((post) => <li key={post.id}>{post.title}</li>)}
+         {posts?.map((post) => (
+           <li key={post.id}>{post.title}</li>
+         ))}
        </ul>
      );
    };
    ```
 
 3. When it comes to CSR React applications (i.e. SPAs), the most recommended way to fetch data is by using a library like React Query.
+
    ```jsx
    "use client";
 
@@ -339,13 +348,16 @@ function MyComponent() {
 
      return (
        <ul>
-         {posts?.map((post) => <li key={post.id}>{post.title}</li>)}
+         {posts?.map((post) => (
+           <li key={post.id}>{post.title}</li>
+         ))}
        </ul>
      );
    };
    ```
 
 4. Combine React Server Components and client-side data fetching with React Query. You want to fetch initial data on the server-side and then use React Query for continued client-side data fetching.
+
    ```jsx
    const PostsPage = async () => {
      const posts = await getPosts();
@@ -379,6 +391,7 @@ function MyComponent() {
    ```
 
 5. React's `use()` API. It allows you to pass a Promise from a Server Component to a Client Component and resolve it in the Client Component.
+
    ```jsx
    const PostsPage = () => {
      const postsPromise = getPosts();

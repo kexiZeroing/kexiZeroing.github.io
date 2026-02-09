@@ -84,7 +84,9 @@ function App() {
     </form>
   );
 }
+```
 
+```js
 // actions.js
 "use server";
 
@@ -169,6 +171,8 @@ Server Functions as Actions in forms:
 - Server Functions should be called in a Transition. Server Functions passed to form action will automatically be called in a transition.
 
 ### `useOptimistic` use case
+
+<img alt="optimisitc-pending-ui" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/optimisitc-pending-ui.png" width="600">
 
 This hook lets you update the UI immediately in response to an action, before the server responds. You pass to it the current state you want to manage, and a (optional) function to update the optimistic state. It returns you the optimistic state (which you use for immediate rendering), and a function to update it.
 
