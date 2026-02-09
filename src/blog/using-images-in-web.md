@@ -69,6 +69,14 @@ SVG is different than all the above in that it's a vector file format (the above
 
 An Introduction to SVGs: https://courses.nan.fyi/svg/00-svg-foundations
 
+### HEIC
+
+HEIC (High Efficiency Image Container) is an image format used heavily by Apple, based on the HEIF standard and typically using HEVC/H.265 compression to produce smaller files with better quality than JPEG. Apple chose HEIC because it produces files that are 40-50% smaller than JPEG at similar quality levels, and it supports advanced features like transparency, depth maps, and the ability to store multiple images in one container for things like Live Photos.
+
+HEIC creates a compatibility headache for web developers. While it's the default format for photos from iPhones, most browsers don't support it natively. Safari on macOS can display HEIC, but Chrome, Firefox, and Edge cannot.
+
+The `ftyp` box is where a file declares what format it conforms to, and when it includes the brand heic (often shown as `ftypheic`), it is explicitly stating that the file follows the HEIC specification. In short, HEIC is the format itself, and `ftypheic` is the internal identifier that declares it.
+
 ### Webp
 
 WebP is an image format developed and first released by Google in 2010. It supports encoding images in both lossless and lossy formats, making it a great alternative format to both PNG or JPEG. WebP lossless images are 26% smaller in size compared to PNGs. WebP lossy images are 25-34% smaller than comparable JPEG images. It also supports transparency and animation.

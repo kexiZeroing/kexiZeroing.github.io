@@ -82,7 +82,10 @@ https://codepen.io/jh3y/pen/abGPKGO
     color: hsl(45 calc(var(--pop) * 100%) calc(80% - (30% * var(--pop))));
     translate: 0 calc(var(--pop, 0) * -65%);
     scale: calc(1 + var(--pop) * 0.75);
-    transition: translate 0.2s, scale 0.2s, color 0.2s;
+    transition:
+      translate 0.2s,
+      scale 0.2s,
+      color 0.2s;
   }
 
   .char:hover {
@@ -97,7 +100,9 @@ https://codepen.io/jh3y/pen/abGPKGO
 </style>
 
 <h1 data-splitting>Happy Birthday!</h1>
-<script> Splitting(); </script>
+<script>
+  Splitting();
+</script>
 ```
 
 - [Splitting.js](https://splitting.js.org) is designed to split an element in a variety of ways, such as words, characters, child nodes, and more.
@@ -131,18 +136,18 @@ https://codepen.io/jh3y/pen/GRwwWoV
 <style>
   html {
     --hue: 140;
-    
-    --swatch-1: oklch(99% .05 var(--hue));
-    --swatch-2: oklch(90% .1 var(--hue));
-    --swatch-3: oklch(80% .2 var(--hue));
-    --swatch-4: oklch(72% .25 var(--hue));
-    --swatch-5: oklch(67% .31 var(--hue));
-    --swatch-6: oklch(50% .27 var(--hue));
-    --swatch-7: oklch(35% .25 var(--hue));
-    --swatch-8: oklch(25% .2 var(--hue));
-    --swatch-9: oklch(13% .2 var(--hue));
-    --swatch-10: oklch(5% .1 var(--hue));
-    
+
+    --swatch-1: oklch(99% 0.05 var(--hue));
+    --swatch-2: oklch(90% 0.1 var(--hue));
+    --swatch-3: oklch(80% 0.2 var(--hue));
+    --swatch-4: oklch(72% 0.25 var(--hue));
+    --swatch-5: oklch(67% 0.31 var(--hue));
+    --swatch-6: oklch(50% 0.27 var(--hue));
+    --swatch-7: oklch(35% 0.25 var(--hue));
+    --swatch-8: oklch(25% 0.2 var(--hue));
+    --swatch-9: oklch(13% 0.2 var(--hue));
+    --swatch-10: oklch(5% 0.1 var(--hue));
+
     --text-1: var(--swatch-10);
     --text-2: var(--swatch-9);
     --surface-1: var(--swatch-1);
@@ -169,16 +174,36 @@ https://codepen.io/jh3y/pen/GRwwWoV
   .swatch {
     box-shadow: inset 0 0 0 1px oklch(50% 0 0 / 20%);
   }
-  .swatch:nth-of-type(1)  { background: var(--swatch-1) }
-  .swatch:nth-of-type(2)  { background: var(--swatch-2) }
-  .swatch:nth-of-type(3)  { background: var(--swatch-3) }
-  .swatch:nth-of-type(4)  { background: var(--swatch-4) }
-  .swatch:nth-of-type(5)  { background: var(--swatch-5) }
-  .swatch:nth-of-type(6)  { background: var(--swatch-6) }
-  .swatch:nth-of-type(7)  { background: var(--swatch-7) }
-  .swatch:nth-of-type(8)  { background: var(--swatch-8) }
-  .swatch:nth-of-type(9)  { background: var(--swatch-9) }
-  .swatch:nth-of-type(10) { background: var(--swatch-10) }
+  .swatch:nth-of-type(1) {
+    background: var(--swatch-1);
+  }
+  .swatch:nth-of-type(2) {
+    background: var(--swatch-2);
+  }
+  .swatch:nth-of-type(3) {
+    background: var(--swatch-3);
+  }
+  .swatch:nth-of-type(4) {
+    background: var(--swatch-4);
+  }
+  .swatch:nth-of-type(5) {
+    background: var(--swatch-5);
+  }
+  .swatch:nth-of-type(6) {
+    background: var(--swatch-6);
+  }
+  .swatch:nth-of-type(7) {
+    background: var(--swatch-7);
+  }
+  .swatch:nth-of-type(8) {
+    background: var(--swatch-8);
+  }
+  .swatch:nth-of-type(9) {
+    background: var(--swatch-9);
+  }
+  .swatch:nth-of-type(10) {
+    background: var(--swatch-10);
+  }
 
   .card {
     display: grid;
@@ -202,12 +227,15 @@ https://codepen.io/jh3y/pen/GRwwWoV
     <div class="swatch"></div>
     <div class="swatch"></div>
   </div>
-  
+
   <article>
     <div class="card">
       <h2>I'm a card</h2>
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque doloremque modi veniam aspernatur voluptatum
-        labore dolores perspiciatis.</p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque
+        doloremque modi veniam aspernatur voluptatum labore dolores
+        perspiciatis.
+      </p>
     </div>
   </article>
 </body>
@@ -252,21 +280,21 @@ Another way is using CSS `color-mix()`, which is stable in Chrome 111. The trick
   <div class="grayscale">Grayscale</div>
 </div>
 <style>
-.parent {
-  background-image: url("/images/neue-donau.webp");
-}
-.blur {
-  backdrop-filter: blur(5px);
-}
-.invert {
-  backdrop-filter: invert(1);
-}
-.hue {
-  backdrop-filter: hue-rotate(260deg);
-}
-.grayscale {
-  backdrop-filter: grayscale(100%);
-}
+  .parent {
+    background-image: url("/images/neue-donau.webp");
+  }
+  .blur {
+    backdrop-filter: blur(5px);
+  }
+  .invert {
+    backdrop-filter: invert(1);
+  }
+  .hue {
+    backdrop-filter: hue-rotate(260deg);
+  }
+  .grayscale {
+    backdrop-filter: grayscale(100%);
+  }
 </style>
 ```
 
@@ -312,7 +340,7 @@ Animation CSS grid alignments: https://codepen.io/argyleink/pen/NWOEvro
   body {
     display: grid;
     place-content: center;
-  } 
+  }
   .box {
     /* Having a name means "hold onto this element and try to tween it" (otherwise you get the cross-fade) */
     view-transition-name: box; /* whatever a unique name */
@@ -324,25 +352,24 @@ Animation CSS grid alignments: https://codepen.io/argyleink/pen/NWOEvro
 
 <div class="box"></div>
 <script>
-  const positions = ['start', 'end', 'center']
+  const positions = ["start", "end", "center"];
 
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
 
   function setRandomAlignments() {
-    document.body.style.alignContent = positions[getRandomInt(3)]
-    document.body.style.justifyContent = positions[getRandomInt(3)]
+    document.body.style.alignContent = positions[getRandomInt(3)];
+    document.body.style.justifyContent = positions[getRandomInt(3)];
   }
 
-  document.body.addEventListener('click', e => {
-    if (!document.startViewTransition)
-      setRandomAlignments()
+  document.body.addEventListener("click", (e) => {
+    if (!document.startViewTransition) setRandomAlignments();
     else
       document.startViewTransition(() => {
-        setRandomAlignments()
-      })
-  })
+        setRandomAlignments();
+      });
+  });
 </script>
 ```
 
@@ -357,18 +384,18 @@ Tag selection: https://codepen.io/dannymoerkerke/pen/VYZxYdy
 </div>
 
 <script>
-  const tags = document.querySelectorAll('button');
-  const search = document.querySelector('.search');
+  const tags = document.querySelectorAll("button");
+  const search = document.querySelector(".search");
 
   tags.forEach((tag, index) => {
     tag.style.viewTransitionName = `tag-${index}`;
     tag.style.order = index;
   });
 
-  const tagsContainer = document.querySelector('.tags');
+  const tagsContainer = document.querySelector(".tags");
 
-  tagsContainer.addEventListener('click', (e) => {
-    const tag = e.target.closest('button');
+  tagsContainer.addEventListener("click", (e) => {
+    const tag = e.target.closest("button");
     if (tag) {
       document.startViewTransition(() => {
         search.appendChild(tag);
@@ -376,10 +403,10 @@ Tag selection: https://codepen.io/dannymoerkerke/pen/VYZxYdy
     }
   });
 
-  search.addEventListener('click', (e) => {
-    const span = e.target.closest('span');
+  search.addEventListener("click", (e) => {
+    const span = e.target.closest("span");
     if (span) {
-      const tag = span.closest('button');
+      const tag = span.closest("button");
       document.startViewTransition(() => {
         tagsContainer.appendChild(tag);
       });
@@ -391,6 +418,36 @@ Tag selection: https://codepen.io/dannymoerkerke/pen/VYZxYdy
 https://codepen.io/argyleink/pen/GRPRJyM
 
 <img alt="just the tabs" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/245b6eaa-8117-430d-a2aa-faa40e0e51a2.png" width="450">
+
+React’s `<ViewTransition>` Element: Changing the DOM is React’s job. It doesn’t really love it when you do it yourself. So instead of doing any DOM manipulation directly ourselves, we’ll do something React-y instead like update state.
+
+```js
+// https://frontendmasters.com/blog/reacts-viewtransition-element/
+import React, { startTransition, ViewTransition } from "react";
+
+function App() {
+  const [buttonExpanded, setButtonExpanded] = useState(false);
+
+  const toggleButton = () => {
+    startTransition(() => {
+      setButtonExpanded(!buttonExpanded);
+    });
+  };
+
+  return (
+    <main>
+      <ViewTransition>
+        <button
+          className={`button ${buttonExpanded ? "expanded" : ""}`}
+          onClick={toggleButton}
+        >
+          Button
+        </button>
+      </ViewTransition>
+    </main>
+  );
+}
+```
 
 ### Scroll-driven animations
 
@@ -459,7 +516,8 @@ Because scroll-driven animations are only active when there is scrollable overfl
 }
 
 @keyframes detect-scroll {
-  from, to {
+  from,
+  to {
     --can-scroll: 1;
   }
 }
@@ -470,33 +528,33 @@ Because scroll-driven animations are only active when there is scrollable overfl
 https://codepen.io/t_afif/pen/GRYEZrr
 
 ```html
-<img src="https://picsum.photos/seed/picsum/200/200" class="left">
-<img src="https://picsum.photos/seed/picsum/200/200" class="right">
+<img src="https://picsum.photos/seed/picsum/200/200" class="left" />
+<img src="https://picsum.photos/seed/picsum/200/200" class="right" />
 
 <style>
-img {
-  --s: 200px; /* the image size */
-  
-  width: var(--s);
-  height: var(--s);
-  box-sizing: border-box;
-  object-fit: cover;
-  transition: .5s;
-}
-img.left {
-  object-position: right;
-  padding-left: var(--s);
-  background: #542437;
-}
-img.right {
-  object-position: left;
-  padding-right: var(--s);
-  background: #8A9B0F;
-}
+  img {
+    --s: 200px; /* the image size */
 
-img:hover {
-  padding: 0;
-}
+    width: var(--s);
+    height: var(--s);
+    box-sizing: border-box;
+    object-fit: cover;
+    transition: 0.5s;
+  }
+  img.left {
+    object-position: right;
+    padding-left: var(--s);
+    background: #542437;
+  }
+  img.right {
+    object-position: left;
+    padding-right: var(--s);
+    background: #8a9b0f;
+  }
+
+  img:hover {
+    padding: 0;
+  }
 </style>
 ```
 
@@ -710,7 +768,7 @@ https://www.kirupa.com/codingexercises/examples/eyes_follow_mouse.htm
     let eyes = document.querySelectorAll(".eye");
     let eyeRect = eyes[0].getBoundingClientRect();
     let container = document.querySelector(".eyesContainer");
-    
+
     document.body.addEventListener("mousemove", eyesFollow, false);
 
     function eyesFollow(e) {
@@ -719,10 +777,10 @@ https://www.kirupa.com/codingexercises/examples/eyes_follow_mouse.htm
         let yPos = e.pageY;
 
         // diff between the center of the eye and the mouse position
-        let xDiff = (eyeRect.x + eyeRect.width / 2) - xPos;
-        let yDiff = (eyeRect.y + eyeRect.height / 2) - yPos;
+        let xDiff = eyeRect.x + eyeRect.width / 2 - xPos;
+        let yDiff = eyeRect.y + eyeRect.height / 2 - yPos;
         // the angle between the x-axis and the ray from (0, 0) to the point (x, y)
-        let angle = Math.atan2(yDiff, xDiff) * 180 / Math.PI;
+        let angle = (Math.atan2(yDiff, xDiff) * 180) / Math.PI;
 
         container.style.setProperty("--eyeAngle", angle.toFixed(2) + "deg");
       });
