@@ -78,7 +78,7 @@ const compiledCode = babelTransform(jsxCode);
 console.log(compiledCode);
 ```
 
-Monaco Editor (https://github.com/microsoft/monaco-editor) can provide a rich editing experience for the JSX code. It is a browser based code editor that powers VS Code, but it's an overkill for websites that only need to show read-only codeblocks.
+Monaco Editor (https://github.com/microsoft/monaco-editor) can provide a rich editing experience for the JSX code. It is a browser based code editor that powers VS Code, but it's an overkill for websites that only need to show read-only codeblocks. _The downside of Monaco includes lack of mobile support, limited documentation and massive bundle size._
 
 ```js
 import * as monaco from "https://esm.sh/monaco-editor@0.30.1";
@@ -91,6 +91,8 @@ const editor = monaco.editor.create(document.getElementById("editor"), {
   theme: "vs-dark",
 });
 ```
+
+> CodeMirror 6 is a complete rewrite of the CodeMirror editor with a focus on accessibility, touchscreen support, and extensibility. Compared to Monaco, CodeMirror is significantly more lightweight, performant, and customizable. It differs from other code editors in that it has a very small, generic core and nearly every feature you might expect from an editor are extensions.
 
 To prevent the main thread from being blocked during code compilation, which could cause the UI to feel sluggish, we can use a Web Worker:
 

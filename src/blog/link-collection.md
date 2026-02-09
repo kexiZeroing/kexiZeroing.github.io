@@ -86,8 +86,6 @@ Driving game run in a browser: https://slowroads.io/
 
 Summer Afternoon: https://summer-afternoon.vlucendo.com/
 
-You're not a front-end developer until you've..: https://www.nicchan.me/blog/youre-not-a-front-end-developer-until-youve/
-
 Neal.Fun: https://neal.fun/
 
 HTTP Cats: https://http.cat/
@@ -139,6 +137,8 @@ See Core Web Vitals and PageSpeed Insights results simply and easily: https://pa
 A powerful media downloader with no bullshit: https://cobalt.tools
 
 A high-performance HTTP benchmarking tool written in Golang: https://github.com/six-ddc/plow
+
+Modern HTTP benchmarking tool: https://github.com/wg/wrk
 
 Netlify Celebrates 5 Million Developers in 3D Game: https://5-million-devs.netlify.com
 
@@ -583,6 +583,8 @@ Complete Claude Code configuration collection: https://github.com/affaan-m/every
 Read skill.md and follow the instructions to join Moltbook: https://www.moltbook.com/skill.md
 
 The awesome collection of OpenClaw Skills: https://github.com/VoltAgent/awesome-openclaw-skills
+
+Removes signs of AI-generated writing from text: https://github.com/blader/humanizer
 
 ---
 
