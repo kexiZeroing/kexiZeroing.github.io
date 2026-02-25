@@ -1,9 +1,9 @@
 ---
-title: "Start to use Cursor, Copilot and Gemini CLI"
+title: "Start to use Cursor, Copilot and other AI tools"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Jan 24 2026"
+updatedDate: "Feb 25 2026"
 ---
 
 ## Get Started with Cursor
@@ -156,6 +156,23 @@ The agent can read console logs, network requests, and even control the browser 
 
 - @browser Analyze this design mockup, extract colors and typography, and generate pixel-perfect HTML and CSS code
 
+### Cloud Agents
+
+Cloud agents make it easy to run many agents at once, without requiring your laptop to stay connected to the internet. https://cursor.com/docs/cloud-agent
+
+- Cursor Web: Start and manage agents from [cursor.com/agents](https://cursor.com/agents) on any device
+- Cursor Desktop: Select **Cloud** in the dropdown under the agent input
+- Slack: Use the `@cursor` command to kick off an agent
+- GitHub: Comment `@cursor` on a PR or issue to kick off an agent
+
+Cloud agents run on an isolated Ubuntu machine. We recommend configuring this environment so that the agent has access to similar tools a human developer. Go to [cursor.com/onboard](https://cursor.com/onboard) to configure your environment. Cloud agents onboard themselves onto your codebase and produce merge-ready PRs with artifacts to demo their changes. You can also control the agent's remote desktop to use the modified software and make edits yourself, without checking out the branch locally.
+
+### Plugins
+
+Plugins bundle capabilities like MCP servers, skills, subagents, rules, and hooks that extend agents with custom functionality. They work across the IDE, CLI, and Cloud. Browse community-built plugins or build your own to share with other developers. https://cursor.com/docs/plugins
+
+You can discover and install prebuilt plugins on the [Cursor Marketplace](https://cursor.com/marketplace) or create your own and share them with the community.
+
 ## GitHub Copilot
 
 ### Coding agent and agent mode
@@ -227,6 +244,7 @@ Three-level loading pattern to manage context efficiently (progressive disclosur
 - https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf
 - https://github.com/anthropics/skills/tree/main/skills
 - https://github.com/github/awesome-copilot/tree/main/skills
+- https://github.com/mgechev/skills-best-practices
 
 ### What are premium requests
 
@@ -309,3 +327,12 @@ gemini -p "What is fine tuning?"
 ```
 
 The core system prompt lives in [packages/core/src/core/prompts.ts](https://github.com/google-gemini/gemini-cli/blob/main/packages/core/src/core/prompts.ts) or read it [here](https://gist.github.com/simonw/9e5f13665b3112cea00035df7da696c6).
+
+## Codex
+
+Codex is OpenAI’s coding agent for software development. ChatGPT Plus, Pro, Business, Edu, and Enterprise plans include Codex. https://developers.openai.com/codex
+
+- Codex app: Once you downloaded and installed the Codex app, open it and sign in with your ChatGPT account. Choose a project folder that you want Codex to work in. If you used the Codex app, CLI, or IDE Extension before you’ll see past projects that you worked on.
+- Codex extension for your IDE: It appears in the sidebar alongside your other extensions. It starts in Agent mode by default, which lets it read files, run commands, and write changes in your project directory.
+- Codex CLI: Install with `npm install -g @openai/codex`. Run codex in your terminal to get started. You’ll be prompted to sign in with your ChatGPT account or an API key.
+- Codex in the cloud at [`chatgpt.com/codex`](https://chatgpt.com/codex): Open the environment settings and follow the steps to connect a GitHub repository. You can also delegate a task to Codex by tagging `@codex` in a GitHub pull request comment (requires signing in to ChatGPT).
