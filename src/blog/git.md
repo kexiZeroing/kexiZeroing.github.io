@@ -49,7 +49,7 @@ In this situation, the merge is fast-forward because `master` is reachable from 
       *---*---* (foo)
 
 *---*---*-------* (master)
-     \         / 
+     \         /
       *---*---* (foo)
 
 When your branches diverge, you have to create a commit to "join" the two branches. The new commit is the merge commit and has two parent commits.
@@ -174,8 +174,8 @@ A remote URL is the place where your code is stored. You can only push to two ty
 > Usually you cannot cherry-pick a merge because you do not know which side of the merge should be considered the mainline. _(If a commit has two or more parents, it also represents two or more diffs - which one should be applied?)_ `-m` option specifies the parent number (starting from 1, the order is the one in which they're listed in the commit as viewed by `git show`). For example, if your commit tree is like below:
 
 ```
-- A - D - E - F  master  
-   \     /  
+- A - D - E - F  master
+   \     /
     B - C        branch one
 ```
 
@@ -212,7 +212,7 @@ git reflog
 # a901eda HEAD@{18}: commit: <last commit message>
 
 # Now you have two options, either checkout revision or HEAD
-git checkout a901eda 
+git checkout a901eda
 # Or
 git checkout HEAD@{18}
 
@@ -241,7 +241,7 @@ git log -S "getUser"
 
 `git commit --amend` brings up the editor with the last commit message and lets you edit the message. You can use `-m` if you want to wipe out the old message and use a new one: `git commit --amend -m "new commit message"`. And then when you push, do `git push --force-with-lease <repository> <branch>`.
 
-`git add [file]` and `git commit --amend` means you’re adding new changes to the previous commit. `--amend --no-edit` keeps the same commit message, just updates the contents.
+`git add` and `git commit --amend` means you’re adding new changes to the previous commit. `--amend --no-edit` keeps the same commit message, just updates the contents. Now your latest changes are folded into the previous commit as if they were made together.
 
 ## make empty commits
 
