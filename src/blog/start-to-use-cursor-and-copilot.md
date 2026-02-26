@@ -167,6 +167,8 @@ Cloud agents make it easy to run many agents at once, without requiring your lap
 
 Cloud agents run on an isolated Ubuntu machine. We recommend configuring this environment so that the agent has access to similar tools a human developer. Go to [cursor.com/onboard](https://cursor.com/onboard) to configure your environment. Cloud agents onboard themselves onto your codebase and produce merge-ready PRs with artifacts to demo their changes. You can also control the agent's remote desktop to use the modified software and make edits yourself, without checking out the branch locally.
 
+> The local agent model - Cursor, Windsurf, Claude Code in your terminal - is a human and an AI sharing a single environment. You're pair programming. The cloud agent model is delegation. You describe the task, the agent executes it independently, and you get back a PR. These are not competing approaches. They're complementary.
+
 ### Plugins
 
 Plugins bundle capabilities like MCP servers, skills, subagents, rules, and hooks that extend agents with custom functionality. They work across the IDE, CLI, and Cloud. Browse community-built plugins or build your own to share with other developers. https://cursor.com/docs/plugins

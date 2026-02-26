@@ -469,3 +469,58 @@ Tmux is a terminal multiplexer. It is useful for managing multiple terminal sess
 
 - https://github.com/tmux/tmux/wiki/Getting-Started
 - https://hamvocke.com/blog/a-quick-and-easy-guide-to-tmux
+- https://tmuxcheatsheet.com
+
+Once a tmux client is attached, any keys entered are forwarded to the program running in the active pane of the current window. For keys that control tmux itself, a special key must be pressed first - this is called the prefix key. The default prefix key is `Ctrl+b`.
+
+3 layers: session - window - pane. Sessions are top-level persistent workspaces that group windows, while windows are like tabs within a session that occupy the full terminal display and contain one or more panes.
+
+```
+# start a new session
+tmux
+tmux new -s <session-name>
+
+# detach from the current session
+ctrl + b d
+
+# reattch to it (most recent session)
+tmux a
+tmux a -t <session-name>
+
+# list sessions
+tmux ls
+
+# kill a session
+tmux kill-session -t <session-name>
+
+# create a new window
+ctrl + b c
+# rename the current window
+ctrl + b ,
+# switch to the next window
+ctrl + b n
+# list windows
+ctrl + b w
+# kill the current window
+ctrl + b &
+
+# split the current pane horizontally
+ctrl + b %
+
+# split the current pane vertically
+ctrl + b "
+
+# switch between panes
+ctrl + b up/down/left/right
+
+# show pane numbers
+ctrl + b q
+ctrl + b q <pane-number>
+
+# preselect layout
+ctrl + b alt 1
+ctrl + b alt 2
+
+# kill the current pane
+ctrl + b x
+```

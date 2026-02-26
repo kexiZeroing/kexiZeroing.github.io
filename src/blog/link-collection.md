@@ -592,6 +592,8 @@ The awesome collection of OpenClaw Skills: https://github.com/VoltAgent/awesome-
 
 Removes signs of AI-generated writing from text: https://github.com/blader/humanizer
 
+You Could've Invented OpenClaw: https://gist.github.com/dabit3/bc60d3bea0b02927995cd9bf53c3db32
+
 ---
 
 ## Machine Learning
