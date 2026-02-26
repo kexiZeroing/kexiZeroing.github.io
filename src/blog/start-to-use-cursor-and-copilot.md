@@ -219,6 +219,19 @@ User Prompt
 User Request: "write a function that..."
 ```
 
+### What are premium requests
+
+Each time you send a prompt in a chat window or trigger a response from Copilot, you’re making a request. Some Copilot features use more advanced processing power and count as premium requests. Copilot Chat uses one premium request per user prompt, multiplied by the model's rate. This includes ask, edit, agent, and plan modes in Copilot Chat in an IDE.
+
+Different models have different premium request multipliers, which can affect how much of your monthly usage allowance is consumed. GPT-5 mini, GPT-4.1 and GPT-4o are the included models, and do not consume any premium requests if you are on a paid plan.
+
+If you use Copilot Free, your plan comes with up to 2,000 inline suggestion requests and up to 50 premium requests per month. All chat interactions count as premium requests.
+
+If you're on a paid plan, you get unlimited inline suggestions and unlimited chat interactions using the included models. Paid plans also receive a monthly allowance of premium requests (300 for Copilot Pro, 1000 for Copilot Enterprise).
+
+- https://docs.github.com/en/copilot/get-started/plans
+- https://docs.github.com/en/copilot/concepts/billing/copilot-requests
+
 ### Agent Skills
 
 Agent Skills are a lightweight, open format for extending AI agent capabilities with specialized knowledge and workflows. At its core, a skill is a folder containing a `SKILL.md` file. This file includes metadata and instructions that tell an agent how to perform a specific task. More at https://agentskills.io/
@@ -248,18 +261,13 @@ Three-level loading pattern to manage context efficiently (progressive disclosur
 - https://github.com/github/awesome-copilot/tree/main/skills
 - https://github.com/mgechev/skills-best-practices
 
-### What are premium requests
+### Copilot CLI
 
-Each time you send a prompt in a chat window or trigger a response from Copilot, you’re making a request. Some Copilot features use more advanced processing power and count as premium requests. Copilot Chat uses one premium request per user prompt, multiplied by the model's rate. This includes ask, edit, agent, and plan modes in Copilot Chat in an IDE.
+GitHub Copilot CLI is the terminal-native coding agent that brings the power of GitHub Copilot directly to your command line. It’s an autonomous coding agent that can plan complex tasks, execute multistep workflows, edit files, run tests, and iterate until the job is done. You choose how much control to keep, from approving every action to letting Copilot run fully autonomously.
 
-Different models have different premium request multipliers, which can affect how much of your monthly usage allowance is consumed. GPT-5 mini, GPT-4.1 and GPT-4o are the included models, and do not consume any premium requests if you are on a paid plan.
-
-If you use Copilot Free, your plan comes with up to 2,000 inline suggestion requests and up to 50 premium requests per month. All chat interactions count as premium requests.
-
-If you're on a paid plan, you get unlimited inline suggestions and unlimited chat interactions using the included models. Paid plans also receive a monthly allowance of premium requests (300 for Copilot Pro, 1000 for Copilot Enterprise).
-
-- https://docs.github.com/en/copilot/get-started/plans
-- https://docs.github.com/en/copilot/concepts/billing/copilot-requests
+- https://github.blog/changelog/2026-02-25-github-copilot-cli-is-now-generally-available
+- https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices
+- https://docs.github.com/en/copilot/reference/cli-command-reference
 
 ## Gemini CLI
 
