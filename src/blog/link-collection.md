@@ -594,6 +594,8 @@ Removes signs of AI-generated writing from text: https://github.com/blader/human
 
 You Could've Invented OpenClaw: https://gist.github.com/dabit3/bc60d3bea0b02927995cd9bf53c3db32
 
+Comprehensive Claude Code project configuration showcase: https://github.com/ChrisWiles/claude-code-showcase
+
 ---
 
 ## Machine Learning

@@ -3,7 +3,7 @@ title: "Start to use Cursor, Copilot and other AI tools"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Feb 25 2026"
+updatedDate: "Feb 27 2026"
 ---
 
 ## Get Started with Cursor
@@ -264,6 +264,8 @@ Three-level loading pattern to manage context efficiently (progressive disclosur
 ### Copilot CLI
 
 GitHub Copilot CLI is the terminal-native coding agent that brings the power of GitHub Copilot directly to your command line. It’s an autonomous coding agent that can plan complex tasks, execute multistep workflows, edit files, run tests, and iterate until the job is done. You choose how much control to keep, from approving every action to letting Copilot run fully autonomously.
+
+It is available with /plan, /plugin, /resume, /review, /yolo, /models, multi-model in single request autopilot, custom agents, and much more.
 
 - https://github.blog/changelog/2026-02-25-github-copilot-cli-is-now-generally-available
 - https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices

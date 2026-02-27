@@ -3,6 +3,7 @@ title: "Core building blocks of powerful agents"
 description: ""
 added: "Feb 26 2026"
 tags: [AI]
+updatedDate: "Feb 27 2026"
 ---
 
 Learn from the links below (all from Nader Dabit) if you’re curious about what’s happening underneath these powerful agents.
@@ -467,7 +468,7 @@ function setupHeartbeats(): void {
 
 If you've built agents with the raw API, you know the pattern: call the model, check if it wants to use a tool, execute the tool, feed the result back, repeat until done. This can get tedious when building anything non-trivial. The SDK handles that loop:
 
-```js
+```ts
 // Without the SDK: You manage the loop
 let response = await client.messages.create({...});
 while (response.stop_reason === "tool_use") {
@@ -483,7 +484,9 @@ for await (const message of query({
     model: "claude-opus-4-5-20251101",
     // Build-in tools: Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch
     allowedTools: ["Read", "Glob", "Grep"],
+    // No prompts (use with caution)
     permissionMode: "bypassPermissions",
+    // Maximum number of back-and-forth turns before stopping
     maxTurns: 250,
     // Structured output
     // outputFormat: {
@@ -504,8 +507,15 @@ for await (const message of query({
     //     prompt: "...",
     //       tools: ["Read", "Grep", "Glob"],
     //       model: "sonnet"
-    //     } as AgentDefinition,
-    // },
+    //   } as AgentDefinition,
+    //   "test-analyzer": {
+    //     description: "...",
+    //     prompt: "...",
+    //       tools: ["Read", "Grep", "Glob"],
+    //       model: "haiku"
+    //   } as AgentDefinition
+    // }
+  },
 })) {
   switch (message.type) {
     case "system":
@@ -527,8 +537,76 @@ for await (const message of query({
 
     case "result":
       console.log("Status:", message.subtype);
-      console.log("Cost:", message.total_cost_usd);
+      console.log("Total cost:", message.total_cost_usd);
+      console.log("Token usage:", message.usage);
       break;
+  }
+}
+```
+
+## Adding custom tools with MCP
+
+```ts
+import {
+  query,
+  tool,
+  createSdkMcpServer,
+} from "@anthropic-ai/claude-agent-sdk";
+import { z } from "zod";
+
+const customServer = createSdkMcpServer({
+  name: "code-metrics",
+  version: "1.0.0",
+  tools: [
+    // Define a custom tool
+    // Arguments: name, description, input schema, handler function
+    tool(
+      "analyze_complexity",
+      "Calculate cyclomatic complexity for a file",
+      {
+        filePath: z.string().describe("Path to the file to analyze"),
+      },
+      async (args) => {
+        const complexity = Math.floor(Math.random() * 20);
+        // Return format required by MCP - array of content blocks
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Cyclomatic complexity for ${args.filePath}: ${complexity}`,
+            },
+          ],
+        };
+      },
+    ),
+  ],
+});
+
+async function analyzeCode(filePath: string) {
+  for await (const message of query({
+    prompt: `Analyze the complexity of ${filePath}`,
+    options: {
+      model: "opus",
+      // Register the custom MCP server
+      mcpServers: {
+        "code-metrics": customServer,
+      },
+      // MCP tools follow the pattern: mcp__<server-name>__<tool-name>
+      allowedTools: ["Read", "mcp__code-metrics__analyze_complexity"],
+      maxTurns: 50,
+    },
+  })) {
+    if (message.type === "assistant") {
+      for (const block of message.message.content) {
+        if ("text" in block) {
+          console.log(block.text);
+        }
+      }
+    }
+
+    if (message.type === "result") {
+      console.log("Done:", message.subtype);
+    }
   }
 }
 ```
