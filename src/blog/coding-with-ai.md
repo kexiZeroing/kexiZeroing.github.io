@@ -98,10 +98,11 @@ project/
 Nested rules automatically attached when files in their directory are referenced. This is particularly useful in monorepos or projects with distinct components that need their own specific guidance.
 
 - https://github.com/PatrickJS/awesome-cursorrules
-- https://cursorlist.com
 - https://cursor.directory
 
-`AGENTS.md` is an open standard for providing AI coding agents with project-specific context and instructions. It is compatible with a growing ecosystem of AI coding agents (Claude Code, Cursor, Codex, etc). Before `AGENTS.md`, many teams used Cursor-specific `.cursorrules` files to configure AI behavior. `AGENTS.md` provides a vendor-neutral alternative. For large codebases, place `AGENTS.md` files in subdirectories. Agents read the nearest file in the directory tree, so each package can have tailored instructions.
+Project rules live in `.cursor/rules` as markdown files. Each rule is a markdown file that you can name anything you want. Cursor supports `.md` and `.mdc` extensions. Use `.mdc` files with frontmatter to specify description and globs for more control over when rules are applied. Unlike project rules, `AGENTS.md` is a plain markdown file without metadata or complex configurations. It's perfect for projects that need simple, readable instructions without the overhead of structured rules.
+
+`AGENTS.md` is an open standard for providing AI coding agents with project-specific context and instructions. It is compatible with a growing ecosystem of AI coding agents (Claude Code, Cursor, Codex, etc). Before `AGENTS.md`, many teams used Cursor-specific rules files to configure AI behavior. `AGENTS.md` provides a vendor-neutral alternative. For large codebases, place `AGENTS.md` files in subdirectories. Agents read the nearest file in the directory tree, so each package can have tailored instructions.
 
 ### MCP
 
@@ -272,6 +273,32 @@ It is available with /plan, /plugin, /resume, /review, /yolo, /models, multi-mod
 - https://github.blog/changelog/2026-02-25-github-copilot-cli-is-now-generally-available
 - https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices
 - https://docs.github.com/en/copilot/reference/cli-command-reference
+
+## Claude Code
+Claude Code is an agentic command line tool that lives in your terminal, understands your codebase, and helps you code faster through natural language commands. 
+
+- It offers IDE integrations, allowing you to use Claude Code directly from your preferred development environment.
+- It is also available as a tab within the Claude Desktop application, providing a graphical interface.
+
+Read more at https://adocomplete.com/advent-of-claude-2025
+
+| Command   | Description |
+| --------- | ----------- |
+| !command | Execute bash immediately |
+| Esc Esc | Rewind conversation/code |
+| Ctrl+R | Reverse search history |
+| Ctrl+S | Stash current prompt |
+| Shift+Tab | Toggle plan mode |
+| Ctrl+O | Toggle verbose mode |
+| /init      | Generate CLAUDE.md for your project |
+| /context   | View token consumption |
+| /stats     | View your usage statistics |
+| /usage     | Check rate limits |
+| /config    | Open configuration |
+| /hooks     | Configure lifecycle hooks |
+| /sandbox   | Set permission boundaries |
+| /export    | Export conversation to markdown |
+| /resume    | Resume a past session |
 
 ## Gemini CLI
 
