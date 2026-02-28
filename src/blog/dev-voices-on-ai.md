@@ -6,6 +6,10 @@ top: true
 order: 4
 ---
 
+> The most resilient professionals aren’t asking “Is my job safe?”
+>
+> They’re asking “How do I redesign my career before I have to?”
+
 From Greg Brockman:
 
 Software development is undergoing a renaissance in front of our eyes. If you haven't used the tools recently, you likely are underestimating what you're missing. Since December, there's been a step function improvement in what tools like Codex can do. Some great engineers at OpenAI yesterday told me that their job has fundamentally changed since December. Prior to then, they could use Codex for unit tests; now it writes essentially all the code and does a great deal of their operations and debugging. Not everyone has yet made that leap, but it's usually because of factors besides the capability of the model.

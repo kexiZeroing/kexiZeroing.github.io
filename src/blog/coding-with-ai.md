@@ -241,13 +241,22 @@ Agent Skills are a lightweight, open format for extending AI agent capabilities 
 
 You can create Agent Skills to teach Copilot how to perform specialized tasks in a specific, repeatable way. Agent Skills are folders containing instructions, scripts, and resources that Copilot automatically loads when relevant to your prompt. Skills support is coming to the stable version of VS Code in early January 2026.
 
-You can write your own skills, or use skills shared by others, such as those in the [anthropics/skills](https://github.com/anthropics/skills) repository. Check out https://docs.github.com/copilot/concepts/agents/about-agent-skills and https://skills.sh.
+You can write your own skills, or use skills shared by others, such as those in the [anthropics/skills](https://github.com/anthropics/skills) repository.
+
+- https://skills.sh
+- https://github.com/anthropics/skills/tree/main/skills
+- https://github.com/github/awesome-copilot/tree/main/skills
+- https://github.com/mgechev/skills-best-practices
 
 > Skills and MCP
 >
 > MCP is where capability lives. It's what allows an AI agent to actually do things instead of just talking about them. Skills live at a different layer. Skills are about process and knowledge. They're markdown files that encode how work should be done.
 >
 > MCP gives agents abilities. Skills teach agents how to use those abilities well.
+
+> [Playwright MCP vs Playwright CLI](https://github.com/microsoft/playwright-mcp)
+>
+> Modern coding agents increasingly favor CLI–based workflows exposed as SKILLs over MCP because CLI invocations are more token-efficient: they avoid loading large tool schemas and verbose accessibility trees into the model context, allowing agents to act through concise, purpose-built commands.
 
 Skills are a dynamic context that bundles together instructions, scripts, and templates into a modular package. Unlike Rules, Skills are progressively loaded. The model only sees the Skill's name and description at first. If the agent decides the Skill is relevant to your request, it "calls" the skill, loading the full instructions and executing the necessary scripts. Use Skills for complex capabilities the model doesn't natively have, like reading PDF files or interacting with specific database schemas. They expand the agent's powers without bloating the context window or increasing costs when they aren't being used.
 
@@ -259,10 +268,24 @@ Three-level loading pattern to manage context efficiently (progressive disclosur
 | 2     | Full `SKILL.md` body                           | When skill is activated    | < 5k tokens recommended |
 | 3     | Referenced files (scripts, references, assets) | On demand, as needed       | Unlimited               |
 
-- https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf
-- https://github.com/anthropics/skills/tree/main/skills
-- https://github.com/github/awesome-copilot/tree/main/skills
-- https://github.com/mgechev/skills-best-practices
+"Making devs finally write docs by calling them “skills” is a clever trick."
+
+- npx skills add vercel-labs/next-skills
+- npx skills add vercel-labs/agent-skills --skill vercel-react-best-practices
+- npx skills add anthropics/skills --skill frontend-design
+- npx skills add vuejs-ai/skills
+- npx skills add vercel/ai
+- npx skills add remotion-dev/skills
+- npx skills add addyosmani/web-quality-skills
+- npx skills add clerk/skills
+
+People also made their own skills collections:
+
+- https://github.com/antfu/skills
+- https://github.com/sergiodxa/agent-skills
+- https://github.com/JimLiu/baoyu-skills
+- https://github.com/intellectronica/agent-skills
+- https://github.com/mattpocock/skills
 
 ### Copilot CLI
 
@@ -275,30 +298,31 @@ It is available with /plan, /plugin, /resume, /review, /yolo, /models, multi-mod
 - https://docs.github.com/en/copilot/reference/cli-command-reference
 
 ## Claude Code
-Claude Code is an agentic command line tool that lives in your terminal, understands your codebase, and helps you code faster through natural language commands. 
+
+Claude Code is an agentic command line tool that lives in your terminal, understands your codebase, and helps you code faster through natural language commands.
 
 - It offers IDE integrations, allowing you to use Claude Code directly from your preferred development environment.
 - It is also available as a tab within the Claude Desktop application, providing a graphical interface.
 
 Read more at https://adocomplete.com/advent-of-claude-2025
 
-| Command   | Description |
-| --------- | ----------- |
-| !command | Execute bash immediately |
-| Esc Esc | Rewind conversation/code |
-| Ctrl+R | Reverse search history |
-| Ctrl+S | Stash current prompt |
-| Shift+Tab | Toggle plan mode |
-| Ctrl+O | Toggle verbose mode |
-| /init      | Generate CLAUDE.md for your project |
-| /context   | View token consumption |
-| /stats     | View your usage statistics |
-| /usage     | Check rate limits |
-| /config    | Open configuration |
-| /hooks     | Configure lifecycle hooks |
-| /sandbox   | Set permission boundaries |
-| /export    | Export conversation to markdown |
-| /resume    | Resume a past session |
+| Command   | Description                         |
+| --------- | ----------------------------------- |
+| !command  | Execute bash immediately            |
+| Esc Esc   | Rewind conversation/code            |
+| Ctrl+R    | Reverse search history              |
+| Ctrl+S    | Stash current prompt                |
+| Shift+Tab | Toggle plan mode                    |
+| Ctrl+O    | Toggle verbose mode                 |
+| /init     | Generate CLAUDE.md for your project |
+| /context  | View token consumption              |
+| /stats    | View your usage statistics          |
+| /usage    | Check rate limits                   |
+| /config   | Open configuration                  |
+| /hooks    | Configure lifecycle hooks           |
+| /sandbox  | Set permission boundaries           |
+| /export   | Export conversation to markdown     |
+| /resume   | Resume a past session               |
 
 ## Gemini CLI
 
