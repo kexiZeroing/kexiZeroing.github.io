@@ -1,9 +1,9 @@
 ---
-title: "Start to use Cursor, Copilot and other AI tools"
+title: "Coding with AI"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Feb 27 2026"
+updatedDate: "Feb 28 2026"
 ---
 
 ## Get Started with Cursor
@@ -100,6 +100,8 @@ Nested rules automatically attached when files in their directory are referenced
 - https://github.com/PatrickJS/awesome-cursorrules
 - https://cursorlist.com
 - https://cursor.directory
+
+`AGENTS.md` is an open standard for providing AI coding agents with project-specific context and instructions. It is compatible with a growing ecosystem of AI coding agents (Claude Code, Cursor, Codex, etc). Before `AGENTS.md`, many teams used Cursor-specific `.cursorrules` files to configure AI behavior. `AGENTS.md` provides a vendor-neutral alternative. For large codebases, place `AGENTS.md` files in subdirectories. Agents read the nearest file in the directory tree, so each package can have tailored instructions.
 
 ### MCP
 
