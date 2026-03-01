@@ -3,7 +3,7 @@ title: "Node.js learning notes"
 description: ""
 added: "May 20 2025"
 tags: [js]
-updatedDate: "July 17 2025"
+updatedDate: "Mar 1 2026"
 ---
 
 Node.js website (after redesign) has a Learn section added to the site’s main navigation. I spend some time to explore it and other sources I came across along the way.
@@ -205,13 +205,13 @@ The `module` parameter refers to the object representing the current module and 
 
 ```js
 exports.name = "Alan";
-exports.test = function() {};
+exports.test = function () {};
 console.log(module); // { exports: { name: 'Alan', test: [Function] } }
 
 // exports is a reference and it's no longer same as module.exports if you change the reference
 exports = {
   name: "Bob",
-  add: function() {},
+  add: function () {},
 };
 console.log(exports); // { name: 'Bob', add: [Function] }
 console.log(module); // { exports: { name: 'Alan', test: [Function] } }
@@ -260,7 +260,7 @@ import { pipeline } from "stream/promises";
 // Read the current file and output its contents in uppercase letters
 await pipeline(
   fs.createReadStream(import.meta.filename),
-  async function*(source) {
+  async function* (source) {
     for await (const chunk of source) {
       yield chunk.toString().toUpperCase();
     }
@@ -284,6 +284,79 @@ await pipeline(
 //   .pipe(transform2)
 //   .pipe(destinationStream)
 //   .on('error', (err) => { });
+```
+
+### Web streams
+
+Before Web streams, the web platform had no standard way to work with streaming data. The Streams Standard introduced three primitives that model data flow the same way water flows through pipes — out of a **source** (readable stream), optionally through a **transform** (pipe chain), and into a **sink** (writable stream). https://developer.mozilla.org/en-US/docs/Web/API/Streams_API/Concepts
+
+Note that:
+
+1. Node.js already had its own streaming API at the time that was ported to also work in browsers, but WHATWG chose not to use it as a starting point given that it is chartered to only consider the needs of Web browsers. Server-side runtimes only adopted Web streams later, after Cloudflare Workers and Deno each emerged with first-class Web streams support and cross-runtime compatibility became a priority.
+2. The design of Web streams predates async iteration in JavaScript. The `for await...of` syntax didn't land until ES2018, two years after the Streams Standard was initially finalized.
+
+The most common task with streams is reading them to completion.
+
+```js
+// First, we acquire a reader that gives an exclusive lock on the stream
+const reader = stream.getReader();
+const chunks = [];
+try {
+  // Second, we repeatedly call read and await on the returned
+  // promise to either yield a chunk of data or indicate we're
+  // done.
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+  }
+} finally {
+  // Finally, we release the lock on the stream
+  reader.releaseLock();
+}
+```
+
+While a readable stream is a source you pull data out of, a writable stream is a destination you push data into. The best way to understand it is to build a sink (defines what happens when data arrives) that does something visible — like rendering streamed text into the DOM as it arrives.
+
+> When streaming text over the network, chunks arrive as `Uint8Array` objects (raw bytes). These must be decoded into strings using `TextDecoder`.
+
+```js
+const decoder = new TextDecoder();
+const list = document.querySelector("ul");
+let result = "";
+
+const writableStream = new WritableStream({
+  write(chunk) {
+    // called for each incoming chunk: bytes → TextDecoder → String
+    // Decode this chunk, but don’t assume it’s the final one.
+    const text = decoder.decode(chunk, { stream: true });
+
+    const li = document.createElement("li");
+    li.textContent = `Chunk decoded: ${text}`;
+    list.appendChild(li);
+
+    result += text;
+  },
+  close() {
+    // Flush any remaining buffered bytes
+    result += decoder.decode();
+
+    const listItem = document.createElement("li");
+    listItem.textContent = `[MESSAGE RECEIVED] ${result}`;
+    list.appendChild(listItem);
+  },
+  abort(err) {
+    console.log("Sink error:", err);
+  },
+});
+```
+
+To feed data into it, you pipe a readable stream in:
+
+```js
+// This connects the source to the destination
+const response = await fetch("/stream-endpoint");
+await response.body.pipeTo(writableStream);
 ```
 
 ## Memory

@@ -3,7 +3,7 @@ title: "Coding with AI"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Feb 28 2026"
+updatedDate: "Mar 1 2026"
 ---
 
 ## Get Started with Cursor
@@ -296,6 +296,35 @@ It is available with /plan, /plugin, /resume, /review, /yolo, /models, multi-mod
 - https://github.blog/changelog/2026-02-25-github-copilot-cli-is-now-generally-available
 - https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices
 - https://docs.github.com/en/copilot/reference/cli-command-reference
+
+### Plugins and marketplaces
+
+Plugins are installable packages that extend GitHub Copilot CLI with reusable agents, skills, hooks, and integrations.
+
+A marketplace is a registry of plugins that you can browse and install from. You can add a marketplace to your CLI configuration, which allows you to use the CLI to browse and install plugins from that marketplace. Copilot comes with two marketplaces already registered by default: `copilot-plugins` and `awesome-copilot`.
+
+```sh
+# Find plugins
+/plugin marketplace list
+/plugin marketplace browse MARKETPLACE-NAME
+
+# Install from a registered marketplace
+/plugin install PLUGIN-NAME@MARKETPLACE-NAME
+
+# Install from a repository on GitHub
+# the repository must contain a `plugin.json` file
+/plugin install OWNER/REPO
+/plugin install URL-OF-GIT-REPO
+
+# Install from a local path
+plugin install ./PATH/TO/PLUGIN
+
+# Add a new marketplace
+/plugin marketplace add OWNER/REPO
+```
+
+- Finding and installing plugins: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-finding-installing
+- Create a plugin: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-creating
 
 ## Claude Code
 
