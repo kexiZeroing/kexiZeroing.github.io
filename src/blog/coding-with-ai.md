@@ -3,7 +3,7 @@ title: "Coding with AI"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Mar 1 2026"
+updatedDate: "Mar 2 2026"
 ---
 
 ## Get Started with Cursor
@@ -102,7 +102,15 @@ Nested rules automatically attached when files in their directory are referenced
 
 Project rules live in `.cursor/rules` as markdown files. Each rule is a markdown file that you can name anything you want. Cursor supports `.md` and `.mdc` extensions. Use `.mdc` files with frontmatter to specify description and globs for more control over when rules are applied. Unlike project rules, `AGENTS.md` is a plain markdown file without metadata or complex configurations. It's perfect for projects that need simple, readable instructions without the overhead of structured rules.
 
-`AGENTS.md` is an open standard for providing AI coding agents with project-specific context and instructions. It is compatible with a growing ecosystem of AI coding agents (Claude Code, Cursor, Codex, etc). Before `AGENTS.md`, many teams used Cursor-specific rules files to configure AI behavior. `AGENTS.md` provides a vendor-neutral alternative. For large codebases, place `AGENTS.md` files in subdirectories. Agents read the nearest file in the directory tree, so each package can have tailored instructions.
+`AGENTS.md` is an open standard for providing AI coding agents with project-specific context and instructions. It is compatible with a growing ecosystem of AI coding agents. Before `AGENTS.md`, many teams used Cursor-specific rules files to configure AI behavior. `AGENTS.md` provides a vendor-neutral alternative. For large codebases, place `AGENTS.md` files in subdirectories. Agents read the nearest file in the directory tree, so each package can have tailored instructions.
+
+> Claude Code doesn't support AGENTS.md now:
+>
+> - https://github.com/anthropics/claude-code/issues/6235
+> - https://github.com/anthropics/claude-code/pull/29835
+>
+> You can just create a `CLAUDE.md` in your project root with this single line: `@AGENTS.md`. This tells Claude Code to load the full contents of your `AGENTS.md` file as part of its memory.
+> Another workaround is to create symbolic link `CLAUDE.md` that refers to `AGENTS.md` using `ln` command.
 
 ### MCP
 

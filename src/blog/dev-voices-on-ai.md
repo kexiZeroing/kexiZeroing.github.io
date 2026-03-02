@@ -39,3 +39,9 @@ Pretty much 100% of our code is written by Claude Code + Opus 4.5. For me person
 From Lauren Tan:
 
 In 2026, not getting value out of AI is actually a skill issue. And you wouldn't be the first. All engineers (including me) who started their careers before AI must learn new skills in order to stay relevant. These are new skills we'll be learning over time. I'm not going to say that you're going to be left behind, but like any new paradigm, this requires changing mental models and perspectives. Skills can be learned with time (and they will keep evolving), but changing your perspective is the first and most important step.
+
+From Tom Wojcik:
+
+If the AI writes all the code and you only review it, where does the skill to review come from? You can’t have one without the other. You don’t learn to recognize good code by reading about it in a textbook or a PR. You learn by writing bad code, getting it torn apart, and building intuition through years of practice. This creates what I’d call the review paradox: the more AI writes, the less qualified humans become to review what it wrote.
+
+We used to have juniors, mids, seniors, staff engineers, architects. It was a pipeline where each level built on years of hands-on struggle. A junior spends years writing code that is rejected during the code review not because they were not careful, but didn’t know better. It’s how you build the judgment that separates someone who can write a function from someone who can architect a system. You can’t become a senior overnight. Now, a junior with Claude Code delivers PRs that look like senior engineer work. But does it mean that the senior hat fits everyone now? But the head underneath hasn’t changed. That junior doesn’t know why that architecture was chosen.
