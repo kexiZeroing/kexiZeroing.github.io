@@ -104,16 +104,6 @@ Project rules live in `.cursor/rules` as markdown files. Each rule is a markdown
 
 `AGENTS.md` is an open standard for providing AI coding agents with project-specific context and instructions. It is compatible with a growing ecosystem of AI coding agents. Before `AGENTS.md`, many teams used Cursor-specific rules files to configure AI behavior. `AGENTS.md` provides a vendor-neutral alternative. For large codebases, place `AGENTS.md` files in subdirectories. Agents read the nearest file in the directory tree, so each package can have tailored instructions.
 
-> Claude Code doesn't support AGENTS.md now:
->
-> - https://github.com/anthropics/claude-code/issues/6235
-> - https://github.com/anthropics/claude-code/pull/29835
->
-> You can just create a `CLAUDE.md` in your project root with this single line: `@AGENTS.md`. This tells Claude Code to load the full contents of your `AGENTS.md` file as part of its memory.
-> Another workaround is to create symbolic link `CLAUDE.md` that refers to `AGENTS.md` using `ln` command.
->
-> Similarly, the `.agents/skills/` path is part of the Agent Skills open standard which is a cross-tool standard, but Claude Code uses its own `.claude/` directory structure, not `.agents/`.
-
 ### MCP
 
 Think of MCP as a plugin system for Cursor - it allows you to extend the Agent’s capabilities by connecting it to various data sources and tools through standardized interfaces.
@@ -383,6 +373,65 @@ Read more at https://adocomplete.com/advent-of-claude-2025
 | /sandbox  | Set permission boundaries           |
 | /export   | Export conversation to markdown     |
 | /resume   | Resume a past session               |
+
+### Create custom subagents
+
+Subagents are specialized AI assistants that handle specific types of tasks. Each subagent runs in its own context window with a custom system prompt, specific tool access, and independent permissions. When Claude encounters a task that matches a subagent’s description, it delegates to that subagent, which works independently and returns results.
+
+Claude Code includes built-in subagents that Claude automatically uses when appropriate. (Explore, Plan, General-purpose, Bash, etc)
+
+Subagents are defined in Markdown files with YAML frontmatter. You can create them manually or use the `/agents` command.
+
+```
+---
+name: code-reviewer
+description: Expert code review specialist. Proactively reviews code for quality, security, and maintainability. Use immediately after writing or modifying code.
+tools: Read, Grep, Glob, Bash
+model: inherit
+---
+
+You are a senior code reviewer ensuring high standards of code quality and security.
+
+When invoked:
+
+1. Run git diff to see recent changes
+2. Focus on modified files
+3. Begin review immediately
+
+...
+```
+
+### Prebuilt plugins through marketplaces
+
+Plugins extend Claude Code with skills, agents, hooks, and MCP servers. Plugin marketplaces are catalogs that help you discover and install these extensions without building them yourself.
+
+```sh
+# Install a plugin from the official marketplace
+/plugin install plugin-name@claude-plugins-official
+
+# Register the marketplace first
+/plugin marketplace add obra/superpowers-marketplace
+# Then install the plugin from this marketplace
+/plugin install superpowers@superpowers-marketplace
+
+/plugin marketplace list
+/plugin marketplace update marketplace-name
+/plugin marketplace remove marketplace-name
+
+/plugin disable plugin-name@marketplace-name
+/plugin enable plugin-name@marketplace-name
+/plugin uninstall plugin-name@marketplace-name
+```
+
+> Claude Code doesn't support AGENTS.md now:
+>
+> - https://github.com/anthropics/claude-code/issues/6235
+> - https://github.com/anthropics/claude-code/pull/29835
+>
+> You can just create a `CLAUDE.md` in your project root with this single line: `@AGENTS.md`. This tells Claude Code to load the full contents of your `AGENTS.md` file as part of its memory.
+> Another workaround is to create symbolic link `CLAUDE.md` that refers to `AGENTS.md` using `ln` command.
+>
+> Similarly, the `.agents/skills/` path is part of the Agent Skills open standard which is a cross-tool standard, but Claude Code uses its own `.claude/` directory structure, not `.agents/`.
 
 ## Gemini CLI
 
