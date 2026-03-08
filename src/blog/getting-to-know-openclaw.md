@@ -22,8 +22,7 @@ Common use cases:
 
 ## Set up OpenClaw on a VPS
 
-Use a VPS plan (e.g., https://www.hostinger.com/vps/openclaw-hosting
-) that comes with the OpenClaw app preinstalled and ready to use out of the box. Alternatively, you can set up OpenClaw yourself by accessing the VPS through the terminal and installing it manually.
+Use the one-click cloud deploys (e.g., https://www.hostinger.com/vps/docker/openclaw, https://marketplace.digitalocean.com/apps/openclaw, https://docs.openclaw.ai/vps) that comes with the OpenClaw app preinstalled and ready to use out of the box. Alternatively, you can set up OpenClaw yourself by accessing the VPS through the terminal and installing it manually.
 
 ```sh
 # Connect to the server, create a new user,

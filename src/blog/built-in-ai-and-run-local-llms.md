@@ -166,6 +166,10 @@ Implementation strategy:
    - https://github.com/open-webui/open-webui
    - https://simonwillison.net/2024/Dec/27/open-webui
 
+> Ollama Cloud Models: https://docs.ollama.com/cloud
+>
+> Cloud models are automatically offloaded to Ollama’s cloud service while offering the same capabilities as local models, making it possible to keep using your local tools while running larger models that wouldn’t fit on a personal computer.
+
 2. LM Studio
    - https://lmstudio.ai
    - https://huggingface.co/blog/yagilb/lms-hf
