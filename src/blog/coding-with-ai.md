@@ -3,7 +3,7 @@ title: "Coding with AI"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Mar 2 2026"
+updatedDate: "Mar 8 2026"
 ---
 
 ## Get Started with Cursor
@@ -111,6 +111,8 @@ Project rules live in `.cursor/rules` as markdown files. Each rule is a markdown
 >
 > You can just create a `CLAUDE.md` in your project root with this single line: `@AGENTS.md`. This tells Claude Code to load the full contents of your `AGENTS.md` file as part of its memory.
 > Another workaround is to create symbolic link `CLAUDE.md` that refers to `AGENTS.md` using `ln` command.
+>
+> Similarly, the `.agents/skills/` path is part of the Agent Skills open standard which is a cross-tool standard, but Claude Code uses its own `.claude/` directory structure, not `.agents/`.
 
 ### MCP
 
@@ -180,11 +182,31 @@ Cloud agents run on an isolated Ubuntu machine. We recommend configuring this en
 
 > The local agent model - Cursor, Windsurf, Claude Code in your terminal - is a human and an AI sharing a single environment. You're pair programming. The cloud agent model is delegation. You describe the task, the agent executes it independently, and you get back a PR. These are not competing approaches. They're complementary.
 
+## Bugbot
+
+Bugbot reviews pull requests for bugs and issues (Upgrade to Pro to unlock Bugbot). It runs automatically on each PR update or manually when triggered. Manual trigger by commenting `cursor review` or `bugbot run` on any PR.
+
+> Requires Cursor admin access and GitHub org admin access.
+>
+> 1. Go to cursor.com/dashboard
+> 2. Navigate to the Integrations tab
+> 3. Click Connect GitHub
+> 4. Follow the GitHub installation flow
+> 5. Return to the dashboard to enable Bugbot on specific repositories
+
+Create `.cursor/BUGBOT.md` files to provide project-specific context for reviews. Bugbot always includes the root `.cursor/BUGBOT.md` file and any additional files found while traversing upward from changed files.
+
+Bugbot Autofix automatically spawns a Cloud Agent to fix bugs found during PR reviews. Autofix runs cloud agents on their own machines to test changes and propose fixes directly on your PR. Bugbot will post a comment on the original PR with a preview of the autofix changes, which you can merge using the provided `@cursor` command.
+
 ### Plugins
 
 Plugins bundle capabilities like MCP servers, skills, subagents, rules, and hooks that extend agents with custom functionality. They work across the IDE, CLI, and Cloud. Browse community-built plugins or build your own to share with other developers. https://cursor.com/docs/plugins
 
 You can discover and install prebuilt plugins on the [Cursor Marketplace](https://cursor.com/marketplace) or create your own and share them with the community.
+
+- https://cursor.com/marketplace/slack
+- https://cursor.com/marketplace/figma
+- https://cursor.com/marketplace/glean
 
 ## GitHub Copilot
 
@@ -286,6 +308,7 @@ Three-level loading pattern to manage context efficiently (progressive disclosur
 - npx skills add remotion-dev/skills
 - npx skills add addyosmani/web-quality-skills
 - npx skills add clerk/skills
+- npx skills add shadcn/ui
 
 People also made their own skills collections:
 
