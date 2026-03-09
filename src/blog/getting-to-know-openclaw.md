@@ -3,9 +3,15 @@ title: "Getting to know OpenClaw"
 description: ""
 added: "Mar 8 2026"
 tags: [AI]
+updatedDate: "Mar 9 2026"
 ---
 
 Learn from the [OpenClaw complete tutorial](https://www.youtube.com/watch?v=sTjx7IpeBas) by ByteGrad, and I take notes along the way in this post.
+
+> Other helpful video tutorials in Chinese:
+>
+> - https://www.youtube.com/watch?v=2rcJdFuNbZQ
+> - https://www.bilibili.com/video/BV1ZiNwzPEhP
 
 ## Background
 
@@ -84,6 +90,9 @@ input arrives -> session routing -> context assembly -> send to model
 
 **AGENTS.md Template:**
 https://docs.openclaw.ai/reference/templates/AGENTS
+
+**SOUL.md Template:**
+https://docs.openclaw.ai/reference/templates/SOUL
 
 More about `~/.openclaw/workspace`:
 
