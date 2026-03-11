@@ -10,14 +10,14 @@ updatedDate: "Sep 29 2025"
 
 ```js
 // https://www.youtube.com/watch?v=KJP1E-Y-xyo
-const React = (function() {
+const React = (function () {
   let hooks = [];
   let idx = 0;
 
   function useState(initVal) {
     const state = hooks[idx] ?? initVal;
     const _idx = idx;
-    const setState = newVal => {
+    const setState = (newVal) => {
       if (typeof newVal === "function") {
         hooks[_idx] = newVal(hooks[_idx]);
       } else {
@@ -69,7 +69,7 @@ function Component() {
   return {
     render: () => console.log({ count, text }),
     click: () => setCount(count + 1),
-    type: word => setText(word),
+    type: (word) => setText(word),
   };
 }
 
@@ -186,7 +186,7 @@ useEffect(() => {
 // To solve this, use the updater function `setCount(c => c + 1)`
 useEffect(() => {
   const id = setInterval(() => {
-    setCount(c => c + 1);
+    setCount((c) => c + 1);
   }, 1000);
   return () => {
     clearInterval(id);
@@ -200,22 +200,16 @@ If we had two components of the same type:
 
 ```jsx
 {
-  isEditing
-    ? (
-      <input
-        type="text"
-        placeholder="Enter your name"
-        className="edit-input"
-      />
-    )
-    : (
-      <input
-        type="text"
-        placeholder="Enter your name"
-        disabled
-        className="view-input"
-      />
-    );
+  isEditing ? (
+    <input type="text" placeholder="Enter your name" className="edit-input" />
+  ) : (
+    <input
+      type="text"
+      placeholder="Enter your name"
+      disabled
+      className="view-input"
+    />
+  );
 }
 ```
 
@@ -297,7 +291,9 @@ const App = () => {
   }, []);
 
   const filteredItems = useMemo(() => {
-    return ["apple", "banana", "cherry"].filter(item => item.includes(filter));
+    return ["apple", "banana", "cherry"].filter((item) =>
+      item.includes(filter),
+    );
   }, [filter]);
 
   return (
@@ -398,13 +394,14 @@ async function CategoryList() {
 
   return (
     <ShowMore initial={5}>
-      {categories.map((category) => <div key={category.id}>{category.name}
-      </div>)}
+      {categories.map((category) => (
+        <div key={category.id}>{category.name}</div>
+      ))}
     </ShowMore>
   );
 }
 
-"use client";
+("use client");
 
 export default function ShowMore({ children, initial = 5 }) {
   const [expanded, setExpanded] = useState(false);
@@ -438,6 +435,8 @@ export default function ShowMore({ children, initial = 5 }) {
 ### What is Fiber
 
 React Fiber was introduced in React 16 as a complete reimplementation of React's core reconciliation algorithm. At its core, Fiber is a JavaScript object that represents both a unit of work and a node in React's internal tree structure, essentially serving as the modern implementation of React's Virtual DOM.
+
+> Yes, Fiber can refer to both a data structure and an algorithm, depending on the context. Another good read: https://inside-react.vercel.app/blog/understanding-why-react-fiber-exists
 
 Fiber nodes are organized in a linked-list tree structure that mirrors the component hierarchy, with each Fiber having pointers to its parent, first child, and next sibling. Fiber nodes are sophisticated objects that serve as both the Virtual DOM elements and the reconciliation units, containing work scheduling information.
 
@@ -579,9 +578,7 @@ function Counter() {
 
   return (
     <div>
-      <button onClick={() => setCount(count + 1)}>
-        Increment
-      </button>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
       <p>Current count: {count}</p>
       <p>Previous count: {previousCount}</p>
     </div>
@@ -621,7 +618,7 @@ Passing a ref from `useRef` (a RefObject) to a React element is therefore just s
   ref={(node) => {
     ref.current = node;
   }}
-/>;
+/>
 ```
 
 ```tsx
@@ -860,7 +857,9 @@ const ListItemImpl = ({ item }) => (
 // Using the injected component
 const List = ({ listItems, ListItem }) => (
   <ul>
-    {listItems.map((item) => <ListItem key={item.id} item={item} />)}
+    {listItems.map((item) => (
+      <ListItem key={item.id} item={item} />
+    ))}
   </ul>
 );
 ```
