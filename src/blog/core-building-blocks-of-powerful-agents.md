@@ -3,7 +3,7 @@ title: "Core building blocks of powerful agents"
 description: ""
 added: "Feb 26 2026"
 tags: [AI]
-updatedDate: "Feb 27 2026"
+updatedDate: "Mar 14 2026"
 ---
 
 Learn from the links below (all from Nader Dabit) if you’re curious about what’s happening underneath these powerful agents.
@@ -462,6 +462,115 @@ function setupHeartbeats(): void {
     }
   });
 }
+```
+
+## Skills
+
+```ts
+/**
+ * Two-layer skill injection:
+ *   Layer 1 (cheap)     — skill names/descriptions baked into the system prompt
+ *   Layer 2 (on demand) — full SKILL.md body returned as a tool_result when the
+ *                         model calls load_skill("name")
+ */
+
+interface SkillMeta {
+  name?: string;
+  description?: string;
+  tags?: string;
+}
+
+interface Skill {
+  meta: SkillMeta;
+  body: string;
+  filePath: string;
+}
+
+class SkillLoader {
+  private skills: Map<string, Skill> = new Map();
+
+  constructor(private skillsDir: string) {
+    this.loadAll();
+  }
+
+  /** Recursively find every SKILL.md and parse it. */
+  private loadAll(): void {
+    if (!fs.existsSync(this.skillsDir)) return;
+
+    const findSkillFiles = (dir: string): string[] => {
+      const results: string[] = [];
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+          results.push(...findSkillFiles(full));
+        } else if (entry.name === "SKILL.md") {
+          results.push(full);
+        }
+      }
+      return results;
+    };
+
+    for (const filePath of findSkillFiles(this.skillsDir).sort()) {
+      const text = fs.readFileSync(filePath, "utf-8");
+      const { meta, body } = this.parseFrontmatter(text);
+      const name = meta.name ?? path.basename(path.dirname(filePath));
+      this.skills.set(name, { meta, body, filePath });
+    }
+  }
+
+  /** Layer 1 — short descriptions for the system prompt.
+   *
+   * Example output:
+   *   - pdf: Process PDF files [files]
+   *   - code-review: Review code quality
+   */
+  getDescriptions(): string {
+    if (this.skills.size === 0) return "(no skills available)";
+    return [...this.skills.entries()]
+      .map(([name, skill]) => {
+        const desc = skill.meta.description ?? "No description";
+        const tags = skill.meta.tags ? ` [${skill.meta.tags}]` : "";
+        return `  - ${name}: ${desc}${tags}`;
+      })
+      .join("\n");
+  }
+
+  /** Layer 2 — full body returned inside a tool_result. */
+  getContent(name: string): string {
+    const skill = this.skills.get(name);
+    if (!skill) {
+      const available = [...this.skills.keys()].join(", ");
+      return `Error: Unknown skill '${name}'. Available: ${available}`;
+    }
+    return `<skill name="${name}">\n${skill.body}\n</skill>`;
+  }
+}
+
+const skillLoader = new SkillLoader(path.join(WORKDIR, "skills"));
+
+const systemPrompt = `You are a coding agent at ${WORKDIR}.
+Use load_skill to access specialized knowledge before tackling unfamiliar topics.
+
+Skills available:
+${skillLoader.getDescriptions()}`;
+
+const TOOLS = [
+  // ... other tools
+  {
+    name: "load_skill",
+    description: "Load full instructions for a named skill before using it.",
+    input_schema: {
+      type: "object",
+      properties: { name: { type: "string" } },
+      required: ["name"],
+    },
+  },
+];
+
+const TOOL_HANDLERS = {
+  // ... other handlers
+  load_skill: ({ name }) => skillLoader.getContent(name),
+};
 ```
 
 ## Claude Agent SDK

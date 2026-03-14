@@ -3,7 +3,7 @@ title: "Learn the new frontend build tool Vite"
 description: ""
 added: "Jan 29 2022"
 tags: [web]
-updatedDate: "Apr 27 2025"
+updatedDate: "Mar 14 2026"
 ---
 
 ## Next Generation Frontend Tooling
@@ -177,3 +177,11 @@ Vue CLI is in Maintenance Mode. For new projects, it is now recommended to use `
 8. Change the old `vue-cli-service` commands to Vite specific commands in `package.json`.
 9. You can no longer access environment variables on a `process.env` variable. Instead they can be found on `import.meta.env`.
 10. Remove all the magic comments for naming your dynamic imports as these are webpack specific comments (e.g. `import(/* webpackChunkName: "about" */ "../views/About.vue")`) and don't mean anything to Vite. Vite will automatically name your chunk based off of the original `.vue` file name combined with a hash.
+
+## The Rolldown-Powered Vite
+
+Since its earliest versions, Vite relied on two separate bundlers to serve different needs. esbuild handled fast compilation during development (dependency pre-bundling and TypeScript/JSX transforms) that made the dev experience feel instant. Rollup handled production bundling, chunking, and optimization, with its rich plugin API powering the entire Vite plugin ecosystem.
+
+Vite 8 ships with Rolldown as its single, unified, Rust-based bundler, delivering up to 10-30x faster builds while maintaining full plugin compatibility. This is the most significant architectural change since Vite 2. Vite becomes the entry point to an end-to-end toolchain with closely collaborating teams: the build tool (Vite), the bundler (Rolldown), and the compiler (Oxc).
+
+Vite 8 requires Node.js 20.19+, 22.12+, the same requirements as Vite 7. These ranges ensure Node.js supports `require(esm)` without a flag, allowing Vite to be distributed as ESM only.
