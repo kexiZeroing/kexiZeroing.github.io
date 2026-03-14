@@ -596,6 +596,16 @@ Comprehensive Claude Code project configuration showcase: https://github.com/Chr
 
 ---
 
+## CLI for Agents
+
+One CLI for all of Google Workspace: https://github.com/googleworkspace/cli
+
+Browser automation CLI for AI agents: https://github.com/vercel-labs/agent-browser
+
+The official CLI for Resend: https://github.com/resend/resend-cli
+
+---
+
 ## Machine Learning
 
 Stanford CS229 Machine Learning: https://cs229.stanford.edu

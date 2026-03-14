@@ -125,7 +125,7 @@ server.tool(
         },
       ],
     };
-  }
+  },
 );
 ```
 
@@ -146,7 +146,7 @@ server.registerTool(
     return {
       content: [{ type: "text", text: data }],
     };
-  }
+  },
 );
 ```
 
@@ -297,4 +297,4 @@ Each tool should do one thing and do it well. The `name` and `description` of yo
 - https://developer.chrome.com/blog/chrome-devtools-mcp
 - https://developer.chrome.com/blog/autofix-runtime-devtools-mcp
 - https://developers.openai.com/apps-sdk/build/mcp-server
-- https://cursor.com/docs/context/mcp
+- https://developer.chrome.com/blog/webmcp-mcp-usage

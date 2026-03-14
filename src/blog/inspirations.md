@@ -136,3 +136,13 @@ Glue work - documentation, onboarding, cross-team coordination, process improvem
 Timebox it. Rotate it. Turn it into artifacts: docs, templates, automation. And make it legible as impact, not as personality trait.
 
 Priceless and invisible is a dangerous combination for your career.
+
+## Social media rewards hype, not good content. by Brad Traversy
+
+It rewards what’s sensationalized: things that go viral, things that make people mad, things that scare people. So naturally those are the voices that get pushed and sound the loudest.
+
+These are the 3 culprits I see every day:
+
+1. The AI over-hypers. Every time I opened social media I saw the same posts: "Claude just killed every business that does X" and "SaaS is cooked because of tool Y". Let me give you a hint, these guys don't know anything. They're there to make noise and get any attention they can get.
+2. The AI influencers who get paid to make content, test tools, and move on are not actual experts or daily users of the tools they are marketing. So when you see one person talking about new tools every day, they are just scratching the surface and posting it online.
+3. The person selling AI tools: The most recent (and the worst example I've seen) is Replit CEO saying that not knowing how to code is an advantage. Just remember, these guys are selling AI products and benefit from you buying their tools. They don't represent the reality of the industry.
