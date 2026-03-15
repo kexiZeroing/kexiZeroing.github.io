@@ -307,6 +307,7 @@ People also made their own skills collections:
 - https://github.com/JimLiu/baoyu-skills
 - https://github.com/intellectronica/agent-skills
 - https://github.com/mattpocock/skills
+- https://github.com/addyosmani/agent-skills
 
 ### Copilot CLI
 

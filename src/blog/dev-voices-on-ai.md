@@ -45,3 +45,13 @@ From Tom Wojcik:
 If the AI writes all the code and you only review it, where does the skill to review come from? You can’t have one without the other. You don’t learn to recognize good code by reading about it in a textbook or a PR. You learn by writing bad code, getting it torn apart, and building intuition through years of practice. This creates what I’d call the review paradox: the more AI writes, the less qualified humans become to review what it wrote.
 
 We used to have juniors, mids, seniors, staff engineers, architects. It was a pipeline where each level built on years of hands-on struggle. A junior spends years writing code that is rejected during the code review not because they were not careful, but didn’t know better. It’s how you build the judgment that separates someone who can write a function from someone who can architect a system. You can’t become a senior overnight. Now, a junior with Claude Code delivers PRs that look like senior engineer work. But does it mean that the senior hat fits everyone now? But the head underneath hasn’t changed. That junior doesn’t know why that architecture was chosen.
+
+From Emily Gorcenski:
+
+It’s very good at certain things. It’s great at diagnosing issues and fixing them. It can generate pretty decent code at a certain scale. It can follow instructions pretty well.
+
+It is not very good at architecture, extensibility, design, or product. If you tell it to fix a bug, it will fix that bug more or less. But there’s no guarantee it will fix that bug in a way that makes sense for your code base, product, or engineering approach. In fact it almost certainly won’t. What it will do is generate a series of monkey patches.
+
+Newer models will get better but this behavior will probably always stay. There are a bunch of approaches out there on how to tune it away from doing this. But they all require you to still be a good software developer.
+
+Engineering has always been about tradeoffs and judgment and I have seen nothing that indicates that this will change.

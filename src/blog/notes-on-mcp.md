@@ -3,7 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "July 11 2025"
+updatedDate: "Mar 15 2026"
 ---
 
 ### Historical context: The Path to MCP
@@ -281,6 +281,21 @@ Consider the difference in practice. An API-shaped MCP server might expose four 
 
 Each tool should do one thing and do it well. The `name` and `description` of your tools and their parameters are your primary interface with the LLM. Be clear, concise, and unambiguous. Log every single tool invocation. Record the tool name, the exact parameters it was called with, and the result it returned. This is invaluable for debugging.
 
+### WebMCP
+
+WebMCP is a proposed web standard that lets websites expose structured tools to AI agents. Instead of guessing what a button does, the agent can call a function with explicit parameters and get a predictable result. It bridges the gap between web applications and AI agents by providing a contract for interaction. Websites can explicitly publish their capabilities as tools. The standard defines two APIs:
+
+- Imperative API (JavaScript): Register tools programmatically (`window.navigator.modelContext.registerTool`) with explicit schemas.
+- Declarative API (HTML Annotations): Transform standard HTML forms into tools using attributes.
+
+WebMCP is currently an early preview feature from Google Chrome. While the standard is being developed, users can interact with WebMCP-enabled websites through a Chrome extension that provides AI agent capabilities.
+
+> Currently only available in Chrome 146+ behind a flag:
+>
+> - Go to chrome://flags and enable the "WebMCP for testing" flag in Chrome 146 or higher.
+> - Model Context Tool Inspector Chrome extension https://chromewebstore.google.com/detail/gbpdfapgefenggkahomfgkhfehlcenpd
+> - When to use WebMCP and MCP: https://developer.chrome.com/blog/webmcp-mcp-usage
+
 ### References and further reading
 
 - https://github.com/modelcontextprotocol/typescript-sdk
@@ -297,4 +312,3 @@ Each tool should do one thing and do it well. The `name` and `description` of yo
 - https://developer.chrome.com/blog/chrome-devtools-mcp
 - https://developer.chrome.com/blog/autofix-runtime-devtools-mcp
 - https://developers.openai.com/apps-sdk/build/mcp-server
-- https://developer.chrome.com/blog/webmcp-mcp-usage
