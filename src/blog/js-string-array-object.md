@@ -104,7 +104,7 @@ The replacement string can include the following special replacement patterns:
 
 - `$&`: the matched substring
 - `$\`: the portion of the string that precedes the matched substring
-- `$'`:	the portion of the string that follows the matched substring
+- `$'`: the portion of the string that follows the matched substring
 - `$n`: the nth parenthesized submatch string
 
 ```js
@@ -126,7 +126,7 @@ function replacer(match, p1, p2, p3, offset, string) {
 ```
 
 > - `\d`: Matches any digit character. Equivalent to `[0-9]`.
-> - `\w`: Matches any word character, where a word character includes letters (A–Z, a–z), numbers (0–9), and underscore (_).
+> - `\w`: Matches any word character, where a word character includes letters (A–Z, a–z), numbers (0–9), and underscore (\_).
 > - `\s`: Matches any whitespace or line terminator character.
 
 ## Array
@@ -158,7 +158,7 @@ function replacer(match, p1, p2, p3, offset, string) {
 // 2. all objects will be considered equal `[object Object]`
 function uniq(a) {
   var seen = {};
-  return a.filter(function(item) {
+  return a.filter(function (item) {
     return seen.hasOwnProperty(item) ? false : (seen[item] = true);
   });
 }
@@ -177,8 +177,8 @@ function uniq(a) {
 Note that `JSON.parse(JSON.stringify(arr))` depends upon JSON, it also inherits its limitations. `undefined`, `Function`, and `Symbol` are not valid JSON values. If any such values are encountered during the stringify conversion, they are either omitted (when found in an object) or changed to `null` (when found in an array). Btw, Dates will be turned into strings, Sets and Maps would be converted to empty objects.
 
 ```js
-JSON.stringify(function() {}); // undefined
-JSON.stringify([undefined, function() {}, () => {}]); // "[null, null, null]"
+JSON.stringify(function () {}); // undefined
+JSON.stringify([undefined, function () {}, () => {}]); // "[null, null, null]"
 
 const obj = {
   set: new Set([1, 2]),
@@ -208,7 +208,7 @@ Array.from("foo"); // [ "f", "o", "o" ]
 const set = new Set(["foo", "bar", "baz", "foo"]);
 Array.from(set); // [ "foo", "bar", "baz" ]
 
-Array.from([1, 2, 3], x => x + x); // [2, 4, 6]
+Array.from([1, 2, 3], (x) => x + x); // [2, 4, 6]
 
 // Since the array is initialized with `undefined` on each position,
 // the value of `v` below will be `undefined`
@@ -328,10 +328,10 @@ function flattenDeep(arr) {
 let arr1 = ["it's Sunny in", "", "California"];
 
 // [["it's","Sunny","in"],[""],["California"]]
-arr1.map(x => x.split(" "));
+arr1.map((x) => x.split(" "));
 
 // ["it's","Sunny","in", "", "California"]
-arr1.flatMap(x => x.split(" "));
+arr1.flatMap((x) => x.split(" "));
 ```
 
 ### Array sort
@@ -339,6 +339,34 @@ arr1.flatMap(x => x.split(" "));
 - The `sort()` method sorts the elements of an array in place and returns the reference to the same array.
 - The time and space complexity of the sort cannot be guaranteed as it depends on the implementation.
 - Since ECMAScript 2019, the specification dictates that `Array.prototype.sort` is stable. All major JavaScript engines now implement a stable Array sort.
+
+### The O(n^2) issue that looks like clean code
+
+```js
+// Looks clean, but O(n * m)
+const activeUsers = allUsers.filter((u) => activeIds.includes(u.id));
+
+// Convert activeIds to a Set:
+const activeSet = new Set(activeIds);
+const activeUsers = allUsers.filter((u) => activeSet.has(u.id));
+```
+
+```js
+// Looks clean, but O(n * m)
+const results = users.map((user) => {
+  const match = permissions.find((p) => p.userId === user.id);
+  return { ...user, role: match?.role ?? "viewer" };
+});
+
+// The fix is to build a Map first:
+const permMap = new Map(permissions.map((p) => [p.userId, p.role]));
+const results = users.map((user) => ({
+  ...user,
+  role: permMap.get(user.id) ?? "viewer",
+}));
+```
+
+The difference between O(n) and O(n^2) is invisible at n=10 and catastrophic at n=10,000. Grep for `.find()`, `.includes()`, `.indexOf()` inside `.map()`, `.filter()`. The difference between reaching for an Array method and a Map/Set method is often the difference between O(n^2) and O(n).
 
 ### Newly available array methods
 
@@ -537,10 +565,17 @@ console.log(Object.entries(obj)); // [ ['foo', 'bar'], ['baz', 42] ]
 
 // fromEntries() method transforms a list of key-value pairs into an object
 // iterable argument is expected
-const arr = [["0", "a"], ["1", "b"], ["2", "c"]];
+const arr = [
+  ["0", "a"],
+  ["1", "b"],
+  ["2", "c"],
+];
 Object.fromEntries(arr); // { 0: "a", 1: "b", 2: "c" }
 
-const map = new Map([["foo", "bar"], ["baz", 42]]);
+const map = new Map([
+  ["foo", "bar"],
+  ["baz", 42],
+]);
 Object.fromEntries(map); // { foo: "bar", baz: 42 }
 ```
 
@@ -597,7 +632,7 @@ function Dog(name, breed, color, sex) {
 theDog = new Dog("Gabby", "Lab", "chocolate", "female");
 theDog.toString(); // [object Object]
 
-Dog.prototype.toString = function() {
+Dog.prototype.toString = function () {
   return `Dog ${this.name} is a ${this.sex} ${this.color} ${this.breed}`;
 };
 theDog.toString(); // "Dog Gabby is a female chocolate Lab"
@@ -606,17 +641,17 @@ theDog.toString(); // "Dog Gabby is a female chocolate Lab"
 JavaScript calls `valueOf()` to convert an object to a primitive value. You rarely need to invoke the `valueOf` method yourself; JavaScript automatically invokes it when encountering an object where a primitive value is expected. A unary plus sign can sometimes be used as a shorthand for `valueOf`.
 
 ```js
-+"5" // 5
-  + "" // 0
-  + "foo" // NaN
-  + {} // NaN
-  + [] // 0
-  + [1] // 1
-  + [1, 2] // NaN
-  + undefined // NaN
-  + null // 0
-  + true // 1
-  + false; // 0
++"5" + // 5
+  "" + // 0
+  "foo" + // NaN
+  {} + // NaN
+  [] + // 0
+  [1] + // 1
+  [1, 2] + // NaN
+  undefined + // NaN
+  null + // 0
+  true + // 1
+  false; // 0
 ```
 
 ### Object.assign()
@@ -752,7 +787,7 @@ for (let key of myMap.keys()) console.log(key);
 for (let value of myMap.values()) console.log(value);
 for (let [key, value] of myMap.entries()) console.log(key + " = " + value);
 
-myMap.forEach(function(value, key, map) {
+myMap.forEach(function (value, key, map) {
   console.log(`map.get('${key}') = ${value}`);
 });
 
@@ -791,7 +826,7 @@ var mySet = new Set(['value1', 'value2', 'value3']);
 
 // You can't add multiple elements to a set in one add()
 mySet.add(1);
-mySet.add(2); 
+mySet.add(2);
 
 mySet.has(1); // true
 mySet.has(3); // false
@@ -850,7 +885,7 @@ map.set(k1, "k1");
 wm.set(k2, "k2");
 
 k1 = null;
-map.forEach(function(val, key) {
+map.forEach(function (val, key) {
   console.log(key, val); // {a: 1} "k1"
 });
 
