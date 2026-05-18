@@ -3,7 +3,7 @@ title: "Harness engineering guide"
 description: ""
 added: "Apr 12 2026"
 tags: [AI]
-updatedDate: "Apr 19 2026"
+updatedDate: "May 18 2026"
 ---
 
 Harness engineering keeps coming up in conversations, yet most of us encounter it in our daily work without fully recognizing it.
@@ -108,6 +108,11 @@ Every session should be able to answer three questions just by reading files:
 Feature lists, progress logs, git history, docs are the foundation.
 
 Agents have a habit of saying "Done" when things are actually broken. The fix is giving the agent real tools to test its own work like running the app, checking the UI, catching bugs end to end. Not just saying it worked. Actually proving it.
+
+### AI harness talk by Tejas
+
+- https://www.youtube.com/watch?v=C_GG5g38vLU
+- https://github.com/TejasQ/basically-ai-harness
 
 ### OpenAI harness engineering
 

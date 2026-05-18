@@ -439,7 +439,7 @@ Type `/plugin` and go to the Discover tab, you can see plugins like frontend-des
 
 ### Understanding hooks
 
-Hooks let you handle events at key points in Claude Code lifecycle.
+Hooks let you handle events at key points in Claude Code lifecycle. They make the agent workflow programmable. For example, a project instruction can say “do not edit generated files,” but a `PreToolUse` hook can inspect the attempted edit and block it before it happens.
 
 | Hook             | Description                                          |
 | ---------------- | ---------------------------------------------------- |
