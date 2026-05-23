@@ -109,11 +109,6 @@ Feature lists, progress logs, git history, docs are the foundation.
 
 Agents have a habit of saying "Done" when things are actually broken. The fix is giving the agent real tools to test its own work like running the app, checking the UI, catching bugs end to end. Not just saying it worked. Actually proving it.
 
-### AI harness talk by Tejas
-
-- https://www.youtube.com/watch?v=C_GG5g38vLU
-- https://github.com/TejasQ/basically-ai-harness
-
 ### OpenAI harness engineering
 
 https://openai.com/index/harness-engineering
@@ -155,3 +150,21 @@ https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agent
 5. The next iteration of the coding agent was then asked to work on only one feature at a time. Once working incrementally, it’s still essential that the model leaves the environment in a clean state after making a code change. In our experiments, we found that the best way to elicit this behavior was to ask the model to commit its progress to git with descriptive commit messages and to write summaries of its progress in a progress file. This allowed the model to use git to revert bad code changes and recover working states of the code base.
 
 6. One final major failure mode that we observed was Claude’s tendency to mark a feature as complete without proper testing. Absent explicit prompting, Claude tended to make code changes, and even do testing with unit tests or curl commands against a development server, but would fail recognize that the feature didn’t work end-to-end.
+
+### Addy Osmani's post "Agent Harness Engineering"
+
+https://addyosmani.com/blog/agent-harness-engineering/
+
+1. Concretely, a harness includes:
+   - System prompts, CLAUDE.md, AGENTS.md, skill files, and subagent prompts
+   - Tools, skills, MCP servers, and their descriptions
+   - Bundled infrastructure (filesystem, sandbox, browser)
+   - Orchestration logic (subagent spawning, handoffs, model routing)
+   - Hooks and middleware for deterministic execution (compaction, continuation, lint checks)
+   - Observability (logs, traces, cost and latency metering)
+
+2. The harness-engineering mindset rejects that default. The failure is usually legible. The agent didn’t know about a convention, so you add it to `AGENTS.md`. The agent ran a destructive command, so you add a hook that blocks it. The agent got lost in a 40-step task, so you split it into a planner and an executor. The agent kept “finishing” broken code, so you wire a typecheck back-pressure signal into the loop.
+
+3. You only add constraints when you’ve seen a real failure. You only remove them when a capable model has made them redundant. Every line in a good `AGENTS.md` should be traceable back to a specific thing that went wrong. The right harness for your codebase is shaped by your failure history. You can’t download it.
+
+4. A harness is a living system, not a config file you set up once.

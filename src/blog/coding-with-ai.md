@@ -299,6 +299,7 @@ People also made their own skills collections:
 - https://github.com/mattpocock/skills
 - https://github.com/addyosmani/agent-skills
 - https://github.com/MiniMax-AI/skills
+- https://github.com/multica-ai/andrej-karpathy-skills
 
 CN flavor:
 
