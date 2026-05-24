@@ -3,7 +3,7 @@ title: "Harness engineering guide"
 description: ""
 added: "Apr 12 2026"
 tags: [AI]
-updatedDate: "May 18 2026"
+updatedDate: "May 24 2026"
 ---
 
 Harness engineering keeps coming up in conversations, yet most of us encounter it in our daily work without fully recognizing it.
@@ -168,3 +168,79 @@ https://addyosmani.com/blog/agent-harness-engineering/
 3. You only add constraints when you’ve seen a real failure. You only remove them when a capable model has made them redundant. Every line in a good `AGENTS.md` should be traceable back to a specific thing that went wrong. The right harness for your codebase is shaped by your failure history. You can’t download it.
 
 4. A harness is a living system, not a config file you set up once.
+
+### AI harness talk by Tejas
+
+https://www.youtube.com/watch?v=C_GG5g38vLU
+
+The agent hit a login page, panicked, reported success anyway, and the upvote never happened. It lies. How do we solve this? From the logging, we can actually see it just clicks the upvote button and then considers it a success. Doesn't verify. This is the job of a harness.
+
+```ts
+export function verifySuccessfulUpvote(
+  result: HarnessExecutionResult,
+): VerifyResult {
+  const successfulUpvote = result.trace
+    .flatMap((iteration) => iteration.toolEvents)
+    .find(
+      (event) =>
+        event.tool === "browser_click" &&
+        /up_/.test(JSON.stringify(event.args)) &&
+        /news\.ycombinator\.com\/(news)?$/.test(
+          event.result.split("now at ")[1]?.trim() ?? "",
+        ),
+    );
+
+  if (successfulUpvote) {
+    return {
+      passed: true,
+      reason: `Upvote click confirmed - landed on ${successfulUpvote.result.split("now at ")[1]}`,
+    };
+  }
+
+  const failedLogin = result.trace
+    .flatMap((iteration) => iteration.toolEvents)
+    .find(
+      (event) =>
+        event.tool === "harness_auto_login" &&
+        event.result.startsWith("Harness failed to handle login at "),
+    );
+
+  if (failedLogin) {
+    return {
+      passed: false,
+      reason: failedLogin.result,
+      fatal: true,
+    };
+  }
+
+  const unrecoveredLoginRedirect = result.trace
+    .flatMap((iteration) => iteration.toolEvents)
+    .find(
+      (event) =>
+        event.tool !== "harness_auto_login" &&
+        isLoginUrl(extractUrl(event.result)),
+    );
+
+  if (unrecoveredLoginRedirect) {
+    return {
+      passed: false,
+      reason: `Hit login screen instead of completing the upvote (${extractUrl(unrecoveredLoginRedirect.result)})`,
+      fatal: true,
+    };
+  }
+
+  return {
+    passed: false,
+    reason: "No successful upvote click found in trace",
+  };
+}
+
+function extractUrl(result: string): string | null {
+  const match = result.match(/https?:\/\/\S+/);
+  return match ? match[0] : null;
+}
+
+function isLoginUrl(url: string | null): boolean {
+  return !!url && (url.includes("/login") || url.includes("/vote"));
+}
+```
