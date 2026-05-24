@@ -3,6 +3,7 @@ title: "Matt Pocock's workflow for AI coding"
 description: ""
 added: "May 17 2026"
 tags: [AI]
+updatedDate: "May 24 2026"
 ---
 
 This post is the learning notes for Matt Pocock's AI Engineer Workshop ([Website](https://www.aihero.dev/ai-engineer-workshop-2026~dwnll), [Youtube](https://www.youtube.com/watch?v=-QFHIoCo-Ko)). It is the repeatable workflow for shipping features with AI coding agents from planning through autonomous execution.
@@ -95,6 +96,22 @@ User stories covered: which user stories from the PRD this addresses
 For each approved slice, write a markdown file in `issues/` using the naming pattern `issues/NNN-short-title.md` (e.g. issues/001-add-user-auth.md).
 
 Do NOT use `gh issue create` or any GitHub CLI commands. Do NOT reference GitHub issue numbers. Use local filenames for all cross-references.
+```
+
+## Start a new session with the `/handoff` skill
+
+AI models have a "smart zone" and a "dumb zone" where performance degrades. While `/compact` helps by summarizing a session to clear memory, it keeps the work in a single thread.
+
+`/handoff` summarizes the current session's status into a document for another agent to pick up. This allows the user to break off specific sub-tasks—like refactoring.
+
+```
+Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save to the temporary directory of the user's OS - not the current workspace.
+
+Include a "suggested skills" section in the document, which suggests skills that the agent should invoke.
+
+Do not duplicate content already captured in other artifacts. Reference them by path or URL instead.
+
+If the user passed arguments, treat them as a description of what the next session will focus on and tailor the doc accordingly.
 ```
 
 ## Running the AFK agent
