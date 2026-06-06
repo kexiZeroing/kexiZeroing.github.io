@@ -305,6 +305,8 @@ npx shadcn@latest add https://simple-ai.dev/r/chat-message.json
   <figcaption>registry.json and shadcn build</figcaption>
 </figure>
 
+You can now turn any public GitHub repository into a registry. Registry items are not limited to components or React code. They can include any files from your repository: https://ui.shadcn.com/docs/registry/github
+
 We also need to know what does `cva (class-variance-authority)` do. It basically is a function, that allows us to define variants for the element we want to style. A simple variant definition has a name and a list of possible values, each with a list of classes that should apply.
 
 ```jsx

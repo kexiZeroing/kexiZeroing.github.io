@@ -334,6 +334,8 @@ Turn Figma designs into pixel-perfect code: https://www.framelink.ai
 
 How to build an AI Markdown renderer: https://tigerabrodi.blog/how-to-build-a-performant-ai-markdown-renderer
 
+Animation vocabulary: https://animations.dev/vocabulary
+
 ---
 
 ## React ecosystem

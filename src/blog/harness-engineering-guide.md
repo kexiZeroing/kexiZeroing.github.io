@@ -18,6 +18,7 @@ OpenClaw (AGENTS.md) -- LLM -- Cowork/Claude Code (CLAUDE.md)
 - https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum
 - https://www.reddit.com/r/vibecoding/comments/1ql7pbs/how_do_people_leave_agents_coding_overnight
 - https://github.com/agrimsingh/ralph-wiggum-cursor
+- https://www.youtube.com/watch?v=I7azCAgoUHc
 
 Ralph is a technique for autonomous AI development that treats LLM context like memory: `while :; do cat PROMPT.md | agent ; done` The same prompt is fed repeatedly to an AI agent. Progress persists in files, not in the LLM's context window. When context fills up, you get a fresh agent with fresh context.
 
