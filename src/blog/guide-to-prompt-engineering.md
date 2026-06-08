@@ -349,36 +349,23 @@ Take a deep breath and think step by step. I need you to revise this code to do 
 
 ### What is Prompt Caching
 
-Prompt Caching is a feature that optimizes your API usage by allowing resuming from specific prefixes in your prompts. This approach significantly reduces processing time and costs for repetitive tasks or prompts with consistent elements. To use prompt caching in the Anthropic API, all you have to do is add `"cache_control": {"type": "ephemeral"}` attribute to the content you want to cache.
+Prompt caching skips repeated re-computation of the expensive part of LLM inference — the key-value attention states — for tokens that haven't changed between requests. Instead of re-reading your system prompt from scratch on every call, the server loads the precomputed math and picks up from there. You pay only for what's new. It is a source of significant cost savings. It reduces the number of tokens that need to be crunched.
 
-```py
-# Anthropic
-response = client.beta.prompt_caching.messages.create(
-    model="claude-3-5-sonnet-20240620",
-    max_tokens=1024,
-    system=[
-        {
-            "type": "text",
-            "text": "You are an AI assistant tasked with analyzing legal documents."
-        },
-        {
-            "type": "text",
-            "text": "Here is the full text of a complex legal agreement: [Insert full text of a 50-page legal agreement here]",
-            "cache_control": {"type": "ephemeral"}
-        }
-    ],
-    messages=[
-        {
-            "role": "user",
-            "content": "What are the key terms and conditions in this agreement?"
-        }
-    ]
-)
+A transformer, your frontier model, does not simply read text and remember the words. During the prompt-processing step, text is split into tokens, and each token is turned into vectors. Then every transformer layer computes attention state for that token. For caching, the important outputs are the token's Key and Value vectors at each layer. *(text tokens -> embeddings -> per-layer K/V tensors)*
+
+By the time caching matters, the prompt has already expanded into per-token, per-layer KV state. During normal generation, the model server already keeps that state around so new output tokens can attend back to the prompt without recomputing the whole history.
+
+For a reusable prompt prefix, the server keeps those key/value tensors and lets a later request resume from them. This leads directly to cost savings and faster inference returns.
+
 ```
-
-When you make an API call with these additions, we check if the designated parts of your prompt are already cached from a recent query. If so, we use the cached prompt, speeding up processing time and reducing costs.
-
-Place static content (system instructions, context, tool definitions) at the beginning of your prompt. Mark the end of the reusable content for caching using the `cache_control` parameter. The cache has a 5-minute lifetime, refreshed each time the cached content is used.
+static instructions
+static tool definitions
+static examples
+stable repository or product context
+dynamic date
+retrieved context
+user message
+```
 
 ### Claude System Prompts
 
