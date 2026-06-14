@@ -78,14 +78,47 @@ Tokenaizer -> Embedding (capture semantic meaning) -> Attention (capture context
 
 Embeddings alone don't distinguish between words with multiple meanings. Embedding table assigns a signle vector regardless of the context. This is where self-attention comes in. Self attention mechanism transforms semantic representations into context-aware representations making words are understood in the context of the sentence.
 
-- Query: Do you have anything useful for me
-- Key: Here is what I can offer
-- Value: Here is the actual information if we match
+Each token's embedding is multiplied by three learned weight matrices to produce three vectors:
 
-<img alt="self-attention" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/self-attention.png" width="600" />
+- **Query (Q)**: "What am I looking for from other tokens?"
+- **Key (K)**: "This is what I offer to tokens looking at me."
+- **Value (V)**: "This is the information I pass along if there's a match."
 
-<br>
-<img alt="embedding-matrix" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/self-attention-qkv.png" width="600" />
+**Example**
+
+Sentence: _"The cat that I saw yesterday was sleeping."_
+
+When the model computes the new representation for **"was"**, it follows these steps:
+
+1. **Query construction**: "was" is projected through the learned matrix to produce its Query vector. Semantically, this vector encodes something like "I am a verb; I need to find my subject."
+
+2. **Key comparison**: Q is compared, via dot product, against the Key vector of every token in its attention window: "The", "cat", "that", "I", "saw", "yesterday". Each comparison produces a scalar score — a measure of how well that token's Key aligns with what "was" is looking for.
+   - The score for "cat" is large, because the model has learned that Key vectors for nouns in subject position align well with the Query pattern of a following verb.
+   - The score for "yesterday" is small, because temporal adverbs don't produce Keys that match a "find my subject" Query.
+
+3. **Scaling and softmax**: each score is divided by a constant based on the dimensionality of the Key vectors, to keep the numbers in a stable range. The scaled scores are then passed through softmax, which converts them into a probability distribution — a set of weights that are all non-negative and sum to 1. Suppose this yields approximately:
+   - cat → 0.70
+   - saw → 0.10
+   - I → 0.08
+   - yesterday → 0.04
+   - The → 0.04
+   - that → 0.04
+
+4. **Weighted sum of Values**: each token also has a Value vector. To build the new representation for "was", each token's Value vector is scaled by its corresponding weight. Then, all six scaled Value vectors are added together component by component. For intuition, imagine each Value vector has just 3 dimensions:
+   - V_cat = [2, 0, 4], weight 0.70 → scaled = [1.4, 0, 2.8]
+   - V_saw = [0, 1, 0], weight 0.10 → scaled = [0, 0.1, 0]
+   - V_I = [1, 1, 1], weight 0.08 → scaled = [0.08, 0.08, 0.08]
+   - (similarly small contributions from "yesterday", "The", "that")
+
+   Adding these scaled vectors position-by-position gives approximately:
+
+   new_was ≈ [1.5, 0.2, 2.9]
+
+   Because the weight for "cat" dominates (0.70), new_was ends up very close to V_cat = [2, 0, 4], with small nudges from the other tokens' Values blended in.
+
+`new_was` — the new representation of "was" — now encodes "this verb's subject is the cat," even though "cat" is six tokens away in the sequence. This is the mechanism by which self-attention resolves long-range dependencies: not through position or distance, but through learned similarity between Query and Key vectors.
+
+This is just one attention layer. Transformers stack many of these layers. So `new_was` from layer 1 becomes the input embedding for layer 2, gets transformed into Q/K/V again, attends again, and produces an even more refined representation. By the final layer, "was" might encode something very rich — subject, tense, surrounding clause structure, etc.
 
 ## Storing embeddings in Postgres with pgvector
 
@@ -283,11 +316,7 @@ const index = pinecone.Index(PINECONE_INDEX_NAME); // change to your own index n
 const chunkSize = 50;
 for (let i = 0; i < docs.length; i += chunkSize) {
   const chunk = docs.slice(i, i + chunkSize);
-  await PineconeStore.fromDocuments(
-    index,
-    chunk,
-    embeddings,
-  );
+  await PineconeStore.fromDocuments(index, chunk, embeddings);
 }
 ```
 
