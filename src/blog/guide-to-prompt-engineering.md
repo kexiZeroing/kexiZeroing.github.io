@@ -351,7 +351,7 @@ Take a deep breath and think step by step. I need you to revise this code to do 
 
 Prompt caching skips repeated re-computation of the expensive part of LLM inference — the key-value attention states — for tokens that haven't changed between requests. Instead of re-reading your system prompt from scratch on every call, the server loads the precomputed math and picks up from there. You pay only for what's new. It is a source of significant cost savings. It reduces the number of tokens that need to be crunched.
 
-A transformer, your frontier model, does not simply read text and remember the words. During the prompt-processing step, text is split into tokens, and each token is turned into vectors. Then every transformer layer computes attention state for that token. For caching, the important outputs are the token's Key and Value vectors at each layer. *(text tokens -> embeddings -> per-layer K/V tensors)*
+A transformer, your frontier model, does not simply read text and remember the words. During the prompt-processing step, text is split into tokens, and each token is turned into vectors. Then every transformer layer computes attention state for that token. For caching, the important outputs are the token's Key and Value vectors at each layer. _(text tokens -> embeddings -> per-layer K/V tensors)_
 
 By the time caching matters, the prompt has already expanded into per-token, per-layer KV state. During normal generation, the model server already keeps that state around so new output tokens can attend back to the prompt without recomputing the whole history.
 

@@ -120,6 +120,10 @@ When the model computes the new representation for **"was"**, it follows these s
 
 This is just one attention layer. Transformers stack many of these layers. So `new_was` from layer 1 becomes the input embedding for layer 2, gets transformed into Q/K/V again, attends again, and produces an even more refined representation. By the final layer, "was" might encode something very rich — subject, tense, surrounding clause structure, etc.
 
+> An attention head is one independent attention pass with its own learned projections. Each head runs its attention pass independently. Then the outputs of all the heads get concatenated and passed through a final linear layer that mixes them back into one full-size vector.
+
+When generating token N+1: The model only computes Q, K, V for the new token. It reuses the already-stored K and V vectors for tokens 1 through N from the cache. This is called the **KV cache**. It saves the model from recomputing the whole prompt every time it adds a token. (Also see [Prompt caching](https://kexizeroing.github.io/post/guide-to-prompt-engineering/#what-is-prompt-caching))
+
 ## Storing embeddings in Postgres with pgvector
 
 How can I retrieve K nearest embedding vectors quickly? For searching over many vectors quickly, we recommend using a vector database.
