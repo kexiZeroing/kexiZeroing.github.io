@@ -3,7 +3,7 @@ title: "Git knowledge that not clear to me"
 description: ""
 added: "Jun 19 2022"
 tags: [system]
-updatedDate: "Dec 20 2025"
+updatedDate: "Jun 19 2026"
 ---
 
 ## helpful links
@@ -374,6 +374,23 @@ git lfs track "*.psd"
 
 git lfs help
 ```
+
+## git worktrees
+
+AI has made us work in parallel more than we ever have before, and developers run so many sessions in parallel. With worktrees, you never leave your branch and you never stash, and your editor context for your original feature stays untouched.
+
+```sh
+git worktree list
+
+# cwd is ai-agent
+git worktree add ../ai-agent-endpoint -b new-endpoint main
+# or
+git worktree add ../ai-agent-frontend -b new-frontend origin/main
+```
+
+This instantly creates a sibling folder called `ai-agent-xxx`, and checks out a new branch based on `main` (or remote branch). Now you can open that folder in a new editor window, and your original editor window stays exactly as you left it.
+
+Worktrees do solve a lot of issues, but there’s definitely some things to watch out for. Each worktree folder requires its own copy of project dependencies. If you’re running `npm install` across multiple of them, your computer might get very full, very quickly. Also, Git prevents you from checking out the exact same branch in two different worktrees at the same time to prevent data corruption.
 
 ## update your GitHub fork
 
