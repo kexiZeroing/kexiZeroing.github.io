@@ -606,6 +606,8 @@ Claude Design system prompt: https://github.com/elder-plinius/CL4R1T4S/blob/main
 
 Modern Web Guidance agent skill: https://developer.chrome.com/docs/modern-web-guidance, https://github.com/GoogleChrome/modern-web-guidance-src
 
+Hermes Agent Architecture Explained: https://alejandro-ao.com/hermes-agent-architecture
+
 ---
 
 ## CLI for Agents

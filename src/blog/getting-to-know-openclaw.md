@@ -8,11 +8,6 @@ updatedDate: "Mar 9 2026"
 
 Learn from the [OpenClaw complete tutorial](https://www.youtube.com/watch?v=sTjx7IpeBas) by ByteGrad, and I take notes along the way in this post.
 
-> Other helpful video tutorials in Chinese:
->
-> - https://www.youtube.com/watch?v=2rcJdFuNbZQ
-> - https://www.bilibili.com/video/BV1ZiNwzPEhP
-
 ## Background
 
 OpenClaw is a viral open-source personal AI agent. It brings together the technology of agents with the data and apps you use on your machine to serve as an AI assistant. It operates a local gateway that connects AI models with your favorite tools, integrating with familiar chat apps to facilitate interactions. It can execute your desired tasks, implement proactive automation, and maintain long-term memory of user preferences. Learn more at: https://openclaw.ai
