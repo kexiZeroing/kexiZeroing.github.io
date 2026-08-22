@@ -608,6 +608,8 @@ Making ALL Software Agent-Native: https://github.com/HKUDS/CLI-Anything
 
 How LLMs Work: https://github.com/w3cj/how-llms-work
 
+How Anthropic uses Claude Code: https://www.youtube.com/watch?v=shZgedW15vg
+
 ---
 
 ## Machine Learning

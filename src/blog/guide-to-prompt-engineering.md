@@ -367,6 +367,10 @@ retrieved context
 user message
 ```
 
+- Make a stable prefix and cache it. Keep the most stable content first: system prompt, then tool definitions, then conversation history, then the newest tool results. Volatile content always goes last.
+- No timestamps, request IDs, random seeds or user metadata injected at the beginning of the system prompt. One changing token there invalidates the entire cache on every call.
+- Never rewrite old messages. If you must change something, accept that everything after it will be re-processed at full price.
+
 ### Claude System Prompts
 
 Claude includes a System Prompts release notes section in its docs. This section logs updates made to the default system prompts used on Claude.ai and in the mobile apps. The system prompt does not affect the API. Check it out here: https://platform.claude.com/docs/en/release-notes/system-prompts
