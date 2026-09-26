@@ -3,7 +3,7 @@ title: "JavaScript String, Array and Object"
 description: ""
 added: "Aug 6 2020"
 tags: [js]
-updatedDate: "Aug 4 2024"
+updatedDate: "Sep 26 2026"
 ---
 
 ## String
@@ -432,6 +432,52 @@ function compareTwoObjs(obj1, obj2) {
   return true;
 }
 ```
+
+### The minifier rename your data
+
+```ts
+const THEMES = {
+  light: { label: "Light", background: "#ffffff" },
+  dark: { label: "Dark", background: "#111111" },
+  solarized: { label: "Solarized", background: "#fdf6e3" },
+};
+
+export const OPTIONS = Object.keys(THEMES).map((id) => ({ id, ...THEMES[id] }));
+
+export const DEFAULT_THEME = "light";
+
+// in the component
+const selected = OPTIONS.find((o) => o.id === DEFAULT_THEME); // undefined in prod
+```
+
+Our production build runs a minifier with property renaming enabled:
+
+```ts
+const THEMES = { light: { … }, dark: { … } };
+//               ^^^^^ property name → ships as `a`
+
+export const OPTIONS = Object.keys(THEMES).map(id => ({ id, … }));
+//                     ^^^^^^^^^^^ reads the renamed name back, then uses it as data
+
+export const DEFAULT_THEME = 'light';
+//                           ^^^^^^^ string literal → never renamed
+
+OPTIONS.find(o => o.id === DEFAULT_THEME);
+//                 'a'  ===  'light'  → always false
+```
+
+The renaming is consistent, so every property access still resolves. Labels still render because those are property values, but identity breaks.
+
+The fix follows directly. Give the data an explicit id, as a value:
+
+```ts
+export const OPTIONS = [
+  { id: "light", label: "Light", background: "#ffffff" },
+  { id: "dark", label: "Dark", background: "#111111" },
+];
+```
+
+Most minifiers also let you protect quoted keys (`{ ['light']: … }`) as an escape hatch. It works but it asks every future reader to remember why the quotes are there.
 
 ### Object.defineProperty()
 
