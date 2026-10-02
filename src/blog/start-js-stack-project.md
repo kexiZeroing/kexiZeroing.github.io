@@ -350,6 +350,12 @@ buttonVariants({ intent: "secondary", size: "small" });
 
 ### Design system examples
 
+Problem: the style is decided at the call site, instance by instance, instead of being named once and reused.
+
+- cannot ensure visual consistency
+- no semantics
+- no system behind it, so it is difficult to maintain
+
 A design system is an ever evolving collection of reusable components, guided by rules that ensure consistency and speed, by being the single source of truth for any product development.
 
 - Stack Overflow's Design System: https://stackoverflow.design

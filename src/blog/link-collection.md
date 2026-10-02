@@ -610,6 +610,8 @@ How LLMs Work: https://github.com/w3cj/how-llms-work
 
 How Anthropic uses Claude Code: https://www.youtube.com/watch?v=shZgedW15vg
 
+Getting started with Claude Code mods: https://claude.dev/blog/getting-started-with-claude-code-mods
+
 ---
 
 ## Machine Learning
