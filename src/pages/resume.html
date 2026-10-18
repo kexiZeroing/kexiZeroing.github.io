@@ -1,96 +1,94 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1"
-    >
-    <meta name="google" content="notranslate">
+    />
+    <meta name="google" content="notranslate" />
     <title>Kexi Dang</title>
 
     <style>
-    body {
-      background-color: #ccc;
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-    }
-    #viewerContainer {
-      overflow: auto;
-      position: absolute;
-      width: 100%;
-      height: calc(100% - 98px); /* 68+22+8 */
-      margin-top: 8px;
-    }
-    .loading {
-      text-align: center;
-      line-height: 22px;
-    }
-    .hide {
-      visibility: hidden;
-    }
-    .selectContainer {
-      height: 68px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
-    }
-    .css-button-gradient {
-      min-width: 130px;
-      height: 40px;
-      color: #fff;
-      padding: 5px 10px;
-      font-weight: bold;
-      cursor: pointer;
-      position: relative;
-      display: inline-block;
-      outline: none;
-      border-radius: 6px;
-      border: none;
-      background-size: 120% auto;
-      background-image: linear-gradient(315deg, #43cea2 0%, #185a9d 75%);
-      border-bottom: 4px solid #185a9d;
-    }
-    .css-button-gradient:hover {
-      background-position: right center;
-    }
-    .css-button-gradient:active {
-      border-bottom: none;
-    }
-    .pdfViewer .page:first-of-type {
-      border-top: none !important;
-    }
-    #contextMenu {
-      position: absolute;
-      background-color: white;
-      border: 1px solid #ccc;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-      border-radius: 4px;
-      padding: 5px 0;
-      display: none;
-      z-index: 1000;
-    }
-    #contextMenu .menu-item {
-      padding: 8px 15px;
-      cursor: pointer;
-      user-select: none;
-    }
-    #contextMenu .menu-item:hover {
-      background-color: #f2f2f2;
-    }
+      body {
+        background-color: #ccc;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #viewerContainer {
+        overflow: auto;
+        position: absolute;
+        width: 100%;
+        height: calc(100% - 98px); /* 68+22+8 */
+        margin-top: 8px;
+      }
+      .loading {
+        text-align: center;
+        line-height: 22px;
+      }
+      .hide {
+        visibility: hidden;
+      }
+      .selectContainer {
+        height: 68px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+      }
+      .css-button-gradient {
+        min-width: 130px;
+        height: 40px;
+        color: #fff;
+        padding: 5px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        outline: none;
+        border-radius: 6px;
+        border: none;
+        background-size: 120% auto;
+        background-image: linear-gradient(315deg, #43cea2 0%, #185a9d 75%);
+        border-bottom: 4px solid #185a9d;
+      }
+      .css-button-gradient:hover {
+        background-position: right center;
+      }
+      .css-button-gradient:active {
+        border-bottom: none;
+      }
+      .pdfViewer .page:first-of-type {
+        border-top: none !important;
+      }
+      #contextMenu {
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ccc;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        padding: 5px 0;
+        display: none;
+        z-index: 1000;
+      }
+      #contextMenu .menu-item {
+        padding: 8px 15px;
+        cursor: pointer;
+        user-select: none;
+      }
+      #contextMenu .menu-item:hover {
+        background-color: #f2f2f2;
+      }
     </style>
 
     <link
       rel="stylesheet"
       href="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/web/pdf_viewer.css"
-    >
-    <script src="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/build/pdf.js">
-    </script>
-    <script src="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/web/pdf_viewer.js">
-    </script>
+    />
+    <script src="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/build/pdf.js"></script>
+    <script src="https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/web/pdf_viewer.js"></script>
   </head>
 
   <body>
@@ -99,7 +97,7 @@
       <button class="css-button-gradient" id="zh-pdf-btn">Chinese</button>
       <button class="css-button-gradient" id="en-pdf-btn">English</button>
     </div>
-    <div class="loading hide">PDF 文件加载中...</div>
+    <div class="loading hide">Almost ready!</div>
 
     <div id="viewerContainer">
       <div id="viewer" class="pdfViewer"></div>
@@ -110,97 +108,96 @@
     </div>
 
     <script>
-    // The workerSrc property shall be specified.
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/build/pdf.worker.js";
+      // The workerSrc property shall be specified.
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/build/pdf.worker.js";
 
-    // Some PDFs need external cmaps.
-    const CMAP_URL =
-      "https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/cmaps/";
-    const CMAP_PACKED = true;
+      // Some PDFs need external cmaps.
+      const CMAP_URL =
+        "https://registry.npmmirror.com/pdfjs-dist/3.8.162/files/cmaps/";
+      const CMAP_PACKED = true;
 
-    const DEFAULT_URL = "/pdf/zh.pdf";
-    let CUR_URL = "";
+      const DEFAULT_URL = "/pdf/zh.pdf";
+      let CUR_URL = "";
 
-    const ENABLE_XFA = true;
+      const ENABLE_XFA = true;
 
-    const container = document.getElementById("viewerContainer");
-    const contextMenu = document.getElementById("contextMenu");
+      const container = document.getElementById("viewerContainer");
+      const contextMenu = document.getElementById("contextMenu");
 
-    const eventBus = new pdfjsViewer.EventBus();
+      const eventBus = new pdfjsViewer.EventBus();
 
-    const pdfViewer = new pdfjsViewer.PDFViewer({
-      container,
-      eventBus,
-    });
-
-    CUR_URL = DEFAULT_URL;
-    renderPDF(CUR_URL);
-
-    function renderPDF(url = DEFAULT_URL) {
-      document.querySelector(".loading").classList.remove("hide");
-
-      // Loading document.
-      const loadingTask = pdfjsLib.getDocument({
-        url,
-        cMapUrl: CMAP_URL,
-        cMapPacked: CMAP_PACKED,
-        enableXfa: ENABLE_XFA,
+      const pdfViewer = new pdfjsViewer.PDFViewer({
+        container,
+        eventBus,
       });
 
-      (async function() {
-        const pdfDocument = await loadingTask.promise;
-        pdfViewer.setDocument(pdfDocument);
+      CUR_URL = DEFAULT_URL;
+      renderPDF(CUR_URL);
 
-        document.querySelector(".loading").classList.add("hide");
-      })();
-    }
+      function renderPDF(url = DEFAULT_URL) {
+        document.querySelector(".loading").classList.remove("hide");
 
-    function swithPDF(url) {
-      const isReady = document.querySelector(".loading").classList.contains(
-        "hide",
-      );
-      if (CUR_URL !== url && isReady) {
-        CUR_URL = url;
-        renderPDF(CUR_URL);
+        // Loading document.
+        const loadingTask = pdfjsLib.getDocument({
+          url,
+          cMapUrl: CMAP_URL,
+          cMapPacked: CMAP_PACKED,
+          enableXfa: ENABLE_XFA,
+        });
+
+        (async function () {
+          const pdfDocument = await loadingTask.promise;
+          pdfViewer.setDocument(pdfDocument);
+
+          document.querySelector(".loading").classList.add("hide");
+        })();
       }
-    }
 
-    document.querySelector("#zh-pdf-btn").addEventListener("click", () => {
-      swithPDF("/pdf/zh.pdf");
-    });
-    document.querySelector("#en-pdf-btn").addEventListener("click", () => {
-      swithPDF("/pdf/en.pdf");
-    });
+      function swithPDF(url) {
+        const isReady = document
+          .querySelector(".loading")
+          .classList.contains("hide");
+        if (CUR_URL !== url && isReady) {
+          CUR_URL = url;
+          renderPDF(CUR_URL);
+        }
+      }
 
-    // Context menu implementation
-    container.addEventListener("contextmenu", function(e) {
-      e.preventDefault();
+      document.querySelector("#zh-pdf-btn").addEventListener("click", () => {
+        swithPDF("/pdf/zh.pdf");
+      });
+      document.querySelector("#en-pdf-btn").addEventListener("click", () => {
+        swithPDF("/pdf/en.pdf");
+      });
 
-      contextMenu.style.left = e.pageX + "px";
-      contextMenu.style.top = e.pageY + "px";
-      contextMenu.style.display = "block";
-    });
+      // Context menu implementation
+      container.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
 
-    document.addEventListener("click", function() {
-      contextMenu.style.display = "none";
-    });
+        contextMenu.style.left = e.pageX + "px";
+        contextMenu.style.top = e.pageY + "px";
+        contextMenu.style.display = "block";
+      });
 
-    document.getElementById("downloadPdf").addEventListener(
-      "click",
-      function() {
-        downloadCurrentPdf();
-      },
-    );
+      document.addEventListener("click", function () {
+        contextMenu.style.display = "none";
+      });
 
-    function downloadCurrentPdf() {
-      const a = document.createElement("a");
-      a.href = CUR_URL;
-      a.download = CUR_URL.split("/").pop();
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
+      document
+        .getElementById("downloadPdf")
+        .addEventListener("click", function () {
+          downloadCurrentPdf();
+        });
+
+      function downloadCurrentPdf() {
+        const a = document.createElement("a");
+        a.href = CUR_URL;
+        a.download = CUR_URL.split("/").pop();
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
     </script>
   </body>
 </html>

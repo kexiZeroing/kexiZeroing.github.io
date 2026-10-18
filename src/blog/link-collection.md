@@ -250,6 +250,8 @@ First Look at The Modern attr(): https://ishadeed.com/article/modern-attr
 
 Modern CSS code snippets: https://modern-css.com
 
+Opinionated modern CSS techniques as an agent skill: https://github.com/vojtaholik/good-css
+
 ---
 
 ## FE dev resources
