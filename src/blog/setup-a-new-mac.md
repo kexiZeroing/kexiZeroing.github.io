@@ -8,7 +8,7 @@ updatedDate: "Sep 17 2025"
 
 ## Setting up development environment
 
-1. The first step is getting around the firewall. You may ~~download [clashX](https://github.com/yichengchen/clashX/releases)~~ and acquire subscription links from ss._（2023 年 11 月 Clash For Windows 删库，随后 Clash 内核、Clash Meta、For Android、ClashX 也都一起删库或归档停止维护）._ Use [Clash Verge Rev](https://github.com/Shadowsocks-Wiki/shadowsocks/blob/master/zh_CN/trojan/clash-verge-rev-setup-guide.md) instead.
+1. The first step is getting around the firewall. You may ~~download [clashX](https://github.com/yichengchen/clashX/releases)~~ and acquire subscription links from ss._（2023 年 11 月 Clash For Windows 删库，随后 Clash 内核、Clash Meta、For Android、ClashX 也都一起删库或归档停止维护）._ Use [Clash Verge Rev](https://github.com/Shadowsocks-Wiki/shadowsocks/blob/master/zh_CN/trojan/clash-verge-rev-setup-guide.md) instead. Open your ss account page, get the Clash subscription link in a pop-up window, and use it in the Profiles tab to import the configuration. If successful, you can choose the node to use in the Proxies tab (The rule/global/direct mode also set here).
 
    ```sh
    # Tell command-line programs to use a proxy server.
@@ -27,6 +27,7 @@ updatedDate: "Sep 17 2025"
 3. Check `git --version` and may need to install Command Line Developer Tools.
 
 4. Install VSCode, Chrome, iTerm2, Docker through Homebrew, then you can use `brew list` and `brew info google-chrome` to check.
+
    ```shell
    # refer to https://formulae.brew.sh
    brew install git yarn make
@@ -66,7 +67,7 @@ updatedDate: "Sep 17 2025"
    > - HUAWEI: https://repo.huaweicloud.com/repository/npm/
    > - Tencent: http://mirrors.cloud.tencent.com
    >
-   > ---
+   > ***
    >
    > Alternative ways to `nvm`:
    >
@@ -74,6 +75,7 @@ updatedDate: "Sep 17 2025"
    > - [fnm](https://github.com/Schniz/fnm), works with `.node-version` file
 
 7. Set global configuration with Git `touch ~/.gitconfig`, and check with `git config --list`.
+
    ```
    [user]
      name   = Firstname Lastname
@@ -89,9 +91,11 @@ updatedDate: "Sep 17 2025"
      co     = checkout
      lg     = log --pretty=format:'%h %ad%x09%an%x09%s' --date=short
    ```
+
    _(%h = commit hash, %x09 = tab, %an = author name, %ad = author date, %s = subject)_
 
 8. Some commands for Finder
+
    ```shell
    # Show Library folder
    chflags nohidden ~/Library
