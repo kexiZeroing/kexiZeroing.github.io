@@ -1081,6 +1081,17 @@ The methods `promise.then()`, `promise.catch()`, and `promise.finally()` are use
 >
 > - If p is a real Promise, `Promise.resolve(p)` returns the same Promise instance, without wrapping or modifying it.
 > - If p is a plain value, it returns a Promise resolved with that value.
+> - The same is also true for literally writing `await 42`. The engine creates a promise and immediately calls `resolve(42)`, just like `Promise.resolve()` does.
+
+```js
+function PromiseDotResolve(value) {
+  if (value instanceof Promise && value.constructor === Promise) {
+    return value;
+  }
+
+  return new Promise((resolve) => resolve(value));
+}
+```
 
 ```js
 Promise.resolve("foo")
