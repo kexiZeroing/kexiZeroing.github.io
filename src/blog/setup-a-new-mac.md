@@ -3,7 +3,7 @@ title: "Setup a new Mac"
 description: ""
 added: "Oct 18 2021"
 tags: [system]
-updatedDate: "Sep 17 2025"
+updatedDate: "Nov 16 2026"
 ---
 
 ## Setting up development environment
@@ -15,10 +15,16 @@ updatedDate: "Sep 17 2025"
    export http_proxy=http://127.0.0.1:7890
    export https_proxy=http://127.0.0.1:7890
 
-   # romove the proxy
+   # Romove the proxy
    unset http_proxy
    unset https_proxy
+
+   # Verify the proxy is working
+   curl -v https://ipinfo.io
+   # ... Trying 127.0.0.1:7890 ...
    ```
+
+   > 7890 is Clash's mixed-port which means unified port that accepts both HTTP and SOCKS5 proxy requests. A program that respects `http_proxy` / `https_proxy` / `all_proxy` sends its request to `127.0.0.1:7890`.
 
 2. Install [Homebrew](https://brew.sh) package manager, and you can install almost any app from the command line. Make sure everything is up to date `brew update`. (M1 installation at `/opt/homebrew/`, Intel at `/usr/local/Cellar/`)
 
@@ -31,7 +37,7 @@ updatedDate: "Sep 17 2025"
    ```shell
    # refer to https://formulae.brew.sh
    brew install git yarn make
-   brew install --cask visual-studio-code google-chrome iterm2 docker
+   brew install --cask visual-studio-code cursor google-chrome iterm2 ghostty
 
    # replace with other mirror address (default is using GitHub)
    cd `brew --repo`
@@ -89,6 +95,7 @@ updatedDate: "Sep 17 2025"
      pom    = push origin master
      puom   = pull origin master
      co     = checkout
+     br     = branch
      lg     = log --pretty=format:'%h %ad%x09%an%x09%s' --date=short
    ```
 
