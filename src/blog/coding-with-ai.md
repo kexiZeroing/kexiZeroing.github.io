@@ -277,7 +277,17 @@ Three-level loading pattern to manage context efficiently (progressive disclosur
 | 2     | Full `SKILL.md` body                           | When skill is activated    | < 5k tokens recommended |
 | 3     | Referenced files (scripts, references, assets) | On demand, as needed       | Unlimited               |
 
-"Making devs finally write docs by calling them “skills” is a clever trick."
+We packaged how we work into skills. If you have a successful conversation, especially if it was a bunch of back and forth with the AI, ask it to document the process and turn it into a skill; then you can reuse the exact same process in the future.
+
+```
+Before: In your head, in the chat
+
+Create a skill, for example, `pdf/` folder
+- SKILL.md (when and how)
+- scripts (code it runs)
+
+After: Every agent, every session, loads on demand.
+```
 
 - npx skills add vercel-labs/next-skills
 - npx skills add vercel-labs/agent-skills --skill vercel-react-best-practices
@@ -378,6 +388,8 @@ Read more at https://adocomplete.com/advent-of-claude-2025, https://github.com/w
 | /sandbox        | Set permission boundaries              |
 | /export         | Export conversation to markdown        |
 | /resume         | Resume a past session                  |
+
+Reminder to run `/doctor prompt-audit` in your Claude Code repos if you haven't already. It audits your Claude Code instruction files (CLAUDE.md, skills, agents, commands, etc.) for outdated patterns written for older models, stale paths/commands that no longer exist, and conflicting rules. You get a report + proposed diffs. Nothing changes until you approve.
 
 ### Create custom subagents
 

@@ -3,7 +3,7 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "Mar 15 2026"
+updatedDate: "Nov 16 2026"
 ---
 
 ### Historical context: The Path to MCP
@@ -285,16 +285,28 @@ Each tool should do one thing and do it well. The `name` and `description` of yo
 
 WebMCP is a proposed web standard that lets websites expose structured tools to AI agents. Instead of guessing what a button does, the agent can call a function with explicit parameters and get a predictable result. It bridges the gap between web applications and AI agents by providing a contract for interaction. Websites can explicitly publish their capabilities as tools. The standard defines two APIs:
 
-- Imperative API (JavaScript): Register tools programmatically (`window.navigator.modelContext.registerTool`) with explicit schemas.
+- Imperative API (JavaScript): Register tools programmatically (`window.navigator.modelContext.registerTool`, new spec uses `document.modelContext.registerTool`) with explicit schemas.
 - Declarative API (HTML Annotations): Transform standard HTML forms into tools using attributes.
 
 WebMCP is currently an early preview feature from Google Chrome. While the standard is being developed, users can interact with WebMCP-enabled websites through a Chrome extension that provides AI agent capabilities.
 
 > Currently only available in Chrome 146+ behind a flag:
 >
-> - Go to chrome://flags and enable the "WebMCP for testing" flag in Chrome 146 or higher.
-> - Model Context Tool Inspector Chrome extension https://chromewebstore.google.com/detail/gbpdfapgefenggkahomfgkhfehlcenpd
-> - When to use WebMCP and MCP: https://developer.chrome.com/blog/webmcp-mcp-usage
+> - WebMCP: https://developer.chrome.com/docs/ai/webmcp
+> - Chrome describes MCP as the backend and WebMCP as the frontend. When to use WebMCP and MCP: https://developer.chrome.com/blog/webmcp-mcp-usage
+> - Debug WebMCP tools: https://developer.chrome.com/docs/devtools/application/webmcp
+
+Check [debbie.codes](https://debbie.codes/blog/webmcp-on-my-site) as an example in action. Open the DevTools console and run `await document.modelContext.getTools()`, you should see all five tools. To call one, run:
+
+```js
+const tools = await document.modelContext.getTools();
+const brief = tools.find((t) => t.name === "topic-brief");
+await document.modelContext.executeTool(brief, { topic: "mcp" });
+```
+
+You can do the same without code in the DevTools WebMCP pane - select WebMCP in the Application sidebar. The "Available tools" list shows all five tools with their descriptions. Click `topic-brief`, enter `mcp` next to topic and click "Run tool".
+
+ChatGPT calls WebMCP tools [site tools](https://help.openai.com/en/articles/20001423-using-site-tools-in-the-chatgpt-desktop-app).
 
 ### References and further reading
 

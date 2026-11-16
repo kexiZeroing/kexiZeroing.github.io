@@ -614,6 +614,10 @@ How Anthropic uses Claude Code: https://www.youtube.com/watch?v=shZgedW15vg
 
 Getting started with Claude Code mods: https://claude.dev/blog/getting-started-with-claude-code-mods
 
+How LLMs Actually Work: https://www.0xkato.xyz/how-llms-actually-work
+
+Stanford CS329Z Engineering AI Agents: https://www.youtube.com/playlist?list=PLPRcF5HR02_U
+
 ---
 
 ## Machine Learning
