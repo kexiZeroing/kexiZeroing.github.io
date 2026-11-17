@@ -8,18 +8,6 @@ updatedDate: "Nov 17 2026"
 
 ## Get Started with Cursor
 
-### Chat (Cmd + I)
-
-Chat (previously “Composer”) is Cursor’s AI assistant that lives in your sidebar, letting you interact with your codebase through natural language.
-
-Sometimes you may want to revert to a previous state of your codebase. Cursor helps you with this by automatically creating checkpoints of your codebase at each request you make, as well every time the AI makes changes to your codebase. To revert to a previous state, you can click the “Restore Checkpoint” button that appears within the input box of a previous request.
-
-Agent is the default and most autonomous mode in Cursor, designed to handle complex coding tasks with minimal guidance. It has all tools enabled to autonomously explore your codebase, read documentation, browse the web, edit files, and run terminal commands to complete tasks efficiently.
-
-Ask is a “read-only” mode for the Chat made to ask questions, explore, and learn about a codebase. It is a built-in mode in Cursor that has search tools enabled by default.
-
-Manual mode is designed for making targeted code modifications when you know exactly what changes are needed and where. To make use of Manual mode, you need to explicitly mention the files you want to edit using the `@` symbol. _e.g. “In @src/utils/helpers.ts and @src/components/UserProfile.tsx, rename the function `getUserData` to `fetchUserProfile` and update all call sites within these files.”_
-
 ### Context
 
 When a project is opened, each Cursor instance will initialize indexing for that workspace. After the initial indexing setup is complete, Cursor will automatically index any new files added to your workspace to keep your codebase context current. Behind the scenes, Cursor computes embeddings for each file in your codebase, and will use these to improve the accuracy of your codebase answers.
@@ -638,9 +626,22 @@ If you already use the Codex app, update the Codex app as usual. After the updat
 
 [Modern Web Guidance](https://developer.chrome.com/blog/modern-web-guidance-v1) is a set of skills that embed web platform expertise, best practices, and browser compatibility data directly into your coding agents. It ensures your agent doesn’t default to older and out of date patterns to build sites.
 
-While frontier coding models do have a good grasp on many best practices, the [evals](https://googlechrome.github.io/modern-web-guidance-src/) show that there are still a number of important areas where they fall short. Read https://developer.chrome.com/blog/top-10-things-ai-gets-wrong-in-web-dev
+While frontier AI models are powerful, they often rely on outdated code patterns and legacy workarounds. Read https://developer.chrome.com/blog/top-10-things-ai-gets-wrong-in-web-dev
 
-To install Modern Web Guidance, run this command from your project directory: `npx modern-web-guidance@latest install`. Install it using Vercel's Agent Skills: `npx skills add GoogleChrome/modern-web-guidance`.
+To install Modern Web Guidance, run this command from your project directory: `npx modern-web-guidance@latest install`. Or install it using Vercel's Agent Skills: `npx skills add GoogleChrome/modern-web-guidance`.
+
+```
+# Prompt to try:
+Use Modern Web Guidance to audit xx. Don't edit yet. What native HTML and CSS could replace our accordion JavaScript and keep collapsed answers searchable?
+
+# Search for guides matching a task you are about to build
+npx modern-web-guidance@latest search "animate a dialog modal backdrop"
+
+# List all available guides across disciplines
+npx modern-web-guidance@latest list
+```
+
+> You can browse what Modern Web Guidance covers without reading raw Markdown. [Explore all 200+ guides](https://developer.chrome.com/docs/modern-web-guidance/guides), covering accessibility, performance, security, privacy, html, css, css-layout, forms, passkeys, webmcp, and built-in-ai. In 1.0, the skill tells your agent to add a Modern Web Guidance section at the end of every response where it uses a guide.
 
 In agentic web development, authoring code is only one part of the workflow. You also need to run that code to ensure it works as expected. This is why we recommend developers use Modern Web Guidance along with [Chrome DevTools for agents](https://developer.chrome.com/docs/devtools/agents). Chrome DevTools for agents is a suite of tools (MCP server, Chrome DevTools CLI, Agentic Skills) that brings the power of Chrome DevTools to your AI coding workflows.
 

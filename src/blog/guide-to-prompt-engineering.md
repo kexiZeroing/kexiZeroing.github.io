@@ -271,6 +271,8 @@ Another interesting translation example from [Baoyu's blog](https://baoyu.io/blo
   请根据直译和反思的结果，重新意译，并输出最终翻译结果，不包含任何其他信息。
   ```
 
+CoT is literally just one prompt, one pass. In ReAct (Reason + Act), you can think it as a loop. The model think, act, observe, and then think again. In this way, the models can revise their errors or get new information to update themselves.
+
 ### Prompt tips for OpenAI’s new o1
 
 OpenAI's latest release, o1, unlocks new reasoning capabilities, but there’s a catch: prompts should be fundamentally different than the way you prompt GPT-3 and GPT-4, due to the new Chain-of-Thought architecture.
