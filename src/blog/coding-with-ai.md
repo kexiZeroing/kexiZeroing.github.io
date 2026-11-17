@@ -3,18 +3,10 @@ title: "Coding with AI"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Apr 19 2026"
+updatedDate: "Nov 17 2026"
 ---
 
 ## Get Started with Cursor
-
-Start exploring Cursor’s AI-powered features:
-
-- Tab: Press `Tab` for intelligent code completions
-- CMD-K: Use `Cmd + K` for inline code edits
-- Chat: Use `Cmd + I` to open the unified AI interface with Ask, Edit, and Agent modes
-
-To view your current usage, you can visit the dashboard at [cursor.com/dashboard](https://www.cursor.com/dashboard)
 
 ### Chat (Cmd + I)
 
@@ -364,8 +356,6 @@ Claude Code is an agentic command line tool that lives in your terminal, underst
 - It offers IDE integrations, allowing you to use Claude Code directly from your preferred development environment.
 - It is also available as a tab within the Claude Desktop application, providing a graphical interface.
 
-Read more at https://adocomplete.com/advent-of-claude-2025, https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know, https://awesomeclaude.ai
-
 | Command         | Description                            |
 | --------------- | -------------------------------------- |
 | !command        | Execute bash immediately               |
@@ -390,6 +380,20 @@ Read more at https://adocomplete.com/advent-of-claude-2025, https://github.com/w
 | /resume         | Resume a past session                  |
 
 Reminder to run `/doctor prompt-audit` in your Claude Code repos if you haven't already. It audits your Claude Code instruction files (CLAUDE.md, skills, agents, commands, etc.) for outdated patterns written for older models, stale paths/commands that no longer exist, and conflicting rules. You get a report + proposed diffs. Nothing changes until you approve.
+
+There is a new idle compaction to Claude Code. It compacts long idle sessions right before the prompt cache expires (~1h). If you come back to it later, it only has to reprocess the summary instead of the entire conversation, which saves you some usage. It means that Claude continues from a summary instead of your full context though.
+
+### Inside the `.claude/` folder
+
+When you start a Claude Code session, the first thing it reads is `CLAUDE.md`. It loads it straight into the system prompt and keeps it in mind for the entire conversation. Keep it under 200 lines. Sometimes you have a preference that's specific to you, create `CLAUDE.local.md` in your project root. Claude reads it alongside the main `CLAUDE.md`, and it's gitignored.
+
+Every markdown file inside `.claude/rules/` gets loaded alongside your `CLAUDE.md` automatically. Instead of one giant file, you split instructions by concern. Add a YAML frontmatter block to a rule file and it only activates when Claude is working with matching files.
+
+Skills are workflows that Claude can invoke on its own, based on the context. Each skill lives in its own subdirectory with a `SKILL.md` file, and it can bundle supporting files alongside them.
+
+When a task is complex enough to benefit from a dedicated specialist, you can define a subagent persona in `.claude/agents/`. Each agent is a markdown file with its own system prompt, tool access, and model preference.
+
+The `settings.json` file inside `.claude/` controls what Claude is and isn't allowed to do. This is also where your hooks live and it's where you define all the permissions, which files it can read, and whether it needs to ask before running certain commands. `.claude/settings.local.json` is for permission changes you don't want committed.
 
 ### Create custom subagents
 
@@ -448,7 +452,7 @@ Type `/plugin` and go to the Discover tab, you can see plugins like frontend-des
 > You can just create a `CLAUDE.md` in your project root with this single line: `@AGENTS.md`. This tells Claude Code to load the full contents of your `AGENTS.md` file as part of its memory.
 > Another workaround is to create symbolic link `CLAUDE.md` that refers to `AGENTS.md` using `ln` command.
 >
-> Similarly, the `.agents/skills/` path is part of the Agent Skills open standard which is a cross-tool standard, but Claude Code uses its own `.claude/` directory structure, not `.agents/`.
+> Update: We're adding support for `AGENTS.md` to Claude Code. Starting from version 2.1.277, if there is no `CLAUDE.md` in a folder, Claude will check for and use `AGENTS.md`. You can toggle this behavior in `/config`.
 
 ### Understanding hooks
 
@@ -494,7 +498,7 @@ Open `~/.claude/settings.json` and add a `PreToolUse` hook. The `matcher` field 
 
 Auto mode provides a safer long-running alternative to `--dangerously-skip-permissions`. It is a middle path that lets you run longer tasks with fewer interruptions while introducing less risk than skipping all permissions. Before each tool call runs, a classifier reviews it to check for potentially destructive actions like mass deleting files, sensitive data exfiltration, or malicious code execution.
 
-Run `claude --enable-auto-mode` to enable auto mode, then cycle to it with Shift+Tab. On Desktop and in the VS Code extension, first toggle auto mode on in Settings -> Claude Code, then select it from the permission mode drop-down in a session.
+Run `claude --enable-auto-mode` to enable auto mode, then cycle to it with Shift+Tab. On Desktop and in the VS Code extension, first toggle auto mode on in Settings -> Claude Code, then select it from the permission mode drop-down in a session. Starting August 14, auto mode will be the default permission mode in Claude Code for Pro, Max, and Team users.
 
 | Mode               | Settings key      | Behavior                                                                                                                                                                                                                                                                     |
 | ------------------ | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -505,6 +509,42 @@ Run `claude --enable-auto-mode` to enable auto mode, then cycle to it with Shift
 | Bypass permissions | bypassPermissions | Claude runs without any permission prompts, equivalent to `--dangerously-skip-permissions` in the CLI. Enable in your Settings → Claude Code under “Allow bypass permissions mode”. Only use this in sandboxed containers or VMs. Enterprise admins can disable this option. |
 
 The `dontAsk` permission mode is available only in the CLI. Enterprise admins can restrict which permission modes are available.
+
+### Mods
+
+A mod is a small JavaScript or TypeScript file that runs inside your Claude Code session. It can watch what's happening, change what Claude Code does, or draw its own UI, in the terminal or the desktop app. Under the hood, mods are hooks that ship inside plugins, and each one sees every event in your session as it happens.
+
+```
+first-mod/
+├── .claude-plugin/
+│   └── plugin.json
+└── hooks/
+    ├── hooks.json
+    └── register.js
+```
+
+```js
+on("tool.call", { tool: "Bash" }, async ($, e, next) => {
+  // $    the mods API: ui, session, state, store, fs, process, clock, http, tool, command, model, ...
+  // e    this event's input, as plain data
+  // next passes e to the other plugins and then to Claude Code's own behavior
+  return next(e);
+});
+```
+
+Once you know the shape, describe the next mod to Claude the way the shortcut does. It writes the plugin to a folder that hot-reloads in the same session.
+
+### Test iOS apps in the simulator
+
+The iOS Simulator pane shows your app running in Apple’s iOS Simulator next to your conversation in Claude Code Desktop. When Claude builds, installs, launches, or checks your app in a simulator, the pane opens automatically and streams the device screen live. The simulator pane drives the simulator directly, so it doesn’t need computer use and never takes over your screen or hides your other windows.
+
+Ask Claude to run or test the app.
+
+```
+Build the app and run it in the simulator to check the onboarding flow.
+```
+
+You can also open the simulator pane yourself. Once the session has a simulator attached or Claude Code detects iOS app work, an iOS Simulator button appears in the session’s title bar.
 
 ## Gemini CLI
 
@@ -583,3 +623,48 @@ Codex is OpenAI’s coding agent for software development. ChatGPT Plus, Pro, Bu
 - Codex extension for your IDE: It appears in the sidebar alongside your other extensions. It starts in Agent mode by default, which lets it read files, run commands, and write changes in your project directory.
 - Codex CLI: Install with `npm install -g @openai/codex`. Run codex in your terminal to get started. You’ll be prompted to sign in with your ChatGPT account or an API key.
 - Codex in the cloud at [`chatgpt.com/codex`](https://chatgpt.com/codex): Open the environment settings and follow the steps to connect a GitHub repository. You can also delegate a task to Codex by tagging `@codex` in a GitHub pull request comment (requires signing in to ChatGPT).
+
+### Moving to the new ChatGPT desktop app
+
+The new ChatGPT desktop app includes Chat and Work under ChatGPT alongside Codex.
+
+If you already use the Codex app, update the Codex app as usual. After the update, it becomes the new ChatGPT desktop app with Chat, Work, and Codex.
+
+- Chat: Ask questions, search, and have conversations.
+- Work: Research, analyze information, and create documents, spreadsheets, presentations, reports, and Sites.
+- Codex: Develop software with local files, repositories, terminals, and developer tools.
+
+## Modern Web Guidance and Chrome DevTools for agents
+
+[Modern Web Guidance](https://developer.chrome.com/blog/modern-web-guidance-v1) is a set of skills that embed web platform expertise, best practices, and browser compatibility data directly into your coding agents. It ensures your agent doesn’t default to older and out of date patterns to build sites.
+
+While frontier coding models do have a good grasp on many best practices, the [evals](https://googlechrome.github.io/modern-web-guidance-src/) show that there are still a number of important areas where they fall short. Read https://developer.chrome.com/blog/top-10-things-ai-gets-wrong-in-web-dev
+
+To install Modern Web Guidance, run this command from your project directory: `npx modern-web-guidance@latest install`. Install it using Vercel's Agent Skills: `npx skills add GoogleChrome/modern-web-guidance`.
+
+In agentic web development, authoring code is only one part of the workflow. You also need to run that code to ensure it works as expected. This is why we recommend developers use Modern Web Guidance along with [Chrome DevTools for agents](https://developer.chrome.com/docs/devtools/agents). Chrome DevTools for agents is a suite of tools (MCP server, Chrome DevTools CLI, Agentic Skills) that brings the power of Chrome DevTools to your AI coding workflows.
+
+```
+# Claude Code
+/plugin marketplace add ChromeDevTools/chrome-devtools-mcp
+/plugin install chrome-devtools-mcp@chrome-devtools-plugins
+
+# Codex
+codex mcp add chrome-devtools -- npx chrome-devtools-mcp@latest
+
+# Manually add
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"]
+    }
+  }
+}
+
+# Your first prompt
+Check the performance of https://developers.chrome.com
+```
+
+- Modern Web Guidance gives your agent the up-front expertise needed to write code following modern best practices.
+- Chrome DevTools for agents gives your agent runtime visibility so it can verify, debug, and optimize that code across a wide range of device capabilities, user preferences, and network conditions.

@@ -150,15 +150,11 @@ Log in the node terminal from the browser: https://github.com/patak-dev/vite-plu
 
 Background removal with Transformers.js: https://github.com/addyosmani/bg-remove
 
-Your coding year in review: https://githubunwrapped.com
-
 Smoothly animated code blocks with Shiki: https://github.com/shikijs/shiki-magic-move
 
 An interactive tutorial to Learn Yjs: https://learn.yjs.dev
 
 Google Chrome Dino 3D WebGL game: https://github.com/addyosmani/chrome-dino-3d
-
-Hypertext TV shared schedule for the web: https://hypertext.tv
 
 Desktop environment in the browser: https://github.com/DustinBrett/daedalOS
 
@@ -169,10 +165,6 @@ Universal bundle analyzer: https://sonda.dev
 Converting files and office documents to Markdown: https://github.com/microsoft/markitdown
 
 Native desktop automation that controls your mouse: https://github.com/nut-tree/nut.js, https://www.npmjs.com/package/@nut-tree-fork/nut-js
-
-Make Graph for data visualization needs: https://makegraph.app
-
-The free and open source app for speech to text: https://handy.computer
 
 ---
 
@@ -245,8 +237,6 @@ Styling Tables the Modern CSS Way: https://piccalil.li/blog/styling-tables-the-m
 Amazing CSS in 2024: https://nerdy.dev/amazing-css-in-2024
 
 CSS Wrapped 2024: https://chrome.dev/css-wrapped-2024
-
-First Look at The Modern attr(): https://ishadeed.com/article/modern-attr
 
 Modern CSS code snippets: https://modern-css.com
 
@@ -330,10 +320,6 @@ A PDF viewer that integrates with any JavaScript project: https://github.com/emb
 
 Top Pens of 2025 on CodePen: https://codepen.io/2025/popular
 
-Cloudflare's component library: https://github.com/cloudflare/kumo
-
-Turn Figma designs into pixel-perfect code: https://www.framelink.ai
-
 How to build an AI Markdown renderer: https://tigerabrodi.blog/how-to-build-a-performant-ai-markdown-renderer
 
 Animation vocabulary: https://animations.dev/vocabulary, https://index.how/to/articulate
@@ -390,7 +376,7 @@ What's new in React 19 by Lydia Hallie: https://www.youtube.com/watch?v=AJOGzVyg
 
 React Concurrent Features Overview: https://certificates.dev/blog/react-concurrent-features-an-overview
 
-React’s new era with async coordination primitives: https://blog.logrocket.com/the-next-era-of-react
+Understanding React internals: https://www.alexandretrotel.org/articles/understanding-react-internals
 
 ---
 
@@ -472,25 +458,17 @@ New to the web platform (every month): https://web.dev/blog/web-platform-01-2024
 
 Monitor and track the status of all Web Platform features: https://webstatus.dev
 
-Web platform features explorer: https://web-platform-dx.github.io/web-features-explorer
-
-What's new in ECMAScript: https://pawelgrzybek.com/whats-new-in-ecmascript-2025
-
 ---
 
 ## Awesome LLMs
 
-OpenAI Cookbook: https://cookbook.openai.com
+OpenAI Cookbook: https://developers.openai.com/cookbook
 
-Vercel AI SDK Cookbook: https://sdk.vercel.ai/cookbook
+Vercel AI SDK Cookbook: https://ai-sdk.dev/resources/recipes
 
 Awesome ChatGPT Prompts: https://prompts.chat
 
 Prompt Engineering Guide: https://github.com/dair-ai/Prompt-Engineering-Guide
-
-Anthropic prompt engineering: https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering
-
-Chatbot Arena - Benchmarking LLMs in the Wild: https://lmarena.ai
 
 Understanding GPT tokenizers: https://simonwillison.net/2023/Jun/8/gpt-tokenizers/
 
@@ -508,10 +486,6 @@ Fully client-side chat over documents: https://github.com/jacoblee93/fully-local
 
 Real-time image generation with Latent Consistency: https://www.fal.ai/dynamic
 
-Generative UI chatbot using the Vercel AI SDK and Google Gemini: https://github.com/vercel-labs/gemini-chatbot
-
-Pi, your personal AI from Inflection: https://pi.ai
-
 Power your apps with real-time speech-to-text APIs: https://deepgram.com
 
 A collection of Transformers.js demos: https://github.com/huggingface/transformers.js-examples
@@ -526,11 +500,9 @@ Starter project for the Vercel AI SDK RAG guide: https://github.com/vercel/ai-sd
 
 Semantic Image Search with Vercel AI SDK: https://github.com/vercel-labs/semantic-image-search
 
-Anthropic courses (all free): https://anthropic.skilljar.com
+Quickly get started with building applications using the Anthropic API: https://github.com/anthropics/claude-quickstarts
 
-Quickly get started with building applications using the Anthropic API: https://github.com/anthropics/anthropic-quickstarts
-
-React Components for AI Chat: https://github.com/Yonom/assistant-ui
+React Components for AI Chat: https://github.com/assistant-ui/assistant-ui
 
 OpenAI Realtime API updates: https://platform.openai.com/docs/guides/realtime
 
@@ -539,8 +511,6 @@ Audio input and output for the OpenAI Chat Completion API: https://simonwillison
 AI-powered search engine that is an open source alternative to Perplexity AI: https://github.com/ItzCrazyKns/Perplexica
 
 JavaScript tokenizer for LLaMA 1 and LLaMA 2: https://github.com/belladoreai/llama-tokenizer-js
-
-Conversational video interface with a holiday theme: https://santa.tavus.io
 
 2024 AI Timeline: https://huggingface.co/spaces/reach-vb/2024-ai-timeline
 
@@ -554,25 +524,17 @@ Keep searching, reading webpages, reasoning until an answer is found: https://gi
 
 [3h31m video] Deep Dive into LLMs like ChatGPT by Andrej Karpathy: https://www.youtube.com/watch?v=7xTGNNLPyMI
 
-AI SDK Reasoning Preview: https://github.com/vercel-labs/ai-sdk-reasoning-starter
-
 An interactive demo to try the new text-to-speech model: https://www.openai.fm
 
 Run AI Agent in your browser: https://github.com/browser-use/web-ui
 
 Up-to-date documentation you can talk to for every repo in the world: https://deepwiki.com
 
-Real-time conversational AI models run locally: https://huggingface.co/spaces/webml-community/conversational-webgpu
-
 An open-source database of AI models: https://models.dev
-
-The AI browser automation framework: https://www.stagehand.dev
 
 README for agents: https://agents.md
 
 The Modern Software Developer - Stanford University: https://themodernsoftware.dev
-
-Advent of Claude 31 Days of Claude Code: https://adocomplete.com/advent-of-claude-2025
 
 Guide for creating effective skills: https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md
 
@@ -582,27 +544,13 @@ Install agent skills onto your coding agents: https://github.com/vercel-labs/ski
 
 A Complete Guide To AGENTS.md: https://www.aihero.dev/a-complete-guide-to-agents-md
 
-Complete Claude Code configuration collection: https://github.com/affaan-m/everything-claude-code
-
-The awesome collection of OpenClaw Skills: https://github.com/VoltAgent/awesome-openclaw-skills
-
 Removes signs of AI-generated writing from text: https://github.com/blader/humanizer
-
-You Could've Invented OpenClaw: https://gist.github.com/dabit3/bc60d3bea0b02927995cd9bf53c3db32
 
 Agentic Engineering Patterns: https://simonwillison.net/guides/agentic-engineering-patterns
 
-Comprehensive Claude Code project configuration showcase: https://github.com/ChrisWiles/claude-code-showcase
-
-Claude Code Unpacked: https://ccunpacked.dev, https://claw-code.codes, https://www.mintlify.com/VineeTagarwaL-code/claude-code
-
 Leaked system prompt for all: https://github.com/elder-plinius/CL4R1T4S
 
-Modern Web Guidance agent skill: https://developer.chrome.com/docs/modern-web-guidance, https://github.com/GoogleChrome/modern-web-guidance-src
-
 Hermes Agent Architecture Explained: https://alejandro-ao.com/hermes-agent-architecture
-
-One CLI for all of Google Workspace: https://github.com/googleworkspace/cli
 
 Browser automation CLI for AI agents: https://github.com/vercel-labs/agent-browser
 
@@ -610,13 +558,33 @@ Making ALL Software Agent-Native: https://github.com/HKUDS/CLI-Anything
 
 How LLMs Work: https://github.com/w3cj/how-llms-work
 
+How LLMs Actually Work: https://www.0xkato.xyz/how-llms-actually-work
+
+Poteto's pstack: https://github.com/cursor/plugins/tree/main/pstack, https://x.com/poteto/article/2094457600259842065
+
+DeepSeek Harness - Everything is a Plugin: https://github.com/deepseek-ai/deepseek-harness
+
+Stanford CS329Z Engineering AI Agents: https://www.youtube.com/playlist?list=PLPRcF5HR02_U
+
+---
+
+## Claude Code
+
+The Making of Claude Code: https://www.anthropic.com/features/making-of-claude-code
+
+Advent of Claude 31 Days of Claude Code: https://adocomplete.com/advent-of-claude-2025
+
+Claude Code Unpacked: https://ccunpacked.dev
+
 How Anthropic uses Claude Code: https://www.youtube.com/watch?v=shZgedW15vg
+
+Which Claude model should you build with: https://claude.dev/blog/which-claude-model-should-you-build-with
+
+How the Claude Code team does code review: https://claude.dev/blog/solving-code-review-at-anthropic
 
 Getting started with Claude Code mods: https://claude.dev/blog/getting-started-with-claude-code-mods
 
-How LLMs Actually Work: https://www.0xkato.xyz/how-llms-actually-work
-
-Stanford CS329Z Engineering AI Agents: https://www.youtube.com/playlist?list=PLPRcF5HR02_U
+Getting the most out of Opus 5.5 in Claude and Claude Code: https://claude.dev/blog/getting-the-most-out-of-opus-5-5
 
 ---
 
