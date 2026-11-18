@@ -1,5 +1,5 @@
 ---
-title: "Random takeaways from my time at C"
+title: "Random takeaways from a certain chapter"
 description: ""
 added: "Nov 18 2026"
 tags: [other]
