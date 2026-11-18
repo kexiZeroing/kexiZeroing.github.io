@@ -40,25 +40,24 @@ async function postData(url = "", data = {}) {
   return response.json();
 }
 
-postData("https://example.com/answer", { answer: 42 })
-  .then(data => {
-    console.log(data);
-  });
+postData("https://example.com/answer", { answer: 42 }).then((data) => {
+  console.log(data);
+});
 ```
 
 ```javascript
 // Checking if the fetch is successful
 fetch("flowers.jpg")
-  .then(response => {
+  .then((response) => {
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
     return response.blob();
   })
-  .then(myBlob => {
+  .then((myBlob) => {
     myImage.src = URL.createObjectURL(myBlob);
   })
-  .catch(error => {
+  .catch((error) => {
     console.error("There has been a problem with your fetch operation:", error);
   });
 ```
@@ -66,7 +65,7 @@ fetch("flowers.jpg")
 ```javascript
 // Uploading a file
 const formData = new FormData();
-const fileField = document.querySelector("input[type=\"file\"]");
+const fileField = document.querySelector('input[type="file"]');
 
 formData.append("username", "abc123");
 formData.append("avatar", fileField.files[0]);
@@ -75,11 +74,11 @@ fetch("https://example.com/profile/avatar", {
   method: "PUT",
   body: formData, // this automatically sets the "Content-Type" header to `multipart/form-data`
 })
-  .then(response => response.json())
-  .then(result => {
+  .then((response) => response.json())
+  .then((result) => {
     console.log("Success:", result);
   })
-  .catch(error => {
+  .catch((error) => {
     console.error("Error:", error);
   });
 ```
@@ -158,10 +157,7 @@ try {
 ```js
 // `AbortSignal.any()`: will abort whichever is sooner
 const req = await fetch("/api/data", {
-  signal: AbortSignal.any([
-    AbortSignal.timeout(2000),
-    controller.signal,
-  ]),
+  signal: AbortSignal.any([AbortSignal.timeout(2000), controller.signal]),
 });
 ```
 
@@ -181,7 +177,7 @@ When using cURL, `-d` means transfer payload, `-H` is the header info included i
 ```bash
 # application/x-www-form-urlencoded
 curl -d "param1=value1&param2=value2" -H "Content-Type: application/x-www-form-urlencoded" -X POST http://localhost:3000/data
-# in nodeJs, `req.body` is a string, and use `&` to split the string to get parameters 
+# in nodeJs, `req.body` is a string, and use `&` to split the string to get parameters
 
 # application/json
 curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:3000/data
@@ -254,7 +250,7 @@ Use `multipart/form-data` when your form includes any `<input type="file">` elem
 
    const app = express();
 
-   app.post("/profile", upload.single("avatar"), function(req, res, next) {
+   app.post("/profile", upload.single("avatar"), function (req, res, next) {
      // req.file is the `avatar` file, which is the file you uploaded
      console.log(req.file);
    });
@@ -324,7 +320,7 @@ console.log(myHeaders.get("X-Custom-Header")); // null
 A fetch metadata request header like `Sec-Fetch-Dest`, `Sec-Fetch-Mode`, `Sec-Fetch-Site` provides additional information about the context from which the request originated. These headers are prefixed with `Sec-`, and hence have [forbidden header names](https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name). As such, they cannot be modified from JavaScript.
 
 - `Sec-Fetch-Mode` allows a server to distinguish between: requests originating from a user navigating between HTML pages, and requests to load images and other resources. For example, this header would contain `navigate` for top level navigation requests, while `no-cors` is used for loading an image.
-- `Sec-Fetch-Site` tells a server whether a request for a resource is coming from the same origin, the same site, a different site, or is a "user initiated" request.
+- `Sec-Fetch-Site` is a modern browser security feature used to protect against CSRF. Browsers automatically attach one of four values to outgoing requests: `same-origin`, `same-site`, `cross-site`, or `none`. The server can then use this information to determine whether the request is coming from a trusted source or not.
 
 ## Response
 
@@ -341,7 +337,7 @@ The body of Response allows you to declare what its content type is and how it s
 An important concept is that Response bodies can only be consumed once.
 
 ```js
-const response = new Response("{\"message\": \"hello\"}");
+const response = new Response('{"message": "hello"}');
 
 // This works
 const data = await response.json();
@@ -393,34 +389,36 @@ for await (const chunk of response.body) {
 
 ```js
 // Fetch with progress example
-fetch(url).then(async response => {
-  const total = +response.headers.get("Content-Length");
-  let loaded = 0;
+fetch(url)
+  .then(async (response) => {
+    const total = +response.headers.get("Content-Length");
+    let loaded = 0;
 
-  const reader = response.body.getReader();
-  const stream = new ReadableStream({
-    start(controller) {
-      function read() {
-        reader.read().then(({ done, value }) => {
-          if (done) {
-            controller.close();
-            return;
-          }
-          // Content-Length and byteLength are not directly comparable
-          // if compression is involved
-          loaded += value.byteLength;
-          console.log(`Progress: ${Math.round(loaded / total * 100)}%`);
-          controller.enqueue(value);
-          read();
-        });
-      }
-      read();
-    },
-  });
+    const reader = response.body.getReader();
+    const stream = new ReadableStream({
+      start(controller) {
+        function read() {
+          reader.read().then(({ done, value }) => {
+            if (done) {
+              controller.close();
+              return;
+            }
+            // Content-Length and byteLength are not directly comparable
+            // if compression is involved
+            loaded += value.byteLength;
+            console.log(`Progress: ${Math.round((loaded / total) * 100)}%`);
+            controller.enqueue(value);
+            read();
+          });
+        }
+        read();
+      },
+    });
 
-  return new Response(stream);
-}).then(res => res.text())
-  .then(data => console.log("Done"));
+    return new Response(stream);
+  })
+  .then((res) => res.text())
+  .then((data) => console.log("Done"));
 ```
 
 Note that this all falls down if the response has a `Content-Encoding`, because in that case the `Content-Length` represents the encoded size, but the chunks are decoded chunks. This means your downloaded value is likely to exceed the content length value.

@@ -3,7 +3,7 @@ title: "Coding with AI"
 description: ""
 added: "May 27 2025"
 tags: [AI]
-updatedDate: "Nov 17 2026"
+updatedDate: "Nov 18 2026"
 ---
 
 ## Get Started with Cursor
@@ -354,7 +354,6 @@ Claude Code is an agentic command line tool that lives in your terminal, underst
 | Shift+Tab       | Toggle plan mode                       |
 | Ctrl+O          | Toggle verbose mode                    |
 | /init           | Generate CLAUDE.md for your project    |
-| /terminal-setup | Configure Option+Enter for newlines    |
 | /model          | Switch the active model                |
 | /context        | View token consumption breakdown       |
 | /clear          | Wipe chat history and context window   |
@@ -363,7 +362,6 @@ Claude Code is an agentic command line tool that lives in your terminal, underst
 | /usage          | Check subscription usage / rate limits |
 | /config         | Open configuration                     |
 | /hooks          | Configure lifecycle hooks              |
-| /sandbox        | Set permission boundaries              |
 | /export         | Export conversation to markdown        |
 | /resume         | Resume a past session                  |
 
@@ -382,6 +380,33 @@ Skills are workflows that Claude can invoke on its own, based on the context. Ea
 When a task is complex enough to benefit from a dedicated specialist, you can define a subagent persona in `.claude/agents/`. Each agent is a markdown file with its own system prompt, tool access, and model preference.
 
 The `settings.json` file inside `.claude/` controls what Claude is and isn't allowed to do. This is also where your hooks live and it's where you define all the permissions, which files it can read, and whether it needs to ask before running certain commands. `.claude/settings.local.json` is for permission changes you don't want committed.
+
+> Claude Code doesn't support AGENTS.md: https://github.com/anthropics/claude-code/issues/6235
+>
+> You can just create a `CLAUDE.md` in your project root with this single line: `@AGENTS.md`. This tells Claude Code to load the full contents of your `AGENTS.md` file as part of its memory.
+> Another workaround is to create symbolic link `CLAUDE.md` that refers to `AGENTS.md` using `ln` command.
+>
+> Update: We're adding support for `AGENTS.md` to Claude Code. Starting from version 2.1.277, if there is no `CLAUDE.md` in a folder, Claude will check for and use `AGENTS.md`. You can toggle this behavior in `/config`.
+
+### Use `AGENTS.md` and `CLAUDE.md` effectively
+
+**Root context**: There's a root `AGENTS.md` in the project root read by all LLMs except Claude. Claude reads `CLAUDE.md` instead, so our root version says `@AGENTS.md` which forces Claude to read it also. These were just changed.
+
+**Subfolder context**: Subfolders can also have a file that's read automatically when LLMs work inside that subfolder. For example, `foo/AGENTS.md` is automatically read when working in `foo/`. These allow the agent to gain additional knowledge without polluting the root space. We should create and use these so the LLMs are more effective. Similarly, these can have a subfolder `CLAUDE.md` that says `@AGENTS.md` to force Claude to read it.
+
+**Personal context**: You can also give LLM context about you, globally or in subfolders. You can tell it your team's info, what services they use, etc. But if it's useful to others please put it in the shared context instead. Unfortunately, this varies by tool.
+
+- Claude: Make `~/.claude/CLAUDE.md` for your global context or `CLAUDE.local.md` in any folder. The local files are gitignored and _append_ to the context.
+- Codex: Make `~/.codex/AGENTS.md` for your global context or `AGENTS.override.md` in any folder. The override files are gitignored but _replace_ the `AGENTS.md` in that folder. Codex will only read one `AGENTS.md` or `AGENTS.override.md` per folder.
+- Cursor: Open Cursor > Settings > Rules for global personal rules. It also reads `AGENTS.override.md` in folders to _replace_ the `AGENTS.md` there.
+
+**Best practice**:
+
+- Call it `AGENTS.md` not `AGENT.md`. Only Amp reads the version without an S.
+- Also have a `CLAUDE.md` that just says `@AGENTS.md`.
+- Keep your files short, not 100+ lines. In Anthropie's words: _"These files are meant to be briefs, they're not meant to be wikis. They need to be relatively lightweight. I would say 60 to 80 lines is kind of the best possible length - anything beyond that, you've overblown it."_
+- `AGENTS.md` should not use `@FILE.md` syntax (only use it in `CLAUDE.md`). Instead use plain English: "Read `/foo/AGENTS.md` for ..." You can also use plain English in `CLAUDE.md` so Claude can choose when to grab additional context instead of forcing it.
+- To put it all together, if you're using Claude and working in `/foo_server` it will read your `~/claude/CLAUDE.md` + `/CLAUDE.md` + `/CLAUDE.local.md` + `/foo_server/CLAUDE.md` + `/foo_server/CLAUDE.local.md`. For tools that read AGENTS it's similar but personal override files replace the ``AGENTS.md` in that folder instead of appending.
 
 ### Create custom subagents
 
@@ -431,16 +456,6 @@ Type `/plugin` and go to the Discover tab, you can see plugins like frontend-des
 /plugin enable plugin-name@marketplace-name
 /plugin uninstall plugin-name@marketplace-name
 ```
-
-> Claude Code doesn't support AGENTS.md now:
->
-> - https://github.com/anthropics/claude-code/issues/6235
-> - https://github.com/anthropics/claude-code/pull/29835
->
-> You can just create a `CLAUDE.md` in your project root with this single line: `@AGENTS.md`. This tells Claude Code to load the full contents of your `AGENTS.md` file as part of its memory.
-> Another workaround is to create symbolic link `CLAUDE.md` that refers to `AGENTS.md` using `ln` command.
->
-> Update: We're adding support for `AGENTS.md` to Claude Code. Starting from version 2.1.277, if there is no `CLAUDE.md` in a folder, Claude will check for and use `AGENTS.md`. You can toggle this behavior in `/config`.
 
 ### Understanding hooks
 
