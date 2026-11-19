@@ -629,9 +629,9 @@ Codex is OpenAI’s coding agent for software development. ChatGPT Plus, Pro, Bu
 
 ### Moving to the new ChatGPT desktop app
 
-The new ChatGPT desktop app includes Chat and Work under ChatGPT alongside Codex.
+The new ChatGPT desktop app released in July 2026, not ChatGPT Classic. The new app combines Chat, Work, and Codex.
 
-If you already use the Codex app, update the Codex app as usual. After the update, it becomes the new ChatGPT desktop app with Chat, Work, and Codex.
+If you already use the Codex app, update the Codex app as usual. After the update, it becomes the new ChatGPT desktop app with Chat, Work, and Codex. If you download from either OpenAI Codex (`openai.com/codex`) or ChatGPT Work (`openai.com/chatgpt-work`), both links point to the same `ChatGPT.dmg` download.
 
 - Chat: Ask questions, search, and have conversations.
 - Work: Research, analyze information, and create documents, spreadsheets, presentations, reports, and Sites.

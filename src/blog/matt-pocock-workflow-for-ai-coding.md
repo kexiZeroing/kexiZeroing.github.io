@@ -3,10 +3,21 @@ title: "Matt Pocock's workflow for AI coding"
 description: ""
 added: "May 17 2026"
 tags: [AI]
-updatedDate: "May 24 2026"
+updatedDate: "Nov 19 2026"
 ---
 
 This post is the learning notes for Matt Pocock's AI Engineer Workshop ([Website](https://www.aihero.dev/ai-engineer-workshop-2026~dwnll), [Youtube](https://www.youtube.com/watch?v=-QFHIoCo-Ko)). It is the repeatable workflow for shipping features with AI coding agents from planning through autonomous execution.
+
+```
+# Claude Code
+claude plugin marketplace add mattpocock/skills
+claude plugin install mattpocock-skills@mattpocock
+
+# anything else
+npx skills@latest add mattpocock/skills
+
+Run /setup-matt-pocock-skills
+```
 
 ## Use the `/grill-me` skill
 
@@ -193,5 +204,12 @@ claude --permission-mode acceptEdits \
 
 ## Learn more about Matt's workflow
 
-- https://www.aihero.dev/5-agent-skills-i-use-every-day
-- https://github.com/mattpocock/skills
+Build a repeatable workflow for working with coding agents without giving up your engineering standards, from fuzzy idea to a workflow you trust.
+
+- use [/grill-with-docs](https://www.aihero.dev/grill-with-docs) when the idea is still fuzzy
+- use [/prototype](https://www.aihero.dev/skills-prototype) when talking is not enough. You might know the goal, but still not know whether the state model feels right, whether the UI makes sense, or whether a tiny interaction is going to be annoying in practice. That is when I reach for `/prototype`. It is a cheap way to make the unknown visible.
+- use [/handoff](https://www.aihero.dev/skills-handoff) when the work needs a fresh context. Move the question into a fresh prototype session. Let the prototype answer the question. Then hand the answer back to the planning thread before you keep going.
+- use [/to-spec](https://www.aihero.dev/skills-to-spec) to capture the product shape while the context is still fresh.
+- use [/to-tickets](https://www.aihero.dev/skills-to-tickets) to make the work reviewable. They are smaller handles for the agent: vertical slices that can be built, tested, reviewed, and improved independently.
+- use [Sandcastle](https://github.com/mattpocock/sandcastle) when an agent needs a safer place to work
+- use [/code-review](https://www.aihero.dev/skills-code-review) and [/improve-codebase-architecture](https://www.aihero.dev/skills-improve-codebase-architecture) to make the next run easier. First use `/code-review` to check the diff against the spec and the repo. Then use `/improve-codebase-architecture` to survey the codebase for deepening opportunities. The benefit is not just a cleaner PR. The next run starts with a better map.
