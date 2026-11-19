@@ -15,13 +15,11 @@ claude plugin install mattpocock-skills@mattpocock
 
 # anything else
 npx skills@latest add mattpocock/skills
-
-Run /setup-matt-pocock-skills
 ```
 
 ## Use the `/grill-me` skill
 
-Type `/grill-me` into your agent conversation. This invokes the Grill Me skill. The agent will load the skill definition from `.claude/skills/grill-me/SKILL.md` and start asking clarifying questions.
+Type `/grill-me` into your agent conversation. The agent will load the skill definition from `.claude/skills/grill-me/SKILL.md` and start asking clarifying questions.
 
 ```
 Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
@@ -93,7 +91,7 @@ Break the PRD into tracer bullet issues. Each issue is a thin vertical slice tha
 
 Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an architectural decision or a design review. AFK slices can be implemented and merged without human interaction. Prefer AFK over HITL where possible.
 
-- Each slice delivers a narrow but COMPLETE path through every layer (schema, API, UI, tests) - A completed slice is demoable or verifiable on its own - Prefer many thin slices over few thick ones
+Each slice delivers a narrow but COMPLETE path through every layer (schema, API, UI, tests) - A completed slice is demoable or verifiable on its own - Prefer many thin slices over few thick ones
 
 4. Quiz the user
 Present the proposed breakdown as a numbered list. For each slice, show:
@@ -204,7 +202,7 @@ claude --permission-mode acceptEdits \
 
 ## Learn more about Matt's workflow
 
-Build a repeatable workflow for working with coding agents without giving up your engineering standards, from fuzzy idea to a workflow you trust.
+Build a repeatable workflow for working with coding agents without giving up your engineering standards, from fuzzy idea to a workflow you trust. This section is newly updated based on Matt's tutorial in Nov 2026.
 
 - use [/grill-with-docs](https://www.aihero.dev/grill-with-docs) when the idea is still fuzzy
 - use [/prototype](https://www.aihero.dev/skills-prototype) when talking is not enough. You might know the goal, but still not know whether the state model feels right, whether the UI makes sense, or whether a tiny interaction is going to be annoying in practice. That is when I reach for `/prototype`. It is a cheap way to make the unknown visible.
@@ -213,3 +211,43 @@ Build a repeatable workflow for working with coding agents without giving up you
 - use [/to-tickets](https://www.aihero.dev/skills-to-tickets) to make the work reviewable. They are smaller handles for the agent: vertical slices that can be built, tested, reviewed, and improved independently.
 - use [Sandcastle](https://github.com/mattpocock/sandcastle) when an agent needs a safer place to work
 - use [/code-review](https://www.aihero.dev/skills-code-review) and [/improve-codebase-architecture](https://www.aihero.dev/skills-improve-codebase-architecture) to make the next run easier. First use `/code-review` to check the diff against the spec and the repo. Then use `/improve-codebase-architecture` to survey the codebase for deepening opportunities. The benefit is not just a cleaner PR. The next run starts with a better map.
+
+### The `/setup-matt-pocock-skills` skill
+
+`setup-matt-pocock-skills` answers three questions about one repo: where issues live, what the triage labels are called, and where the domain docs sit. It records the answers as markdown files under `docs/agents/`. Reach for it once per repo, before the first use of any other engineering skill.
+
+It's working if `docs/agents/issue-tracker.md` and `docs/agents/domain.md` exist, plus `triage-labels.md` if triage is installed.
+
+- Issue tracker: where issues live (GitHub by default; local markdown is also supported out of the box)
+- [Triage labels](https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/triage-labels.md): the strings used for the five canonical triage roles
+- [Domain docs](https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/domain.md): where GLOSSARY.md and ADRs live, and the consumer rules for reading them
+
+### Align before you build
+
+`grill-with-docs` interviews you about a plan or design until you and the agent share one understanding of it, and writes the vocabulary and the hard decisions into your repo. It is the same interview `grill-me` runs, but it is stateful. Every other grilling skill leaves the session in your head; this one leaves files on disk. When a term resolves, the skill writes it to GLOSSARY.md. When a decision passes, the skill writes it as an ADR (Architecture Decision Record).
+
+Reach for it at the start of a change, in a repo, when the plan is still fuzzy and the words for the thing are not settled yet. Its own `SKILL.md` is one line that delegates to two other skills. `grilling` supplies the interview, and `domain-modeling` supplies the writing.
+
+```
+Call the Skill tool twice, for "grilling" and "domain-modeling".
+
+- Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases. https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md
+
+- Build and sharpen a project's domain model. Use when discussing codebase terminology, writing or editing a GLOSSARY.md, or recording or editing an ADR. https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md
+```
+
+Where did all my other decisions go? Into the conversation only. The glossary is not a spec, most answers do not earn an ADR. The skill's closing message is often open-ended, which is a known problem. In the main flow the next step is `to-spec`, in the same conversation. If the change is small enough to build immediately, go straight to implement instead.
+
+### Use `/prototype` to write throwaway code
+
+Reach for it the moment you hit a question you can't settle by talking. Grilling sessions grow long on these questions. The agent rephrases, you guess, and the scope grows. Stop grilling, build the throwaway version, look at it, then answer in one line.
+
+The prototype is the runnable evidence the answer came from, and you do not delete it. You commit it to a throwaway `prototype/<name>` branch out of main, never merge it, and leave a context pointer to that branch on the implementation issue. Main stays clean, and whoever picks the work up next can find and re-run the prototype.
+
+```
+A prototype is throwaway code that answers a question. The question decides the shape.
+
+# Pick a branch
+- "Does this logic / state model feel right?" -> LOGIC.md. Build a single shareable HTML file that pushes the state machine through cases that are hard to reason about on paper, and that a non-developer can drive.
+- "What should this look like?" -> UI.md. Generate several radically different UI variations on a single route, switchable via a URL search param and a floating bottom bar.
+```
