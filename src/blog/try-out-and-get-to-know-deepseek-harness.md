@@ -104,4 +104,47 @@ Then it becomes a second, independent MCP path, running alongside the manager, i
 
 ## Cordis plugin framework
 
-https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-tutorial/index.md
+[Cordis](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-tutorial/index.md) is the plugin framework: a small runtime where every capability is a plugin mounted into a shared context.
+
+### Create your first plugin
+
+Creator mode - Customize DSH through conversation. Let the agent write plugins that add features or UI, or combine tools and prompts to create your own mode.
+
+```
+Create a plugin that will register a new tool, and it will be just a Hello World tool that greets someone by their name.
+```
+
+It will ask your approval to write:
+
+```
+Allow this operation with danger-full-access permissions: plugin_manager {"action":"install_bundle","target":"/xxx/deepseek-harness/default-workspace/hello-tool"}. Profile changes persist across sessions; installed Host code runs outside the workspace sandbox.
+```
+
+The results create a self-contained Host-only bundle at `default-workspace/hello-tool/`
+
+- `package.json`: Bundle manifest that exports for the module, declares `dsh.bundle.patch`
+- `cordis.patch.yml`: Inserts one Host row, `id: hello-tool` → `@local/hello-tool`
+- `index.js`: Registers the hello tool on `ctx.tools`
+- `locale/{en,zh}.json`: Localized title and description for the plugin page
+
+```
+Use the hello tool to greet Andy
+
+# Tool call
+IN
+{
+  "name": "Andy"
+}
+OUT
+Hello, Andy!
+```
+
+**Three different things stacked on top of each other:**
+
+- A tool is a runtime object: `{ name, description, parameters, output, execute }` registered in the tool registry (`ctx.tools`). It only exists while a plugin that registers it is loaded.
+- A plugin is a JS module exporting `apply(ctx)`. DSH's loader (Cordis) mounts it, calls `apply`, and disposes everything the plugin registered when it unloads. That's why `index.js` returns the disposer from `ctx.tools.register(...)`.
+- A bundle is an installable package: a directory with a `package.json` declaring `dsh.bundle.patch`, whose YAML patch inserts plugin rows into the profile's composed config.
+
+> The directory is a bundle. Inside it, `index.js` is the plugin, and that plugin registers the tool.
+>
+> `package.json` says `dsh.bundle.patch`, and `cordis.patch.yml` adds a row called `hello-tool`. That row is what you see in Plugins _(Plugins page in Settings)_, with its title, description, and icon. The row names a module `@local/hello-tool`. DSH runs that file’s `apply(ctx)`, which calls `ctx.tools.register({ name: 'hello' })`.
