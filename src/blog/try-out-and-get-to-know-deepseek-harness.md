@@ -179,9 +179,9 @@ Select "Creator mode"
 ```
 Build a small plugin called Focus Timer.
 
-Add a "Focus timer" action to the sidebar footer. It must not appear under the composer.
-Clicking it opens a Focus timer page in the right panel:
-set 1–180 minutes, Start, show mm:ss with a progress ring, Stop, and at zero
+Add a "Focus timer" row to the sidebar navigation, directly below Plugins and Automation tasks.
+Clicking it opens a Focus timer page in the main content area.
+Set 1–180 minutes, Start, show mm:ss with a progress ring, Stop, and at zero
 animate a burst around the clock with "Time's up".
 ```
 
@@ -192,3 +192,7 @@ It ships a bundle package which is a folder with a manifest that says “I have 
   - `dsh.client` → “I also have UI code”, `platform: "web"` means run in the Web page.
 - `cordis.patch.yml` — adds one row that makes DSH load the plugin.
 - `client.js` — the sidebar button, the right-panel page, the timer. The DSH page loads it with `window.__ModuleLoader__.load(...)`.
+
+### dsh-market
+
+The plugin market inside DeepSeek Harness: browse community plugins, install with one click, keep them updated. Open Settings → Plugins in the app and install it through the app's plugin manager. After installation, a _Plugin Market_ tab will appear on the Plugins page. From there, you can install plugins such as `dsh-context` and `dsh-cost-meter`. See more at https://github.com/dsh-market/dsh-market
