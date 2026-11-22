@@ -1,9 +1,9 @@
 ---
-title: "Notes on domain-specific ChatGPT"
+title: "Notes on domain-specific ChatGPT and RAG"
 description: ""
 added: "Mar 25 2023"
 tags: [AI]
-updatedDate: "July 14 2025"
+updatedDate: "Nov 22 2026"
 ---
 
 ## What are Vector Embeddings?
@@ -279,6 +279,29 @@ async function getDocuments(urls: string[]) {
 }
 ```
 
+### Chunking
+
+Fixed-size chunking:
+
+- Segment based on size (e.g. 100-500 tokens). The vector has no context if too small; One vector averages many topics if too large.
+- Overlap: 10%-20%; no sentence lost at chunk boundary
+
+Semantic chunking: segment via logical boundaries like sentences, sections
+
+Context-enriched chunking: carry additional metadata or summaries per chunk
+
+AI-driven dynamic chunking: use LLMs to detect natural breakpoints
+
+<img alt="Contextual Retrieval" src="https://raw.githubusercontent.com/kexiZeroing/blog-images/main/contextual-retrieval.png" width="650" />
+
+```
+{{WHOLE_DOCUMENT}}
+Here is the chunk we want to situate within the whole document
+{{CHUNK_CONTENT}}
+Please give a short succinct context to situate this chunk within the overall document for the purposes of improving search retrieval of the chunk.
+Answer only with the succinct context and nothing else.
+```
+
 ## GPT and LangChain Chatbot for PDF docs
 
 [gpt4-pdf-chatbot-langchain](https://github.com/mayooear/gpt4-pdf-chatbot-langchain) uses LangChain and Pinecone to build a chatbot for large PDF docs. Convert your PDF to embeddings:
@@ -324,7 +347,7 @@ for (let i = 0; i < docs.length; i += chunkSize) {
 }
 ```
 
-## Vector Database
+## Vector Database (Vector Search)
 
 - Vector Databases Explained: https://vercel.com/guides/vector-databases
 - What is a Vector Database: https://www.pinecone.io/learn/vector-database
@@ -357,6 +380,8 @@ scores = model.predict([
 # => array([0.9998173 , 0.01312432], dtype=float32)
 ```
 
+Note that BM25 is still the most widely used and very classic approach in information retrieval. The key difference is that BM25 retrieves candidate documents using keyword matching. BM25 does not use an LLM or any machine learning model. It's a traditional, statistics-based information retrieval algorithm.
+
 ### Rerank APIs
 
 - JinaAI Reranker (1 million free tokens): https://jina.ai/reranker
@@ -376,11 +401,26 @@ RAG systems often face challenges in retrieving the most relevant information, e
 2. Step-back Prompting: Generates broader queries for better context retrieval.
 3. Sub-query Decomposition: Breaks down complex queries into simpler sub-queries.
 
-### DeepSearch and DeepResearch
-
-https://jina.ai/news/a-practical-guide-to-implementing-deepsearch-deepresearch/
-
-- DeepSearch runs through an iterative loop of searching, reading, and reasoning until it finds the optimal answer.
-- DeepResearch builds upon DeepSearch by adding a structured framework for generating long research reports.
-
-RAG is about answering questions that fall outside of the knowledge baked into a model. The DeepSearch pattern offers a tools-based alternative to classic RAG: we give the model extra tools for running multiple searches and run it for several steps in a loop to try to find an answer.
+```
+User and Query                      Documents
+     |                                  |
+     v                                  v
+*Pre-Retrieval                       Indexing
+     │                                  │
+     ├─ Query Routing                   │
+     ├─ Query Rewriting                 │
+     └─ Query Expansion                 │
+     │                                  │
+     └──────────────┬───────────────────┘
+                    v
+                Retrieval
+                    |
+                    v
+    *Post-Retrieval (Rerank, Summary, Fusion)
+                    |
+                    v
+             Prompt + Frozen LLM
+                    |
+                    v
+                  Output
+```
