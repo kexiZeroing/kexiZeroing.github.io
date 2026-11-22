@@ -217,6 +217,10 @@ const completionResponse = await openai.createCompletion({
 });
 ```
 
+> Why not give lots of documents and pass it to the model?
+>
+> There is a "Lost in the middle" issue (position bias). If the correct document is in the top or in the most recent or the last position of your sequence, models are very likely to use them well. But if the correct document is somewhere in the middle of the sequence, you actually get worse performance here.
+
 ### Domain-specific ChatGTP Starter App
 
 [This starter app](https://github.com/gannonh/gpt3.5-turbo-pgvector) uses embeddings to generate a vector representation of a document, and then uses vector search to find the most similar documents to the query. The results of the vector search are then used to construct a prompt for GPT-3, which is then used to generate a response. The response is then streamed to the user.

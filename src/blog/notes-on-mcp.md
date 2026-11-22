@@ -3,18 +3,26 @@ title: "Notes on Model Context Protocol"
 description: ""
 added: "Mar 23 2025"
 tags: [AI]
-updatedDate: "Nov 16 2026"
+updatedDate: "Nov 22 2026"
 ---
 
-### Historical context: The Path to MCP
+MCP, introduced by Anthropic in late 2024, provides a unified protocol for AI-tool interactions. Instead of custom adapters for each tool, MCP allows developers to expose functionality once, making it accessible to any AI supporting MCP. It also eliminates the inefficiencies of tool-specific APIs by offering a structured, self-describing interface. This enables seamless, scalable AI-tool connectivity, much like how USB standardized device connections.
 
-Early AI assistants were limited to text generation, unable to interact with external tools or real-time data. The introduction of function calling and plugins in 2023 allowed models to execute code, browse the web, and interact with APIs, marking the shift toward AI agents. However, each integration was fragmented, requiring custom implementations for different tools, making scaling difficult.
+### How tool calls get introduced
 
-MCP, introduced by Anthropic in late 2024, solves this problem by providing a unified protocol for AI-tool interactions. Instead of custom adapters for each tool, MCP allows developers to expose functionality once, making it accessible to any AI supporting MCP. It also eliminates the inefficiencies of tool-specific APIs by offering a structured, self-describing interface. This enables seamless, scalable AI-tool connectivity, much like how USB standardized device connections.
+- LLMs can't compute: arithmetic at scale, multi-step logical deduction
+- LLMs never saw in training: post-cutoff events, private and proprietary data
+- LLMs can't reach: non-language interfaces, live state
 
-> This isn't something that you couldn't do before. You could technically write a bunch of code to provide any model with relevant function call definitions, and then implement those functions to do the things the model asks for. But for one, this was very tedious. You'd have to figure out how to do it from scratch each time. Each implementation might be different. And this would all be in code, your Claude desktop app couldn't access these functions.
->
-> MCP adds another layer: your tools are hosted outside your app, on a separate server. MCP servers make sense when you want your context and tools to be shared across many apps, models, or environments.
+An LM-used tool is a function interface to a computer program that runs externally to the LM, where the LM generates the function calls and input arguments in order to use the tool.
+
+For example, Toolformer trains LMs to decide which APIs to call, when to call them, what arguments to pass, and how to best incorporate the results. Use self-supervised learning with a handful of demonstrations for each API. _For an input x, select positions i, then sample API call candidates c1,c2,... We execute these API calls and filter out all calls which don't reduce the loss over the next tokens._
+
+The issue here is that different APIs come out every day. Whenever someone introduces a new API, if you train the model before, now you need to retrain your model. This is actually very costly. So instead of training the model, we are going to change how those tools are described so that any model can actually use them at runtime.
+
+Function calling is designed for models. Each tool is going to get a JSON format, and then the model every time just emits the name and arguments. Again, if the tool change, the function call needs to change as well, So that's probably also not a very easy to use.
+
+So here is the ecosystem-facing perspective of MCP. We will have a server that exposes its tools. Any client can actually discover that at runtime with tool lists or invoke them with tool call. The server only needs to be written once and then reused across many different hosts.
 
 ### MCP is not magic
 
@@ -307,21 +315,3 @@ await document.modelContext.executeTool(brief, { topic: "mcp" });
 You can do the same without code in the DevTools WebMCP pane - select WebMCP in the Application sidebar. The "Available tools" list shows all five tools with their descriptions. Click `topic-brief`, enter `mcp` next to topic and click "Run tool".
 
 ChatGPT calls WebMCP tools [site tools](https://help.openai.com/en/articles/20001423-using-site-tools-in-the-chatgpt-desktop-app).
-
-### References and further reading
-
-- https://github.com/modelcontextprotocol/typescript-sdk
-- https://www.aihero.dev/model-context-protocol-tutorial
-- https://glama.ai/blog/2024-11-25-model-context-protocol-quickstart
-- https://github.com/modelcontextprotocol/servers
-- https://github.com/punkpeye/awesome-mcp-servers
-- https://glama.ai/mcp/servers
-- https://www.pulsemcp.com
-- https://github.com/github/github-mcp-server
-- https://github.com/modelcontextprotocol/inspector
-- https://github.com/vercel-labs/mcp-for-next.js
-- https://github.com/punkpeye/fastmcp
-- https://developer.chrome.com/blog/chrome-devtools-mcp
-- https://developer.chrome.com/blog/autofix-runtime-devtools-mcp
-- https://developers.openai.com/apps-sdk/build/mcp-server
-- https://github.com/mdn/mcp
