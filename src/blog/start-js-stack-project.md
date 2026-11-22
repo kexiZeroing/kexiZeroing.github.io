@@ -3,7 +3,7 @@ title: "Start a JavaScript stack project"
 description: ""
 added: "Jun 16 2022"
 tags: [web]
-updatedDate: "July 20 2025"
+updatedDate: "Nov 22 2026"
 ---
 
 ## Start a modern web project
@@ -177,6 +177,35 @@ The [browserslist](https://github.com/browserslist/browserslist) configuration _
 - [cssnano](https://cssnano.co) is a compression tool written on top of the PostCSS ecosystem to compact CSS appropriately.
 
 > Avoid `@import` in CSS: The `@import` rule in CSS creates additional HTTP requests and is render-blocking. Each imported file is fetched sequentially, which delays the overall CSS parsing. Instead of `@import`, use `<link rel="stylesheet">` tags in HTML (which can load in parallel) or better yet, combine CSS files at build time when possible.
+
+### CSS and HTML are now built into webpack
+
+Since webpack 5.109.0 (Nov 2026), CSS and HTML [work out of the box](https://webpack.js.org/blog/2026-11-16-css-and-html-are-built-in). Import a stylesheet or use an HTML page as your entry point, and webpack handles the rest. Fewer dependencies, less configuration.
+
+```js
+import "./styles.css";
+import * as button from "./button.module.css";
+```
+
+Webpack resolves `@import` and `url()`, scopes `*.module.css` files as CSS Modules and extracts a `.css` file for each chunk. In `mode: "production"` it minifies the CSS, and with a browserslist target it also adds the vendor prefixes those browsers need. No `module.rules`, no plugin.
+
+```js
+// src/index.html
+<link rel="stylesheet" href="./styles.css" />
+<script type="module" src="./index.js"></script>
+
+// webpack.config.js
+export default {
+  entry: "./src/index.html",
+};
+```
+
+Webpack bundles the scripts, stylesheets and images the page references and rewrites their URLs to the emitted files. For a project with a JavaScript entry, `output.html: true` generates the page and links its scripts and stylesheets.
+
+So these packages are deprecated in favor of the built-in support:
+
+- css-loader, style-loader, mini-css-extract-plugin, css-minimizer-webpack-plugin
+- html-loader, html-webpack-plugin, html-minimizer-webpack-plugin
 
 ### Transpilers and Polyfills
 
