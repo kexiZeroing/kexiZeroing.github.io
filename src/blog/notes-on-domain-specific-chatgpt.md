@@ -124,6 +124,42 @@ This is just one attention layer. Transformers stack many of these layers. So `n
 
 When generating token N+1: The model only computes Q, K, V for the new token. It reuses the already-stored K and V vectors for tokens 1 through N from the cache. This is called the **KV cache**. It saves the model from recomputing the whole prompt every time it adds a token. (Also see [Prompt caching](https://kexizeroing.github.io/post/guide-to-prompt-engineering/#what-is-prompt-caching))
 
+```
+Prompt: "The cat sat"
+
+PREFILL
+  Input:  "The cat sat"
+  Compute: K₀ K₁ K₂, V₀ V₁ V₂
+  Cache:   K [K₀ K₁ K₂]
+           V [V₀ V₁ V₂]
+  Output:  "on"
+
+DECODE
+  Input:  "on"
+  Compute: K₃, V₃
+  Reuse:   Previous K and V from cache
+  Cache:   K [K₀ K₁ K₂ K₃]
+           V [V₀ V₁ V₂ V₃]
+  Output:  "the"
+
+DECODE
+  Input:  "the"
+  Compute: K₄, V₄
+  Reuse:   Previous K and V from cache
+  Cache:   K [K₀ K₁ K₂ K₃ K₄]
+           V [V₀ V₁ V₂ V₃ V₄]
+  Output:  "mat"
+
+... and so on
+```
+
+Without KV Cache, every time the model generates a new token, it would recompute K and V for all previous tokens.
+
+With KV Cache:
+
+- First step (prefill): Compute K and V for the entire prompt.
+- Next steps (decode): Compute K and V only for the new token and reuse the cached values for previous tokens.
+
 ## Storing embeddings in Postgres with pgvector
 
 How can I retrieve K nearest embedding vectors quickly? For searching over many vectors quickly, we recommend using a vector database.
