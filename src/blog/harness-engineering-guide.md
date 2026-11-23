@@ -8,9 +8,7 @@ updatedDate: "May 24 2026"
 
 Harness engineering keeps coming up in conversations, yet most of us encounter it in our daily work without fully recognizing it.
 
-```
-OpenClaw (AGENTS.md) -- LLM -- Cowork/Claude Code (CLAUDE.md)
-```
+For example, Pi is designed to be a minimalist harness with default tools: bash, read, write, and edit. It is a ReAct style agent.
 
 ## How agents can run for a long time
 

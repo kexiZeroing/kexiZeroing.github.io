@@ -6,7 +6,9 @@ tags: [AI]
 updatedDate: "Nov 22 2026"
 ---
 
-DeepSeek Harness is an open-source agent harness, built on an everything-is-a-plugin architecture and powered by Cordis.
+DeepSeek Harness is an open-source agent harness, built on an everything-is-a-plugin architecture and powered by Cordis: https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md
+
+A traditional coding agent has the structure "LLM + fixed agent loop + fixed tool set." DeepSeek Harness has the structure "model + a plugin core (Cordis)." The core is responsible only for plugin loading, unloading, dependencies, and events, and owns no concrete agent capabilities. This means that even the agent loop itself can be changed: you can combine a DeepSeek model, Claude Code subagents, a remote sandbox, custom memory, and a custom UI into an entirely new agent.
 
 ## Agent instructions
 

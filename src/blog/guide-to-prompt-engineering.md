@@ -271,7 +271,34 @@ Another interesting translation example from [Baoyu's blog](https://baoyu.io/blo
   请根据直译和反思的结果，重新意译，并输出最终翻译结果，不包含任何其他信息。
   ```
 
-CoT is literally just one prompt, one pass. In ReAct (Reason + Act), you can think it as a loop. The model think, act, observe, and then think again. In this way, the models can revise their errors or get new information to update themselves.
+CoT is literally just one prompt, one pass. In ReAct (Reason + Act), you can think it as a loop. The model think, act, observe, and then think again. In this way (reasoning before acting), the models can revise their errors or get new information to update themselves.
+
+```
+# CoT (Reason Only)
+Thought: ...
+Answer: xxx
+
+# Act-Only
+Act1: ..
+Obs1: ...
+
+Act2: ...
+Obs2: ...
+
+Act3: Finish
+
+# ReAct (Reason + Act)
+Thought1: ...
+Act1: ...
+Obs1: ...
+
+Thought2: ...
+Act2: ...
+Obs2: ...
+
+Thought3:
+Act3: Finish
+```
 
 ### Prompt tips for OpenAI’s new o1
 

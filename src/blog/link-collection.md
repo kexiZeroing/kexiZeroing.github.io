@@ -566,7 +566,7 @@ DeepSeek Harness - Everything is a Plugin: https://github.com/deepseek-ai/deepse
 
 A chat demo powered by the DeepSeek API: https://github.com/deepseek-ai/chat-demo
 
-Stanford CS329Z Engineering AI Agents: https://www.youtube.com/playlist?list=PLPRcF5HR02_U, https://github.com/cs329z
+Stanford CS329Z Engineering AI Agents: https://www.youtube.com/playlist?list=PLPRcF5HR02_U, https://cs329z.stanford.edu
 
 ---
 
