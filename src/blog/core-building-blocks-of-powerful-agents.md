@@ -54,13 +54,13 @@ function saveSession(sessionKey: string, messages: Message[]): void {
 }
 ```
 
-> JSONL (JSON Lines) is a text-based data format where each line represents a valid JSON object, making it ideal for storing structured data records.
->
-> ```json
-> {"name": "John Doe", "age": 30, "city": "New York"}
-> {"name": "Jane Smith", "age": 25, "city": "San Francisco"}
-> {"name": "Bob Johnson", "age": 35, "city": "Chicago"}
-> ```
+JSONL (JSON Lines) is a text-based data format where each line represents a valid JSON object, making it ideal for storing structured data records.
+
+```json
+{"name": "John Doe", "age": 30, "city": "New York"}
+{"name": "Jane Smith", "age": 25, "city": "San Francisco"}
+{"name": "Bob Johnson", "age": 35, "city": "Chicago"}
+```
 
 ## Permission Controls
 
@@ -314,7 +314,7 @@ async function compactSession(
 }
 ```
 
-## Adding a Personality (SOUL.md)
+## Adding a Personality (SOUL.md) and agent memory
 
 ```ts
 // A markdown file that defines the agent's identity, behavior, and boundaries.
@@ -340,6 +340,21 @@ Remember important details from conversations.
 Write them down if they matter.
 `;
 ```
+
+Problems without memory
+
+- Loss of procedure: Every time you need to teach the agent the task again.
+- Loss of knowledge: Important facts, rules, and preference can be lost between sessions.
+- Loss of progress: As sessions grow longer the agent can forget what it did and earlier goals.
+
+Types of agent memory
+
+- Working memory: Typically the context window
+- Episodic memory: Sequences of the agents past behaviors. In chatbots this is a store of all the prior conversations. Typically the raw logs of what occurred.
+- Semantic momory: Details about the user, preference, general knowledge, etc. This is what people typically think of for chatbot memory.
+- Procedural memory: The set of rules that can be applied to the working memory to determine the agents behavior. Essentially the skills of the agent.
+
+Filesystem is a simple memory system. Every memory is a file, and has hierarchy by default. grep, ls, and other bash commands are the memory tools.
 
 ## Multi-Agent Routing
 
@@ -649,73 +664,6 @@ for await (const message of query({
       console.log("Total cost:", message.total_cost_usd);
       console.log("Token usage:", message.usage);
       break;
-  }
-}
-```
-
-## Adding custom tools with MCP
-
-```ts
-import {
-  query,
-  tool,
-  createSdkMcpServer,
-} from "@anthropic-ai/claude-agent-sdk";
-import { z } from "zod";
-
-const customServer = createSdkMcpServer({
-  name: "code-metrics",
-  version: "1.0.0",
-  tools: [
-    // Define a custom tool
-    // Arguments: name, description, input schema, handler function
-    tool(
-      "analyze_complexity",
-      "Calculate cyclomatic complexity for a file",
-      {
-        filePath: z.string().describe("Path to the file to analyze"),
-      },
-      async (args) => {
-        const complexity = Math.floor(Math.random() * 20);
-        // Return format required by MCP - array of content blocks
-        return {
-          content: [
-            {
-              type: "text",
-              text: `Cyclomatic complexity for ${args.filePath}: ${complexity}`,
-            },
-          ],
-        };
-      },
-    ),
-  ],
-});
-
-async function analyzeCode(filePath: string) {
-  for await (const message of query({
-    prompt: `Analyze the complexity of ${filePath}`,
-    options: {
-      model: "opus",
-      // Register the custom MCP server
-      mcpServers: {
-        "code-metrics": customServer,
-      },
-      // MCP tools follow the pattern: mcp__<server-name>__<tool-name>
-      allowedTools: ["Read", "mcp__code-metrics__analyze_complexity"],
-      maxTurns: 50,
-    },
-  })) {
-    if (message.type === "assistant") {
-      for (const block of message.message.content) {
-        if ("text" in block) {
-          console.log(block.text);
-        }
-      }
-    }
-
-    if (message.type === "result") {
-      console.log("Done:", message.subtype);
-    }
   }
 }
 ```
