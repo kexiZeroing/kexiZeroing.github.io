@@ -3,7 +3,7 @@ title: "Try out and get to know DeepSeek Harness"
 description: ""
 added: "Nov 20 2026"
 tags: [AI]
-updatedDate: "Nov 22 2026"
+updatedDate: "Nov 24 2026"
 ---
 
 DeepSeek Harness is an open-source agent harness, built on an everything-is-a-plugin architecture and powered by Cordis: https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md
@@ -198,3 +198,34 @@ It ships a bundle package which is a folder with a manifest that says “I have 
 ### dsh-market
 
 The plugin market inside DeepSeek Harness: browse community plugins, install with one click, keep them updated. Open Settings → Plugins in the app and install it through the app's plugin manager. After installation, a _Plugin Market_ tab will appear on the Plugins page. From there, you can install plugins such as `dsh-context` and `dsh-cost-meter`. See more at https://github.com/dsh-market/dsh-market
+
+## Full DeepSeek App experience via API
+
+The DeepSeek API offers the same conversation features as DeepSeek Chat on the web and in the app.
+
+- Web Search: Search the web or images with citations in non-thinking mode.
+- Deep Thinking Search: Search and read pages throughout multi-step reasoning.
+- File Input: Parse PDFs, Office files, images, and more into conversation context.
+- URL Reading: Automatically fetch links in user messages to inform answers.
+- Safety Checks: Screen inputs and outputs, returning refusal indicators when risks are detected.
+
+```sh
+curl https://api.deepseek.com/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer ${DEEPSEEK_API_KEY}" \
+  -d '{
+    "model": "deepseek-flash",
+    "thinking": {"type": "enabled"},
+    "tools": [
+      {"type": "deepseek_web_search"},
+      {"type": "deepseek_read_url"}
+    ],
+    "safety_check": {"level": "high"},
+    "title": {"enabled": true},
+    "messages": [{"role": "user", "content": "What is new in DeepSeek V4.1?"}],
+    "stream": true
+  }'
+```
+
+> To meet the demand for Codex, it supports the Responses API format, with the `base_url` being `https://api.deepseek.com`.
+> To meet the demand for using the Anthropic API ecosystem, it supports for the Anthropic API format, with the base_url being `https://api.deepseek.com/anthropic`.

@@ -176,6 +176,8 @@ SSH URLs provide access to a Git repository via SSH, a secure protocol. To use t
 
 With SSH authentication working, we can now clone repositories using SSH URLs instead of HTTPS, so there is no need to enter a username and password every time.
 
+A Host Key is used to verify the identity of the server you are connecting to. Your computer checks whether the Host Key matches the one previously saved locally in `~/.ssh/known_hosts`. The first time you connect to a server, SSH asks you to confirm its identity. After confirmation, it saves the Host Key in `known_hosts`. Use `ssh-keygen -R your-server.com` to remove the old record and `ssh-keygen -F your-server.com` to find the record.
+
 <img alt="https ssh" src="https://ftp.bmp.ovh/imgs/2020/10/830c711c7263ab75.png" width="700">
 
 ### PAT in Azure DevOps
