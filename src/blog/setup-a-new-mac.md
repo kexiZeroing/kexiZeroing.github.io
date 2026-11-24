@@ -3,7 +3,7 @@ title: "Setup a new Mac"
 description: ""
 added: "Oct 18 2021"
 tags: [system]
-updatedDate: "Nov 16 2026"
+updatedDate: "Nov 24 2026"
 ---
 
 ## Setting up development environment
@@ -176,7 +176,12 @@ SSH URLs provide access to a Git repository via SSH, a secure protocol. To use t
 
 With SSH authentication working, we can now clone repositories using SSH URLs instead of HTTPS, so there is no need to enter a username and password every time.
 
-A Host Key is used to verify the identity of the server you are connecting to. Your computer checks whether the Host Key matches the one previously saved locally in `~/.ssh/known_hosts`. The first time you connect to a server, SSH asks you to confirm its identity. After confirmation, it saves the Host Key in `known_hosts`. Use `ssh-keygen -R your-server.com` to remove the old record and `ssh-keygen -F your-server.com` to find the record.
+> `git remote -v` can differentiate between SSH and HTTPS connections by displaying the remote repository URLs.
+>
+> - For SSH connection: `origin  git@github.com:username/repo.git`
+> - For HTTPS connection: `origin  https://github.com/username/repo.git`
+
+A Host Key is used to verify the identity of the server you are connecting to. Your computer checks whether the Host Key matches the one previously saved locally in `~/.ssh/known_hosts`. Note that `known_hosts` stores server identities, not your personal SSH keys. It is only used by SSH connections, not HTTPS Git connections. The first time you connect to a server (`ssh -T git@github.com`), SSH asks you to confirm its identity. After confirmation, it saves the Host Key in `known_hosts`. Use `ssh-keygen -R your-server.com` to remove the old record and `ssh-keygen -F your-server.com` to find the record.
 
 <img alt="https ssh" src="https://ftp.bmp.ovh/imgs/2020/10/830c711c7263ab75.png" width="700">
 
