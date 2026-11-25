@@ -3,7 +3,7 @@ title: "Try out and get to know DeepSeek Harness"
 description: ""
 added: "Nov 20 2026"
 tags: [AI]
-updatedDate: "Nov 24 2026"
+updatedDate: "Nov 25 2026"
 ---
 
 DeepSeek Harness is an open-source agent harness, built on an everything-is-a-plugin architecture and powered by Cordis: https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md
@@ -209,22 +209,38 @@ The DeepSeek API offers the same conversation features as DeepSeek Chat on the w
 - URL Reading: Automatically fetch links in user messages to inform answers.
 - Safety Checks: Screen inputs and outputs, returning refusal indicators when risks are detected.
 
-```sh
-curl https://api.deepseek.com/chat/completions \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer ${DEEPSEEK_API_KEY}" \
-  -d '{
-    "model": "deepseek-flash",
-    "thinking": {"type": "enabled"},
-    "tools": [
-      {"type": "deepseek_web_search"},
-      {"type": "deepseek_read_url"}
+```ts
+const response = await fetch("https://api.deepseek.com/anthropic/v1/messages", {
+  method: "POST",
+  headers: {
+    "x-api-key": apiKey,
+    "Content-Type": "application/json",
+    Accept: "text/event-stream",
+  },
+  body: JSON.stringify({
+    model: "deepseek-flash",
+    system: "You are a helpful assistant created by DeepSeek.",
+    messages: [
+      {
+        role: "user",
+        content: "What happened in AI today?",
+      },
     ],
-    "safety_check": {"level": "high"},
-    "title": {"enabled": true},
-    "messages": [{"role": "user", "content": "What is new in DeepSeek V4.1?"}],
-    "stream": true
-  }'
+    // Enable thinking. The server will emit `thinking` content blocks.
+    thinking: { type: "enabled" },
+    // Declare server-side tools. The model decides whether to call them.
+    tools: [
+      { type: "deepseek_read_url", name: "deepseek_read_url" },
+      { type: "deepseek_web_search", name: "deepseek_web_search" },
+    ],
+    // Required for extension mode (search, link reading, etc.).
+    safety_check: { level: "high" },
+    // Optional: ask the server to generate a title for an untitled chat.
+    title: { enabled: true },
+    // Ask for an SSE stream.
+    stream: true,
+  }),
+});
 ```
 
 > To meet the demand for Codex, it supports the Responses API format, with the `base_url` being `https://api.deepseek.com`.

@@ -3,7 +3,7 @@ title: "Server-sent events with examples"
 description: ""
 added: "Mar 26 2023"
 tags: [js]
-updatedDate: "July 15 2025"
+updatedDate: "Nov 25 2026"
 ---
 
 Ways to implement real-time updates before SSE:
@@ -55,9 +55,11 @@ app.listen(3000, () => console.log("Listening on port 3000..."));
   <ul id="numbers"></ul>
 
   <script>
-    const numbers = document.getElementById('numbers');
+    const numbers = document.getElementById("numbers");
 
-    const eventSource = new EventSource('http://localhost:3000/real-time-updates');
+    const eventSource = new EventSource(
+      "http://localhost:3000/real-time-updates",
+    );
 
     // eventSource.addEventListener('message', (event) => {}, false)
     eventSource.onmessage = (event) => {
@@ -65,7 +67,7 @@ app.listen(3000, () => console.log("Listening on port 3000..."));
       numbers.innerHTML += `<li>${data.number}</li>`;
     };
 
-    eventSource.onerror = () => console.log('Something went wrong.');
+    eventSource.onerror = () => console.log("Something went wrong.");
 
     // We also have a `close` method that can be used to close the connection anytime.
   </script>
@@ -190,18 +192,18 @@ return new Response(
     async start(controller) {
       const suspensePromises = [];
 
-      controller.enqueue(encoder.encode("<html lang=\"en\">"));
+      controller.enqueue(encoder.encode('<html lang="en">'));
       controller.enqueue(encoder.encode("<head>"));
       // Load the code to allow "unsuspense"
       controller.enqueue(
-        enconder.encode("<script src=\"unsuspense.js\"></script>"),
+        enconder.encode('<script src="unsuspense.js"></script>'),
       );
       controller.enqueue(encoder.encode("</head>"));
       controller.enqueue(encoder.encode("<body>"));
 
       // Add a placeholder (suspense)
       controller.enqueue(
-        encoder.encode("<div id=\"suspensed:1\">Loading...</div>"),
+        encoder.encode('<div id="suspensed:1">Loading...</div>'),
       );
 
       // Load the content - without "await"
@@ -220,7 +222,7 @@ return new Response(
         }),
       );
 
-      controller.enqueue(encoder.encode("<div class=\"foo\">Bar</div>"));
+      controller.enqueue(encoder.encode('<div class="foo">Bar</div>'));
       controller.enqueue(encoder.encode("</body>"));
       controller.enqueue(encoder.encode("</html>"));
 
@@ -290,3 +292,245 @@ for await (const chunk of response.body) {
   }
 }
 ```
+
+### DeepSeek chat-demo usage
+
+```ts
+export type ServerSentEvent = {
+  event: string;
+  data: string;
+  // The `id` field is omitted in this simplified version.
+  // It is only needed for resuming a stream with `Last-Event-ID`.
+};
+
+/** CRLF, LF, or CR */
+const LINE_BREAK = /\r\n|\r|\n/g;
+
+export class ServerSentEventDecoder {
+  private buffer = ""; // Text received but not yet terminated by a line break.
+  private data = ""; // Accumulated `data:` value for the event currently being parsed.
+  private hasData = false;
+  private eventType = "";
+
+  /**
+   * Feed one decoded text chunk.
+   * Returns every event completed by this chunk: zero, one, or many.
+   */
+  push(text: string): ServerSentEvent[] {
+    this.buffer += text;
+    const events: ServerSentEvent[] = [];
+    let lineStart = 0;
+
+    LINE_BREAK.lastIndex = 0;
+    // Walk every line break found in the buffer.
+    for (
+      let match = LINE_BREAK.exec(this.buffer);
+      match;
+      match = LINE_BREAK.exec(this.buffer)
+    ) {
+      // A trailing CR may be the first half of CRLF; wait for the next chunk.
+      if (match[0] === "\r" && LINE_BREAK.lastIndex === this.buffer.length) {
+        break;
+      }
+
+      const event = this.processLine(this.buffer.slice(lineStart, match.index));
+      if (event) {
+        events.push(event);
+      }
+      lineStart = LINE_BREAK.lastIndex;
+    }
+
+    this.buffer = this.buffer.slice(lineStart);
+    return events;
+  }
+
+  /*
+   * Example trace
+   *
+   * push 1
+   *   input   : 'event: content_block_delta\n'
+   *   buffer+ : 'event: content_block_delta\n'
+   *   exec 1  : index 26, line 'event: content_block_delta'
+   *             eventType = 'content_block_delta', lineStart = 27
+   *   exec 2  : null
+   *   slice   : this.buffer.slice(27) -> ''
+   *   state   : data = '', hasData = false, eventType = 'content_block_delta'
+   *   return  : []
+   *
+   * push 2
+   *   input   : 'data: {"type":"content_block_delta",'
+   *   buffer+ : 'data: {"type":"content_block_delta",'
+   *   exec 1  : null (no line break)
+   *   slice   : no complete line, buffer unchanged
+   *   state   : data = '', hasData = false, eventType = 'content_block_delta'
+   *   return  : []
+   *
+   * push 3
+   *   input   : '"index":0,"delta":{"type":"text_delta","text":"你"}}\n\n'
+   *   buffer+ : 'data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"你"}}\n\n'
+   *   exec 1  : index 87, line 'data: {...}'
+   *             data = '{"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"你"}}'
+   *             hasData = true, lineStart = 88
+   *   exec 2  : index 88, line ''
+   *             dispatch() -> event, lineStart = 89
+   *   exec 3  : null
+   *   slice   : this.buffer.slice(89) -> ''
+   *   state   : data = '', hasData = false, eventType = ''
+   *   return  : [{
+   *               event: 'content_block_delta',
+   *               data: '{"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"你"}}',
+   *             }]
+   */
+
+  end(): ServerSentEvent[] {
+    // Flush the trailing CR that push() deferred because it might be half of CRLF.
+    const event = this.buffer.endsWith("\r")
+      ? this.processLine(this.buffer.slice(0, -1))
+      : null;
+
+    this.buffer = "";
+    this.data = "";
+    this.hasData = false;
+    this.eventType = "";
+    return event ? [event] : [];
+  }
+
+  private processLine(line: string): ServerSentEvent | null {
+    // An empty line terminates the current event.
+    if (line === "") {
+      return this.dispatch();
+    }
+    // Split at the first colon. Everything after it is the value.
+    const colon = line.indexOf(":");
+    const field = colon === -1 ? line : line.slice(0, colon);
+    let value = colon === -1 ? "" : line.slice(colon + 1);
+    if (value.startsWith(" ")) {
+      value = value.slice(1);
+    }
+
+    switch (field) {
+      case "data":
+        // Multiple data lines are joined with "\n".
+        this.data = this.hasData ? `${this.data}\n${value}` : value;
+        this.hasData = true;
+        break;
+      case "event":
+        this.eventType = value;
+        break;
+      default:
+        break;
+    }
+
+    return null;
+  }
+
+  /**
+   * A blank line was reached: emit the accumulated event.
+   */
+  private dispatch(): ServerSentEvent | null {
+    const event: ServerSentEvent | null = this.hasData
+      ? {
+          event: this.eventType || "message",
+          data: this.data,
+        }
+      : null;
+
+    this.data = "";
+    this.hasData = false;
+    this.eventType = "";
+    return event;
+  }
+}
+
+/**
+ * Read a byte stream and yield complete SSE events one by one.
+ * This layer knows nothing about JSON or the chat protocol.
+ */
+export async function* readServerSentEvents(
+  stream: ReadableStream<Uint8Array>,
+): AsyncGenerator<ServerSentEvent> {
+  const reader = stream.getReader();
+  const textDecoder = new TextDecoder();
+  const decoder = new ServerSentEventDecoder();
+  let finished = false;
+
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+
+      if (done) {
+        finished = true;
+        yield* decoder.push(textDecoder.decode());
+        yield* decoder.end();
+        return;
+      }
+
+      // stream: true tells the decoder more data may follow, so an incomplete
+      // multi-byte character is kept buffered until the next chunk.
+      yield* decoder.push(textDecoder.decode(value, { stream: true }));
+    }
+  } finally {
+    if (!finished) {
+      reader.cancel().catch(() => {});
+    }
+    reader.releaseLock();
+  }
+}
+```
+
+```ts
+const response = await fetch("https://api.deepseek.com/anthropic/v1/messages", {
+  method: "POST",
+  headers: {
+    "x-api-key": apiKey,
+    "Content-Type": "application/json",
+    Accept: "text/event-stream",
+  },
+  body: JSON.stringify({
+    model: "deepseek-flash",
+    system: "You are a chat bot.",
+    messages: [{ role: "user", content: "hello" }],
+    thinking: { type: "disabled" },
+    safety_check: { level: "high" },
+    tools: [],
+    stream: true,
+  }),
+});
+
+let answer = "";
+
+for await (const { data } of readServerSentEvents(response.body)) {
+  const payload = JSON.parse(data);
+
+  if (
+    payload.type === "content_block_delta" &&
+    payload.delta.type === "text_delta"
+  ) {
+    answer += payload.delta.text;
+    console.log(answer);
+  }
+
+  if (payload.type === "message_stop") break;
+}
+```
+
+```json
+# Event sequence with thinking enabled
+
+event: content_block_start
+data: {"type":"content_block_start","index":0,"content_block":{"type":"thinking","thinking":""}}
+
+event: content_block_delta
+data: {"type":"content_block_delta","index":0,"delta":{"type":"thinking_delta","thinking":"用户问的是..."}}
+
+event: content_block_delta
+data: {"type":"content_block_delta","index":0,"delta":{"type":"thinking_delta","thinking":"需要先解释..."}}
+
+event: content_block_delta
+data: {"type":"content_block_delta","index":0,"delta":{"type":"signature_delta","signature":"msg_abc"}}
+
+event: content_block_stop
+data: {"type":"content_block_stop","index":0}
+```
+
+> A thinking block is not ordinary text. When it is sent back to the server, the server must verify that the thinking was actually generated by the server. The signature is that proof. The client only concatenates it, stores it, and sends it back unchanged during continuation.
