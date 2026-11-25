@@ -245,3 +245,147 @@ const response = await fetch("https://api.deepseek.com/anthropic/v1/messages", {
 
 > To meet the demand for Codex, it supports the Responses API format, with the `base_url` being `https://api.deepseek.com`.
 > To meet the demand for using the Anthropic API ecosystem, it supports for the Anthropic API format, with the base_url being `https://api.deepseek.com/anthropic`.
+
+### Session management
+
+It has four jobs: list, open, update, delete. The hard part is that these operations can happen concurrently.
+
+- Startup: load the list only, and details are loaded on demand.
+- Open session: load details and put in cache
+- Switch session: cache hit or evict the least recently used
+- Update message: update memory first, persist to IndexedDB asynchronously
+- Page close: flush first, then persist
+- Delete session: stop stream, wait for cleanup, delete from DB, clear cache
+
+```ts
+// list: only summary
+sessions = [{ id: "s1", title: "", updatedAt: 100 }];
+
+// detail
+sessionCache = {
+  s1: {
+    id: "s1",
+    title: "",
+    updatedAt: 100,
+    messages: [],
+  },
+};
+```
+
+```ts
+// u1 = user message, a1 = assistant reply
+// s1..s6 = sessions
+
+// 1. Startup: only the list is loaded
+sessions = [
+  { id: "s1", title: "", updatedAt: 100 },
+  { id: "s2", title: "", updatedAt: 90 },
+  { id: "s3", title: "", updatedAt: 80 },
+];
+
+sessionCache = {};
+activeId = null;
+
+// 2. Open s1: activeId first, details loaded afterwards
+activeId = "s1";
+
+sessionCache.s1 = {
+  id: "s1",
+  title: "",
+  updatedAt: 100,
+  messages: [],
+};
+
+// 3. Send "hello": create user message and assistant placeholder together
+const u1 = {
+  id: "u1",
+  role: "user",
+  content: "hello",
+  files: [],
+  createdAt: 200,
+};
+
+const a1 = {
+  id: "a1",
+  role: "assistant",
+  status: "pending",
+  blocks: [],
+  parentId: "u1",
+};
+
+sessionCache.s1 = {
+  ...sessionCache.s1,
+  updatedAt: 200,
+  messages: [u1, a1],
+};
+
+// updatedAt changed -> the list updates
+sessions = sessions
+  .map((s) => (s.id === "s1" ? { ...s, updatedAt: 200 } : s))
+  .sort((a, b) => b.updatedAt - a.updatedAt);
+
+// 4. Streaming: only messages change
+const streamingA1 = {
+  ...a1,
+  status: "streaming",
+  blocks: [{ type: "text", text: "你" }],
+};
+
+sessionCache.s1 = {
+  ...sessionCache.s1,
+  messages: [u1, streamingA1],
+};
+
+// updatedAt is unchanged -> the list keeps the same reference
+// sessions = same array
+
+// 5. Stream ends: final message is written to the cache and db
+const doneA1 = {
+  ...streamingA1,
+  status: "done",
+  blocks: [{ type: "text", text: "你好" }],
+};
+
+sessionCache.s1 = {
+  ...sessionCache.s1,
+  messages: [u1, doneA1],
+};
+
+await db.saveSession(sessionCache.s1);
+
+// 6. Rename: title changes, updatedAt does not
+sessionCache.s1 = {
+  ...sessionCache.s1,
+  title: "greeting",
+};
+
+sessions = sessions.map((s) =>
+  s.id === "s1" ? { ...s, title: "greeting" } : s,
+);
+
+await db.saveSession(sessionCache.s1);
+
+// 7. Open more sessions: cache exceeds the limit and evicts the oldest
+// Simulate the user opening 5 more sessions.
+for (const id of ["s2", "s3", "s4", "s5", "s6"]) {
+  sessionCache[id] = {
+    id,
+    title: "",
+    updatedAt: 100,
+    messages: [],
+  };
+}
+
+activeId = "s6";
+
+// Keep at most 5 sessions in memory.
+const cachedIds = Object.keys(sessionCache);
+
+if (cachedIds.length > 5) {
+  const evictedId = cachedIds[0]; // simplified LRU: oldest first
+  delete sessionCache[evictedId];
+}
+
+// sessions still contains every session, including the evicted one
+// sessions = [s1, s2, s3, s4, s5, s6]
+```
